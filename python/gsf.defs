@@ -17,7 +17,7 @@
 ;; Enumerations and flags ...
 
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input.h
+;; From libgsf/gsf/gsf-input.h
 
 (define-method container
   (of-object "GsfInput")
@@ -37,7 +37,7 @@
 (define-method size
   (of-object "GsfInput")
   (c-name "gsf_input_size")
-  (return-type "ssize_t")
+  (return-type "gsf_off_t")
 )
 
 (define-method eof
@@ -49,13 +49,13 @@
 (define-method remaining
   (of-object "GsfInput")
   (c-name "gsf_input_remaining")
-  (return-type "size_t")
+  (return-type "gsf_off_t")
 )
 
 (define-method tell
   (of-object "GsfInput")
   (c-name "gsf_input_tell")
-  (return-type "size_t")
+  (return-type "gsf_off_t")
 )
 
 (define-method seek
@@ -63,8 +63,8 @@
   (c-name "gsf_input_seek")
   (return-type "gboolean")
   (parameters
-    '("off_t" "offset")
-    '("GsfOff_t" "whence")
+    '("gsf_off_t" "offset")
+    '("GsfSeekType" "whence")
   )
 )
 
@@ -79,13 +79,7 @@
   (return-type "GQuark")
 )
 
-
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf.h
-
-
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input-impl.h
+;; From libgsf/gsf/gsf-input-impl.h
 
 (define-method set_name
   (of-object "GsfInput")
@@ -110,13 +104,11 @@
   (c-name "gsf_input_set_size")
   (return-type "gboolean")
   (parameters
-    '("size_t" "size")
+    '("gsf_off_t" "size")
   )
 )
 
-
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile.h
+;; From libgsf/gsf/gsf-infile.h
 
 (define-method num_children
   (of-object "GsfInfile")
@@ -152,14 +144,12 @@
   (varargs #t)
 )
 
-
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile-impl.h
+;; From libgsf/gsf/gsf-infile-impl.h
 
 
 ;; Stuff which h2def.py didn't catch
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input.h
+;; gsf-input.h
 
 (define-method name
   (of-object "GsfInput")
@@ -212,7 +202,7 @@
   (return-type "GsfInput*")
   (parameters
     '("guint8-const*" "buf")
-    '("size_t" "length")
+    '("gsf_off_t" "length")
     '("gboolean" "needs_free")
   )
 )
@@ -226,7 +216,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input-textline.[ch]
+;; gsf-input-textline.[ch]
 
 (define-object InputTextline
   (in-module "Gsf")
@@ -258,7 +248,7 @@
   (caller-owns-return true)
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input-gzip.[ch]
+;; gsf-input-gzip.[ch]
 
 (define-object InputGZip
   (in-module "Gsf")
@@ -277,7 +267,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile.h
+;; gsf-infile.h
 (define-method name_by_index
   (of-object "GsfInfile")
   (c-name "gsf_infile_name_by_index")
@@ -288,7 +278,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile-msole.[ch]
+;; gsf-infile-msole.[ch]
 (define-object InfileMSOle
   (in-module "Gsf")
   (parent "GsfInfile")
@@ -306,7 +296,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile-msvba.[ch]
+;; From gsf-infile-msvba.[ch]
 (define-object InfileMSVBA
   (in-module "Gsf")
   (parent "GsfInfile")
@@ -324,7 +314,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-infile-zip.[ch]
+;; gsf-infile-zip.[ch]
 
 (define-object InfileZip
   (in-module "Gsf")
@@ -343,14 +333,7 @@
   )
 )
 
-(define-method get_ooname
-  (of-object "GsfInfileZip")
-  (c-name "gsf_infile_zip_get_ooname")
-  (return-type "char-const*")
-  (caller-owns-return true)
-)
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input-bonobo.[ch]
+;; gsf-input-bonobo.[ch]
 
 (define-object InputBonobo
   (in-module "Gsf")
@@ -369,7 +352,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-input-gnomevfs.[ch]
+;; gsf-input-gnomevfs.[ch]
 
 (define-object InputGnomeVFS
   (in-module "Gsf")
@@ -388,7 +371,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-io-context.[ch]
+;; gsf-io-context.[ch]
 
 (define-object IOContext
   (in-module "Gsf")
@@ -449,126 +432,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-metadata-bag.[ch]
-
-;; (define-object MetaDataBag
-;;   (in-module "Gsf")
-;;   (parent "GObject")
-;;   (c-name "GsfMetaDataBag")
-;;   (gtype-id "GSF_TYPE_META_DATA_BAG")
-;; )
-
-;; (define-function gsf_metadata_bag_error
-;;   (c-name "gsf_metadata_bag_error")
-;;   (return-type "GQuark")
-;; )
-
-;; (define-function gsf_metadata_bag_new
-;;   (c-name "gsf_metadata_bag_new")
-;;   (is-constructor-of "GsfMetadataBag")
-;;   (return-type "GsfMetaDataBag*")
-;;   (parameters
-;;   )
-;; )
-
-;; (define-method set_prop
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_set_prop")
-;;   (return-type "none")
-;;   (parameters
-;;     '("const-gchar*" "prop")
-;;     '("const-GValue*" "value")
-;;   )
-;; )
-
-;; (define-method remove_prop
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_remove_prop")
-;;   (return-type "none")
-;;   (parameters
-;;     '("const-gchar*" "prop")
-;;   )
-;; )
-
-;; (define-method get_prop
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_get_prop")
-;;   (return-type "const-GValue*")
-;;   (parameters
-;;     '("const-gchar*" "prop")
-;;   )
-;; )
-
-;; (define-method contains_prop
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_contains_prop")
-;;   (return-type "gboolean")
-;;   (parameters
-;;     '("const-gchar*" "prop")
-;;   )
-;; )
-
-;; (define-method iterate
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_iterate")
-;;   (return-type "none")
-;;   (parameters
-;;     '("GsfMetaDataBagEnumFunc" "func")
-;;     '("gpointer" "user_data")
-;;   )
-;; )
-
-;; (define-method cardinality
-;;   (of-object "GsfMetaDataBag")
-;;   (c-name "gsf_metadata_bag_cardinality")
-;;   (return-type "gsize_t")
-;; )
-
-;; (define-function gsf_meta_key_new
-;;   (c-name "gsf_meta_key_new")
-;;   (is-constructor-of "GsfMetaKey")
-;;   (return-type "gchar*")
-;;   (parameters
-;;     '("const-gchar*" "vendor")
-;;     '("const-gchar*" "version")
-;;     '("const-gchar*" "key")
-;;   )
-;; )
-
-;; (define-function gsf_meta_custom_key_new
-;;   (c-name "gsf_meta_custom_key_new")
-;;   (is-constructor-of "GsfMetaCustomKey")
-;;   (return-type "gchar*")
-;;   (parameters
-;;     '("gchar*" "key")
-;;   )
-;; )
-
-;; (define-function gsf_meta_key_vendor
-;;   (c-name "gsf_meta_key_vendor")
-;;   (return-type "gchar*")
-;;   (parameters
-;;     '("const-gchar*" "key")
-;;   )
-;; )
-
-;; (define-function gsf_meta_key_version
-;;   (c-name "gsf_meta_key_version")
-;;   (return-type "gchar*")
-;;   (parameters
-;;     '("const-gchar*" "key")
-;;   )
-;; )
-
-;; (define-function gsf_meta_key_tag
-;;   (c-name "gsf_meta_key_tag")
-;;   (return-type "gchar*")
-;;   (parameters
-;;     '("const-gchar*" "key")
-;;   )
-;; )
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-output.[ch], gsf-output-impl.h
+;; gsf-output.[ch], gsf-output-impl.h
 
 (define-object Output
   (in-module "Gsf")
@@ -592,7 +456,7 @@
 (define-method size
   (of-object "GsfOutput")
   (c-name "gsf_output_size")
-  (return-type "ssize_t")
+  (return-type "gsf_off_t")
 )
 
 (define-method close
@@ -610,7 +474,7 @@
 (define-method tell
   (of-object "GsfOutput")
   (c-name "gsf_output_tell")
-  (return-type "int")
+  (return-type "gsf_off_t")
 )
 
 (define-method seek
@@ -618,8 +482,8 @@
   (c-name "gsf_output_seek")
   (return-type "gboolean")
   (parameters
-    '("off_t" "offset")
-    '("GsfOff_t" "whence")
+    '("gsf_off_t" "offset")
+    '("GsfSeekType" "whence")
   )
 )
 
@@ -658,7 +522,7 @@
 
 
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-outfile.[ch]
+;; gsf-outfile.[ch]
 
 (define-object Outfile
   (in-module "Gsf")
@@ -682,7 +546,7 @@
   (return-type "GQuark")
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-outfile-msole.[ch]
+;; gsf-outfile-msole.[ch]
 
 (define-object OutfileMSOle
   (in-module "Gsf")
@@ -697,25 +561,6 @@
   (return-type "GsfOutfile*")
   (parameters
     '("GsfOutput*" "sink")
-  )
-)
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-output-bonobo.[ch]
-
-(define-object OutputBonobo
-  (in-module "Gsf")
-  (parent "GsfOutput")
-  (c-name "GsfOutputBonobo")
-  (gtype-id "GSF_TYPE_OUTPUT_BONOBO")
-)
-
-(define-function gsf_output_bonobo_new
-  (c-name "gsf_output_bonobo_new")
-  (is-constructor-of "GsfOutputBonobo")
-  (return-type "GsfOutput*")
-  (parameters
-    '("Bonobo_Stream-const" "stream")
-    '("GError**" "err")
   )
 )
 
@@ -738,35 +583,7 @@
   )
 )
 
-;; From /home/jk/gnome2/libgsf/gsf/gsf-output-memory.[ch]
-
-(define-object OutputMemory
-
-  (in-module "Gsf")
-  (parent "GsfOutput")
-  (c-name "GsfOutputMemory")
-  (gtype-id "GSF_TYPE_OUTPUT_MEMORY")
-)
-
-(define-function gsf_output_memory_new
-  (c-name "gsf_output_memory_new")
-  (is-constructor-of "GsfOutputMemory")
-  (return-type "GsfOutput*")
-  (parameters
-  )
-)
-
-(define-method get_bytes
-  (of-object "GsfOutputMemory")
-  (c-name "gsf_output_memory_get_bytes")
-  (return-type "none")
-  (parameters
-    '("guint8**" "outbuffer")
-    '("size_t*" "outlength")
-  )
-)
-
-;; From /home/jk/gnome2/libgsf/gsf/gsf-output-stdio.[ch]
+;; gsf-output-stdio.[ch]
 
 (define-object OutputStdio
   (in-module "Gsf")

@@ -4,6 +4,7 @@ headers
 #include <Python.h>
 
 #include "pygobject.h"
+#include <orbit-python.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>
@@ -21,7 +22,6 @@ headers
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-output-bonobo.h>
 #include <gsf/gsf-output-gnomevfs.h>
-#include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-stdio.h>
 
 #define GSF_TYPE_INPUT GSF_INPUT_TYPE
@@ -53,7 +53,6 @@ ignore-glob
  _*
  gsf_input_set_*
  *_get_type
- gsf_io_context_*
  gsf_metadata_bag_*
  gsf_output_memory_*
  gsf_*_error
@@ -62,9 +61,13 @@ override gsf_input_size noargs
 static PyObject *
 _wrap_gsf_input_size(PyGObject *self)
 {
-    ssize_t ret;
+    long ret;
+    gsf_off_t size = gsf_input_size(GSF_INPUT(self->obj));
 
-    ret = gsf_input_size(GSF_INPUT(self->obj));
+    ret = size;
+    if (ret != size) {		/* Check for overflow */
+	PyErr_SetString(PyExc_OverflowError, "Size is too large");
+    }
     return PyInt_FromLong(ret);
 }
 %%
@@ -93,13 +96,15 @@ static PyObject *
 _wrap_gsf_input_seek(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
     static char *kwlist[] = { (char *) "offset", (char *) "whence", NULL };
-    off_t offset;
-    GsfOff_t whence;
+    long loffset;
+    gsf_off_t offset;
+    GsfSeekType whence;
     gboolean ret;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, (char *) "li:GsfInput.seek",
-				     kwlist, &offset, &whence))
+				     kwlist, &loffset, &whence))
         return NULL;
+    offset = loffset;
     ret = gsf_input_seek(GSF_INPUT(self->obj), offset, whence);
     return PyInt_FromLong(ret);
 }
@@ -108,20 +113,27 @@ override gsf_input_remaining noargs
 static PyObject *
 _wrap_gsf_input_remaining(PyGObject *self)
 {
-    size_t ret;
+    long ret;
+    gsf_off_t remain = gsf_input_remaining(GSF_INPUT(self->obj));
 
-    ret = gsf_input_remaining(GSF_INPUT(self->obj));
-    return PyInt_FromLong((long) ret);
+    ret = remain;
+    if (ret != remain) {		/* Check for overflow */
+	PyErr_SetString(PyExc_OverflowError, "Size is too large");
+    }
+    return PyInt_FromLong(ret);
 }
 %%
 override gsf_input_tell noargs
 static PyObject *
 _wrap_gsf_input_tell(PyGObject *self)
 {
-    size_t ret;
-
-    ret = gsf_input_tell(GSF_INPUT(self->obj));
-    return PyInt_FromLong((long) ret);
+    long ret;
+    gsf_off_t pos = gsf_input_tell(GSF_INPUT(self->obj));
+    ret = pos;
+    if (ret != pos) {		/* Check for overflow */
+	PyErr_SetString(PyExc_OverflowError, "Position is too large");
+    }
+    return PyInt_FromLong(ret);
 }
 %%
 override gsf_input_memory_new kwargs
@@ -138,7 +150,8 @@ _wrap_gsf_input_memory_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 				     (char *) "s#i:GsfInputMemory.__init__",
 				     kwlist, &buf, &length, &needs_free))
         return -1;
-    self->obj = (GObject *)gsf_input_memory_new(buf, length, needs_free);
+    self->obj = (GObject *)gsf_input_memory_new(buf, (gsf_off_t) length,
+						needs_free);
 
     if (!self->obj) {
         PyErr_SetString(PyExc_RuntimeError, "could not create GsfInputMemory object");
@@ -189,27 +202,31 @@ _wrap_gsf_input_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
     return 0;
 }
 %%
-override gsf_infile_zip_get_ooname noargs
-static PyObject *
-_wrap_gsf_infile_zip_get_ooname(PyGObject *self)
-{
-    const gchar *ret;
-
-    ret = gsf_infile_zip_get_ooname(GSF_INPUT(self->obj));
-    if (ret)
-        return PyString_FromString(ret);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-%%
 override gsf_output_size noargs
 static PyObject *
 _wrap_gsf_output_size(PyGObject *self)
 {
-    size_t ret;
+    long ret;
+    gsf_off_t size = gsf_output_size(GSF_OUTPUT(self->obj));
 
-    ret = gsf_output_size(GSF_OUTPUT(self->obj));
-    return PyInt_FromLong((long) ret);
+    ret = size;
+    if (ret != size) {		/* Check for overflow */
+	PyErr_SetString(PyExc_OverflowError, "Size is too large");
+    }
+    return PyInt_FromLong(ret);
+}
+%%
+override gsf_output_tell noargs
+static PyObject *
+_wrap_gsf_output_tell(PyGObject *self)
+{
+    long ret;
+    gsf_off_t pos = gsf_output_tell(GSF_OUTPUT(self->obj));
+    ret = pos;
+    if (ret != pos) {		/* Check for overflow */
+	PyErr_SetString(PyExc_OverflowError, "Position is too large");
+    }
+    return PyInt_FromLong(ret);
 }
 %%
 override gsf_output_seek kwargs
@@ -217,14 +234,16 @@ static PyObject *
 _wrap_gsf_output_seek(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
     static char *kwlist[] = { (char *) "offset", (char *) "whence", NULL };
-    off_t offset;
-    GsfOff_t whence;
+    long loffset;
+    gsf_off_t offset;
+    GsfSeekType whence;
     gboolean ret;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
 				     (char *) "li:GsfOutput.seek",
-				     kwlist, &offset, &whence))
+				     kwlist, &loffset, &whence))
         return NULL;
+    offset = loffset;
     ret = gsf_output_seek(GSF_OUTPUT(self->obj), offset, whence);
     return PyInt_FromLong(ret);
 }

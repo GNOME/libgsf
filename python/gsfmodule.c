@@ -25,6 +25,7 @@
 #include <pygobject.h>
 
 extern PyMethodDef pygsf_functions[];
+extern DL_EXPORT(void) initgsf (void);
 
 DL_EXPORT(void)
 initgsf (void)
@@ -33,12 +34,12 @@ initgsf (void)
 
 	init_pygobject ();
 
-	m = Py_InitModule ("gsf", pygsf_functions);
+	m = Py_InitModule ((char *) "gsf", pygsf_functions);
 	d = PyModule_GetDict (m);
 
 	pygsf_register_classes (d);
 	
 	if (PyErr_Occurred ()) {
-		Py_FatalError ("can't initialise module gsf");
+		Py_FatalError ((char *) "can't initialise module gsf");
 	}
 }
