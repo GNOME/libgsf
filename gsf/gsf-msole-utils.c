@@ -418,8 +418,9 @@ msole_prop_read (GsfInput *in,
 {
 	guint32 type;
 	guint8 const *data;
+	/* TODO : why size-4 ? I must be missing something */
 	unsigned size = ((i+1) >= section->num_props)
-		? section->size : props[i+1].offset;
+		? section->size-4 : props[i+1].offset;
 	char const *prop_name;
 
 	g_return_val_if_fail (i < section->num_props, NULL);

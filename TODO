@@ -1,6 +1,7 @@
 Near:
+    - rework proposed meta data framework to support improved understanding of
+      MS Office
     - Complete MS property set read and write
-    - ZIP export
     - merge in the temp file handling while saving from gedit
 
 Longer:
@@ -9,5 +10,4 @@ Longer:
 
 Future:
     - parse vba p-code directly to produce some other language.
-    - move generalized meta data framework in here (see gsf/gsf-metadata-bag.h)
     - move biff utils here from gnumeric
