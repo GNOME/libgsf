@@ -268,14 +268,18 @@ failure :
 }
 
 /**
- * gsf_output_stdio_new :
- * @filename : in utf8.
- * @file     : an existing stdio FILE *
+ * gsf_output_stdio_new_FILE :
+ * @filename  : The filename corresponding to @file.
+ * @file      : an existing stdio FILE *
  * @keep_open : Should @file be closed when the wrapper is closed
  *
- * Assumes ownership of @file.
+ * Assumes ownership of @file.  If @keep_open is true, ownership reverts
+ * to caller when the Gsfobject is closed.
  *
- * Returns a new GsfOutput wrapper for @file
+ * Returns a new GsfOutput wrapper for @file.  Warning: the result will be
+ * seekable only if @file is seekable.  If it is seekable, the resulting
+ * GsfOutput object will seek relative to @file's beginning, not its
+ * current location at the time the GsfOutput object is created.
  **/
 GsfOutput *
 gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
