@@ -346,7 +346,7 @@ gsf_output_error (GsfOutput const *output)
  * @name :
  *
  * <protected> This is a utility routine that should only be used by derived
- * outputs.
+ * outputs.</protected>
  *
  * Returns : TRUE if the assignment was ok.
  **/
@@ -370,7 +370,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
  * @container :
  *
  * <protected> This is a utility routine that should only be used by derived
- * outputs.
+ * outputs.</protected>
  *
  * Returns : TRUE if the assignment was ok.
  **/
@@ -395,7 +395,7 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
  * @Varargs :
  *
  * <protected> This is a utility routine that should only be used by derived
- * outputs.
+ * outputs.</protected>
  *
  * Returns Always returns FALSE to facilitate its use.
  **/

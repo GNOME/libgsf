@@ -28,8 +28,6 @@ Structured Blobs
 @blob: 
 @container: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@outfile: 
 
 
 <!-- ##### FUNCTION gsf_structured_blob_read ##### -->

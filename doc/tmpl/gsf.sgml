@@ -14,47 +14,6 @@ gsf
 
 </para>
 
-<!-- ##### STRUCT GsfInput ##### -->
-<para>
-
-</para>
-
-@g_object: 
-@size: 
-@cur_offset: 
-@name: 
-@container: 
-
-<!-- ##### STRUCT GsfInfile ##### -->
-<para>
-
-</para>
-
-@parent: 
-
-<!-- ##### STRUCT GsfOutput ##### -->
-<para>
-
-</para>
-
-@g_object: 
-@cur_size: 
-@cur_offset: 
-@name: 
-@wrapped_by: 
-@container: 
-@err: 
-@is_closed: 
-@printf_buf: 
-@printf_buf_size: 
-
-<!-- ##### STRUCT GsfOutfile ##### -->
-<para>
-
-</para>
-
-@parent: 
-
 <!-- ##### TYPEDEF gsf_off_t ##### -->
 <para>
 

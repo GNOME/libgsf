@@ -1,7 +1,7 @@
 Makefile
 Makefile.in
-sgml
 html
+xml
 .libs
 gsf.args
 gsf.hierarchy
@@ -11,6 +11,8 @@ gsf-decl-list.txt
 gsf-undocumented.txt
 gsf-unused.txt
 gsf-scan.lo
+gsf.interfaces
+gsf.prerequisites
 version.xml
 *.stamp
 *.lo

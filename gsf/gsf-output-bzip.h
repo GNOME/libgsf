@@ -34,7 +34,7 @@ typedef struct _GsfOutputBzip GsfOutputBzip;
 
 GType gsf_output_bzip_get_type (void);
 
-GsfOutputBzip *gsf_output_bzip_new (GsfOutput *source, GError **err);
+GsfOutputBzip *gsf_output_bzip_new (GsfOutput *sink, GError **err);
 
 G_END_DECLS
 

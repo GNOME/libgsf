@@ -97,11 +97,6 @@ memory
 
 </para>
 
-@g_object: 
-@buf: 
-@size: 
-@needs_free: 
-@needs_unmap: 
 
 <!-- ##### FUNCTION gsf_shared_memory_new ##### -->
 <para>

@@ -1,15 +1,12 @@
 <SECTION>
 <FILE>gsf</FILE>
-GsfInput
-GsfInfile
-GsfOutput
-GsfOutfile
 gsf_off_t
 </SECTION>
 
 <SECTION>
 <TITLE>Input from unstructured files</TITLE>
 <FILE>input</FILE>
+GsfInput
 gsf_input_container
 gsf_input_dup
 gsf_input_size
@@ -42,6 +39,7 @@ GsfInputClass
 <SECTION>
 <TITLE>Output to unstructured files</TITLE>
 <FILE>output</FILE>
+GsfOutput
 gsf_output_container
 gsf_output_size
 gsf_output_close
@@ -75,6 +73,7 @@ GsfOutfileClass
 <SECTION>
 <TITLE>Infile reading structed files</TITLE>
 <FILE>infile</FILE>
+GsfInfile
 gsf_infile_num_children
 gsf_infile_child_by_index
 gsf_infile_child_by_name
@@ -93,6 +92,7 @@ GsfInfileClass
 <SECTION>
 <TITLE>Outfile writing structed files</TITLE>
 <FILE>outfile</FILE>
+GsfOutfile
 gsf_outfile_new_child
 gsf_outfile_error
 <SUBSECTION Standard>
@@ -198,7 +198,8 @@ gsf_output_gnomevfs_get_type
 </SECTION>
 
 <SECTION>
-<TITLE>compression</TITLE>
+<TITLE>Compression</TITLE>
+<FILE>compression</FILE>
 GsfInputGZip
 gsf_input_gzip_new
 gsf_input_memory_new_from_bzip

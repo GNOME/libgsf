@@ -1,3 +1,8 @@
+2004-05-06  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=141899
+	* doc/Makefile.am : Apply patch from James Cape
+
 2004-05-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/Makefile.am: Install docs in the $(DOC_MODULE) subdir of

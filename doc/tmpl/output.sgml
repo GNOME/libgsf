@@ -14,6 +14,32 @@ Output to unstructured files
 
 </para>
 
+<!-- ##### STRUCT GsfOutput ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GsfOutput:is-closed ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutput:name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutput:position ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutput:size ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION gsf_output_container ##### -->
 <para>
 

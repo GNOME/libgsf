@@ -1,29 +1,29 @@
-<!doctype book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
-<!notation PNG system "PNG">
-<!entity % local.notation.class "| PNG">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!entity hash "#">
-<!entity percent "%">
-<!entity Gsf			SYSTEM "sgml/gsf.sgml">
-<!entity GsfInput		SYSTEM "sgml/gsf-input.sgml">
-<!entity GsfOutput		SYSTEM "sgml/gsf-output.sgml">
-<!entity GsfInfile		SYSTEM "sgml/gsf-infile.sgml">
-<!entity GsfOutfile		SYSTEM "sgml/gsf-outfile.sgml">
+<!ENTITY Gsf			SYSTEM "xml/gsf.xml">
+<!ENTITY GsfInput		SYSTEM "xml/input.xml">
+<!ENTITY GsfOutput		SYSTEM "xml/output.xml">
+<!ENTITY GsfInfile		SYSTEM "xml/infile.xml">
+<!ENTITY GsfOutfile		SYSTEM "xml/outfile.xml">
 
-<!entity GsfInputStdio		SYSTEM "sgml/gsf-input-stdio.sgml">
-<!entity GsfInputGzip		SYSTEM "sgml/gsf-input-gzip.sgml">
-<!entity GsfInputTextline	SYSTEM "sgml/gsf-input-textline.sgml">
-<!entity GsfInputMemory		SYSTEM "sgml/gsf-input-memory.sgml">
-<!entity GsfSharedMemory	SYSTEM "sgml/gsf-shared-memory.sgml">
-<!entity GsfInputeGnomevfs	SYSTEM "sgml/gsf-input-gnomevfs.sgml">
+<!ENTITY GsfStdio		SYSTEM "xml/stdio.xml">
+<!ENTITY GsfMemory		SYSTEM "xml/memory.xml">
+<!ENTITY GsfIOChannel		SYSTEM "xml/iochannel.xml">
+<!ENTITY GsfGnomevfs		SYSTEM "xml/gnome-vfs.xml">
+<!ENTITY GsfBonobo		SYSTEM "xml/bonobo.xml">
 
-<!entity GsfInfileMsole		SYSTEM "sgml/gsf-infile-msole.sgml">
-<!entity GsfInfileZip		SYSTEM "sgml/gsf-infile-zip.sgml">
-<!entity GsfLibxml		SYSTEM "sgml/gsf-libxml.sgml">
-<!entity GsfUtils		SYSTEM "sgml/gsf-utils.sgml">
-<!entity ObjectIndex		SYSTEM "sgml/object_index.sgml">
-<!entity TreeIndex		SYSTEM "sgml/tree_index.sgml">
-<!entity GsfImplUtils		SYSTEM "sgml/gsf-impl-utils.sgml">
+<!ENTITY GsfMetadata		SYSTEM "xml/metadata.xml">
+<!ENTITY GsfMsole		SYSTEM "xml/msole.xml">
+<!ENTITY GsfCompression		SYSTEM "xml/compression.xml">
+<!ENTITY GsfZip			SYSTEM "xml/zip.xml">
+<!ENTITY GsfXml			SYSTEM "xml/xml.xml">
+<!ENTITY GsfBlob		SYSTEM "xml/blob.xml">
+<!ENTITY GsfText		SYSTEM "xml/text.xml">
+
+<!ENTITY GsfUtils		SYSTEM "xml/utils.xml">
+<!ENTITY TreeIndex		SYSTEM "xml/tree_index.sgml">
 ]>
 
 <book id="index">
@@ -31,7 +31,7 @@
     <title>GSF Reference Manual</title>
   </bookinfo>
 
-  <part id="gsf">
+  <part id="into">
     <title>GSF Overview</title>
     <partintro>
     <para>
@@ -55,123 +55,42 @@ string utilities, file utilities, a main loop abstraction, and so on.
 </variablelist>
 </para>
 </partintro>
-
-<reference>
-<title>
-gsf
-</title>
-&Gsf;
-</reference>
-
-<reference>
-<title>
-gsf-impl-utils
-</title>
-&GsfImplUtils;
-</reference>
-
-<reference>
-<title>
-gsf-infile
-</title>
-&GsfInfile;
-</reference>
-
-<reference>
-<title>
-gsf-infile-msole
-</title>
-&GsfInfileMsole;
-</reference>
-
-<reference>
-<title>
-gsf-infile-zip
-</title>
-&GsfInfileZip;
-</reference>
-
-<reference>
-<title>
-gsf-input
-</title>
-&GsfInput;
-</reference>
-
-<reference>
-<title>
-gsf-input-gnomevfs
-</title>
-&GsfInputeGnomevfs;
-</reference>
-
-<reference>
-<title>
-gsf-input-gzip
-</title>
-&GsfInputGzip;
-</reference>
-
-<reference>
-<title>
-gsf-input-memory
-</title>
-&GsfInputMemory;
-</reference>
-
-<reference>
-<title>
-gsf-input-stdio
-</title>
-&GsfInputStdio;
-</reference>
-
-<reference>
-<title>
-gsf-input-textline
-</title>
-&GsfInputTextline;
-</reference>
-
-<reference>
-<title>
-gsf-out-file
-</title>
-&GsfOutfile;
-</reference>
-
-<reference>
-<title>
-gsf-output
-</title>
-&GsfOutput;
-</reference>
-
-<reference>
-<title>
-gsf-libxml
-</title>
-&GsfLibxml;
-</reference>
-
-<reference>
-<title>
-gsf-shared-memory
-</title>
-&GsfSharedMemory;
-</reference>
-
-<reference>
-<title>
-gsf-utils
-</title>
-&GsfUtils;
-</reference>
-
 </part>
 
+<part id="api">
+  <title>API Reference</title>
+  <chapter id="io">
+    <title>Basic Input/Output</title>
+    &GsfInput;
+    &GsfOutput;
+  </chapter>
+  <chapter id="sources">
+    <title>Stream Sources</title>
+    &GsfInfile;
+    &GsfOutfile;
+    &GsfStdio;
+    &GsfMemory;
+    &GsfIOChannel;
+    &GsfGnomevfs;
+    &GsfBonobo;
+  </chapter>
+  <chapter id="parsers">
+    <title>Stream Parsers</title>
+    &GsfText;
+    &GsfXml;
+    &GsfZip;
+    &GsfCompression;
+    &GsfMsole;
+    &GsfMetadata;
+    &GsfBlob;
+  </chapter>
+  <chapter id="misc">
+    <title>Miscellaneous</title>
+    &Gsf;
+    &GsfUtils;
+  </chapter>
+ </part>
 <index>
-&ObjectIndex;
 &TreeIndex;
 </index>
 </book>

@@ -1,3 +1,63 @@
+<!-- ##### SECTION ./tmpl/gnome-vfs.sgml.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnome-vfs.sgml.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnome-vfs.sgml.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gnome-vfs.sgml.sgml:Title ##### -->
+compression
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml.sgml:Title ##### -->
+compression
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Title ##### -->
+GnomeVFS
+
+
 <!-- ##### SECTION ./tmpl/gsf-impl-utils.sgml:Long_Description ##### -->
 <para>
 
@@ -225,13 +285,6 @@ gsf-utils
 
 @o: 
 
-<!-- ##### MACRO GSF_INFILE_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
 <!-- ##### MACRO GSF_INFILE_MSOLE ##### -->
 <para>
 
@@ -336,13 +389,6 @@ gsf-utils
 </para>
 
 @p: 
-
-<!-- ##### MACRO GSF_OUTPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
 
 <!-- ##### STRUCT GsfInputMMap ##### -->
 <para>
