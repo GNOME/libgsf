@@ -297,16 +297,6 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 	ZipInfo *info;
 	gsf_off_t offset;
 
-	/* Check the header */
-	if (gsf_input_seek (zip->input, (gsf_off_t) 0, G_SEEK_SET) ||
-	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE, NULL)) ||
-	    0 != memcmp (header, header_signature, sizeof (header_signature))) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-				"No Zip signature");
-		return TRUE;
-	}
-
 	/* Find and check the trailing header */
 	offset = zip_find_trailer (zip);
 	if (offset < 0) {
