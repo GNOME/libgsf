@@ -145,6 +145,8 @@ gsf_output_gzip_finalize (GObject *obj)
 		gzip->sink = NULL;
 	}
 
+	g_free (gzip->buf);
+
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);

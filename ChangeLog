@@ -1,3 +1,10 @@
+2003-02-09  Dom Lachowicz <cinamod@hotmail.com>
+
+	* tests/test-out-bzip.c: Tester for new BZip2 output
+	* gsf/gsf-impl-utils.h: Correct typo
+	* gsf/gsf-output-gzip.c: Fix memory leak (leaked buffer)
+	* gsf/gsf-output-bzip.[ch]: New output class, not currently built
+	
 2003-02-09  Dom Lachoiwcz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-iochannel.[ch]: Rework as per Jody's suggestions. Now
