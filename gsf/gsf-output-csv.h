@@ -1,5 +1,5 @@
 /*
- * gsf-output-csv.h: wrapper to convert character sets.
+ * gsf-output-csv.h: a GsfOutput to write .csv style files.
  *
  * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
  *
