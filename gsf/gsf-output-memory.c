@@ -29,8 +29,6 @@
 struct _GsfOutputMemory {
 	GsfOutput output;
 	guint8 *buffer;
-	size_t nwritten;
-	size_t cursor;
 	size_t capacity;
 };
 
@@ -83,41 +81,11 @@ static gboolean
 gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
 			GSeekType whence)
 {
-	GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
+	/* let parent implementation handle maneuvering cur_offset */
+	(void)output;
+	(void)offset;
+	(void)whence;
 
-	switch (whence) {
-	case G_SEEK_SET :
-		if (offset > 0) { /* don't let seek before BOF */
-			if (offset <= mem->nwritten)
-				mem->cursor = offset;
-			else
-				mem->cursor = mem->nwritten; /* seek EOF */
-		}
-		break;
-	case G_SEEK_CUR :
-		if (offset < 0) {
-			if (mem->cursor - offset > 0)
-				mem->cursor -= offset;
-			else
-				mem->cursor = 0; /* seek BOF */
-		} else {
-			if (mem->cursor + offset <= mem->nwritten)
-				mem->cursor += offset;
-			else
-				mem->cursor = mem->nwritten; /* seek EOF */
-		}
-		break;
-	case G_SEEK_END : 
-		if (offset > 0) { /* don't let seek after EOF */
-			if (mem->nwritten >= offset)
-				mem->cursor = mem->nwritten - offset;
-			else
-				mem->cursor = 0; /* seek BOF */
-		}
-		break;
-	default :
-		break; /*checked in GsfOutput wrapper */
-	}
 	return TRUE;
 }
 
@@ -158,17 +126,12 @@ gsf_output_memory_write (GsfOutput *output,
 		mem->buffer   = g_malloc (MIN_BLOCK);
 		mem->capacity = MIN_BLOCK;
 	}
-	if (num_bytes + mem->cursor > mem->capacity) {
-		if (!gsf_output_memory_expand (mem, mem->cursor + num_bytes))
+	if (num_bytes + output->cur_offset > mem->capacity) {
+		if (!gsf_output_memory_expand (mem, output->cur_offset + num_bytes))
 			return FALSE;
 	}
 	
-	memcpy (mem->buffer + mem->nwritten, buffer, num_bytes);
-	mem->cursor += num_bytes;
-
-	if (mem->cursor > mem->nwritten)
-		mem->nwritten = mem->cursor; /* advance the # written */
-	
+	memcpy (mem->buffer + output->cur_offset, buffer, num_bytes);	
 	return TRUE;
 }
 
@@ -183,14 +146,12 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 	gulong len;
 	
 	if (mem->buffer) {
-		len = g_vsnprintf (mem->buffer + mem->cursor,
-				   mem->capacity - mem->cursor,
+		len = g_vsnprintf (mem->buffer + output->cur_offset,
+				   mem->capacity - output->cur_offset,
 				   format, args);
-		if (len < mem->capacity - mem->cursor) {
+		if (len < mem->capacity - output->cur_offset) {
 			/* There was sufficient space */
-			mem->cursor += len;
-			if (mem->cursor > mem->nwritten)
-				mem->nwritten = mem->cursor; /* advance # written */
+			output->cur_offset += len;
 			return TRUE;
 		}
 	}
@@ -203,10 +164,8 @@ static void
 gsf_output_memory_init (GObject *obj)
 {
 	GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (obj);
-	
+
 	mem->buffer   = NULL;
-	mem->nwritten = 0;
-	mem->cursor   = 0;
 	mem->capacity = 0;
 }
 
@@ -225,25 +184,12 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
 /**
  * gsf_output_memory_get_bytes :
  * @output : the output device.
- * @outbuffer     : optionally NULL, where to store a *non-freeable* pointer to the contents (i.e. get the length and copy it yourself before unref'ing @output).
- * @outlength     : optionally NULL, the returned size of the in-memory contents
  **/
-void
-gsf_output_memory_get_bytes (GsfOutputMemory * mem,
-			     guint8 ** outbuffer, gsf_off_t * outlength)
+const guint8 *
+gsf_output_memory_get_bytes (GsfOutputMemory * mem)
 {
-	/* set these to 0 to start out with */
-	if (outbuffer != NULL)
-		*outbuffer = NULL;
-	if (outlength != NULL)
-		*outlength = 0;
-	
-	g_return_if_fail (mem != NULL);
-	
-	if (outbuffer != NULL)
-		*outbuffer = mem->buffer;
-	if (outlength != NULL)
-		*outlength = mem->nwritten;
+	g_return_val_if_fail (mem != NULL, NULL);
+	return mem->buffer;
 }
 
 GSF_CLASS (GsfOutputMemory, gsf_output_memory,
