@@ -41,16 +41,28 @@
 #define d(code)
 #endif
 
+/*
+ * The Format Identifier for Summary Information
+ * F29F85E0-4FF9-1068-AB91-08002B27B3D9
+ */
 static guint8 const component_guid [] = {
 	0xe0, 0x85, 0x9f, 0xf2, 0xf9, 0x4f, 0x68, 0x10,
 	0xab, 0x91, 0x08, 0x00, 0x2b, 0x27, 0xb3, 0xd9
 };
 
+/*
+ * The Format Identifier for Document Summary Information
+ * D5CDD502-2E9C-101B-9397-08002B2CF9AE
+ */
 static guint8 const document_guid [] = {
 	0x02, 0xd5, 0xcd, 0xd5, 0x9c, 0x2e, 0x1b, 0x10,
 	0x93, 0x97, 0x08, 0x00, 0x2b, 0x2c, 0xf9, 0xae
 };
 
+/*
+ * The Format Identifier for User-Defined Properties
+ * D5CDD505-2E9C-101B-9397-08002B2CF9AE
+ */
 static guint8 const user_guid [] = {
 	0x05, 0xd5, 0xcd, 0xd5, 0x9c, 0x2e, 0x1b, 0x10,
 	0x93, 0x97, 0x08, 0x00, 0x2b, 0x2c, 0xf9, 0xae
@@ -126,6 +138,9 @@ typedef struct {
 	GHashTable *dict;
 } GsfMSOleMetaDataSection;
 
+/*
+ * DocumentSummaryInformation properties
+ */
 static GsfMSOleMetaDataPropMap const document_props[] = {
 	{ "Category",		2,	VT_LPSTR },
 	{ "PresentationFormat",	3,	VT_LPSTR },
@@ -144,6 +159,9 @@ static GsfMSOleMetaDataPropMap const document_props[] = {
 	{ "LinksDirty",		16,	VT_BOOL }
 };
 
+/*
+ * SummaryInformation properties
+ */
 static GsfMSOleMetaDataPropMap const component_props[] = {
 	{ "Title",		2,	VT_LPSTR },
 	{ "Subject",		3,	VT_LPSTR },
@@ -172,6 +190,14 @@ static GsfMSOleMetaDataPropMap const common_props[] = {
 	{ "CASE_SENSITIVE",		0x80000003,	VT_UI4},
 };
 
+/**
+ * msole_prop_id_to_gsf
+ *   @section		Information about current section
+ *   @id		The property id
+ *
+ * Returns the name of the property.
+ *
+ **/
 static char const *
 msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 {
@@ -219,6 +245,10 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 	return NULL;
 }
 
+/**
+ * msole_prop_parse
+ *
+ **/
 static GValue *
 msole_prop_parse (GsfMSOleMetaDataSection *section,
 		  guint32 type, guint8 const **data, guint8 const *data_end)
@@ -234,6 +264,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	type &= 0xfff;
 
 	if (is_vector) {
+		/*
+		 *  A vector is basically an array.  If the type associated with
+		 *  is a variant, then each element can have a different variant
+		 *  type.  Otherwise, each element has the same variant type
+		 *  associated with the vector.
+		 */
 		unsigned i, n;
 
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
@@ -260,14 +296,20 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	res = g_new0 (GValue, 1);
 	switch (type) {
 	case VT_EMPTY :		 d (puts ("VT_EMPTY"););
+		/*
+		 * A property with a type indicator of VT_EMPTY has no data
+		 * associated with it; that is, the size of the value is zero.
+		 */
 		/* value::unset == empty */
 		break;
 
 	case VT_NULL :		 d (puts ("VT_NULL"););
+		/* This is like a pointer to NULL */
 		/* value::unset == null too :-) do we need to distinguish ? */
 		break;
 
 	case VT_I2 :		 d (puts ("VT_I2"););
+		/* 2-byte signed integer */
 		g_return_val_if_fail (*data + 2 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT);
 		g_value_set_int	(res, GSF_LE_GET_GINT16 (*data));
@@ -275,6 +317,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_I4 :		 d (puts ("VT_I4"););
+		/* 4-byte signed integer */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT);
 		g_value_set_int	(res, GSF_LE_GET_GINT32 (*data));
@@ -282,6 +325,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_R4 :		 d (puts ("VT_R4"););
+		/* 32-bit IEEE floating-point value */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_FLOAT);
 		g_value_set_float (res, GSF_LE_GET_FLOAT (*data));
@@ -289,6 +333,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_R8 :		 d (puts ("VT_R8"););
+		/* 64-bit IEEE floating-point value */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_DOUBLE);
 		g_value_set_double (res, GSF_LE_GET_DOUBLE (*data));
@@ -296,18 +341,29 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_CY :		 d (puts ("VT_CY"););
+		/* 8-byte two's complement integer (scaled by 10,000) */
 		break;
 
 	case VT_DATE :		 d (puts ("VT_DATE"););
+		/* 
+		 * 64-bit floating-point number representing the number of days
+		 * (not seconds) since December 31, 1899.
+		 */
 		break;
 
 	case VT_BSTR :		 d (puts ("VT_BSTR"););
+		/*
+		 * Pointer to null-terminated Unicode string; the string is pre-
+		 * ceeded by a DWORD representing the byte count of the number
+		 * of bytes in the string (including the  terminating null).
+		 */
 		break;
 
 	case VT_DISPATCH :	 d (puts ("VT_DISPATCH"););
 		break;
 
 	case VT_BOOL :		 d (puts ("VT_BOOL"););
+		/* A boolean (WORD) value containg 0 (false) or -1 (true). */
 		g_return_val_if_fail (*data + 1 <= data_end, NULL);
 		g_value_init (res, G_TYPE_BOOLEAN);
 		g_value_set_boolean (res, **data ? TRUE : FALSE);
@@ -315,12 +371,18 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_VARIANT :	 d (printf ("VT_VARIANT containing a "););
+		/*
+		 * A type indicator (a DWORD) followed by the corresponding
+		 *  value.  VT_VARIANT is only used in conjunction with
+		 *  VT_VECTOR.
+		 */
 		g_free (res);
 		type = GSF_LE_GET_GUINT32 (*data);
 		*data += 4;
 		return msole_prop_parse (section, type, data, data_end);
 
 	case VT_UI1 :		 d (puts ("VT_UI1"););
+		/* 1-byte unsigned integer */
 		g_return_val_if_fail (*data + 1 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UCHAR);
 		g_value_set_uchar (res, (guchar)(**data));
@@ -328,6 +390,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_UI2 :		 d (puts ("VT_UI2"););
+		/* 2-byte unsigned integer */
 		g_return_val_if_fail (*data + 2 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT);
 		g_value_set_uint (res, GSF_LE_GET_GUINT16 (*data));
@@ -335,6 +398,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_UI4 :		 d (puts ("VT_UI4"););
+		/* 4-type unsigned integer */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT);
 		*data += 4;
@@ -342,18 +406,26 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_I8 :		 d (puts ("VT_I8"););
+		/* 8-byte signed integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT64);
 		*data += 8;
 		break;
 
 	case VT_UI8 :		 d (puts ("VT_UI8"););
+		/* 8-byte unsigned integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT64);
 		*data += 8;
 		break;
 
 	case VT_LPSTR :		 d (puts ("VT_LPSTR"););
+		/* 
+		 * This is the representation of many strings.  It is stored in
+		 * the same representation as VT_BSTR.  Note that the serialized
+		 * representation of VP_LPSTR has a preceding byte count, wheras
+		 * the in-memory representation does not.
+		 */
 		/* be anal and safe */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 
@@ -375,6 +447,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_LPWSTR : d (puts ("VT_LPWSTR"););
+		/*
+		 * A counted and null-terminated Unicode string; a DWORD character
+		 * count (where the count includes the terminating null) followed
+		 * by that many Unicode (16-bit) characters.  Note that the count
+		 * is character count, not byte count.
+		 */
 		/* be anal and safe */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 
@@ -394,6 +472,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_FILETIME :	 d (puts ("VT_FILETIME"););
+		/* 64-bit FILETIME structure, as defined by Win32. */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, GSF_TIMESTAMP_TYPE);
 	{
@@ -413,27 +492,82 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 	}
 	case VT_BLOB :		 d (puts ("VT_BLOB"););
+		/*
+		 * A DWORD count of bytes, followed by that many bytes of data.
+		 * The byte count does not include the four bytes for the length
+		 * of the count itself:  An empty blob would have a count of
+		 * zero, followed by zero bytes.  Thus the serialized represen-
+		 * tation of a VT_BLOB is similar to that of a VT_BSTR but does
+		 * not guarantee a null byte at the end of the data.
+		 */
 		break;
+
 	case VT_STREAM :	 d (puts ("VT_STREAM"););
+		/*
+		 * Indicates the value is stored in a stream that is sibling to
+		 * the CONTENTS stream.  Following this type indicator is data
+		 * in the format of a serialized VT_LPSTR, which names the stream
+		 * containing the data.
+		 */
 		break;
+
 	case VT_STORAGE :	 d (puts ("VT_STORAGE"););
+		/*
+		 * Indicates the value is stored in an IStorage that is sibling
+		 * to the CONTENTS stream.  Following this type indicator is data
+		 * in the format of a serialized VT_LPSTR, which names the
+		 * IStorage containing the data.
+		 */
 		break;
+
 	case VT_STREAMED_OBJECT: d (puts ("VT_STREAMED_OBJECT"););
+		/*
+		 * Same as VT_STREAM, but indicates that the stream contains a
+		 * serialized object, which is a class ID followed by initiali-
+		 * zation data for the class.
+		 */
 		break;
+
 	case VT_STORED_OBJECT :	 d (puts ("VT_STORED_OBJECT"););
+		/*
+		 * Same as VT_STORAGE, but indicates that the designated IStorage
+		 * contains a loadable object.
+		 */
 		break;
+
 	case VT_BLOB_OBJECT :	 d (puts ("VT_BLOB_OBJECT"););
+		/*
+		 * Contains a serialized object in the same representation as
+		 * would appear in a VT_STREAMED_OBJECT.  That is, following the
+		 * VT_BLOB_OBJECT tag is a DWORD byte count of the remaining data
+		 * (where the byte count does not include the size of itself)
+		 * which is in the format of a class ID followed by initialization
+		 * data for that class
+		 */
 		break;
+
 	case VT_CF :		 d (puts ("VT_CF"););
+		/*
+		 * a BLOB containing a clipboard format identifier followed by
+		 * the data in that format.  That is, following the VT_CF tag is
+		 * data in the format of a VT_BLOB: a CWORD count of bytes,
+		 * followed by that many bytes of data in the format of a packed
+		 * VTCFREP, followed immediately by an array of bytes as appropriate
+		 * for data in the clipboard format.
+		 */
 		break;
+
 	case VT_CLSID :		 d (puts ("VT_CLSID"););
+		/* A class ID (or other GUID) */
 		*data += 16;
 		break;
 
 	case VT_ERROR :
+		/* A DWORD containing a status code. */
 	case VT_UNKNOWN :
 	case VT_DECIMAL :
 	case VT_I1 :
+		/* 1-byte signed integer */
 	case VT_INT :
 	case VT_UINT :
 	case VT_VOID :
@@ -566,10 +700,18 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		return FALSE;
 	}
 
-	/* NOTE : high word is the os, low word is the os version
-	 * 0 = win16
-	 * 1 = mac
-	 * 2 = win32
+	/*
+	 * Validate the Property Set Header.
+	 * Format (bytes) :
+	 *   00 - 01	Byte order		0xfffe
+	 *   02 - 03	Format			0
+	 *   04 - 05	OS Version		high word is the OS
+	 *   06 - 07				low  word is the OS version
+	 *					  0 = win16
+	 *					  1 = mac
+	 *					  2 = win32
+	 *   08 - 23	Class Identifier	Usually Format ID
+	 *   24 - 27	Section count		Should be at least 1
 	 */
 	os = GSF_LE_GET_GUINT16 (data + 6);
 	version = GSF_LE_GET_GUINT16 (data + 2);
@@ -586,6 +728,15 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 	}
 
 	/* extract the section info */
+	/*
+	 * The Format ID/Offset list follows.
+	 * Format:
+	 *   00 - 16	Section Name		Format ID
+	 *   16 - 19	Section Offset		The offset is the number of
+	 *					bytes from the start of the
+	 *					whole stream to where the
+	 *					section begins.
+	 */
 	sections = (GsfMSOleMetaDataSection *)g_alloca (sizeof (GsfMSOleMetaDataSection)* num_sections);
 	for (i = 0 ; i < num_sections ; i++) {
 		data = gsf_input_read (in, 20, NULL);
@@ -612,6 +763,17 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		printf ("0x%x\n", (guint32)sections [i].offset);
 #endif
 	}
+
+	/*
+	 * A section is the third part of the property set stream.
+	 * Format (bytes) :
+	 *   00 - 03	Section size	A byte count for the section (which is inclusive
+	 *				of the byte count itself and should always be a
+	 *				multiple of 4);
+	 *   04 - 07	Property count	A count of the number of properties
+	 *   08 - xx   			An array of 32-bit Property ID/Offset pairs
+	 *   yy - zz			An array of Property Type indicators/Value pairs
+	 */
 	for (i = 0 ; i < num_sections ; i++) {
 		if (gsf_input_seek (in, sections[i].offset, G_SEEK_SET) ||
 		    NULL == (data = gsf_input_read (in, 8, NULL))) {
@@ -628,6 +790,14 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		sections[i].num_props = GSF_LE_GET_GUINT32 (data + 4);
 		if (sections[i].num_props <= 0)
 			continue;
+
+		/*
+		 * Get and save all the Property ID/Offset pairs.
+		 * Format (bytes) :
+		 *   00 - 03	id	Property ID
+		 *   04 - 07	offset	The distance from the start of the section to the
+		 *			start of the Property Type/Value pair.
+		 */
 		props = g_new (GsfMSOleMetaDataProp, sections[i].num_props);
 		for (j = 0; j < sections[i].num_props; j++) {
 			if (NULL == (data = gsf_input_read (in, 8, NULL))) {
@@ -647,6 +817,10 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		       sizeof (GsfMSOleMetaDataProp),
 		       msole_prop_cmp);
 
+		/*
+		 * Find and process the code page.
+		 * Property ID 1 is reserved as an indicator of the code page.
+		 */
 		sections[i].iconv_handle = (GIConv)-1;
 		sections[i].char_size = 1;
 		for (j = 0; j < sections[i].num_props; j++) /* first codepage */
@@ -668,6 +842,11 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		if (sections[i].iconv_handle == (GIConv)-1)
 			sections[i].iconv_handle = gsf_msole_iconv_open_for_import (1252);
 
+		/*
+		 * Find and process the Property Set Dictionary
+		 * Property ID 0 is reserved as an indicator of the dictionary.
+		 * For User Defined Sections, Property ID 0 is NOT a dictionary.
+		 */
 		for (j = 0; j < sections[i].num_props; j++) /* then dictionary */
 			if (props[j].id == 0) {
 				GValue *v = msole_prop_read (in, sections+i, props, j);
@@ -956,7 +1135,7 @@ gsf_msole_lid_for_language (char const *lang)
  * Returns the xx_YY style string (can be just xx or xxx) for the given LID.
  * Return value must not be freed. If the LID is not found, is set to 0x0400,
  * or is set to 0x0000, will return "-none-"
- */
+ **/
 G_CONST_RETURN char *
 gsf_msole_language_for_lid (guint lid)
 {
@@ -973,7 +1152,7 @@ gsf_msole_language_for_lid (guint lid)
  * gsf_msole_locale_to_lid :
  *
  * Covert the the codepage into an applicable LID
- */
+ **/
 guint
 gsf_msole_codepage_to_lid (int codepage)
 {
