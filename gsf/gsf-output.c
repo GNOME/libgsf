@@ -401,22 +401,10 @@ gsf_output_error_id (void)
 static gboolean
 gsf_output_vprintf (GsfOutput *output, char const* format, va_list args)
 {
-	static char *buf;
-	static gulong bufsize;
-	gulong reslen;
-
-	if (!buf) {
-		bufsize = 80;
-		buf = g_malloc (bufsize);
-	}
-	reslen = g_vsnprintf (buf, bufsize, format, args);
-	if (reslen >= bufsize) {
-		bufsize = MAX (reslen + 1, bufsize * 2);
-		buf = g_realloc (buf, bufsize);
-		reslen = g_vsnprintf (buf, bufsize, format, args);
-	}
-
-	return gsf_output_write (output, reslen, buf);
+	char    *buf  = g_strdup_vprintf (format, args);
+	gboolean rval = gsf_output_write (output, buf, strlen(buf));
+	g_free (buf);
+	return rval;
 }
 
 gboolean
@@ -440,7 +428,10 @@ gsf_output_printf (GsfOutput *output, char const* format, ...)
 gboolean
 gsf_output_puts (GsfOutput *output, char const* line)
 {
-	int nbytes = strlen (line);
+	size_t nbytes = 0;
 
+	g_return_val_if_fail (line != NULL, FALSE);
+
+	nbytes = strlen (line);
 	return gsf_output_write (output, nbytes, line);
 }

@@ -1,3 +1,8 @@
+2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output.c (gsf_output_puts): Check for null input
+	(gsf_output_vprintf): Don't use static internal buffer, will lead to nasty race conditions and a memory-leak on shutdown
+	
 2002-11-22  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-outmem-printf.c: New test program. Add.
