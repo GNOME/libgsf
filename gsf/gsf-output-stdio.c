@@ -127,7 +127,7 @@ file_is_writable (const char *filename)
 	return retval;
 #else
 	/* This should probably use eaccess if available.  */
-	return access (real_filename, W_OK) == 0;
+	return access (filename, W_OK) == 0;
 #endif
 }
 
@@ -205,10 +205,10 @@ gsf_output_stdio_new (char const *filename, GError **err)
 			if (err != NULL) {
 				char *dname = g_filename_display_name
 					(real_filename);
-				*err = g_error_new (gsf_output_error (), 0,
+				*err = g_error_new (gsf_output_error_id (), 0,
 						    "%s: Is not a regular file",
 						    dname);
-				g_free (utf8name);
+				g_free (dname);
 			}
 			goto failure;
 		}
