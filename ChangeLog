@@ -1,3 +1,10 @@
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* Makefile.am (pkgconfig_DATA): Add libgsf-gnome-1.pc when
+	--with-gnome is selected.
+	(EXTRA_DIST): Add libgsf-gnome-1.spec, libgsf-gnome-1.spec.in and
+	libgsf-gnome-1.pc.in
+
 2002-08-16  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : pad the last bat

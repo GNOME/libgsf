@@ -1,7 +1,11 @@
 AUTOMAKE_OPTIONS = gnu 1.4
 
+if WITH_LIBGSF_GNOME
+LIBGSF_GNOME_PC=libgsf-gnome-1.pc
+endif
+
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgsf-1.pc
+pkgconfig_DATA = libgsf-1.pc $(LIBGSF_GNOME_PC)
 
 if WITH_PYTHON
 PYTHON_DIR = python
@@ -20,4 +24,7 @@ EXTRA_DIST = 		\
     libgsf-1.spec	\
     libgsf-1.spec.in	\
     libgsf-1.pc.in	\
+    libgsf-gnome-1.spec	\
+    libgsf-gnome-1.spec.in	\
+    libgsf-gnome-1.pc.in \
     README TODO HACKING NEWS BUGS ChangeLog
