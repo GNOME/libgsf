@@ -43,6 +43,7 @@ gsf
 @name: 
 @wrapped_by: 
 @container: 
+@err: 
 @is_closed: 
 
 <!-- ##### STRUCT GsfOutfile ##### -->

@@ -300,6 +300,7 @@ gboolean
 gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node)
 {
 	GHashTable *symbols;
+	gpointer *tmp;
 
 	if (node->parent_initialized)
 		return TRUE;
@@ -307,20 +308,31 @@ gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node)
 	symbols = g_hash_table_new (g_str_hash, g_str_equal);
 	for (; node->id != NULL ; node++ ) {
 		g_return_val_if_fail (!node->parent_initialized, FALSE);
-		g_return_val_if_fail (g_hash_table_lookup (symbols, node->id) != NULL, FALSE);
+
+		tmp = g_hash_table_lookup (symbols, node->id);
+		if (tmp != NULL) {
+			g_warning ("ID '%s' has already been registered", node->id);
+			return FALSE;
+		}
 
 		/* be anal, the macro probably initialized this, but do it just in case */
 		node->first_child = NULL;
 		node->next_sibling = NULL;
 
-		if (strcmp ("START", node->parent.id)) {
+		if (strcmp (node->id, node->parent.id)) {
 			node->parent.node = g_hash_table_lookup (symbols, node->parent.id);
 
-			g_return_val_if_fail (node->parent.node != NULL, FALSE);
+			if (node->parent.node == NULL) {
+				g_warning ("Parent ID '%s' unknown", node->parent.id);
+				return FALSE;
+			}
 
 			node->next_sibling = node->parent.node->first_child;
-		} else
+			node->parent.node->first_child = node;
+		} else {
+			/* node == parent is the sign of the start node */
 			node->parent.node = NULL;
+		}
 
 		node->parent_initialized = TRUE;
 		g_hash_table_insert (symbols, (gpointer)node->id, node);

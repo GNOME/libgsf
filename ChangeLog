@@ -1,3 +1,8 @@
+2002-09-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xmlSAX_prep_dtd) : typo
+	  and make the errors more verbose.
+
 2002-09-20  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-structured-blob.c (gsf_structured_blob_read) : handle out of
