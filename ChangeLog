@@ -1,5 +1,9 @@
 2004-12-06  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2004-12-06  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.11.1
 
 2004-12-05  Morten Welinder  <terra@gnome.org>
