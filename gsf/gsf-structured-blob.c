@@ -80,10 +80,10 @@ blob_dup (GsfInput *input, GError **err)
 		unsigned i;
 		gpointer child;
 
-		dst->children = g_ptr_array_new ();
+		dst->children = g_ptr_array_sized_new (src->children->len);
 		for (i = 0; i < src->children->len ; i++) {
 			child = g_ptr_array_index (src->children, i);
-			g_ptr_array_add (dst->children, child);
+			g_ptr_array_index (dst->children, i) = child;
 			g_object_ref (child);
 		}
 	}
@@ -209,33 +209,42 @@ gsf_structured_blob_read (GsfInput *input)
 	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 
 	blob = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
-	if (GSF_IS_INFILE (input))
-		i = gsf_infile_num_children (GSF_INFILE (input));
-
-	if (i > 0) {
-		GsfInput	  *child;
-		GsfStructuredBlob *child_blob;
-
-		blob->children = g_ptr_array_new ();
-		while (i-- > 0) {
-			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
-			child_blob = gsf_structured_blob_read (input);
-			g_object_unref (G_OBJECT (child));
-
-			g_ptr_array_add (blob->children, child_blob);
-			gsf_input_set_container (GSF_INPUT (child_blob),
-						 GSF_INFILE (input));
-		}
-	}
 
 	content_size = gsf_input_remaining (input);
 	if (content_size > 0) {
-		guint8 *buf = g_malloc (content_size);
+		guint8 *buf = g_try_malloc (content_size);
+
+		if (buf == NULL) {
+			g_warning ("Failed attempting to allocate %" GSF_OFF_T_FORMAT " bytes",
+				   content_size);
+
+			g_object_unref (G_OBJECT (blob));
+			return NULL;
+		}
+
 		gsf_input_read (input, content_size, buf);
 		blob->data = gsf_shared_memory_new (buf, content_size, TRUE);
 	}
 
 	gsf_input_set_name (GSF_INPUT (blob), gsf_input_name (input));
+
+	if (GSF_IS_INFILE (input))
+		i = gsf_infile_num_children (GSF_INFILE (input));
+	if (i > 0) {
+		GsfInput	  *child;
+		GsfStructuredBlob *child_blob;
+
+		blob->children = g_ptr_array_sized_new (i);
+		while (i-- > 0) {
+			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
+			child_blob = gsf_structured_blob_read (input);
+			g_object_unref (G_OBJECT (child));
+
+			g_ptr_array_index (blob->children, i) = child_blob;
+			gsf_input_set_container (GSF_INPUT (child_blob),
+						 GSF_INFILE (input));
+		}
+	}
 
 	return blob;
 }

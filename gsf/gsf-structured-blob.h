@@ -36,7 +36,7 @@ typedef struct _GsfStructuredBlob	GsfStructuredBlob;
 /* inherits from GsfInfile */
 GType gsf_structured_blob_get_type (void);
 
-GsfStructuredBlob *gsf_structured_blob_read (GsfInput *input);
+GsfStructuredBlob *gsf_structured_blob_read  (GsfInput *input);
 gboolean	   gsf_structured_blob_write (GsfStructuredBlob *blob,
 					      GsfOutput *output);
 
