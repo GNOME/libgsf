@@ -28,8 +28,9 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-output.c 		\
 	gsf-output-impl.h	\
-	gsf-output-stdio.c	\
+	gsf-output-iochannel.c	\
 	gsf-output-memory.c	\
+	gsf-output-stdio.c	\
 	\
 	gsf-outfile.c 		\
 	gsf-outfile-impl.h 	\
@@ -64,8 +65,9 @@ libgsf_1_include_HEADERS = 	\
 	gsf-infile-zip.h	\
 	\
 	gsf-output.h		\
-	gsf-output-stdio.h	\
+	gsf-output-iochannel.h	\
 	gsf-output-memory.h	\
+	gsf-output-stdio.h	\
 	\
 	gsf-outfile.h 		\
 	gsf-outfile-msole.h	\

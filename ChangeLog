@@ -1,5 +1,10 @@
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-ouput-iochannel.c (): New output sink. No IOChannel input sink possible due to API limitations
+	* gsf/gsf-input-stdio.c (_new): Open files with "rb" status
+	
+2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-output-memory.c (gsf_output_memory_get_bytes): WARNING: changed prototype
 	(gsf_output_memory_seek): Re-implement seek() in a saner fashion
 	(gsf_output_memory_write): ditto

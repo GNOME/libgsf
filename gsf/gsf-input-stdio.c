@@ -58,7 +58,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	FILE *file;
 	gsf_off_t size;
 
-	file = fopen (filename, "r");
+	file = fopen (filename, "rb");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
