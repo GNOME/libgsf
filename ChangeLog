@@ -1,5 +1,9 @@
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
+	* configure.in: Test for orbit-python.
+
+2002-08-15  Jon K Hellan  <hellan@acm.org>
+
 	*  gsf/gsf-input-memory.c  (gsf_input_mmap_new):  Stop warnings on
 	Solaris.
 

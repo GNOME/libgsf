@@ -197,6 +197,12 @@ else
   AM_CONDITIONAL(WITH_PYTHON, false)
 fi
 
+have_orbit_python=false
+PKG_CHECK_MODULES(ORBIT_PYTHON,
+  orbit-python-2.0 >= 1.99.0,
+  have_orbit_python=true, have_orbit_python=false)
+AC_SUBST(ORBIT_PYTHON_CFLAGS)
+
 dnl ***********************************************************************************
 
 dnl bonobo
