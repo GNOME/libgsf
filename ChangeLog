@@ -12,7 +12,6 @@
 	* gsf/gsf-output-gzip.c (init_gzip): Return set error if
 	deflateInit2 fails.
 	(gzip_output_header): Add missing argument to time().
-	
 
 2002-11-27  Jon K Hellan  <hellan@acm.org>
 
