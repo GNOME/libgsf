@@ -2,7 +2,8 @@
 
 	* gsf/gsf-utils.h, gsf/gsf-utils.c (gsf_base64_encode_close,
 	gsf_base64_encode_step), gsf/gsf-input.c (gsf_input_copy,
-	gsf_input_uncompress): Fixed signedness.
+	gsf_input_uncompress),
+	gsf-input-textline.c (gsf_input_textline_utf8_gets): Fixed signedness.
 
 2003-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

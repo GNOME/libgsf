@@ -257,7 +257,7 @@ gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 
 		ptr = textline->remainder;
 		end = ptr + textline->remainder_size;
-		for (; ptr < end ; ptr = g_utf8_next_char (ptr))
+		for (; ptr < end ; ptr = (guint8 *) g_utf8_next_char (ptr))
 			if (*ptr == '\n' || *ptr == '\r')
 				break;
 
