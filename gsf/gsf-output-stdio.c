@@ -89,81 +89,45 @@ rename_wrapper (const char *oldfilename, const char *newfilename)
 
 
 #define GSF_MAX_LINK_LEVEL 256
-#ifdef MAXPATHLEN
-#define GSF_MAX_PATH_LEN  MAXPATHLEN
-#elif defined (PATH_MAX)
-#define GSF_MAX_PATH_LEN  PATH_MAX
-#else
-#define GSF_MAX_PATH_LEN  2048
-#endif
 
-/* Does readlink() recursively until we find a real filename. */
+/* Calls g_file_read_link() until we find a real filename. */
 static char *
 follow_symlinks (char const *filename, GError **error)
 {
-#ifdef HAVE_READLINK
-	gchar *followed_filename;
-	gint link_count;
+	gchar *followed_filename, *link;
+	gint link_count = 0;
 
 	g_return_val_if_fail (filename != NULL, NULL);
-	g_return_val_if_fail (strlen (filename) + 1 <= GSF_MAX_PATH_LEN, NULL);
 
 	followed_filename = g_strdup (filename);
-	link_count = 0;
 
-	while (link_count++ < GSF_MAX_LINK_LEVEL) {
-		char linkname[GSF_MAX_PATH_LEN];
-		int len = readlink (followed_filename, linkname, GSF_MAX_PATH_LEN - 1);
-
-		if (len == -1) {
-			switch (errno) {
-			case EINVAL: /* Not a symlink.  */
-			case ENOSYS: /* Surely not a symlink.  */
-			case ENOENT: /* No such file.  */
-				return followed_filename;
-
-			default:
-				if (error)
-					*error = g_error_new_literal 
-						(gsf_output_error_id (), errno,
-						 g_strerror (errno));
-				g_free (followed_filename);
-				return NULL;
-			}
-		}
-
-		linkname[len] = '\0';
-
-		if (g_path_is_absolute (linkname)) {
+	while ((link = g_file_read_link (followed_filename, NULL)) != NULL &&
+	  ++link_count <= GSF_MAX_LINK_LEVEL) {
+		if (g_path_is_absolute (link)) {
 			g_free (followed_filename);
-			followed_filename = g_strdup (linkname);
+			followed_filename = link;
 		} else {
-			/*
-			 * If the linkname is not an absolute path name, append
+			/* If the linkname is not an absolute path name, append
 			 * it to the directory name of the followed filename.  E.g.
 			 * we may have /foo/bar/baz.lnk -> eek.txt, which really
-			 * is /foo/bar/eek.txt.
-			 */
-
-			char *dir = g_path_get_dirname (followed_filename);
-
+			 * is /foo/bar/eek.txt.  */
+			gchar *dir = g_path_get_dirname (followed_filename);
 			g_free (followed_filename);
-			followed_filename = g_build_filename (dir, linkname, NULL);
+			followed_filename = g_build_filename (dir, link, NULL);
 			g_free (dir);
+			g_free (link);
 		}
 	}
 
+	if (link == NULL)
+		return followed_filename;
+
 	/* Too many symlinks */
-	if (error)
+	if (error != NULL)
 		*error = g_error_new_literal (gsf_output_error_id (), ELOOP,
 					      g_strerror (ELOOP));
-
+	g_free (followed_filename);
 	return NULL;
-#else  /* !HAVE_READLINK */
-
-	return g_strdup (filename);
-
-#endif /* !HAVE_READLINK */
 }
 
 /**

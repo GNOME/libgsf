@@ -1,3 +1,7 @@
+2004-09-25 Stepan Kasal <kasal@ucw.cz>
+
+	* gsf/gsf-output-stdio.c: Use g_file_read_link() - (bug 149827)
+	
 2004-12-02  Dom Lachowicz <cinamod@hotmail.com>
 	
 	* gsf/gsf-input-memory.c: Add mmap support on win32 (bug #160294)
