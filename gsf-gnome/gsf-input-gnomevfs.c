@@ -81,6 +81,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 #if 0
 	if (!VFS_METHOD_HAS_FUNC (uri->method, tell) ||
 	    !VFS_METHOD_HAS_FUNC (uri->method, seek)) {
+		g_warning ("no seek or tell, things may break");
 	}
 #endif
 

@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 /* GSF wrappers for libxml2 */
 xmlParserCtxt *gsf_xml_parser_context (GsfInput   *input);
 #if 0
-				       /* this is cleaner, tack it on for 1.9 */
+				       /* this is cleaner, tack it on for 2.0 */
 					xmlSAXHandlerPtr sax, gpointer user);
 #endif
 int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
@@ -48,6 +48,12 @@ typedef struct _GsfXMLIn	GsfXMLIn;
 typedef struct _GsfXMLInDoc	GsfXMLInDoc;
 typedef struct _GsfXMLInNode	GsfXMLInNode;
 typedef struct _GsfXMLInNS	GsfXMLInNS;
+
+typedef enum {
+	GSF_XML_NO_CONTENT,
+	GSF_XML_CONTENT,
+	GSF_XML_SHARED_CONTENT
+};
 
 struct _GsfXMLIn {
 	GsfXMLInDoc  const *doc;	/* init before parsing */
@@ -73,7 +79,7 @@ struct _GsfXMLInNode {
 	gboolean parent_initialized;
 	GSList *groups;
 
-	gboolean	has_content;
+	unsigned	has_content;
 	gboolean	allow_unknown;
 	gboolean	check_children_for_ns;
 

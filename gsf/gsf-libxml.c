@@ -196,7 +196,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	 * we need to know which namespace we are in before we can recognize
 	 * the current node there is no choice.
 	 * eg <gnm:Workbook xmlns:gnm="www.gnumeric.org"/> we can not know
-	 * that we are in node WORKSPACE without recognizing ns=gnm, which we
+	 * that we are in node 'Workbook' without recognizing ns=gnm, which we
 	 * would not do unless we checked for a namespace */
 	ns = state->doc->ns;
 	if (ns != NULL && state->node->check_children_for_ns) {
@@ -239,11 +239,21 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 			if (0 != strncmp (name, inst->tag, inst->taglen))
 				continue;
 			tmp = name + inst->taglen;
-		} else
+		} else {
+#if 0
+			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
+			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
+#endif
 			tmp = name;
+		}
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
 			if (node->name != NULL && !strcmp (tmp, node->name)) {
+				if (node->has_content == GSF_XML_CONTENT &&
+				    state->content->len > 0) {
+					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
+				}
 				state->state_stack = g_slist_prepend (state->state_stack,
 								      (gpointer)state->node);
 				state->ns_stack = g_slist_prepend (state->ns_stack,
@@ -261,8 +271,9 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		return;
 	g_warning ("Unexpected element '%s' in state %s.", name, state->node->name);
 	{
-		GSList *ptr = state->state_stack;
+		GSList *ptr;
 		GsfXMLInNode *node;
+		ptr = state->state_stack = g_slist_reverse (state->state_stack);
 		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
 			node = ptr->data;
 			if (node != NULL) {
@@ -274,6 +285,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 					g_print (" -> ");
 			}
 		}
+		state->state_stack = g_slist_reverse (state->state_stack);
 	}
 }
 
@@ -291,7 +303,7 @@ gsf_xml_in_end_element (GsfXMLIn *state,
 
 	if (state->node->end)
 		state->node->end (state, NULL);
-	if (state->node->has_content)
+	if (state->node->has_content == GSF_XML_CONTENT)
 		g_string_truncate (state->content, 0);
 
 	/* pop the state stack */
@@ -304,7 +316,7 @@ gsf_xml_in_end_element (GsfXMLIn *state,
 static void
 gsf_xml_in_characters (GsfXMLIn *state, const xmlChar *chars, int len)
 {
-	if (state->node->has_content)
+	if (state->node->has_content != GSF_XML_NO_CONTENT)
 		g_string_append_len (state->content, chars, len);
 }
 
@@ -460,8 +472,9 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 		if (tmp != NULL) {
 			/* if its empty then this is just a recusion */
 			if (node->start != NULL || node->end != NULL ||
-			    node->has_content != FALSE || node->user_data.v_int != 0) {
-				g_warning ("ID '%s' has already been registered", node->id);
+			    node->has_content != GSF_XML_NO_CONTENT || node->user_data.v_int != 0) {
+				g_warning ("ID '%s' has already been registered.\n"
+					   "The additional decls should not specify start,end,content,data", node->id);
 				return NULL;
 			}
 			real_node = tmp;
@@ -496,6 +509,16 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			g_warning ("Parent ID '%s' unknown", node->parent_id);
 			return NULL;
 		}
+
+		/* WARNING VILE HACK :
+		 * The api in 1.8.2 passed has_content as a boolean.  It's too
+		 * late to change it but we need more contol.  We edit the bool
+		 * here to be GSF_CONTENT_NONE, GSF_CONTENT_ROOT and add a
+		 * mechanism to edit the flag later */
+		if (node->has_content != 0 &&
+		    node->has_content != GSF_XML_SHARED_CONTENT)
+			node->has_content = GSF_XML_CONTENT;
+
 		node->parent_initialized = TRUE;
 	}
 

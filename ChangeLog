@@ -1,3 +1,12 @@
+2004-05-04  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : support merging of
+	  content from a node and some of it's children
+	(gsf_xml_in_end_element) : ditto.
+	(gsf_xml_in_characters) : ditto.
+	(sf_xml_in_doc_new) : kludge to support the old interface but still
+	  allow new semantics.
+
 2004-05-01  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : Don't
