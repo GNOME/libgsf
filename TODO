@@ -3,6 +3,8 @@ Near:
       MS Office
     - Complete MS property set read and write
     - merge in the temp file handling while saving from gedit
+    - work on GsfOutput error handling to propagate errors up the stack.
+      Maybe something signal based ?
 
 Longer:
     - More work on VBA directory parsing so that we can decompress
