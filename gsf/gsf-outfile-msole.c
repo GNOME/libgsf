@@ -149,7 +149,7 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 static void
 bb_pad_zero (GsfOutput *out)
 {
-	unsigned size = 1 << OLE_DEFAULT_BB_SHIFT;
+	unsigned size = OLE_DEFAULT_BB_SIZE;
 	static guint8 const zeros [] = {
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -191,6 +191,7 @@ ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
 	guint8 buf [BAT_INDEX_SIZE];
 
+#warning optimize this to dump a buffer in 1 step
 	while (blocks-- > 1) {
 		block++;
 		GSF_LE_SET_GUINT32 (buf, block);
@@ -198,6 +199,24 @@ ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 	}
 	GSF_LE_SET_GUINT32 (buf, BAT_MAGIC_END_OF_CHAIN);
 	gsf_output_write (sink, BAT_INDEX_SIZE, buf);
+}
+
+static void
+ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
+{
+	guint8 buf [BAT_INDEX_SIZE];
+
+	GSF_LE_SET_GUINT32 (buf, value);
+	while (n-- > 0)
+		gsf_output_write (sink, BAT_INDEX_SIZE, buf);
+}
+
+static void
+ole_pad_bat_unused (GsfOutput *sink)
+{
+	ole_write_const (sink, BAT_MAGIC_UNUSED, 
+		(unsigned) (OLE_DEFAULT_BB_SIZE -
+			    ((sink->cur_size - OLE_HEADER_SIZE) % OLE_DEFAULT_BB_SIZE) / BAT_INDEX_SIZE));
 }
 
 /**
@@ -222,7 +241,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 	guint8  buf [OLE_HEADER_SIZE];
 	guint32	sbat_start, num_sbat, sb_data_start, sb_data_size, sb_data_blocks;
 	guint32	bat_start, num_bat, dirent_start, num_dirent_blocks, next, child_index;
-	unsigned i, j, blocks, xbats, xbat_pos;
+	unsigned i, j, blocks, num_xbat, xbat_pos;
 	gsf_off_t data_size;
 
 	/* The root dir */
@@ -238,9 +257,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 			if (child->type == MSOLE_SMALL_BLOCK) {
 				gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
 
-				child->blocks = size >> OLE_DEFAULT_SB_SHIFT;
-				if ((child->blocks << OLE_DEFAULT_SB_SHIFT) != size)
-					child->blocks++;
+				child->blocks = ((size - 1) >> OLE_DEFAULT_SB_SHIFT) + 1;
 				gsf_output_write (ole->sink, child->blocks << OLE_DEFAULT_SB_SHIFT,
 					child->content.small_block.buf);
 
@@ -265,7 +282,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 			if (child->type == MSOLE_SMALL_BLOCK)
 				ole_write_bat (ole->sink,  child->first_block, child->blocks);
 		}
-		bb_pad_zero (ole->sink);
+		ole_pad_bat_unused (ole->sink);
 		num_sbat = ole_cur_block (ole) - sbat_start;
 
 		/* write dirents */
@@ -289,7 +306,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 			if (child->root == child) {
 				GSF_LE_SET_GUINT8  (buf + DIRENT_TYPE,	DIRENT_TYPE_ROOTDIR);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, sb_data_start);
+				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK,
+					(sb_data_size > 0) ? sb_data_start : BAT_MAGIC_END_OF_CHAIN);
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, sb_data_size);
 			} else if (child->type == MSOLE_DIR) {
 				GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
@@ -339,38 +357,61 @@ gsf_outfile_msole_close (GsfOutput *output)
 			if (child->type == MSOLE_BIG_BLOCK)
 				ole_write_bat (ole->sink, child->first_block, child->blocks);
 		}
-		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
-		ole_write_bat (ole->sink, sbat_start, num_sbat);
+		if (sb_data_blocks > 0)
+			ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
+		if (num_sbat > 0)
+			ole_write_bat (ole->sink, sbat_start, num_sbat);
 		ole_write_bat (ole->sink, dirent_start, num_dirent_blocks);
-		bb_pad_zero (ole->sink);
-		num_bat = ole_cur_block (ole) - bat_start;
 
-		/* fix up the header */
-		GSF_LE_SET_GUINT32 (buf,   num_bat);
-		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
-		gsf_output_seek (ole->sink,
-				 (gsf_off_t) OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
-		gsf_output_write (ole->sink, 8, buf);
+		/* List the BAT and meta-BAT blocks in the BAT.  Doing this may
+		 * increase the size of the bat and hence the metabat, so be
+		 * prepared to iterate.
+		 */
+		num_bat = 0;
+		num_xbat = 0;
+recalc_bat_bat :
+		i = ((ole->sink->cur_size
+		      + BAT_INDEX_SIZE * (num_bat + num_xbat)
+		      - OLE_HEADER_SIZE - 1) >> OLE_DEFAULT_BB_SHIFT) + 1;
+		i -= bat_start;
+		if (num_bat != i) {
+			num_bat = i;
+			goto recalc_bat_bat;
+		}
+		i = 0;
+		if (num_bat > OLE_HEADER_METABAT_SIZE)
+			i = (num_bat - OLE_HEADER_METABAT_SIZE - 1)
+				/ OLE_DEFAULT_METABAT_SIZE;
+		if (num_xbat != i) {
+			num_xbat = i;
+			goto recalc_bat_bat;
+		}
 
-		GSF_LE_SET_GUINT32 (buf+0x0, sbat_start);
-		GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
-		if (num_bat > OLE_HEADER_METABAT_SIZE) {
-			unsigned rem = num_bat - OLE_HEADER_METABAT_SIZE;
+		ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
+		ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat);
+		ole_pad_bat_unused (ole->sink);
 
-			xbats = rem / OLE_DEFAULT_METABAT_SIZE;
-			if ((xbats * OLE_DEFAULT_METABAT_SIZE) != rem)
-				xbats++;
-
+		if (num_xbat > 0) {
 			/* 1st xbat is immediately after bat */
 			xbat_pos = bat_start + num_bat;
 			blocks = OLE_HEADER_METABAT_SIZE;
 		} else {
 			xbat_pos = BAT_MAGIC_END_OF_CHAIN;
 			blocks = num_bat;
-			xbats = 0;
 		}
+
+		/* fix up the header */
+		GSF_LE_SET_GUINT32 (buf,   num_bat);
+		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
+		gsf_output_seek (ole->sink,
+			(gsf_off_t) OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
+		gsf_output_write (ole->sink, 8, buf);
+
+		GSF_LE_SET_GUINT32 (buf+0x0,
+			(num_sbat > 0) ? sbat_start : BAT_MAGIC_END_OF_CHAIN);
+		GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
 		GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
-		GSF_LE_SET_GUINT32 (buf+0xc, xbats);
+		GSF_LE_SET_GUINT32 (buf+0xc, num_xbat);
 		gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
 				 GSF_SEEK_SET);
 		gsf_output_write (ole->sink, 0x10, buf);
@@ -386,7 +427,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 			/* Append the meta bats */
 			gsf_output_seek (ole->sink,
 					 (gsf_off_t) 0, GSF_SEEK_END);
-			for (i = 0 ; i++ < xbats ; ) {
+			for (i = 0 ; i++ < num_xbat ; ) {
 				bat_start += blocks;
 				blocks = num_bat - bat_start;
 				if (blocks > OLE_DEFAULT_METABAT_SIZE)
@@ -396,7 +437,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 				}
 
-				if (xbats != 0) {
+				if (num_xbat != 0) {
 					xbat_pos++;
 					GSF_LE_SET_GUINT32 (buf, xbat_pos);
 					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);

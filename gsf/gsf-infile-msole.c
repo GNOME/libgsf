@@ -175,7 +175,9 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 		       guint32 const *metabat, guint32 const *metabat_end)
 {
 	guint8 const *bat, *end;
+	int i = 0;
 
+	puts ("=====================");
 	for (; metabat < metabat_end; metabat++) {
 		bat = ole_get_block (ole, *metabat, NULL);
 		if (bat == NULL)
@@ -479,6 +481,10 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
         info->num_sbat       = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
 	info->sb_file	     = NULL;
+
+	if (info->num_sbat == 0 && info->sbat_start != BAT_MAGIC_END_OF_CHAIN) {
+		g_warning ("There is are not supposed to be any blocks in the small block allocation table, yet there is a link to some.  Ignoring it.");
+	}
 
 	/* very rough heuristic, just in case */
 	if (num_bat < info->max_block) {

@@ -10,3 +10,5 @@ test-msvba
 test-zip1
 test-gzip1
 test-textline
+test-cat-zip
+test-ls-zip

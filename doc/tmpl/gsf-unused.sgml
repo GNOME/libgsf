@@ -19,6 +19,15 @@
 
 @p: 
 
+<!-- ##### ENUM GsfOff_t ##### -->
+<para>
+
+</para>
+
+@GSF_SEEK_SET: 
+@GSF_SEEK_CUR: 
+@GSF_SEEK_END: 
+
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
 

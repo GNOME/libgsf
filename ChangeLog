@@ -1,3 +1,28 @@
+2002-08-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : pad the last bat
+	  and sbat block with unused rather than 0.
+	(ole_pad_bat_unused) : New.
+
+2002-08-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : clean up the
+	  iteration to calculate the number of bat blocks required to hold the
+	  bat and metabat.  Fill in the bat flags for the metabat.
+
+2002-08-16  Jody Goldberg <jody@gnome.org>
+
+	* configure.in  : move bonobo and gnome-vfs into a standalone library.
+
+	* gsf/gsf-infile-msole.c (ole_init_info) : add a warning about invalid
+	  state.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new) : Fill with 0xff
+	  instead of 0 to be more compatible with MS.
+	(gsf_outfile_msole_close) : If there is no small block data don't
+	  pretend there is an allocation chain for it.  Write BAT entries for
+	  the bat itself.  TODO : BAT entries for the metabat.
+
 2002-08-16  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-io-context.c (gsf_io_context_update_progress): Don't

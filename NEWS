@@ -1,5 +1,15 @@
 DO NOT PACKAGE THIS YET
+libgsf 1.3.0
 
+Jody:
+	* Split gnome-vfs and bonobo into a distinct library
+	* Polish the OLE export so that libole2 is molified.
+	* Some utility routines to help map locale <-> MS codepage
+
+Jon Kåre:
+	* Work and plan to support big files.
+
+------------------------------------------------------------------------------
 libgsf 1.2.0
 
 Dom:

@@ -42,6 +42,7 @@ dnl Checks for libraries.
 PKG_CHECK_MODULES(LIBGSF,[
 gobject-2.0 >= 2.0.0
 glib-2.0 >= 2.0.0
+libxml-2.0 >= 2.4.16
 ])
 
 ## this should come after `AC_PROG_CC'
@@ -137,46 +138,6 @@ AC_CHECK_LIB(z, zlibVersion,
     AC_MSG_ERROR([*** zlib is required]))
 
 dnl ***********************************************************************************
-dnl libxml
-dnl
-test_libxml=true
-AC_ARG_WITH(libxml,
-	[--{with,without}-libxml   Compile with LIBXML support or without it],
-	if test x$withval = xno; then
-		test_libxml=false
-	fi
-)
-with_libxml=false
-if  $test_libxml ; then 
-    PKG_CHECK_MODULES(LIBXML,[
-    libxml-2.0 >= 2.4.16
-    ],[with_libxml=true])
-else
-    AC_MSG_WARN([libxml support disabled, as requested (Use --with-libxml to enable)])
-fi
-AM_CONDITIONAL(WITH_LIBXML, $with_libxml)
-
-dnl ***********************************************************************************
-dnl gnome-vfs
-dnl
-test_gnome_vfs=false
-AC_ARG_WITH(gnomevfs,
-	[--{with,without}-gnomevfs   Compile with GNOME-VFS support or without it],
-	if test x$withval = xyes; then
-		test_gnome_vfs=true
-	fi
-)
-with_gnome_vfs=false
-if  $test_gnome_vfs ; then 
-    PKG_CHECK_MODULES(GNOME_VFS,[
-    gnome-vfs-2.0 >= 1.9.16
-    ],[with_gnome_vfs=true])
-else
-    AC_MSG_WARN([gnome-vfs support disabled, as requested (Use --with-gnome-vfs to enable)])
-fi
-AM_CONDITIONAL(WITH_GNOME_VFS, $with_gnome_vfs)
-
-dnl ***********************************************************************************
 dnl
 dnl Uncomment to enable Python bindings. automake1.5 or later is required.
 dnl
@@ -206,31 +167,32 @@ AC_SUBST(ORBIT_PYTHON_CFLAGS)
 
 dnl ***********************************************************************************
 
-dnl bonobo
+dnl gnome
 dnl
-test_bonobo=false
-AC_ARG_WITH(bonobo,
-	[--{with,without}-bonobo   Compile with BONOBO support or without it],
+test_gnome=true
+AC_ARG_WITH(gnome,
+	[--{with,without}-gnome   Build additional wrappers for GNOME-VFS and BONOBO],
 	if test x$withval = xyes; then
 		test_bonobo=true
 	fi
 )
-with_bonobo=false
+with_gnome=false
 if  $test_bonobo ; then 
-    PKG_CHECK_MODULES(BONOBO,[
+    PKG_CHECK_MODULES(LIBGSF_GNOME,[
     libbonobo-2.0 >= 2.0.0
-    ],[with_bonobo=true])
+    gnome-vfs-2.0 >= 1.9.16
+    ],[with_gnome=true])
 else
-    AC_MSG_WARN([bonobo support disabled, as requested (Use --with-bonobo to enable)])
+    AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
 fi
-AC_SUBST(BONOBO_CFLAGS)
-AC_SUBST(BONOBO_LIBS)
-AM_CONDITIONAL(WITH_BONOBO, $with_bonobo)
+AC_SUBST(LIBGSF_GNOME_CFLAGS)
+AC_SUBST(LIBGSF_GNOME_LIBS)
+AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
 
 dnl ***********************************************************************************
 
-LIBGSF_CFLAGS="$LIBGSF_CFLAGS $LIBXML_CFLAGS $GNOME_VFS_CFLAGS $BONOBO_CFLAGS"
-LIBGSF_LIBS="$LIBGSF_LIBS $LIBXML_LIBS $GNOME_VFS_LIBS $BONOBO_LIBS"
+LIBGSF_CFLAGS="$LIBGSF_CFLAGS $LIBGSF_GNOME_CFLAGS"
+LIBGSF_LIBS="$LIBGSF_LIBS $LIBGSF_GNOME_LIBS"
 AC_SUBST(LIBGSF_CFLAGS)
 AC_SUBST(LIBGSF_LIBS)
 
@@ -243,6 +205,8 @@ python/Makefile
 gsf/version.c
 libgsf-1.pc
 libgsf-1.spec
+libgsf-gnome-1.pc
+libgsf-gnome-1.spec
 ])
 
 AC_MSG_RESULT([Configured $PACKAGE $VERSION])
