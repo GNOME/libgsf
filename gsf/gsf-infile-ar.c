@@ -38,6 +38,8 @@
 /***************************************************************/
 /***************************************************************/
 
+static GObjectClass *parent_class;
+
 typedef struct {	
 	char                 *name;
 	size_t                usize;
@@ -421,19 +423,14 @@ gsf_infile_ar_num_children (GsfInfile *infile)
 static void
 gsf_infile_ar_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInfileAr *ar = GSF_INFILE_AR (obj);
 
 	if (ar->input != NULL) {
 		g_object_unref (G_OBJECT (ar->input));
 		ar->input = NULL;
 	}
-	
 	g_free (ar->buf);
-
-	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -460,6 +457,8 @@ gsf_infile_ar_class_init (GObjectClass *gobject_class)
 	infile_class->name_by_index	= gsf_infile_ar_name_by_index;
 	infile_class->child_by_index	= gsf_infile_ar_child_by_index;
 	infile_class->child_by_name	= gsf_infile_ar_child_by_name;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInfileAr, gsf_infile_ar,

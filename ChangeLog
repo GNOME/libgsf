@@ -1,3 +1,10 @@
+2004-07-23  Stepan Kasal  <kasal@ucw.cz>
+
+        Replace various instances of local parent_class variables by
+        a static ones, initialized by class_init.
+        * gsf/gsf-*.c: (20 files touched)
+        * gsf/gsf-output-transaction.c: A general cleanup.
+
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
 
 	The gsf_ouput_printf method didn't correctly update cur_offset.

@@ -58,6 +58,8 @@ typedef int mode_t;
 
 #endif /* G_OS_WIN32 */
 
+static GObjectClass *parent_class;
+
 struct _GsfOutputStdio {
 	GsfOutput output;
 
@@ -309,7 +311,6 @@ gsf_output_stdio_close (GsfOutput *output)
 static void
 gsf_output_stdio_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfOutput	*output = (GsfOutput *)obj;
 	GsfOutputStdio	*stdio = GSF_OUTPUT_STDIO (output);
 
@@ -321,9 +322,7 @@ gsf_output_stdio_finalize (GObject *obj)
 	g_free (stdio->temp_filename);
 	stdio->temp_filename = NULL;
 
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -420,6 +419,8 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 	output_class->Seek	= gsf_output_stdio_seek;
 	output_class->Write	= gsf_output_stdio_write;
 	output_class->Vprintf	= gsf_output_stdio_vprintf;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,

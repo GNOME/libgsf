@@ -31,6 +31,8 @@
 
 #define Z_BUFSIZE 0x100
 
+static GObjectClass *parent_class;
+
 struct _GsfInputGZip {
 	GsfInput input;
 
@@ -184,7 +186,6 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 static void
 gsf_input_gzip_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInputGZip *gzip = (GsfInputGZip *)obj;
 
 	if (gzip->source != NULL) {
@@ -197,9 +198,7 @@ gsf_input_gzip_finalize (GObject *obj)
 	if (gzip->stream.state != NULL)
 		inflateEnd (&(gzip->stream));
 
-	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static GsfInput *
@@ -334,6 +333,8 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	input_class->Dup	= gsf_input_gzip_dup;
 	input_class->Read	= gsf_input_gzip_read;
 	input_class->Seek	= gsf_input_gzip_seek;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInputGZip, gsf_input_gzip,

@@ -29,6 +29,7 @@
 #include <string.h>
 #include <stdio.h>
 
+static GObjectClass *parent_class;
 static GsfOutputClass *gsf_output_class;
 
 #undef G_LOG_DOMAIN
@@ -78,9 +79,8 @@ typedef GsfOutfileClass GsfOutfileMSOleClass;
 static void
 gsf_outfile_msole_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (obj);
-	GsfOutput *output = (GsfOutput *)obj;
+	GsfOutput *output = GSF_OUTPUT (obj);
 
 	if (!gsf_output_is_closed (output))
 		gsf_output_close (output);
@@ -111,10 +111,7 @@ gsf_outfile_msole_finalize (GObject *obj)
 	default :
 		g_warning ("Unknown file type");
 	}
-
-	parent_class = g_type_class_peek (GSF_OUTFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -662,6 +659,7 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 	output_class->Vprintf		= gsf_outfile_msole_vprintf;
 	outfile_class->new_child	= gsf_outfile_msole_new_child;
 
+	parent_class = g_type_class_peek_parent (gobject_class);
 	gsf_output_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 }
 

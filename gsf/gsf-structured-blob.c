@@ -29,6 +29,8 @@
 #include <gsf/gsf-shared-memory.h>
 #include <string.h>
 
+static GObjectClass *parent_class;
+
 struct _GsfStructuredBlob {
 	GsfInfile base;
 
@@ -43,7 +45,6 @@ static void
 blob_finalize (GObject *obj)
 {
 	unsigned i;
-	GObjectClass *parent_class;
 	GsfStructuredBlob *blob = GSF_STRUCTURED_BLOB (obj);
 
 	if (blob->data != NULL) {
@@ -58,9 +59,7 @@ blob_finalize (GObject *obj)
 		blob->children = NULL;
 	}
 
-	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static GsfInput *
@@ -186,6 +185,8 @@ gsf_structured_blob_class_init (GObjectClass *gobject_class)
 	infile_class->name_by_index	= blob_name_by_index;
 	infile_class->child_by_index	= blob_child_by_index;
 	infile_class->child_by_name	= blob_child_by_name;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,

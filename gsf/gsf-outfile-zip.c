@@ -33,6 +33,8 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:zip"
 
+static GObjectClass *parent_class;
+
 struct _GsfOutfileZip {
 	GsfOutfile parent;
 
@@ -79,7 +81,6 @@ disconnect_children (GsfOutfileZip *zip)
 static void
 gsf_outfile_zip_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (obj);
 
 	GsfOutput *output = (GsfOutput *)obj;
@@ -104,9 +105,7 @@ gsf_outfile_zip_finalize (GObject *obj)
 	if (zip == zip->root)
 		gsf_vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
 
-	parent_class = g_type_class_peek (GSF_OUTFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -605,6 +604,8 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	input_class->Seek		= gsf_outfile_zip_seek;
 	input_class->Close		= gsf_outfile_zip_close;
 	outfile_class->new_child	= gsf_outfile_zip_new_child;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,

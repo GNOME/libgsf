@@ -35,6 +35,8 @@
 #endif
 #endif
 
+static GObjectClass *parent_class;
+
 struct _GsfInputMemory {
 	GsfInput parent;
 	GsfSharedMemory *shared;
@@ -86,7 +88,6 @@ gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 static void
 gsf_input_memory_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 
 	if (mem->shared)
@@ -97,9 +98,7 @@ gsf_input_memory_finalize (GObject *obj)
 		close (mem->fd);
 #endif
 
-	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static GsfInput *
@@ -164,6 +163,8 @@ gsf_input_memory_class_init (GObjectClass *gobject_class)
 	input_class->Dup	= gsf_input_memory_dup;
 	input_class->Read	= gsf_input_memory_read;
 	input_class->Seek	= gsf_input_memory_seek;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInputMemory, gsf_input_memory,

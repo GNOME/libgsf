@@ -34,6 +34,8 @@
 #define BZ_BUFSIZE 1024
 #endif
 
+static GObjectClass *parent_class;
+
 struct _GsfOutputBzip {
 	GsfOutput  output;
 
@@ -52,8 +54,6 @@ typedef struct {
 static void
 gsf_output_bzip_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
-
 #ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = (GsfOutputBzip *)obj;
 
@@ -61,13 +61,9 @@ gsf_output_bzip_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (bzip->sink));
 		bzip->sink = NULL;
 	}
-
 	g_free (bzip->buf);
 #endif
-
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 #ifdef HAVE_BZ2
@@ -224,6 +220,8 @@ gsf_output_bzip_class_init (GObjectClass *gobject_class)
 	output_class->Write	= gsf_output_bzip_write;
 	output_class->Seek	= gsf_output_bzip_seek;
 	output_class->Close	= gsf_output_bzip_close;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfOutputBzip, gsf_output_bzip,

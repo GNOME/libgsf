@@ -31,6 +31,8 @@
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
+static GObjectClass *parent_class;
+
 enum {
 	PROP_0,
 	PROP_NAME,
@@ -88,9 +90,8 @@ gsf_input_get_property (GObject     *object,
 static void
 gsf_input_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
-
 	GsfInput *input = GSF_INPUT (obj);
+
 	if (input->name != NULL) {
 		g_free (input->name);
 		input->name = NULL;
@@ -99,10 +100,7 @@ gsf_input_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (input->container));
 		input->container = NULL;
 	}
-
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -119,6 +117,8 @@ gsf_input_init (GObject *obj)
 static void
 gsf_input_class_init (GObjectClass *gobject_class)
 {
+	parent_class = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->finalize     = gsf_input_finalize;
 	/* gobject_class->set_property = gsf_input_set_property; */
 	gobject_class->get_property = gsf_input_get_property;

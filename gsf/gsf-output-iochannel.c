@@ -23,6 +23,8 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+static GsfOutputClass *parent_class;
+
 struct _GsfOutputIOChannel {
 	GsfOutput output;
 	GIOChannel * channel;
@@ -53,13 +55,9 @@ gsf_output_iochannel_new (GIOChannel *channel)
 static gboolean
 gsf_output_iochannel_close (GsfOutput *output)
 {
-	GsfOutputClass *parent_class;
-	GsfOutputIOChannel *io = GSF_OUTPUT_IOCHANNEL (output);	
+	g_io_channel_shutdown (GSF_OUTPUT_IOCHANNEL (output)->channel, TRUE, NULL);
 
-	g_io_channel_shutdown (io->channel, TRUE, NULL);
-
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->Close)
+	if (parent_class->Close)
 		parent_class->Close (output);
 	
 	return TRUE;
@@ -68,15 +66,8 @@ gsf_output_iochannel_close (GsfOutput *output)
 static void
 gsf_output_iochannel_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
-	GsfOutput *output = (GsfOutput *)obj;
-	GsfOutputIOChannel *io = GSF_OUTPUT_IOCHANNEL (output);
-	
-	g_io_channel_unref (io->channel);
-
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	g_io_channel_unref (GSF_OUTPUT_IOCHANNEL (obj)->channel);
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static gboolean
@@ -131,6 +122,8 @@ gsf_output_iochannel_class_init (GObjectClass *gobject_class)
 	output_class->Close     = gsf_output_iochannel_close;
 	output_class->Seek      = gsf_output_iochannel_seek;
 	output_class->Write     = gsf_output_iochannel_write;
+
+	parent_class = GSF_OUTPUT_CLASS (g_type_class_peek_parent (gobject_class));
 }
 
 GSF_CLASS (GsfOutputIOChannel, gsf_output_iochannel,

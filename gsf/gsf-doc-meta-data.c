@@ -23,6 +23,8 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
 
+static GObjectClass *parent_class;
+
 struct _GsfDocMetaData {
 	GObject parent;
 
@@ -147,15 +149,11 @@ gsf_doc_meta_data_value_destroyed (gpointer data)
 static void
 gsf_doc_meta_data_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
-	GsfDocMetaData *meta = (GsfDocMetaData *)obj;
-
-	/* will handle destroying values for us since we created out collection using g_hash_table_new_full */
-	g_hash_table_destroy (meta->table);
-
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	/* will handle destroying values for us since we created out
+	 * collection using g_hash_table_new_full
+	 */
+	g_hash_table_destroy (GSF_DOC_META_DATA (obj)->table);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -170,6 +168,7 @@ static void
 gsf_doc_meta_data_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize = gsf_doc_meta_data_finalize;
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfDocMetaData, gsf_doc_meta_data,

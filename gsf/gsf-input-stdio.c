@@ -37,6 +37,8 @@
 #define S_ISREG(x) ((x) & _S_IFREG)
 #endif
 
+static GObjectClass *parent_class;
+
 struct _GsfInputStdio {
 	GsfInput input;
 
@@ -101,7 +103,6 @@ gsf_input_stdio_new (char const *filename, GError **err)
 static void
 gsf_input_stdio_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInputStdio *input = (GsfInputStdio *)obj;
 
 	if (input->file != NULL) {
@@ -114,9 +115,7 @@ gsf_input_stdio_finalize (GObject *obj)
 		input->buf_size = 0;
 	}
 
-	parent_class = (GObjectClass *)g_type_class_peek (GSF_INPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static GsfInput *
@@ -221,6 +220,8 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 	input_class->Dup	= gsf_input_stdio_dup;
 	input_class->Read	= gsf_input_stdio_read;
 	input_class->Seek	= gsf_input_stdio_seek;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInputStdio, gsf_input_stdio,

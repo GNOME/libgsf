@@ -30,6 +30,8 @@
 #include <math.h>
 #include <string.h>
 
+static GObjectClass *parent_class;
+
 /* Note: libxml erroneously declares the length argument as int.  */
 static int
 gsf_libxml_read (void *context, char *buffer, int len)
@@ -664,13 +666,10 @@ static void
 gsf_xml_out_finalize (GObject *obj)
 {
 	GsfXMLOut *xml = GSF_XML_OUT (obj);
-	GObjectClass *parent_class;
 
 	g_free (xml->doc_type);
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -683,6 +682,7 @@ gsf_xml_out_init (GObject *obj)
 	xml->indent = 0;
 	xml->needs_header = TRUE;
 	xml->doc_type = NULL;
+	parent_class = g_type_class_peek_parent (obj);
 }
 
 static void

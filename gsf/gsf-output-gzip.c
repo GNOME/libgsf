@@ -32,6 +32,8 @@
 
 #define Z_BUFSIZE 0x100
 
+static GObjectClass *parent_class;
+
 struct _GsfOutputGZip {
 	GsfOutput output;
 
@@ -137,7 +139,6 @@ gsf_output_gzip_new (GsfOutput *sink, GError **err)
 static void
 gsf_output_gzip_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfOutputGZip *gzip = (GsfOutputGZip *)obj;
 
 	if (gzip->sink != NULL) {
@@ -150,9 +151,7 @@ gsf_output_gzip_finalize (GObject *obj)
 	/* FIXME: check for error?  */
 	deflateEnd (&gzip->stream);
 
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -284,6 +283,8 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 	output_class->Write	= gsf_output_gzip_write;
 	output_class->Seek	= gsf_output_gzip_seek;
 	output_class->Close	= gsf_output_gzip_close;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfOutputGZip, gsf_output_gzip,

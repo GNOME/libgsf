@@ -33,6 +33,8 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:zip"
 
+static GObjectClass *parent_class;
+
 typedef struct {
 	guint16     entries;
 	guint32     dir_pos;
@@ -658,7 +660,6 @@ gsf_infile_zip_num_children (GsfInfile *infile)
 static void
 gsf_infile_zip_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInfileZip *zip = GSF_INFILE_ZIP (obj);
 
 	if (zip->input != NULL) {
@@ -675,9 +676,7 @@ gsf_infile_zip_finalize (GObject *obj)
 	
 	g_free (zip->buf);
 
-	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -709,6 +708,8 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 	infile_class->name_by_index	= gsf_infile_zip_name_by_index;
 	infile_class->child_by_index	= gsf_infile_zip_child_by_index;
 	infile_class->child_by_name	= gsf_infile_zip_child_by_name;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInfileZip, gsf_infile_zip,

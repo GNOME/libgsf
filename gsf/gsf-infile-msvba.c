@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <string.h>
 
+static GObjectClass *parent_class;
+
 struct _GsfInfileMSVBA {
 	GObject parent;
 
@@ -379,17 +381,13 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 static void
 gsf_infile_msvba_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInfileMSVBA *vba = GSF_INFILE_MSVBA (obj);
 
 	if (vba->source != NULL) {
 		g_object_unref (G_OBJECT (vba->source));
 		vba->source = NULL;
 	}
-
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -405,6 +403,7 @@ static void
 gsf_infile_msvba_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize		= gsf_infile_msvba_finalize;
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,

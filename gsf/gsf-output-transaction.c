@@ -38,7 +38,7 @@ struct _GsfOutputTransaction
 
 struct _GsfOutputTransactionClass 
 {
-	GsfOutputClass parent_class;
+	GsfOutputClass parent;
 	
 	/* signals */
 	void (* updated)   (GsfOutputTransaction * me);
@@ -54,8 +54,8 @@ enum {
 };
 
 static guint transaction_signals [LAST_SIGNAL];
-static GsfOutputClass *proxy_class  = NULL;
-static GsfOutputClass *parent_class = NULL;
+static GsfOutputClass *proxy_class;
+static GsfOutputClass *parent_class;
 
 /********************************************************************************/
 /********************************************************************************/
@@ -257,9 +257,9 @@ gsf_output_trans_vprintf (GsfOutput *output, char const *format, va_list args)
 /********************************************************************************/
 
 static void
-gsf_output_transaction_init (GsfOutputTransaction * me, GsfOutputTransactionClass *klass)
+gsf_output_transaction_init (GsfOutputTransaction *me,
+			     G_GNUC_UNUSED GsfOutputTransactionClass *klass)
 {
-	(void)klass;
 	me->proxy   = NULL;
 	me->wrapped = NULL;
 	me->aborted = FALSE;
@@ -268,30 +268,26 @@ gsf_output_transaction_init (GsfOutputTransaction * me, GsfOutputTransactionClas
 static void
 gsf_output_transaction_finalize (GObject *object)
 {
-	GObjectClass *object_class;
 	GsfOutputTransaction *me = (GsfOutputTransaction *) object;
 
-	g_return_if_fail (GSF_IS_OUTPUT_TRANSACTION (me));
+	g_return_if_fail (GSF_IS_OUTPUT_TRANSACTION (object));
 
 	g_object_unref (G_OBJECT (me->proxy));
-	g_object_unref (G_OBJECT(me->wrapped));
+	g_object_unref (G_OBJECT (me->wrapped));
 
-	object_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (object_class && object_class->finalize)
-		object_class->finalize (object);
+	parent_class->finalize (object);
 }
 
 static void
 gsf_output_transaction_class_init (GObjectClass *klass)
 {
-	parent_class = GSF_OUTPUT_CLASS (klass);
-	proxy_class  = g_type_class_peek (GSF_OUTPUT_MEMORY_TYPE);
+	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (klass);
 
 	klass->finalize         = gsf_output_transaction_finalize;
-	parent_class->Close     = gsf_output_trans_close;
-	parent_class->Seek      = gsf_output_trans_seek;
-	parent_class->Write     = gsf_output_trans_write;
-	parent_class->Vprintf   = gsf_output_trans_vprintf;
+	output_class->Close     = gsf_output_trans_close;
+	output_class->Seek      = gsf_output_trans_seek;
+	output_class->Write     = gsf_output_trans_write;
+	output_class->Vprintf   = gsf_output_trans_vprintf;
 
 	/* class signals */
 	transaction_signals[UPDATED] =
@@ -320,6 +316,10 @@ gsf_output_transaction_class_init (GObjectClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+
+	/* global variables */
+	proxy_class = g_type_class_peek (GSF_OUTPUT_MEMORY_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 }
 
 GSF_CLASS(GsfOutputTransaction, gsf_output_transaction,

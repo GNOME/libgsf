@@ -32,6 +32,8 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:msole"
 
+static GObjectClass *parent_class;
+
 typedef struct {
 	guint32 *block;
 	guint32  num_blocks;
@@ -595,7 +597,6 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 static void
 gsf_infile_msole_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (obj);
 
 	if (ole->input != NULL) {
@@ -611,9 +612,7 @@ gsf_infile_msole_finalize (GObject *obj)
 
 	g_free (ole->stream.buf);
 
-	parent_class = (GObjectClass *)g_type_class_peek (GSF_INFILE_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static GsfInput *
@@ -865,6 +864,8 @@ gsf_infile_msole_class_init (GObjectClass *gobject_class)
 	infile_class->name_by_index	= gsf_infile_msole_name_by_index;
 	infile_class->child_by_index	= gsf_infile_msole_child_by_index;
 	infile_class->child_by_name	= gsf_infile_msole_child_by_name;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
