@@ -201,12 +201,20 @@ gsf_input_tell (GsfInput *input)
 gboolean
 gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
+	int pos = offset;
+
 	g_return_val_if_fail (input != NULL, -1);
 
-	offset = GET_CLASS (input)->seek (input, offset, whence);
-	if (offset < 0 || offset > gsf_input_size (input))
+	switch (whence) {
+	case GSF_SEEK_SET : break;
+	case GSF_SEEK_CUR : pos += input->cur_offset;
+	case GSF_SEEK_END : pos += input->size;
+	default : return TRUE;
+	}
+
+	if (GET_CLASS (input)->seek (input, offset, whence))
 		return TRUE;
-	input->cur_offset = offset;
+	input->cur_offset = pos;
 	return FALSE;
 }
 

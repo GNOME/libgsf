@@ -637,15 +637,12 @@ gsf_infile_msole_read (GsfInput *input, unsigned num_bytes)
 	return ole->stream.buf;
 }
 
-static int
+static gboolean
 gsf_infile_msole_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
-	switch (whence) {
-	case GSF_SEEK_SET : return offset;
-	case GSF_SEEK_CUR : return input->cur_offset + offset;
-	case GSF_SEEK_END : return input->size + offset;
-	default : return -1;
-	}
+	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
+	ole->cur_block = BAT_MAGIC_UNUSED;
+	return FALSE;
 }
 
 static GsfInput *

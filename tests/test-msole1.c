@@ -149,8 +149,7 @@ test (int argc, char *argv[])
 					enable_dump = TRUE;
 					g_warning ("Suspicious import of biff record > 15,000 (0x%x) for opcode 0x%hx",
 						   len, opcode);
-				}
-				if ((opcode & 0xff00) > 0x1000) {
+				} else if ((opcode & 0xff00) > 0x1000) {
 					enable_dump = TRUE;
 					g_warning ("Suspicious import of biff record with opcode 0x%hx",
 						   opcode);
@@ -165,7 +164,8 @@ test (int argc, char *argv[])
 					data = gsf_input_read (stream, len);
 					if (data == NULL)
 						break;
-					/* gsf_mem_dump (data, len); */
+					if (enable_dump)
+						gsf_mem_dump (data, MIN (len,255));
 				}
 				pos = gsf_input_tell (stream);
 			}

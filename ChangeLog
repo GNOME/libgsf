@@ -1,5 +1,14 @@
 2002-05-25  Jody Goldberg <jody@gnome.org>
 
+	* gsf/test-msole1.c (test) : dump head of odd records.
+
+	* gsf/gsf-input.c (gsf_input_seek) : do more of the work up here.
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_seek) : adjust here.
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek) : and here.
+	* gsf/gsf-input-memory.c (gsf_input_memory_seek) : and here.
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-infile-msole.c (ole_dirent_new) : fix off by 1 error in
 	  handling broken ascii stream names.
 

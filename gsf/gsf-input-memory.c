@@ -101,17 +101,7 @@ gsf_input_memory_read (GsfInput *input, unsigned num_bytes)
 static int
 gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
-	GsfInputMemory const *memory = (GsfInputMemory *) (input);
-
-	switch (whence) {
-	case GSF_SEEK_SET :
-		break;
-	case GSF_SEEK_CUR :
-		break;
-	case GSF_SEEK_END :
-	}
-
-	return -1;
+	return TRUE;
 }
 
 static void
