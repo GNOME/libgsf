@@ -267,6 +267,32 @@ failure :
 	return NULL;
 }
 
+/**
+ * gsf_output_stdio_new :
+ * @filename : in utf8.
+ * @file     : an existing stdio FILE *
+ * @keep_open : Should @file be closed when the wrapper is closed
+ *
+ * Assumes ownership of @file.
+ *
+ * Returns a new GsfOutput wrapper for @file
+ **/
+GsfOutput *
+gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
+{
+	GsfOutputStdio *stdio;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+	g_return_val_if_fail (file != NULL, NULL);
+
+	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
+	stdio->file = file;
+	stdio->keep_open = keep_open;
+	stdio->real_filename = stdio->temp_filename = NULL;
+	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
+	return GSF_OUTPUT (stdio);
+}
+
 static gboolean
 gsf_output_stdio_close (GsfOutput *output)
 {
@@ -278,8 +304,12 @@ gsf_output_stdio_close (GsfOutput *output)
 		return FALSE;
 
 	if (stdio->keep_open) {
+		gboolean res = (0 == fflush (stdio->file));
+		if (!res)
+			gsf_output_set_error (output, errno,
+					      "Failed to flush.");
 		stdio->file = NULL;
-		return TRUE;
+		return res;
 	}
 
 	res = (0 == fclose (stdio->file));
@@ -461,29 +491,3 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
 	   gsf_output_stdio_class_init, gsf_output_stdio_init, GSF_OUTPUT_TYPE)
-
-/**
- * gsf_output_stdio_new :
- * @filename : in utf8.
- * @file     : an existing stdio FILE *
- * @keep_open : Should @file be closed when the wrapper is closed
- *
- * Assumes ownership of @file.
- *
- * Returns a new GsfOutput wrapper for @file
- **/
-GsfOutput *
-gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
-{
-	GsfOutputStdio *stdio;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-	g_return_val_if_fail (file != NULL, NULL);
-
-	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
-	stdio->file = file;
-	stdio->keep_open = keep_open;
-	stdio->real_filename = stdio->temp_filename = NULL;
-	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
-	return GSF_OUTPUT (stdio);
-}

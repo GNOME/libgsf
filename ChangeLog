@@ -1,3 +1,8 @@
+2004-12-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_close): Flush file if
+	we don't close it.
+
 2004-12-01  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Make sure new
