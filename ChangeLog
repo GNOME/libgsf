@@ -1,5 +1,9 @@
 2002-10-26  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.5.0
+
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-msole-utils.c (gsf_msole_lid_to_codepage) : remove warning.
 
 2002-10-14  Jody Goldberg <jody@gnome.org>

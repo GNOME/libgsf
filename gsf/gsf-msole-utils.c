@@ -1137,10 +1137,10 @@ gsf_msole_lid_to_codepage (guint lid)
 		return 0;
 
 #if 0
-		/******************************************************************/
-		/* Below this line is untested, unproven, and are just guesses.   *
+		/****************************************************************** 
+		 * Below this line is untested, unproven, and are just guesses.   *
 		 * Insert above and use at your own risk                          *
-		/******************************************************************/
+		 ******************************************************************/
 
 	case 0x042c:		/* Azeri (Latin) */
 	case 0x0443:		/* Uzbek (Latin) */
