@@ -92,6 +92,7 @@ clean:
 	-$(MAKE) -C build distclean
 	rm -rf build
 	rm -f config.cache config.status
+	rm -f doc/html/*.png doc/html/*.html
 
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
 

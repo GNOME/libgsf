@@ -1,8 +1,16 @@
-libgsf (1.7.0-0) experimental; urgency=low
+libgsf (1.7.3-0) unstable; urgency=low
 
   * UNRELEASED
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  1 Jan 2003 15:55:53 +0100
+ -- <not_a_debian_release>  Wed,  1 Jan 2003 15:55:53 +0100
+
+libgsf (1.7.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/copyright] Updated.
+  * [debian/rules] Clean out generated documentation.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 28 Jan 2003 08:27:58 +0100
 
 libgsf (1.6.0-1) unstable; urgency=low
 
