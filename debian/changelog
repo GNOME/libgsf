@@ -1,8 +1,47 @@
-libgsf (1.7.3-0) unstable; urgency=low
+libgsf (1.8.1-2) unstable; urgency=medium
 
   * UNRELEASED
 
- -- <not_a_debian_release>  Wed,  1 Jan 2003 15:55:53 +0100
+ -- <not_a_debian_release>  Mon,  9 Jun 2003 19:17:25 +0200
+
+libgsf (1.8.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Updated debianisation: switched from dh_movefiles to dh_install.
+  * Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  8 Jun 2003 11:33:24 +0200
+
+libgsf (1.8.0-3) unstable; urgency=medium
+
+  * [gsf/Makefile.am] Extended libgsf_1_la_LIBADD for proper inter-library
+    dependensies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 14 May 2003 21:43:04 +0200
+
+libgsf (1.8.0-2) unstable; urgency=low
+
+  * [debian/control] Added libgsf-1-dev Depends: libbz2-dev.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 12 May 2003 18:30:09 +0200
+
+libgsf (1.8.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/copyright] Follow upstream license change from GPL to LGPL.
+  * [debian/control]
+    * Added build dependency on libbz2-dev.
+    * Updated Standards-Version.
+  * [debian/rules] Build with bzip2 support.
+ 
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 12 May 2003 10:08:14 +0200
+
+libgsf (1.7.2-2) unstable; urgency=medium
+
+  * [gsf/gsf-outfile-msole.h, gsf/gsf-outfile-msole.c] At upstream's 
+    suggestion, applied ole export patch which will be in 1.8.0. 
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  6 Feb 2003 23:15:21 +0100
 
 libgsf (1.7.2-1) unstable; urgency=low
 
