@@ -60,8 +60,12 @@ init_gzip (GsfOutputGZip *gzip, GError **err)
 	ret = deflateInit2 (&gzip->stream, Z_DEFAULT_COMPRESSION,
 			    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
 			    Z_DEFAULT_STRATEGY);
-	if (ret != Z_OK)
+	if (ret != Z_OK) {
+		if (err != NULL)
+			*err = g_error_new (gsf_output_error_id (), 0,
+					    "Unable to initialize deflate");
 		return FALSE;
+	}
 	if (!gzip->buf) {
 		gzip->buf_size = Z_BUFSIZE; 
 		gzip->buf = g_malloc (gzip->buf_size);
@@ -77,7 +81,7 @@ gzip_output_header (GsfOutputGZip *gzip)
 {
 	guint8 buf[3 + 1 + 4 + 2];
 	static guint8 const gzip_signature[] = { 0x1f, 0x8b, 0x08 } ;
-	time_t mtime = time ();
+	time_t mtime = time (NULL);
 	char const *name = gsf_output_name (gzip->sink);
 	/* FIXME: What to do about gz extension ... ? */
 	int nlen = 0;  /* name ? strlen (name) : 0; */

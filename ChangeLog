@@ -1,3 +1,10 @@
+2002-11-29  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-output-gzip.c (init_gzip): Return set error if
+	deflateInit2 fails.
+	(gzip_output_header): Add missing argument to time().
+	
+
 2002-11-27  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-libxml.c (gsf_libxml_close): Change to do nothing. We
