@@ -71,20 +71,7 @@ find_match (CompressBuf *buf, guint pos, guint *len)
 			if (buf->inblock[pos + j] != buf->inblock[i + j])
 				break;
 
-#ifdef HACKS
-		if (pos == 117 || pos == 118 || pos == 150)
-			return -1;
-
-		if (pos == 189 && j == 4)
-			j = 3;  /* bin 1 perfectly good char (!) */
-#endif
-
 		if (j >= 3) {
-			gint shift = get_shift (pos);
-			if (j >= (1u << (shift - 1)))
-				j = (1<<(shift - 1)) - 1;
-/*			fprintf (stderr, "Check: %d %d  %d !\n",
-				pos, (1<<get_shift(pos)), (int) (pos - j - 1)); */
 			*len = j;
 			return i;
 		}
@@ -233,11 +220,14 @@ do_decompress (GsfInput *input, GsfOutput *output)
 		fprintf (stderr, "I/O error\n");
 }
 
+#define MAP(a,b)
+
 static void
 decode_dir (GsfInput *input)
 {
 	gboolean err = FALSE;
 	guint8 data[6];
+	int    op_count = 0;
 
 	while (gsf_input_remaining (input) && !err) {
 		unsigned i;
@@ -245,18 +235,20 @@ decode_dir (GsfInput *input)
 		guint32 length;
 		gboolean ascii = FALSE;
 		gboolean unicode = FALSE;
+		gboolean offset = FALSE;
 
 		err |= !gsf_input_read (input, 6, data);
 
 		op     = GSF_LE_GET_GUINT16 (&data[0]);
 		length = GSF_LE_GET_GUINT32 (&data[2]);
 
+		if (op == 9) {
+			fprintf (stderr, "** Quirk fix **\n");
+			length += 2;
+		}
+		
 		/* Special nasties / up-stream bugs */
 		switch (op) {
-		case 0x34:
-			fprintf (stderr, "** Odd opcode **\n"); /* 13th in stream ? */
-			length -= 4;
-			break;
 		case 0x4:
 		case 0x16:
 		case 0x19:
@@ -268,12 +260,21 @@ decode_dir (GsfInput *input)
 		case 0x47:
 			unicode = TRUE;
 			break;
+		case 0x31:
+			offset = TRUE;
+			break;
 		default:
 			break;
 		}
 
-		fprintf (stderr, "0x%.6x Op 0x%.2x, length %3d: '",
-			(int)gsf_input_tell (input), op, length);
+		fprintf (stderr, "0x%.6x Op %3d 0x%.2x, length %3d: '",
+			(int)gsf_input_tell (input), op_count, op, length);
+
+		if (length > gsf_input_remaining (input)) {
+			fprintf (stderr, "Broken - foo !\n");
+			length = MIN (64, gsf_input_remaining (input));
+			err = TRUE;
+		}
 
 		if (ascii || unicode) {
 			int advance = ascii ? 1 : 2;
@@ -284,6 +285,13 @@ decode_dir (GsfInput *input)
 				fprintf (stderr, "%c", ug);
 			}
 			fprintf (stderr, "' - '%s", ascii ? "Ascii" : "Unicode");
+		} else if (offset) {
+			gint8 data[4];
+			guint32 offset;
+			g_assert (length == 4);
+			err |= !gsf_input_read (input, 4, data);
+			offset = GSF_LE_GET_GUINT32 (data);
+			fprintf (stderr, "0x%.8x' - 'Offset", offset);
 		} else {
 			GString *chars = g_string_new ("");
 
@@ -297,6 +305,8 @@ decode_dir (GsfInput *input)
 			g_string_free (chars, TRUE);
 		}
 		fprintf (stderr, "'\n");
+
+		op_count++;
 	}
 }
 

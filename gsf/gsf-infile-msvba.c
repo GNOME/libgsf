@@ -138,7 +138,24 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		 *  0x40	 0
 		 *  0x14	 4	 9 4 0 0
 		 *
-		 *  9 seems to mark the end
+		 *  0x0f == number of elements
+		 *  0x1c == (Size 0)
+		 *  0x1e == (Size 4)
+		 *  0x48 == (Size 0)
+		 *  0x31 == stream offset of the compressed source !
+		 *
+		 *  0x16 == an ascii dependency name
+		 *  0x3e == a unicode dependency name
+		 *  0x33 == a classid for a dependency with no trialing data
+		 *
+		 *  0x2f == a dummy classid
+		 *  0x30 == a classid
+		 *  0x0d == the classid
+		 *  0x2f, and 0x0d appear contain
+		 * 	uint32 classid_size;
+		 * 	<classid>
+		 *	00 00 00 00 00 00
+		 *	and sometimes some trailing junk
 		 **/
 		if ((ptr + 6) > end) {
 			msg = "vba project header problem";
@@ -153,65 +170,16 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 			goto fail_content;
 		}
 
-		if (tag == 4) {
+		switch (tag) {
+		case 4:
 			name = g_strndup (ptr, len);
 			g_print ("Project Name : '%s'\n", name);
 			g_free (name);
-		} else {
-#if 0
-			g_print ("tag %hx\n", tag);
-			gsf_mem_dump (ptr, len);
-#endif
-		}
-		ptr += len;
-	} while (tag != 9);
-
-	/* unclear what this is, but it breaks our nice cozy sized record
-	 * hypothesis */
-	if ((ptr+14) > end) {
-		msg = "Hmm, the magic project blob is not where we expect it.";
-		goto fail_content;
-	}
-	gsf_mem_dump (ptr, 14);
-	ptr += 14;
-
-	elem_stream = NULL;
-	do {
-		/*
-		 * 0x0f == number of elements
-		 * 0x1c == (Size 0)
-		 * 0x1e == (Size 4)
-		 * 0x48 == (Size 0)
-		 * 0x31 == stream offset of the compressed source !
-		 *
-		 * 0x16 == an ascii dependency name
-		 * 0x3e == a unicode dependency name
-		 * 0x33 == a classid for a dependency with no trialing data
-		 *
-		 * 0x2f == a dummy classid
-		 * 0x30 == a classid
-		 * 0x0d == the classid
-		 * 0x2f, and 0x0d appear contain
-		 * 	uint32 classid_size;
-		 * 	<classid>
-		 *	00 00 00 00 00 00
-		 *	and sometimes some trailing junk
-		 **/
-		if ((ptr + 6) > end) {
-			msg = "vba project element problem";
-			goto fail_content;
-		}
-
-		tag = GSF_LE_GET_GUINT16 (ptr);
-		len = GSF_LE_GET_GUINT32 (ptr + 2);
-
-		if ((ptr + 6 + len) > end) {
-			msg = "vba project element problem";
-			goto fail_content;
-		}
-
-		ptr += 6;
-		switch (tag) {
+			break;
+		case 9:
+			g_print ("Quirk - duff tag length");
+			len += 2;
+			break;
 		case 0xf  :
 			if (len != 2) {
 				g_warning ("element count is not what we expected");
