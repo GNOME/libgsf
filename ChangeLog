@@ -1,3 +1,23 @@
+2005-03-22  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Require glib 2.6 for g_filename_display_name.
+
+	* gsf/gsf-output-stdio.c (rename_wrapper): Use g_rename and
+	g_unlink.
+	(gsf_output_stdio_new): Use g_stat.  Fix error message.
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Don't call perror.
+	(struct GsfInputStdio): Add filename member.
+	(gsf_input_stdio_finalize): Free filename member.
+	(gsf_input_stdio_dup): Use filename member.
+	(gsf_input_stdio_new): Fix error messages; initialize filename
+	member; use g_fopen to open file.
+
+	* gsf/gsf-docprop-vector.c: Fix includes.
+
+	* gsf/gsf-infile-stdio.c (gsf_infile_stdio_new): Simply using
+	glib's GDir stuff.  (This should fix Win32 in the process.)
+
 2005-03-05  Jody Goldberg <jody@gnome.org>
 
 	Patch from Frank Chiulli

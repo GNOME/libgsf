@@ -24,6 +24,7 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <glib/gstdio.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -76,12 +77,12 @@ typedef struct {
 static int
 rename_wrapper (const char *oldfilename, const char *newfilename)
 {
-	int result = rename (oldfilename, newfilename);
+	int result = g_rename (oldfilename, newfilename);
 #ifdef G_OS_WIN32
 	if (result) {
 		/* Win32's rename does not unlink the target.  */
-		(void)unlink (newfilename);
-		result = rename (oldfilename, newfilename);
+		(void)g_unlink (newfilename);
+		result = g_rename (oldfilename, newfilename);
 	}
 #endif
 	return result;
@@ -183,7 +184,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		   creating backup copies on this level is a 
 		   horrible mistake. -DAL- */
 
-		result = stat (dirname, &dir_st);
+		result = g_stat (dirname, &dir_st);
 
 		if (result == 0 && (dir_st.st_mode & S_ISGID))
 			st.st_gid = dir_st.st_gid;
@@ -304,10 +305,10 @@ gsf_output_stdio_close (GsfOutput *output)
 		backup_filename = g_strconcat (stdio->real_filename, ".bak", NULL);
 		result = rename_wrapper (stdio->real_filename, backup_filename);
 		if (result != 0) {
-			char *utf8name = gsf_filename_to_utf8 (backup_filename, TRUE);
+			char *utf8name = g_filename_display_name (backup_filename);
 			gsf_output_set_error (output, errno,
-				"Could not backup the original as %s.",
-				utf8name);
+					      "Could not backup the original as %s.",
+					      utf8name);
 			g_free (utf8name);
 			g_free (backup_filename);
 			unlink (stdio->temp_filename);
@@ -327,6 +328,7 @@ gsf_output_stdio_close (GsfOutput *output)
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
+#warning "We need gstdio.h for these"
 		chmod (stdio->real_filename, stdio->st.st_mode);
 		if (chown (stdio->real_filename,
 			   stdio->st.st_uid,

@@ -18,11 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <stdio.h>
 
 #include <gsf-config.h>
 #include <gsf/gsf-docprop-vector.h>
-
+#include <stdio.h>
 
 struct _GsfDocPropVectorClass {
 	GObjectClass  parent_class;

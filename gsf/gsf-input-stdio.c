@@ -24,6 +24,7 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <glib/gstdio.h>
 
 #include <stdio.h>
 #include <errno.h>
@@ -43,6 +44,7 @@ struct _GsfInputStdio {
 	GsfInput input;
 
 	FILE     *file;
+	char     *filename;
 	guint8   *buf;
 	size_t   buf_size;
 };
@@ -66,12 +68,18 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	FILE *file;
 	gsf_off_t size;
 
-	file = fopen (filename, "rb");
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	file = g_fopen (filename, "rb");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
-		if (err != NULL) {
-			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
-			*err = g_error_new (gsf_input_error (), 0,
-				"%s: %s", utf8name, g_strerror (errno));
+		if (err) {
+			int save_errno = errno;
+			char *utf8name = g_filename_display_name (filename);
+			g_set_error (err,
+				     G_FILE_ERROR,
+				     g_file_error_from_errno (save_errno),
+				     "%s: %s",
+				     utf8name, g_strerror (save_errno));
 			g_free (utf8name);
 		}
 		if (file) fclose (file); /* Just in case.  */
@@ -79,10 +87,11 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	}
 
 	if (!S_ISREG (st.st_mode)) {
-		if (err != NULL) {
-			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
-			*err = g_error_new (gsf_input_error (), 0,
-				"%s: Is not a regular file", utf8name);
+		if (err) {
+			char *utf8name = g_filename_display_name (filename);
+			g_set_error (err, gsf_input_error (), 0,
+				     "%s: not a regular file",
+				     utf8name);
 			g_free (utf8name);
 		}
 		fclose (file);
@@ -92,6 +101,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	size = st.st_size;
 	input = (GsfInputStdio *)g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 	input->file = file;
+	input->filename = g_strdup (filename);
 	input->buf  = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), size);
@@ -114,6 +124,7 @@ gsf_input_stdio_finalize (GObject *obj)
 		input->buf  = NULL;
 		input->buf_size = 0;
 	}
+	g_free (input->filename);
 
 	parent_class->finalize (obj);
 }
@@ -122,7 +133,7 @@ static GsfInput *
 gsf_input_stdio_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputStdio const *src = (GsfInputStdio *)src_input;
-	return gsf_input_stdio_new (src->input.name, err);
+	return gsf_input_stdio_new (src->filename, err);
 }
 
 static guint8 const *
@@ -197,7 +208,7 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	if (0 == fseek (stdio->file, loffset, stdio_whence))
 		return FALSE;
 #endif
-	perror ("\tERROR");
+
 	return TRUE;
 }
 
@@ -207,6 +218,7 @@ gsf_input_stdio_init (GObject *obj)
 	GsfInputStdio *stdio = GSF_INPUT_STDIO (obj);
 
 	stdio->file = NULL;
+	stdio->filename = NULL;
 	stdio->buf  = NULL;
 	stdio->buf_size = 0;
 }

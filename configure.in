@@ -42,8 +42,8 @@ AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
 dnl Checks for libraries.
 dnl Modules common to libgsf and libgsf-gnome
-m4_define(LIBGSF_MODULES,[gobject-2.0 >= 2.0.0
-    glib-2.0 >= 2.0.0
+m4_define(LIBGSF_MODULES,[gobject-2.0 >= 2.6.0
+    glib-2.0 >= 2.6.0
     libxml-2.0 >= 2.4.16])
 PKG_CHECK_MODULES(LIBGSF,LIBGSF_MODULES)
 

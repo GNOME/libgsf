@@ -36,7 +36,7 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <dirent.h>
+#include <glib/gdir.h>
 #include <string.h>
 
 static GObjectClass *parent_class;
@@ -48,16 +48,6 @@ struct _GsfInfileStdio {
 };
 
 typedef GsfInfileClass GsfInfileStdioClass;
-
-static GError *
-safe_err (char const *path, char const *msg)
-{
-	char *utf8name = gsf_filename_to_utf8 (path, FALSE);
-	GError *res = g_error_new (gsf_input_error (), 0,
-		"%s: %s", utf8name, msg);
-	g_free (utf8name);
-	return res;
-}
 
 static void
 gsf_infile_stdio_finalize (GObject *obj)
@@ -190,30 +180,20 @@ GsfInfile *
 gsf_infile_stdio_new (char const *root, GError **err)
 {
 	GsfInfileStdio *ifs;
-	DIR *dir;
-	struct dirent *dirp;
+	GDir *dir;
+	const char *child;
 
-	if (!g_file_test (root, G_FILE_TEST_IS_DIR)) {
-		if (err != NULL)
-			*err = safe_err (root, "Is not a directory");
+	dir = g_dir_open (root, 0, err);
+	if (dir == NULL)
 		return NULL;
-	}
-
-	dir = opendir (root);
-	if (dir == NULL) {
-		if (err != NULL)
-			*err = safe_err (root, g_strerror (errno));
-		return NULL;
-	}
 
 	ifs = g_object_new (gsf_infile_stdio_get_type(), NULL);
 	ifs->root = g_strdup (root);
 
-	while ((dirp = readdir (dir)))
-		if (strcmp (dirp->d_name, "..") && strcmp (dirp->d_name, "."))
-			ifs->children = g_list_prepend (ifs->children,
-				g_strdup (dirp->d_name));
-	closedir (dir);
+	while ((child = g_dir_read_name (dir)))
+		ifs->children = g_list_prepend (ifs->children,
+						g_strdup (child));
+	g_dir_close (dir);
 
 	gsf_input_set_name_from_filename (GSF_INPUT (ifs), root);
 

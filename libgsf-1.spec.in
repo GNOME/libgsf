@@ -15,8 +15,8 @@ Source: ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libgsf/%{name}-%{version}
 Buildroot: /var/tmp/%{name}-%{version}-%{release}-root
 URL: http://www.gnumeric.org
 
-Requires: glib2 >= 2.0.0
-BuildRequires: glib2-devel >= 2.0.0
+Requires: glib2 >= 2.6.0
+BuildRequires: glib2-devel >= 2.6.0
 
 %description
 A library for reading and writing structured files (eg MS OLE and Zip)
