@@ -75,10 +75,18 @@ saved_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Werror"
 AC_TRY_COMPILE([#include <stdio.h>], [FILE *f = fdopen(1, "r")], need_posix=no, need_posix=yes)
 CFLAGS="$saved_CFLAGS"
+AC_MSG_RESULT($need_posix)
 if test $need_posix = yes ; then
 	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
+
+	# That, unfortunately, turns off struct timeval on Solaris...
+	AC_MSG_CHECKING([whether -D__EXTENSIONS__ is needed for struct timeval])
+	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], need_ext=no, need_ext=yes)
+	AC_MSG_RESULT($need_posix)
+	if test $need_posix = yes ; then
+		CFLAGS="$CFLAGS -D__EXTENSIONS__"
+	fi
 fi
-AC_MSG_RESULT($need_posix)
 
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
 AC_FUNC_MMAP
