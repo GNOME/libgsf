@@ -32,9 +32,8 @@ G_BEGIN_DECLS
 
 typedef struct _GsfInputGZip GsfInputGZip;
 
-GType gsf_input_gzip_get_type (void);
-
-GsfInputGZip *gsf_input_gzip_new (GsfInput *source, GError **err);
+GType	  gsf_input_gzip_get_type (void);
+GsfInput *gsf_input_gzip_new	  (GsfInput *source, GError **err);
 
 G_END_DECLS
 

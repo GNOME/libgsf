@@ -411,7 +411,7 @@ GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
 	   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
 	   G_TYPE_OBJECT)
 
-GsfInfileMSVBA *
+GsfInfile *
 gsf_infile_msvba_new (GsfInfile *source, GError **err)
 {
 	GsfInfileMSVBA *vba;
@@ -426,12 +426,11 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 
 	/* find the name offset pairs */
 	if (vba_dir_read (vba, err))
-		return vba;
+		return GSF_INFILE (vba);
 
-	if (err != NULL && *err == NULL) {
+	if (err != NULL && *err == NULL)
 		*err = g_error_new (gsf_input_error (), 0,
 				"Unable to parse VBA header");
-	}
 
 	g_object_unref (G_OBJECT (vba));
 	return NULL;

@@ -38,7 +38,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	output = GSF_OUTPUT (gsf_output_stdio_new (argv[1], &err));
+	output = gsf_output_stdio_new (argv[1], &err);
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -47,7 +47,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	bzout = GSF_OUTPUT (gsf_output_bzip_new (output, &err));
+	bzout = gsf_output_bzip_new (output, &err);
 	if (bzout == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 

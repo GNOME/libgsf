@@ -34,7 +34,7 @@ test (char *argv[])
 	GError     *err;
 	int         rval = 0;
 
-	input = GSF_INPUT (gsf_input_stdio_new (argv[1], &err));
+	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -44,7 +44,7 @@ test (char *argv[])
 		return 1;
 	}
 
-	output = GSF_OUTPUT (gsf_output_stdio_new (argv[2], &err));
+	output = gsf_output_stdio_new (argv[2], &err);
 	if (output == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);

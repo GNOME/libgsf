@@ -30,7 +30,7 @@
  *
  * Returns a new #GsfInputMemory or NULL.
  */
-GsfInputMemory * 
+GsfInput * 
 gsf_input_memory_new_from_iochannel (GIOChannel *channel,
 				     GError **err)
 {

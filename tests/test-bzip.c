@@ -27,14 +27,14 @@
 static int
 test (int argc, char *argv[])
 {
-	GsfInput       *input;
-	GsfInputMemory *bzip;
-	GError         *err;
+	GsfInput *input;
+	GsfInput *bzip;
+	GError   *err;
 	int i;
 
 	for (i = 1 ; i < argc ; i++) {
 		puts (argv[i]);
-		input = GSF_INPUT (gsf_input_stdio_new (argv[i], &err));
+		input = gsf_input_stdio_new (argv[i], &err);
 		if (input == NULL) {
 
 			g_return_val_if_fail (err != NULL, 1);
@@ -54,7 +54,7 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (input));
 			continue;
 		}
-		gsf_input_dump (GSF_INPUT (bzip), FALSE);
+		gsf_input_dump (bzip, FALSE);
 
 		g_object_unref (G_OBJECT (bzip));
 		g_object_unref (G_OBJECT (input));

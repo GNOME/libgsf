@@ -32,9 +32,8 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputGZip GsfOutputGZip;
 
-GType gsf_output_gzip_get_type (void);
-
-GsfOutputGZip *gsf_output_gzip_new (GsfOutput *sink, GError **err);
+GType	   gsf_output_gzip_get_type (void);
+GsfOutput *gsf_output_gzip_new	    (GsfOutput *sink, GError **err);
 
 G_END_DECLS
 

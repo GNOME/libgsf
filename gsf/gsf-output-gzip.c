@@ -110,7 +110,7 @@ gzip_output_header (GsfOutputGZip *gzip)
  *
  * Returns a new file or NULL.
  **/
-GsfOutputGZip *
+GsfOutput *
 gsf_output_gzip_new (GsfOutput *sink, GError **err)
 {
 	GsfOutputGZip *gzip;
@@ -131,7 +131,7 @@ gsf_output_gzip_new (GsfOutput *sink, GError **err)
 		return NULL;
 	}
 
-	return gzip;
+	return GSF_OUTPUT (gzip);
 }
 
 static void

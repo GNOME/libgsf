@@ -355,11 +355,11 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	input = GSF_INPUT (gsf_input_stdio_new (src, &error));
+	input = gsf_input_stdio_new (src, &error);
 	if (dir)
 		decode_dir (input);
 	else {
-		output = GSF_OUTPUT (gsf_output_stdio_new (dest, &error));
+		output = gsf_output_stdio_new (dest, &error);
 		if (!input || !output) {
 			fprintf (stderr, "Failed to open input(%p)/output(%p): '%s'\n",
 				 input, output, error ? error->message : "<NoMsg>");

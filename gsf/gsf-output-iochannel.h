@@ -32,8 +32,8 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputIOChannel GsfOutputIOChannel;
 
-GType     gsf_output_iochannel_get_type (void);
-GsfOutputIOChannel *gsf_output_iochannel_new  (GIOChannel * channel);
+GType      gsf_output_iochannel_get_type (void);
+GsfOutput *gsf_output_iochannel_new 	 (GIOChannel * channel);
 
 G_END_DECLS
 

@@ -73,7 +73,7 @@ gib_synch_shared_ptr (GsfInputBonobo *binput)
  *
  * Returns a new input object or NULL.
  **/
-GsfInputBonobo *
+GsfInput *
 gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 {
 	GsfInputBonobo *input;
@@ -132,7 +132,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 
 	CORBA_free (info);
 
-	return input;
+	return GSF_INPUT (input);
 }
 
 static void

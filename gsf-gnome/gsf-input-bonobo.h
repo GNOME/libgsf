@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInputBonobo GsfInputBonobo;
 
 GType     gsf_input_bonobo_get_type (void);
-GsfInputBonobo *gsf_input_bonobo_new      (Bonobo_Stream const stream, GError **err);
+GsfInput *gsf_input_bonobo_new      (Bonobo_Stream const stream, GError **err);
 
 G_END_DECLS
 

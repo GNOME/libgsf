@@ -79,13 +79,13 @@ clone (GsfInput *input, GsfOutput *output)
 static int
 test (char *argv[])
 {
-	GsfInput   *input;
+	GsfInput   *infile;
 	GsfOutput  *output, *outfile;
 	GError    *err;
 
 	fprintf (stderr, "%s\n", argv [1]);
-	input = GSF_INPUT (gsf_infile_stdio_new (argv[1], &err));
-	if (input == NULL) {
+	infile = gsf_infile_stdio_new (argv[1], &err);
+	if (infile == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -94,20 +94,20 @@ test (char *argv[])
 		return 1;
 	}
 
-	output = GSF_OUTPUT (gsf_output_stdio_new (argv[2], &err));
+	output = gsf_output_stdio_new (argv[2], &err);
 	if (output == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[2], err->message);
 		g_error_free (err);
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (G_OBJECT (infile));
 		return 1;
 	}
 
-	outfile = GSF_OUTPUT (gsf_outfile_msole_new (output));
+	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	clone (input, outfile);
+	clone (infile, outfile);
 
 	return 0;
 }

@@ -32,11 +32,11 @@ G_BEGIN_DECLS
 
 typedef struct _GsfInputMemory GsfInputMemory;
 
-GType     gsf_input_memory_get_type (void);
-GsfInputMemory *gsf_input_memory_new       (guint8 const *buf, gsf_off_t length,
-					    gboolean needs_free);
-GsfInputMemory *gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length);
-GsfInputMemory *gsf_input_mmap_new	   (char const *filename, GError **err);
+GType     gsf_input_memory_get_type  (void);
+GsfInput *gsf_input_memory_new       (guint8 const *buf, gsf_off_t length,
+				      gboolean needs_free);
+GsfInput *gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length);
+GsfInput *gsf_input_mmap_new	   (char const *filename, GError **err);
 
 G_END_DECLS
 

@@ -43,7 +43,7 @@ extern void hresult_to_gerror (HRESULT hr, GError ** err);
  *
  * Returns a new output object or NULL.
  **/
-GsfOutputIStream *
+GsfOutput *
 gsf_output_istream_new (IStream * stream)
 {
 	GsfOutputIStream *output;

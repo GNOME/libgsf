@@ -52,13 +52,13 @@ typedef GsfInputClass GsfInputMemoryClass;
  *
  * Returns: A new #GsfInputMemory
  */
-GsfInputMemory *
+GsfInput *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
 	gsf_input_set_size (GSF_INPUT (mem), length);
-	return mem;
+	return GSF_INPUT (mem);
 }
 
 /**
@@ -68,7 +68,7 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
  *
  * Returns: A new #GsfInputMemory
  */
-GsfInputMemory *
+GsfInput *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 {	
 	GsfInputMemory *mem = NULL;
@@ -80,7 +80,7 @@ gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_new ((void *)cpy, length, TRUE);
 	gsf_input_set_size (GSF_INPUT (mem), length);
-	return mem;
+	return GSF_INPUT (mem);
 }
 
 static void
@@ -198,7 +198,7 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
  *
  * Returns: A new #GsfInputMemory
  */
-GsfInputMemory *
+GsfInput *
 gsf_input_mmap_new (char const *filename, GError **err)
 {
 #ifdef HAVE_MMAP
@@ -266,7 +266,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	close (fd);
 #endif
 
-	return mem;
+	return GSF_INPUT (mem);
 #else
 #ifdef __GNUC__
 #warning MMAP Unsupported

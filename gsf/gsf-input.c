@@ -503,10 +503,10 @@ gsf_input_uncompress (GsfInput *src)
 		const unsigned char gzip_sig[2] = { 0x1f, 0x8b };
 
 		if (memcmp (gzip_sig, data, sizeof (gzip_sig)) == 0) {
-			GsfInputGZip *res = gsf_input_gzip_new (src, NULL);
+			GsfInput *res = gsf_input_gzip_new (src, NULL);
 			if (res) {
 				g_object_unref (G_OBJECT (src));
-				return gsf_input_uncompress (GSF_INPUT (res));
+				return gsf_input_uncompress (res);
 			} 
 		}
 	}
@@ -514,13 +514,13 @@ gsf_input_uncompress (GsfInput *src)
 #ifdef HAVE_BZIP
 	/* Let's try bzip.  */
 	{
-		const guint8 * bzip_sig = "BZh";
+		guint8 const *bzip_sig = "BZh";
 
 		if (memcmp (gzip_sig, data, strlen (bzip_sig)) == 0) {
-			GsfInputMemory *res = gsf_input_memory_new_from_bzip (src, NULL);
+			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);
 			if (res) {
 				g_object_unref (G_OBJECT (src));
-				return gsf_input_uncompress (GSF_INPUT (res));
+				return gsf_input_uncompress (res);
 			}
 		}
 	}
@@ -541,7 +541,7 @@ gsf_input_uncompress (GsfInput *src)
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 
-GsfInput*
+GsfInput *
 gsf_input_new_for_uri (char const * uri, GError ** err)
 {
 	GsfInput * input = NULL;
@@ -554,15 +554,15 @@ gsf_input_new_for_uri (char const * uri, GError ** err)
 
 	if (len > 3 && !strstr (uri, ":/")) {
 		/* assume plain file */
-		input = GSF_INPUT (gsf_input_stdio_new (uri, err));
+		input = gsf_input_stdio_new (uri, err);
 	} else {
 #if HAVE_GNOME
 		/* have gnome, let GnomeVFS deal with this */
-		input = GSF_INPUT (gsf_input_gnomevfs_new (uri, err));
+		input = gsf_input_gnomevfs_new (uri, err);
 #else		
 		if (len > 7 && !strncmp (uri, "file:/", 6)) {
 			/* dumb attempt to translate this into a local path */
-			input = GSF_INPUT (gsf_input_stdio_new (uri+7, err));			
+			input = gsf_input_stdio_new (uri+7, err);
 		} 
 		/* else: unknown or unhandled protocol - bail */
 #endif

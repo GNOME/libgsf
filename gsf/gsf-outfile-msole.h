@@ -36,10 +36,10 @@ typedef struct _GsfOutfileMSOle GsfOutfileMSOle;
 #define OLE_DEFAULT_SB_SHIFT	 6
 #define OLE_DEFAULT_BB_SHIFT	 9
 
-GType		 gsf_outfile_msole_get_type (void);
-GsfOutfileMSOle *gsf_outfile_msole_new (GsfOutput *sink);
-gboolean	 gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole,
-						 guint8 const *clsid);
+GType	    gsf_outfile_msole_get_type (void);
+GsfOutfile *gsf_outfile_msole_new	   (GsfOutput *sink);
+gboolean    gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole,
+					    guint8 const *clsid);
 
 G_END_DECLS
 

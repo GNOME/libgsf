@@ -26,7 +26,7 @@
 
 G_BEGIN_DECLS
 
-GsfInputMemory *gsf_input_memory_new_from_bzip (GsfInput *source, GError **err);
+GsfInput *gsf_input_memory_new_from_bzip (GsfInput *source, GError **err);
 
 G_END_DECLS
 

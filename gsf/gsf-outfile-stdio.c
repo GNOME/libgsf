@@ -62,9 +62,9 @@ gsf_outfile_stdio_new_child (GsfOutfile *parent, char const *name,
 	char *path = g_build_filename (ofs->root, name, NULL);
 
 	if (is_dir)
-		child = (GsfOutput *) gsf_outfile_stdio_new (path, NULL);
+		child = (GsfOutput *)gsf_outfile_stdio_new (path, NULL);
 	else
-		child = (GsfOutput *) gsf_output_stdio_new (path, NULL);
+		child = gsf_output_stdio_new (path, NULL);
 	g_free (path);
 
 	return child;
@@ -111,7 +111,7 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
  *
  * Returns a new outfile or NULL.
  **/
-GsfOutfileStdio *
+GsfOutfile *
 gsf_outfile_stdio_new (char const *root, GError **err)
 {
 	GsfOutfileStdio *ofs;
@@ -132,5 +132,5 @@ gsf_outfile_stdio_new (char const *root, GError **err)
 
 	ofs = g_object_new (gsf_outfile_stdio_get_type(), NULL);
 	ofs->root = g_strdup (root);
-	return ofs;
+	return GSF_OUTFILE (ofs);
 }

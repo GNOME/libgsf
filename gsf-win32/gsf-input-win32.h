@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInputIStream GsfInputIStream;
 
 GType     gsf_input_istream_get_type (void);
-GsfInputIStream *gsf_input_istream_new      (IStream * stream, GError **err);
+GsfInput *gsf_input_istream_new      (IStream * stream, GError **err);
 
 G_END_DECLS
 

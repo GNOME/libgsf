@@ -26,8 +26,8 @@
 
 G_BEGIN_DECLS
 
-GsfInputMemory * gsf_input_memory_new_from_iochannel (GIOChannel * channel,
-						      GError ** error);
+GsfInput *gsf_input_memory_new_from_iochannel (GIOChannel *channel,
+					       GError    **error);
 
 G_END_DECLS
 

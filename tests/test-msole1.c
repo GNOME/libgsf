@@ -155,7 +155,7 @@ test (unsigned argc, char *argv[])
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
 
-		input = GSF_INPUT (gsf_input_mmap_new (argv[i], &err));
+		input = gsf_input_mmap_new (argv[i], &err);
 		if (input == NULL) {
 			g_return_val_if_fail (err != NULL, 1);
 			g_warning ("'%s' error: %s", argv[i], err->message);
@@ -165,7 +165,7 @@ test (unsigned argc, char *argv[])
 
 		input = gsf_input_uncompress (input);
 
-		infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
+		infile = gsf_infile_msole_new (input, &err);
 
 		if (infile == NULL) {
 

@@ -239,7 +239,7 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
  *
  * Returns a new file or NULL.
  **/
-GsfOutputBzip *
+GsfOutput *
 gsf_output_bzip_new (GsfOutput *sink, GError **err)
 {
 #ifdef HAVE_BZ2
@@ -256,7 +256,7 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 		return NULL;
 	}
 
-	return bzip;
+	return GSF_OUTPUT (bzip);
 #else
 #ifdef __GNUC__
 #warning Building without BZ2 support

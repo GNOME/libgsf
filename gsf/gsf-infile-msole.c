@@ -881,7 +881,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
  *
  * Returns : the new ole file handler
  **/
-GsfInfileMSOle *
+GsfInfile *
 gsf_infile_msole_new (GsfInput *source, GError **err)
 {
 	GsfInfileMSOle *ole;
@@ -902,7 +902,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 		return NULL;
 	}
 
-	return ole;
+	return GSF_INFILE (ole);
 }
 
 /**

@@ -42,9 +42,7 @@ struct _GsfIOContextClass {
 
 GType         gsf_io_context_get_type (void);
 GsfIOContext *gsf_io_context_new (void);
-
 void          gsf_io_context_clear (GsfIOContext *ioc);
-
 void          gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value);
 
 G_END_DECLS

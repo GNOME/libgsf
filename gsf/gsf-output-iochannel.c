@@ -38,7 +38,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfOutputIOChannel *
+GsfOutput *
 gsf_output_iochannel_new (GIOChannel *channel)
 {
 	GsfOutputIOChannel *output = NULL;
@@ -47,7 +47,7 @@ gsf_output_iochannel_new (GIOChannel *channel)
 
 	output = g_object_new (GSF_OUTPUT_IOCHANNEL_TYPE, NULL);	
 	output->channel = channel;
-	return output;
+	return GSF_OUTPUT (output);
 }
 
 static gboolean

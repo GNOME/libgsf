@@ -31,15 +31,15 @@
 static int
 test (int argc, char *argv[])
 {
-	GsfInfileMSVBA *vba_wrapper;
+	GsfInfile *vba_wrapper;
 	GsfInput  *input;
 	GError    *err = NULL;
 	int i;
 
 	for (i = 1 ; i < argc ; i++) {
-		input = GSF_INPUT (gsf_input_mmap_new (argv[i], &err));
+		input = gsf_input_mmap_new (argv[i], &err);
 		if (input != NULL) {
-			GsfInfile *infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
+			GsfInfile *infile = gsf_infile_msole_new (input, &err);
 			if (infile != NULL) {
 				GsfInput *vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
 				if (vba != NULL) {

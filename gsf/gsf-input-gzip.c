@@ -161,7 +161,7 @@ init_zip (GsfInputGZip *gzip, GError **err)
  *
  * Returns a new file or NULL.
  **/
-GsfInputGZip *
+GsfInput *
 gsf_input_gzip_new (GsfInput *source, GError **err)
 {
 	GsfInputGZip *gzip;
@@ -178,7 +178,7 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 		return NULL;
 	}
 
-	return gzip;
+	return GSF_INPUT (gzip);
 }
 
 static void

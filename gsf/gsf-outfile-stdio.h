@@ -32,8 +32,8 @@ typedef struct _GsfOutfileStdio GsfOutfileStdio;
 #define GSF_OUTFILE_STDIO(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_STDIO_TYPE, GsfOutfileStdio))
 #define GSF_IS_OUTFILE_STDIO(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_STDIO_TYPE))
 
-GType		 gsf_outfile_stdio_get_type (void);
-GsfOutfileStdio *gsf_outfile_stdio_new (char const *root, GError **err);
+GType	    gsf_outfile_stdio_get_type	(void);
+GsfOutfile *gsf_outfile_stdio_new	(char const *root, GError **err);
 
 G_END_DECLS
 

@@ -64,13 +64,13 @@ gsf_libxml_close (void *context)
 static xmlParserCtxtPtr
 gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
 {
-	GsfInputGZip *gzip;
+	GsfInput *gzip;
 
 	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 
 	gzip = gsf_input_gzip_new (input, NULL);
 	if (gzip != NULL)
-		input = GSF_INPUT (gzip);
+		input = gzip;
 	else
 		g_object_ref (G_OBJECT (input));
 
@@ -179,6 +179,12 @@ typedef struct {
 	GSList *elem;
 } GsfXMLInNodeGroup;
 
+static char const *
+node_name (GsfXMLInNode const *node)
+{
+	return (node->name != NULL) ? node->name : "{catch all)}";
+}
+
 static void
 gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **attrs)
 {
@@ -249,7 +255,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		}
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
-			if (node->name != NULL && !strcmp (tmp, node->name)) {
+			if (node->name == NULL || !strcmp (tmp, node->name)) {
 				if (node->has_content == GSF_XML_CONTENT &&
 				    state->content->len > 0) {
 					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
@@ -269,7 +275,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 
 	if (state->unknown_depth++)
 		return;
-	g_warning ("Unexpected element '%s' in state %s.", name, state->node->name);
+	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->node));
 	{
 		GSList *ptr;
 		GsfXMLInNode *node;
@@ -280,7 +286,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 #ifdef __GNUC__
 #warning if we really want this do we also want namespaces ?
 #endif
-				g_print ("%s", node->name);
+				g_print ("%s", node_name (node));
 				if (ptr->next != NULL && ptr->next->data != NULL)
 					g_print (" -> ");
 			}

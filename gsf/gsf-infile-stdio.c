@@ -103,7 +103,7 @@ open_child (GsfInfileStdio *ifs, char const *name, GError **err)
 	if (g_file_test (path, G_FILE_TEST_IS_DIR))
 		child = (GsfInput *) gsf_infile_stdio_new (path, err);
 	else
-		child = (GsfInput *) gsf_input_stdio_new (path, err);
+		child = gsf_input_stdio_new (path, err);
 	g_free (path);
 
 	return child;
@@ -186,7 +186,7 @@ GSF_CLASS (GsfInfileStdio, gsf_infile_stdio,
  *
  * Returns a new file or NULL.
  **/
-GsfInfileStdio *
+GsfInfile *
 gsf_infile_stdio_new (char const *root, GError **err)
 {
 	GsfInfileStdio *ifs;
@@ -215,5 +215,5 @@ gsf_infile_stdio_new (char const *root, GError **err)
 				g_strdup (dirp->d_name));
 	closedir (dir);
 
-	return ifs;
+	return GSF_INFILE (ifs);
 }

@@ -52,7 +52,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfInputTextline *
+GsfInput *
 gsf_input_textline_new (GsfInput *source)
 {
 	GsfInputTextline *input;
@@ -66,7 +66,7 @@ gsf_input_textline_new (GsfInput *source)
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (source), gsf_input_size (source));
 
-	return input;
+	return GSF_INPUT (input);
 }
 
 static void

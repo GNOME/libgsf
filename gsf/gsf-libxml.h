@@ -80,7 +80,7 @@ struct _GsfXMLInNode {
 	GSList *groups;
 
 	unsigned	has_content;
-	gboolean	allow_unknown;
+	gboolean	deprecated_unused_allow_unknown; /* remains here for binary compat */
 	gboolean	check_children_for_ns;
 
 	void (*start) (GsfXMLIn *state, xmlChar const **attrs);
@@ -103,10 +103,10 @@ struct _GsfXMLInNS {
 { uri, id}
 
 #define GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content, 	\
-			     allow_unknown, check_ns, start, end, user)	\
+			     deprecated_unused_allow_unknown, check_ns, start, end, user)	\
 {									\
 	#id, ns, name, #parent_id, FALSE, NULL,				\
-	has_content, allow_unknown, check_ns, start, end, { user } 	\
+	has_content, deprecated_unused_allow_unknown, check_ns, start, end, { user } 	\
 }
 
 #define GSF_XML_IN_NODE(parent_id, id, ns, name, has_content, start, end) \

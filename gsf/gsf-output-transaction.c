@@ -128,7 +128,7 @@ gsf_output_transaction_abort (GsfOutputTransaction * output)
  *
  * Returns : The new transaction output object
  */
-GsfOutputTransaction *
+GsfOutput *
 gsf_output_transaction_new_named (GsfOutput *wrapped, const char * name)
 {
 	GsfOutputTransaction * trans = NULL;
@@ -140,14 +140,14 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, const char * name)
 	trans = g_object_new (GSF_OUTPUT_TRANSACTION_TYPE, NULL);
 	gsf_output_set_name (GSF_OUTPUT (trans), name);
 	
-	trans->proxy = GSF_OUTPUT (gsf_output_memory_new ());
+	trans->proxy = gsf_output_memory_new ();
 	
 	/* TODO: connect signals if wrapped is a GsfOutputTransaction for cascade-effect?? */
 	
 	trans->wrapped = wrapped;
 	g_object_ref (trans->wrapped);
 	
-	return trans;
+	return GSF_OUTPUT (trans);
 }
 
 /**
@@ -156,7 +156,7 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, const char * name)
  *
  * Returns : The new anonymous transaction output object
  */
-GsfOutputTransaction *
+GsfOutput *
 gsf_output_transaction_new (GsfOutput *wrapped)
 {
 	/* All error checking done in new_named() */

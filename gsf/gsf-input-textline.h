@@ -34,9 +34,9 @@ typedef struct _GsfInputTextline GsfInputTextline;
 
 GType gsf_input_textline_get_type (void);
 
-GsfInputTextline *gsf_input_textline_new	(GsfInput *source);
-unsigned char	 *gsf_input_textline_ascii_gets	(GsfInputTextline *input);
-guint8 		 *gsf_input_textline_utf8_gets	(GsfInputTextline *input);
+GsfInput      *gsf_input_textline_new		(GsfInput *source);
+unsigned char *gsf_input_textline_ascii_gets	(GsfInputTextline *input);
+guint8	      *gsf_input_textline_utf8_gets	(GsfInputTextline *input);
 
 G_END_DECLS
 

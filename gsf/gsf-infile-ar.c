@@ -476,7 +476,7 @@ GSF_CLASS (GsfInfileAr, gsf_infile_ar,
  *
  * Returns : the new AR file handler
  **/
-GsfInfileAr *
+GsfInfile *
 gsf_infile_ar_new (GsfInput *source, GError **err)
 {
 	GsfInfileAr *ar;

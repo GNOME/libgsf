@@ -42,7 +42,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfOutputMemory *
+GsfOutput *
 gsf_output_memory_new (void)
 {
 	return g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);	

@@ -32,8 +32,8 @@ typedef struct _GsfInfileAr GsfInfileAr;
 #define GSF_INFILE_AR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_AR_TYPE, GsfInfileAr))
 #define GSF_IS_INFILE_AR(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_AR_TYPE))
 
-GType gsf_infile_ar_get_type (void);
-GsfInfileAr  *gsf_infile_ar_new	      (GsfInput *source, GError **err);
+GType	   gsf_infile_ar_get_type (void);
+GsfInfile *gsf_infile_ar_new	  (GsfInput *source, GError **err);
 
 G_END_DECLS
 

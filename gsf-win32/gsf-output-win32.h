@@ -33,8 +33,8 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputIStream GsfOutputIStream;
 
-GType     gsf_output_istream_get_type (void);
-GsfOutputIStream *gsf_output_istream_new      (IStream * stream);
+GType      gsf_output_istream_get_type (void);
+GsfOutput *gsf_output_istream_new      (IStream * stream);
 
 G_END_DECLS
 

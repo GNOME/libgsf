@@ -59,7 +59,7 @@ test (int argc, char *argv[])
 	GError    *err;
 
 	fprintf (stderr, "%s\n", argv [1]);
-	input = GSF_INPUT (gsf_input_stdio_new (argv[1], &err));
+	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -70,7 +70,7 @@ test (int argc, char *argv[])
 	}
 
 	input = gsf_input_uncompress (input);
-	infile = GSF_INFILE (gsf_infile_zip_new (input, &err));
+	infile = gsf_infile_zip_new (input, &err);
 	g_object_unref (G_OBJECT (input));
 
 	if (infile == NULL) {

@@ -59,7 +59,7 @@ lpwstr_to_utf8(LPWSTR str)
  *
  * Returns a new input object or NULL.
  **/
-GsfInputIStream *
+GsfInput *
 gsf_input_istream_new (IStream * stream, GError **err)
 {
 	GsfInputIStream *input;
@@ -125,7 +125,7 @@ static GsfInput *
 gsf_input_istream_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputIStream const *src = (GsfInputIStream *)src_input;
-	GsfInputIStream *dst;
+	GsfInput *dst;
 	HRESULT hr;
 	IStream * clone;
 
@@ -135,8 +135,7 @@ gsf_input_istream_dup (GsfInput *src_input, GError **err)
 	if (SUCCEEDED(hr = IStream_Clone (src->stream, &clone))) {
 		dst = gsf_input_istream_new (clone, NULL);
 		IStream_Release (clone); /* gsf_input_istream_new() adds a ref */
-
-		return GSF_INPUT (dst);
+		return dst;
 	}
 
 	hresult_to_gerror (hr, err);

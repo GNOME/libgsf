@@ -1,3 +1,10 @@
+2004-06-13  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump to 1.10.0 to handle all the signature changes in
+	  return values.
+	* *.[ch] : return the interesting base type rather than the derived
+	  type for *_new.
+
 2004-06-11  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Change

@@ -687,7 +687,7 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
  *
  * Returns : the new ole file handler
  **/
-static GsfOutfileMSOle *
+static GsfOutfile *
 gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shift)
 {
 	static guint8 const default_header [] = {
@@ -750,7 +750,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shif
 
 	gsf_output_write (sink, sizeof (default_header), default_header);
 
-	return ole;
+	return GSF_OUTFILE (ole);
 }
 
 /**
@@ -764,7 +764,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shif
  *
  * Returns : the new ole file handler
  **/
-GsfOutfileMSOle *
+GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)
 {
 	return gsf_outfile_msole_new_full (sink, 

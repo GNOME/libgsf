@@ -70,7 +70,7 @@ test (int argc, char *argv[])
 	int i;
 
 	puts (argv[1]);
-	input = GSF_INPUT (gsf_input_stdio_new (argv[1], &err));
+	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -80,7 +80,7 @@ test (int argc, char *argv[])
 		return -1;
 	}
 
-	infile = GSF_INFILE (gsf_infile_zip_new (input, &err));
+	infile = gsf_infile_zip_new (input, &err);
 	if (infile == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
