@@ -6,6 +6,11 @@ Jon Kåre:
 Kasal:
 	* More consistent use of G_GNUC_UNUSED.
 
+Morten:
+	* Check size and seek in gsf_input_dup.
+	* Fix a pile of crashes having to do with failed dups.
+	* Fix crashes having to do with NULL input->name.
+
 ------------------------------------------------------------------------------
 libgsf 1.10.1
 

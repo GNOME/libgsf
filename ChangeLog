@@ -1,3 +1,18 @@
+2004-09-16  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_dup): Check size and seek return
+	value.
+
+	* gsf/gsf-infile.c (gsf_infile_child_by_name): Protect against
+	NULL input name.
+	(gsf_infile_child_by_index): Ditto.
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child): Handle
+	failure to dup.
+	(ole_info_get_sb_file): Handle failure to dup.
+	(gsf_infile_msole_new_child): Handle failure from
+	ole_info_get_sb_file.
+
 2004-09-15  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-win32/gsf-input-win32.c: Create more meaningful error messages

@@ -234,6 +234,8 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 
 	parent->info->sb_file = gsf_infile_msole_new_child (parent,
 		parent->info->root_dir, NULL);
+	if (!parent->info->sb_file)
+		return NULL;
 
 	/* avoid creating a circular reference */
 	ole_info_unref (((GsfInfileMSOle *)parent->info->sb_file)->info);
@@ -437,8 +439,12 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	g_return_val_if_fail (src != NULL, NULL);
 
 	input = gsf_input_dup (src->input, err);
-	if (input == NULL)
+	if (input == NULL) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+					    "Failed to duplicate input stream");
 		return NULL;
+	}
 
 	dst = (GsfInfileMSOle *)g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
 	dst->input = input;
@@ -727,6 +733,9 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 	size_t size_guess;
 
 	child = ole_dup (parent, err);
+	if (!child)
+		return NULL;
+
 	child->dirent = dirent;
 	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->size);
 
@@ -750,6 +759,13 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 		metabat = &info->sb.bat;
 		size_guess = dirent->size >> info->sb.shift;
 		sb_file = ole_info_get_sb_file (parent);
+		if (!sb_file) {
+			if (err != NULL)
+				*err = g_error_new (gsf_input_error (), 0,
+						    "Failed to access child");
+			g_object_unref (G_OBJECT (child));
+			return NULL;
+		}
 	} else {
 		metabat = &info->bb.bat;
 		size_guess = dirent->size >> info->bb.shift;

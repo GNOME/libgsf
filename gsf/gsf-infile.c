@@ -77,8 +77,9 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
 	res = GET_CLASS (infile)->child_by_index (infile, i, &err);
 
 	if (err != NULL) {
+		const char *iname = gsf_input_name (GSF_INPUT (infile));
 		g_warning ("Unable to get child[%d] for infile '%s' because : %s",
-			   i, gsf_input_name (GSF_INPUT (infile)), err->message);
+			   i, iname ? iname : "?", err->message);
 		g_error_free (err);
 		g_return_val_if_fail (res == NULL, NULL); /* be anal */
 	}
@@ -106,8 +107,9 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 	res = GET_CLASS (infile)->child_by_name (infile, name, &err);
 
 	if (err != NULL) {
+		const char *iname = gsf_input_name (GSF_INPUT (infile));
 		g_warning ("Unable to get child['%s'] for infile '%s' because : %s",
-			   name, gsf_input_name (GSF_INPUT (infile)), err->message);
+			   name, iname ? iname : "?", err->message);
 		g_error_free (err);
 		g_return_val_if_fail (res == NULL, NULL); /* be anal */
 	}

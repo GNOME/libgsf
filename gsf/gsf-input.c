@@ -204,13 +204,17 @@ gsf_input_dup (GsfInput *input, GError **err)
 
 	dst = GET_CLASS (input)->Dup (input, err);
 	if (dst != NULL) {
-		dst->size = input->size;
+		if (dst->size != input->size ||
+		    gsf_input_seek (dst, (gsf_off_t)input->cur_offset, G_SEEK_SET)) {
+			/* Yes, this has been known to happen.  */
+			g_object_unref (dst);
+			return NULL;
+		}
 		if (input->name != NULL)
 			gsf_input_set_name (dst, input->name);
 		dst->container = input->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, (gsf_off_t)input->cur_offset, G_SEEK_SET);
 	}
 	return dst;
 }
@@ -339,6 +343,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 	if (GET_CLASS (input)->Seek (input, offset, whence))
 		return TRUE;
+
 	input->cur_offset = pos;
 	return FALSE;
 }
