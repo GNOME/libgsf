@@ -1,3 +1,9 @@
+2004-09-15  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf-win32/gsf-input-win32.c: Create more meaningful error messages
+	from HRESULTs.
+	* gsf-win32/gsf-output-win32.c: Ditto. Add error reporting.
+
 2004-08-27  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_seek): Use G_GNUC_UNUSED.

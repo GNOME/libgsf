@@ -56,6 +56,6 @@ GTKDOC_LIBS = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
 include $(top_srcdir)/gtk-doc.make
 
-CLEANFILES += gsf-scan.*
+CLEANFILES = gsf-scan.*
 
 .PHONY : dist-hook-local

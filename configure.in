@@ -140,7 +140,9 @@ AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = yes)
 ##################################################
 # Checks for gtk-doc and docbook-tools
 ##################################################
-GTK_DOC_CHECK([1.0])
+#GTK_DOC_CHECK([1.0])
+
+AM_CONDITIONAL(ENABLE_GTK_DOC, /bin/false)
 
 dnl ***********************************************************************************
 dnl libxml

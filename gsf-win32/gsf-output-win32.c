@@ -45,7 +45,25 @@ typedef struct {
 #endif
 
 /* declared in gsf-input-win32.c */
-extern void hresult_to_gerror (HRESULT hr, GError ** err);
+extern gchar * gsf_win32_hresult_to_utf8 (HRESULT hr);
+
+static gboolean
+gsf_output_istream_set_error (GsfOutput * output, HRESULT hr)
+{
+	if (!SUCCEEDED (hr)) {
+		gchar * msg;
+
+		msg = gsf_win32_hresult_to_utf8 (hr);
+		if (msg) {
+			gsf_output_set_error (output, 0, msg);
+			g_free (msg);
+		} /* "else" case should never happen */
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
 
 /**
  * gsf_output_istream_new :
@@ -58,7 +76,7 @@ gsf_output_istream_new (IStream * stream)
 {
 	GsfOutputIStream *output;
 
-	g_return_val_if_fail(stream != NULL, NULL);
+	g_return_val_if_fail (stream != NULL, NULL);
 
 	output = g_object_new (GSF_OUTPUT_ISTREAM_TYPE, NULL);
 	output->stream = stream;
@@ -108,15 +126,14 @@ gsf_output_istream_write (GsfOutput *output,
 	g_return_val_if_fail (istm->stream != NULL, FALSE);
 
 	while (1) {
-		hr = IStream_Write(istm->stream, (buffer + total_written), (ULONG)(num_bytes - total_written), &nwritten);
+		hr = IStream_Write (istm->stream, (guint8 *)(buffer + total_written), (ULONG)(num_bytes - total_written), &nwritten);
 
 		if (SUCCEEDED (hr)) {
 			total_written += nwritten;
 			if ((size_t)total_written == num_bytes)
 				return TRUE;
 		} else {
-			g_warning ("Write failed\n");
-			return FALSE;
+			return gsf_output_istream_set_error (output, hr);
 		}
 	}
 
@@ -128,9 +145,10 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	GsfOutputIStream *istm = GSF_OUTPUT_ISTREAM (output);
 	DWORD dwhence = STREAM_SEEK_SET;
+	HRESULT hr;
 
-	g_return_val_if_fail (istm != NULL, gsf_output_set_error(output, 0, "missing handle"));
-	g_return_val_if_fail (istm->stream != NULL, gsf_output_set_error(output, 0, "missing handle"));
+	g_return_val_if_fail (istm != NULL, gsf_output_set_error (output, 0, "missing handle"));
+	g_return_val_if_fail (istm->stream != NULL, gsf_output_set_error (output, 0, "missing handle"));
 
 	switch (whence) {
 	case G_SEEK_SET :
@@ -146,10 +164,12 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 		break; /* checked in parent wrapper */
 	}
 
-	if (SUCCEEDED(IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
+	hr = IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL);
+
+	if (SUCCEEDED (hr))
 		return TRUE;
 
-	return gsf_output_set_error(output, 0, "seek failed");
+	return gsf_output_istream_set_error (output, hr);
 }
 
 static void

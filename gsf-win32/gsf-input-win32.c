@@ -47,19 +47,49 @@ typedef struct {
 #define IStream_Stat(This,pstatstg,grfStatFlag)	(This)->lpVtbl->Stat(This,pstatstg,grfStatFlag)
 #endif
 
+gchar * gsf_win32_hresult_to_utf8 (HRESULT hr);
+
+gchar *
+gsf_win32_hresult_to_utf8 (HRESULT hr)
+{
+	void * pMsgBuf;
+	gchar * utf8_msg;
+
+	if (SUCCEEDED (hr))
+		return NULL;
+
+	FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM, NULL, hr,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&pMsgBuf, 0, NULL);
+
+	utf8_msg = g_locale_to_utf8 ((const char *)pMsgBuf, -1, NULL, NULL, NULL);
+	if (utf8_msg == NULL)
+		utf8_msg = g_strdup ("!SUCCEEDED (hr)");
+
+	LocalFree(pMsgBuf);
+
+	return utf8_msg;
+}
+
 static void
 hresult_to_gerror (HRESULT hr, GError ** err)
 {
-	if (err)
-		*err = g_error_new (gsf_input_error (), hr,
-				    "HRESULT != S_OK");
+	if (err) {
+		gchar * msg;
+
+		msg = gsf_win32_hresult_to_utf8 (hr);
+
+		if (msg) {
+			*err = g_error_new (gsf_input_error (), 0, msg);
+			g_free (msg);
+		}
+	}
 }
 
 static char *
-lpwstr_to_utf8(LPWSTR str)
+lpwstr_to_utf8 (LPWSTR str)
 {
 	if (str)
-		return g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
+		return g_utf16_to_utf8 (str, -1, NULL, NULL, NULL);
 	return NULL;
 }
 
@@ -104,7 +134,7 @@ gsf_input_istream_new (IStream * stream, GError **err)
 	gsf_input_set_size (GSF_INPUT (input), (gsf_off_t) statbuf.cbSize.QuadPart);
 
 	name = lpwstr_to_utf8 (statbuf.pwcsName);
-	if(name) {
+	if (name) {
 		gsf_input_set_name (GSF_INPUT (input), name);
 		g_free (name);
 	}
@@ -143,7 +173,7 @@ gsf_input_istream_dup (GsfInput *src_input, GError **err)
 	g_return_val_if_fail (src_input != NULL, NULL);
 	g_return_val_if_fail (src->stream != NULL, NULL);
 
-	if (SUCCEEDED(hr = IStream_Clone (src->stream, &clone))) {
+	if (SUCCEEDED (hr = IStream_Clone (src->stream, &clone))) {
 		dst = gsf_input_istream_new (clone, NULL);
 		IStream_Release (clone); /* gsf_input_istream_new() adds a ref */
 		return dst;
