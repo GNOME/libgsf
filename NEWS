@@ -1,3 +1,9 @@
+libgsf 1.11.1
+
+Morten:
+	* Fix permissions for new files.  [#159331]
+
+------------------------------------------------------------------------------
 libgsf 1.11.0
 
 Christopher James Lahey:

@@ -169,6 +169,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	int fd;
 	mode_t saved_umask;
 	struct stat st;
+	gboolean fixup_mode = FALSE;
 
 	if (real_filename == NULL)
 		goto failure;
@@ -196,7 +197,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		int result;
 
 		/* Use default permissions */
-		st.st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+		st.st_mode = 0666;  fixup_mode = TRUE;
 		st.st_uid = getuid ();
 
 		/* Used to set create_backup_copy = FALSE, but
@@ -219,6 +220,9 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	saved_umask = umask (0077);
 	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
 	umask (saved_umask);
+
+	if (fixup_mode)
+		st.st_mode &= ~saved_umask;
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
 		if (err != NULL)
