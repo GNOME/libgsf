@@ -40,6 +40,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT8(p) ((gint8)GSF_LE_GET_GUINT8(p))
 #define GSF_LE_GET_GINT16(p) ((gint16)GSF_LE_GET_GUINT16(p))
 #define GSF_LE_GET_GINT32(p) ((gint32)GSF_LE_GET_GUINT32(p))
+#define GSF_LE_GET_GINT64(p) ((gint64)GSF_LE_GET_GUINT64(p))
 #define GSF_LE_GET_FLOAT(p) (gsf_le_get_float (p))
 #define GSF_LE_GET_DOUBLE(p) (gsf_le_get_double (p))
 guint64 gsf_le_get_guint64 (void const *p);
@@ -56,9 +57,19 @@ double  gsf_le_get_double  (void const *p);
 	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff),	\
 	 (*((guint8 *)(p) + 2) = ((dat) >> 16) & 0xff),	\
 	 (*((guint8 *)(p) + 3) = ((dat) >> 24) & 0xff))
+#define GSF_LE_SET_GUINT64(p, dat)			\
+	((*((guint8 *)(p) + 0) = ((dat))       & 0xff),	\
+	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff),	\
+	 (*((guint8 *)(p) + 2) = ((dat) >> 16) & 0xff),	\
+	 (*((guint8 *)(p) + 3) = ((dat) >> 24) & 0xff),	\
+	 (*((guint8 *)(p) + 4) = ((dat) >> 32) & 0xff),	\
+	 (*((guint8 *)(p) + 5) = ((dat) >> 40) & 0xff),	\
+	 (*((guint8 *)(p) + 6) = ((dat) >> 48) & 0xff),	\
+	 (*((guint8 *)(p) + 7) = ((dat) >> 56) & 0xff))
 #define GSF_LE_SET_GINT8(p,dat) GSF_LE_SET_GUINT8((p),(dat))
 #define GSF_LE_SET_GINT16(p,dat) GSF_LE_SET_GUINT16((p),(dat))
 #define GSF_LE_SET_GINT32(p,dat) GSF_LE_SET_GUINT32((p),(dat))
+#define GSF_LE_SET_GINT64(p,dat) GSF_LE_SET_GUINT64((p),(dat))
 #define GSF_LE_SET_FLOAT(p,dat) gsf_le_set_float((p),(dat))
 #define GSF_LE_SET_DOUBLE(p,dat) gsf_le_set_double((p),(dat))
 void gsf_le_set_float  (void *p, float f);
@@ -68,7 +79,7 @@ void gsf_init (void);
 void gsf_shutdown (void);
 
 /* Debugging utilities */
-void gsf_mem_dump   (guint8 const *ptr, size_t len);
+ void gsf_mem_dump   (guint8 const *ptr, size_t len);
 void gsf_input_dump (GsfInput *input, gboolean dump_as_hex);
 
 /* base64 encoding utilities */

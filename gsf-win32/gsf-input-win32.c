@@ -197,8 +197,7 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 	if (buffer == NULL) {
 		if (istm->buf_size < num_bytes) {
 			istm->buf_size = num_bytes;
-			if (istm->buf != NULL)
-				g_free (istm->buf);
+			g_free (istm->buf);
 			istm->buf = g_new (guint8, istm->buf_size);
 		}
 		buffer = istm->buf;

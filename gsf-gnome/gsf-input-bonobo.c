@@ -145,11 +145,9 @@ gsf_input_bonobo_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (input->shared));
 	input->shared = NULL;
 
-	if (input->buf != NULL) {
-		g_free (input->buf);
-		input->buf  = NULL;
-		input->buf_size = 0;
-	}
+	g_free (input->buf);
+	input->buf = NULL;
+	input->buf_size = 0;
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -186,8 +184,7 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 	if (buffer == NULL) {
 		if (binput->buf_size < num_bytes) {
 			binput->buf_size = num_bytes;
-			if (binput->buf != NULL)
-				g_free (binput->buf);
+			g_free (binput->buf);
 			binput->buf = g_new (guint8, binput->buf_size);
 		}
 		buffer = binput->buf;

@@ -198,11 +198,9 @@ gsf_input_gnomevfs_finalize (GObject *obj)
 		input->uri = NULL;
 	}
 
-	if (input->buf != NULL) {
-		g_free (input->buf);
-		input->buf  = NULL;
-		input->buf_size = 0;
-	}
+	g_free (input->buf);
+	input->buf = NULL;
+	input->buf_size = 0;
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -230,8 +228,7 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
 	if (buffer == NULL) {
 		if (vfs->buf_size < num_bytes) {
 			vfs->buf_size = num_bytes;
-			if (vfs->buf != NULL)
-				g_free (vfs->buf);
+			g_free (vfs->buf);
 			vfs->buf = g_new (guint8, vfs->buf_size);
 		}
 		buffer = vfs->buf;

@@ -497,8 +497,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		if (buffer == NULL) {
 			if (zip->buf_size < num_bytes) {
 				zip->buf_size = MAX (num_bytes, 256);
-				if (zip->buf != NULL)
-					g_free (zip->buf);
+				g_free (zip->buf);
 				zip->buf = g_new (guint8, zip->buf_size);
 			}
 			buffer = zip->buf;

@@ -119,11 +119,11 @@ gsf_input_stdio_finalize (GObject *obj)
 		fclose (input->file);
 		input->file = NULL;
 	}
-	if (input->buf != NULL) {
-		g_free (input->buf);
-		input->buf  = NULL;
-		input->buf_size = 0;
-	}
+
+	g_free (input->buf);
+	input->buf = NULL;
+	input->buf_size = 0;
+
 	g_free (input->filename);
 
 	parent_class->finalize (obj);
@@ -149,8 +149,7 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 	if (buffer == NULL) {
 		if (stdio->buf_size < num_bytes) {
 			stdio->buf_size = num_bytes;
-			if (stdio->buf != NULL)
-				g_free (stdio->buf);
+			g_free (stdio->buf);
 			stdio->buf = g_new (guint8, stdio->buf_size);
 		}
 		buffer = stdio->buf;

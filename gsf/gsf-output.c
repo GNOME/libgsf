@@ -372,8 +372,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	buf = g_strdup (name);
-	if (output->name != NULL)
-		g_free (output->name);
+	g_free (output->name);
 	output->name = buf;
 	return TRUE;
 }

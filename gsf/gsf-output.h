@@ -36,7 +36,12 @@ GType gsf_output_get_type (void);
 
 char const   *gsf_output_name	   (GsfOutput const *output);
 GsfOutfile   *gsf_output_container (GsfOutput const *output);
+
 GError const *gsf_output_error	   (GsfOutput const *output);
+gboolean gsf_output_set_error	   (GsfOutput *output,
+				    gint        code,
+				    char const *format,
+				    ...) G_GNUC_PRINTF (3, 4);
 
 gsf_off_t     gsf_output_size      (GsfOutput *output);
 gboolean      gsf_output_close     (GsfOutput *output);

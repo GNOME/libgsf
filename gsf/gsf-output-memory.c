@@ -62,10 +62,9 @@ gsf_output_memory_finalize (GObject *obj)
 {
 	GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (obj);
 	
-	if (mem->buffer != NULL) {
-		g_free (mem->buffer);
-		mem->buffer = NULL;
-	}
+	g_free (mem->buffer);
+	mem->buffer = NULL;
+
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 

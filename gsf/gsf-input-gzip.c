@@ -270,8 +270,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	if (buffer == NULL) {
 		if (gzip->buf_size < num_bytes) {
 			gzip->buf_size = MAX (num_bytes, 256);
-			if (gzip->buf != NULL)
-				g_free (gzip->buf);
+			g_free (gzip->buf);
 			gzip->buf = g_new (guint8, gzip->buf_size);
 		}
 		buffer = gzip->buf;
@@ -418,7 +417,7 @@ gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
 static void
 gsf_input_gzip_set_property (GObject      *object,
 			     guint         property_id,
-	      G_GNUC_UNUSED  GValue const *value,
+			     GValue const *value,
 			     GParamSpec   *pspec)
 {
 	GsfInputGZip *gzip = (GsfInputGZip *)object;

@@ -1,3 +1,12 @@
+2005-03-31  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output.c (gsf_output_set_error): Make public.
+
+	* */*.c: Don't test for NULL before g_free.
+
+	* gsf/gsf-utils.h (GSF_LE_GET_GINT64, GSF_LE_SET_GINT64,
+	GSF_LE_SET_GUINT64): New macros for completeness.
+
 2005-03-29  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-impl-utils.h (GSF_PARAM_STATIC): Define suitably.
