@@ -2,7 +2,7 @@
 
 	* configure.in: recheck all PKG_CHECK_MODULES for libgsf for
 	libgsf-gnome as well, so as not to trip on unresolved symbols with a
-	-Wl,z,defs build.
+	-Wl,-z,defs build.
 
 2004-07-03  Jody Goldberg <jody@gnome.org>
 
