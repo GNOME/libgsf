@@ -1,3 +1,10 @@
+2003-09-23  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : downgrade.  No need to force a version bump yet.
+	* gsf/gsf-libxml.c (gsf_xml_parser_context_full) : use a _full version
+	  internally because that seems cleaner than manually tweaking pointers.
+	  However, its a cosmetic change and not worth a version bump.
+
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : jump to 1.9.0 for api change.

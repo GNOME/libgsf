@@ -61,19 +61,8 @@ gsf_libxml_close (void *context)
 	return TRUE;
 }
 
-/**
- * gsf_xml_parser_context :
- * @input :
- *
- * Create a libxml2 pull style parser context wrapper around a gsf input.
- * This signature will probably change to supply a SAX structure.
- *
- * NOTE : adds a reference to @input
- *
- * Returns : A parser context or NULL
- **/
-xmlParserCtxtPtr
-gsf_xml_parser_context (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
+static xmlParserCtxtPtr
+gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
 {
 	GsfInputGZip *gzip;
 
@@ -90,6 +79,25 @@ gsf_xml_parser_context (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
+}
+
+/**
+ * gsf_xml_parser_context :
+ * @input :
+ *
+ * Create a libxml2 pull style parser context wrapper around a gsf input.
+ * This signature will probably change to supply a SAX structure.
+ *
+ * NOTE : adds a reference to @input
+ * NOTE : a simple wrapper around a cleaner implementation that will fold in
+ *	 when we add other api changes.  Its not worth bumping just for this
+ *
+ * Returns : A parser context or NULL
+ **/
+xmlParserCtxtPtr
+gsf_xml_parser_context (GsfInput *input)
+{
+	return gsf_xml_parser_context_full (input, NULL, NULL);
 }
 
 /**
@@ -540,7 +548,7 @@ gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
 	g_return_val_if_fail (state != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
-	ctxt = gsf_xml_parser_context (input, &gsfXMLInParser, state);
+	ctxt = gsf_xml_parser_context_full (input, &gsfXMLInParser, state);
 
 	g_return_val_if_fail (ctxt != NULL, FALSE);
 
