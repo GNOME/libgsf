@@ -62,8 +62,17 @@ typedef struct {
 } ZipDirent;
 
 typedef struct {
+	char *name;
+	gboolean is_directory;
+	ZipDirent *dirent;
+	GSList *children;
+} ZipVDir;
+
+typedef struct {
 	guint16   entries;
 	guint32   dir_pos;
+	GList     *dirent_list;
+	ZipVDir  *vdir;
 
 	int ref_count;
 } ZipInfo;
@@ -73,10 +82,9 @@ struct _GsfInfileZip {
 
 	GsfInput  *input;
 	ZipInfo	  *info;
-	GList     *dirent_list;
 
-	ZipDirent *dirent;
-
+	ZipVDir   *vdir;
+	
 	guint8   *buf;
 	size_t    buf_size;
 };
@@ -87,6 +95,109 @@ typedef struct {
 
 #define GSF_INFILE_ZIP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_ZIP_TYPE, GsfInfileZipClass))
 #define GSF_IS_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
+
+static ZipVDir *
+vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
+{
+	ZipVDir *vdir = g_new (ZipVDir, 1);
+
+	vdir->name = g_strdup (name);
+	vdir->is_directory = is_directory;
+	vdir->dirent = dirent;
+	vdir->children = NULL;
+	return vdir;
+}
+
+static void
+vdir_free (ZipVDir *vdir)
+{
+	GSList *l;
+
+	if (!vdir)
+		return;
+
+	for (l = vdir->children; l; l = l->next)
+		vdir_free ((ZipVDir *)l->data);
+
+	g_slist_free (vdir->children);
+	g_free (vdir->name);
+	g_free (vdir);
+}
+
+static ZipVDir *
+vdir_child_by_name (ZipVDir *vdir, char const * name)
+{
+	GSList *l;
+	ZipVDir *child;
+	
+	for (l = vdir->children; l; l = l->next) {
+		child = (ZipVDir *) l->data;
+		if (strcmp (child->name, name) == 0)
+			return child;
+	}
+	return NULL;
+}
+
+static ZipVDir *
+vdir_child_by_index (ZipVDir *vdir, int target)
+{
+	GSList *l;
+	
+	for (l = vdir->children; l; l = l->next)
+		if (target-- <= 0)
+			return (ZipVDir *) l->data;
+	return NULL;
+}
+
+/* Comparison doesn't have to be UTF-8 safe, as long as it is consistent */
+static gint
+vdir_compare (gconstpointer ap, gconstpointer bp)
+{
+	ZipVDir *a = (ZipVDir *) ap;
+	ZipVDir *b = (ZipVDir *) bp;
+
+	if (!a || !b) {
+		if (!a && !b)
+			return 0;
+		else
+			return a ? -1 : 1;
+	}
+	return strcmp (a->name, b->name);
+}
+
+static void
+vdir_add_child (ZipVDir *vdir, ZipVDir *child)
+{
+	vdir->children = g_slist_insert_sorted (vdir->children,
+						(gpointer) child,
+						vdir_compare);
+}
+
+static void
+vdir_insert (ZipVDir *vdir, char const * name, ZipDirent *dirent)
+{
+	const char *p;
+	char *dirname;
+	ZipVDir *child;
+	
+	p = strchr (name, ZIP_NAME_SEPARATOR);
+	if (p) {	/* A directory */
+		dirname = g_strndup (name, (gsize) (p - name));
+		child = vdir_child_by_name (vdir, dirname);
+		if (!child) {
+			child = vdir_new (dirname, TRUE, NULL);
+			vdir_add_child (vdir, child);
+		}
+		g_free (dirname);
+		if (*(p+1) != '\0') {
+			name = p+1;
+			vdir_insert (child, name, dirent);
+		}
+	} else { /* A simple file name */
+		child = vdir_new (name, FALSE, dirent);
+		vdir_add_child (vdir, child);
+	}
+}
 
 static gsf_off_t
 zip_find_trailer (GsfInfileZip *zip)
@@ -230,8 +341,16 @@ zip_info_ref (ZipInfo *info)
 static void
 zip_info_unref (ZipInfo *info)
 {
+	GList *p;
+
 	if (info->ref_count-- != 1)
 		return;
+
+	vdir_free (info->vdir);
+	for (p = info->dirent_list; p != NULL; p = p->next)
+		zip_dirent_free ((ZipDirent *) p->data);
+
+	g_list_free (info->dirent_list);
 
 	g_free (info);
 }
@@ -239,8 +358,6 @@ zip_info_unref (ZipInfo *info)
 /**
  * zip_dup :
  * @src :
- *
- * Utility routine to _partially_ replicate a file.  It does NOT init the dirent_list.
  *
  * Return value: the partial duplicate.
  **/
@@ -259,7 +376,7 @@ zip_dup (GsfInfileZip const *src)
 }
 
 /**
- * zip_init_info :
+ * zip_read_dirents:
  * @zip :
  * @err : optionally NULL
  *
@@ -269,7 +386,7 @@ zip_dup (GsfInfileZip const *src)
  * Return value: TRUE on error setting @err if it is supplied.
  **/
 static gboolean
-zip_init_info (GsfInfileZip *zip, GError **err)
+zip_read_dirents (GsfInfileZip *zip, GError **err)
 {
 	static guint8 const header_signature[] =
 		{ 'P', 'K', 0x03, 0x04 };
@@ -329,8 +446,45 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 			return TRUE;
 		}
 
-		zip->dirent_list = g_list_append (zip->dirent_list, d);
+		info->dirent_list = g_list_append (info->dirent_list, d);
 	}
+
+	return FALSE;
+}
+
+static void
+zip_build_vdirs (GsfInfileZip *zip)
+{
+	GList *l;
+	ZipDirent *dirent;
+	ZipInfo *info = zip->info;
+
+	info->vdir = vdir_new ("", TRUE, NULL);
+	for (l = info->dirent_list; l; l = l->next) {
+		dirent = (ZipDirent *) l->data;
+		vdir_insert (info->vdir, dirent->name, dirent);
+	}
+}
+
+/**
+ * zip_init_info :
+ * @zip :
+ * @err : optionally NULL
+ *
+ * Read zip headers and do some sanity checking
+ * along the way.
+ *
+ * Return value: TRUE on error setting @err if it is supplied.
+ **/
+static gboolean
+zip_init_info (GsfInfileZip *zip, GError **err)
+{
+	gboolean ret;
+	
+	ret = zip_read_dirents (zip, err);
+	if (ret != FALSE)
+		return ret;
+	zip_build_vdirs (zip);
 
 	return FALSE;
 }
@@ -349,7 +503,7 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 					    "Something went wrong in zip_dup.");		return NULL;
 	}
 
-	dst->dirent = src->dirent;
+	dst->vdir = src->vdir;
 
 	return GSF_INPUT (dst);
 }
@@ -361,7 +515,7 @@ zip_update_stream_in (GsfInfileZip const *zip)
 	guint32 read_now;
 	guint8 const *data;
 
-	dirent = zip->dirent;
+	dirent = zip->vdir->dirent;
 
 	if (dirent->crestlen == 0)
 		return FALSE;
@@ -383,7 +537,7 @@ static guint8 const *
 gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
-	ZipDirent    *dirent = zip->dirent;
+	ZipDirent    *dirent = zip->vdir->dirent;
 
 	if (dirent->restlen < num_bytes)
 		return NULL;
@@ -455,22 +609,14 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 /*****************************************************************************/
 
 
-static GsfInput *
-gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
+static gboolean
+zip_child_init (GsfInfileZip *child)
 {
-	GsfInfileZip *child;
 	static guint8 const header_signature[] =
 		{ 'P', 'K', 0x03, 0x04 };
 	guint8 const *data;
 	guint16 name_len, extras_len;
-
-	child = zip_dup (parent);
-
-	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->usize);
-	gsf_input_set_name (GSF_INPUT (child), dirent->name);
-	gsf_input_set_container (GSF_INPUT (child), GSF_INFILE (parent));
-
-	child->dirent = dirent;
+	ZipDirent *dirent = child->vdir->dirent;
 
 	/* skip local header
 	 * should test tons of other info, but trust that those are correct
@@ -480,8 +626,7 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
 			    G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
-		g_object_unref (child);
-		return NULL;
+		return TRUE;
 	}
 
 	name_len =   GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_NAME_SIZE);
@@ -492,18 +637,39 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
 	if (dirent->compr_method != ZIP_STORED) {
 		int err;
 
-		if (!zip_update_stream_in (child)) {
-			g_object_unref (child);
-			return NULL;
-		}
+		if (!zip_update_stream_in (child))
+			return TRUE;
 
-		err = inflateInit2 (&child->dirent->stream, -MAX_WBITS);
-		if (err != Z_OK) {
-			g_object_unref (child);
-			return NULL;
-		}
+		err = inflateInit2 (&child->vdir->dirent->stream, -MAX_WBITS);
+		if (err != Z_OK)
+			return TRUE;
 	}
 
+	return FALSE;
+}
+
+static GsfInput *
+gsf_infile_zip_new_child (GsfInfileZip *parent, ZipVDir *vdir)
+{
+	GsfInfileZip *child;
+	ZipDirent *dirent = vdir->dirent;
+	child = zip_dup (parent);
+
+	gsf_input_set_name (GSF_INPUT (child), vdir->name);
+	gsf_input_set_container (GSF_INPUT (child), GSF_INFILE (parent));
+
+	child->vdir = vdir;
+
+	if (dirent) {
+		gsf_input_set_size (GSF_INPUT (child),
+				    (gsf_off_t) dirent->usize);
+		if (zip_child_init (child) != FALSE) {
+			g_object_unref (child);
+			return NULL;
+		}
+	} else {
+		gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) 0);
+	}
 	return GSF_INPUT (child);
 }
 
@@ -511,11 +677,11 @@ static GsfInput *
 gsf_infile_zip_child_by_index (GsfInfile *infile, int target)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GList *p;
+	ZipVDir *child_vdir = vdir_child_by_index (zip->vdir, target);
 
-	for (p = zip->dirent_list; p != NULL; p = p->next)
-		if (target-- <= 0)
-			return gsf_infile_zip_new_child (zip, p->data);
+	if (child_vdir)
+		return gsf_infile_zip_new_child (zip, child_vdir);
+
 	return NULL;
 }
 
@@ -523,11 +689,11 @@ static char const *
 gsf_infile_zip_name_by_index (GsfInfile *infile, int target)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GList *p;
+	ZipVDir *child_vdir = vdir_child_by_index (zip->vdir, target);
 
-	for (p = zip->dirent_list; p != NULL; p = p->next)
-		if (target-- <= 0)
-			return ((ZipDirent *)p->data)->name;
+	if (child_vdir)
+		return child_vdir->name;
+
 	return NULL;
 }
 
@@ -535,13 +701,11 @@ static GsfInput *
 gsf_infile_zip_child_by_name (GsfInfile *infile, char const *name)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GList *p;
+	ZipVDir *child_vdir = vdir_child_by_name (zip->vdir, name);
 
-	for (p = zip->dirent_list; p != NULL; p = p->next) {
-		ZipDirent *dirent = p->data;
-		if (dirent->name != NULL && !strcmp (name, dirent->name))
-			return gsf_infile_zip_new_child (zip, p->data);
-	}
+	if (child_vdir)
+		return gsf_infile_zip_new_child (zip, child_vdir);
+
 	return NULL;
 }
 
@@ -550,7 +714,7 @@ gsf_infile_zip_num_children (GsfInfile *infile)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
 
-	return g_list_length (zip->dirent_list);
+	return g_slist_length (zip->vdir->children);
 }
 
 static void
@@ -558,7 +722,6 @@ gsf_infile_zip_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 	GsfInfileZip *zip = GSF_INFILE_ZIP (obj);
-	GList *p;
 
 	if (zip->input != NULL) {
 		g_object_unref (G_OBJECT (zip->input));
@@ -568,11 +731,7 @@ gsf_infile_zip_finalize (GObject *obj)
 		zip_info_unref (zip->info);
 		zip->info = NULL;
 	}
-	for (p = zip->dirent_list; p != NULL; p = p->next)
-		zip_dirent_free ((ZipDirent *) p->data);
-
-	g_list_free (zip->dirent_list);
-
+	
 	g_free (zip->buf);
 
 	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
@@ -586,7 +745,7 @@ gsf_infile_zip_init (GObject *obj)
 	GsfInfileZip *zip = (GsfInfileZip *)obj;
 	zip->input =   NULL;
 	zip->info  =   NULL;
-	zip->dirent =  NULL;
+	zip->vdir  =   NULL;
 }
 
 static void
@@ -637,6 +796,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	}
 	zip->buf		= NULL;
 	zip->buf_size		= 0;
+	zip->vdir               = zip->info->vdir;
 
 	return GSF_INFILE (zip);
 }

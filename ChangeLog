@@ -1,3 +1,36 @@
+2002-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-infile-zip.c (struct ZipVDir): Define struct to
+	represent a directory entry in a tree of contained files.
+	(struct ZipInfo): Add vdir. Move dirent_list here from
+	_GsfInfileZip.
+	(struct _GsfInfileZip): Add vdir. Remove dirent_list and dirent.
+	(vdir_new, vdir_free, vdir_child_by_name, vdir_child_by_index,
+	vdir_compare, vdir_add_child, vdir_insert): New
+	functions. Operations on file tree directories.
+	(zip_info_unref): Free dirent_list and vdir.
+	(zip_read_dirents): Renamed from zip_init_info. dirent_list now in
+	ZipInfo.
+	(zip_build_vdirs): New function. Build directory tree of contained
+	files.
+	(zip_init_info): New function, old name. Wraps zip_read_dirents
+	and zip_build_vdirs.
+	(gsf_infile_zip_dup): Copy vdir, not dirent.
+	(zip_update_stream_in,
+	(gsf_infile_zip_read): dirent now in vdir.
+	(zip_child_init): New function. Contains the parts of
+	gsf_infile_zip_new_child which operated on the zip file.
+	(gsf_infile_zip_new_child): Simplify and call zip_child_init.
+	(gsf_infile_zip_child_by_index, gsf_infile_zip_name_by_index): Use
+	vdir_child_by_index.
+	(gsf_infile_zip_child_by_name): Use vdir_child_by_name
+	(gsf_infile_zip_num_children): Count children in vdir.
+	(gsf_infile_zip_finalize): dirent_list is no longer freed here.
+	(gsf_infile_zip_init, gsf_infile_zip_new): Initialize vdir.
+
+	* gsf/gsf-zip-impl.h (ZIP_NAME_SEPARATOR): Define path name
+	component separator for zip archives.
+
 2002-08-26  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf.h: Don't include <glib-object.h> here.
