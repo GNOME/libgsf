@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-meta_data-bag.h: get, set, remove custom meta properties associated with documents
+ * gsf-doc-meta-data.h: get, set, remove custom meta properties associated with documents
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *
@@ -27,6 +27,9 @@
 
 G_BEGIN_DECLS
 
+/* THIS IS A WORK IN PROGRESS
+ * API will change when we start using it */
+
 struct _GsfDocProp {
 	char const *name;
 	GValue *val;
@@ -41,11 +44,11 @@ GType  gsf_doc_meta_data_get_type (void);
 GQuark gsf_doc_meta_data_error (void);
 
 GsfDocMetaData	 *gsf_doc_meta_data_new		(void);
-GsfDocProp const *gsf_doc_meta_data_get_prop	(const GsfDocMetaData *meta, char const *prop_name);
+GsfDocProp const *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta, char const *prop_name);
 void		  gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta, GsfDocProp *prop);
 void		  gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta, char const *prop);
-void		  gsf_doc_meta_data_foreach	(const GsfDocMetaData *meta, GHFunc func, gpointer user_data);
-gsize		  gsf_doc_meta_data_size	(GsfDocMetaData * const meta);
+void		  gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta, GHFunc func, gpointer user_data);
+gsize		  gsf_doc_meta_data_size	(GsfDocMetaData const *meta);
 
 G_END_DECLS
 

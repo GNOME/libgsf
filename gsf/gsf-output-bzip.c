@@ -22,13 +22,14 @@
 
 #include <gsf-config.h>
 
-#ifdef HAVE_BZIP
-
-#include <bzlib.h>
 #include <gsf/gsf-output-bzip.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+
+#ifdef HAVE_BZIP
+#include <bzlib.h>
+#endif
 
 #define BZ_BUFSIZE 0x100
 
@@ -37,7 +38,9 @@ struct _GsfOutputBzip {
 
 	GsfOutput *sink; /* compressed data */
 
+#ifdef HAVE_BZIP
 	bz_stream  stream;
+#endif
 	guint8   *buf;
 	size_t    buf_size;
 };
@@ -46,6 +49,7 @@ typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputBzipClass;
 
+#ifdef HAVE_BZIP
 static gboolean
 init_bzip (GsfOutputBzip *bzip, GError **err)
 {
@@ -68,6 +72,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 
 	return TRUE;
 }
+#endif
 
 static void
 gsf_output_bzip_finalize (GObject *obj)
@@ -87,6 +92,7 @@ gsf_output_bzip_finalize (GObject *obj)
 		parent_class->finalize (obj);
 }
 
+#ifdef HAVE_BZIP
 static gboolean
 bzip_output_block (GsfOutputBzip *bzip)
 {
@@ -122,11 +128,13 @@ bzip_flush (GsfOutputBzip *bzip)
 
 	return TRUE;
 }
+#endif
 
 static gboolean
 gsf_output_bzip_write (GsfOutput *output,
 		       size_t num_bytes, guint8 const *data)
 {
+#ifdef HAVE_BZIP
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 
 	g_return_val_if_fail (data, FALSE);
@@ -144,21 +152,23 @@ gsf_output_bzip_write (GsfOutput *output,
 	}
 
 	return TRUE;
+#else
+	return FALSE;
+#endif
 }
 
 static gboolean
-gsf_output_bzip_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
+gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
+		      G_GNUC_UNUSED gsf_off_t offset,
+		      G_GNUC_UNUSED GSeekType whence)
 {
-	(void) output;
-	(void) offset;
-	(void) whence;
-	
 	return FALSE;
 }
 
 static gboolean
 gsf_output_bzip_close (GsfOutput *output)
 {
+#ifdef HAVE_BZIP
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 	gboolean rt;
 
@@ -166,6 +176,9 @@ gsf_output_bzip_close (GsfOutput *output)
 	BZ2_bzCompressEnd (&bzip->stream);
 
 	return rt;
+#else
+	return FALSE;
+#endif
 }
 
 static void
@@ -196,9 +209,8 @@ gsf_output_bzip_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
-	   gsf_output_bzip_class_init, gsf_output_bzip_init, GSF_OUTPUT_TYPE)
-
-#endif /* HAVE_BZIP */
+	   gsf_output_bzip_class_init, gsf_output_bzip_init,
+	   GSF_OUTPUT_TYPE)
 
 /**
  * gsf_output_bzip_new :

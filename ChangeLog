@@ -1,3 +1,10 @@
+2003-02-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output-bzip.c : improve the conditionalization.
+
+	* gsf/gsf-input-iochannel.c (gsf_input_memory_new_from_iochannel) :
+	  warning suppression.
+
 2003-02-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Changes to (optionally) compile bz2 functionality

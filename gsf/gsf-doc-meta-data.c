@@ -173,4 +173,5 @@ gsf_doc_meta_data_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (GsfDocMetaData, gsf_doc_meta_data,
-	   gsf_doc_meta_data_class_init, gsf_doc_meta_data_init, G_TYPE_OBJECT)
+	   gsf_doc_meta_data_class_init, gsf_doc_meta_data_init,
+	   G_TYPE_OBJECT)

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-input-iochannel.c: GIOChannel based input
  *
@@ -30,17 +31,16 @@
  * Returns a new #GsfInputMemory or NULL.
  */
 GsfInputMemory * 
-gsf_input_memory_new_from_iochannel (GIOChannel * channel,
-				     GError ** error)
+gsf_input_memory_new_from_iochannel (GIOChannel *channel,
+				     GError **err)
 {
-  GsfInputMemory * input;
-  gchar * buf;
-  gsize len;
+	gchar *buf;
+	gsize  len;
 
-  g_return_val_if_fail (channel != NULL, NULL);
+	g_return_val_if_fail (channel != NULL, NULL);
 
-  if (G_IO_STATUS_NORMAL != g_io_channel_read_to_end (channel, &buf, &len, error))
-    return NULL;
-  
-  return gsf_input_memory_new (buf, len, TRUE);
+	if (G_IO_STATUS_NORMAL != g_io_channel_read_to_end (channel, &buf, &len, err))
+		return NULL;
+
+	return gsf_input_memory_new (buf, len, TRUE);
 }
