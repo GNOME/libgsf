@@ -367,9 +367,9 @@ gsf_output_stdio_write (GsfOutput *output,
 	while (remaining > 0) {
 		written = fwrite (buffer + (num_bytes - remaining), 1, 
 				  remaining, stdio->file);
-		if ((written < remaining) && ferror (stdio->file) != 0) {
+		if ((written < remaining) && ferror (stdio->file) != 0)
 			return gsf_output_set_error (output, errno, g_strerror (errno));
-		}
+
 		remaining -= written;
 	}
 	return TRUE;
@@ -379,9 +379,7 @@ static gboolean
 gsf_output_stdio_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {
 	GsfOutputStdio *stdio = (GsfOutputStdio *)output;
-	int res = vfprintf (stdio->file, fmt, args);
-
-	return (res >= 0);
+	return vfprintf (stdio->file, fmt, args) >= 0;
 }
 
 static void

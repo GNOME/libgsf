@@ -44,7 +44,7 @@ GIConv gsf_msole_iconv_open_codepage_for_import  (char const *to, int codepage);
 GIConv gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from);
 GIConv gsf_msole_iconv_open_codepage_for_export  (guint codepage_to);
 
-guint8 *gsf_msole_inflate (GsfInput *input, gsf_off_t offset, int *size);
+GByteArray *gsf_msole_inflate (GsfInput *input, gsf_off_t offset);
 
 G_END_DECLS
 

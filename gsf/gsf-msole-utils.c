@@ -1382,10 +1382,10 @@ gsf_msole_iconv_open_for_export (void)
  * 
  * Decompresses an LZ compressed stream.
  * 
- * Return value: data pointer
+ * Return value: A GByteArray that the caller is responsible for freeing
  **/
-guint8 *
-gsf_msole_inflate (GsfInput *input, gsf_off_t offset, int *size)
+GByteArray *
+gsf_msole_inflate (GsfInput *input, gsf_off_t offset)
 {
 	GByteArray *res;
 	unsigned	i, win_pos, pos = 0;
@@ -1452,6 +1452,5 @@ gsf_msole_inflate (GsfInput *input, gsf_off_t offset, int *size)
 
 	if (pos % VBA_COMPRESSION_WINDOW)
 		g_byte_array_append (res, buffer, pos % VBA_COMPRESSION_WINDOW);
-	*size = res->len;
-	return g_byte_array_free (res, FALSE);
+	return res;
 }

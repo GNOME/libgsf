@@ -81,7 +81,7 @@ find_match (CompressBuf *buf, guint pos, guint *len)
 
 		if (j >= 3) {
 			gint shift = get_shift (pos);
-			if (j >= (1 << (shift - 1)))
+			if (j >= (1u << (shift - 1)))
 				j = (1<<(shift - 1)) - 1;
 /*			fprintf (stderr, "Check: %d %d  %d !\n",
 				pos, (1<<get_shift(pos)), (int) (pos - j - 1)); */
@@ -136,7 +136,7 @@ output_match (CompressBuf *buf, guint cur_pos, guint pos, guint len)
 #ifdef DEBUG		
 	fprintf (stderr, "distance %d [0x%x(%d) - %d], len %d\n",
 		 distance, cur_pos, cur_pos, pos, len);
-	if (cur_pos + len >= (1<<shift))
+	if (cur_pos + len >= (1u<<shift))
 		fprintf (stderr, "Overlaps boundary\n");
 #endif
 	
@@ -208,7 +208,7 @@ do_decompress (GsfInput *input, GsfOutput *output)
 {
 	gboolean err = FALSE;
 	guint8   data[HEADER_SIZE];
-	guint8  *decompressed;
+	GByteArray *decompressed;
 	int      size, comp_len;
 
 	err |= !gsf_input_read (input, HEADER_SIZE, data);
@@ -221,11 +221,13 @@ do_decompress (GsfInput *input, GsfOutput *output)
 		fprintf (stderr, "Size mismatch %d %d\n",
 			 comp_len + 1, (int) (gsf_input_size (input) - 3));
 
-	decompressed = gsf_msole_inflate (input, 3, &size);
+	decompressed = gsf_msole_inflate (input, 3);
 	if (!decompressed)
 		fprintf (stderr, "Failed to decompress\n");
 
-	err |= !gsf_output_write (output, size, decompressed);
+	size = decompressed->len;
+	err |= !gsf_output_write (output, size,
+		g_byte_array_free (decompressed, FALSE));
 
 	if (err)
 		fprintf (stderr, "I/O error\n");
@@ -238,7 +240,7 @@ decode_dir (GsfInput *input)
 	guint8 data[6];
 
 	while (gsf_input_remaining (input) && !err) {
-		int i;
+		unsigned i;
 		guint16 op;
 		guint32 length;
 		gboolean ascii = FALSE;

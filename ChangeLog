@@ -27,6 +27,11 @@
 
 2004-03-01  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : drop -Wmissing-format-attribute because it was
+	  irritating me.
+
+2004-03-01  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-outfile-stdio.c :
 	* gsf/gsf-infile-stdio.c : Some utility wrappers to pull or push from
 	  a directory tree.
