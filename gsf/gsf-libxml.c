@@ -743,10 +743,44 @@ gsf_xml_out_end_element (GsfXMLOut *xml)
  **/
 void
 gsf_xml_out_simple_element (GsfXMLOut *xml, char const *id,
-			       char const *content)
+			    char const *content)
 {
 	gsf_xml_out_start_element (xml, id);
 	gsf_xml_out_add_cstr (xml, NULL, content);
+	gsf_xml_out_end_element (xml);
+}
+
+/**
+ * gsf_xml_out_simple_int_element :
+ * @xml :
+ * @id  :
+ * @val :
+ *
+ * A convenience routine
+ **/
+void
+gsf_xml_out_simple_int_element (GsfXMLOut *xml, char const *id, int val)
+{
+	gsf_xml_out_start_element (xml, id);
+	gsf_xml_out_add_int (xml, NULL, val);
+	gsf_xml_out_end_element (xml);
+}
+
+/**
+ * gsf_xml_out_simple_float_element :
+ * @xml :
+ * @id  :
+ * @val :
+ * @precision :
+ *
+ * A convenience routine
+ **/
+void
+gsf_xml_out_simple_float_element (GsfXMLOut *xml, char const *id,
+				  double val, int precision)
+{
+	gsf_xml_out_start_element (xml, id);
+	gsf_xml_out_add_float (xml, NULL, val, precision);
 	gsf_xml_out_end_element (xml);
 }
 

@@ -126,8 +126,13 @@ GsfXMLOut *gsf_xml_out_new (GsfOutput *output);
 
 void	    gsf_xml_out_start_element	(GsfXMLOut *xml, char const *id);
 char const *gsf_xml_out_end_element	(GsfXMLOut *xml);
-void	    gsf_xml_out_simple_element	(GsfXMLOut *xml, char const *id,
+
+void gsf_xml_out_simple_element		(GsfXMLOut *xml, char const *id,
 					 char const *content);
+void gsf_xml_out_simple_int_element	(GsfXMLOut *xml, char const *id,
+					 int val);
+void gsf_xml_out_simple_float_element	(GsfXMLOut *xml, char const *id,
+					 double val, int precision);
 
 void gsf_xml_out_add_cstr_unchecked	(GsfXMLOut *xml, char const *id,
 					 char const *val_utf8);

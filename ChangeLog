@@ -1,3 +1,8 @@
+2003-06-06  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_simple_int_element) : new util.
+	(gsf_xml_out_simple_float_element) : ditto.
+
 2003-05-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/Makefile.am: Added $(LIBGSF_LIBS) to libgsf_1_la_LIBADD to get
