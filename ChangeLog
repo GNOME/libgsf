@@ -1,3 +1,19 @@
+2004-07-27  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new_full):
+	  Fix a race condition with a static buffer.
+	  Write correct sb.shift to the header, even if it differs
+	  from the default.
+
+2004-07-29  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (ole_bytes_left_in_block) : sigh.
+	  Pull my head out of my rearend.  a one line function with two
+	  errors.  I really shouldn't code when tired.
+	(ole_pad_zero) : remove residual parm rename ole_ from bb_
+	(ole_pad_bat_unused) : add a residual parm.
+	(gsf_outfile_msole_close_root) : pad metabat with BAT_UNUSED
+
 2004-07-29  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Use NULL, not 0 for
