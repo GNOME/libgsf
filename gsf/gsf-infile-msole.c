@@ -215,7 +215,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 			return NULL;
 		end = bat + ole->info->bb.size;
 		for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++) {
-			*bats = GSF_OLE_GET_GUINT32 (bat);
+			*bats = GSF_LE_GET_GUINT32 (bat);
 			g_return_val_if_fail (*bats < max ||
 					      *bats >= BAT_MAGIC_METABAT, NULL);
 		}
@@ -235,7 +235,7 @@ static void
 gsf_ole_get_guint32s (guint32 *dst, guint8 const *src, int num_bytes)
 {
 	for (; (num_bytes -= BAT_INDEX_SIZE) >= 0 ; src += BAT_INDEX_SIZE)
-		*dst++ = GSF_OLE_GET_GUINT32 (src);
+		*dst++ = GSF_LE_GET_GUINT32 (src);
 }
 
 static GsfInput *
@@ -305,7 +305,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		return NULL;
 	data += (DIRENT_SIZE * entry) % ole->info->bb.size;
 
-	type = GSF_OLE_GET_GUINT8 (data + DIRENT_TYPE);
+	type = GSF_LE_GET_GUINT8 (data + DIRENT_TYPE);
 	if (type != DIRENT_TYPE_DIR &&
 	    type != DIRENT_TYPE_FILE &&
 	    type != DIRENT_TYPE_ROOTDIR) {
@@ -314,7 +314,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	}
 
 	/* It looks like directory sizes are sometimes bogus */
-	size = GSF_OLE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
+	size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
 	g_return_val_if_fail (type == DIRENT_TYPE_DIR ||
 			      size <= (guint32)ole->input->size, NULL);
 
@@ -323,13 +323,13 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	dirent->size	     = size;
 	/* root dir is always big block */
 	dirent->use_sb	     = parent && (size < ole->info->threshold);
-	dirent->first_block  = (GSF_OLE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
+	dirent->first_block  = (GSF_LE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
 	dirent->is_directory = (type != DIRENT_TYPE_FILE);
 	dirent->children     = NULL;
-	prev  = GSF_OLE_GET_GUINT32 (data + DIRENT_PREV);
-	next  = GSF_OLE_GET_GUINT32 (data + DIRENT_NEXT);
-	child = GSF_OLE_GET_GUINT32 (data + DIRENT_CHILD);
-	name_len = GSF_OLE_GET_GUINT16 (data + DIRENT_NAME_LEN);
+	prev  = GSF_LE_GET_GUINT32 (data + DIRENT_PREV);
+	next  = GSF_LE_GET_GUINT32 (data + DIRENT_NEXT);
+	child = GSF_LE_GET_GUINT32 (data + DIRENT_CHILD);
+	name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
 	if (0 < name_len && name_len <= DIRENT_MAX_NAME_SIZE) {
 		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE];
 		guint8 const *end;
@@ -343,7 +343,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		    (end - data + 1) != name_len) {
 			/* be wary about endianness */
 			for (i = 0 ; i < name_len ; i += 2)
-				uni_name [i/2] = GSF_OLE_GET_GUINT16 (data + i);
+				uni_name [i/2] = GSF_LE_GET_GUINT16 (data + i);
 
 			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 		} else
@@ -468,12 +468,12 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		return TRUE;
 	}
 
-	bb_shift      = GSF_OLE_GET_GUINT16 (header + OLE_HEADER_BB_SHIFT);
-	sb_shift      = GSF_OLE_GET_GUINT16 (header + OLE_HEADER_SB_SHIFT);
-	num_bat	      = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_BAT);
-	dirent_start  = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_DIRENT_START);
-        metabat_block = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_METABAT_BLOCK);
-	num_metabat   = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_METABAT);
+	bb_shift      = GSF_LE_GET_GUINT16 (header + OLE_HEADER_BB_SHIFT);
+	sb_shift      = GSF_LE_GET_GUINT16 (header + OLE_HEADER_SB_SHIFT);
+	num_bat	      = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_BAT);
+	dirent_start  = GSF_LE_GET_GUINT32 (header + OLE_HEADER_DIRENT_START);
+        metabat_block = GSF_LE_GET_GUINT32 (header + OLE_HEADER_METABAT_BLOCK);
+	num_metabat   = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_METABAT);
 
 	/* Some sanity checks
 	 * 1) There should always be at least 1 BAT block
@@ -497,9 +497,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->sb.shift	     = sb_shift;
 	info->sb.size	     = 1 << info->sb.shift;
 	info->sb.filter	     = info->sb.size - 1;
-	info->threshold	     = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
-        info->sbat_start     = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
-        info->num_sbat       = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
+	info->threshold	     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
+        info->sbat_start     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
+        info->num_sbat       = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
 	info->sb_file	     = NULL;
 
@@ -543,7 +543,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 			}
 			last = num_bat;
 		} else if (num_metabat > 0) {
-			metabat_block = GSF_OLE_GET_GUINT32 (metabat + last);
+			metabat_block = GSF_LE_GET_GUINT32 (metabat + last);
 			num_bat -= last;
 		}
 
@@ -596,6 +596,8 @@ gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
 	GsfInfileMSOle *dst = ole_dup (src);
+
+	(void)err;
 
 	if (dst == NULL)
 		return NULL;
@@ -684,6 +686,10 @@ static gboolean
 gsf_infile_msole_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
+
+	(void) offset; 
+	(void) whence;
+
 	ole->cur_block = BAT_MAGIC_UNUSED;
 	return FALSE;
 }

@@ -62,6 +62,8 @@ gsf_input_memory_dup (GsfInput *src_input, GError **err)
 	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 
+	(void) err;
+
 	dst->shared = src->shared;
 	g_object_ref (G_OBJECT (dst->shared));
 
@@ -180,7 +182,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 #else
 	(void)filename;
 	if (err != NULL)
-		*err = g_error_new (gsf_input_error (),
+		*err = g_error_new (gsf_input_error (), 0,
 			"MMAP Unsupported");
 	return NULL;
 #endif

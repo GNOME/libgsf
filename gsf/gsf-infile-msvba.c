@@ -87,7 +87,7 @@ vba_inflate (GsfInput *input, unsigned offset, int *size)
 			if (flag & mask) {
 				if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
 					break;
-				token = GSF_OLE_GET_GUINT16 (tmp);
+				token = GSF_LE_GET_GUINT16 (tmp);
 
 				clean = TRUE;
 
@@ -158,7 +158,7 @@ vba_dirent_read (guint8 const *data, int *size)
 		guint32 name_len;
 
 		/* check for the magic numbers */
-		tmp16 = GSF_OLE_GET_GUINT16 (data + offset);
+		tmp16 = GSF_LE_GET_GUINT16 (data + offset);
 		if (tmp16 != magic [i]) {
 			/* TODO : Need to find the record count somewhere.
 			 * for now the last record seems to have 0x10 00 00 00 00 00 */
@@ -170,7 +170,7 @@ vba_dirent_read (guint8 const *data, int *size)
 		/* be very careful reading the name size */
 		offset += 2;
 		g_return_val_if_fail ((offset + 4) < *size, NULL);
-		name_len = GSF_OLE_GET_GUINT32 (data + offset);
+		name_len = GSF_LE_GET_GUINT32 (data + offset);
 		offset += 4;
 		g_return_val_if_fail ((offset + name_len) < *size, NULL);
 
@@ -180,7 +180,7 @@ vba_dirent_read (guint8 const *data, int *size)
 
 			/* be wary about endianness */
 			for (j = 0 ; j < name_len ; j += 2)
-				uni_name [j/2] = GSF_OLE_GET_GUINT16 (data + offset + j);
+				uni_name [j/2] = GSF_LE_GET_GUINT16 (data + offset + j);
 			name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 			g_free (uni_name);
 		} else /* ascii */
@@ -203,7 +203,7 @@ vba_dirent_read (guint8 const *data, int *size)
  *    31 00
  *    04 00 00 00
  */
-	printf ("src offset = 0x%x\n", GSF_OLE_GET_GUINT32 (data + offset + 18));
+	printf ("src offset = 0x%x\n", GSF_LE_GET_GUINT32 (data + offset + 18));
 /*
  *    1e 00
  *    04 00 00 00
@@ -211,8 +211,8 @@ vba_dirent_read (guint8 const *data, int *size)
  *    2c 00
  *    02 00 00 00
  */
-	printf ("\t var1 = 0x%hx\n", GSF_OLE_GET_GUINT16 (data + offset + 38));
-	printf ("\t var2 = 0x%hx\n", GSF_OLE_GET_GUINT16 (data + offset + 40));
+	printf ("\t var1 = 0x%hx\n", GSF_LE_GET_GUINT16 (data + offset + 38));
+	printf ("\t var2 = 0x%hx\n", GSF_LE_GET_GUINT16 (data + offset + 40));
 /*
  *    00 00 00 00
  *    2b 00 00 00

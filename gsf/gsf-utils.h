@@ -26,6 +26,17 @@
 
 G_BEGIN_DECLS
 
+/* Do this the ugly way so that we don't have to worry about alignment */
+#define GSF_LE_GET_GUINT8(p) (*(guint8 const *)(p))
+#define GSF_LE_GET_GUINT16(p)			\
+  (guint16)((((guint8 const *)(p))[0] << 0) |	\
+	    (((guint8 const *)(p))[1] << 8))
+#define GSF_LE_GET_GUINT32(p)			\
+  (guint32)((((guint8 const *)(p))[0] << 0) |	\
+	    (((guint8 const *)(p))[1] << 8) |	\
+	    (((guint8 const *)(p))[2] << 16) |	\
+	    (((guint8 const *)(p))[3] << 24))
+
 void gsf_init (void);
 void gsf_shutdown (void);
 

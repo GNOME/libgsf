@@ -1,3 +1,11 @@
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.h (GSF_OLE_GET_GUINT{8,16,32}) : move to
+	  gsf-utils and rename.
+
+	* gsf/gsf-input-memory.c (gsf_input_memory_dup) : silence warning.
+	(gsf_input_mmap_new) : fix the no mmap case.
+
 2002-06-12  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (vba_inflate) : store the uncompressed

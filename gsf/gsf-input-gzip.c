@@ -23,6 +23,7 @@
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
 
 #include <zlib.h>
 #include <stdio.h>
@@ -66,8 +67,7 @@ check_header (GsfInputGZip *input)
 	if (gsf_input_seek (input->source, -4, GSF_SEEK_END) ||
 	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
 		return TRUE;
-	gsf_input_set_size (GSF_INPUT (input), (size_t)
-		(data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24)));
+	gsf_input_set_size (GSF_INPUT (input), (size_t) GSF_LE_GET_GUINT32 (data));
 
 	/* Check signature */
 	if (gsf_input_seek (input->source, 0, GSF_SEEK_SET) ||
@@ -169,6 +169,8 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 	GsfInputGZip const *src = (GsfInputGZip *)src_input;
 	GsfInputGZip *dst = g_object_new (GSF_INPUT_GZIP_TYPE, NULL);
 
+	(void) err;
+
 	dst->source = src->source;
 	g_object_ref (G_OBJECT (dst->source));
 
@@ -218,6 +220,9 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 static gboolean
 gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
+	(void) input;
+	(void) offset;
+	(void) whence;
 	/* seeking would require read decompressing from the begining */
 	return FALSE;
 }

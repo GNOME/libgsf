@@ -142,8 +142,8 @@ test (int argc, char *argv[])
 			while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
 				gboolean enable_dump = TRUE;
 
-				opcode	= GSF_OLE_GET_GUINT16 (data);
-				len	= GSF_OLE_GET_GUINT16 (data+2);
+				opcode	= GSF_LE_GET_GUINT16 (data);
+				len	= GSF_LE_GET_GUINT16 (data+2);
 
 				if (len > 15000) {
 					enable_dump = TRUE;
