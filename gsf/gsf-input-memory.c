@@ -28,7 +28,7 @@
 #include <gsf/gsf-shared-memory.h>
 
 #ifdef HAVE_MMAP
-#ifdef FREEBSD
+#if defined(FREEBSD) || defined(__FreeBSD__)
 /* We must keep the file open while pages are mapped.  */
 /* http://www.freebsd.org/cgi/query-pr.cgi?pr=48291 */
 #define HAVE_BROKEN_MMAP
