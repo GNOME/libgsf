@@ -10,6 +10,9 @@
 
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-csv.c (gsf_output_csv_write_field): Fix auto
+	quoting.
+
 	* gsf/gsf-output-iconv.h: Make GsfOutputIconvClass public.
 	* gsf/gsf-output-impl.h: Make GsfOutputClass public.
 	* gsf/gsf-output-csv.h: Make GsfOutputCsvClass public.
