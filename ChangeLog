@@ -1,3 +1,9 @@
+2003-02-14  Dom Lachowicz <cinamod@hotmail.com>
+
+	* configure.in: Emit a warning instead of breaking if VFS and Bonobo
+	aren't found, but --without-gnome wasn't specified. Makes the KDE folk
+	happy.
+	
 2003-02-11  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : compartmentalize the bzip config tests, and trust

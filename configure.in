@@ -262,10 +262,11 @@ if  test "x$test_gnome" = xtrue ; then
     PKG_CHECK_MODULES(LIBGSF_GNOME,[
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 1.9.16
-    ],[with_gnome=true])
+    ],[with_gnome=true], [AC_MSG_WARN([GNOME support disabled, unable to find required version of VFS and/or Bonobo])])
 else
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
 fi
+
 AC_SUBST(LIBGSF_GNOME_CFLAGS)
 AC_SUBST(LIBGSF_GNOME_LIBS)
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
