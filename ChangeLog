@@ -1,5 +1,12 @@
 2002-05-25  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-infile-msole.c (ole_init_info) : libole2 knew about a smidge
+	  more of the ole header, use the sbat counter.
+
+	* gsf/test-msole1.c (test) : even more sanity checking.
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
 	* gsf/test-msole1.c (test) : add more safety checks to automate
 	  validation of imported biff records.
 

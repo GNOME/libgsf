@@ -56,7 +56,7 @@ typedef struct {
 	} bb, sb;
 	unsigned max_block;
 	guint32 threshold; /* transition between small and big blocks */
-        guint32 sbat_start;
+        guint32 sbat_start, num_sbat;
 
 	MSOleDirent *root_dir;
 	GsfInput *sb_file;
@@ -105,7 +105,6 @@ typedef struct {
 
 /* utility macros */
 #define OLE_BIG_BLOCK(index, ole)	((index) >> ole->info->bb.shift)
-#define OLE_SMALL_BLOCK(index, ole)	((index) >> ole->info->sb_shift)
 
 static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 					     MSOleDirent *dirent);
@@ -218,7 +217,8 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 
 	g_return_val_if_fail (parent->info->sb.bat.block == NULL, NULL);
 
-	if (ole_make_bat (&parent->info->bb.bat, 0, parent->info->sbat_start, &meta_sbat))
+	if (ole_make_bat (&parent->info->bb.bat,
+			  parent->info->num_sbat, parent->info->sbat_start, &meta_sbat))
 		return NULL;
 
 	parent->info->sb.bat.num_blocks = meta_sbat.num_blocks * (parent->info->bb.size / BAT_INDEX_SIZE);
@@ -318,7 +318,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		dirent->name = g_strdup ("");
 	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);
 
-#if 1
+#if 0
 	printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
 		dirent->is_directory ? 'd' : ' ',
 		dirent->name, dirent->size, dirent->first_block);
@@ -465,6 +465,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->sb.filter	     = info->sb.size - 1;
 	info->threshold	     = GSF_OLE_GET_GUINT32 (header + 0x38);
         info->sbat_start     = GSF_OLE_GET_GUINT32 (header + 0x3c);
+        info->num_sbat       = GSF_OLE_GET_GUINT32 (header + 0x40);
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
 	info->sb_file	     = NULL;
 

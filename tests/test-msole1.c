@@ -98,6 +98,7 @@ get_biff_opcode_name (guint16 opcode)
 	}
 	return "Unknown";
 }
+
 static int
 test (int argc, char *argv[])
 {
@@ -135,20 +136,36 @@ test (int argc, char *argv[])
 
 		if (stream != NULL) {
 			guint8 const *data;
+			guint16 opcode;
 			unsigned pos = gsf_input_tell (stream);
 
 			while (NULL != (data = gsf_input_read (stream, 4))) {
-				len = GSF_OLE_GET_GUINT16 (data+2);
-				printf ("Opcode 0x%3x : %15s, length 0x%x (=%d) @ pos = 0x%x (=%d)\n",
-					GSF_OLE_GET_GUINT16(data), get_biff_opcode_name (GSF_OLE_GET_GUINT16(data)),
-					len, len, pos, pos);
+				gboolean enable_dump = FALSE;
+
+				opcode	= GSF_OLE_GET_GUINT16 (data);
+				len	= GSF_OLE_GET_GUINT16 (data+2);
+
+				if (len > 15000) {
+					enable_dump = TRUE;
+					g_warning ("Suspicious import of biff record > 15,000 (0x%x) for opcode 0x%hx",
+						   len, opcode);
+				}
+				if ((opcode & 0xff00) > 0x1000) {
+					enable_dump = TRUE;
+					g_warning ("Suspicious import of biff record with opcode 0x%hx",
+						   opcode);
+				}
+
+				if (enable_dump)
+					printf ("Opcode 0x%3x : %15s, length 0x%x (=%d) @ pos = 0x%x (=%d)\n",
+						opcode, get_biff_opcode_name (opcode),
+						len, len, pos, pos);
 
 				if (len > 0) {
 					data = gsf_input_read (stream, len);
+					if (data == NULL)
+						break;
 					/* gsf_mem_dump (data, len); */
-				}
-				if (len > 15000) {
-					g_warning ("Suspicious import of biff record > 15,000 (0x%x)", len);
 				}
 				pos = gsf_input_tell (stream);
 			}
