@@ -27,6 +27,17 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+ * Glib gets this wrong, really.  ARM's floating point format is a weird
+ * mixture.
+ */
+#if defined(__arm__) && !defined(__vfp__) && (G_BYTE_ORDER == G_LITTLE_ENDIAN)
+#define G_ARMFLOAT_ENDIAN 56781234
+#undef G_BYTE_ORDER
+#define G_BYTE_ORDER G_ARMFLOAT_ENDIAN
+#endif
+
+
 static void base64_init (void);
 
 void
@@ -200,7 +211,12 @@ gsf_le_set_float (void *p, float d)
 double
 gsf_le_get_double (void const *p)
 {
-#if G_BYTE_ORDER == G_BIG_ENDIAN
+#if G_BYTE_ORDER == G_ARMFLOAT_ENDIAN
+	double data;
+	memcpy ((char *)&data + 4, p, 4);
+	memcpy ((char *)&data, (const char *)p + 4, 4);
+	return data;
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
 		double  d;
 		int     i;
@@ -235,7 +251,10 @@ gsf_le_get_double (void const *p)
 void
 gsf_le_set_double (void *p, double d)
 {
-#if G_BYTE_ORDER == G_BIG_ENDIAN
+#if G_BYTE_ORDER == G_ARMFLOAT_ENDIAN
+	memcpy (p, (const char *)&d + 4, 4);
+	memcpy ((char *)p + 4, &d, 4);
+#elif G_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
 		int     i;
 		guint8 *t  = (guint8 *)&d;
