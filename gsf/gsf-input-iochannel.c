@@ -1,7 +1,8 @@
 /*
  * gsf-input-iochannel.c: GIOChannel based input
  *
- * Copyright (C) 2002 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2003 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2003 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,13 +23,12 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf-input-iochannel.h>
+#include <gsf-input-memory.h>
 
 struct _GsfInputIOChannel {
 	GsfInput    input;
 
-	GIOChannel *channel;
-	guint8     *buffer;
-	size_t      allocated;
+        GsfInputMemory * memory;
 };
 
 typedef struct {
@@ -45,11 +45,17 @@ GsfInputIOChannel *
 gsf_input_iochannel_new (GIOChannel *channel)
 {
 	GsfInputIOChannel *input;
+	gchar * buf;
+	gsize len;
 
 	g_return_val_if_fail (channel != NULL, NULL);
 
+	if (G_IO_STATUS_NORMAL != g_io_channel_read_to_end (channel, &buf, &len, NULL))
+	        return NULL;
+
 	input = g_object_new (GSF_INPUT_IOCHANNEL_TYPE, NULL);
-	input->channel = channel;
+	input->memory = gsf_input_memory_new (buf, len, TRUE);
+	gsf_input_set_size (GSF_INPUT (input), gsf_input_get_size (GSF_INPUT (input->memory)));
 
 	return input;
 }
@@ -60,14 +66,7 @@ gsf_input_iochannel_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfInputIOChannel *input = (GsfInputIOChannel *) obj;
 
-	g_io_channel_unref (input->channel);
-	input->channel = NULL;
-
-	if (input->buffer) {
-		g_free (input->buffer);
-		input->buffer = NULL;
-		input->allocated = 0;
-	}
+	g_object_unref (G_OBJECT (input->memory));
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -78,71 +77,32 @@ static GsfInput *
 gsf_input_iochannel_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputIOChannel *input = (GsfInputIOChannel *) src_input;
+	GsfInputIOChannel *dup = g_object_new (GSF_INPUT_IOCHANNEL_TYPE, NULL);
+	dup->memory = input->memory;
 
-	g_io_channel_ref (input->channel);
-	return (GsfInput *) gsf_input_iochannel_new (input->channel);
+	g_object_ref (G_OBJECT (input->memory));
+	return (GsfInput *) dup;
 }
 
 static guint8 const *
 gsf_input_iochannel_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
-	size_t nread = 0, total_read = 0;
-	GIOStatus status = G_IO_STATUS_NORMAL;
-	GError *err;
-	GsfInputIOChannel *io = (GsfInputIOChannel *) input;
-
-	g_return_val_if_fail (GSF_IS_INPUT_IOCHANNEL (io), NULL);
-	g_return_val_if_fail (io->channel != NULL, NULL);
-
-	if (buffer == NULL) {
-		if (io->allocated < num_bytes) {
-			io->allocated = num_bytes;
-			if (io->buffer != NULL)
-				g_free (io->buffer);
-			io->buffer = g_new0 (guint8, io->allocated);
-		}
-
-		buffer = io->buffer;
-	}
-
-	while ((status == G_IO_STATUS_NORMAL) && (total_read < num_bytes)) {
-		err = NULL;
-
-		status = g_io_channel_read_chars (io->channel, (gchar *)(buffer + total_read),
-						  num_bytes - total_read, &nread, &err);
-		if (err != NULL) {
-			g_message ("gsf_input_iochannel_read: %s", err->message);
-			g_error_free (err);
-			return NULL;
-		}
-
-		total_read += nread;
-	}
-
-	return buffer;
+        GsfInputIOChannel *io = GSF_INPUT_IOCHANNEL (input);
+        return gsf_input_read (GSF_INPUT (io->memory), num_bytes, buffer);
 }
 
 static gboolean
 gsf_input_iochannel_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
         GsfInputIOChannel *io = GSF_INPUT_IOCHANNEL (input);
-        GIOStatus status = G_IO_STATUS_NORMAL;
-                                                                                             
-        status = g_io_channel_seek_position (io->channel, offset, whence, NULL);
-        if (status == G_IO_STATUS_NORMAL)
-                return TRUE;
-
-        return FALSE;
+	return gsf_input_seek (GSF_INPUT (io->memory), offset, whence);
 }
 
 static void
 gsf_input_iochannel_init (GObject *obj)
 {
 	GsfInputIOChannel *io = GSF_INPUT_IOCHANNEL (obj);
-
-	io->channel = NULL;
-	io->buffer = NULL;
-	io->allocated = 0;
+	io->memory = NULL;
 }
 
 static void
