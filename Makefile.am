@@ -1,5 +1,8 @@
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
+# Gnome autogen.sh uses ACLOCAL_FLAGS; inherit it here.
+ACLOCAL_AMFLAGS = @ACLOCAL_FLAGS@
+
 if WITH_LIBGSF_GNOME
 LIBGSF_GNOME_PC = libgsf-gnome-1.pc
 endif
