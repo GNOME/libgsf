@@ -246,7 +246,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 			GValue *v;
 			d (printf ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
-			if (!v) {
+			if (v) {
 				/* FIXME: do something with it.  */
 				g_value_unset (v);
 				g_free (v);
