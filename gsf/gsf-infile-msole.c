@@ -436,7 +436,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint32 metabat_block, *ptr;
 
 	/* check the header */
-	if (gsf_input_seek (ole->input, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (ole->input, (gsf_off_t) 0, GSF_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
