@@ -23,6 +23,7 @@
 #define GSF_DOC_META_DATA_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 #include <sys/types.h>
 
 G_BEGIN_DECLS
@@ -43,12 +44,17 @@ struct _GsfDocProp {
 GType  gsf_doc_meta_data_get_type (void);
 GQuark gsf_doc_meta_data_error (void);
 
-GsfDocMetaData	 *gsf_doc_meta_data_new		(void);
-GsfDocProp const *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta, char const *prop_name);
-void		  gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta, char const *prop, GValue const *value);
-void		  gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta, char const *prop);
-void		  gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta, GHFunc func, gpointer user_data);
-gsize		  gsf_doc_meta_data_size	(GsfDocMetaData const *meta);
+GsfDocMetaData *gsf_doc_meta_data_new		(void);
+GValue const   *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta,
+						 char const	*name);
+void		gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta,
+						 char const	*name,
+						 GValue const	*value);
+void		gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta,
+						 char const	*name);
+void		gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta,
+						 GHFunc func, gpointer user_data);
+gsize		gsf_doc_meta_data_size		(GsfDocMetaData const *meta);
 
 G_END_DECLS
 

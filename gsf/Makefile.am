@@ -23,6 +23,7 @@ libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO) $(no_undefined)
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\
+	gsf-doc-meta-data.c	\
 	gsf-msole-impl.h	\
 	gsf-msole-utils.c	\
 	gsf-timestamp.c		\
@@ -69,6 +70,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-utils.h		\
 	gsf-libxml.h		\
 	gsf-impl-utils.h	\
+	gsf-doc-meta-data.h	\
 	gsf-msole-utils.h	\
 	gsf-timestamp.h		\
 	\

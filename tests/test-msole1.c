@@ -134,6 +134,14 @@ dump_biff_stream (GsfInput *stream)
 		pos = gsf_input_tell (stream);
 	}
 }
+
+static void
+print_property (gpointer name, gpointer value, gpointer user_data)
+{
+	printf ("print_property: name  = %s\n", (char *)name);
+	printf ("                value = %s\n", g_strdup_value_contents((GValue *)value));
+}
+
 static int
 test (unsigned argc, char *argv[])
 {
@@ -146,6 +154,7 @@ test (unsigned argc, char *argv[])
 	GsfInfile *infile;
 	GError    *err = NULL;
 	unsigned i, j;
+	GsfDocMetaData *meta_data;
 
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
@@ -191,18 +200,29 @@ test (unsigned argc, char *argv[])
 		stream = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 		if (stream != NULL) {
 			puts ( "SummaryInfo");
-			gsf_msole_metadata_read (stream, &err);
+			meta_data = gsf_msole_metadata_read_real (stream, &err);
 			if (err != NULL)
 				g_warning ("'%s' error: %s", argv[i], err->message);
+			else {
+				gsf_doc_meta_data_foreach (meta_data, print_property, NULL);
+				g_object_unref (meta_data);
+			}
+
 			g_object_unref (G_OBJECT (stream));
+			
 		}
 
 		stream = gsf_infile_child_by_name (infile, "\05DocumentSummaryInformation");
 		if (stream != NULL) {
 			puts ( "DocSummaryInfo");
-			gsf_msole_metadata_read (stream, &err);
+			meta_data = gsf_msole_metadata_read_real (stream, &err);
 			if (err != NULL)
 				g_warning ("'%s' error: %s", argv[i], err->message);
+			else {
+				gsf_doc_meta_data_foreach (meta_data, print_property, NULL);
+				g_object_unref (meta_data);
+			}
+			
 			g_object_unref (G_OBJECT (stream));
 		}
 

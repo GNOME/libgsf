@@ -50,57 +50,60 @@ gsf_doc_meta_data_new (void)
 /**
  * gsf_doc_meta_data_set_prop :
  * @meta : the collection
- * @prop : the non-null string name of the property.
- * @value : the non-null value associated with @prop
+ * @name : the non-null string name of the property.
+ * @value : the non-null value associated with @name
  *
- * If @prop does not exist in the collection, add it to the collection. If
- * @prop does exist in the collection, replace the old value with this new one
+ * If @name does not exist in the collection, add it to the collection. If
+ * @name does exist in the collection, replace the old value with this new one
  **/
 void
-gsf_doc_meta_data_set_prop (GsfDocMetaData *meta, char const *prop, GValue const *value)
+gsf_doc_meta_data_set_prop (GsfDocMetaData *meta,
+			    char const *name, GValue const *value)
 {
 	GValue *cpy;
 
 	g_return_if_fail (meta != NULL);
-	g_return_if_fail (prop != NULL);
+	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
 	/* make a copy of our input value so that we own it internally */
 	cpy = g_new0 (GValue, 1);
+	g_value_init (cpy, G_VALUE_TYPE (value));
 	g_value_copy (value, cpy);
-	g_hash_table_replace (meta->table, g_strdup (prop), cpy);
+	g_hash_table_replace (meta->table, g_strdup (name), cpy);
 }
 
 /**
  * gsf_doc_meta_data_remove_prop :
  * @meta : the collection
- * @prop : the non-null string name of the property
+ * @name : the non-null string name of the property
  *
- * If @prop does not exist in the collection, do nothing. If @prop does exist,
+ * If @name does not exist in the collection, do nothing. If @name does exist,
  * remove it and its value from the collection
  **/
 void
-gsf_doc_meta_data_remove_prop (GsfDocMetaData *meta, const gchar * prop)
+gsf_doc_meta_data_remove_prop (GsfDocMetaData *meta, char const *name)
 {
 	g_return_if_fail (meta != NULL);
-	g_hash_table_remove (meta->table, prop);
+
+	g_hash_table_remove (meta->table, name);
 }
 
 /**
  * gsf_doc_meta_data_get_prop :
  * @meta : the collection
- * @prop : the non-null string name of the property.
+ * @name : the non-null string name of the property.
  *
- * Returns the value associate with @prop. If @prop does not exist in the
- * collection, return NULL. If @prop does exist in the collection, return its
+ * Returns the value associate with @name. If @name does not exist in the
+ * collection, return NULL. If @name does exist in the collection, return its
  * associated value
  **/
 GValue const *
-gsf_doc_meta_data_get_prop (const GsfDocMetaData * meta, const gchar * prop)
+gsf_doc_meta_data_get_prop (GsfDocMetaData const *meta, char const *name)
 {
 	g_return_val_if_fail (meta != NULL, NULL);
 
-	return g_hash_table_lookup (meta->table, prop);
+	return g_hash_table_lookup (meta->table, name);
 }
 
 /**
@@ -112,7 +115,7 @@ gsf_doc_meta_data_get_prop (const GsfDocMetaData * meta, const gchar * prop)
  * Iterate through each (key, value) pair in this collection
  **/
 void
-gsf_doc_meta_data_foreach (const GsfDocMetaData *meta, GHFunc func, gpointer user_data)
+gsf_doc_meta_data_foreach (GsfDocMetaData const *meta, GHFunc func, gpointer user_data)
 {
 	g_return_if_fail (meta != NULL);
 
@@ -126,7 +129,7 @@ gsf_doc_meta_data_foreach (const GsfDocMetaData *meta, GHFunc func, gpointer use
  * Returns the number of items in this collection
  **/
 gsize
-gsf_doc_meta_data_size (const GsfDocMetaData * meta)
+gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 {
 	g_return_val_if_fail (meta != NULL, 0);
 

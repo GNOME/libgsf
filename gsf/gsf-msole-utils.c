@@ -156,7 +156,14 @@ static GsfMSOleMetaDataPropMap const document_props[] = {
 	{ "DocumentParts",	13,	VT_VECTOR | VT_LPSTR },
 	{ "Manager",		14,	VT_LPSTR },
 	{ "Company",		15,	VT_LPSTR },
-	{ "LinksDirty",		16,	VT_BOOL }
+	{ "LinksDirty",		16,	VT_BOOL },
+	{ "DocSumInfo_17",      17,	VT_UNKNOWN },
+	{ "DocSumInfo_18",      18,	VT_UNKNOWN },
+	{ "DocSumInfo_19",      19,	VT_BOOL },
+	{ "DocSumInfo_20",      20,	VT_UNKNOWN },
+	{ "DocSumInfo_21",      21,	VT_UNKNOWN },
+	{ "DocSumInfo_22",      22,	VT_BOOL },
+	{ "DocSumInfo_23",      23,	VT_I4 }
 };
 
 /*
@@ -190,14 +197,6 @@ static GsfMSOleMetaDataPropMap const common_props[] = {
 	{ "CASE_SENSITIVE",		0x80000003,	VT_UI4},
 };
 
-/**
- * msole_prop_id_to_gsf
- *   @section		Information about current section
- *   @id		The property id
- *
- * Returns the name of the property.
- *
- **/
 static char const *
 msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 {
@@ -245,10 +244,6 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 	return NULL;
 }
 
-/**
- * msole_prop_parse
- *
- **/
 static GValue *
 msole_prop_parse (GsfMSOleMetaDataSection *section,
 		  guint32 type, guint8 const **data, guint8 const *data_end)
@@ -266,9 +261,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	if (is_vector) {
 		/*
 		 *  A vector is basically an array.  If the type associated with
-		 *  is a variant, then each element can have a different variant
-		 *  type.  Otherwise, each element has the same variant type
-		 *  associated with the vector.
+		 *  it is a variant, then each element can have a different
+		 *  variant type.  Otherwise, each element has the same variant
+		 *  type associated with the vector.
 		 */
 		unsigned i, n;
 
@@ -598,7 +593,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	return res;
 }
 
-static GValue *
+static GsfDocProp *
 msole_prop_read (GsfInput *in,
 		 GsfMSOleMetaDataSection *section,
 		 GsfMSOleMetaDataProp    *props,
@@ -609,11 +604,12 @@ msole_prop_read (GsfInput *in,
 	/* TODO : why size-4 ? I must be missing something */
 	gsf_off_t size = ((i+1) >= section->num_props)
 		? section->size-4 : props[i+1].offset;
-	char const *prop_name;
+	GsfDocProp	*prop = NULL;
 
 	g_return_val_if_fail (i < section->num_props, NULL);
 	g_return_val_if_fail (size >= props[i].offset + 4, NULL);
 
+	prop = g_new (GsfDocProp, 1);
 	size -= props[i].offset; /* includes the type id */
 	if (gsf_input_seek (in, section->offset+props[i].offset, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (in, size, NULL))) {
@@ -669,10 +665,12 @@ msole_prop_read (GsfInput *in,
 	}
 
 	d (printf ("%u) ", i););
-	prop_name = msole_prop_id_to_gsf (section, props[i].id);
+	prop->name = msole_prop_id_to_gsf (section, props[i].id);
 
 	d (printf (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
-	return msole_prop_parse (section, type, &data, data + size);
+	prop->val = msole_prop_parse (section, type, &data, data + size);
+
+	return prop;
 }
 
 static int
@@ -683,8 +681,38 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 	return prop_a->offset - prop_b->offset;
 }
 
+static void
+msole_prop_store (GsfDocMetaData *ret_object, GsfDocProp *prop)
+{
+	if (NULL != prop && NULL != prop->val) {
+		gsf_doc_meta_data_set_prop (ret_object,
+			prop->name, prop->val);
+		if (G_IS_VALUE (prop->val))
+			g_value_unset (prop->val);
+		g_free (prop->val);
+	}
+}
+
 gboolean
 gsf_msole_metadata_read (GsfInput *in, GError **err)
+{
+	GsfDocMetaData *meta = gsf_msole_metadata_read_real (in, err);
+	g_object_unref (meta);
+	return meta != NULL;
+}
+
+/**
+ * gsf_msole_metadata_read_real:
+ * @in : #GsfInput
+ * @err : #GError
+ *
+ * Parse an OLE2 property set out of @in and return a #GsfDocMetaData
+ * with the content.  For now this is called _real, to avoid inadvertent
+ * leakage for callers expecting the old bool return.  Callers is responsible
+ * for releasing the result.
+ **/
+GsfDocMetaData*
+gsf_msole_metadata_read_real (GsfInput *in, GError **err)
 {
 	guint8 const *data = gsf_input_read (in, 28, NULL);
 	guint16 version;
@@ -692,12 +720,14 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 	unsigned i, j;
 	GsfMSOleMetaDataSection *sections;
 	GsfMSOleMetaDataProp *props;
-
+	GsfDocMetaData	*ret_object = NULL;
+	GsfDocProp	*prop;
+	
 	if (NULL == data) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 					    "Unable to read MS property stream header");
-		return FALSE;
+		return ret_object;
 	}
 
 	/*
@@ -724,7 +754,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 					    "Invalid MS property stream header");
-		return FALSE;
+		return ret_object;
 	}
 
 	/* extract the section info */
@@ -744,7 +774,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error (), 0,
 						    "Unable to read MS property stream header");
-			return FALSE;
+			return ret_object;
 		}
 		if (!memcmp (data, component_guid, sizeof (component_guid)))
 			sections [i].type = GSF_MSOLE_META_DATA_COMPONENT;
@@ -759,9 +789,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		}
 
 		sections [i].offset = GSF_LE_GET_GUINT32 (data + 16);
-#ifndef NO_DEBUG_OLE_PROPS
-		printf ("0x%x\n", (guint32)sections [i].offset);
-#endif
+		d (printf ("0x%x\n", (guint32)sections [i].offset););
 	}
 
 	/*
@@ -774,13 +802,15 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 	 *   08 - xx   			An array of 32-bit Property ID/Offset pairs
 	 *   yy - zz			An array of Property Type indicators/Value pairs
 	 */
+	ret_object = gsf_doc_meta_data_new ();
+
 	for (i = 0 ; i < num_sections ; i++) {
 		if (gsf_input_seek (in, sections[i].offset, G_SEEK_SET) ||
 		    NULL == (data = gsf_input_read (in, 8, NULL))) {
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error (), 0,
 						    "Invalid MS property section");
-			return FALSE;
+			return ret_object;
 		}
 
 		sections[i].iconv_handle = (GIConv)-1;
@@ -805,7 +835,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 				if (err != NULL)
 					*err = g_error_new (gsf_input_error (), 0,
 							    "Invalid MS property section");
-				return FALSE;
+				return ret_object;
 			}
 
 			props [j].id = GSF_LE_GET_GUINT32 (data);
@@ -825,18 +855,21 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		sections[i].char_size = 1;
 		for (j = 0; j < sections[i].num_props; j++) /* first codepage */
 			if (props[j].id == 1) {
-				GValue *v = msole_prop_read (in, sections+i, props, j);
-				if (v != NULL) {
-					if (G_IS_VALUE (v)) {
-						if (G_VALUE_HOLDS_INT (v)) {
-							int codepage = g_value_get_int (v);
+				prop = msole_prop_read (in, sections+i, props, j);
+				if (NULL != prop && NULL != prop->val) {
+					gsf_doc_meta_data_set_prop (ret_object,
+						prop->name, prop->val);
+
+					if (G_IS_VALUE (prop->val)) {
+						if (G_VALUE_HOLDS_INT (prop->val)) {
+							int codepage = g_value_get_int (prop->val);
 							sections[i].iconv_handle = gsf_msole_iconv_open_for_import (codepage);
 							if (codepage == 1200 || codepage == 1201)
 								sections[i].char_size = 2;
 						}
-						g_value_unset (v);
+						g_value_unset (prop->val);
 					}
-					g_free (v) ;
+					g_free (prop->val);
 				}
 			}
 		if (sections[i].iconv_handle == (GIConv)-1)
@@ -848,32 +881,22 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		 * For User Defined Sections, Property ID 0 is NOT a dictionary.
 		 */
 		for (j = 0; j < sections[i].num_props; j++) /* then dictionary */
-			if (props[j].id == 0) {
-				GValue *v = msole_prop_read (in, sections+i, props, j);
-				if (v) {
-					/* FIXME: do something with it.  */
-					if (G_IS_VALUE (v))
-						g_value_unset (v);
-					g_free (v);
-				}
-			}
+			if (props[j].id == 0)
+				msole_prop_store (ret_object,
+					msole_prop_read (in, sections+i, props, j));
+
+		/* Process all the properties */
 		for (j = 0; j < sections[i].num_props; j++) /* the rest */
-			if (props[j].id > 1) {
-				GValue *v = msole_prop_read (in, sections+i, props, j);
-				if (v) {
-					/* FIXME: do something with it.  */
-					if (G_IS_VALUE (v))
-						g_value_unset (v);
-					g_free (v);
-				}
-			}
+			if (props[j].id > 1)
+				msole_prop_store (ret_object,
+					msole_prop_read (in, sections+i, props, j));
 
 		gsf_iconv_close (sections[i].iconv_handle);
 		g_free (props);
 		if (sections[i].dict != NULL)
 			g_hash_table_destroy (sections[i].dict);
 	}
-	return TRUE;
+	return ret_object;
 }
 
 gboolean

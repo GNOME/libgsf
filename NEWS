@@ -1,5 +1,15 @@
 libgsf 1.10.2
 
+Christopher James Lahey:
+	* GObject property support for input/output (for C# bindings)
+	* GObject support for doc-meta-data
+
+Frank Chiulli:
+	* Have the OLE2 property set parser store the data
+
+Jody:
+	* More work on storing OLE2 properties
+
 Jon Kåre:
 	* make xml string export more convenient by ignoring NULL
 

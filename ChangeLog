@@ -1,3 +1,24 @@
+2004-11-02  Jody Goldberg <jody@gnome.org>
+
+	* tests/test-msole1.c (test) : fix leak and use
+	  gsf_msole_metadata_read_real.
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read) : store them in
+	  GsfDocProp
+	(gsf_msole_metadata_read_real) : renamed from gsf_msole_metadata_read
+	(gsf_msole_metadata_read) : a quick stub to avoid creating a leak in
+	  existing calls to this routine.
+
+2004-11-02  Jody Goldberg <jody@gnome.org>
+
+	From Frank
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read) : store the
+	  properties
+	* tests/test-msole1.c (test) : dump the properties
+	* gsf/Makefile.am : Add gsf-doc-meta-data.c to the build
+	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_data_set_prop) : init
+	  the GValue before we assign.
+
 2004-09-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/*.c: Remove useless casts of 0 to gsf_off_t in parameters.
