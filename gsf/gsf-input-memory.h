@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInputMemory GsfInputMemory;
 
 GType     gsf_input_memory_get_type (void);
-GsfInput *gsf_input_memory_new      (guint8 const *buf, unsigned length,
+GsfInput *gsf_input_memory_new      (guint8 const *buf, size_t length,
 				     gboolean needs_free);
 
 #define GSF_INPUT_MMAP_TYPE	(gsf_input_mmap_get_type ())

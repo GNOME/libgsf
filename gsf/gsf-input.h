@@ -23,6 +23,7 @@
 #define GSF_INPUT_H
 
 #include <gsf/gsf.h>
+#include <sys/types.h>
 
 G_BEGIN_DECLS
 
@@ -36,13 +37,13 @@ char const   *gsf_input_name	  (GsfInput *input);
 GsfInfile    *gsf_input_container (GsfInput *input);
 
 GsfInput     *gsf_input_dup	  (GsfInput *input);
-int	      gsf_input_size	  (GsfInput *input);
+ssize_t	      gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *file);
-guint8 const *gsf_input_read	  (GsfInput *input, unsigned num_bytes,
+guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,
 				   guint8 *optional_buffer);
-unsigned      gsf_input_tell	  (GsfInput *input);
+size_t        gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
-				   int offset, GsfOff_t whence);
+				   off_t offset, GsfOff_t whence);
 
 GQuark gsf_input_error (void);
 

@@ -29,9 +29,9 @@
 G_BEGIN_DECLS
 
 struct _GsfInput {
-	GObject g_object;
+	GObject   g_object;
 
-	unsigned   size, cur_offset;
+	size_t    size, cur_offset;
 	char      *name;
 	GsfInfile *container;
 };
@@ -40,9 +40,9 @@ typedef struct {
 	GObjectClass g_object_class;
 
 	GsfInput     *(*Dup)  (GsfInput *input);
-	guint8 const *(*Read) (GsfInput *input, unsigned num_bytes,
+	guint8 const *(*Read) (GsfInput *input, size_t num_bytes,
 			       guint8 *optional_buffer);
-	gboolean      (*Seek) (GsfInput *input, int offset, GsfOff_t whence);
+	gboolean      (*Seek) (GsfInput *input, off_t offset, GsfOff_t whence);
 } GsfInputClass;
 
 #define GSF_INPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INPUT_TYPE, GsfInputClass))
@@ -51,7 +51,7 @@ typedef struct {
 /* protected */
 gboolean gsf_input_set_name	 (GsfInput *input, char const *name);
 gboolean gsf_input_set_container (GsfInput *input, GsfInfile *container);
-gboolean gsf_input_set_size	 (GsfInput *input, unsigned size);
+gboolean gsf_input_set_size	 (GsfInput *input, size_t size);
 
 G_END_DECLS
 

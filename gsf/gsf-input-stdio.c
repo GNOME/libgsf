@@ -35,7 +35,7 @@ struct _GsfInputStdio {
 
 	FILE     *file;
 	guint8   *buf;
-	unsigned  buf_size;
+	size_t   buf_size;
 };
 
 typedef struct {
@@ -55,6 +55,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	GsfInputStdio *input;
 	struct stat st;
 	FILE *file;
+	size_t size;
 
 	file = fopen (filename, "r");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
@@ -71,11 +72,12 @@ gsf_input_stdio_new (char const *filename, GError **err)
 		return NULL;
 	}
 
+	size = st.st_size;
 	input = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 	input->file = file;
 	input->buf  = NULL;
 	input->buf_size = 0;
-	gsf_input_set_size (GSF_INPUT (input), (unsigned)st.st_size);
+	gsf_input_set_size (GSF_INPUT (input), size);
 	gsf_input_set_name (GSF_INPUT (input), filename);
 
 	return GSF_INPUT (input);
@@ -115,7 +117,7 @@ gsf_input_stdio_dup (GsfInput *src_input)
 }
 
 static guint8 const *
-gsf_input_stdio_read (GsfInput *input, unsigned num_bytes,
+gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 		      guint8 *buffer)
 {
 	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
@@ -142,7 +144,7 @@ gsf_input_stdio_read (GsfInput *input, unsigned num_bytes,
 }
 
 static gboolean
-gsf_input_stdio_seek (GsfInput *input, int offset, GsfOff_t whence)
+gsf_input_stdio_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
 

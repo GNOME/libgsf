@@ -99,7 +99,7 @@ gsf_input_textline_dup (GsfInput *src_input)
 }
 
 static guint8 const *
-gsf_input_textline_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
+gsf_input_textline_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
 	textline->remainder = NULL;
@@ -107,7 +107,7 @@ gsf_input_textline_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_textline_seek (GsfInput *input, int offset, GsfOff_t whence)
+gsf_input_textline_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
 	textline->remainder = NULL;

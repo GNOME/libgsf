@@ -23,10 +23,11 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 
+/* Note: libxml erroneously declares the length argument as int.  */
 static int
 gsf_libxml_read (void * context, char * buffer, int len)
 {
-	if (NULL == gsf_input_read ((GsfInput *)context, (unsigned)len, buffer))
+	if (NULL == gsf_input_read ((GsfInput *)context, (size_t)len, buffer))
 		return -1;
 	return len;
 }

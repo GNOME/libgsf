@@ -199,7 +199,7 @@ gsf_infile_zip_dup (GsfInput *src_input)
 }
 
 static guint8 const *
-gsf_infile_zip_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
+gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 
@@ -217,7 +217,7 @@ gsf_infile_zip_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_zip_seek (GsfInput *input, int offset, GsfOff_t whence)
+gsf_infile_zip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 	return FALSE;

@@ -110,7 +110,7 @@ gsf_input_dup (GsfInput *src)
 		dst->container = src->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, (int)src->cur_offset, GSF_SEEK_SET);
+		gsf_input_seek (dst, (off_t)src->cur_offset, GSF_SEEK_SET);
 	}
 	return dst;
 }
@@ -123,11 +123,11 @@ gsf_input_dup (GsfInput *src)
  *
  * Returns :  the size or -1 on error
  **/
-int
+ssize_t
 gsf_input_size (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, -1);
-	return (int)input->size;
+	return input->size;
 }
 
 /**
@@ -160,7 +160,7 @@ gsf_input_eof (GsfInput *input)
  * 	requested.
  **/
 guint8 const *
-gsf_input_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
+gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	guint8 const *res;
 
@@ -183,7 +183,7 @@ gsf_input_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
  *
  * Returns the current offset in the file.
  **/
-unsigned
+size_t
 gsf_input_tell (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, 0);
@@ -200,7 +200,7 @@ gsf_input_tell (GsfInput *input)
  * Returns TRUE on error.
  **/
 gboolean
-gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
+gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	int pos = offset;
 
@@ -213,7 +213,7 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 	default : return TRUE;
 	}
 
-	if (pos < 0 || pos > (int)input->size)
+	if (pos < 0 || (size_t)pos > input->size)
 		return TRUE;
 	if (GET_CLASS (input)->Seek (input, offset, whence))
 		return TRUE;
@@ -262,7 +262,7 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 }
 
 gboolean
-gsf_input_set_size (GsfInput *input, unsigned size)
+gsf_input_set_size (GsfInput *input, size_t size)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 

@@ -34,7 +34,7 @@ typedef struct {
 } GsfInputMemoryClass;
 
 GsfInput *
-gsf_input_memory_new (guint8 const *buf, unsigned length, gboolean needs_free)
+gsf_input_memory_new (guint8 const *buf, size_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
@@ -69,7 +69,7 @@ gsf_input_memory_dup (GsfInput *src_input)
 }
 
 static guint8 const *
-gsf_input_memory_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
+gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	GsfInputMemory *mem = (GsfInputMemory *) (input);
 	const char *src = mem->shared->buf;
@@ -84,7 +84,7 @@ gsf_input_memory_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buf
 }
 
 static int
-gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
+gsf_input_memory_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	(void)input;
 	(void)offset;
