@@ -1,3 +1,8 @@
+2003-05-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/Makefile.am: Added $(LIBGSF_LIBS) to libgsf_1_la_LIBADD to get
+	complete inter-library dependency information.
+
 2003-05-13  Dom Lachowicz <cinamod@hotmail.com>
 
 	* COPYING.LIB: update the the version of the LGPL license we're 
