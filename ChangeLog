@@ -1,3 +1,8 @@
+2002-07-27  Dom Lachowicz <cinamod@hotmail.com>
+	
+	* MAINTAINERS : add myself
+	* gsf-metadata-bag.[ch] : add cardinatliy (size) method 
+
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
 	
 	* gsf-output-bonobo.[ch]: implement output stream (untested)

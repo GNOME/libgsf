@@ -59,6 +59,7 @@ void             gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const gchar
 G_CONST_RETURN GValue *         gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const gchar * prop);
 gboolean         gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const gchar * prop);
 void             gsf_metadata_bag_iterate (GsfMetaDataBag *meta, GsfMetaDataBagEnumFunc func, gpointer user_data);
+gsize_t          gsf_metadata_bag_cardinality (GsfMetaDataBag *meta);
 
 gchar * gsf_meta_key_new (const gchar * vendor, const gchar * version, const gchar * key);
 gchar * gsf_meta_custom_key_new (gchar * key);

@@ -125,10 +125,26 @@ gsf_metadata_bag_iterate (GsfMetaDataBag *meta, GsfMetaDataBagEnumFunc func, gpo
     g_hash_table_foreach (meta->table, func, user_data);    
 }
 
+/**
+ * gsf_metadata_bag_cardinality :
+ * @meta : the bag
+ * Returns the number of items in this bag, or 0 if @meta is NULL
+ **/
+gsize_t
+gsf_metadata_bag_cardinality (GsfMetaDataBag *meta)
+{
+    g_return_val_if_fail (meta != NULL, 0);
+
+    return (gsize_t) g_hash_table_size (meta->table);
+}
+
 static void
-gsf_metadata_bag_key_destroyed (gpointer data)
+gsf_metadata_bag_value_destroyed (gpointer data)
 {
     GValue * value = (GValue *)data;
+
+    if (value == NULL)
+        return ;
 
     /* free the value's internal data and then free the value itself */
     g_value_unset (value);
@@ -153,7 +169,7 @@ static void
 gsf_metadata_bag_init (GObject *obj)
 {
     GsfMetaDataBag *meta = GSF_METADATA_BAG (obj);
-    mem->table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, gsf_metadata_bag_key_destroyed);
+    mem->table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, gsf_metadata_bag_value_destroyed);
 }
 
 static void
