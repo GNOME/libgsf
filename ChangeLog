@@ -3,6 +3,7 @@
 	* configure.in: Morten's VFS local copy requires VFS >= 2.2. Upgrade configure check.
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri): Follow symlinks similarly to the STDIO input
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Convert file name to UTF8
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Convert file name to UTF8
 	* BUGS: remove above
 	
 2004-09-17  Morten Welinder  <terra@gnome.org>

@@ -166,6 +166,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	char *dirname = NULL;
 	char *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
+	char *filename_utf8;
 	int fd;
 	mode_t saved_umask;
 	struct stat st;
@@ -234,7 +235,12 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio->create_backup_copy = FALSE;
 	stdio->real_filename = real_filename;
 	stdio->temp_filename = temp_filename;
-	gsf_output_set_name (GSF_OUTPUT (stdio), filename);
+
+	filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	if (filename_utf8) {
+		gsf_output_set_name (GSF_OUTPUT (stdio), filename_utf8);
+		g_free (filename_utf8);
+	}
 
 	g_free (dirname);
 
