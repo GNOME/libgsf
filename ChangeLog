@@ -1,13 +1,17 @@
 2003-01-08  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-iochannel.c (gsf_output_iochannel_write): ensure large writes happen
+	* gsf/gsf-output-iochannel.c (gsf_output_iochannel_write): ensure
+	large writes happen
 
-	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_write): Ditto
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_write):
+	Ditto
 
-	* gsf/gsf-input-stdio.c (gsf_input_stdio_read): Ensure that large reads happen
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_read): Ensure that large
+	reads happen
 
-	* gsf-gnome/gsf-output-gnomevfs.c (gsf_input_gnomevfs_read) : Ditto
-	
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_input_gnomevfs_read) :
+	Ditto
+
 2003-01-08  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : fix off by 1 in
@@ -29,17 +33,18 @@
 
 2003-01-06  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-transaction.c : New capability - transacted outputs. Not thoroughly tested.
+	* gsf/gsf-output-transaction.c : New capability - transacted
+	outputs. Not thoroughly tested.
 
 	* tests/test-trans.c : Transaction testsuite for above
 
-	* gsf/gsf-output-stdio.c (gsf_output_stdio_write) : Put write inside of
-	a loop to ensure that large writes are carried out properly and feof is
-	properly detected
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_write) : Put write
+	inside of a loop to ensure that large writes are carried out
+	properly and feof is properly detected
 
 	* TODO: remove the "try to support canceling a write" item since
 	such functionality is supported via transactions
-	
+
 2003-01-05  Tor Lillqvist  <tml@iki.fi>
 
 	* configure.in: Check for lstat() and readlink().  Check for
@@ -49,7 +54,7 @@
 
 	* gsf/Makefile.am: On Win32, use -no-undefined, and install (and
 	uninstall) import libraries.
-	
+
 	* gsf/gsf-output-stdio.c: Add workaround #defines for various Unix
 	stuff on Win32. Bypass follow_symlinks() unless HAVE_READLINK.
 
@@ -63,7 +68,7 @@
 	* gsf/gsf-output.c (cb_output_unwrap) : renamed from
 	  cb_output_wrap_screwup and weaken restrictions.  The weak ref
 	  handler is called before the wrappers finalize, so we can not always
-	  unwrap in such a way as to avoid a warning.  Jsut handle it silently
+	  unwrap in such a way as to avoid a warning.  Just handle it silently
 	  now.
 	(gsf_output_wrap) : ditto.  Weaken the requirement of the wrapper to
 	  be a GObject, no need for a full fledged GsfOutput.
@@ -110,9 +115,9 @@
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : Able to
 	open URI objects as well as strings
-	
+
 	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new_uri) : ditto
-	
+
 2002-12-11  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump.
@@ -163,11 +168,11 @@
 
 2002-12-04  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-input.c (gsf_input_copy): Copies a GsfInput to a GsfOutput. 
+	* gsf/gsf-input.c (gsf_input_copy): Copies a GsfInput to a GsfOutput.
 	Will probably be useful for some abiword stuff I'll be doing
 
 	* tests/test-cp.c: New test program exercising gsf_input_copy
-	
+
 2002-12-04  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-output-stdio.c (follow_symlinks): Fix error return
@@ -259,7 +264,8 @@
 
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Code cleanup
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Code
+	cleanup
 
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
