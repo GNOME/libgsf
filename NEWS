@@ -5,6 +5,7 @@ Jody:
 
 Morten:
 	* Attempt fix for ARM.
+	* Make gsf_input_gnomevfs_new_uri handle missing "seek" methods.
 
 ------------------------------------------------------------------------------
 libgsf 1.9.1

@@ -1,3 +1,10 @@
+2004-06-11  Morten Welinder  <terra@gnome.org>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Change
+	return type to plain GsfInput*.
+	(gsf_input_gnomevfs_new_uri): Change return type to plain
+	GsfInput*.  If seek is not supported, snarf a local copy.
+
 2004-06-06  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Better

@@ -34,10 +34,10 @@ G_BEGIN_DECLS
 typedef struct _GsfInputGnomeVFS GsfInputGnomeVFS;
 
 GType	  gsf_input_gnomevfs_get_type (void);
-GsfInputGnomeVFS *gsf_input_gnomevfs_new      (char const *uri, GError **error);
-GsfInputGnomeVFS *gsf_input_gnomevfs_new_uri  (GnomeVFSURI *uri, GError **error);
+GsfInput *gsf_input_gnomevfs_new      (char const *uri, GError **error);
+GsfInput *gsf_input_gnomevfs_new_uri  (GnomeVFSURI *uri, GError **error);
 
-gboolean	  gsf_input_gnomevfs_needs_local_copy (GsfInputGnomeVFS *vfs_input);
+gboolean  gsf_input_gnomevfs_needs_local_copy (GsfInputGnomeVFS *vfs_input);
 
 G_END_DECLS
 

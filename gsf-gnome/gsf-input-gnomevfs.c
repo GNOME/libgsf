@@ -21,12 +21,10 @@
 
 #include <gsf-config.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
+#include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
-
-#if 0
 #include <libgnomevfs/gnome-vfs-method.h>
-#endif
 
 struct _GsfInputGnomeVFS {
 	GsfInput input;
@@ -47,7 +45,7 @@ typedef GsfInputClass GsfInputGnomeVFSClass;
  *
  * Returns a new input or NULL.
  **/
-GsfInputGnomeVFS *
+GsfInput *
 gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 {
 	GsfInputGnomeVFS *input;
@@ -56,12 +54,15 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	GnomeVFSResult    res = 0;
 	gsf_off_t	  size;
 	gchar            *name;
+	gboolean          make_local_copy;
 
 	if (uri == NULL) {
 		g_set_error (error, gsf_input_error (), 0,
 			     "Filename/URI cannot be NULL");
 		return NULL;
 	}
+
+	make_local_copy = !VFS_METHOD_HAS_FUNC (uri->method, seek);
 
 	res = gnome_vfs_get_file_info_uri (uri, &info, GNOME_VFS_FILE_INFO_DEFAULT);
 	if (res != GNOME_VFS_OK) {
@@ -75,19 +76,14 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		return NULL;
 	}
 
-	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ|GNOME_VFS_OPEN_RANDOM);	
+	res = gnome_vfs_open_uri (&handle, uri,
+				  GNOME_VFS_OPEN_READ |
+				  (make_local_copy ? 0 : GNOME_VFS_OPEN_RANDOM));
 	if (res != GNOME_VFS_OK) {
 		g_set_error (error, gsf_input_error (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
 	}
-
-#if 0
-	if (!VFS_METHOD_HAS_FUNC (uri->method, tell) ||
-	    !VFS_METHOD_HAS_FUNC (uri->method, seek)) {
-		g_warning ("no seek or tell, things may break");
-	}
-#endif
 
 	size = (gsf_off_t) info.size ;
 	input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
@@ -97,10 +93,38 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), size);
 	name = gnome_vfs_uri_to_string (uri, 0);
+
+	if (make_local_copy) {
+		gpointer buffer = g_try_malloc (size ? size : 1);
+		GsfInput *mem = NULL;
+
+		if (buffer == NULL) {
+			g_set_error (error, gsf_input_error (), 0,
+				     "Out of memory");
+		} else {
+			if (!gsf_input_read (GSF_INPUT (input), size, buffer))
+				g_set_error (error, gsf_input_error (), 0,
+					     "Read error while creating local stream.");
+			else {
+				mem = (GsfInput *)gsf_input_memory_new (buffer, size, TRUE);
+				if (mem) {
+					gsf_input_set_name (mem, name);
+					buffer = NULL;
+				} else
+					g_set_error (error, gsf_input_error (), 0,
+						     "Failed to create local memory stream");
+			}
+		}
+
+		g_free (buffer);
+		g_object_unref (input);
+
+		return mem;
+	}
+
 	gsf_input_set_name (GSF_INPUT (input), name);
 	g_free (name);
-
-	return input;
+	return GSF_INPUT (input);
 }
 
 /**
@@ -110,7 +134,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
  *
  * Returns a new file or NULL.
  **/
-GsfInputGnomeVFS *
+GsfInput *
 gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 {
 	GnomeVFSURI *uri = gnome_vfs_uri_new (text_uri);
@@ -119,7 +143,7 @@ gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 			     "Invalid URI");
 		return NULL;
 	} else {
-		GsfInputGnomeVFS *res = gsf_input_gnomevfs_new_uri (uri, error);
+		GsfInput *res = gsf_input_gnomevfs_new_uri (uri, error);
 		gnome_vfs_uri_unref (uri);
 		return res;
 	}
@@ -155,7 +179,7 @@ static GsfInput *
 gsf_input_gnomevfs_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputGnomeVFS const *src = (GsfInputGnomeVFS *)src_input;
-	return GSF_INPUT (gsf_input_gnomevfs_new (src->input.name, err));
+	return gsf_input_gnomevfs_new (src->input.name, err);
 }
 
 static guint8 const *
