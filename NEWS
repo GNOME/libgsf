@@ -1,12 +1,13 @@
 libgsf 1.8
 
 Dom:
-	* Some extra casts to make MSVC happy
+	* Some extra casts to make Bloodshed DevC++ happy
 	* IOChannel input work
 	* BZ2 output
 	* Return the derived types from constructor functions
 	* Support GObject properties for the inputs and outputs
 	* BZ2 input
+	* Start of an AR infile
 	
 Jody:
 	* Fix ms ole export bug that would not clip overly long file names.
