@@ -1,3 +1,11 @@
+2002-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: New flag --with-bonobo
+
+	* gsf/Makefile.am (INCLUDES): added new files.
+
+	* gsf/gsf-input-bonobo.[ch]: new class for bonobo stream IO.
+
 2002-06-25  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* gsf/gsf-io-context.[ch]: new class for managing IO contexts.

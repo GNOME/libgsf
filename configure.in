@@ -190,6 +190,29 @@ fi
 
 dnl ***********************************************************************************
 
+dnl bonobo
+dnl
+test_bonobo=false
+AC_ARG_WITH(bonobo,
+	[--{with,without}-bonobo   Compile with BONOBO support or without it],
+	if test x$withval = xyes; then
+		test_bonobo=true
+	fi
+)
+with_bonobo=false
+if  $test_bonobo ; then 
+    PKG_CHECK_MODULES(BONOBO,[
+    libbonobo-2.0 >= 2.0.0
+    ],[with_bonobo=true])
+else
+    AC_MSG_WARN([bonobo support disabled, as requested (Use --with-bonobo to enable)])
+fi
+AC_SUBST(BONOBO_CFLAGS)
+AC_SUBST(BONOBO_LIBS)
+AM_CONDITIONAL(WITH_BONOBO, $with_bonobo)
+
+dnl ***********************************************************************************
+
 LIBGSF_CFLAGS="$LIBGSF_CFLAGS $LIBXML_CFLAGS $GNOME_VFS_CFLAGS"
 LIBGSF_LIBS="$LIBGSF_LIBS   $LIBXML_LIBS   $GNOME_VFS_LIBS"
 AC_SUBST(LIBGSF_CFLAGS)
