@@ -101,7 +101,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 {
 	int inflated_size, element_count = -1;
 	char const *msg = NULL;
-	char *name, *elem_stream;
+	char *name, *elem_stream = NULL;
 	guint32 len;
 	guint16 tag;
 	guint8   *inflated_data, *end, *ptr;

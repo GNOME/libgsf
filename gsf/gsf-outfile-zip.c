@@ -572,7 +572,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent, char const *name,
 	child->sink = zip_parent->sink;
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
-	vdir_add_child (zip_parent->vdir, child->vdir);
+	gsf_vdir_add_child (zip_parent->vdir, child->vdir);
 	root_register_child (zip_parent->root, child);
 
 	return GSF_OUTPUT (child);

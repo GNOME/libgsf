@@ -104,7 +104,7 @@ vdir_insert (ZipVDir *vdir, char const * name, ZipDirent *dirent)
 		child = vdir_child_by_name (vdir, dirname);
 		if (!child) {
 			child = gsf_vdir_new (dirname, TRUE, NULL);
-			vdir_add_child (vdir, child);
+			gsf_vdir_add_child (vdir, child);
 		}
 		g_free (dirname);
 		if (*(p+1) != '\0') {
@@ -113,7 +113,7 @@ vdir_insert (ZipVDir *vdir, char const * name, ZipDirent *dirent)
 		}
 	} else { /* A simple file name */
 		child = gsf_vdir_new (name, FALSE, dirent);
-		vdir_add_child (vdir, child);
+		gsf_vdir_add_child (vdir, child);
 	}
 }
 
@@ -247,9 +247,9 @@ zip_info_unref (ZipInfo *info)
 	if (info->ref_count-- != 1)
 		return;
 
-	vdir_free (info->vdir, FALSE);
+	gsf_vdir_free (info->vdir, FALSE);
 	for (p = info->dirent_list; p != NULL; p = p->next)
-		zip_dirent_free ((ZipDirent *) p->data);
+		gsf_zip_dirent_free ((ZipDirent *) p->data);
 
 	g_list_free (info->dirent_list);
 
