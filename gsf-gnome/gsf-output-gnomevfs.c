@@ -44,8 +44,8 @@ typedef struct {
 GsfOutputGnomeVFS *
 gsf_output_gnomevfs_new (char const *text_uri, GError **err)
 {
-	GnomeVFSURI 	 *uri = gnome_vfs_uri_new (text_uri);
-	GsfOutputGnomeVFS *res =gsf_output_gnomevfs_new_uri (uri, err);
+	GnomeVFSURI *uri = gnome_vfs_uri_new (text_uri);
+	GsfOutputGnomeVFS *res = gsf_output_gnomevfs_new_uri (uri, err);
 	gnome_vfs_uri_unref (uri);
 	return res;
 }
@@ -68,8 +68,9 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 		g_set_error (err, gsf_output_error_id (), 0,
 			     "Filename/URI cannot be NULL");
 		return NULL;
-	} else
-		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);
+	}
+
+	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);
 
 	if (res != GNOME_VFS_OK) {
 		g_set_error (err, gsf_output_error_id (), (gint) res,

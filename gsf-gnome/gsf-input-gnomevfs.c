@@ -57,7 +57,11 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	gsf_off_t	  size;
 	gchar            *name;
 
-	g_return_val_if_fail (uri != NULL, NULL);
+	if (uri == NULL) {
+		g_set_error (error, gsf_input_error (), 0,
+			     "Filename/URI cannot be NULL");
+		return NULL;
+	}
 
 	res = gnome_vfs_get_file_info_uri (uri, &info, GNOME_VFS_FILE_INFO_DEFAULT);
 	if (res != GNOME_VFS_OK) {
@@ -109,7 +113,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 GsfInputGnomeVFS *
 gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 {
-	GnomeVFSURI 	 *uri = gnome_vfs_uri_new (text_uri);
+	GnomeVFSURI *uri = gnome_vfs_uri_new (text_uri);
 	if (!uri) {
 		g_set_error (error, gsf_input_error (), 0,
 			     "Invalid URI");
