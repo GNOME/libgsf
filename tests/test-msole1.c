@@ -90,13 +90,8 @@ get_biff_opcode_name (unsigned opcode)
 	/* Count backwars to give preference to non-filtered record types */
 	for (lp=biff_types->len; --lp >= 0 ;) {
 		GENERIC_TYPE *bt = g_ptr_array_index (biff_types, lp);
-		if (bt->opcode>0xff) {
-			if (bt->opcode == opcode)
-				return bt->name;
-		} else {
-			if (bt->opcode == (opcode&0xff))
-				return bt->name;
-		}
+		if (bt->opcode == opcode)
+			return bt->name;
 	}
 	return "Unknown";
 }
