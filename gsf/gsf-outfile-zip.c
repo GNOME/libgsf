@@ -290,7 +290,7 @@ zip_time_make (time_t *t)
 static ZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
-	ZipDirent *dirent = g_new (ZipDirent, 1);
+	ZipDirent *dirent;
 	time_t t = time (NULL);
 	char *name = stream_name_build (zip);
 

@@ -1,3 +1,8 @@
+2002-12-10  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-outfile-zip.c (zip_dirent_new_out): Don't allocate and
+	throw away memory.
+
 2002-12-09  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Fix typo.
