@@ -193,7 +193,7 @@ gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	default : break;
 	}
 
-	if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,vfs_whence,
+	if (GNOME_VFS_OK == gnome_vfs_seek (vfs->handle,vfs_whence,
 					    (GnomeVFSFileOffset) offset))
 		return FALSE;
 	return TRUE;
