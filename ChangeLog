@@ -1,3 +1,12 @@
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-infile.c (gsf_infile_num_children): Fix failure return
+	value.
+	(gsf_infile_name_by_index): Ditto.
+	(gsf_infile_child_by_index): Ditto.
+	(gsf_infile_child_by_name): Ditto.
+	* gsf/gsf-outfile.c (gsf_outfile_new_child): Ditto.
+
 2003-03-04  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-zip-impl.h: s/off_t/gsf_off_t

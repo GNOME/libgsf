@@ -37,7 +37,7 @@
 int
 gsf_infile_num_children (GsfInfile *infile)
 {
-	g_return_val_if_fail (infile != NULL, FALSE);
+	g_return_val_if_fail (infile != NULL, -1);
 
 	return GET_CLASS (infile)->num_children (infile);
 }
@@ -53,7 +53,7 @@ gsf_infile_num_children (GsfInfile *infile)
 char const *
 gsf_infile_name_by_index (GsfInfile *infile, int i)
 {
-	g_return_val_if_fail (infile != NULL, FALSE);
+	g_return_val_if_fail (infile != NULL, NULL);
 
 	return GET_CLASS (infile)->name_by_index (infile, i);
 }
@@ -68,7 +68,7 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
 GsfInput *
 gsf_infile_child_by_index (GsfInfile *infile, int i)
 {
-	g_return_val_if_fail (infile != NULL, FALSE);
+	g_return_val_if_fail (infile != NULL, NULL);
 
 	return GET_CLASS (infile)->child_by_index (infile, i);
 }
@@ -83,7 +83,7 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 {
-	g_return_val_if_fail (infile != NULL, FALSE);
+	g_return_val_if_fail (infile != NULL, NULL);
 
 	return GET_CLASS (infile)->child_by_name (infile, name);
 }

@@ -36,7 +36,7 @@ GsfOutput *
 gsf_outfile_new_child (GsfOutfile *outfile,
 		       char const *name, gboolean is_dir)
 {
-	g_return_val_if_fail (outfile != NULL, FALSE);
+	g_return_val_if_fail (outfile != NULL, NULL);
 
 	return GET_CLASS (outfile)->new_child (outfile, name, is_dir);
 }
