@@ -4,7 +4,8 @@ Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>> 3.0.0), dh-buildinfo, gtk-doc-tools (>= 1.0-7),
  libglib2.0-dev, libxml2-dev (>= 2.4.16-1),
- libbonobo2-dev, libgnomevfs2-dev (>= 2.0.2-7.1), libbz2-dev
+ libbonobo2-dev (>= 2.4.0), libgnomevfs2-dev (>= 2.4.1-2),
+ libbz2-dev
 Standards-Version: 3.6.1
 
 Package: libgsf-gnome-1-dev
@@ -23,6 +24,16 @@ Description: Structured File Library - development files for GNOME
  This package supports the use of Bonobo, GNOME's CORBA-based component
  architecture and of GNOME-VFS, the GNOME virtual file-system.
 
+Package: libgsf-gnome-1-dbg
+Section: libdevel
+Priority: extra
+Architecture: any
+Depends: libgsf-gnome-1 (= ${Source-Version})
+Recommends: libgsf-1-dbg
+Description: Structured File Library - debugging files for GNOME
+ This package contains the files for debugging (applications that use the)
+ the GNOME extension parts of the GNOME Structured File Library.
+
 Package: libgsf-gnome-1
 Section: libs
 Architecture: any
@@ -34,6 +45,18 @@ Description: Structured File Library - runtime version for GNOME
  .
  This version of libgsf makes use of Bonobo, GNOME's CORBA-based component
  architecture and of GNOME-VFS, the GNOME virtual file-system.
+
+Package: libgsf-1-dbg
+Section: libdevel
+Priority: extra
+Architecture: any
+Depends: libgsf-1 (= ${Source-Version})
+Description: Structured File Library - debugging files (basic version)
+ This package contains the files for debugging (applications that use the)
+ the core parts of the GNOME Structured File Library.
+ .
+ To debug (applications that use the) GNOME extensions to this library,
+ install libgsf-gnome-1-dbg as well.
 
 Package: libgsf-1-dev
 Section: libdevel

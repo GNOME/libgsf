@@ -1,3 +1,35 @@
+libgsf (1.8.2-5) unstable; urgency=medium
+
+  * [debian/control] Pass along -Wl,-z,defs through LDFLAGS rather than
+    CFLAGS.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  7 Nov 2003 08:06:11 +0100
+
+libgsf (1.8.2-4) unstable; urgency=medium
+
+  * [debian/control] Really pass along CFLAGS; added -Wl,-z,defs to catch
+    incomplete shared library dependency information at build time.
+  * [debian/control, debian/rules, debian/*-dbg*] Produce -dbg packages as
+    well.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 25 Oct 2003 16:36:43 +0200
+
+libgsf (1.8.2-3) unstable; urgency=medium
+
+  * [debian/control] Tightened libgnomevfs2-dev build dependency so as not to
+    run into problems with liblinc.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 18 Oct 2003 17:02:58 +0200
+
+libgsf (1.8.2-2) unstable; urgency=medium
+
+  * [debian/control] Versioned the libbonobo2-dev so as not to depend on the
+    bonobo-activation packages which are being phased out (as
+    bonobo-activiation has been rolled into bonobo).
+  * [config.guess, config.sub] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 18 Oct 2003 15:01:49 +0200
+
 libgsf (1.8.2-1) unstable; urgency=medium
 
   * New upstream release.

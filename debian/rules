@@ -13,6 +13,7 @@ endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
+LDFLAGS += -Wl,-z,defs
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
@@ -69,7 +70,7 @@ config-stamp:
 	dh_testdir
 
 	rm -rf build && mkdir build
-	cd build && ../configure $(confflags)
+	cd build && env "CFLAGS=$(CFLAGS)" "LDFLAGS=$(LDFLAGS)" ../configure $(confflags)
 
 	touch config-stamp
 
@@ -127,6 +128,12 @@ install: build
 		exit 1; \
 	fi
 
+	mkdir -p $(CURDIR)/debian/tmp/usr/lib/debug
+	for l in `find $(CURDIR)/debian/tmp/usr/lib -name '*.so*'`; do \
+		cp -vdf $$l $(CURDIR)/debian/tmp/usr/lib/debug ; \
+	done
+
+
 # Build architecture-independent files here.
 binary-indep: build install
 # We have nothing to do by default.
@@ -142,6 +149,13 @@ binary-arch: build install
 
 #	dh_installdebconf	
 	dh_installdocs
+
+	rm -rvf $(CURDIR)/debian/libgsf-1-dbg/usr/share/doc/libgsf-1-dbg
+	rm -rvf $(CURDIR)/debian/libgsf-gnome-1-dbg/usr/share/doc/libgsf-gnome-1-dbg
+
+	dh_link -plibgsf-1-dbg /usr/share/doc/libgsf-1 /usr/share/doc/libgsf-1-dbg
+	dh_link -plibgsf-gnome-1-dbg /usr/share/doc/libgsf-gnome-1 /usr/share/doc/libgsf-gnome-1-dbg
+
 	dh_installexamples
 	dh_installmenu
 #	dh_installlogrotate
@@ -154,8 +168,7 @@ binary-arch: build install
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
-	dh_link
-	dh_strip
+	dh_strip -v -Nlibgsf-1-dbg -N libgsf-gnome-1-dbg
 	dh_compress
 	dh_buildinfo
 	dh_fixperms
