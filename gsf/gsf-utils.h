@@ -69,7 +69,7 @@ void gsf_shutdown (void);
 
 /* Debugging utilities */
 void gsf_mem_dump   (guint8 const *ptr, size_t len);
-void gsf_input_dump (GsfInput *input);
+void gsf_input_dump (GsfInput *input, gboolean dump_as_hex);
 
 /* base64 encoding utilities */
 guint8 *gsf_base64_encode_simple (guint8 const *data, size_t len);

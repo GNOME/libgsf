@@ -107,7 +107,7 @@ test (int argc, char *argv[])
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0)
 				ls_R (ptr); /* unrefs infile */
 			else {
-				gsf_input_dump (GSF_INPUT (ptr));
+				gsf_input_dump (GSF_INPUT (ptr), FALSE);
 				g_object_unref (G_OBJECT (ptr));
 			}
 		}

@@ -54,7 +54,7 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (input));
 			continue;
 		}
-		gsf_input_dump (GSF_INPUT (bzip));
+		gsf_input_dump (GSF_INPUT (bzip), FALSE);
 
 		g_object_unref (G_OBJECT (bzip));
 		g_object_unref (G_OBJECT (input));

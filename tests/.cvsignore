@@ -6,6 +6,8 @@ test-cat-zip
 test-cp-msole
 test-cp-zip
 test-gzip1
+test-bzip
+test-out-bzip
 test-input1
 test-ls-zip
 test-msole1

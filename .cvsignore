@@ -20,6 +20,7 @@ libgsf-1.spec
 libgsf-1.pc
 libgsf-gnome-1.spec
 libgsf-gnome-1.pc
+libgsf-zip
 depcomp
 install-sh
 missing

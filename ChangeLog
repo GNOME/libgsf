@@ -1,3 +1,10 @@
+2003-12-06  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msvba.c : Major work.
+	  We can now extract the compressed source for all of our sample
+	  files.  There's still lots of unknowns, but at least the code
+	  is visible now.  The next step will be looking at the p-code
+
 2003-10-29  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse) : The anal check should

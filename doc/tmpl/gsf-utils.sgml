@@ -43,6 +43,7 @@ gsf-utils
 </para>
 
 @input: 
+@dump_as_hex: 
 
 
 <!-- ##### VARIABLE libgsf_major_version ##### -->

@@ -41,6 +41,26 @@ gsf_shutdown (void)
 {
 }
 
+static void
+gsf_mem_dump_full (guint8 const *ptr, size_t len, unsigned offset)
+{
+	size_t i, j, off;
+
+	for (i = 0 ; i < (len+15)/16 ; i++) {
+		g_print ("%8x | ", i*16 + offset);
+		for (j = 0;j < 16; j++) {
+			off = j + (i << 4);
+			off<len ? g_print("%2x ", ptr[off]) : g_print("XX ");
+		}
+		g_print ("| ");
+		for (j = 0 ; j < 16 ; j++) {
+			off = j + (i<<4);
+			g_print ("%c", off < len ? (ptr[off] >= '!' && ptr[off] < 127 ? ptr[off] : '.') : '*');
+		}
+		g_print ("\n");
+	}
+}
+
 /**
  * gsf_mem_dump :
  * @ptr: memory area to be dumped.
@@ -51,28 +71,13 @@ gsf_shutdown (void)
 void
 gsf_mem_dump (guint8 const *ptr, size_t len)
 {
-	size_t lp, lp2, off;
-
-	for (lp = 0;lp<(len+15)/16;lp++)
-	{
-		g_print ("%8x | ", lp*16);
-		for (lp2 = 0;lp2<16;lp2++) {
-			off = lp2 + (lp<<4);
-			off<len?g_print("%2x ", ptr[off]):g_print("XX ");
-		}
-		g_print ("| ");
-		for (lp2 = 0;lp2<16;lp2++) {
-			off = lp2 + (lp<<4);
-			g_print ("%c", off < len ? (ptr[off] >= '!' && ptr[off] < 127 ? ptr[off] : '.') : '*');
-		}
-		g_print ("\n");
-	}
+	gsf_mem_dump_full (ptr, len, 0);
 }
 
 void
-gsf_input_dump (GsfInput *input)
+gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 {
-	size_t size, count;
+	size_t size, count, offset = 0;
 	guint8 const *data;
 
 	/* read in small blocks to excercise things */
@@ -83,8 +88,12 @@ gsf_input_dump (GsfInput *input)
 			count = 0x100;
 		data = gsf_input_read (GSF_INPUT (input), count, NULL);
 		g_return_if_fail (data != NULL);
-		fwrite (data, 1, count, stdout);
+		if (dump_as_hex)
+			gsf_mem_dump_full (data, count, offset);
+		else
+			fwrite (data, 1, count, stdout);
 		size -= count;
+		offset += count;
 	}
 }
 
