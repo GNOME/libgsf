@@ -36,7 +36,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-shared-memory.h
 
 #	gsf-output-memory.c 	\
-#	gsf-output-stdio.c	\
+#	gsf-output-stdio.c
 
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
