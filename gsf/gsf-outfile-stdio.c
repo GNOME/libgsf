@@ -106,8 +106,8 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
 
 /**
  * gsf_outfile_stdio_new :
- * @filename : in utf8.
- * @err	     : optionally NULL.
+ * @root : root directory in utf8.
+ * @err	 : optionally NULL.
  *
  * Returns a new outfile or NULL.
  **/

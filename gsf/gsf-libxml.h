@@ -53,7 +53,7 @@ typedef enum {
 	GSF_XML_NO_CONTENT,
 	GSF_XML_CONTENT,
 	GSF_XML_SHARED_CONTENT
-};
+} GsfXMLContent;
 
 struct _GsfXMLIn {
 	GsfXMLInDoc  const *doc;	/* init before parsing */

@@ -1,3 +1,23 @@
+<!-- ##### SECTION ./tmpl/gsf-impl-utils.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-impl-utils.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-impl-utils.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-impl-utils.sgml:Title ##### -->
+gsf-impl-utils
+
+
 <!-- ##### SECTION ./tmpl/gsf-infile-impl.sgml:Long_Description ##### -->
 <para>
 
@@ -18,6 +38,146 @@
 GsfInfile
 
 
+<!-- ##### SECTION ./tmpl/gsf-input-gnomevfs.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gnomevfs.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gnomevfs.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gnomevfs.sgml:Title ##### -->
+gsf-input-gnomevfs
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gzip.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gzip.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gzip.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-gzip.sgml:Title ##### -->
+gsf-input-gzip
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-impl.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-impl.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-impl.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-impl.sgml:Title ##### -->
+GsfInput
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-memory.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-memory.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-memory.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-memory.sgml:Title ##### -->
+gsf-input-memory
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-stdio.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-stdio.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-stdio.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-stdio.sgml:Title ##### -->
+gsf-input-stdio
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-textline.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-textline.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-textline.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input-textline.sgml:Title ##### -->
+gsf-input-textline
+
+
+<!-- ##### SECTION ./tmpl/gsf-input.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-input.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-input.sgml:Title ##### -->
+gsf-input
+
+
 <!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:Long_Description ##### -->
 <para>
 
@@ -36,6 +196,26 @@ GsfInfile
 
 <!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:Title ##### -->
 GsfOutput
+
+
+<!-- ##### SECTION ./tmpl/gsf-utils.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-utils.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-utils.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-utils.sgml:Title ##### -->
+gsf-utils
 
 
 <!-- ##### MACRO GSF_INFILE ##### -->
@@ -90,13 +270,6 @@ GsfOutput
 </para>
 
 @o: 
-
-<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
 
 <!-- ##### MACRO GSF_INPUT_MEMORY ##### -->
 <para>

@@ -612,11 +612,10 @@ gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned ns_id)
 
 /**
  * gsf_xml_in_namecmp :
- *
- * @state :
- * @str   :
- * @ns_id :
- * @name  :
+ * @state : The #GsfXMLIn we are reading from.
+ * @str   : The potentially namespace qualified node name.
+ * @ns_id : The name space id to check
+ * @name  : The target node name
  *
  * Returns TRUE if @str == @ns_id:@name according to @state.
  **/
@@ -826,10 +825,15 @@ gsf_xml_out_simple_float_element (GsfXMLOut *xml, char const *id,
  * gsf_xml_out_add_cstr_unchecked :
  * @xml :
  * @id : optionally NULL for content
- */
+ * @val_utf8 : a utf8 encoded string to export
+ *
+ * dump @val_utf8 to an attribute named @id without checking to see if the
+ * content needs escaping.  A useful performance enhancement when the
+ * application knows that structure of the content well.
+ **/
 void
 gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
-				   char const *val_utf8)
+				char const *val_utf8)
 {
 	g_return_if_fail (xml != NULL);
 	g_return_if_fail (xml->state == GSF_XML_OUT_NOCONTENT);
@@ -850,10 +854,10 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
  *
  * dump @val_utf8 to an attribute named @id or as the nodes content escaping
  * characters as necessary.
- */
+ **/
 void
 gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
-			 char const *val_utf8)
+		      char const *val_utf8)
 {
 	guint8 const *cur   = val_utf8;
 	guint8 const *start = val_utf8;
@@ -899,26 +903,33 @@ gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
 }
 
 /**
- * gsf_xml_out_add_int :
+ * gsf_xml_out_add_bool :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @val : a boolean
+ *
+ * dump boolean value @val to an attribute named @id or as the nodes content
+ * Use '1' or '0' to simplify import
+ **/
 void
 gsf_xml_out_add_bool (GsfXMLOut *xml, char const *id,
-			 gboolean val)
+		      gboolean val)
 {
 	gsf_xml_out_add_cstr_unchecked (xml, id,
-					   val ? "1" : "0");
+					val ? "1" : "0");
 }
 
 /**
  * gsf_xml_out_add_int :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @val : the value
+ *
+ * dump integer value @val to an attribute named @id or as the nodes content
+ **/
 void
 gsf_xml_out_add_int (GsfXMLOut *xml, char const *id,
-			int val)
+		     int val)
 {
 	char buf [4 * sizeof (int)];
 	sprintf (buf, "%d", val);
@@ -929,10 +940,14 @@ gsf_xml_out_add_int (GsfXMLOut *xml, char const *id,
  * gsf_xml_out_add_uint :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @val : the value
+ *
+ * dump unsigned integer value @val to an attribute named @id or as the nodes
+ * content
+ **/
 void
 gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
-			 unsigned val)
+		      unsigned val)
 {
 	char buf [4 * sizeof (int)];
 	sprintf (buf, "%u", val);
@@ -943,10 +958,15 @@ gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
  * gsf_xml_out_add_float :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @val : the value
+ * @precision : the number of decimal points to display
+ *
+ * dump float value @val to an attribute named @id or as the nodes
+ * content with precision @precision.
+ **/
 void
 gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
-			  double val, int precision)
+		       double val, int precision)
 {
 	char buf [101 + DBL_DIG];
 
@@ -964,10 +984,15 @@ gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
  * gsf_xml_out_add_color :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @r :
+ * @g :
+ * @b :
+ *
+ * dump Color @r.@g.@b to an attribute named @id or as the nodes content
+ **/
 void
 gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
-			  unsigned r, unsigned g, unsigned b)
+		       unsigned r, unsigned g, unsigned b)
 {
 	char buf [4 * sizeof (unsigned)];
 	sprintf (buf, "%X:%X:%X", r, g, b);
@@ -978,10 +1003,14 @@ gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
  * gsf_xml_out_add_base64 :
  * @xml :
  * @id  : optionally NULL for content
- */
+ * @data :
+ * @len :
+ *
+ * dump @len bytes in @data into the content of node @id using base64
+ **/
 void
 gsf_xml_out_add_base64 (GsfXMLOut *xml, char const *id,
-			   guint8 const *data, unsigned len)
+			guint8 const *data, unsigned len)
 {
 	/* We could optimize and stream right to the output,
 	 * or even just keep the buffer around
