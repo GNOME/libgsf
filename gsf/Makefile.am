@@ -33,12 +33,12 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-output.c 		\
 	gsf-output-impl.h	\
+	gsf-output-stdio.c	\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h
 
-#	gsf-output-memory.c 	\
-#	gsf-output-stdio.c
+#	gsf-output-memory.c
 
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
@@ -56,9 +56,9 @@ libgsf_1_include_HEADERS = 	\
 	gsf-infile-zip.h	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
-	gsf-output.h
+	gsf-output.h		\
+	gsf-output-stdio.h
 #gsf-output-memory.h
-#gsf-output-stdio.h
 
 noinst_PROGRAMS = test-msole1 test-msole2 test-msvba test-zip1 test-input1 test-gzip1
 test_msole1_LDADD = libgsf-1.la $(LIBGSF_LIBS)

@@ -29,14 +29,6 @@ static void
 gsf_output_finalize (GObject *obj)
 {
 	GsfOutput *output = GSF_OUTPUT (obj);
-	if (output->name != NULL) {
-		g_free (output->name);
-		output->name = NULL;
-	}
-	if (output->container != NULL) {
-		g_object_unref (G_OBJECT (output->container));
-		output->container = NULL;
-	}
 }
 
 static void
@@ -45,8 +37,6 @@ gsf_output_init (GObject *obj)
 	GsfOutput *output = GSF_OUTPUT (obj);
 
 	output->cur_offset = 0;
-	output->name = NULL;
-	output->container = NULL;
 }
 
 static void
@@ -64,7 +54,7 @@ gsf_output_close (GsfOutput *output)
 {
 	g_return_val_if_fail (output != NULL, FALSE);
 
-	return GET_CLASS (output)->close (output);
+	return GET_CLASS (output)->Close (output);
 }
 
 int
@@ -76,11 +66,11 @@ gsf_output_tell	(GsfOutput *output)
 }
 
 gboolean
-gsf_output_seek	(GsfOutput *output, int offset, GsfOff_t whence)
+gsf_output_seek	(GsfOutput *output, off_t offset, GsfOff_t whence)
 {
 	g_return_val_if_fail (output != NULL, -1);
 
-	offset = GET_CLASS (output)->seek (output, offset, whence);
+	offset = GET_CLASS (output)->Seek (output, offset, whence);
 	if (offset < 0)
 		return TRUE;
 	output->cur_offset = offset;
@@ -89,11 +79,11 @@ gsf_output_seek	(GsfOutput *output, int offset, GsfOff_t whence)
 
 gboolean
 gsf_output_write (GsfOutput *output,
-		  guint8 const *data, int num_bytes)
+		  size_t num_bytes, guint8 const *data)
 {
 	g_return_val_if_fail (output != NULL, FALSE);
 
-	return GET_CLASS (output)->write (output, data, num_bytes);
+	return GET_CLASS (output)->Write (output, num_bytes, data);
 }
 
 GQuark 

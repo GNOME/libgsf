@@ -39,12 +39,12 @@ struct _GsfOutput {
 typedef struct {
 	GObjectClass g_object_class;
 
-	gboolean (*close) (GsfOutput *output);
-	int      (*tell)  (GsfOutput *output);
-	gboolean (*seek)  (GsfOutput *output,
-			   int offset, GsfOff_t whence);
-	gboolean (*write) (GsfOutput *output,
-			   guint8 const *data, int num_bytes);
+	gboolean (*Close) (GsfOutput *output);
+	int      (*Tell)  (GsfOutput *output);
+	gboolean (*Seek)  (GsfOutput *output,
+			   off_t offset, GsfOff_t whence);
+	gboolean (*Write) (GsfOutput *output,
+			   size_t num_bytes, guint8 const *data);
 } GsfOutputClass;
 
 #define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))

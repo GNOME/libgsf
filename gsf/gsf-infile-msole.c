@@ -621,8 +621,13 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	unsigned count;
 
 	/* small block files are preload */
-	if (ole->dirent != NULL && ole->dirent->use_sb)
+	if (ole->dirent != NULL && ole->dirent->use_sb) {
+		if (buffer != NULL) {
+			memcpy (buffer, ole->stream.buf + input->cur_offset, num_bytes);
+			return buffer;
+		}
 		return ole->stream.buf + input->cur_offset;
+	}
 
 	/* GsfInput guarantees that num_bytes > 0 */
 	first_block = OLE_BIG_BLOCK (input->cur_offset, ole);

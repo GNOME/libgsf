@@ -23,6 +23,7 @@
 #define GSF_OUTPUT_H
 
 #include <gsf/gsf.h>
+#include <sys/types.h>
 
 G_BEGIN_DECLS
 
@@ -35,9 +36,9 @@ GType gsf_output_get_type (void);
 gboolean gsf_output_close (GsfOutput *output);
 int      gsf_output_tell  (GsfOutput *output);
 gboolean gsf_output_seek  (GsfOutput *output,
-			   int offset, GsfOff_t whence);
+			   off_t offset, GsfOff_t whence);
 gboolean gsf_output_write (GsfOutput *output,
-			   guint8 const *data, int num_bytes);
+			   size_t num_bytes, guint8 const *data);
 
 GQuark gsf_output_error (void);
 

@@ -1,3 +1,8 @@
+2002-06-11  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_read) : fix reading into an
+	  assigned buffer for small block files.
+
 2002-06-10  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile.c (gsf_infile_child_by_name) : typo.
