@@ -158,6 +158,8 @@ gsf_input_gzip_finalize (GObject *obj)
 		gzip->source = NULL;
 	}
 
+	g_free (gzip->buf);
+
 	if (gzip->stream.state != NULL)
 		inflateEnd (&(gzip->stream));
 
@@ -235,6 +237,8 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
 	/* Note, that pos has already been sanity checked.  */
 	if ((size_t)pos < input->cur_offset) {
+		if (gsf_input_seek (gzip->source, 0, GSF_SEEK_SET))
+			return TRUE;
 		if (Z_OK != inflateReset (&(gzip->stream)))
 			return TRUE;
 		input->cur_offset = 0;

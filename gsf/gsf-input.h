@@ -49,6 +49,8 @@ gboolean      gsf_input_seek	  (GsfInput *input,
 GsfInput *gsf_input_wrap   (GsfInput *src);
 void      gsf_input_unwrap (GsfInput *src);
 
+GsfInput *gsf_input_uncompress (GsfInput *src);
+
 GQuark gsf_input_error (void);
 
 G_END_DECLS

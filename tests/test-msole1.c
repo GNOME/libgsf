@@ -120,6 +120,8 @@ test (int argc, char *argv[])
 			continue;
 		}
 
+		input = gsf_input_uncompress (input);
+
 		infile = gsf_infile_msole_new (input, &err);
 		if (infile == NULL) {
 

@@ -21,6 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-input-impl.h>
+#include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
@@ -321,4 +322,43 @@ gsf_input_error (void)
 	if (!quark)
 		quark = g_quark_from_static_string ("gsf_input_error");
 	return quark;
+}
+
+/****************************************************************************/
+
+/**
+ * gsf_input_uncompress: maybe uncompress stream.
+ *
+ * @src: stream to be uncompressed.
+ *
+ * Returns: A stream equivalent to the source stream, but uncompressed if
+ * the source was compressed.
+ *
+ * This functions takes ownership of the incoming reference and yields a
+ * new one as its output.
+ */
+GsfInput *
+gsf_input_uncompress (GsfInput *src)
+{
+	off_t cur_offset = src->cur_offset;
+
+	if (gsf_input_size (src) > 2) {
+		const char gzip_sig[2] = { 0x1f, 0x8b };
+		char buffer[2];
+
+		if (!gsf_input_read (src, sizeof (buffer), buffer))
+			goto error;
+
+		if (memcmp (gzip_sig, buffer, sizeof (buffer)) == 0) {
+			GsfInputGZip *res = gsf_input_gzip_new (src, NULL);
+			if (res) {
+				g_object_unref (G_OBJECT (src));
+				return gsf_input_uncompress (GSF_INPUT (res));
+			}
+		}
+	}
+
+ error:
+	(void)gsf_input_seek (src, cur_offset, GSF_SEEK_SET);
+	return src;
 }

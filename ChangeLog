@@ -1,3 +1,13 @@
+2002-06-27  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (LIBGSF_LIBS): Include the Bonobo libs.
+
+	* tests/test-msole2.c (test): Plug leak.  Uncompress source.
+
+	* gsf/gsf-input.c (gsf_input_uncompress): New function.
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_finalize): Plug leak.
+
 2002-06-27  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-input-bonobo.c: Actually check in the stuff mentioned

@@ -57,7 +57,6 @@ test (int argc, char *argv[])
 	GsfInput  *input;
 	GsfInfile *infile;
 	GError    *err;
-	int i;
 
 	fprintf (stderr, "%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
@@ -71,17 +70,20 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
+	input = gsf_input_uncompress (input);
 	infile = gsf_infile_msole_new (input, &err);
-	if (infile == NULL) {
+	g_object_unref (G_OBJECT (input));
 
+	if (infile == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 
-		g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);
+		g_warning ("'%s' Not an OLE file: %s", argv[1], err->message);
 		g_error_free (err);
 		return 1;
 	}
 
 	if (argc > 2) {
+		int i;
 		GsfInput *child, *ptr = GSF_INPUT (infile);
 		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
 			fprintf (stderr, "--> '%s'\n", argv [i]);
@@ -113,7 +115,7 @@ test (int argc, char *argv[])
 	} else
 		ls_R (GSF_INPUT (infile)); /* unrefs infile */
 
-	g_object_unref (G_OBJECT (input));
+	g_object_unref (G_OBJECT (infile));
 
 	return 0;
 }
