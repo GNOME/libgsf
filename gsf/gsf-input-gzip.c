@@ -42,6 +42,8 @@ struct _GsfInputGZip {
 
 	guint8   *buf;
 	size_t    buf_size;
+
+	size_t    header_size;
 	size_t    seek_skipped;
 };
 
@@ -144,6 +146,8 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 		return NULL;
 	}
 
+	gzip->header_size = source->cur_offset;
+
 	return gzip;
 }
 
@@ -216,6 +220,8 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			gzip->stream.next_in = (Byte *)gzip->gzipped_data;
 		}
 		zerr = inflate (&(gzip->stream), Z_NO_FLUSH);
+		if (zerr != Z_OK && zerr != Z_STREAM_END)
+			return NULL;
 	}
 
 	gzip->crc = crc32 (gzip->crc, buffer, (uInt)(gzip->stream.next_out - buffer));
@@ -237,9 +243,13 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
 	/* Note, that pos has already been sanity checked.  */
 	if ((size_t)pos < input->cur_offset) {
-		if (gsf_input_seek (gzip->source, 0, GSF_SEEK_SET))
+		if (gsf_input_seek (gzip->source,
+				    (off_t)gzip->header_size,
+				    GSF_SEEK_SET))
 			return TRUE;
-		if (Z_OK != inflateReset (&(gzip->stream)))
+		gzip->crc = crc32 (0L, Z_NULL, 0);
+		gzip->stream.avail_in = 0;
+		if (inflateReset (&(gzip->stream)) != Z_OK)
 			return TRUE;
 		input->cur_offset = 0;
 	}

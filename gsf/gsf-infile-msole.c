@@ -559,13 +559,21 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	}
 
 	/* Read the directory's bat, we do not know the size */
-	if (ole_make_bat (&info->bb.bat, 0, dirent_start, &ole->bat))
+	if (ole_make_bat (&info->bb.bat, 0, dirent_start, &ole->bat)) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Problems making block allocation table");
 		return TRUE;
+	}
 
 	/* Read the directory */
 	ole->dirent = info->root_dir = ole_dirent_new (ole, 0, NULL);
-	if (ole->dirent == NULL)
+	if (ole->dirent == NULL) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Problems reading directory");
 		return TRUE;
+	}
 
 	return FALSE;
 }

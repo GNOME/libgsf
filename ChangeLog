@@ -1,5 +1,9 @@
 2002-06-27  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Exit on error.
+
+	* gsf/gsf-infile-msole.c (ole_init_info): Always set error info.
+
 	* configure.in (LIBGSF_LIBS): Include the Bonobo libs.
 
 	* tests/test-msole2.c (test): Plug leak.  Uncompress source.

@@ -115,8 +115,6 @@ test (int argc, char *argv[])
 	} else
 		ls_R (GSF_INPUT (infile)); /* unrefs infile */
 
-	g_object_unref (G_OBJECT (infile));
-
 	return 0;
 }
 
