@@ -27,7 +27,7 @@ typedef struct {
 static char
 byte_to_char (guint8 data)
 {
-	return data >= 0x20 ? data : '.';
+	return data >= 0x20 && data < 126 ? data : '.';
 }
 
 static gint
@@ -56,6 +56,7 @@ static gint
 find_match (CompressBuf *buf, guint pos, guint *len)
 {
 	gint i;
+	guint max_match = (1 << get_shift (pos)) - 1;
 
 	/* FIXME: the MS impl. does different to a linear search here
 	   and is not very good at this either; is happy to get much
@@ -72,7 +73,7 @@ find_match (CompressBuf *buf, guint pos, guint *len)
 				break;
 
 		if (j >= 3) {
-			*len = j;
+			*len = MIN (j, max_match);
 			return i;
 		}
 	}
@@ -120,16 +121,18 @@ output_match (CompressBuf *buf, guint cur_pos, guint pos, guint len)
 	distance = cur_pos - pos - 1;
 
 	/* Window size issue !? - get a better match later with a larger window !? */
+
+	token = (distance << shift) + ((len - 3) & ((1<<(shift + 1))-1));
+	data[0] = token & 0xff;
+	data[1] = token >> 8;
+
 #ifdef DEBUG		
-	fprintf (stderr, "distance %d [0x%x(%d) - %d], len %d\n",
-		 distance, cur_pos, cur_pos, pos, len);
+	fprintf (stderr, "shift %d, [0x%x(%d) - %d], len %d, distance %d bytes %.2x %.2x\n",
+		 shift, cur_pos, cur_pos, pos, len, distance,
+		 data[0], data[1]);
 	if (cur_pos + len >= (1u<<shift))
 		fprintf (stderr, "Overlaps boundary\n");
 #endif
-	
-	token = (distance << shift) + ((len - 3) & ((1<<shift)-1));
-	data[0] = token & 0xff;
-	data[1] = token >> 8;
 
 	output_data (buf, data, TRUE);
 }
@@ -282,7 +285,7 @@ decode_dir (GsfInput *input)
 			for (i = 0 ; i < length; i += advance) {
 				guint8 ug;
 				err |= !gsf_input_read (input, advance, &ug);
-				fprintf (stderr, "%c", ug);
+				fprintf (stderr, "%c", byte_to_char (ug));
 			}
 			fprintf (stderr, "' - '%s", ascii ? "Ascii" : "Unicode");
 		} else if (offset) {

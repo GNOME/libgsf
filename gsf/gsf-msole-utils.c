@@ -1432,6 +1432,8 @@ gsf_msole_inflate (GsfInput *input, gsf_off_t offset)
 				len = (token & ((1 << shift) - 1)) + 3;
 				distance = token >> shift;
 				clean = TRUE;
+/*				fprintf (stderr, "Shift %d, token len %d, distance %d bytes %.2x %.2x\n",
+				shift, len, distance, (token & 0xff), (token >> 8)); */
 
 				for (i = 0; i < len; i++) {
 					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
