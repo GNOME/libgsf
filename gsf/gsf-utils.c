@@ -41,6 +41,11 @@
 
 static void base64_init (void);
 
+/**
+ * gsf_init :
+ *
+ * Initializes the GSF library
+ */
 void
 gsf_init (void)
 {
@@ -48,6 +53,11 @@ gsf_init (void)
 	base64_init ();
 }
 
+/**
+ * gsf_shutdown:
+ * 
+ * De-intializes the GSF library
+ */
 void
 gsf_shutdown (void)
 {
@@ -86,6 +96,13 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 	gsf_mem_dump_full (ptr, len, 0);
 }
 
+/**
+ * gsf_input_dump :
+ * @input: a #GsfInput
+ * @dump_as_hex: If TRUE, dump in hexidecmal format
+ *
+ * Dumps @input's contents to STDOUT, optionally in hex format.
+ */
 void
 gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 {

@@ -331,10 +331,15 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	GsfOutputStdio const *stdio = GSF_OUTPUT_STDIO (output);
 	int stdio_whence = 0;	/* make compiler shut up */
-	gsf_off_t loffset;
+
+#ifdef HAVE_FSEEKO
+	long loffset;
+#else
+	off_t loffset;
+#endif
 
 	g_return_val_if_fail (stdio->file != NULL, 
-		gsf_output_set_error (output, 0, "missing file"));
+			      gsf_output_set_error (output, 0, "missing file"));
 
 	loffset = offset;
 	if ((gsf_off_t) loffset != offset) { /* Check for overflow */
@@ -343,7 +348,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 #else
 		g_warning ("offset too large for fseek");
 #endif
-		return gsf_output_set_error (output, 0, "offset too large for fseeko");
+		return gsf_output_set_error (output, 0, "offset too large for fseek");
 	}
 	switch (whence) {
 	case G_SEEK_SET : stdio_whence = SEEK_SET;	break;

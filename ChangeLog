@@ -1,3 +1,7 @@
+2004-07-20  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-output-stdio.c: Check for overflow
+	
 2004-07-09  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-infile-zip.c (zip_find_trailer): Remove the
