@@ -65,7 +65,7 @@ struct _GsfOutputStdio {
 
 	FILE     *file;
 	char	 *real_filename, *temp_filename;
-	gboolean  create_backup_copy;
+	gboolean  create_backup_copy, keep_open;
 	struct stat st;
 };
 
@@ -258,8 +258,22 @@ gsf_output_stdio_close (GsfOutput *output)
 	if (stdio->file == NULL)
 		return FALSE;
 
+	if (stdio->keep_open) {
+		stdio->file = NULL;
+		return TRUE;
+	}
+
 	res = (0 == fclose (stdio->file));
 	stdio->file = NULL;
+
+	/* short circuit our when dealing with raw FILE */
+	if (NULL == stdio->real_filename) {
+		if (!res)
+			gsf_output_set_error (output, errno,
+				"Failed to close file.");
+		return res;
+	}
+
 	if (!res) {
 		gsf_output_set_error (output, errno,
 				      "Failed to close temporary file.");
@@ -409,6 +423,7 @@ gsf_output_stdio_init (GObject *obj)
 
 	stdio->file = NULL;
 	stdio->create_backup_copy = FALSE;
+	stdio->keep_open	  = FALSE;
 }
 
 static void
@@ -427,3 +442,29 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
 	   gsf_output_stdio_class_init, gsf_output_stdio_init, GSF_OUTPUT_TYPE)
+
+/**
+ * gsf_output_stdio_new :
+ * @filename : in utf8.
+ * @file     : an existing stdio FILE *
+ * @keep_open : Should @file be closed when the wrapper is closed
+ *
+ * Assumes ownership of @file.
+ *
+ * Returns a new GsfOutput wrapper for @file
+ **/
+GsfOutput *
+gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
+{
+	GsfOutputStdio *stdio;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+	g_return_val_if_fail (file != NULL, NULL);
+
+	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
+	stdio->file = file;
+	stdio->keep_open = keep_open;
+	stdio->real_filename = stdio->temp_filename = NULL;
+	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
+	return GSF_OUTPUT (stdio);
+}

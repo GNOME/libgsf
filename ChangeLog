@@ -1,3 +1,9 @@
+2004-11-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_close) : add a hook to
+	  accept existing FILE*
+	(gsf_output_stdio_new_FILE) : new.
+	
 2004-11-19  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* Add gsf/gsf-meta-names.h

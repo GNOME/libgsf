@@ -23,6 +23,7 @@
 #define GSF_OUTPUT_STDIO_H
 
 #include "gsf-output.h"
+#include <stdio.h>
 
 G_BEGIN_DECLS
 
@@ -34,6 +35,8 @@ typedef struct _GsfOutputStdio GsfOutputStdio;
 
 GType      gsf_output_stdio_get_type (void);
 GsfOutput *gsf_output_stdio_new      (char const *filename, GError **err);
+GsfOutput *gsf_output_stdio_new_FILE (char const *filename, FILE *file,
+				      gboolean keep_open);
 
 G_END_DECLS
 
