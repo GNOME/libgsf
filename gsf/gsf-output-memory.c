@@ -107,7 +107,7 @@ gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
 			capacity += MAX_STEP;
 	}
 	
-	mem->buffer   = (guint8 *)g_realloc (mem->buffer, capacity);
+	mem->buffer   = g_renew (guint8, mem->buffer, capacity);
 	mem->capacity = capacity;
 	
 	return TRUE;
