@@ -14,9 +14,11 @@ headers
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-io-context.h>
+#include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-msole.h>
+#include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-output-stdio.h>
 
 #define GSF_TYPE_INPUT GSF_INPUT_TYPE
@@ -33,6 +35,7 @@ headers
 #define GSF_TYPE_OUTPUT GSF_OUTPUT_TYPE
 #define GSF_TYPE_OUTFILE GSF_OUTFILE_TYPE
 #define GSF_TYPE_OUTFILE_MS_OLE GSF_OUTFILE_MSOLE_TYPE
+#define GSF_TYPE_OUTFILE_ZIP GSF_OUTFILE_ZIP_TYPE
 #define GSF_TYPE_OUTPUT_MEMORY GSF_OUTPUT_MEMORY_TYPE
 #define GSF_TYPE_OUTPUT_STDIO GSF_OUTPUT_STDIO_TYPE
 %%
@@ -225,4 +228,25 @@ _wrap_gsf_output_write(PyGObject *self, PyObject *args, PyObject *kwargs)
         return NULL;
     ret = gsf_output_write(GSF_OUTPUT(self->obj), num_bytes, data);
     return PyInt_FromLong((long) ret);
+}
+%%
+override gsf_xml_parser_context kwargs
+static PyObject *
+_wrap_gsf_xml_parser_context(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { (char *) "input", NULL };
+    PyGObject *input;
+    xmlParserCtxtPtr ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     (char *) "O!:gsf_xml_parser_context",
+				     kwlist, &PyGsfInput_Type, &input))
+        return NULL;
+    ret = gsf_xml_parser_context(GSF_INPUT(input->obj));
+    if (ret)
+        return PyCObject_FromVoidPtrAndDesc((void *) ret,
+					    (char *) "xmlParserCtxtPtr",
+					    NULL);
+    Py_INCREF(Py_None);
+    return Py_None;
 }

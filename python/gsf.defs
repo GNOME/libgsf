@@ -519,13 +519,31 @@
 
 (define-function gsf_outfile_msole_new
   (c-name "gsf_outfile_msole_new")
-  (is-constructor-of "GsfOutfileMsole")
+  (is-constructor-of "GsfOutfileMSOle")
   (return-type "GsfOutfile*")
   (parameters
     '("GsfOutput*" "sink")
   )
 )
 
+;; gsf-outfile-zip.[ch]
+
+(define-object OutfileZip
+  (in-module "Gsf")
+  (parent "GsfOutfile")
+  (c-name "GsfOutfileZip")
+  (gtype-id "GSF_TYPE_OUTFILE_ZIP")
+)
+
+(define-function gsf_outfile_zip_new
+  (c-name "gsf_outfile_zip_new")
+  (is-constructor-of "GsfOutfileZip")
+  (return-type "GsfOutfile*")
+  (parameters
+    '("GsfOutput*" "source")
+    '("GError**" "err")
+  )
+)
 
 ;; gsf-output-stdio.[ch]
 
@@ -543,6 +561,15 @@
   (parameters
     '("char-const*" "filename")
     '("GError**" "err")
+  )
+)
+
+(define-function gsf_xml_parser_context
+  (c-name "gsf_xml_parser_context")
+  (return-type "xmlParserCtxtPtr")
+  (caller-owns-return true)
+  (parameters
+    '("GsfInput*" "input")
   )
 )
 
