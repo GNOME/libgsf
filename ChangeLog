@@ -1,3 +1,25 @@
+2002-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* tests/test-cp-zip.c: Add a test program for zip export.
+
+2002-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-infile-zip.[ch]: Add.
+	
+	* gsf/gsf-zip-util.c: Add.
+	
+	* gsf/gsf-infile-zip.c (enum ZipCompressionMethod, struct
+	ZipDirent, struct ZipDir): Move to gsf-zip-impl.h.
+	(vdir_new, vdir_free, vdir_compare, vdir_add_child,
+	zip_dirent_free): Move to gsf-zip-utils.c.
+	(zip_dirent_new): Rename to zip_dirent_new_in.
+	(vdir_free, zip_info_unref): Add free_dirent parameter to
+	vdir_free.
+	(zip_child_init): Move before first use.
+	(gsf_infile_zip_finalize): Free zlib stream.
+
+	* gsf/Makefile.am: Add gsf-zip-utils.c, gsf-outfile-zip.[ch]
+
 2002-09-12  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/Makefile.am: add gsf-output-memory
