@@ -71,7 +71,6 @@ char const *
 gsf_input_name (GsfInput *input)
 {
 	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
-
 	return input->name;
 }
 
@@ -327,18 +326,6 @@ gsf_input_seek_emulate (GsfInput *input, size_t pos)
 
 /****************************************************************************/
 
-/**
- * gsf_input_wrap :
- * @src :
- *
- */
-GsfInput *
-gsf_input_wrap (GsfInput *src)
-{
-	return src;
-}
-
-void      gsf_input_unwrap (GsfInput *src);
 /**
  * gsf_input_error :
  *

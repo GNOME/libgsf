@@ -1,18 +1,22 @@
 DO NOT PACKAGE THIS YET
 
-libgsf 0.0.0
+libgsf 1.1.0
 
 Jody:
 	* Initial pass at an api
-	* Read OLE
+	* Read & Write OLE
 	* Read gzip
 	* Read textlines
-	* stdio wrapper
-	* some test programs to dump ole streams and file structure
+	* Read & Write stdio wrapper
+	* Some libxml2 utility wrappers
+	* some test programs to dump or copy ole streams and file structures
 	* Uncompress vba streams
+	* Initial incomplete work on parsing vba3 & vba56 directories
 
 Morten:
 	* mmap/buffer wrapper
+	* testing & purification
 
 Jon Kåre:
 	* Some configure cleanup
+	* Bonobo Stream wrapper

@@ -109,13 +109,14 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 	while (1) {
 		child = gsf_infile_child_by_name (infile, name);
 
-		g_return_val_if_fail (child != NULL, NULL);
-
 		name = va_arg (ap, char *);
 		if (tmp != NULL)
 			g_object_unref (G_OBJECT (tmp));
 		if (name == NULL)
 			break;
+		if (child == NULL)
+			break;
+
 		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
 
 		infile = tmp = GSF_INFILE (child);

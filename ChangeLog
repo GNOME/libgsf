@@ -1,3 +1,18 @@
+2002-07-06  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c : initial implementation.
+	* gsf/gsf-outfile.c : initial implementation.
+	* gsf/gsf-output.c : initial implementation.
+
+2002-07-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : be more anal in case the
+	  input file has a cycle.
+
+2002-07-03  Jody Goldberg <jody@gnome.org>
+
+	* tests/test-textline.c (test) : make the compiler shut up.
+
 2002-06-27  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-gzip.c (check_header): Set header_size here.

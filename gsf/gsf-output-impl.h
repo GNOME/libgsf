@@ -31,16 +31,16 @@ G_BEGIN_DECLS
 struct _GsfOutput {
 	GObject g_object;
 
-	int        cur_offset;
-	char      *name;
-	GsfInfile *container;
+	size_t	    cur_size, cur_offset;
+	char       *name;
+	GsfOutput  *wrapped_by;
+	GsfOutfile *container;
 };
 
 typedef struct {
 	GObjectClass g_object_class;
 
 	gboolean (*Close) (GsfOutput *output);
-	int      (*Tell)  (GsfOutput *output);
 	gboolean (*Seek)  (GsfOutput *output,
 			   off_t offset, GsfOff_t whence);
 	gboolean (*Write) (GsfOutput *output,
@@ -49,6 +49,10 @@ typedef struct {
 
 #define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))
 #define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
+
+/* protected */
+gboolean gsf_output_set_name	  (GsfOutput *input, char const *name);
+gboolean gsf_output_set_container (GsfOutput *input, GsfOutfile *container);
 
 G_END_DECLS
 

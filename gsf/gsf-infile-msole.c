@@ -24,6 +24,7 @@
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-impl.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -85,40 +86,6 @@ typedef struct {
 
 #define GSF_INFILE_MSOLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOleClass))
 #define GSF_IS_INFILE_MSOLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSOLE_TYPE))
-
-#define OLE_HEADER_SIZE		 0x200	/* always 0x200 no mater what the big block size is */
-#define OLE_HEADER_BB_SHIFT      0x1e
-#define OLE_HEADER_SB_SHIFT      0x20
-#define OLE_HEADER_NUM_BAT	 0x2c
-#define OLE_HEADER_DIRENT_START  0x30
-#define OLE_HEADER_THRESHOLD	 0x38
-#define OLE_HEADER_SBAT_START    0x3c
-#define OLE_HEADER_NUM_SBAT      0x40
-#define OLE_HEADER_METABAT_BLOCK 0x44
-#define OLE_HEADER_NUM_METABAT   0x48
-#define OLE_HEADER_START_BAT	 0x4c
-#define BAT_INDEX_SIZE		 4
-
-#define DIRENT_SIZE		0x80
-#define DIRENT_MAX_NAME_SIZE	0x40
-#define DIRENT_NAME_LEN		0x40
-#define DIRENT_TYPE		0x42
-#define DIRENT_PREV		0x44
-#define DIRENT_NEXT		0x48
-#define DIRENT_CHILD		0x4c
-#define DIRENT_FIRSTBLOCK	0x74
-#define DIRENT_FILE_SIZE	0x78
-
-#define DIRENT_TYPE_DIR		1
-#define DIRENT_TYPE_FILE	2
-#define DIRENT_TYPE_ROOTDIR	5
-#define DIRENT_MAGIC_END	0xffffffff
-
-/* flags in the block allocation list to denote special blocks */
-#define BAT_MAGIC_UNUSED	0xffffffff	/*		   -1 */
-#define BAT_MAGIC_END_OF_CHAIN	0xfffffffe	/*		   -2 */
-#define BAT_MAGIC_BAT		0xfffffffd	/* a bat block,    -3 */
-#define BAT_MAGIC_METABAT	0xfffffffc	/* a metabat block -4 */
 
 /* utility macros */
 #define OLE_BIG_BLOCK(index, ole)	((index) >> ole->info->bb.shift)
@@ -194,7 +161,7 @@ ols_bat_release (MSOleBAT *bat)
 }
 
 /**
- * ole_info_read_meta_bat :
+ * ole_info_read_metabat :
  * @ole  :
  * @bats :
  *
@@ -363,8 +330,14 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 			dirent, (GCompareFunc)ole_dirent_cmp);
 
 	/* NOTE : These links are a tree, not a linked list */
-	ole_dirent_new (ole, prev, parent); 
-	ole_dirent_new (ole, next, parent); 
+	if (prev == entry) {
+		g_warning ("Invalid OLE file with a cycle in its directory tree");
+	} else
+		ole_dirent_new (ole, prev, parent); 
+	if (next == entry) {
+		g_warning ("Invalid OLE file with a cycle in its directory tree");
+	} else
+		ole_dirent_new (ole, next, parent); 
 
 	if (dirent->is_directory)
 		ole_dirent_new (ole, child, dirent);

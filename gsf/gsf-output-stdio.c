@@ -76,36 +76,33 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	return GSF_OUTPUT (output);
 }
 
+static gboolean
+gsf_output_stdio_close (GsfOutput *output)
+{
+	GsfOutputStdio *stdio = GSF_OUTPUT_STDIO (output);
+	gboolean res = FALSE;
+
+	if (stdio->file != NULL) {
+		res = (0 == fclose (stdio->file));
+		stdio->file = NULL;
+	}
+
+	return res;
+}
+
 static void
 gsf_output_stdio_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfOutputStdio *output = (GsfOutputStdio *)obj;
+	GsfOutput *output = (GsfOutput *)obj;
 
-	if (output->file != NULL) {
-		fclose (output->file);
-		output->file = NULL;
-	}
+	gsf_output_stdio_close (output);
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
 }
 
-static gboolean
-gsf_output_stdio_write (GsfOutput *output,
-			size_t num_bytes,
-			guint8 const *buffer)
-{
-	GsfOutputStdio *stdio = GSF_OUTPUT_STDIO (output);
-	size_t res;
-
-	g_return_val_if_fail (stdio != NULL, FALSE);
-	g_return_val_if_fail (stdio->file != NULL, FALSE);
-
-	res = fwrite (buffer, 1, num_bytes, stdio->file);
-	return res == num_bytes;
-}
 
 static gboolean
 gsf_output_stdio_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
@@ -132,6 +129,21 @@ gsf_output_stdio_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
 	return TRUE;
 }
 
+static gboolean
+gsf_output_stdio_write (GsfOutput *output,
+			size_t num_bytes,
+			guint8 const *buffer)
+{
+	GsfOutputStdio *stdio = GSF_OUTPUT_STDIO (output);
+	size_t res;
+
+	g_return_val_if_fail (stdio != NULL, FALSE);
+	g_return_val_if_fail (stdio->file != NULL, FALSE);
+
+	res = fwrite (buffer, 1, num_bytes, stdio->file);
+	return res == num_bytes;
+}
+
 static void
 gsf_output_stdio_init (GObject *obj)
 {
@@ -146,8 +158,9 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
 
 	gobject_class->finalize = gsf_output_stdio_finalize;
-	output_class->Write	= gsf_output_stdio_write;
+	output_class->Close	= gsf_output_stdio_close;
 	output_class->Seek	= gsf_output_stdio_seek;
+	output_class->Write	= gsf_output_stdio_write;
 }
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,

@@ -33,12 +33,19 @@ G_BEGIN_DECLS
 
 GType gsf_output_get_type (void);
 
-gboolean gsf_output_close (GsfOutput *output);
-int      gsf_output_tell  (GsfOutput *output);
-gboolean gsf_output_seek  (GsfOutput *output,
-			   off_t offset, GsfOff_t whence);
-gboolean gsf_output_write (GsfOutput *output,
-			   size_t num_bytes, guint8 const *data);
+char const   *gsf_output_name	   (GsfOutput *output);
+GsfOutfile   *gsf_output_container (GsfOutput *output);
+
+ssize_t	      gsf_output_size      (GsfOutput *output);
+gboolean      gsf_output_close     (GsfOutput *output);
+int           gsf_output_tell      (GsfOutput *output);
+gboolean      gsf_output_seek      (GsfOutput *output,
+				    off_t offset, GsfOff_t whence);
+gboolean      gsf_output_write     (GsfOutput *output,
+				    size_t num_bytes, guint8 const *data);
+
+gboolean gsf_output_wrap   (GsfOutput *wrapper, GsfOutput *wrapee);
+gboolean gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee);
 
 GQuark gsf_output_error (void);
 
