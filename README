@@ -24,6 +24,8 @@ To report libgsf bugs, please visit bugzilla.gnome.org.
 -- 
 
 This library has taken insight from
+
+OLE:
     - libole : Michael Meeks, Arturo Tena, and Frank Chiulli
 	- which was based on
 	    Laola : by Martin Schwartz
@@ -32,6 +34,16 @@ This library has taken insight from
 	    Caolan McNamara's work
 
     - POIFS : Marc Johnson
+
+VBA:
+    - libole : Michael Meeks and Frank Chiulli figuring out quite a bit about
+		how a vba stream is stored.
+    - OpenOffice : For confirming many of Michael's hypothesis' and supplying
+		insight into the project file structure.
+
+gzip:
+    - zlib : for doing all the heavy lifting, and suppling gzio.c as an
+		example.
 
 Requirements
 ------------

@@ -27,8 +27,9 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-infile.c 		\
 	gsf-infile-impl.h 	\
-	gsf-infile-msole.c 	\
 	gsf-infile-zip.c	\
+	gsf-infile-msole.c 	\
+	gsf-infile-msvba.c 	\
 	\
 	gsf-output.c 		\
 	gsf-output-impl.h	\
@@ -52,15 +53,17 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-textline.h 	\
 	gsf-input-gzip.h 	\
 	gsf-infile.h 		\
-	gsf-infile-msole.h 	\
 	gsf-infile-zip.h	\
+	gsf-infile-msole.h 	\
+	gsf-infile-msvba.h 	\
 	gsf-output.h
 #gsf-output-memory.h
 #gsf-output-stdio.h
 
-noinst_PROGRAMS = test-msole1 test-msole2 test-zip1 test-input1 test-gzip1
+noinst_PROGRAMS = test-msole1 test-msole2 test-msvba test-zip1 test-input1 test-gzip1
 test_msole1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
 test_msole2_LDADD = libgsf-1.la $(LIBGSF_LIBS)
+test_msvba_LDADD  = libgsf-1.la $(LIBGSF_LIBS)
 test_zip1_LDADD   = libgsf-1.la $(LIBGSF_LIBS)
 test_input1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
 test_gzip1_LDADD  = libgsf-1.la $(LIBGSF_LIBS)

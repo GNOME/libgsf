@@ -23,6 +23,8 @@
 #include <gsf/gsf-infile-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include <stdarg.h>
+
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INFILE_TYPE, GsfInfileClass)
 
 /**
@@ -56,6 +58,13 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
 	return GET_CLASS (infile)->name_by_index (infile, i);
 }
 
+/**
+ * gsf_infile_child_by_index :
+ * @infile :
+ * @i :
+ *
+ * Returns a newly created child which must be unrefed.
+ **/
 GsfInput *
 gsf_infile_child_by_index (GsfInfile *infile, int i)
 {
@@ -64,12 +73,56 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
 	return GET_CLASS (infile)->child_by_index (infile, i);
 }
 
+/**
+ * gsf_infile_child_by_name :
+ * @infile :
+ * @name :
+ *
+ * Returns a newly created child which must be unrefed.
+ **/
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 {
 	g_return_val_if_fail (infile != NULL, FALSE);
 
 	return GET_CLASS (infile)->child_by_name (infile, name);
+}
+
+/**
+ * gsf_infile_child_by_vname :
+ * @infile :
+ * @name : A NULL terminated list of names
+ *
+ * A returns a newly created child which must be unrefed.
+ **/
+GsfInput *
+gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
+{
+	va_list   ap;
+	GsfInput  *child = GSF_INPUT (infile);
+	GsfInfile *tmp = NULL;
+
+	g_return_val_if_fail (IS_GSF_INFILE (infile), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	va_start (ap, name);
+	while (1) {
+		child = gsf_infile_child_by_name (infile, name);
+
+		g_return_val_if_fail (child != NULL, NULL);
+
+		name = va_arg (ap, char *);
+		if (tmp != NULL)
+			g_object_unref (G_OBJECT (tmp));
+		if (name == NULL)
+			break;
+		g_return_val_if_fail (IS_GSF_INFILE (child), NULL);
+
+		infile = tmp = GSF_INFILE (child);
+	}
+	va_end (args);
+
+	return child;
 }
 
 GSF_CLASS_ABSTRACT (GsfInfile, gsf_infile, NULL, NULL, GSF_INPUT_TYPE)

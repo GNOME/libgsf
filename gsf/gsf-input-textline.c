@@ -92,6 +92,7 @@ gsf_input_textline_dup (GsfInput *src_input, GError **err)
 	GsfInputTextline const *src = (GsfInputTextline *)src_input;
 	GsfInputTextline *dst = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
 
+	(void)err;
 	dst->source = src->source;
 	g_object_ref (G_OBJECT (dst->source));
 
@@ -154,11 +155,10 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
 char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 {
-	GsfInput *input = GSF_INPUT (textline);
 	unsigned n, i;
 	guint8 const *ptr;
 
-	g_return_val_if_fail (input != NULL, NULL);
+	g_return_val_if_fail (textline != NULL, NULL);
 
 	if (textline->remainder == NULL ||
 	    textline->remainder_size == 0) {
@@ -171,10 +171,31 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 			return NULL;
 	}
 
-	for (ptr = textline->remainder; *ptr && i < n; ) {
-	}
+	for (ptr = textline->remainder; i < n; ptr++)
+		if (*ptr == '\n' || *ptr == '\r')
+			break;
 	textline->remainder = ptr;
 	textline->remainder_size = n - i;
 
 	return textline->buf;
+}
+
+guint8 *
+gsf_input_textline_utf8_gets (GsfInputTextline *textline)
+{
+	unsigned n, i;
+	guint8 const *ptr;
+
+	g_return_val_if_fail (textline != NULL, NULL);
+
+	if (textline->remainder == NULL ||
+	    textline->remainder_size == 0) {
+		n = gsf_input_remaining (textline->source);
+		if (n > textline->max_line_size)
+			n = textline->max_line_size;
+
+		textline->remainder = gsf_input_read (textline->source, n, NULL);
+		if (textline->remainder == NULL)
+			return NULL;
+	}
 }

@@ -1,3 +1,10 @@
+2002-06-09  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msvba.c : new.
+	* gsf/test-msvba.c : new.
+
+	* gsf/gsf-infile.c (gsf_infile_child_by_vname) : new utility routine.
+
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-input.c (gsf_input_dup) : Add an err parameter.

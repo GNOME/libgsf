@@ -1,9 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * test-msole1.c:
+ * test-msole1.c: test program to list content and dump raw stream data
  *
  * Copyright (C) 2002	Jody Goldberg (jody@gnome.org)
- * 			Michael Meeks (michael@ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,8 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
- *
- * Parts of this code are taken from libole2/test/test-ole.c
  */
 
 #include <gsf/gsf-input-stdio.h>
@@ -62,7 +59,7 @@ test (int argc, char *argv[])
 	GError    *err;
 	int i;
 
-	puts (argv [1]);
+	fprintf (stderr, "%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * test-msole1.c:
+ * test-msole1.c: test program to dump biff streams
  *
  * Copyright (C) 2002	Jody Goldberg (jody@gnome.org)
  * 			Michael Meeks (michael@ximian.com)
