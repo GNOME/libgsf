@@ -722,8 +722,13 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 	if (dirent->index != 0) {
 		gsf_input_set_name (GSF_INPUT (child), dirent->name);
 		gsf_input_set_container (GSF_INPUT (child), GSF_INFILE (parent));
-		if (dirent->is_directory)
+
+		if (dirent->is_directory) {
+			/* be wary.  It seems as if some implementations pretend that the
+			 * directories contain data */
+			gsf_input_set_size (GSF_INPUT (child), 0);
 			return GSF_INPUT (child);
+		}
 	}
 
 	info = parent->info;

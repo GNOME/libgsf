@@ -1,3 +1,13 @@
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child) : Even if a
+	  directory claims to have a size set it to 0.  Thanks to the AAF
+	  people for the test case.
+
+2003-06-28  Jody Goldberg <jody@gnome.org>
+
+	* doc/Makefile.am : fix the case when gtk-doc is not available
+
 2003-06-20  Morten Welinder  <welinder@rentec.com>
 
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Handle premature end

@@ -1,4 +1,10 @@
-libgsf 1.9
+libgsf 1.8.2
+
+Jody:
+	* Catch invalid OLE2 files that claim there is data in a directory.
+
+------------------------------------------------------------------------------
+libgsf 1.8.1
 
 Morten:
 	* Plug major gzip output leak.
