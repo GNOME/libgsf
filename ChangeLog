@@ -1,3 +1,9 @@
+2003-04-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c
+	(gsf_msole_iconv_open_codepage_for_import): Try MACROMAN as alias
+	for 10000.
+
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c

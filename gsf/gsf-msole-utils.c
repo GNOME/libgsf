@@ -1266,8 +1266,6 @@ GIConv
 gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 {
 	GIConv iconv_handle;
-	const char *from;
-
 	g_return_val_if_fail (to != NULL, (GIConv)(-1));
 
 	if (codepage != 1200 && codepage != 1201) {
@@ -1276,16 +1274,22 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 		g_free (src_charset);
 		if (iconv_handle != (GIConv)(-1))
 			return iconv_handle;
-		g_warning ("Unknown codepage %d", codepage);
-		return (GIConv)(-1);
+	} else {
+		const char *from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
+		iconv_handle = g_iconv_open (to, from);
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
 	}
 
-	from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
-	iconv_handle = g_iconv_open (to, from);
-	if (iconv_handle != (GIConv)(-1))
-		return iconv_handle;
-	g_warning ("Unable to open an iconv handle from %s -> %s",
-		   from, to);
+	/* Try aliases.  */
+	if (codepage == 10000) {
+		iconv_handle = g_iconv_open (to, "MACROMAN");
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
+	}
+
+	g_warning ("Unable to open an iconv handle from codepage %d -> %s",
+		   codepage, to);
 	return (GIConv)(-1);
 }
 
