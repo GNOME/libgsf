@@ -1,3 +1,10 @@
+2004-02-24  Dom Lachowicz <cinamod@hotmail.com>
+
+	* configure.in: Add Win32 stuff
+	* libgsf-win32-1.pc.in: Ditto
+	* Makefile.am: Ditto
+	* gsf-win32/Makefile.am: Win32 build system
+	
 2004-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Fix typo.

@@ -248,6 +248,7 @@ Makefile
 doc/Makefile
 gsf/Makefile
 gsf-gnome/Makefile
+gsf-win32/Makefile
 tests/Makefile
 python/Makefile
 gsf/version.c
@@ -255,6 +256,7 @@ libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
 libgsf-gnome-1.spec
+libgsf-win32-1.pc
 libgsf-zip
 ])
 
