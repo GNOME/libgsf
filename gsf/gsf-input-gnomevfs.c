@@ -30,7 +30,7 @@ struct _GsfInputGnomeVFS {
 	GsfInput input;
 
 	GnomeVFSHandle *handle;
-}
+};
 
 static guint8 const *
 gsf_input_gnomevfs_get_data (GsfInput *input,

@@ -1,3 +1,8 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gsf-input-gnomevfs.c (struct _GsfInputGnomeVFS):
+	Added missing semicolon at the end of struct.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0
