@@ -34,7 +34,7 @@ test (int argc, char *argv[])
 	unsigned char *line;
 
 	if (argc < 2) {
-		fprintf (stderr, "Usage : %s <text_filename>\n", argv[1]);
+		fprintf (stderr, "Usage : %s <text_filename>\n", argv[0]);
 		return 1;
 	}
 

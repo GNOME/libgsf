@@ -11,12 +11,14 @@ libtool
 config.status
 stamp-h
 Makefile
-stamp-h.in
+stamp-*
 gsf-config.h.in
 gsf-config.h
 gsf-config
 libgsf-1.spec
 libgsf-1.pc
+libgsf-gnome-1.spec
+libgsf-gnome-1.pc
 depcomp
 install-sh
 missing
