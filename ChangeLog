@@ -1,3 +1,12 @@
+2005-03-23  Ivan, Wong Yat Cheung <email@ivanwong.info>
+
+	* gsf/gsf-msole-utils.c: Add new function
+	gsf_msole_iconv_get_codepage_string_list() which returns all
+	possible names of a codepage given a codepage number. This helps
+	gsf_msole_iconv_open_codepage_for_(im|ex)port().
+	* gsf-win32/Makefile.am: some more minor changes so that
+	libgsf_win32_1_la can be built as dll.
+
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (follow_symlinks): Handle lack of ELOOP.

@@ -8,8 +8,8 @@ endif
 
 lib_LTLIBRARIES = $(target_libgsf_win32)
 
-libgsf_win32_1_la_LIBADD  = $(LIBGSF_LIBS)
-libgsf_win32_1_la_LDFLAGS = -version-info $(VERSION_INFO)
+libgsf_win32_1_la_LIBADD  = $(LIBGSF_LIBS) $(top_builddir)/gsf/libgsf-1.la
+libgsf_win32_1_la_LDFLAGS = -version-info $(VERSION_INFO) -no-undefined
 libgsf_win32_1_la_SOURCES =	\
 	gsf-input-win32.c	\
 	gsf-output-win32.c

@@ -3,6 +3,9 @@ libgsf 1.11.2
 Herzi:
 	* Allow multiple calls to gsf_xml_out_add_cstr.  [#167166]
 
+Ivan:
+	* Fix codepage problem.  [#162841]
+
 Morten:
 	* Attempt to get non-ASCII filenames right on Win32.  [#171145]
 

@@ -1511,6 +1511,33 @@ gsf_msole_iconv_win_codepage (void)
 	return 1252; /* default ansi */
 }
 
+static GSList *
+gsf_msole_iconv_get_codepage_string_list (guint codepage)
+{
+	GSList *cp_list = NULL;
+
+	switch (codepage)
+	{
+		case 1200:
+			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-16LE"));
+			break;
+		case 1201:
+			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-16BE"));
+			break;
+		case 10000:
+			cp_list = g_slist_prepend (cp_list, g_strdup ("MACROMAN"));
+			cp_list = g_slist_prepend (cp_list, g_strdup ("MACINTOSH"));
+			break;
+		case 65001:
+			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-8"));
+			break;
+		default:
+			cp_list = g_slist_prepend (cp_list, g_strdup_printf ("CP%u", codepage));
+	}
+	
+	return cp_list;
+}
+
 /**
  * gsf_msole_iconv_open_codepage_for_import :
  * @to:
@@ -1521,43 +1548,25 @@ gsf_msole_iconv_win_codepage (void)
 GIConv
 gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
 {
-	GIConv iconv_handle;
+	GIConv iconv_handle = (GIConv)(-1);
+	gchar *codepage_str;
+	GSList *codepage_list, *cp;
 	g_return_val_if_fail (to != NULL, (GIConv)(-1));
 
-	/* sometimes it is stored as signed short */
-	if (codepage == 65001 || codepage == -535) {
-		iconv_handle = g_iconv_open (to, "UTF-8");
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
-	} else if (codepage != 1200 && codepage != 1201) {
-		char* src_charset = g_strdup_printf ("CP%d", codepage);
-		iconv_handle = g_iconv_open (to, src_charset);
-		g_free (src_charset);
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
-	} else {
-		char const *from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
-		iconv_handle = g_iconv_open (to, from);
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
+	cp = codepage_list = gsf_msole_iconv_get_codepage_string_list (codepage);
+	while (cp) {
+		codepage_str = cp->data;
+		if (iconv_handle == (GIConv)(-1))
+			iconv_handle = g_iconv_open (to, codepage_str);
+		g_free (codepage_str);
+		cp = cp->next;
 	}
+	g_slist_free (codepage_list);
 
-	/* Try aliases.  */
-	if (codepage == 10000) {
-		/* gnu iconv.  */
-		iconv_handle = g_iconv_open (to, "MACROMAN");
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
-
-		/* glibc.  */
-		iconv_handle = g_iconv_open (to, "MACINTOSH");
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
-	}
-
-	g_warning ("Unable to open an iconv handle from codepage %d -> %s",
-		   codepage, to);
-	return (GIConv)(-1);
+	if (iconv_handle == (GIConv)(-1))
+		g_warning ("Unable to open an iconv handle from codepage %u -> %s",
+			   codepage, to);
+	return iconv_handle;
 }
 
 /**
@@ -1585,16 +1594,24 @@ gsf_msole_iconv_open_for_import (int codepage)
 GIConv
 gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
 {
-	char *dest_charset = g_strdup_printf ("CP%d", codepage_to);
-	GIConv iconv_handle;
+	GIConv iconv_handle = (GIConv)(-1);
+	gchar *codepage_str;
+	GSList *codepage_list, *cp;
+	g_return_val_if_fail (from != NULL, (GIConv)(-1));
 
-	if (from == NULL) {
-		g_warning ("No codepage supplied. Assuming UTF-8\n");
-		from = "UTF-8";
+	cp = codepage_list = gsf_msole_iconv_get_codepage_string_list (codepage_to);
+	while (cp) {
+		codepage_str = cp->data;
+		if (iconv_handle == (GIConv)(-1))
+			iconv_handle = g_iconv_open (codepage_str, from);
+		g_free (codepage_str);
+		cp = cp->next;
 	}
+	g_slist_free (codepage_list);
 
-	iconv_handle = g_iconv_open (dest_charset, from);
-	g_free (dest_charset);
+	if (iconv_handle == (GIConv)(-1))
+		g_warning ("Unable to open an iconv handle from %s -> codepage %u",
+			   from, codepage_to);
 	return iconv_handle;
 }
 
