@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GSF_INPUT_STDIO_TYPE        (gsf_input_stdio_get_type ())
 #define GSF_INPUT_STDIO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_STDIO_TYPE, GsfInputStdio))
-#define IS_GSF_INPUT_STDIO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_STDIO_TYPE))
+#define GSF_IS_INPUT_STDIO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_STDIO_TYPE))
 
 typedef struct _GsfInputStdio GsfInputStdio;
 

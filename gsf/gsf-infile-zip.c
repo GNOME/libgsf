@@ -42,7 +42,7 @@ typedef struct {
 } GsfInfileZipClass;
 
 #define GSF_INFILE_ZIP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_ZIP_TYPE, GsfInfileZipClass))
-#define IS_GSF_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
+#define GSF_IS_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
 
 /**
  * Based on information in zziplib
@@ -308,7 +308,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 {
 	GsfInfileZip *zip;
 
-	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));

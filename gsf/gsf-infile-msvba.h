@@ -30,7 +30,7 @@ typedef struct _GsfInfileMSVBA GsfInfileMSVBA;
 
 #define GSF_INFILE_MSVBA_TYPE        (gsf_infile_msvba_get_type ())
 #define GSF_INFILE_MSVBA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBA))
-#define IS_GSF_INFILE_MSVBA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSVBA_TYPE))
+#define GSF_IS_INFILE_MSVBA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSVBA_TYPE))
 
 GType gsf_infile_msvba_get_type (void);
 

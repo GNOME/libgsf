@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GSF_INPUT_TEXTLINE_TYPE        (gsf_input_textline_get_type ())
 #define GSF_INPUT_TEXTLINE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_TEXTLINE_TYPE, GsfInputTextline))
-#define IS_GSF_INPUT_TEXTLINE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TEXTLINE_TYPE))
+#define GSF_IS_INPUT_TEXTLINE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TEXTLINE_TYPE))
 
 typedef struct _GsfInputTextline GsfInputTextline;
 

@@ -120,7 +120,7 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 {
 	GsfInputGZip *gzip;
 
-	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	gzip = g_object_new (GSF_INPUT_GZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));

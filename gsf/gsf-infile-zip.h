@@ -30,7 +30,7 @@ typedef struct _GsfInfileZip GsfInfileZip;
 
 #define GSF_INFILE_ZIP_TYPE        (gsf_infile_zip_get_type ())
 #define GSF_INFILE_ZIP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_ZIP_TYPE, GsfInfileZip))
-#define IS_GSF_INFILE_ZIP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_ZIP_TYPE))
+#define GSF_IS_INFILE_ZIP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_ZIP_TYPE))
 
 GType gsf_infile_zip_get_type (void);
 

@@ -69,7 +69,7 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
 char const *
 gsf_input_name (GsfInput *input)
 {
-	g_return_val_if_fail (IS_GSF_INPUT (input), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 
 	return input->name;
 }
@@ -84,7 +84,7 @@ gsf_input_name (GsfInput *input)
 GsfInfile *
 gsf_input_container (GsfInput *input)
 {
-	g_return_val_if_fail (IS_GSF_INPUT (input), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 	return input->container;
 }
 

@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 #define GSF_INPUT_TYPE        (gsf_input_get_type ())
 #define GSF_INPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_TYPE, GsfInput))
-#define IS_GSF_INPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TYPE))
+#define GSF_IS_INPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TYPE))
 
 GType gsf_input_get_type (void);
 

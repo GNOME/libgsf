@@ -46,7 +46,7 @@ typedef struct {
 } GsfInputClass;
 
 #define GSF_INPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INPUT_TYPE, GsfInputClass))
-#define IS_GSF_INPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INPUT_TYPE))
+#define GSF_IS_INPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INPUT_TYPE))
 
 /* protected */
 gboolean gsf_input_set_name	 (GsfInput *input, char const *name);

@@ -59,7 +59,7 @@ gsf_xml_parser_context (GsfInput *source)
 {
 	GsfInputGZip *gzip;
 
-	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	gzip = gsf_input_gzip_new (source, NULL);
 	if (gzip != NULL)

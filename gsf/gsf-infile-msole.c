@@ -84,7 +84,7 @@ typedef struct {
 } GsfInfileMSOleClass;
 
 #define GSF_INFILE_MSOLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOleClass))
-#define IS_GSF_INFILE_MSOLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSOLE_TYPE))
+#define GSF_IS_INFILE_MSOLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSOLE_TYPE))
 
 #define OLE_HEADER_SIZE		 0x200	/* always 0x200 no mater what the big block size is */
 #define OLE_HEADER_BB_SHIFT      0x1e
@@ -850,7 +850,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 {
 	GsfInfileMSOle *ole;
 
-	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	ole = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));

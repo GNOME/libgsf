@@ -30,7 +30,7 @@ typedef struct _GsfInfileMSOle GsfInfileMSOle;
 
 #define GSF_INFILE_MSOLE_TYPE        (gsf_infile_msole_get_type ())
 #define GSF_INFILE_MSOLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOle))
-#define IS_GSF_INFILE_MSOLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSOLE_TYPE))
+#define GSF_IS_INFILE_MSOLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSOLE_TYPE))
 
 typedef enum {
 	GSF_MSOLE_PROP_STRING_MASK	= 0x10000,

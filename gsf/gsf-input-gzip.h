@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GSF_INPUT_GZIP_TYPE        (gsf_input_gzip_get_type ())
 #define GSF_INPUT_GZIP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_GZIP_TYPE, GsfInputGZip))
-#define IS_GSF_INPUT_GZIP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_GZIP_TYPE))
+#define GSF_IS_INPUT_GZIP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_GZIP_TYPE))
 
 typedef struct _GsfInputGZip GsfInputGZip;
 

@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 #define GSF_OUTPUT_TYPE        (gsf_output_get_type ())
 #define GSF_OUTPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_TYPE, GsfOutput))
-#define IS_GSF_OUTPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_TYPE))
+#define GSF_IS_OUTPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_TYPE))
 
 GType gsf_output_get_type (void);
 

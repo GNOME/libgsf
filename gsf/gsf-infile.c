@@ -102,7 +102,7 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 	GsfInput  *child = GSF_INPUT (infile);
 	GsfInfile *tmp = NULL;
 
-	g_return_val_if_fail (IS_GSF_INFILE (infile), NULL);
+	g_return_val_if_fail (GSF_IS_INFILE (infile), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
 	va_start (ap, name);
@@ -116,7 +116,7 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 			g_object_unref (G_OBJECT (tmp));
 		if (name == NULL)
 			break;
-		g_return_val_if_fail (IS_GSF_INFILE (child), NULL);
+		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
 
 		infile = tmp = GSF_INFILE (child);
 	}

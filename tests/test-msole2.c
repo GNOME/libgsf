@@ -33,7 +33,7 @@ ls_R (GsfInput *input)
 {
 	int i;
 	char const *name = gsf_input_name (GSF_INPUT (input));
-	gboolean is_dir = IS_GSF_INFILE (input) &&
+	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 	
 	printf ("%c '%s'\t\t%d\n",
@@ -85,7 +85,7 @@ test (int argc, char *argv[])
 		GsfInput *child, *ptr = GSF_INPUT (infile);
 		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
 			fprintf (stderr, "--> '%s'\n", argv [i]);
-			if (IS_GSF_INFILE (ptr) &&
+			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0) {
 				child = gsf_infile_child_by_name (GSF_INFILE (ptr), argv [i]);
 
@@ -102,7 +102,7 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (ptr));
 		}
 		if (ptr != NULL) {
-			if (IS_GSF_INFILE (ptr) &&
+			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0)
 				ls_R (ptr); /* unrefs infile */
 			else {

@@ -51,7 +51,7 @@ typedef struct {
 } GsfInfileMSVBAClass;
 
 #define GSF_INFILE_MSVBA_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBAClass))
-#define IS_GSF_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
+#define GSF_IS_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
 
 #define VBA_DIR_HEADER_SIZE	(2 + /* magic */	\
 				 4 + /* ? version ? */	\
@@ -353,7 +353,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 {
 	GsfInfileMSVBA *vba;
 
-	g_return_val_if_fail (IS_GSF_INFILE (source), NULL);
+	g_return_val_if_fail (GSF_IS_INFILE (source), NULL);
 
 	vba = g_object_new (GSF_INFILE_MSVBA_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));

@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GSF_SHARED_MEMORY_TYPE	(gsf_shared_memory_get_type ())
 #define GSF_SHARED_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_SHARED_MEMORY_TYPE, GsfSharedMemory))
-#define IS_GSF_SHARED_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_SHARED_MEMORY_TYPE))
+#define GSF_IS_SHARED_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_SHARED_MEMORY_TYPE))
 
 typedef struct _GsfSharedMemory GsfSharedMemory;
 struct _GsfSharedMemory {

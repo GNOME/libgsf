@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 #define GSF_INFILE_TYPE        (gsf_infile_get_type ())
 #define GSF_INFILE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_TYPE, GsfInfile))
-#define IS_GSF_INFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_TYPE))
+#define GSF_IS_INFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_TYPE))
 
 GType gsf_infile_get_type (void);
 

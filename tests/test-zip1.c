@@ -30,7 +30,7 @@ static void
 ls_R (GsfInput *input)
 {
 	int i;
-	gboolean is_dir = IS_GSF_INFILE (input) &&
+	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 	
 	printf ("%c '%s' %d\n",

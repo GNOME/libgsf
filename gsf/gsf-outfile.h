@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GSF_OUTFILE_TYPE        (gsf_outfile_get_type ())
 #define GSF_OUTFILE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_TYPE, GsfOutfile))
-#define IS_GSF_OUTFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_TYPE))
+#define GSF_IS_OUTFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_TYPE))
 
 GType gsf_outfile_get_type (void);
 
