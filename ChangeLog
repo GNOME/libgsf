@@ -1,5 +1,27 @@
 2002-09-19  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-outfile-zip.h (enum GsfZipCompressionMethod): Define. 
+
+	* gsf/gsf-outfile-zip.[ch]
+	(gsf_outfile_zip_set_compression_method): New function. Set
+	compression method.
+
+	* gsf/gsf-outfile-zip.c (struct _GsfOutfileZip): Add
+	compression_mehod member.
+	(zip_dirent_new_out): Set compression method.
+	(zip_header_write): Write current compression method.
+	(zip_init_write, zip_close_stream, gsf_outfile_zip_write): Handle
+	noncompressed streams.
+	(zip_header_write_sizes): New function. Write crc and sizes to
+	local file header.
+	(gsf_outfile_zip_init): Initialize compression method to deflated.
+	(gsf_outfile_zip_set_compression_method): New function. Set
+	compression method.
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Fix typo.
+
+2002-09-19  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-infile-zip.c (zip_read_dirents): Don't expect a file
 	header at the start of the archive. It's not required by the
 	specification, and e.g. self-extracting zips do not have one.

@@ -43,6 +43,8 @@ struct _GsfOutfileZip {
 	GPtrArray     *root_order;	/* only valid for the root */
 	
 	z_stream  *stream;
+	GsfZipCompressionMethod compression_method;
+
 	gboolean   writing;
 
 	guint8   *buf;
@@ -259,7 +261,7 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 		return NULL;
 
 	dirent->name = name;
-	dirent->compr_method = ZIP_DEFLATED;
+	dirent->compr_method = zip->compression_method;
 	dirent->dostime = zip_time_make(&t);
 	return dirent;
 }
@@ -271,6 +273,7 @@ zip_header_write (GsfOutfileZip *zip)
 		{ 'P', 'K', 0x03, 0x04 };
 	guint8 hbuf[ZIP_HEADER_SIZE];
 	ZipDirent *dirent = zip->vdir->dirent;
+	guint16 flags = 0;
 	char *name = dirent->name;
 	int   nlen = strlen (name);
 	gboolean ret;
@@ -278,7 +281,9 @@ zip_header_write (GsfOutfileZip *zip)
 	memset (hbuf, 0, sizeof hbuf);
 	memcpy (hbuf, header_signature, sizeof header_signature);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_VERSION, 0x14);
-	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, 0x08);
+	if (dirent->compr_method == ZIP_DEFLATED)
+		flags = 0x08;
+	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, flags);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_COMP_METHOD,
 			    dirent->compr_method);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_TIME, dirent->dostime);
@@ -306,21 +311,23 @@ zip_init_write (GsfOutput *output)
 	zip->vdir->dirent = dirent;
 	zip_header_write (zip);
 	zip->writing = TRUE;
-	if (!zip->stream) {
-		zip->stream = g_new0 (z_stream, 1);
-	}
-	ret = deflateInit2 (zip->stream, Z_DEFAULT_COMPRESSION,
-			    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
-			    Z_DEFAULT_STRATEGY);
-	if (ret != Z_OK)
-		return FALSE;
 	dirent->crc32 = crc32 (0L, Z_NULL, 0);
-	if (!zip->buf) {
-		zip->buf_size = ZIP_BUF_SIZE; 
-		zip->buf = g_malloc (zip->buf_size);
+	if (zip->compression_method == GSF_ZIP_DEFLATED) {
+		if (!zip->stream) {
+			zip->stream = g_new0 (z_stream, 1);
+		}
+		ret = deflateInit2 (zip->stream, Z_DEFAULT_COMPRESSION,
+				    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
+				    Z_DEFAULT_STRATEGY);
+		if (ret != Z_OK)
+			return FALSE;
+		if (!zip->buf) {
+			zip->buf_size = ZIP_BUF_SIZE; 
+			zip->buf = g_malloc (zip->buf_size);
+		}
+		zip->stream->next_out  = zip->buf;
+		zip->stream->avail_out = zip->buf_size;
 	}
-	zip->stream->next_out  = zip->buf;
-	zip->stream->avail_out = zip->buf_size;
 
 	return TRUE;
 }
@@ -384,6 +391,29 @@ zip_ddesc_write (GsfOutfileZip *zip)
 }
 
 static gboolean
+zip_header_write_sizes (GsfOutfileZip *zip)
+{
+	guint8 hbuf[ZIP_HEADER_SIZE];
+	ZipDirent *dirent = zip->vdir->dirent;
+	gsf_off_t pos = gsf_output_tell (zip->sink);
+	gsf_off_t hpos = dirent->offset;
+
+	if (!gsf_output_seek (zip->sink, dirent->offset + ZIP_HEADER_CRC,
+			      G_SEEK_SET))
+		return FALSE;
+
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC, dirent->crc32);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_COMP_SIZE, dirent->csize);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_UNCOMP_SIZE, dirent->usize);
+	if (!gsf_output_write (zip->sink, 12, hbuf + ZIP_HEADER_CRC))
+		return FALSE;
+	if (!gsf_output_seek (zip->sink, pos, G_SEEK_SET))
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean
 zip_close_stream (GsfOutput *output)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);	
@@ -392,12 +422,17 @@ zip_close_stream (GsfOutput *output)
 		if (!zip_init_write (output))
 			return FALSE;
 
-	if (!zip_flush (zip))
-		return FALSE;
-
-	if (!zip_ddesc_write (zip)) /* Write data descriptor */
-		return FALSE;
-
+	if (zip->compression_method == GSF_ZIP_DEFLATED) {
+		if (!zip_flush (zip))
+			return FALSE;
+		
+		if (!zip_ddesc_write (zip)) /* Write data descriptor */
+			return FALSE;
+	} else {
+		if (!zip_header_write_sizes (zip)) /* Write crc, sizes */
+			return FALSE;
+	}
+	
 	return gsf_output_unwrap (zip->sink, output);
 }
 
@@ -436,19 +471,25 @@ gsf_outfile_zip_write (GsfOutput *output,
 		if (!zip_init_write (output))
 			return FALSE;
 
-	zip->stream->next_in  = (unsigned char *) data;
-	zip->stream->avail_in = num_bytes;
-
-	while (zip->stream->avail_in > 0) {
-		if (zip->stream->avail_out == 0) {
-			if (!zip_output_block (zip))
+	dirent = zip->vdir->dirent;
+	if (zip->compression_method == GSF_ZIP_DEFLATED) {
+		zip->stream->next_in  = (unsigned char *) data;
+		zip->stream->avail_in = num_bytes;
+		
+		while (zip->stream->avail_in > 0) {
+			if (zip->stream->avail_out == 0) {
+				if (!zip_output_block (zip))
+					return FALSE;
+			}
+			ret = deflate (zip->stream, Z_NO_FLUSH);
+			if (ret != Z_OK)
 				return FALSE;
 		}
-		ret = deflate (zip->stream, Z_NO_FLUSH);
-		if (ret != Z_OK)
+	} else {
+		if (!gsf_output_write (zip->sink, num_bytes, data))
 			return FALSE;
+		dirent->csize += num_bytes;
 	}
-	dirent = zip->vdir->dirent;
 	dirent->crc32 = crc32 (dirent->crc32, data, num_bytes);
 	dirent->usize += num_bytes;
 
@@ -497,6 +538,7 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->vdir    = NULL;
 	zip->root_order = NULL;
 	zip->stream  = NULL;
+	zip->compression_method = GSF_ZIP_DEFLATED;
 	zip->writing = FALSE;
 	zip->buf     = NULL;
 	zip->buf_size = 0;
@@ -552,4 +594,24 @@ gsf_outfile_zip_new (GsfOutput *sink, GError **err)
 	gsf_output_set_container (GSF_OUTPUT (zip), NULL);
 
 	return GSF_OUTFILE (zip);
+}
+
+gboolean
+gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
+					GsfZipCompressionMethod method)
+{
+	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (zip), FALSE);
+
+	if (zip->writing || (zip->vdir && zip->vdir->is_directory))
+		return FALSE;
+	
+	switch (method) {
+	case GSF_ZIP_STORED:
+	case GSF_ZIP_DEFLATED:
+		zip->compression_method = method;
+		return TRUE;
+		break;
+	default:
+		return FALSE;
+	}
 }

@@ -26,6 +26,11 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GSF_ZIP_STORED = 0,
+	GSF_ZIP_DEFLATED = 8
+} GsfZipCompressionMethod;
+
 typedef struct _GsfOutfileZip GsfOutfileZip;
 
 #define GSF_OUTFILE_ZIP_TYPE	(gsf_outfile_zip_get_type ())
@@ -34,6 +39,8 @@ typedef struct _GsfOutfileZip GsfOutfileZip;
 
 GType gsf_outfile_zip_get_type (void);
 GsfOutfile *gsf_outfile_zip_new (GsfOutput *sink, GError **err);
+gboolean gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
+						 GsfZipCompressionMethod method);
 
 G_END_DECLS
 

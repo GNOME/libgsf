@@ -330,7 +330,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 		break; /*checked in GsfOutput wrapper */
 	}
 
-	if (0 == fseek (stdio->file, loffset, SEEK_END))
+	if (0 == fseek (stdio->file, loffset, stdio_whence))
 		return TRUE;
 	return gsf_output_set_error (output, errno,
 		g_strerror (errno));

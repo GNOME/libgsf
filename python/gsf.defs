@@ -348,37 +348,6 @@
   (return-type "GsfIOContext*")
 )
 
-(define-method error_occurred
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_error_occurred")
-  (return-type "gboolean")
-)
-
-(define-method error_message
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_error_message")
-  (return-type "none")
-  (parameters
-    '("const-gchar*" "msg")
-    '("gint" "code")
-  )
-)
-
-(define-method push_error
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_push_error")
-  (return-type "none")
-  (parameters
-    '("const-GError*" "error")
-  )
-)
-
-(define-method pop_error
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_pop_error")
-  (return-type "GError*")
-)
-
 (define-method clear
   (of-object "GsfIOContext")
   (c-name "gsf_io_context_clear")
@@ -542,6 +511,15 @@
   (parameters
     '("GsfOutput*" "source")
     '("GError**" "err")
+  )
+)
+
+(define-method set_compression_method
+  (of-object "GsfOutfileZip")
+  (c-name "gsf_outfile_zip_set_compression_method")
+  (return-type "gboolean")
+  (parameters
+    '("GsfZipCompressionMethod" "method")
   )
 )
 

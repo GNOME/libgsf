@@ -1,3 +1,12 @@
+2002-09-19  Jon K Hellan  <hellan@acm.org>
+
+	* gsf.defs (GsfIOContext.error_occurred,
+	GsfIOContext.error_message, GsfIOContext.push_error,
+	GsfIOContext.pop_error): Remove.
+	(GsfOutfileZip.set_compression_method): Add.
+
+	* gsf-arg-types.py: Handle GsfZipCompressionMethod.
+
 2002-09-13  Jon K Hellan  <hellan@acm.org>
 
 	* gsf.override (GSF_TYPE_OUTFILE_ZIP): Define.
