@@ -210,8 +210,18 @@ vba_dirent_read (guint8 const *data, int *size)
 	return data + offset + 52;
 }
 
+/**
+ * vba_init_info :
+ * @vba :
+ * @err : optionally NULL
+ *
+ * Read an VBA dirctory and its project file.
+ * along the way.
+ *
+ * Return value: TRUE on error setting @err if it is supplied.
+ **/
 static gboolean
-vba_dir_read (GsfInfileMSVBA *vba, GError **err)
+vba3_dir_read (GsfInfileMSVBA *vba, GError **err)
 {
 	static struct {
 		size_t   const offset;
@@ -267,8 +277,8 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 			offset += name_len;
 			puts (name);
 		}
-		return;
 
+#warning figure out this offset
 		size = inflated_size - 0x333;
 		data = inflated + 0x333;
 		printf ("SIZE == 0x%x\n", size);
@@ -293,7 +303,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
  * Return value: TRUE on error setting @err if it is supplied.
  **/
 static gboolean
-vba_init_info (GsfInfileMSVBA *vba, GError **err)
+vba56_dir_read (GsfInfileMSVBA *vba, GError **err)
 {
 	/* NOTE : This seems constant, find some confirmation */
 	static guint8 const signature[]	  = { 0xcc, 0x61 };
@@ -317,28 +327,6 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 	unsigned i;
 	GsfInput *dir;
 
-#if 0
-	/******************************************************/
-	dir = gsf_infile_child_by_name (vba->source, "Module1");
-	if (dir == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-				"Can't find the VBA directory stream.");
-		return TRUE;
-	}
-
-	/* We need to extract the offset from the 'dir' stream
-	 * but the details of that format are eluding me.
-	 */
-	inflated = vba_inflate (dir, i, &inflated_size);
-	if (inflated != NULL) {
-		gsf_mem_dump (inflated, inflated_size);
-		g_free (inflated);
-	}
-	g_object_unref (G_OBJECT (dir));
-#endif
-	/******************************************************/
-
 	dir = gsf_infile_child_by_name (vba->source, "_VBA_PROJECT");
 	if (dir == NULL) {
 		if (err != NULL)
@@ -348,7 +336,6 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 	}
 	header = gsf_input_read (dir, gsf_input_size (dir), NULL);
 	gsf_mem_dump (header, gsf_input_size (dir));
-	return TRUE;
 
 	if (NULL == (header = gsf_input_read (dir, VBA_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
@@ -369,10 +356,6 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 				header[2], header[3], header[4], header[5]);
 		return TRUE;
 	}
-
-	/* find the name offset pairs */
-	if (vba_dir_read (vba, err))
-		return TRUE;
 
 	return FALSE;
 }
@@ -532,7 +515,8 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 	vba->source = source;
 	gsf_input_set_size (GSF_INPUT (vba), 0);
 
-	if (vba_init_info (vba, err)) {
+	/* find the name offset pairs */
+	if (vba56_dir_read (vba, err) || vba3_dir_read (vba, err)) {
 		g_object_unref (G_OBJECT (vba));
 		return NULL;
 	}
