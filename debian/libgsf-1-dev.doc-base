@@ -7,5 +7,5 @@ Abstract: Reference manual for the GNOME Structured File Library.
 Section: Apps/Programming
 
 Format: HTML
-Index: /usr/share/doc/libgsf1-dev/html/index.html
-Files: /usr/share/doc/libgsf1-dev/html/*.html
+Index: /usr/share/doc/libgsf-1-dev/html/index.html
+Files: /usr/share/doc/libgsf-1-dev/html/*
