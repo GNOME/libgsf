@@ -1,3 +1,8 @@
+2003-06-20  Morten Welinder  <welinder@rentec.com>
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Handle premature end
+	of stream.
+
 2003-06-21  Jody Goldberg <jody@gnome.org>
 
 	As per ryang@bway.org :

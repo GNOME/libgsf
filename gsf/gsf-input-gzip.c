@@ -253,8 +253,13 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			gzip->stream.next_in = (Byte *)gzip->gzipped_data;
 		}
 		zerr = inflate (&(gzip->stream), Z_NO_FLUSH);
-		if (zerr != Z_OK && zerr != Z_STREAM_END)
-			return NULL;
+		if (zerr != Z_OK) {
+			if (zerr != Z_STREAM_END)
+				return NULL;
+			/* Premature end of stream.  */
+			if (gzip->stream.avail_out != 0)
+				return NULL;
+		}
 	}
 
 	gzip->crc = crc32 (gzip->crc, buffer, (uInt)(gzip->stream.next_out - buffer));
