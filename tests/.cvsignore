@@ -17,3 +17,7 @@ test-zip1
 test-zip2
 test-zip-out-subdirs
 test-zip-out
+test-cp
+test-msole-printf
+test-out-gzip
+test-outmem-printf
