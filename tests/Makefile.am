@@ -1,11 +1,11 @@
 INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 
 check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
-		 test-zip1 test-input1 test-gzip1			\
+		 test-zip1 test-input1 test-cp				\
 		 test-textline test-ls-zip test-cat-zip test-zip2 	\
 		 test-cp-zip test-out-printf test-outmem-printf   	\
 		 test-msole-printf test-zip-out test-zip-out-subdirs    \
-		 test-out-gzip1 test-out-gzip2 test-cp			\
+		 test-out-gzip1 test-out-gzip2 test-gzip1 test-gzip2	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	# test-xml
 
@@ -18,6 +18,7 @@ test_cp_msole_LDADD		= $(ldadd)
 test_cp_zip_LDADD		= $(ldadd)
 test_dump_msole_LDADD		= $(ldadd)
 test_gzip1_LDADD		= $(ldadd)
+test_gzip2_LDADD		= $(ldadd)
 test_input1_LDADD		= $(ldadd)
 test_ls_zip_LDADD		= $(ldadd)
 test_msole1_LDADD		= $(ldadd)

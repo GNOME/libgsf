@@ -1,5 +1,12 @@
 2005-03-25  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_class_init): Install
+	set_property, get_property, and constructor methods.
+	(check_header): Allow skipping the header.  Allow getting
+	uncompressed size from construction property.
+	(gsf_input_gzip_read): Allow having to trailer.
+	(gsf_input_gzip_dup): Cleanly construct the new object.
+
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_class_init): Rename
 	"container" property to "raw" with opposite semantics.
 

@@ -48,7 +48,7 @@ test (int argc, char *argv[])
 
 	gzout = g_object_new (GSF_OUTPUT_GZIP_TYPE,
 			      "sink", output,
-			      "container", FALSE,
+			      "raw", TRUE,
 			      NULL);
 	if (gsf_output_error (gzout)) {
 		g_warning ("'%s' error: %s", "gzip output", gsf_output_error (gzout)->message);
