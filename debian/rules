@@ -159,7 +159,7 @@ binary-arch: build install
 
 	dh_link -plibgsf-1-dbg /usr/share/doc/libgsf-1/ /usr/share/doc/libgsf-1-dbg
 	dh_link -plibgsf-gnome-1-dbg /usr/share/doc/libgsf-gnome-1/ /usr/share/doc/libgsf-gnome-1-dbg
-	dh_link -plibgsf-1-dev /usr/share/doc/libgsf-1-dev/html/ /usr/share/gtk-doc/html/gsf
+	dh_link -plibgsf-1-dev /usr/share/doc/libgsf-1-dev/html/gsf/ /usr/share/gtk-doc/html/gsf
 
 	dh_installexamples
 	dh_installmenu
