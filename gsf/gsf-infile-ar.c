@@ -365,18 +365,19 @@ gsf_infile_ar_dup (GsfInput *src_input, GError **err)
 }
 
 static GsfInput *
-gsf_infile_ar_new_child (GsfInfileAr *parent, ArVDir *vdir)
+gsf_infile_ar_new_child (GsfInfileAr *parent, ArVDir *vdir, GError **err)
 {
+	return NULL;
 }
 
 static GsfInput *
-gsf_infile_ar_child_by_index (GsfInfile *infile, int target)
+gsf_infile_ar_child_by_index (GsfInfile *infile, int target, GError **err)
 {
 	GsfInfileAr *ar = GSF_INFILE_AR (infile);
 	ArVDir *child_vdir = ar_vdir_child_by_index (ar->vdir, target);
 
 	if (child_vdir)
-		return gsf_infile_ar_new_child (ar, child_vdir);
+		return gsf_infile_ar_new_child (ar, child_vdir, err);
 
 	return NULL;
 }
@@ -394,13 +395,13 @@ gsf_infile_ar_name_by_index (GsfInfile *infile, int target)
 }
 
 static GsfInput *
-gsf_infile_ar_child_by_name (GsfInfile *infile, char const *name)
+gsf_infile_ar_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfInfileAr *ar = GSF_INFILE_AR (infile);
 	ArVDir *child_vdir = ar_vdir_child_by_name (ar->vdir, name);
 
 	if (child_vdir)
-		return gsf_infile_ar_new_child (ar, child_vdir);
+		return gsf_infile_ar_new_child (ar, child_vdir, err);
 
 	return NULL;
 }

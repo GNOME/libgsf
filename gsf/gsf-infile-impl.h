@@ -36,8 +36,10 @@ typedef struct {
 	GsfInputClass input_class;
 	int	    (*num_children)   (GsfInfile *infile);
 	char const *(*name_by_index)  (GsfInfile *infile, int i);
-	GsfInput   *(*child_by_index) (GsfInfile *infile, int i);
-	GsfInput   *(*child_by_name)  (GsfInfile *infile, char const *name);
+	GsfInput   *(*child_by_index) (GsfInfile *infile,
+				       int i, GError **err);
+	GsfInput   *(*child_by_name)  (GsfInfile *infile,
+				       char const *name, GError **err);
 } GsfInfileClass;
 
 #define GSF_INFILE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_TYPE, GsfInfileClass))

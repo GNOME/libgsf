@@ -40,10 +40,11 @@ enum {
 	PROP_POS
 };
 
+#if 0
 static void
 gsf_input_set_property (GObject      *object,
 			guint         property_id,
-			const GValue *value,
+			GValue const *value,
 			GParamSpec   *pspec)
 {
 	switch (property_id)
@@ -53,6 +54,7 @@ gsf_input_set_property (GObject      *object,
 			break;
 		}
 }
+#endif
 
 static void
 gsf_input_get_property (GObject     *object,
@@ -61,27 +63,26 @@ gsf_input_get_property (GObject     *object,
 			GParamSpec  *pspec)
 {
 	/* gsf_off_t is typedef'd to gint64 */
-	switch (property_id)
-		{
-		case PROP_NAME:
-			g_value_set_string (value, gsf_input_name (GSF_INPUT (object)));
-			break;
-		case PROP_SIZE:
-			g_value_set_int64 (value, gsf_input_size (GSF_INPUT (object)));
-			break;
-		case PROP_EOF:
-			g_value_set_boolean (value, gsf_input_eof (GSF_INPUT (object)));
-			break;
-		case PROP_REMAINING:
-			g_value_set_int64 (value, gsf_input_remaining (GSF_INPUT (object)));
-			break;
-		case PROP_POS:
-			g_value_set_int64 (value, gsf_input_tell (GSF_INPUT (object)));
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-		}
+	switch (property_id) {
+	case PROP_NAME:
+		g_value_set_string (value, gsf_input_name (GSF_INPUT (object)));
+		break;
+	case PROP_SIZE:
+		g_value_set_int64 (value, gsf_input_size (GSF_INPUT (object)));
+		break;
+	case PROP_EOF:
+		g_value_set_boolean (value, gsf_input_eof (GSF_INPUT (object)));
+		break;
+	case PROP_REMAINING:
+		g_value_set_int64 (value, gsf_input_remaining (GSF_INPUT (object)));
+		break;
+	case PROP_POS:
+		g_value_set_int64 (value, gsf_input_tell (GSF_INPUT (object)));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -119,7 +120,7 @@ static void
 gsf_input_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize     = gsf_input_finalize;
-	gobject_class->set_property = gsf_input_set_property;
+	/* gobject_class->set_property = gsf_input_set_property; */
 	gobject_class->get_property = gsf_input_get_property;
 
 	g_object_class_install_property (gobject_class,

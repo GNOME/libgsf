@@ -138,18 +138,18 @@ blob_name_by_index (GsfInfile *infile, int i)
 }
 
 static GsfInput   *
-blob_child_by_index (GsfInfile *infile, int i)
+blob_child_by_index (GsfInfile *infile, int i, GError **err)
 {
 	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
 	if (blob->children != NULL) {
 		g_return_val_if_fail (i < 0 || (unsigned)i >= blob->children->len, NULL);
-		return gsf_input_dup (g_ptr_array_index (blob->children, i), NULL);
+		return gsf_input_dup (g_ptr_array_index (blob->children, i), err);
 	}
 	return NULL;
 }
 
 static GsfInput   *
-blob_child_by_name (GsfInfile *infile, char const *name)
+blob_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
 	if (blob->children != NULL) {
@@ -159,7 +159,7 @@ blob_child_by_name (GsfInfile *infile, char const *name)
 		for (i = 0 ; i < blob->children->len ;) {
 			child = g_ptr_array_index (blob->children, i);
 			if (!strcmp (gsf_input_name (child), name))
-				return gsf_input_dup (child, NULL);
+				return gsf_input_dup (child, err);
 		}
 	}
 	return NULL;

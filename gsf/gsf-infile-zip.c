@@ -67,7 +67,7 @@ typedef struct {
 #define GSF_IS_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
 
 static ZipVDir *
-vdir_child_by_name (ZipVDir *vdir, char const * name)
+vdir_child_by_name (ZipVDir *vdir, char const *name)
 {
 	GSList *l;
 	ZipVDir *child;
@@ -263,14 +263,19 @@ zip_info_unref (ZipInfo *info)
  * Return value: the partial duplicate.
  **/
 static GsfInfileZip *
-zip_dup (GsfInfileZip const *src)
+zip_dup (GsfInfileZip const *src, GError **err)
 {
-	GsfInfileZip	*dst;
+	GsfInfileZip *dst;
+	GsfInput *input;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
+	input = gsf_input_dup (src->input, err);
+	if (input == NULL)
+		return NULL;
+
 	dst = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
-	dst->input = gsf_input_dup (src->input, NULL);
+	dst->input = input;
 	dst->info  = zip_info_ref (src->info);
 
 	return dst;
@@ -378,8 +383,9 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 	return FALSE;
 }
 
+/* returns TRUE on error */
 static gboolean
-zip_child_init (GsfInfileZip *child)
+zip_child_init (GsfInfileZip *child, GError **errmsg)
 {
 	static guint8 const header_signature[] =
 		{ 'P', 'K', 0x03, 0x04 };
@@ -391,10 +397,12 @@ zip_child_init (GsfInfileZip *child)
 	 * should test tons of other info, but trust that those are correct
 	 **/
 
-	if (gsf_input_seek (child->input, (gsf_off_t) dirent->offset,
-			    G_SEEK_SET) ||
+	if (gsf_input_seek (child->input, (gsf_off_t) dirent->offset, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
+		if (errmsg != NULL)
+			*errmsg = g_error_new (gsf_input_error (), 0,
+					    "Unable to read zip header.");
 		return TRUE;
 	}
 
@@ -408,12 +416,16 @@ zip_child_init (GsfInfileZip *child)
 	if (dirent->compr_method != ZIP_STORED) {
 		int err;
 
-		if (!child->stream) {
+		if (!child->stream)
 			child->stream = g_new0 (z_stream, 1);
-		}
+
 		err = inflateInit2 (child->stream, -MAX_WBITS);
-		if (err != Z_OK)
+		if (err != Z_OK) {
+			if (errmsg != NULL)
+				*errmsg = g_error_new (gsf_input_error (), 0,
+					"problem uncompressing stream");
 			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -425,25 +437,17 @@ static GsfInput *
 gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileZip const *src = GSF_INFILE_ZIP (src_input);
-	GsfInfileZip *dst = zip_dup (src);
+	GsfInfileZip *dst = zip_dup (src, err);
 
-	if (dst == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-					    "Something went wrong in zip_dup.");
+	if (dst == NULL)
 		return NULL;
-	}
 
 	dst->vdir = src->vdir;
 
-	if (dst->vdir->dirent)
-		if (zip_child_init (dst) != FALSE) {
-			g_object_unref (dst);
-			if (err != NULL)
-				*err = g_error_new (gsf_input_error (), 0,
-						    "Something went wrong in zip_child_init.");
-			return NULL;
-		}
+	if (dst->vdir->dirent && zip_child_init (dst, err)) {
+		g_object_unref (dst);
+		return NULL;
+	}
 
 	return GSF_INPUT (dst);
 }
@@ -555,8 +559,10 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		zip->stream->total_in = 0;
 	}
 
-	if (zip_child_init (zip) != FALSE)
+	if (zip_child_init (zip, NULL)) {
+		g_warning ("failure initializing zip child");
 		return TRUE;
+	}
 
 	input->cur_offset = 0;
 	if (gsf_input_seek_emulate (input, pos))
@@ -579,11 +585,14 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 
 static GsfInput *
-gsf_infile_zip_new_child (GsfInfileZip *parent, ZipVDir *vdir)
+gsf_infile_zip_new_child (GsfInfileZip *parent, ZipVDir *vdir, GError **err)
 {
 	GsfInfileZip *child;
 	ZipDirent *dirent = vdir->dirent;
-	child = zip_dup (parent);
+	child = zip_dup (parent, err);
+
+	if (child == NULL)
+		return NULL;
 
 	gsf_input_set_name (GSF_INPUT (child), vdir->name);
 	gsf_input_set_container (GSF_INPUT (child), GSF_INFILE (parent));
@@ -593,24 +602,24 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipVDir *vdir)
 	if (dirent) {
 		gsf_input_set_size (GSF_INPUT (child),
 				    (gsf_off_t) dirent->usize);
-		if (zip_child_init (child) != FALSE) {
+		if (zip_child_init (child, err) != FALSE) {
 			g_object_unref (child);
 			return NULL;
 		}
-	} else {
+	} else
 		gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) 0);
-	}
+
 	return GSF_INPUT (child);
 }
 
 static GsfInput *
-gsf_infile_zip_child_by_index (GsfInfile *infile, int target)
+gsf_infile_zip_child_by_index (GsfInfile *infile, int target, GError **err)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
 	ZipVDir *child_vdir = vdir_child_by_index (zip->vdir, target);
 
 	if (child_vdir)
-		return gsf_infile_zip_new_child (zip, child_vdir);
+		return gsf_infile_zip_new_child (zip, child_vdir, err);
 
 	return NULL;
 }
@@ -628,13 +637,13 @@ gsf_infile_zip_name_by_index (GsfInfile *infile, int target)
 }
 
 static GsfInput *
-gsf_infile_zip_child_by_name (GsfInfile *infile, char const *name)
+gsf_infile_zip_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
 	ZipVDir *child_vdir = vdir_child_by_name (zip->vdir, name);
 
 	if (child_vdir)
-		return gsf_infile_zip_new_child (zip, child_vdir);
+		return gsf_infile_zip_new_child (zip, child_vdir, err);
 
 	return NULL;
 }

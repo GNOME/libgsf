@@ -1,3 +1,22 @@
+2003-07-17  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-zip.c (zip_dup) : take an error arg.
+	(zip_child_init) : ditto.
+	(gsf_infile_zip_dup) : use the error from zip_dup and zip_child_init.
+
+	* gsf/gsf-infile-impl.h : Take GError args for child_by_* virtuals.
+	  We can not expose them yet.
+	* gsf/gsf-structured-blob.c (blob_child_by_index) : fix here.
+	(blob_child_by_name) : and here.
+	* gsf/gsf-infile-ar.c : and here.
+	* gsf/gsf-infile-msvba.c : and here.
+
+	* gsf/gsf-infile-msole.c (ole_dup) : catch gsf_input_dup failures
+	  for the underlying source, and take a GError arg.
+	(gsf_infile_msole_dup) : pass the new err arg to ole_dup and use error
+	  from ole_dup directly.  No need to cruft another one up.
+	(gsf_infile_msole_new_child) : Take a GError arg to pass to ole_dup.
+
 2003-07-15  Jody Goldberg <jody@gnome.org>
 
 	For Stuart Cunningham <stuartc@rd.bbc.co.uk>

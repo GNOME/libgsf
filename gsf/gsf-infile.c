@@ -63,14 +63,27 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
  * @infile :
  * @i :
  *
+ * TODO : For 2.0 api will change to include a GError.
  * Returns a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_index (GsfInfile *infile, int i)
 {
-	g_return_val_if_fail (infile != NULL, NULL);
+	GError *err = NULL;
+	GsfInput *res;
 
-	return GET_CLASS (infile)->child_by_index (infile, i);
+	g_return_val_if_fail (GSF_INFILE (infile) != NULL, NULL);
+
+	res = GET_CLASS (infile)->child_by_index (infile, i, &err);
+
+	if (err != NULL) {
+		g_warning ("Unable to get child[%d] for infile '%s' because : %s",
+			   i, gsf_input_name (GSF_INPUT (infile)), err->message);
+		g_error_free (err);
+		g_return_val_if_fail (res == NULL, NULL); /* be anal */
+	}
+
+	return res;
 }
 
 /**
@@ -78,14 +91,28 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
  * @infile :
  * @name :
  *
+ * TODO : For 2.0 api will change to include a GError.
  * Returns a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 {
-	g_return_val_if_fail (infile != NULL, NULL);
+	GError *err = NULL;
+	GsfInput *res;
 
-	return GET_CLASS (infile)->child_by_name (infile, name);
+	g_return_val_if_fail (GSF_INFILE (infile) != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	res = GET_CLASS (infile)->child_by_name (infile, name, &err);
+
+	if (err != NULL) {
+		g_warning ("Unable to get child['%s'] for infile '%s' because : %s",
+			   name, gsf_input_name (GSF_INPUT (infile)), err->message);
+		g_error_free (err);
+		g_return_val_if_fail (res == NULL, NULL); /* be anal */
+	}
+
+	return res;
 }
 
 /**

@@ -458,25 +458,26 @@ gsf_infile_msvba_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 }
 
 static GsfInput *
-gsf_infile_msvba_new_child (GsfInfileMSVBA *parent, MSVBADirent *dirent)
+gsf_infile_msvba_new_child (GsfInfileMSVBA *parent, MSVBADirent *dirent, GError **err)
 {
 	GsfInputMemory *child = NULL;
 
 	(void) parent;
 	(void) dirent;
+	(void) err;
 #warning TODO
 	return GSF_INPUT (child);
 }
 
 static GsfInput *
-gsf_infile_msvba_child_by_index (GsfInfile *infile, int target)
+gsf_infile_msvba_child_by_index (GsfInfile *infile, int target, GError **err)
 {
 	GsfInfileMSVBA *vba = GSF_INFILE_MSVBA (infile);
 	GList *p;
 
 	for (p = vba->children; p != NULL ; p = p->next)
 		if (target-- <= 0)
-			return gsf_infile_msvba_new_child (vba, p->data);
+			return gsf_infile_msvba_new_child (vba, p->data, err);
 	return NULL;
 }
 
@@ -493,7 +494,7 @@ gsf_infile_msvba_name_by_index (GsfInfile *infile, int target)
 }
 
 static GsfInput *
-gsf_infile_msvba_child_by_name (GsfInfile *infile, char const *name)
+gsf_infile_msvba_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfInfileMSVBA *vba = GSF_INFILE_MSVBA (infile);
 	GList *p;
@@ -501,7 +502,7 @@ gsf_infile_msvba_child_by_name (GsfInfile *infile, char const *name)
 	for (p = vba->children; p != NULL ; p = p->next) {
 		MSVBADirent *dirent = p->data;
 		if (dirent->name != NULL && !strcmp (name, dirent->name))
-			return gsf_infile_msvba_new_child (vba, dirent);
+			return gsf_infile_msvba_new_child (vba, dirent, err);
 	}
 	return NULL;
 }

@@ -92,7 +92,7 @@ typedef struct {
 #define OLE_BIG_BLOCK(index, ole)	((index) >> ole->info->bb.shift)
 
 static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
-					     MSOleDirent *dirent);
+					     MSOleDirent *dirent, GError **err);
 static void ole_info_unref (MSOleInfo *info);
 
 /**
@@ -112,7 +112,6 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 	/* OLE_HEADER_SIZE is fixed at 512, but the sector containing the
 	 * header is padded out to bb.size (sector size) when bb.size > 512. */
 	if (gsf_input_seek (ole->input,
-		(gsf_off_t)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
 		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)),
 		G_SEEK_SET) < 0)
 		return NULL;
@@ -226,7 +225,7 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 		return parent->info->sb_file;
 
 	parent->info->sb_file = gsf_infile_msole_new_child (parent,
-		parent->info->root_dir);
+		parent->info->root_dir, NULL);
 
 	/* avoid creating a circular reference */
 	ole_info_unref (((GsfInfileMSOle *)parent->info->sb_file)->info);
@@ -422,14 +421,19 @@ ole_info_ref (MSOleInfo *info)
  * Return value: the partial duplicate.
  **/
 static GsfInfileMSOle *
-ole_dup (GsfInfileMSOle const *src)
+ole_dup (GsfInfileMSOle const *src, GError **err)
 {
 	GsfInfileMSOle	*dst;
+	GsfInput *input;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
+	input = gsf_input_dup (src->input, err);
+	if (input == NULL)
+		return NULL;
+
 	dst = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	dst->input = gsf_input_dup (src->input, NULL);
+	dst->input = input;
 	dst->info  = ole_info_ref (src->info);
 
 	/* buf and buf_size are initialized to NULL */
@@ -610,15 +614,10 @@ static GsfInput *
 gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
-	GsfInfileMSOle *dst = ole_dup (src);
+	GsfInfileMSOle *dst = ole_dup (src, err);
 
-	if (dst == NULL) {
-		if (err != NULL)
-			/* FIXME: better message.  */
-			*err = g_error_new (gsf_input_error (), 0,
-				"Something went wrong in ole_dup.");
+	if (dst == NULL)
 		return NULL;
-	}
 
 	if (src->bat.block != NULL) {
 		dst->bat.block = g_new (guint32, src->bat.num_blocks),
@@ -713,7 +712,8 @@ gsf_infile_msole_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 }
 
 static GsfInput *
-gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
+gsf_infile_msole_new_child (GsfInfileMSOle *parent,
+			    MSOleDirent *dirent, GError **err)
 {
 	GsfInfileMSOle *child;
 	MSOleInfo *info;
@@ -721,7 +721,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 	GsfInput *sb_file = NULL;
 	size_t size_guess;
 
-	child = ole_dup (parent);
+	child = ole_dup (parent, err);
 	child->dirent = dirent;
 	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->size);
 
@@ -781,14 +781,14 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 }
 
 static GsfInput *
-gsf_infile_msole_child_by_index (GsfInfile *infile, int target)
+gsf_infile_msole_child_by_index (GsfInfile *infile, int target, GError **err)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
 
 	for (p = ole->dirent->children; p != NULL ; p = p->next)
 		if (target-- <= 0)
-			return gsf_infile_msole_new_child (ole, p->data);
+			return gsf_infile_msole_new_child (ole, p->data, err);
 	return NULL;
 }
 
@@ -805,7 +805,7 @@ gsf_infile_msole_name_by_index (GsfInfile *infile, int target)
 }
 
 static GsfInput *
-gsf_infile_msole_child_by_name (GsfInfile *infile, char const *name)
+gsf_infile_msole_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
@@ -813,7 +813,7 @@ gsf_infile_msole_child_by_name (GsfInfile *infile, char const *name)
 	for (p = ole->dirent->children; p != NULL ; p = p->next) {
 		MSOleDirent *dirent = p->data;
 		if (dirent->name != NULL && !strcmp (name, dirent->name))
-			return gsf_infile_msole_new_child (ole, dirent);
+			return gsf_infile_msole_new_child (ole, dirent, err);
 	}
 	return NULL;
 }

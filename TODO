@@ -22,3 +22,11 @@ Longer:
 Future:
     - parse vba p-code directly to produce some other language.
     - move biff utils here from gnumeric
+
+------------------------------------------------------------------------------------
+potential 2.0 api changes
+
+- Infile::get_child*  To take a GError to handle failure
+- Convert Input, Infile, Output, Outfile into interfaces
+- Split Input/Output into base and seekable
+- Remove/Alleviate requirement that we know the size of a stream on open
