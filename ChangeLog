@@ -1,3 +1,7 @@
+2002-06-12  Jon K Hellan  <hellan@acm.org>
+
+	* libgsf-1.pc.in (Requires): Add libxml-2.0
+
 2002-06-11  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_read) : fix reading into an
