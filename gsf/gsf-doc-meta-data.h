@@ -27,6 +27,12 @@
 
 G_BEGIN_DECLS
 
+struct _GsfDocProp {
+	char const *name;
+	GValue *val;
+	char const *linked_to; /* optionally NULL */
+};
+
 #define GSF_DOC_META_DATA_TYPE        (gsf_doc_meta_data_get_type ())
 #define GSF_DOC_META_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_DOC_META_DATA_TYPE, GsfDocMetaData))
 #define GSF_IS_DOC_META_DATA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_DOC_META_DATA_TYPE))
@@ -34,12 +40,12 @@ G_BEGIN_DECLS
 GType  gsf_doc_meta_data_get_type (void);
 GQuark gsf_doc_meta_data_error (void);
 
-GsfDocMetaData *gsf_doc_meta_data_new		(void);
-void            gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta, char const *prop, GValue const *value);
-void            gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta, char const *prop);
-GValue const   *gsf_doc_meta_data_get_prop	(GsfDocMetaData *meta, char const *prop);
-void            gsf_doc_meta_data_foreach	(GsfDocMetaData *meta, GHFunc func, gpointer user_data);
-int		gsf_doc_meta_data_size		(GsfDocMetaData *meta);
+GsfDocMetaData	 *gsf_doc_meta_data_new		(void);
+GsfDocProp const *gsf_doc_meta_data_get_prop	(GsfDocMetaData *meta, char const *prop_name);
+void		  gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta, GsfDocProp *prop);
+void		  gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta, char const *prop);
+void		  gsf_doc_meta_data_foreach	(GsfDocMetaData *meta, GHFunc func, gpointer user_data);
+int		  gsf_doc_meta_data_size	(GsfDocMetaData *meta);
 
 G_END_DECLS
 

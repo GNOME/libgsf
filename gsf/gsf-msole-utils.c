@@ -484,7 +484,7 @@ msole_prop_read (GsfInput *in,
 			g_direct_hash, g_direct_equal,
 			NULL, g_free);
 
-		gsf_mem_dump (data-4, size);
+		d (gsf_mem_dump (data-4, size););
 		n = type;
 		for (i = 0 ; i < n ; i++) {
 			id = GSF_LE_GET_GUINT32 (data);

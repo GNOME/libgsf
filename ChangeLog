@@ -1,3 +1,8 @@
+2002-09-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_read) : remove some debug spew
+	  that snuck in.
+
 2002-09-24  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c :  support unicode property names and values,
