@@ -165,7 +165,7 @@ zip_close_root (GsfOutput *output)
 	for (i = 0 ; i < elem->len ; i++) {
 		child = g_ptr_array_index (elem, i);
 		if (!gsf_output_is_closed (GSF_OUTPUT (child))) {
-			g_message ("Child still open");
+			g_warning ("Child still open");
 			return FALSE;
 		}
 	}
@@ -321,6 +321,11 @@ zip_init_write (GsfOutput *output)
 	ZipDirent *dirent;
 	int      ret;
 	
+	if (zip->root->writing) {
+		g_warning ("Already writing to another stream in archive");
+		return FALSE;
+	}
+
 	if (!gsf_output_wrap (zip->sink, output)) {
 		return FALSE;
 	}
@@ -330,6 +335,7 @@ zip_init_write (GsfOutput *output)
 	zip->vdir->dirent = dirent;
 	zip_header_write (zip);
 	zip->writing = TRUE;
+	zip->root->writing = TRUE;
 	dirent->crc32 = crc32 (0L, Z_NULL, 0);
 	if (zip->compression_method == GSF_ZIP_DEFLATED) {
 		if (!zip->stream) {
@@ -450,7 +456,8 @@ zip_close_stream (GsfOutput *output)
 		if (!zip_header_write_sizes (zip)) /* Write crc, sizes */
 			return FALSE;
 	}
-	
+	zip->root->writing = FALSE;
+
 	return gsf_output_unwrap (zip->sink, output);
 }
 

@@ -1,3 +1,15 @@
+2002-11-25  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-outfile-zip.c (zip_init_write): Fail if already writing
+	to another stream in archive. Set "writing" flag in zip root to
+	indicate that we're writing to a stream.
+	(zip_close_stream): Unset "writing" flag in zip root to indicate
+	that we're now free to write to a new stream.
+	 (zip_close_root): s/g_message/g_warning/.
+	
+	* tests/test-zip-out-subdirs.c (test): Close each substream before
+	starting to write to the next.
+
 2002-11-24  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-outfile-zip.c (stream_name_len,

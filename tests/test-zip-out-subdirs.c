@@ -77,13 +77,13 @@ test (int argc, char *argv[])
 	
 	if (!test_write_once (ch1))
 		return 1;
-	if (!test_write_once (ch2))
-		return 1;
-	if (!test_write_once (ch3))
-		return 1;
 	if (!gsf_output_close ((GsfOutput *) ch1))
 		return 1;
+	if (!test_write_once (ch2))
+		return 1;
 	if (!gsf_output_close ((GsfOutput *) ch2))
+		return 1;
+	if (!test_write_once (ch3))
 		return 1;
 	if (!gsf_output_close ((GsfOutput *) ch3))
 		return 1;
