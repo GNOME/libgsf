@@ -27,6 +27,8 @@ typedef struct {
 	GObjectClass g_object_class;
 } GsfSharedBonoboStreamClass;
 
+static GObjectClass *parent_class;
+
 GsfSharedBonoboStream *
 gsf_shared_bonobo_stream_new (Bonobo_Stream stream)
 {
@@ -43,6 +45,8 @@ gsf_shared_bonobo_stream_finalize (GObject *obj)
 
 	if (bst->stream != NULL) {
 	}
+
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void
@@ -56,6 +60,8 @@ gsf_shared_bonobo_stream_init (GObject *obj)
 static void
 gsf_shared_bonobo_stream_class_init (GObjectClass *gobject_class)
 {
+	parent_class = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->finalize = gsf_shared_bonobo_stream_finalize;
 }
 

@@ -11,6 +11,9 @@ Jody Goldberg:
 Joseph Frazee:
 	* patch the spec file.
 
+Morten Welinder:
+	* Properly chain finalizer.
+
 Tor Lillqvist:
 	* packaging tools for win32.
 

@@ -29,6 +29,8 @@ gsf_output_vprintf (GsfOutput *output, char const* format, va_list args);
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
+static GObjectClass *parent_class;
+
 enum {
 	PROP_0,
 	PROP_NAME,
@@ -99,6 +101,8 @@ gsf_output_finalize (GObject *obj)
 		output->container = NULL;
 	}
 	g_clear_error (&output->err);
+
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void
@@ -126,6 +130,8 @@ gsf_output_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property = gsf_output_set_property;
 	gobject_class->get_property = gsf_output_get_property;
 	output_class->Vprintf       = gsf_output_vprintf;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 
 	g_object_class_install_property (gobject_class,
 					 PROP_NAME,
