@@ -67,11 +67,11 @@ read_types (const char *fname, GPtrArray **types)
 		for (p=buffer;*p;p++)
 			if (*p=='0' && *(p+1)=='x') {
 				GENERIC_TYPE *bt = g_new (GENERIC_TYPE,1);
-				char *name, *pt;
+				unsigned char *name, *pt;
 				bt->opcode=strtol(p+2,0,16);
 				pt = buffer;
 				while (*pt && *pt != '#') pt++;      /* # */
-				while (*pt && !isspace((unsigned char)*pt))
+				while (*pt && !isspace(*pt))
 					pt++;  /* define */
 				while (*pt && isspace((unsigned char)*pt))
 					pt++;  /* '   ' */

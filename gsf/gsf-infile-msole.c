@@ -817,6 +817,7 @@ gsf_infile_msole_init (GObject *obj)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (obj);
 
+	ole->input		= NULL;
 	ole->info		= NULL;
 	ole->bat.block		= NULL;
 	ole->bat.num_blocks	= 0;
@@ -852,7 +853,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
  * @input :
  * @err   :
  *
- * Opens the root directory of an MS Ole file.
+ * Opens the root directory of an MS OLE file.
  * NOTE : Absorbs a reference to the input
  *
  * Return value : the new ole file handler
@@ -860,7 +861,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 GsfInfile *
 gsf_infile_msole_new (GsfInput *input, GError **err)
 {
-	GsfInfileMSOle	*ole;
+	GsfInfileMSOle *ole;
 
 	ole = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
 	ole->input = input; /* absorb reference */
