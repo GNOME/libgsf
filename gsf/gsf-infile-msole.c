@@ -109,8 +109,11 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 {
 	g_return_val_if_fail (block < ole->info->max_block, NULL);
 
+	/* OLE_HEADER_SIZE is fixed at 512, but the sector containing the
+	 * header is padded out to bb.size (sector size) when bb.size > 512. */
 	if (gsf_input_seek (ole->input,
 		(gsf_off_t)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
+		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)),
 		G_SEEK_SET) < 0)
 		return NULL;
 

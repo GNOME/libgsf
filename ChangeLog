@@ -1,3 +1,9 @@
+2003-07-15  Jody Goldberg <jody@gnome.org>
+
+	For Stuart Cunningham <stuartc@rd.bbc.co.uk>
+	* gsf/gsf-infile-msole.c (ole_get_block) : fix ole block seeking in
+	  4k-sector files
+
 2003-07-03  Jody Goldberg <jody@gnome.org>
 
 	For : Stuart Cunningham <stuartc@rd.bbc.co.uk>
