@@ -94,9 +94,10 @@ gsf_doc_meta_data_remove_prop (GsfDocMetaData *meta, const gchar * prop)
  * associated value
  **/
 GValue const *
-gsf_doc_meta_data_get_prop (GsfDocMetaData * meta, const gchar * prop)
+gsf_doc_meta_data_get_prop (const GsfDocMetaData * meta, const gchar * prop)
 {
 	g_return_val_if_fail (meta != NULL, NULL);
+
 	return g_hash_table_lookup (meta->table, prop);
 }
 
@@ -109,11 +110,11 @@ gsf_doc_meta_data_get_prop (GsfDocMetaData * meta, const gchar * prop)
  * Iterate through each (key, value) pair in this collection
  **/
 void
-gsf_doc_meta_data_foreach (GsfDocMetaData *meta, GHFunc func, gpointer data)
+gsf_doc_meta_data_foreach (const GsfDocMetaData *meta, GHFunc func, gpointer user_data)
 {
 	g_return_if_fail (meta != NULL);
 
-	g_hash_table_foreach (meta->table, func, data);
+	g_hash_table_foreach (meta->table, func, user_data);
 }
 
 /**
@@ -122,12 +123,12 @@ gsf_doc_meta_data_foreach (GsfDocMetaData *meta, GHFunc func, gpointer data)
  *
  * Returns the number of items in this collection
  **/
-int
-gsf_doc_meta_data_size (GsfDocMetaData *meta)
+gsize
+gsf_doc_meta_data_size (const GsfDocMetaData * meta)
 {
 	g_return_val_if_fail (meta != NULL, 0);
 
-	return g_hash_table_size (meta->table);
+	return (gsize) g_hash_table_size (meta->table);
 }
 
 static void
@@ -136,11 +137,11 @@ gsf_doc_meta_data_value_destroyed (gpointer data)
 	GValue *value = (GValue *)data;
 
 	if (value == NULL)
-		return ;
+		return;
 
 	/* free the value's internal data and then free the value itself */
 	g_value_unset (value);
-	g_free (value) ;
+	g_free (value);
 }
 
 static void

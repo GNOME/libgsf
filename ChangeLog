@@ -1,3 +1,7 @@
+2003-02-07  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-doc-metadata.[ch]: Clean API a bit to include consts, gsize
+	
 2003-02-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : clip long names,
