@@ -39,7 +39,7 @@
 #include <dirent.h>
 #include <string.h>
 
-GObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 struct _GsfInfileStdio {
 	GsfInfile parent;

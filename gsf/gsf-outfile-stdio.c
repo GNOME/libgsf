@@ -37,7 +37,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
-GObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 struct _GsfOutfileStdio {
 	GsfOutfile parent;
