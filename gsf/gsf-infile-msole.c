@@ -175,9 +175,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 		       guint32 const *metabat, guint32 const *metabat_end)
 {
 	guint8 const *bat, *end;
-	int i = 0;
 
-	puts ("=====================");
 	for (; metabat < metabat_end; metabat++) {
 		bat = ole_get_block (ole, *metabat, NULL);
 		if (bat == NULL)
