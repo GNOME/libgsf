@@ -1,3 +1,8 @@
+2005-03-24  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-stdio.c (gsf_access): Renamed from
+	file_is_writable.  Make it a full access wrapper.  Caller changed.
+
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_filename_to_utf8): Make this sane (which it

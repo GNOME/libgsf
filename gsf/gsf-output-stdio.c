@@ -77,11 +77,11 @@ rename_wrapper (const char *oldfilename, const char *newfilename)
 	return result;
 }
 
+/* g_access would be nice here.  */
 static gboolean
-file_is_writable (const char *filename)
+gsf_access (const char *filename, int what)
 {
 #ifdef G_OS_WIN32
-	/* g_access would be nice here.  */
 	int retval;
 	int save_errno;
 	if (G_WIN32_HAVE_WIDECHAR_API ()) {
@@ -91,13 +91,12 @@ file_is_writable (const char *filename)
 			return -1;
 		}
 
-		retval = _waccess (wfilename, W_OK);
+		retval = _waccess (wfilename, what);
 		save_errno = errno;
 
 		g_free (wfilename);
       
 		errno = save_errno;
-		return retval;
 	} else {
 		gchar *cp_filename = g_locale_from_utf8 (filename, -1, NULL, NULL, NULL);
 		if (cp_filename == NULL) {
@@ -105,7 +104,7 @@ file_is_writable (const char *filename)
 			return -1;
 		}
 
-		retval = _access (cp_filename, W_OK);
+		retval = _access (cp_filename, what);
 		save_errno = errno;
 
 		g_free (cp_filename);
@@ -114,10 +113,10 @@ file_is_writable (const char *filename)
 	}
 	return retval;
 #else
-	/* This should probably use eaccess if available.  */
-	return access (filename, W_OK) == 0;
+	return access (filename, what);
 #endif
 }
+
 
 
 #define GSF_MAX_LINK_LEVEL 256
@@ -209,7 +208,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		}
 
 		/* FIXME? Race conditions en masse.  */
-		if (!file_is_writable (real_filename)) {
+		if (gsf_access (real_filename, W_OK) == -1) {
 			if (err != NULL) {
 				int save_errno = errno;
 				char *dname = g_filename_display_name
