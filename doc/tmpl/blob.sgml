@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-gsf-infile-msole
+Structured Blobs
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -14,27 +14,30 @@ gsf-infile-msole
 
 </para>
 
-<!-- ##### STRUCT GsfInfileMSOle ##### -->
+<!-- ##### STRUCT GsfStructuredBlob ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### FUNCTION gsf_infile_msole_get_type ##### -->
+<!-- ##### FUNCTION gsf_structured_blob_write ##### -->
 <para>
 
 </para>
 
+@blob: 
+@container: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@outfile: 
 
 
-<!-- ##### FUNCTION gsf_infile_msole_new ##### -->
+<!-- ##### FUNCTION gsf_structured_blob_read ##### -->
 <para>
 
 </para>
 
-@source: 
-@err: 
+@input: 
 @Returns: 
 
 

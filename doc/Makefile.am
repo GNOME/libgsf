@@ -28,8 +28,15 @@ HFILE_GLOB=$(top_srcdir)/gsf/*.h
 CFILE_GLOB=$(top_srcdir)/gsf/*.c
 
 # Header files to ignore when scanning
-IGNORE_HFILES=			\
-	biff-types.h
+IGNORE_HFILES=			 \
+	biff-types.h		 \
+	gsf-command-context.h	 \
+	gsf-infile-msvba.h	 \
+	gsf-io-context.h	 \
+	gsf-output-transaction.h \
+	gsf-infile-ar.h 	\
+	gsf-infile-tar.h 	\
+	gsf-outfile-tar.h
 
 EXTRA_HFILES = ../gsf-gnome/*.h
 

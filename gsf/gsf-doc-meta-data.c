@@ -55,7 +55,7 @@ gsf_doc_meta_data_new (void)
  * @prop does exist in the collection, replace the old value with this new one
  **/
 void
-gsf_doc_meta_data_set_prop (GsfDocMetaData * meta, const gchar * prop, const GValue * value)
+gsf_doc_meta_data_set_prop (GsfDocMetaData *meta, char const *prop, GValue const *value)
 {
 	GValue *cpy;
 

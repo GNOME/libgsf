@@ -1,0 +1,191 @@
+<!-- ##### SECTION Title ##### -->
+Input from unstructured files
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gsf_input_container ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_dup ##### -->
+<para>
+
+</para>
+
+@input: 
+@err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_size ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_eof ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_remaining ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_tell ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_seek ##### -->
+<para>
+
+</para>
+
+@input: 
+@offset: 
+@whence: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_sibling ##### -->
+<para>
+
+</para>
+
+@input: 
+@name: 
+@err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_copy ##### -->
+<para>
+
+</para>
+
+@input: 
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_uncompress ##### -->
+<para>
+
+</para>
+
+@src: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_name ##### -->
+<para>
+
+</para>
+
+@input: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_container ##### -->
+<para>
+
+</para>
+
+@input: 
+@container: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_size ##### -->
+<para>
+
+</para>
+
+@input: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_seek_emulate ##### -->
+<para>
+
+</para>
+
+@input: 
+@pos: 
+@Returns: 
+
+
+<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO GSF_IS_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### STRUCT GsfInputClass ##### -->
+<para>
+
+</para>
+
+@g_object_class: 
+@Dup: 
+@Read: 
+@Seek: 
+@OpenSibling: 
+@_gsf_reserved0: 
+@_gsf_reserved1: 
+@_gsf_reserved2: 
+@_gsf_reserved3: 
+

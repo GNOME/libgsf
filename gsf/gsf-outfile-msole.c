@@ -756,7 +756,6 @@ gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shif
 /**
  * gsf_outfile_msole_new :
  * @sink :
- * @err   :
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.

@@ -37,7 +37,7 @@ int	    gsf_infile_num_children   (GsfInfile *infile);
 char const *gsf_infile_name_by_index  (GsfInfile *infile, int i);
 GsfInput   *gsf_infile_child_by_index (GsfInfile *infile, int i);
 GsfInput   *gsf_infile_child_by_name  (GsfInfile *infile, char const *name);
-GsfInput   *gsf_infile_child_by_vname  (GsfInfile *infile, char const *name, ...);
+GsfInput   *gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...);
 
 G_END_DECLS
 

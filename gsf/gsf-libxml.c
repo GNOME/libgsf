@@ -430,14 +430,15 @@ static xmlSAXHandler gsfXMLInParser = {
 
 /**
  * gsf_xml_in_doc_new :
- * @doc :
+ * @root : an array of node descriptors
+ * @ns : an array of namespace identifiers
  *
  * Put the nodes in the NULL terminated array starting at @root and the name
  * spaces in the NULL terminated array starting at @ns together.  Link them up
  * and prepare the static data structures necessary to validate a doument based
  * on that description.
  *
- * Returns : NULL on error
+ * Returns NULL on error
  **/
 GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
@@ -601,7 +602,7 @@ gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
  * otherwise NULL.
  **/
 char const *
-gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned ns_id)
+gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned int ns_id)
 {
 	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
 
@@ -621,7 +622,7 @@ gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned ns_id)
  **/
 gboolean
 gsf_xml_in_namecmp (GsfXMLIn const *state, char const *str,
-		    unsigned ns_id, char const *name)
+		    unsigned int ns_id, char const *name)
 {
 	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
 
@@ -947,7 +948,7 @@ gsf_xml_out_add_int (GsfXMLOut *xml, char const *id,
  **/
 void
 gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
-		      unsigned val)
+		      unsigned int val)
 {
 	char buf [4 * sizeof (int)];
 	sprintf (buf, "%u", val);
@@ -992,7 +993,7 @@ gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
  **/
 void
 gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
-		       unsigned r, unsigned g, unsigned b)
+		       unsigned int r, unsigned int g, unsigned int b)
 {
 	char buf [4 * sizeof (unsigned)];
 	sprintf (buf, "%X:%X:%X", r, g, b);
@@ -1010,7 +1011,7 @@ gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
  **/
 void
 gsf_xml_out_add_base64 (GsfXMLOut *xml, char const *id,
-			guint8 const *data, unsigned len)
+			guint8 const *data, unsigned int len)
 {
 	/* We could optimize and stream right to the output,
 	 * or even just keep the buffer around

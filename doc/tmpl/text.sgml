@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-gsf-input-memory
+Text
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -14,40 +14,36 @@ gsf-input-memory
 
 </para>
 
-<!-- ##### STRUCT GsfInputMemory ##### -->
+<!-- ##### STRUCT GsfInputTextline ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### FUNCTION gsf_input_memory_new ##### -->
+<!-- ##### FUNCTION gsf_input_textline_new ##### -->
 <para>
 
 </para>
 
-@buf: 
-@length: 
-@needs_free: 
+@source: 
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_input_memory_new_clone ##### -->
+<!-- ##### FUNCTION gsf_input_textline_ascii_gets ##### -->
 <para>
 
 </para>
 
-@buf: 
-@length: 
+@input: 
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_input_mmap_new ##### -->
+<!-- ##### FUNCTION gsf_input_textline_utf8_gets ##### -->
 <para>
 
 </para>
 
-@filename: 
-@err: 
+@input: 
 @Returns: 
 
 

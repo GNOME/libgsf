@@ -927,10 +927,11 @@ static GsfLanguageMapping const gsf_msole_language_ids[] = {
 
 /**
  * gsf_msole_lid_for_language
+ * @lang :
  *
- * Return the LID (Language Identifier) for the input language.
+ * Returns the LID (Language Identifier) for the input language.
  * If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
- */
+ **/
 guint
 gsf_msole_lid_for_language (char const *lang)
 {
@@ -1015,9 +1016,10 @@ gsf_msole_codepage_to_lid (int codepage)
 
 /**
  * gsf_msole_lid_to_codepage
+ * @lid :
  *
- * Our best guess at the codepage for the given language id
- */
+ * Returns our best guess at the codepage for the given language id
+ **/
 guint
 gsf_msole_lid_to_codepage (guint lid)
 {
@@ -1215,10 +1217,11 @@ gsf_msole_lid_to_codepage (guint lid)
 
 /**
  * gsf_msole_lid_to_codepage_str
+ * @lid :
  * 
  * Returns the Iconv codepage string for the given LID.
  * Return value must be g_free()'d
- */
+ **/
 gchar *
 gsf_msole_lid_to_codepage_str (guint lid)
 {
@@ -1234,8 +1237,8 @@ gsf_msole_lid_to_codepage_str (guint lid)
 /**
  * gsf_msole_iconv_win_codepage :
  *
- * Our best guess at the applicable windows code page based on an environment
- * variable or the current locale.
+ * Returns our best guess at the applicable windows code page based on an
+ * 	environment variable or the current locale.
  **/
 guint
 gsf_msole_iconv_win_codepage (void)
@@ -1266,7 +1269,7 @@ gsf_msole_iconv_win_codepage (void)
  * @to:
  * @codepage :
  *
- * Open an iconv converter for @codepage -> utf8.
+ * Returns an iconv converter for @codepage -> utf8.
  **/
 GIConv
 gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
@@ -1314,9 +1317,9 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
  * gsf_msole_iconv_open_for_import :
  * @codepage :
  *
- * Open an iconv converter for single byte encodings @codepage -> utf8.
- * Attempt to handle the semantics of a specification for multibyte encodings
- * since this is only supposed to be used for single bytes.
+ * Returns an iconv converter for single byte encodings @codepage -> utf8.
+ * 	Attempt to handle the semantics of a specification for multibyte encodings
+ * 	since this is only supposed to be used for single bytes.
  **/
 GIConv
 gsf_msole_iconv_open_for_import (int codepage)
@@ -1325,10 +1328,12 @@ gsf_msole_iconv_open_for_import (int codepage)
 }
 
 /**
- * gsf_msole_iconv_open_for_export :
+ * gsf_msole_iconv_open_codepages_for_export :
+ * @codepage_to :
+ * @from :
  *
- * Open an iconv convert to go from utf8 -> to our best guess at a useful
- * windows codepage.
+ * Returns an iconv converter to go from utf8 -> to our best guess at a useful
+ * 	windows codepage.
  **/
 GIConv
 gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
@@ -1347,12 +1352,11 @@ gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
 }
 
 /**
- * gsf_msole_iconv_open_for_export :
- *
+ * gsf_msole_iconv_open_codepage_for_export :
  * @codepage_to:
  *
- * Open an iconv convert to go from utf8 -> to our best guess at a useful
- * windows codepage.
+ * Returns an iconv converter to go from utf8 -> to our best guess at a useful
+ * 	windows codepage.
  **/
 GIConv
 gsf_msole_iconv_open_codepage_for_export (guint codepage_to)
@@ -1363,8 +1367,8 @@ gsf_msole_iconv_open_codepage_for_export (guint codepage_to)
 /**
  * gsf_msole_iconv_open_for_export :
  *
- * Open an iconv convert to go from utf8 -> to our best guess at a useful
- * windows codepage.
+ * Returns an iconv convert to go from utf8 -> to our best guess at a useful
+ * 	windows codepage.
  **/
 GIConv
 gsf_msole_iconv_open_for_export (void)
@@ -1378,7 +1382,6 @@ gsf_msole_iconv_open_for_export (void)
  * gsf_msole_inflate:
  * @input: stream to read from
  * @offset: offset into it for start byte of compresse stream
- * @size: pointer to size of returned data
  * 
  * Decompresses an LZ compressed stream.
  * 

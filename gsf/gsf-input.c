@@ -440,7 +440,6 @@ gsf_input_error (void)
 
 /**
  * gsf_input_copy :
- *
  * @input : a non-null #GsfInput
  * @output : a non-null #GsfOutput
  *
@@ -449,8 +448,8 @@ gsf_input_error (void)
  * make sure to call gsf_input_seek (input, 0, G_SEEK_SET) and
  * gsf_output_seek (output, 0, G_SEEK_SET) first, if applicable.
  *
- * Returns : Success
- */
+ * Returns : TRUE on Success
+ **/
 gboolean
 gsf_input_copy (GsfInput *input, GsfOutput *output)
 {
@@ -477,7 +476,6 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
 
 /**
  * gsf_input_uncompress: maybe uncompress stream.
- *
  * @src: stream to be uncompressed.
  *
  * Returns: A stream equivalent to the source stream, but uncompressed if

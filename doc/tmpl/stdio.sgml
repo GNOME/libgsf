@@ -1,0 +1,80 @@
+<!-- ##### SECTION Title ##### -->
+Reading and Writing from local files and directories
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT GsfInputStdio ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_stdio_new ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@Returns: 
+
+
+<!-- ##### STRUCT GsfOutputStdio ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_output_stdio_new ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@Returns: 
+
+
+<!-- ##### STRUCT GsfOutfileStdio ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_outfile_stdio_new ##### -->
+<para>
+
+</para>
+
+@root: 
+@err: 
+@Returns: 
+
+
+<!-- ##### STRUCT GsfInfileStdio ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_infile_stdio_new ##### -->
+<para>
+
+</para>
+
+@root: 
+@err: 
+@Returns: 
+
+

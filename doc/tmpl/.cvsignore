@@ -1,1 +1,8 @@
 *.bak
+tmpl/text.sgml
+tmpl/gnomevfs.sgml
+tmpl/gzip.sgml
+tmpl/input.sgml
+tmpl/memory.sgml
+tmpl/stdio.sgml
+tmpl/utils.sgml

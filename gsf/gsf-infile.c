@@ -118,9 +118,10 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 /**
  * gsf_infile_child_by_vname :
  * @infile :
- * @name : A NULL terminated list of names
+ * @name : A %null terminated list of names
+ * @Varargs : the rest of the names
  *
- * A returns a newly created child which must be unrefed.
+ * Returns a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)

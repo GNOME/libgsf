@@ -260,10 +260,10 @@ gsf_structured_blob_read (GsfInput *input)
 /**
  * gsf_structured_blob_write :
  * @blob :
- * @output :
+ * @container :
  *
- * Dumps a structured blob onto the @output.  Will fail if the output is not an
- * Outfile and blob has multiple streams.
+ * Dumps structured blob @blob onto the @container.  Will fail if the output is
+ * not an Outfile and blob has multiple streams.
  *
  * Returns : TRUE on success.
  **/

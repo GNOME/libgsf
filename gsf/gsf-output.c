@@ -373,7 +373,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
  * outputs.
  *
  * Returns : TRUE if the assignment was ok.
- */
+ **/
 gboolean
 gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 {
@@ -390,13 +390,15 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 /**
  * gsf_output_set_error :
  * @output :
- * @container :
+ * @code :
+ * @format :
+ * @Varargs :
  *
  * <protected> This is a utility routine that should only be used by derived
  * outputs.
  *
- * Returns : Always returns FALSE to facilitate its use.
- */
+ * Returns Always returns FALSE to facilitate its use.
+ **/
 gboolean
 gsf_output_set_error (GsfOutput  *output,
 		      gint        code,
@@ -501,14 +503,14 @@ gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
 
 /**
  * gsf_output_printf:
- *
  * @output: A #GsfOutput
  * @format: The printf-style format string
+ * @Varargs: the arguments for @format
  *
  * Returns: TRUE if successful, FALSE if not
- */
+ **/
 gboolean
-gsf_output_printf (GsfOutput *output, char const* format, ...)
+gsf_output_printf (GsfOutput *output, char const *format, ...)
 {
 	va_list args;
 	gboolean ret;
@@ -526,16 +528,15 @@ gsf_output_printf (GsfOutput *output, char const* format, ...)
 
 /**
  * gsf_output_puts:
- *
  * @output: A #GsfOutput
- * @line: %null-terminated string to write
+ * @line: %null terminated string to write
  *
  * Like fputs, this assumes that the line already ends with a newline 
  *
  * Returns: TRUE if successful, FALSE if not
- */
+ **/
 gboolean
-gsf_output_puts (GsfOutput *output, char const* line)
+gsf_output_puts (GsfOutput *output, char const *line)
 {
 	size_t nbytes = 0;
 

@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-gsf-input-gnomevfs
+GIOChannel
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -14,21 +14,18 @@ gsf-input-gnomevfs
 
 </para>
 
-<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
+<!-- ##### STRUCT GsfOutputIOChannel ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
+<!-- ##### FUNCTION gsf_output_iochannel_new ##### -->
 <para>
 
 </para>
 
-@uri: 
-@error: 
+@channel: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@filename: 
 
 

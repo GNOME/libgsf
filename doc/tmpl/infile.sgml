@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-gsf-infile
+Infile reading structed files
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -42,4 +42,42 @@ gsf-infile
 @name: 
 @Returns: 
 
+
+<!-- ##### FUNCTION gsf_infile_child_by_vname ##### -->
+<para>
+
+</para>
+
+@infile: 
+@name: 
+@Varargs: 
+@Returns: 
+
+
+<!-- ##### MACRO GSF_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO GSF_IS_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### STRUCT GsfInfileClass ##### -->
+<para>
+
+</para>
+
+@input_class: 
+@num_children: 
+@name_by_index: 
+@child_by_index: 
+@child_by_name: 
 

@@ -118,9 +118,9 @@ void	     gsf_xml_in_doc_free (GsfXMLInDoc *doc);
 
 gboolean    gsf_xml_in_parse	 (GsfXMLIn *state, GsfInput *input);
 char const *gsf_xml_in_check_ns	 (GsfXMLIn const *state, char const *str,
-				  unsigned ns_id);
+				  unsigned int ns_id);
 gboolean    gsf_xml_in_namecmp	 (GsfXMLIn const *state, char const *str,
-				  unsigned ns_id, char const *name);
+				  unsigned int ns_id, char const *name);
 
 /****************************************************************************/
 /* Simplified GSF based xml export (does not use libxml) */
@@ -153,13 +153,13 @@ void gsf_xml_out_add_bool		(GsfXMLOut *xml, char const *id,
 void gsf_xml_out_add_int		(GsfXMLOut *xml, char const *id,
 					 int val);
 void gsf_xml_out_add_uint		(GsfXMLOut *xml, char const *id,
-					 unsigned val);
+					 unsigned int val);
 void gsf_xml_out_add_float		(GsfXMLOut *xml, char const *id,
 					 double val, int precision);
 void gsf_xml_out_add_color		(GsfXMLOut *xml, char const *id,
-					 unsigned r, unsigned g, unsigned b);
+					 unsigned int r, unsigned int g, unsigned int b);
 void gsf_xml_out_add_base64		(GsfXMLOut *xml, char const *id,
-					 guint8 const *data, unsigned len);
+					 guint8 const *data, unsigned int len);
 
 /* TODO : something for enums ? */
 
