@@ -35,28 +35,30 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-
 #ifdef G_OS_WIN32
+
+#include <wchar.h>
+#include <direct.h>
+#include <glib/gwin32.h>
 
 #ifndef S_IRUSR
 #define S_IRUSR 04
 #define S_IWUSR 02
-#define W_OK    00  /* existance mode only */
 typedef int mode_t;
 #endif
 
 #define S_IRGRP S_IRUSR
 #define S_IROTH S_IRUSR
-#define S_ISGID 0
-
-#define getuid() 0
-#define getgid() 0
 
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
 
 #endif /* G_OS_WIN32 */
+
+#ifndef W_OK
+#define W_OK 2
+#endif
 
 static GObjectClass *parent_class;
 
@@ -85,6 +87,48 @@ rename_wrapper (const char *oldfilename, const char *newfilename)
 	}
 #endif
 	return result;
+}
+
+static gboolean
+file_is_writable (const char *filename)
+{
+#ifdef G_OS_WIN32
+	/* g_access would be nice here.  */
+	int retval;
+	int save_errno;
+	if (G_WIN32_HAVE_WIDECHAR_API ()) {
+		wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
+		if (wfilename == NULL) {
+			errno = EINVAL;
+			return -1;
+		}
+
+		retval = _waccess (wfilename, W_OK);
+		save_errno = errno;
+
+		g_free (wfilename);
+      
+		errno = save_errno;
+		return retval;
+	} else {
+		gchar *cp_filename = g_locale_from_utf8 (filename, -1, NULL, NULL, NULL);
+		if (cp_filename == NULL) {
+			errno = EINVAL;
+			return -1;
+		}
+
+		retval = _access (cp_filename, W_OK);
+		save_errno = errno;
+
+		g_free (cp_filename);
+
+		errno = save_errno;
+	}
+	return retval;
+#else
+	/* This should probably use eaccess if available.  */
+	return access (real_filename, W_OK) == 0;
+#endif
 }
 
 
@@ -157,14 +201,30 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	dirname = g_path_get_dirname (real_filename);
 
 	if (g_stat (real_filename, &st) == 0) {
-		/* FIXME: use eaccess if available.  */
+		if (!S_ISREG (st.st_mode)) {
+			if (err != NULL) {
+				char *dname = g_filename_display_name
+					(real_filename);
+				*err = g_error_new (gsf_output_error (), 0,
+						    "%s: Is not a regular file",
+						    dname);
+				g_free (utf8name);
+			}
+			goto failure;
+		}
+
 		/* FIXME? Race conditions en masse.  */
-#warning "we need g_access in gstdio.h for this"
-		if (access (real_filename, W_OK) != 0) {
-			if (err != NULL)
-				*err = g_error_new_literal
+		if (!file_is_writable (real_filename)) {
+			if (err != NULL) {
+				int save_errno = errno;
+				char *dname = g_filename_display_name
+					(real_filename);
+				*err = g_error_new
 					(gsf_output_error_id (), errno,
-					 g_strerror (errno));
+					 "%s: %s",
+					 dname, g_strerror (save_errno));
+				g_free (dname);
+			}
 			goto failure;
 		}
 	} else {
@@ -174,22 +234,21 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		 */
 
 		struct stat dir_st;
-		int result;
+
+		memset (&st, 0, sizeof (st));
 
 		/* Use default permissions */
 		st.st_mode = 0666;  fixup_mode = TRUE;
+#ifdef HAVE_CHOWN
 		st.st_uid = getuid ();
 
-		/* Used to set create_backup_copy = FALSE, but
-		   creating backup copies on this level is a 
-		   horrible mistake. -DAL- */
-
-		result = g_stat (dirname, &dir_st);
-
-		if (result == 0 && (dir_st.st_mode & S_ISGID))
+		if (g_stat (dirname, &dir_st) == 0 &&
+		    S_ISDIR (st.st_mode) &&
+		    (dir_st.st_mode & S_ISGID))
 			st.st_gid = dir_st.st_gid;
 		else
 			st.st_gid = getgid ();
+#endif
 	}
 
 	/* Save to a temporary file.  We set the umask because some (buggy)
@@ -205,10 +264,16 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		st.st_mode &= ~saved_umask;
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
-		if (err != NULL)
-			*err = g_error_new_literal
+		if (err != NULL) {
+			int save_errno = errno;
+			char *dname = g_filename_display_name
+				(temp_filename);
+			*err = g_error_new
 				(gsf_output_error_id (), errno,
-				 g_strerror (errno));
+				 "%s: %s",
+				 dname, g_strerror (save_errno));
+			g_free (dname);
+		}
 		goto failure;
 	}
 
@@ -225,7 +290,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 
 	return GSF_OUTPUT (stdio);
 
-failure :
+ failure:
 	g_free (temp_filename);
 	g_free (real_filename);
 	g_free (dirname);

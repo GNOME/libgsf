@@ -1,12 +1,14 @@
-2005-03-22  Morten Welinder  <welinder@rentec.com>
+2005-03-22  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Conditionalize
+	owner/group stuff on HAVE_CHOWN.  Use file_is_writable.
+	(file_is_writable): New function.
 
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Use f_open, not
 	open.
 
 	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new): Simplify using
 	g_mkdir.
-
-2005-03-22  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Require glib 2.6 for g_filename_display_name.
 
