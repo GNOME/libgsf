@@ -1,5 +1,8 @@
 2004-08-25  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-utils.c (gsf_base64_encode_step): Avoid potential
+	rounding error.
+
 	* gsf/gsf-input-bzip.c (gsf_input_memory_new_from_bzip): Kill
 	pointless #warning.
 
