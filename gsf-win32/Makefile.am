@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
 if PLATFORM_WIN32
 target_libgsf_win32 = libgsf-win32-1.la

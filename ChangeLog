@@ -1,3 +1,13 @@
+2005-04-01  Stepan Kasal  <kasal@ucw.cz>
+
+	s/INCLUDES/AM_CPPFLAGS/  "automake -Wall" has told me this.
+
+	* configure.in: More sophisticated check for zlib, an improved
+	  version of the check in gnumeric (to be removed soon from there),
+	  which in turn was inspired by libxml2's configure.in.
+	  Require Autoconf 2.54 and other cosmetic changes.
+	* autogen.sh: Require Autoconf 2.54 and other cosmetic changes.
+
 2005-03-31  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output.c (gsf_output_set_error): Make public.

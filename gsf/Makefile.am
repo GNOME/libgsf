@@ -14,7 +14,7 @@ install-libtool-import-lib:
 uninstall-libtool-import-lib:
 endif
 
-INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS)
 
 lib_LTLIBRARIES = libgsf-1.la
 

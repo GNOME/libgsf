@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir) $(LIBGSF_GNOME_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_GNOME_CFLAGS)
 
 if WITH_LIBGSF_GNOME
 target_libgsf_gnome = libgsf-gnome-1.la

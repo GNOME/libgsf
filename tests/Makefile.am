@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 
 check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-zip1 test-input1 test-cp				\

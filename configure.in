@@ -1,4 +1,7 @@
-AC_PREREQ(2.52)
+-*- mode: m4 -*-
+dnl We require Automake 1.7.1, which requires Autoconf 2.54.
+AC_PREREQ(2.54)
+
 AC_INIT(gsf/gsf.h)
 
 dnl Set release number
@@ -30,6 +33,9 @@ AM_CONFIG_HEADER(gsf-config.h)
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AM_MAINTAINER_MODE
 
+dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
+AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_MAKE_SET
@@ -45,7 +51,7 @@ dnl Modules common to libgsf and libgsf-gnome
 m4_define(LIBGSF_MODULES,[gobject-2.0 >= 2.6.0
     glib-2.0 >= 2.6.0
     libxml-2.0 >= 2.4.16])
-PKG_CHECK_MODULES(LIBGSF,LIBGSF_MODULES)
+PKG_CHECK_MODULES(LIBGSF, LIBGSF_MODULES)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
@@ -149,11 +155,43 @@ GTK_DOC_CHECK([1.0])
 AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 dnl ***********************************************************************************
-dnl libxml
-dnl
-AC_CHECK_LIB(z, zlibVersion,
-    [Z_LIBS=-lz AC_SUBST(Z_LIBS)],
-    AC_MSG_ERROR([*** zlib is required]))
+# Check for zlib.
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+Z_DIR= Z_LIBS= Z_CPPFLAGS=
+
+AC_ARG_WITH(zlib,
+        [[  --with-zlib=DIR       use libz in DIR]],
+        [case $withval in
+         yes|no) ;;
+         *)     Z_DIR=$withval
+                CPPFLAGS="${CPPFLAGS} -I$withval/include"
+                LDFLAGS="${LDFLAGS} -L$withval/lib"
+                ;;
+         esac])
+
+if test "x$with_zlib" != xno; then
+        with_zlib=no
+        AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzread, [with_zlib=yes])])
+fi
+if test "$with_zlib" = no; then
+        AC_MSG_ERROR([*** zlib is required])
+fi
+if test "x$Z_DIR" != "x"; then
+        Z_CPPFLAGS="-I$Z_DIR/include"
+        case ${host} in
+        *-*-solaris*)   Z_LIBS="-L$Z_DIR/lib -R$Z_DIR/lib -lz" ;;
+        *)              Z_LIBS="-L$Z_DIR/lib -lz" ;;
+        esac
+else
+        Z_LIBS="-lz"
+fi
+AC_SUBST(Z_CPPFLAGS)
+AC_SUBST(Z_LIBS)
+
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
 dnl
@@ -244,15 +282,7 @@ if  test "x$test_gnome" = xtrue ; then
 else
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
 fi
-
-AC_SUBST(LIBGSF_GNOME_CFLAGS)
-AC_SUBST(LIBGSF_GNOME_LIBS)
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
-
-AC_SUBST(LIBGSF_CFLAGS)
-AC_SUBST(LIBGSF_LIBS)
-
-AC_SUBST(ACLOCAL_FLAGS)
 
 AC_OUTPUT([
 Makefile
@@ -273,5 +303,3 @@ doc/version.xml
 ])
 
 AC_MSG_RESULT([Configured $PACKAGE $VERSION])
-
-rm -f po/po2tbl.sed

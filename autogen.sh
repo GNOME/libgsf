@@ -1,10 +1,16 @@
 #!/bin/sh
 # Run this to generate all the initial makefiles, etc.
 
+PKG_NAME="libgsf"
+
+REQUIRED_AUTOMAKE_VERSION=1.7.1
+# We require Automake 1.7.1, which requires Autoconf 2.54.
+REQUIRED_AUTOCONF_VERSION=2.54
+
+USE_GNOME2_MACROS=1
+
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
-
-PKG_NAME="libgsf"
 
 (test -f $srcdir/configure.in \
   && test -d $srcdir/gsf \
@@ -16,6 +22,7 @@ PKG_NAME="libgsf"
 
 ifs_save="$IFS"; IFS=":"
 for dir in $PATH ; do
+  IFS="$ifs_save"
   test -z "$dir" && dir=.
   if test -f $dir/gnome-autogen.sh ; then
     gnome_autogen="$dir/gnome-autogen.sh"
@@ -23,7 +30,6 @@ for dir in $PATH ; do
     break
   fi
 done
-IFS="$ifs_save"
 
 if test -z "$gnome_autogen" ; then
   echo "You need to install the gnome-common module and make"
@@ -31,4 +37,5 @@ if test -z "$gnome_autogen" ; then
   exit 1
 fi
 
-REQUIRED_AUTOMAKE_VERSION=1.7.1 GNOME_DATADIR="$gnome_datadir" USE_GNOME2_MACROS=1 . $gnome_autogen
+GNOME_DATADIR="$gnome_datadir"
+. $gnome_autogen
