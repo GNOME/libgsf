@@ -508,7 +508,7 @@ gsf_input_uncompress (GsfInput *src)
 			if (res) {
 				g_object_unref (G_OBJECT (src));
 				return gsf_input_uncompress (GSF_INPUT (res));
-			}
+			} 
 		}
 	}
 
@@ -533,3 +533,43 @@ gsf_input_uncompress (GsfInput *src)
 	(void)gsf_input_seek (src, cur_offset, G_SEEK_SET);
 	return src;
 }
+
+#if 0
+
+#include <gsf/gsf-input-stdio.h>
+
+#ifdef HAVE_GNOME
+#include <gsf-gnome/gsf-input-gnomevfs.h>
+#endif
+
+GsfInput*
+gsf_input_new_for_uri (char const * uri, GError ** err)
+{
+	GsfInput * input = NULL;
+	size_t len;
+
+	g_return_val_if_fail (uri, NULL);
+
+	len = strlen (uri);
+	g_return_val_if_fail (len, NULL);
+
+	if (len > 3 && !strstr (uri, ":/")) {
+		/* assume plain file */
+		input = GSF_INPUT (gsf_input_stdio_new (uri, err));
+	} else {
+#if HAVE_GNOME
+		/* have gnome, let GnomeVFS deal with this */
+		input = GSF_INPUT (gsf_input_gnomevfs_new (uri, err));
+#else		
+		if (len > 7 && !strncmp (uri, "file:/", 6)) {
+			/* dumb attempt to translate this into a local path */
+			input = GSF_INPUT (gsf_input_stdio_new (uri+7, err));			
+		} 
+		/* else: unknown or unhandled protocol - bail */
+#endif
+	}
+
+	return input;
+}
+
+#endif
