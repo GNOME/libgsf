@@ -42,6 +42,10 @@ typedef GHFunc GMetaDataBagEnumFunc;
  * TODO 2: make the GsfInFile subclasses actually fill in the metadata bags (OLE2, OpenOffice, ...)
  * TODO 3: make the GsfOutFile subclasses actually write out the metadata bags (OLE2, OpenOffice, ...)
  *
+ * TODO 4: figure out how to put metadata into the *gzip* layer when
+ *         the underlying file format cannot handle it itself, such
+ *         as for .gnumeric (which is a gzip'd text file.) -- MW
+ *
  * Proposed schema so that we can have some accessor and compose routines (getvendorname, getversion, gettag):
  * urn:VendorName:Version:Tag
  * Proposed default vendor names:
