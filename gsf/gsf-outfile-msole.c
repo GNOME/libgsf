@@ -152,7 +152,6 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 	return FALSE;
 }
 
-
 /* Globals to support variable OLE sector size.					*/
 /* 512 and 4096 bytes are the only known values for sector size on		*/
 /* Win2k/XP platforms.  Attempts to create OLE files on Win2k/XP with		*/
@@ -166,12 +165,31 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 /* static objects are zero-initialized as per C/C++ standards */
 static guint8 const zero_buf [ZERO_PAD_BUF_SIZE];
 
-/* used by gsf_outfile_msole_close() to pad out to ole->bb.size */
-static void
-bb_pad_zero (GsfOutfileMSOle *ole)
+/* How many bytes remain in the current big block */
+static inline unsigned
+ole_bytes_left_in_block (GsfOutfileMSOle *ole)
 {
-	unsigned len = (ole->sink->cur_size - ole->bb.size) % ole->bb.size;
+	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) % ole->bb.shift;
+}
 
+/**
+ * Calculate the block of the current offset in the file.  A useful idiom is to
+ * pad_zero to move to the start of the next block, then get the block number.
+ * This avoid fence post type problems with partial blocks.
+ **/
+static inline guint32
+ole_cur_block (GsfOutfileMSOle const *ole)
+{
+	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) >> ole->bb.shift;
+}
+
+static void
+bb_pad_zero (GsfOutfileMSOle *ole, unsigned residual)
+{
+	unsigned len = ole_bytes_left_in_block (ole);
+
+	g_return_if_fail (len >= residual);
+	len -= residual;
 	g_return_if_fail (len < sizeof (zero_buf));
 
 	if (len > 0)
@@ -179,11 +197,6 @@ bb_pad_zero (GsfOutfileMSOle *ole)
 }
 
 /**
- * ole_write_bat :
- * @sink :
- * @block :
- * @blocks :
- *
  * Utility routine to generate a BAT for a file known to be sequential
  * and continuous.
  **/
@@ -218,22 +231,7 @@ static void
 ole_pad_bat_unused (GsfOutfileMSOle *ole)
 {
 	ole_write_const (ole->sink, BAT_MAGIC_UNUSED, 
-		(unsigned) (ole->bb.size -
-			    ((ole->sink->cur_size - ole->bb.size) % ole->bb.size) / BAT_INDEX_SIZE));
-}
-
-/**
- * ole_cur_block :
- * @ole :
- *
- * Calculate the block of the current offset in the file.  A useful idiom is to
- * pad_zero to move to the start of the next block, then get the block number.
- * This avoid fence post type problems with partial blocks.
- **/
-static inline guint32
-ole_cur_block (GsfOutfileMSOle const *ole)
-{
-	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) >> ole->bb.shift;
+		ole_bytes_left_in_block (ole) / BAT_INDEX_SIZE);
 }
 
 /* write the metadata (dirents, small block, xbats) and close the sink */
@@ -273,7 +271,7 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 		g_warning ("File too big");
 		return FALSE;
 	}
-	bb_pad_zero (ole);
+	bb_pad_zero (ole, 0);
 	sb_data_blocks = ole_cur_block (ole) - sb_data_start;
 
 	/* write small block BAT (the meta bat is in a file) */
@@ -324,9 +322,13 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 			/* write the class id */
 			memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
 		} else {
+			guint32 size = child->parent.parent.cur_size;
+
+			if ((gsf_off_t) size != child->parent.parent.cur_size)
+				g_warning ("File too big");
 			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_FILE);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
-			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, child->parent.parent.cur_size);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, size);
 		}
 		/* make everything black (red == 0) */
 		GSF_LE_SET_GUINT8  (buf + DIRENT_COLOUR, 1);
@@ -357,7 +359,7 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 
 		gsf_output_write (ole->sink, DIRENT_SIZE, buf);
 	}
-	bb_pad_zero (ole);
+	bb_pad_zero (ole, 0);
 	num_dirent_blocks = ole_cur_block (ole) - dirent_start;
 
 	/* write BAT */
@@ -439,27 +441,25 @@ recalc_bat_bat :
 	}
 
 	/* write extended Meta-BAT */
-	if (blocks < num_bat) {
-		/* Append the meta bats */
-		gsf_output_seek (ole->sink,
-				 (gsf_off_t) 0, G_SEEK_END);
+	if (num_xbat > 0) {
+		gsf_output_seek (ole->sink, (gsf_off_t) 0, G_SEEK_END);
 		for (i = 0 ; i++ < num_xbat ; ) {
 			bat_start += blocks;
-			blocks = num_bat - bat_start;
-			if (blocks > metabat_size)
-				blocks = metabat_size;
+			num_bat   -= blocks;
+			blocks = (num_bat > metabat_size) ? metabat_size : num_bat;
 			for (j = 0 ; j < blocks ; j++) {
 				GSF_LE_SET_GUINT32 (buf, bat_start + j);
 				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 			}
 
-			if (num_xbat != i) {
+			if (i == num_xbat) {
+				bb_pad_zero (ole, BAT_INDEX_SIZE);
+				xbat_pos = BAT_MAGIC_END_OF_CHAIN;
+			} else
 				xbat_pos++;
-				GSF_LE_SET_GUINT32 (buf, xbat_pos);
-				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
-			}
+			GSF_LE_SET_GUINT32 (buf, xbat_pos);
+			gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 		}
-		bb_pad_zero (ole);
 	}
 
 	/* free the children */
@@ -481,7 +481,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 	if (ole->type == MSOLE_BIG_BLOCK) {
 		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
-		bb_pad_zero (ole);
+		bb_pad_zero (ole, 0);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (G_OBJECT (output), ole->sink);
 	}
@@ -687,8 +687,7 @@ compute_shift (unsigned value, unsigned def_val)
 
 /**
  * gsf_outfile_msole_new_full :
- * @sink :
- * @err   :
+ * @sink : a #GsfOutput to hold the OLE2 file
  * @bb_size : size of large blocks
  * @sb_size : size of small blocks
  *
@@ -786,6 +785,18 @@ gsf_outfile_msole_new_full (GsfOutput *sink,
 	gsf_outfile_msole_set_block_shift (ole,
 		compute_shift (bb_size, OLE_DEFAULT_BB_SHIFT),
 		compute_shift (sb_size, OLE_DEFAULT_SB_SHIFT));
+	if (ole->bb.size != bb_size ||
+	    ole->sb.size != sb_size ||
+	    bb_size <= sb_size ||
+	    sb_size < 8 ||
+	    ZERO_PAD_BUF_SIZE < ole->bb.size) {
+		if (ZERO_PAD_BUF_SIZE < ole->bb.size)
+			g_warning ("Block size is too big, failing back to defaults.");
+		else
+			g_warning ("Incorrect block sizes, failing back to defaults.");
+		gsf_outfile_msole_set_block_shift (ole,
+			OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
+	}
 
 	/* The names are the same */
 	gsf_output_set_name (GSF_OUTPUT (ole), gsf_output_name (sink));
@@ -806,7 +817,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink,
 
 /**
  * gsf_outfile_msole_new :
- * @sink :
+ * @sink : a #GsfOutput to hold the OLE2 file
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.

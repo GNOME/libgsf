@@ -1,3 +1,22 @@
+2004-07-28  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root):
+	  Check for overflow of the size field of a regular file entry.
+
+2004-07-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (bb_pad_zero) : add a residual param to not
+	  fill the entire block if desired and clarify that the current block
+	  is cur_size - HEADER not block_size.
+	(gsf_outfile_msole_close_root) : Clarify the metabat writing logic a
+	  bit and just in case add a CHAIN_END to the last incomplete metabat
+	(ole_bytes_left_in_block) : similar to Kasal's suggestion without the
+	  -1 % size + 1 
+	(bb_pad_zero) : use it here to make this safe to use when not at the
+	  end of the file.
+	(ole_pad_bat_unused) : and here to fix the mystery corruption when XL
+	  reads the file.
+
 2004-07-27  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root) : the last

@@ -1,3 +1,12 @@
+libgsf 1.10.1
+
+Kasal:
+	* Lots of code auditing and cleanup.
+	* Identified the long standing source of the problem with XL corrupting
+	  large files
+
+------------------------------------------------------------------------------
+
 libgsf 1.10.0
 
 Jody:
