@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>> 3.0.0), dh-buildinfo,
- gtk-doc-tools (>= 1.0-7), openjade,
+ gtk-doc-tools (>= 1.2-1.2),
  libglib2.0-dev, libxml2-dev (>= 2.4.16-1),
  libbonobo2-dev (>= 2.4.0), libgnomevfs2-dev (>= 2.4.1-2),
  libbz2-dev

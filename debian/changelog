@@ -1,3 +1,11 @@
+libgsf (1.9.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/control] Remove workaround dependency on openjade and bumped
+    gtk-doc-tools dependency.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 16 May 2004 22:02:03 +0200
+
 libgsf (1.9.0-1) unstable; urgency=medium
 
   * New upstream release.
