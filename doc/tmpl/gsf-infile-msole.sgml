@@ -35,14 +35,6 @@ gsf-infile-msole
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INFILE_MSOLE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### ENUM GsfMSOleProperty ##### -->
 <para>
 

@@ -22,14 +22,6 @@ GsfInput
 @k: 
 
 
-<!-- ##### MACRO IS_GSF_INPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
 <!-- ##### FUNCTION gsf_input_set_name ##### -->
 <para>
 

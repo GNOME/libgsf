@@ -59,9 +59,10 @@ typedef struct {
 				 28) /* misc */
 #define VBA_COMPRESSION_WINDOW 4096
 
-static gboolean
-vba_inflate (GsfInput *input, off_t offset)
+static guint8 *
+vba_inflate (GsfInput *input, unsigned offset, int *size)
 {
+	GByteArray *res;
 	unsigned	i, win_pos, pos = 0;
 	unsigned	mask, shift, distance;
 	guint8		flag, buffer [VBA_COMPRESSION_WINDOW];
@@ -70,7 +71,9 @@ vba_inflate (GsfInput *input, off_t offset)
 	gboolean	clean = TRUE;
 
 	if (gsf_input_seek (input, offset+3, GSF_SEEK_SET))
-		return TRUE;
+		return NULL;
+
+	res = g_byte_array_new ();
 
 	/* The first byte is a flag byte.  Each bit in this byte
 	 * determines what the next byte is.  If the bit is zero,
@@ -126,7 +129,7 @@ vba_inflate (GsfInput *input, off_t offset)
 				if ((pos != 0) && ((pos % VBA_COMPRESSION_WINDOW) == 0) && clean) {
 					(void) gsf_input_read (input, 2, NULL);
 					clean = FALSE;
-					fwrite (buffer, 1, VBA_COMPRESSION_WINDOW, stdout);
+					g_byte_array_append (res, buffer, VBA_COMPRESSION_WINDOW);
 					break;
 				}
 				if (NULL != gsf_input_read (input, 1, buffer + (pos % VBA_COMPRESSION_WINDOW)))
@@ -134,9 +137,90 @@ vba_inflate (GsfInput *input, off_t offset)
 				clean = TRUE;
 			}
 
-	if (pos%VBA_COMPRESSION_WINDOW)
-		fwrite (buffer, 1, pos % VBA_COMPRESSION_WINDOW, stdout);
-	return pos;
+	if (pos % VBA_COMPRESSION_WINDOW)
+		g_byte_array_append (res, buffer, pos % VBA_COMPRESSION_WINDOW);
+	*size = res->len;
+	return g_byte_array_free (res, FALSE);
+}
+
+static guint8 const *
+vba_dirent_read (guint8 const *data, int *size)
+{
+	static guint16 const magic [] = { 0x19, 0x47, 0x1a, 0x32 };
+	int i, offset = 0;
+	guint16 tmp16;
+
+	g_return_val_if_fail (*size >= 2, NULL);
+
+	/* make sure there is enough to read the first size */
+	for (offset = 0, i = 0 ; i < 4; i++) {
+		char *name = NULL;
+		guint32 name_len;
+
+		/* check for the magic numbers */
+		tmp16 = GSF_OLE_GET_GUINT16 (data + offset);
+		if (tmp16 != magic [i]) {
+			/* TODO : Need to find the record count somewhere.
+			 * for now the last record seems to have 0x10 00 00 00 00 00 */
+			if (i != 0 || tmp16 != 0x10)
+				g_warning ("exiting with %hx", tmp16);
+			return NULL;
+		}
+
+		/* be very careful reading the name size */
+		offset += 2;
+		g_return_val_if_fail ((offset + 4) < *size, NULL);
+		name_len = GSF_OLE_GET_GUINT32 (data + offset);
+		offset += 4;
+		g_return_val_if_fail ((offset + name_len) < *size, NULL);
+
+		if (i % 2) {  /* unicode */
+			gunichar2 *uni_name = g_new0 (gunichar2, name_len/2 + 1);
+			int j;
+
+			/* be wary about endianness */
+			for (j = 0 ; j < name_len ; j += 2)
+				uni_name [j/2] = GSF_OLE_GET_GUINT16 (data + offset + j);
+			name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
+			g_free (uni_name);
+		} else /* ascii */
+			name = g_strndup (data + offset, name_len);
+
+		if (i == 0)
+			printf ("%s\t: ", name);
+		g_free (name);
+		offset += name_len;
+	}
+
+	/* the rest of the dirent appears constant */
+	g_return_val_if_fail ((offset + 32) < *size, NULL);
+
+/*
+ *    1c 00 00 00
+ *    00 00
+ *    48 00
+ *    00 00 00 00
+ *    31 00
+ *    04 00 00 00
+ */
+	printf ("src offset = 0x%x\n", GSF_OLE_GET_GUINT32 (data + offset + 18));
+/*
+ *    1e 00
+ *    04 00 00 00
+ *    00 00 00 00
+ *    2c 00
+ *    02 00 00 00
+ */
+	printf ("\t var1 = 0x%hx\n", GSF_OLE_GET_GUINT16 (data + offset + 38));
+	printf ("\t var2 = 0x%hx\n", GSF_OLE_GET_GUINT16 (data + offset + 40));
+/*
+ *    00 00 00 00
+ *    2b 00 00 00
+ *    00 00
+ */
+
+	*size -= offset + 52;
+	return data + offset + 52;
 }
 
 /**
@@ -173,6 +257,8 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 	guint8 const *header;
 	GsfInput *dir;
 	unsigned i;
+	int inflated_size;
+	guint8 *inflated;
 
 	dir = gsf_infile_child_by_name (vba->source, "dir");
 	if (dir == NULL) {
@@ -182,7 +268,39 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 		return TRUE;
 	}
 
-	vba_inflate (dir, 0);
+	inflated = vba_inflate (dir, 0, &inflated_size);
+	if (inflated != NULL) {
+		guint8 const *data = inflated + 0x333;
+		int size = inflated_size - 0x333;
+		printf ("SIZE == 0x%x\n", size);
+		gsf_mem_dump (inflated, inflated_size);
+		while (NULL != (data = vba_dirent_read (data, &size)))
+			;
+		g_free (inflated);
+	}
+	g_object_unref (G_OBJECT (dir));
+
+#if 0
+	/******************************************************/
+	dir = gsf_infile_child_by_name (vba->source, "Module1");
+	if (dir == NULL) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Can't find the VBA directory stream.");
+		return TRUE;
+	}
+
+	/* We need to extract the offset from the 'dir' stream
+	 * but the details of that format are eluding me.
+	 */
+	inflated = vba_inflate (dir, i, &inflated_size);
+	if (inflated != NULL) {
+		gsf_mem_dump (inflated, inflated_size);
+		g_free (inflated);
+	}
+	g_object_unref (G_OBJECT (dir));
+#endif
+	/******************************************************/
 
 	dir = gsf_infile_child_by_name (vba->source, "_VBA_PROJECT");
 	if (dir == NULL) {

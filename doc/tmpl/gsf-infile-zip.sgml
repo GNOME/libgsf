@@ -35,14 +35,6 @@ gsf-infile-zip
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INFILE_ZIP ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### FUNCTION gsf_infile_zip_get_type ##### -->
 <para>
 

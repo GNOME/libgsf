@@ -29,14 +29,6 @@ gsf-input-memory
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INPUT_MEMORY ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfInputMemory ##### -->
 <para>
 
@@ -70,14 +62,6 @@ gsf-input-memory
 
 
 <!-- ##### MACRO GSF_INPUT_MMAP ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GSF_INPUT_MMAP ##### -->
 <para>
 
 </para>

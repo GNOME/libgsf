@@ -29,14 +29,6 @@ gsf-outfile
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_OUTFILE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### FUNCTION gsf_outfile_get_type ##### -->
 <para>
 

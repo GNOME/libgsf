@@ -40,6 +40,9 @@ VBA:
 		how a vba stream is stored.
     - OpenOffice : For confirming many of Michael's hypothesis' and supplying
 		insight into the project file structure.
+    - Costin Raiu, Kaspersky Labs <craiu@pcnet.ro>
+	: For commenting that the dir stream had offsets too.  That way we can
+	   avoid OpenOffice's trouble parsing pcode.
 
 gzip:
     - zlib : for doing all the heavy lifting, and suppling gzio.c as an

@@ -1,0 +1,105 @@
+<!-- ##### MACRO IS_GSF_INFILE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO IS_GSF_INFILE_MSOLE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INFILE_ZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO IS_GSF_INPUT_GZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT_MMAP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT_STDIO ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_INPUT_TEXTLINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_OUTFILE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_OUTPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO IS_GSF_OUTPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO IS_GSF_SHARED_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+

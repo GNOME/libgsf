@@ -29,14 +29,6 @@ gsf-input
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INPUT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### FUNCTION gsf_input_get_type ##### -->
 <para>
 

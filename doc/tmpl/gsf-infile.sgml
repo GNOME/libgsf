@@ -29,14 +29,6 @@ gsf-infile
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INFILE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### FUNCTION gsf_infile_get_type ##### -->
 <para>
 

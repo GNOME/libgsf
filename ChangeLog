@@ -1,3 +1,11 @@
+2002-06-12  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msvba.c (vba_inflate) : store the uncompressed
+	  result.
+	(vba_dirent_read) : new.  We can now lookup the correct offsets for
+	  the compressed source.  The question remaining is how to fin the
+	  start of the dir table ...
+
 2002-06-12  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* gsf/*: s/IS_GSF/GSF_IS.

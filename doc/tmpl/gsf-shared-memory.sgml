@@ -29,14 +29,6 @@ gsf-shared-memory
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_SHARED_MEMORY ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfSharedMemory ##### -->
 <para>
 

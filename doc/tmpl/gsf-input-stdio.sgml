@@ -29,14 +29,6 @@ gsf-input-stdio
 @o: 
 
 
-<!-- ##### MACRO IS_GSF_INPUT_STDIO ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfInputStdio ##### -->
 <para>
 
