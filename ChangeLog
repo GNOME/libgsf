@@ -4,6 +4,11 @@
 
 2002-12-09  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-outfile-zip.c (disconnect_children): Factor out from
+	zip_close_root.
+	(gsf_outfile_zip_finalize): Use here too.  (This closes a leak if
+	closing fails.)
+
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Free the property
 	values until we figure out what to do with them.
 
