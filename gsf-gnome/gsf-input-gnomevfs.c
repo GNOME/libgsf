@@ -110,9 +110,15 @@ GsfInputGnomeVFS *
 gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 {
 	GnomeVFSURI 	 *uri = gnome_vfs_uri_new (text_uri);
-	GsfInputGnomeVFS *res =gsf_input_gnomevfs_new_uri (uri, error);
-	gnome_vfs_uri_unref (uri);
-	return res;
+	if (!uri) {
+		g_set_error (error, gsf_input_error (), 0,
+			     "Invalid URI");
+		return NULL;
+	} else {
+		GsfInputGnomeVFS *res = gsf_input_gnomevfs_new_uri (uri, error);
+		gnome_vfs_uri_unref (uri);
+		return res;
+	}
 }
 
 static void

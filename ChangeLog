@@ -1,3 +1,8 @@
+2004-05-26  Morten Welinder  <terra@gnome.org>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Handle
+	failure to parse URI.
+
 2004-05-20  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-outfile-stdio.c: mkdir() has a different prototype on win32
