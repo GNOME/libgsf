@@ -159,8 +159,9 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 
 	if (block != BAT_MAGIC_END_OF_CHAIN) {
 		g_warning ("This OLE2 file is invalid.\n"
-			   "The Block Allocation  Table for one of the streams is missing a terminator.\n"
-			   "We might still be able to extract some data, but you'll want to check the file.");
+			   "The Block Allocation  Table for one of the streams had %x instead of a terminator (%x).\n"
+			   "We might still be able to extract some data, but you'll want to check the file.",
+			   block, BAT_MAGIC_END_OF_CHAIN);
 	}
 
 	return FALSE;
