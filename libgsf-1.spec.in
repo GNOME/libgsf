@@ -9,7 +9,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Group: System Environment/Libraries
-Copyright: GPL
+License: GPL
 
 Source: ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libgsf/libgsf-%{version}.tar.gz
 Buildroot: /var/tmp/%{name}-%{version}-%{release}-root
@@ -56,12 +56,12 @@ mkdir -p $RPM_BUILD_ROOT%{prefix}
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 
 %files
-%defattr(-,root,root)
+%defattr(644,root,root,755)
 %doc AUTHORS COPYING README
 %{prefix}/lib/lib*.so.*
 
 %files devel
-%defattr(-,root,root)
+%defattr(644,root,root,755)
 %{prefix}/lib/lib*.so
 %{prefix}/lib/*a
 %{prefix}/lib/*.sh
@@ -73,5 +73,9 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install
 rm -r $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jun 18 2002 Rui M. Seabra <rms@407.org>
+- set permission correctly
+- fix common mistake of Copyright flag into License flag.
+
 * Thu May 23 2002 Jody Goldberg <jody@gnome.org>
 - Initial version

@@ -1,3 +1,8 @@
+2002-06-18  Rui M. Seabra <rms@1407.org>
+
+	* libgsf-1.spec.in : set permission correctly
+	    fix common mistake of Copyright flag into License flag.
+
 2002-06-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : lower the libxml version req
