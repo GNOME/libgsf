@@ -53,13 +53,11 @@ gsf_output_memory_new (void)
 static gboolean
 gsf_output_memory_close (GsfOutput *output)
 {
-    GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
+    GsfOutputClass *parent_class;
 
-    if (mem->buffer != NULL) {
-        g_free (mem->buffer);
-        mem->buffer = NULL;
-    }
-    mem->nwritten = 0;
+    parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
+    if (parent_class && parent_class->Close)
+        parent_class->Close (output);
 
     return TRUE;
 }
@@ -69,8 +67,13 @@ gsf_output_memory_finalize (GObject *obj)
 {
     GObjectClass *parent_class;
     GsfOutput *output = (GsfOutput *)obj;
+    GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
 
-    gsf_output_memory_close (output);
+    if (mem->buffer != NULL) {
+        g_free (mem->buffer);
+        mem->buffer = NULL;
+    }
+    mem->nwritten = 0;
 
     parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
     if (parent_class && parent_class->finalize)

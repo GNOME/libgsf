@@ -6,6 +6,9 @@ Jody:
 Morten:
 	* Handle file names that are not valid utf8.
 
+Dom:
+	* Port over code page utilities from libwv.
+
 ------------------------------------------------------------------------------
 libgsf 1.4.0
 

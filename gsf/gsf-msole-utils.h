@@ -30,19 +30,19 @@ gboolean gsf_msole_metadata_read  (GsfInput *in,   GError **err);
 gboolean gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 				   GError **err);
 
-guint   gsf_msole_lid_for_language (const char * lang) G_GNUC_CONST;
-guint   gsf_msole_codepage_to_lid  (guint codepage) G_GNUC_CONST;
-guint   gsf_msole_lid_to_codepage (guint lid) G_GNUC_CONST;
-gchar * gsf_msole_lid_to_codepage_str (guint lid) G_GNUC_CONST;
-G_CONST_RETURN char * gsf_msole_language_for_lid (guint lid) G_GNUC_CONST;
+guint   gsf_msole_lid_for_language	(const char * lang);
+guint   gsf_msole_codepage_to_lid	(guint codepage);
+guint   gsf_msole_lid_to_codepage	(guint lid);
+gchar * gsf_msole_lid_to_codepage_str	(guint lid);
+char const* gsf_msole_language_for_lid	(guint lid);
 
-guint	gsf_msole_iconv_win_codepage    (void) G_GNUC_CONST;
-GIConv	gsf_msole_iconv_open_for_import (guint codepage) G_GNUC_CONST;
-GIConv	gsf_msole_iconv_open_for_export (void) G_GNUC_CONST;
+guint	gsf_msole_iconv_win_codepage    (void) ;
+GIConv	gsf_msole_iconv_open_for_import (guint codepage) ;
+GIConv	gsf_msole_iconv_open_for_export (void) ;
 
-GIConv gsf_msole_iconv_open_codepage_for_import  (const char * to, guint codepage) G_GNUC_CONST;
-GIConv gsf_msole_iconv_open_codepages_for_export (guint codepage_to, const char * from) G_GNUC_CONST;
-GIConv gsf_msole_iconv_open_codepage_for_export  (guint codepage_to) G_GNUC_CONST;
+GIConv gsf_msole_iconv_open_codepage_for_import  (char const *to, guint codepage) ;
+GIConv gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const* from);
+GIConv gsf_msole_iconv_open_codepage_for_export  (guint codepage_to);
 
 G_END_DECLS
 

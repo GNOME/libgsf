@@ -1,3 +1,12 @@
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_lid_to_codepage) : remove warning.
+
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output-memory.c (gsf_output_memory_finalize) : close != exit.
+	  Chain to the parent, and keep the content around until detruction.
+
 2002-10-22  Dom Lahcowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_iconv_open_codepage_for_export): Fix bug where we used UTF-8 regardless of the 'from' codepage
