@@ -69,7 +69,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		return NULL;
 	}
 
-	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);	
+	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ|GNOME_VFS_OPEN_RANDOM);	
 	if (res != GNOME_VFS_OK) {
 		g_set_error (error, gsf_input_error (), (gint) res,
 			     gnome_vfs_result_to_string (res));

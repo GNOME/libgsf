@@ -1,3 +1,8 @@
+2004-04-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : we
+	  require random access.
+
 2004-04-26  Jody Goldberg <jody@gnome.org>
 
 	* doc/Makefile.am : steal a few things from gtk-doc.make to get things
@@ -23,6 +28,12 @@
 
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_write): If the output
 	buffer turns full on the last deflate, empty the buffer.
+
+2004-04-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek) : fix sense
+	  of return.  This code is clearly not being used.  A year and a half
+	  and no one noticed ???
 
 2004-03-31  Morten Welinder  <terra@gnome.org>
 
