@@ -39,11 +39,11 @@ struct _GsfInput {
 typedef struct {
 	GObjectClass g_object_class;
 
-	GsfInput     *(*dup)  (GsfInput *input);
-	gboolean      (*eof)  (GsfInput *input);
-	guint8 const *(*read) (GsfInput *input, unsigned num_bytes,
+	GsfInput     *(*Dup)  (GsfInput *input);
+	gboolean      (*Eof)  (GsfInput *input);
+	guint8 const *(*Read) (GsfInput *input, unsigned num_bytes,
 			       guint8 *optional_buffer);
-	gboolean      (*seek) (GsfInput *input, int offset, GsfOff_t whence);
+	gboolean      (*Seek) (GsfInput *input, int offset, GsfOff_t whence);
 } GsfInputClass;
 
 #define GSF_INPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INPUT_TYPE, GsfInputClass))

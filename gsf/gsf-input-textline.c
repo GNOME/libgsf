@@ -140,10 +140,10 @@ gsf_input_textline_class_init (GObjectClass *gobject_class)
 	GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
 	gobject_class->finalize = gsf_input_textline_finalize;
-	input_class->dup	= gsf_input_textline_dup;
-	input_class->eof	= gsf_input_textline_eof;
-	input_class->read	= gsf_input_textline_read;
-	input_class->seek	= gsf_input_textline_seek;
+	input_class->Dup	= gsf_input_textline_dup;
+	input_class->Eof	= gsf_input_textline_eof;
+	input_class->Read	= gsf_input_textline_read;
+	input_class->Seek	= gsf_input_textline_seek;
 }
 
 GSF_CLASS (GsfInputTextline, gsf_input_textline,

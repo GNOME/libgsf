@@ -1,3 +1,19 @@
+2002-06-04  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-input-impl.h (GsfInputClass): Change structure members
+	from "read" to "Read", etc.  This avoids names reserved by the
+	system libraries.
+
+2002-06-04  Morten Welinder  <terra@diku.dk>
+
+	* gsf/test-msole1.c (test): Add --memory option.
+
+	* gsf/gsf-shared-memory.c: New class.
+
+	* gsf/gsf-input-memory.c (gsf_input_memory_new): Use new
+	GsfSharedMemory class.
+	(gsf_input_memory_read): Add missing parameter.
+
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
 	* gsf/Makefile.am : Add gsf-input-textline.[ch]

@@ -814,11 +814,11 @@ gsf_infile_msole_class_init (GObjectClass *gobject_class)
 	GsfInfileClass *infile_class = GSF_INFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_infile_msole_finalize;
-	input_class->dup		= gsf_infile_msole_dup;
+	input_class->Dup		= gsf_infile_msole_dup;
 	/*input_class->size : default implementation is fine */
-	input_class->eof		= gsf_infile_msole_eof;
-	input_class->read		= gsf_infile_msole_read;
-	input_class->seek		= gsf_infile_msole_seek;
+	input_class->Eof		= gsf_infile_msole_eof;
+	input_class->Read		= gsf_infile_msole_read;
+	input_class->Seek		= gsf_infile_msole_seek;
 	infile_class->num_children	= gsf_infile_msole_num_children;
 	infile_class->name_by_index	= gsf_infile_msole_name_by_index;
 	infile_class->child_by_index	= gsf_infile_msole_child_by_index;

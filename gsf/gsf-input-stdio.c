@@ -189,10 +189,10 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 	GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
 	gobject_class->finalize = gsf_input_stdio_finalize;
-	input_class->dup	= gsf_input_stdio_dup;
-	input_class->eof	= gsf_input_stdio_eof;
-	input_class->read	= gsf_input_stdio_read;
-	input_class->seek	= gsf_input_stdio_seek;
+	input_class->Dup	= gsf_input_stdio_dup;
+	input_class->Eof	= gsf_input_stdio_eof;
+	input_class->Read	= gsf_input_stdio_read;
+	input_class->Seek	= gsf_input_stdio_seek;
 }
 
 GSF_CLASS (GsfInputStdio, gsf_input_stdio,

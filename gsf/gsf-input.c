@@ -103,7 +103,7 @@ gsf_input_dup (GsfInput *src)
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	dst = GET_CLASS (src)->dup (src);
+	dst = GET_CLASS (src)->Dup (src);
 	if (dst != NULL) {
 		dst->size = src->size;
 		dst->name = (src->name != NULL) ? g_strdup (src->name) : NULL;
@@ -143,7 +143,7 @@ gsf_input_eof (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 
-	return GET_CLASS (input)->eof (input);
+	return GET_CLASS (input)->Eof (input);
 }
 
 /**
@@ -168,7 +168,7 @@ gsf_input_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
 
 	if (num_bytes == 0 || (input->cur_offset + num_bytes) > input->size)
 		return NULL;
-	res = GET_CLASS (input)->read (input, num_bytes, optional_buffer);
+	res = GET_CLASS (input)->Read (input, num_bytes, optional_buffer);
 	if (res == NULL)
 		return NULL;
 
@@ -215,7 +215,7 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 
 	if (pos < 0 || pos > (int)input->size)
 		return TRUE;
-	if (GET_CLASS (input)->seek (input, offset, whence))
+	if (GET_CLASS (input)->Seek (input, offset, whence))
 		return TRUE;
 	input->cur_offset = pos;
 	return FALSE;
