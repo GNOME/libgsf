@@ -51,7 +51,6 @@ typedef int mode_t;
 
 #define getuid() 0
 #define getgid() 0
-#define chown(filename, uid, gid) 0
 
 #ifdef HAVE_IO_H
 #include <io.h>
@@ -157,9 +156,10 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	/* Get the directory in which the real filename lives */
 	dirname = g_path_get_dirname (real_filename);
 
-	if (stat (real_filename, &st) == 0) {
+	if (f_stat (real_filename, &st) == 0) {
 		/* FIXME: use eaccess if available.  */
 		/* FIXME? Race conditions en masse.  */
+#warning "we need f_access in gstdio.h for this"
 		if (access (real_filename, W_OK) != 0) {
 			if (err != NULL)
 				*err = g_error_new_literal
@@ -295,7 +295,7 @@ gsf_output_stdio_close (GsfOutput *output)
 	if (!res) {
 		gsf_output_set_error (output, errno,
 				      "Failed to close temporary file.");
-		unlink (stdio->temp_filename);
+		f_unlink (stdio->temp_filename);
 		return FALSE;
 	}
 
@@ -311,7 +311,7 @@ gsf_output_stdio_close (GsfOutput *output)
 					      utf8name);
 			g_free (utf8name);
 			g_free (backup_filename);
-			unlink (stdio->temp_filename);
+			f_unlink (stdio->temp_filename);
 			return FALSE;
 		}
 	}
@@ -328,8 +328,9 @@ gsf_output_stdio_close (GsfOutput *output)
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
-#warning "We need gstdio.h for these"
+#warning "We need f_chmod in gstdio.h for this"
 		chmod (stdio->real_filename, stdio->st.st_mode);
+#ifdef HAVE_CHOWN
 		if (chown (stdio->real_filename,
 			   stdio->st.st_uid,
 			   stdio->st.st_gid)) {
@@ -338,6 +339,7 @@ gsf_output_stdio_close (GsfOutput *output)
 			chown (stdio->real_filename, stdio->st.st_uid, -1);
 		}
 		chmod (stdio->real_filename, stdio->st.st_mode);
+#endif
 	}
 
 	g_free (backup_filename);

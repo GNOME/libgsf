@@ -111,7 +111,7 @@ fi
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h)
 AC_FUNC_MMAP
 
-AC_CHECK_FUNCS(lstat readlink)
+AC_CHECK_FUNCS(lstat readlink chown)
 
 AC_MSG_CHECKING([for native Win32])
 case "$host" in

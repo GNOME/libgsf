@@ -26,16 +26,12 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <glib/gstdio.h>
 
-#include <stdio.h>
-#include <string.h>
 #include <errno.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
 
 static GObjectClass *parent_class;
 
@@ -116,21 +112,19 @@ gsf_outfile_stdio_new (char const *root, GError **err)
 {
 	GsfOutfileStdio *ofs;
 
-#ifdef G_OS_WIN32
-	if (0 != mkdir (root)) {
-#else	
-	if (0 != mkdir (root, 0777)) {
-#endif
+	if (0 != g_mkdir (root, 0777)) {
 		if (err != NULL) {
-			char *utf8name = gsf_filename_to_utf8 (root, FALSE);
+			int save_errno = errno;
+			char *utf8name = g_filename_display_name (root);
 			*err = g_error_new (gsf_output_error_id (), 0,
-				"%s: %s", utf8name, g_strerror (errno));
+					    "%s: %s",
+					    utf8name, g_strerror (save_errno));
 			g_free (utf8name);
 		}
 		return NULL;
 	}
 
-	ofs = g_object_new (gsf_outfile_stdio_get_type(), NULL);
+	ofs = g_object_new (gsf_outfile_stdio_get_type (), NULL);
 	ofs->root = g_strdup (root);
 	gsf_output_set_name_from_filename (GSF_OUTPUT (ofs), root);
 
