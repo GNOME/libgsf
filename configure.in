@@ -8,14 +8,14 @@ dnl     4a) Increment when removing or changing interfaces.
 LIBGSF_MAJOR_VERSION=1
 dnl     4a) 5) Increment when adding interfaces.
 dnl     6) Set to zero when removing or changing interfaces.
-LIBGSF_MINOR_VERSION=4
+LIBGSF_MINOR_VERSION=5
 dnl     3) Increment when interfaces not changed at all,
 dnl               only bug fixes or internal changes made.
 dnl     4b) Set to zero when adding, removing or changing interfaces.
 LIBGSF_MICRO_VERSION=0
 dnl
 dnl     Set this too (I don't know how to do it automatically =) ):
-MAJOR_VERSION_PLUS_MINOR_VERSION=5
+MAJOR_VERSION_PLUS_MINOR_VERSION=6
 dnl
 VERSION=$LIBGSF_MAJOR_VERSION.$LIBGSF_MINOR_VERSION.$LIBGSF_MICRO_VERSION
 dnl Version info for libraries = CURRENT:REVISION:AGE

@@ -2,7 +2,6 @@ Near:
     - rework proposed meta data framework to support improved understanding of
       MS Office
     - Complete MS property set read and write
-    - merge in the temp file handling while saving from gedit
     - work on GsfOutput error handling to propagate errors up the stack.
       Maybe something signal based ?
 
