@@ -3,6 +3,8 @@ libgsf 1.6.0
 Jody:
 	* Be more anal about invalid stream names..
 	* Fix documentation install.
+	* Fix a subtle leak that Morten found.
+	* Suppress some warnings in the test suite.
 
 Jon Kåre:
 	* Add printf mechanism.
