@@ -1,5 +1,9 @@
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Code cleanup
+	
+2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-output-memory.c (gsf_output_memory_seek): Implement seek() by implementing a cursor as well as the existing nwritten and capacity fields
 	(gsf_output_memory_write): ditto
 	(gsf_output_memory_vprintf): ditto

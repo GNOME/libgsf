@@ -150,32 +150,23 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
 static gboolean
 gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
-    GsfInputGnomeVFS const *vfs = GSF_INPUT_GNOMEVFS (input);
-    
+    GsfInputGnomeVFS const *vfs     = GSF_INPUT_GNOMEVFS (input);
+    GnomeVFSSeekPosition vfs_whence = 0; /* make compiler shut up */    
+
     if (vfs->handle == NULL)
         return TRUE;
 
     switch (whence) {
-        case G_SEEK_SET :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_START,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
-        case G_SEEK_CUR :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_CURRENT,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
-        case G_SEEK_END :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_END,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
+    case G_SEEK_SET : vfs_whence = GNOME_VFS_SEEK_START;	break;
+    case G_SEEK_CUR : vfs_whence = GNOME_VFS_SEEK_CURRENT;	break;
+    case G_SEEK_END : vfs_whence = GNOME_VFS_SEEK_END;	break;
+    default :
+	    break;
     }
 
+    if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,vfs_whence,
+					(GnomeVFSFileOffset) offset))
+	    return FALSE;
     return TRUE;
 }
 
@@ -195,9 +186,9 @@ gsf_input_gnomevfs_class_init (GObjectClass *gobject_class)
     GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
     gobject_class->finalize = gsf_input_gnomevfs_finalize;
-    input_class->Dup	= gsf_input_gnomevfs_dup;
-    input_class->Read	= gsf_input_gnomevfs_read;
-    input_class->Seek	= gsf_input_gnomevfs_seek;
+    input_class->Dup	    = gsf_input_gnomevfs_dup;
+    input_class->Read	    = gsf_input_gnomevfs_read;
+    input_class->Seek	    = gsf_input_gnomevfs_seek;
 }
 
 GSF_CLASS (GsfInputGnomeVFS, gsf_input_gnomevfs,
