@@ -26,6 +26,7 @@
 #include <gsf/gsf-shared-bonobo-stream.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-exception.h>
+#include <string.h>
 
 /* FIXME: Should make CORBA environment available to caller somehow. */
 struct _GsfInputBonobo {
