@@ -1,5 +1,10 @@
 2002-08-18  Jon K Hellan  <hellan@acm.org>
 
+	* configure.in: Revert today's first change to the file, but keep
+	the second.
+
+2002-08-18  Jon K Hellan  <hellan@acm.org>
+
 	* configure.in: See below. Hope it's true this time.
 
 2002-08-18  Jon K Hellan  <hellan@acm.org>

@@ -191,6 +191,8 @@ AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
 
 dnl ***********************************************************************************
 
+LIBGSF_CFLAGS="$LIBGSF_CFLAGS $LIBGSF_GNOME_CFLAGS"
+LIBGSF_LIBS="$LIBGSF_LIBS $LIBGSF_GNOME_LIBS"
 AC_SUBST(LIBGSF_CFLAGS)
 AC_SUBST(LIBGSF_LIBS)
 
