@@ -230,6 +230,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio->create_backup_copy = create_backup_copy;
 	stdio->real_filename = real_filename;
 	stdio->temp_filename = temp_filename;
+	gsf_output_set_name (GSF_OUTPUT (stdio), filename);
 
 	return GSF_OUTPUT (stdio);
 

@@ -1,5 +1,12 @@
 2002-11-21  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-libxml.c (gsf_libxml_write): Fix inverted
+	success/failure test.
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Set name
+
+2002-11-21  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-output.[ch] (gsf_output_printf): New function. printf
 	for GsfOutput.
 	(gsf_output_puts): New function. fputs for GsfOutput.

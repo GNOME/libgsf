@@ -44,7 +44,7 @@ gsf_libxml_read (void *context, char *buffer, int len)
 static int
 gsf_libxml_write (void *context, char const *buffer, int len)
 {
-	if (gsf_output_write ((GsfOutput *)context, (size_t)len, buffer))
+	if (!gsf_output_write ((GsfOutput *)context, (size_t)len, buffer))
 		return -1;
 	return len;
 }
