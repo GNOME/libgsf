@@ -12,6 +12,7 @@ Jody Goldberg:
 	* Add some directory tree wrappers
 	* Work around a -fstrict-alias warning for SuSE
 	* Move to automake-1.7
+	* Fix gnome-vfs backend to open files with random access
 
 Joseph Frazee:
 	* patch the spec file.
