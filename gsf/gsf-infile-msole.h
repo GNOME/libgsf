@@ -62,10 +62,6 @@ typedef enum {
 	GSF_MSOLE_PROP_SECURITY		= 0x40013,
 } GsfMSOleProperty;
 
-#define GSF_OLE_GET_GUINT8(p)  		       (*(guint8  const *)(p))
-#define GSF_OLE_GET_GUINT16(p) GUINT16_FROM_LE((*(guint16 const *)(p)))
-#define GSF_OLE_GET_GUINT32(p) GUINT32_FROM_LE((*(guint32 const *)(p)))
-
 GType gsf_infile_msole_get_type (void);
 
 GsfInfile *gsf_infile_msole_new (GsfInput *input, GError **err);

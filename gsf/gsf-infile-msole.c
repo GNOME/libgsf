@@ -31,6 +31,31 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:msole"
 
+static inline guint8
+GSF_OLE_GET_GUINT8 (gconstpointer p)
+{
+	return *(guint8  const *)p;
+}
+
+static inline guint16
+GSF_OLE_GET_GUINT16 (gconstpointer p)
+{
+	guint16 data;
+	/* gcc should make pretty nice code out of this.  */
+	memcpy (&data, p, sizeof (data));
+	return GUINT16_FROM_LE (data);
+}
+
+static inline guint32
+GSF_OLE_GET_GUINT32 (gconstpointer p)
+{
+	guint32 data;
+	/* gcc should make pretty nice code out of this.  */
+	memcpy (&data, p, sizeof (data));
+	return GUINT32_FROM_LE (data);
+}
+
+
 typedef struct {
 	guint32 *block;
 	guint32  num_blocks;
@@ -163,7 +188,7 @@ static gboolean
 ole_make_bat (MSOleBAT const *metabat, unsigned size_guess, guint32 block,
 	      MSOleBAT *res)
 {
-	/* NOTE : Only use size as a suggestion, some times it is wrong */
+	/* NOTE : Only use size as a suggestion, sometimes it is wrong */
 	GArray *bat = g_array_sized_new (FALSE, FALSE,
 		sizeof (guint32), size_guess);
 
@@ -177,7 +202,7 @@ ole_make_bat (MSOleBAT const *metabat, unsigned size_guess, guint32 block,
 	g_return_val_if_fail (block == BAT_MAGIC_END_OF_CHAIN, TRUE);
 
 	res->num_blocks = bat->len;
-	res->block = (guint32 *) g_array_free (bat, FALSE);
+	res->block = (guint32 *) (gpointer) g_array_free (bat, FALSE);
 	return FALSE;
 }
 

@@ -1,5 +1,10 @@
 2002-05-28  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-infile-msole.c (GSF_OLE_GET_GUINT8, GSF_OLE_GET_GUINT16,
+	GSF_OLE_GET_GUINT32): Moved from gsf/gsf-infile-msole.h and made
+	into inlined functions, fixing alignment problems in the process.
+	(ole_make_bat): Cast via gconstpointer to please gcc.
+
 	* gsf/test-msole1.c (read_types): Fix isspace usage.
 
 2002-05-27  Jody Goldberg <jody@gnome.org>

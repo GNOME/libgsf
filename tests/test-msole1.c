@@ -33,6 +33,14 @@
 
 #define BIFF_TYPES_FILE    "biff-types.h"
 
+static inline guint16
+GSF_OLE_GET_GUINT16 (gconstpointer p)
+{
+	guint16 data;
+	memcpy (&data, p, sizeof (data));
+	return GUINT16_FROM_LE (data);
+}
+
 typedef struct {
 	guint16 opcode;
 	char *name;
