@@ -87,7 +87,8 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, const char *field, size_t len)
 	g_return_val_if_fail (GSF_IS_OUTPUT_CSV (csv), FALSE);
 	g_return_val_if_fail (field != NULL, FALSE);
 
-	if ((ssize_t)len < 0) len = strlen (field);
+	if (len == (size_t)-1)
+		len = strlen (field);
 	end = field + len;
 
 	if (csv->fields_on_line && csv->separator_len)
