@@ -225,7 +225,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	int fd;
 	size_t size;
 
-	fd = g_open (filename, O_RDONLY | O_BINARY);
+	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
 	if (fd < 0 || fstat (fd, &st) < 0) {
 		if (err != NULL) {
 			int save_errno = errno;

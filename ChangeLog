@@ -1,3 +1,8 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): g_open has a
+	mandatory mode arg that open does not.
+
 2005-03-22  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (close_tag_if_neccessary): New function.
