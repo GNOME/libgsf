@@ -155,20 +155,28 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, gboolean format)
 static void
 xml_sax_start_element (GsfXmlSAXState *state, xmlChar const *name, xmlChar const **attrs)
 {
-	GsfXmlSAXNode *ptr;
+	GSList *ptr;
+	GsfXmlSAXNode *node;
 
-	for (ptr = state->node->first_child ; ptr != NULL ; ptr = ptr->next_sibling)
-		if (!strcmp (name, ptr->name)) {
+	for (ptr = state->node->first_child ; ptr != NULL ; ptr = ptr->next) {
+		node = ptr->data;
+		if (node->name != NULL && !strcmp (name, node->name)) {
 			state->state_stack = g_slist_prepend (state->state_stack, state->node);
-			state->node = ptr;
-			if (ptr->start != NULL)
-				ptr->start (state, attrs);
+			state->node = node;
+			if (node->start != NULL)
+				node->start (state, attrs);
 			return;
 		}
+	}
 
 	if (state->unknown_depth++)
 		return;
 	g_warning ("Unexpected element '%s' in state %s.", name, state->node->name);
+	{
+		GSList *ptr = state->state_stack;
+		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next)
+			puts (((GsfXmlSAXNode *)(ptr->data))->name);
+	}
 }
 
 static void
@@ -300,7 +308,8 @@ gboolean
 gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node)
 {
 	GHashTable *symbols;
-	gpointer *tmp;
+	GsfXmlSAXNode *tmp;
+	GsfXmlSAXNode *real_node;
 
 	if (node->parent_initialized)
 		return TRUE;
@@ -311,31 +320,29 @@ gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node)
 
 		tmp = g_hash_table_lookup (symbols, node->id);
 		if (tmp != NULL) {
-			g_warning ("ID '%s' has already been registered", node->id);
-			return FALSE;
-		}
-
-		/* be anal, the macro probably initialized this, but do it just in case */
-		node->first_child = NULL;
-		node->next_sibling = NULL;
-
-		if (strcmp (node->id, node->parent.id)) {
-			node->parent.node = g_hash_table_lookup (symbols, node->parent.id);
-
-			if (node->parent.node == NULL) {
-				g_warning ("Parent ID '%s' unknown", node->parent.id);
+			/* if its empty then this is just a recusion */
+			if (node->start != NULL || node->end != NULL ||
+			    node->has_content != FALSE || node->user_data.v_int != 0) {
+				g_warning ("ID '%s' has already been registered", node->id);
 				return FALSE;
 			}
-
-			node->next_sibling = node->parent.node->first_child;
-			node->parent.node->first_child = node;
+			real_node = tmp;
 		} else {
-			/* node == parent is the sign of the start node */
-			node->parent.node = NULL;
+			/* be anal, the macro probably initialized this, but do it just in case */
+			node->first_child = NULL;
+			g_hash_table_insert (symbols, (gpointer)node->id, node);
+			real_node = node;
 		}
 
+		tmp = g_hash_table_lookup (symbols, node->parent_id);
+		if (tmp == NULL) {
+			if (strcmp (node->id, node->parent_id)) {
+				g_warning ("Parent ID '%s' unknown", node->parent_id);
+				return FALSE;
+			}
+		} else
+			tmp->first_child = g_slist_prepend (tmp->first_child, real_node);
 		node->parent_initialized = TRUE;
-		g_hash_table_insert (symbols, (gpointer)node->id, node);
 	}
 
 	g_hash_table_destroy (symbols);

@@ -1,3 +1,9 @@
+libgsf 1.5.0
+
+Jody:
+	* Adjust sax routines to support recusive structures.
+
+------------------------------------------------------------------------------
 libgsf 1.4.0
 
 Jody:

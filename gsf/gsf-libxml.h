@@ -49,13 +49,9 @@ struct _GsfXmlSAXState {
 struct _GsfXmlSAXNode {
 	char const *id;
 	char const *name;
-	union {
-		char const *id;
-		GsfXmlSAXNode *node;
-	} parent;
+	char const *parent_id;
 	gboolean parent_initialized;
-	GsfXmlSAXNode *next_sibling;
-	GsfXmlSAXNode *first_child;
+	GSList *first_child;
 
 	gboolean	has_content;
 
@@ -71,7 +67,7 @@ struct _GsfXmlSAXNode {
 };
 
 #define GSF_XML_SAX_NODE(parent_id, id, name, has_content, start, end, user)	\
-{ #id, name, { #parent_id }, FALSE, NULL, NULL, has_content, start, end, { user } }
+{ #id, name, #parent_id, FALSE, NULL, has_content, start, end, { user } }
 
 gboolean gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node);
 gboolean gsf_xmlSAX_parse    (GsfInput *input, GsfXmlSAXState *doc);
