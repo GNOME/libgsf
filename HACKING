@@ -1,0 +1,2 @@
+* Don't commit directly, instead send your diff to the authors (use
+  'cvs diff -Nu').

@@ -1,0 +1,63 @@
+<!-- ##### SECTION Title ##### -->
+gsf-input-stdio
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO GSF_INPUT_STDIO_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INPUT_STDIO ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT_STDIO ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputStdio ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_stdio_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_stdio_new ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@Returns: 
+
+

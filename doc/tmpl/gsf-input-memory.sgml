@@ -1,0 +1,111 @@
+<!-- ##### SECTION Title ##### -->
+gsf-input-memory
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO GSF_INPUT_MEMORY_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INPUT_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputMemory ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_memory_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_memory_new ##### -->
+<para>
+
+</para>
+
+@buf: 
+@length: 
+@needs_free: 
+@Returns: 
+
+
+<!-- ##### MACRO GSF_INPUT_MMAP_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INPUT_MMAP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT_MMAP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputMMap ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_mmap_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_mmap_new ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@Returns: 
+
+

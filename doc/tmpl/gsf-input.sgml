@@ -1,0 +1,120 @@
+<!-- ##### SECTION Title ##### -->
+gsf-input
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO GSF_INPUT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### ENUM GsfOff_t ##### -->
+<para>
+
+</para>
+
+@GSF_INPUT_SEEK_SET: 
+@GSF_INPUT_SEEK_CUR: 
+@GSF_INPUT_SEEK_END: 
+
+<!-- ##### FUNCTION gsf_input_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_container ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_dup ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_size ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_eof ##### -->
+<para>
+
+</para>
+
+@file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_tell ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_seek ##### -->
+<para>
+
+</para>
+
+@input: 
+@offset: 
+@whence: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+

@@ -1,0 +1,48 @@
+<!doctype book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!notation PNG system "PNG">
+<!entity % local.notation.class "| PNG">
+
+<!entity hash "#">
+<!entity percent "%">
+<!entity GtkAccelLabel	SYSTEM "sgml/gtkaccellabel.sgml">
+<!entity GsfInfileMsole	SYSTEM "sgml/gsf-infile-msole.sgml ">
+<!entity GsfInfileZip	SYSTEM "sgml/gsf-infile-zip.sgml ">
+<!entity GsfInfile	SYSTEM "sgml/gsf-input-gnomevfs.sgml ">
+<!entity GsfInputMemory SYSTEM "sgml/gsf-input-memory.sgml ">
+<!entity GsfInputStdio	SYSTEM "sgml/gsf-input-stdio.sgml ">
+<!entity GsfInput	SYSTEM "sgml/gsf-outfile.sgml ">
+<!entity GsfOutput	SYSTEM "sgml/object_index.sgml ">
+<!entity Index	SYSTEM "sgml/tree_index.sgml ">
+]>
+
+<book id="index">
+  <bookinfo>
+    <title>GSF Reference Manual</title>
+  </bookinfo>
+
+  <part id="gsf">
+    <title>GSF Overview</title>
+    <partintro>
+    <para>
+The GNOME Structured File Library (GSF) is an I/O abstraction for
+reading/writing compound files.  GSF is released under the GNU General Public
+License (GNU GPL), which allows for flexible licensing of client applications.
+    </para>
+    <para>
+GSF depends on the following libraries:
+<variablelist>
+
+<varlistentry>
+<term>GLib</term>
+<listitem><para>
+A general-purpose utility library, not specific to graphical user interfaces.
+GLib provides many useful data types, macros, type conversions,
+string utilities, file utilities, a main loop abstraction, and so on.
+</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</partintro>
+</part>
+
+</book>

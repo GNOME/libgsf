@@ -1,0 +1,76 @@
+<!-- ##### SECTION Title ##### -->
+gsf-output
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO GSF_OUTPUT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_OUTPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_OUTPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gsf_output_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_set_size ##### -->
+<para>
+
+</para>
+
+@output: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_write_data ##### -->
+<para>
+
+</para>
+
+@output: 
+@data: 
+@num_bytes: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+

@@ -1,0 +1,115 @@
+AC_INIT(gsf/gsf.h)
+
+dnl Set release number
+dnl This is derived from "Versioning" chapter of info libtool documentation.
+PACKAGE=libgsf
+dnl     4a) Increment when removing or changing interfaces.
+LIBGSF_MAJOR_VERSION=1
+dnl     4a) 5) Increment when adding interfaces.
+dnl     6) Set to zero when removing or changing interfaces.
+LIBGSF_MINOR_VERSION=0
+dnl     3) Increment when interfaces not changed at all,
+dnl               only bug fixes or internal changes made.
+dnl     4b) Set to zero when adding, removing or changing interfaces.
+LIBGSF_MICRO_VERSION=0
+dnl
+dnl     Set this too (I don't know how to do it automatically =) ):
+MAJOR_VERSION_PLUS_MINOR_VERSION=1
+dnl
+VERSION=$LIBGSF_MAJOR_VERSION.$LIBGSF_MINOR_VERSION.$LIBGSF_MICRO_VERSION
+dnl Version info for libraries = CURRENT:REVISION:AGE
+VERSION_INFO=$MAJOR_VERSION_PLUS_MINOR_VERSION:$LIBGSF_MICRO_VERSION:$LIBGSF_MINOR_VERSION
+AC_SUBST(VERSION_INFO)
+AC_SUBST(LIBGSF_MAJOR_VERSION)
+AC_SUBST(LIBGSF_MINOR_VERSION)
+AC_SUBST(LIBGSF_MICRO_VERSION)
+
+dnl Start automake
+AM_CONFIG_HEADER(gsf-config.h)
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_MAINTAINER_MODE
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+AM_PROG_LIBTOOL
+
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+
+dnl Checks for libraries.
+PKG_CHECK_MODULES(LIBGSF,[
+gobject-2.0 >= 2.0.0
+glib-2.0 >= 2.0.0
+])
+
+AC_SUBST(LIBGSF_LIBS)
+AC_SUBST(LIBGSF_CFLAGS)
+
+## this should come after `AC_PROG_CC'
+GNOME_COMPILE_WARNINGS
+if test "$GCC" = "yes"; then
+	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
+		SAVE_CFLAGS="$CFLAGS"
+		CFLAGS="$CFLAGS $option"
+		AC_MSG_CHECKING([whether gcc understands $option])
+		AC_TRY_COMPILE([], [],
+			has_option=yes,
+			has_option=no,)
+		if test $has_option = no; then
+		  CFLAGS="$SAVE_CFLAGS"
+		fi
+		AC_MSG_RESULT($has_option)
+		unset has_option
+		unset SAVE_CFLAGS
+	done
+	unset option
+fi
+
+AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
+AC_FUNC_MMAP
+AC_C_BIGENDIAN
+
+dnl ***********************************************************************************
+dnl gtk-doc stuff
+dnl borrowed from gdk-pixbuf
+AC_CHECK_PROG(GTKDOC, gtkdoc-mkdb, true, false)
+dnl Let people disable the gtk-doc stuff.
+AC_ARG_ENABLE(gtk-doc,
+    [  --enable-gtk-doc        Use gtk-doc to build documentation [default=auto]],
+    enable_gtk_doc="$enableval", enable_gtk_doc=auto)
+
+if test x$enable_gtk_doc = xauto ; then
+  if test x$GTKDOC = xtrue ; then
+    enable_gtk_doc=yes
+  else
+    enable_gtk_doc=no
+  fi
+fi
+
+AC_SUBST(HAVE_GTK_DOC)
+AM_CONDITIONAL(HAVE_GTK_DOC, $GTKDOC)
+AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
+
+dnl ***********************************************************************************
+
+with_gnome_vfs=false
+AC_ARG_WITH(gnomevfs,
+	[--{with,without}-gnomevfs   Compile with GNOME-VFS support or without it],
+	if test x$withval = xyes; then
+		with_gnome_vfs=true
+	fi
+)
+AM_CONDITIONAL(WITH_GNOME_VFS, $with_gnome_vfs)
+
+AC_OUTPUT([
+Makefile
+doc/Makefile
+gsf/Makefile
+gsf/version.c
+libgsf-1.pc
+libgsf-1.spec
+])
+
+AC_MSG_RESULT([Configured $PACKAGE $VERSION])
+
+rm -f po/po2tbl.sed

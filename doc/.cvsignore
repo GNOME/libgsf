@@ -1,0 +1,16 @@
+Makefile
+Makefile.in
+sgml
+html
+.libs
+gsf.args
+gsf.hierarchy
+gsf.signals
+gsf-decl.txt
+gsf-decl-list.txt
+gsf-undocumented.txt
+gsf-unused.txt
+gsf-scan.lo
+*.stamp
+*.lo
+.libs

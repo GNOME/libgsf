@@ -1,0 +1,38 @@
+DO NOT PACKAGE THIS
+Version 2.2.7
+	* Initial transition to GNOME2 and pkgconfig
+	* contains Dom's GNOME-VFS code
+	* There WILL be api changes and reorganizations.
+
+DO NOT PACKAGE THIS
+
+Version 0.2.5 (not released)
+	* Optionally support GNOME-VFS		(Dom)
+
+Version 0.2.4
+
+	* Improve handling of odd block sizes	(Morten)
+
+Version 0.2.2
+
+	* Leakage fixage (Morten, Jody)
+
+	* Portability [ HP/UX ] fixes (Jacob)
+
+	* Regression test (Me)
+
+Version 0.2.1
+
+	* update dependency on glib (David Kaelbling)
+
+	* Portability [ Win32 / BeOS ] (Dom Lachowicz)
+
+Version 0.2.0
+
+	* Abstract mmap better (Me)
+
+	* Portability fixes (Dom Lachowicz)
+
+	* Code cleaning (Me)
+
+	* Updated spec file (John Gotts)

@@ -1,0 +1,63 @@
+<!-- ##### SECTION Title ##### -->
+gsf-infile-zip
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT GsfInfileZip ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INFILE_ZIP_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INFILE_ZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INFILE_ZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gsf_infile_zip_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_infile_zip_new ##### -->
+<para>
+
+</para>
+
+@input: 
+@err: 
+@Returns: 
+
+

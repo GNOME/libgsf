@@ -1,0 +1,63 @@
+<!-- ##### SECTION Title ##### -->
+gsf-input-gnomevfs
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_MS_OLE_INPUT_GNOMEVFS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_gnomevfs_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
+<para>
+
+</para>
+
+@filename: 
+@error: 
+@Returns: 
+
+
