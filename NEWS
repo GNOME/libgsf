@@ -6,6 +6,7 @@ Jody Goldberg:
 	* Fix reading ole files > 13.6 Meg on sparc/alpha (from Xavier Roche)
 	* Tune validation test for LPSTR properties to handle char width > 1
 	* Make the impl headers for the base interfaces public as requested
+	* Add some directory tree wrappers
 
 Joseph Frazee:
 	* patch the spec file.

@@ -38,6 +38,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-input-iochannel.c	\
 	\
 	gsf-infile.c 		\
+	gsf-infile-stdio.c	\
 	gsf-infile-msole.c 	\
 	gsf-infile-msvba.c 	\
 	gsf-infile-zip.c	\
@@ -50,6 +51,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-output-bzip.c	\
 	\
 	gsf-outfile.c 		\
+	gsf-outfile-stdio.c	\
 	gsf-outfile-msole.c 	\
 	gsf-outfile-zip.c	\
 	\
@@ -81,6 +83,7 @@ libgsf_1_include_HEADERS = 	\
 	\
 	gsf-infile.h 		\
 	gsf-infile-impl.h 	\
+	gsf-infile-stdio.h	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
 	gsf-infile-zip.h	\
@@ -95,8 +98,9 @@ libgsf_1_include_HEADERS = 	\
 	\
 	gsf-outfile.h 		\
 	gsf-outfile-impl.h 	\
+	gsf-outfile-stdio.h	\
 	gsf-outfile-msole.h	\
-	gsf-outfile-zip.h       \
+	gsf-outfile-zip.h	\
 	\
 	gsf-structured-blob.h
 #	gsf-command-context.h	\

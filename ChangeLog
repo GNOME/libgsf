@@ -1,3 +1,11 @@
+2004-03-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-stdio.c :
+	* gsf/gsf-infile-stdio.c : Some utility wrappers to pull or push from
+	  a directory tree.
+	* tests/test-dump-msole.c :
+	* tests/test-restore-msole.c : tests for it.
+
 2004-02-24  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Add Win32 stuff
