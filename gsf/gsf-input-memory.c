@@ -20,6 +20,7 @@
  */
 
 #include <gsf-config.h>
+#include <string.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
@@ -173,7 +174,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		close (fd);
 		return NULL;
 	}
-	buf = mmap (0, size, PROT_READ, MAP_SHARED, fd, 0);
+	buf = mmap (0, size, PROT_READ, MAP_SHARED, fd, (off_t) 0);
 	if (buf == MAP_FAILED) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
