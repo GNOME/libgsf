@@ -248,7 +248,7 @@ gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 	
 
 	coffset = offset;
-	if (coffset != offset) { /* Check for overflow */
+	if ((gsf_off_t) coffset != offset) { /* Check for overflow */
 		g_warning ("offset too large for Bonobo_Stream_seek");
 		return TRUE;
 	}

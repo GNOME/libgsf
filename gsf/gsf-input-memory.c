@@ -168,7 +168,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	if ((ssize_t) size != st.st_size) { /* Check for overflow */
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s: %s",
+				"%s: %s",filename,
 				"File too large to be memory mapped");
 		close (fd);
 		return NULL;

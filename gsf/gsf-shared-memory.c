@@ -61,7 +61,8 @@ gsf_shared_memory_finalize (GObject *obj)
 		else if (mem->needs_unmap) {
 #ifdef HAVE_MMAP
 			msize = mem->size;
-			if (msize != mem->size) { /* Check for overflow */
+			if ((gsf_off_t) msize != mem->size) {
+				/* Check for overflow */
 				g_warning ("memory buffer size too large");
 			}
 			munmap (mem->buf, msize);

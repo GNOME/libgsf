@@ -100,7 +100,7 @@ zip_find_trailer (GsfInfileZip *zip)
 
 	trailer_offset = filesize;
 	maplen = filesize;
-	if (maplen != filesize) { /* Check for overflow */
+	if ((gsf_off_t) maplen != filesize) { /* Check for overflow */
 		g_warning ("File too large");
 		return -1;
 	}

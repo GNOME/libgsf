@@ -250,7 +250,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 		}
 		data_size = gsf_output_tell (ole->sink) - data_size;
 		sb_data_size = data_size;
-		if (sb_data_size != data_size) { /* Check for overflow */
+		if ((gsf_off_t) sb_data_size != data_size) {
+			/* Check for overflow */
 			g_warning ("File too big");
 			return FALSE;
 		}
@@ -446,7 +447,8 @@ gsf_outfile_msole_write (GsfOutput *output,
 		ole->content.small_block.buf = NULL;
 		start_offset = gsf_output_tell (ole->sink);
 		ole->content.big_block.start_offset = start_offset;
-		if (ole->content.big_block.start_offset != start_offset) {
+		if ((gsf_off_t) ole->content.big_block.start_offset
+		    != start_offset) {
 			/* Check for overflow */
 			g_warning ("File too big");
 			return FALSE;
@@ -455,7 +457,8 @@ gsf_outfile_msole_write (GsfOutput *output,
 		ole->first_block = ole_cur_block (ole);
 		ole->type = MSOLE_BIG_BLOCK;
 		wsize = output->cur_size;
-		if (wsize != output->cur_size) { /* Check for overflow */
+		if ((gsf_off_t) wsize != output->cur_size) {
+			/* Check for overflow */
 			g_warning ("File too big");
 			return FALSE;
 		}

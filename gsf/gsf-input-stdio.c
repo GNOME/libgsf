@@ -144,27 +144,27 @@ static gboolean
 gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
-	off_t foffset;
+	long loffset;
 
 	if (stdio->file == NULL)
 		return TRUE;
 
-	foffset = offset;
-	if (foffset != offset) { /* Check for overflow */
+	loffset = offset;
+	if ((gsf_off_t) loffset != offset) { /* Check for overflow */
 		g_warning ("offset too large for fseek");
 		return TRUE;
 	}
 	switch (whence) {
 	case GSF_SEEK_SET :
-		if (0 == fseek (stdio->file, foffset, SEEK_SET))
+		if (0 == fseek (stdio->file, loffset, SEEK_SET))
 			return FALSE;
 		break;
 	case GSF_SEEK_CUR :
-		if (0 == fseek (stdio->file, foffset, SEEK_CUR))
+		if (0 == fseek (stdio->file, loffset, SEEK_CUR))
 			return FALSE;
 		break;
 	case GSF_SEEK_END :
-		if (0 == fseek (stdio->file, foffset, SEEK_END))
+		if (0 == fseek (stdio->file, loffset, SEEK_END))
 			return FALSE;
 	}
 
