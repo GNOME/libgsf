@@ -1,5 +1,11 @@
 2002-11-23  Jon K Hellan  <hellan@acm.org>
 
+	* tests/test-zip-out-subdirs.c: New test program. Add.
+
+	* tests/Makefile.am (check_PROGRAMS): Add test-zip-out-subdirs.
+
+2002-11-23  Jon K Hellan  <hellan@acm.org>
+
 	* tests/test-zip-out.c: New test program. Add.
 
 	* tests/Makefile.am (check_PROGRAMS): Add test-zip-out.

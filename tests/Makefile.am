@@ -4,7 +4,7 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-zip1 test-input1 test-gzip1			\
 		 test-textline test-ls-zip test-cat-zip test-zip2 	\
 		 test-cp-zip test-out-printf test-outmem-printf   	\
-		 test-msole-printf test-zip-out
+		 test-msole-printf test-zip-out test-zip-out-subdirs
 
 ldadd = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
@@ -24,3 +24,4 @@ test_out_printf_LDADD	= $(ldadd)
 test_outmem_printf_LDADD = $(ldadd)
 test_msole_printf_LDADD	= $(ldadd)
 test_zip_out_LDADD      = $(ldadd)
+test_zip_out_subdirs_LDADD = $(ldadd)
