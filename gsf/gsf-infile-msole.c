@@ -582,10 +582,13 @@ gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
 	GsfInfileMSOle *dst = ole_dup (src);
 
-	(void)err;
-
-	if (dst == NULL)
+	if (dst == NULL) {
+		if (err != NULL)
+			/* FIXME: better message.  */
+			*err = g_error_new (gsf_input_error (), 0,
+				"Something went wrong in ole_dup.");
 		return NULL;
+	}
 
 	if (src->bat.block != NULL) {
 		dst->bat.block = g_new (guint32, src->bat.num_blocks),

@@ -1,5 +1,8 @@
 2002-07-15  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_dup): Don't ignore err
+	-- that will crash the caller.
+
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Plug file
 	descriptor leaks.
 
