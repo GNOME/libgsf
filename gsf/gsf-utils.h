@@ -36,6 +36,11 @@ G_BEGIN_DECLS
 		  (((guint8 const *)(p))[1] << 8)  |	\
 		  (((guint8 const *)(p))[2] << 16) |	\
 		  (((guint8 const *)(p))[3] << 24))
+#define GSF_LE_GET_GINT8(p) ((gint8)GSF_LE_GET_GUINT8(p))
+#define GSF_LE_GET_GINT16(p) ((gint16)GSF_LE_GET_GUINT16(p))
+#define GSF_LE_GET_GINT32(p) ((gint32)GSF_LE_GET_GUINT32(p))
+#define GSF_LE_GET_DOUBLE(p) (gsf_le_get_double (p))
+double gsf_le_get_double (const void *p);
 
 #define GSF_LE_SET_GUINT8(p, dat)			\
 	(*((guint8 *)(p))      = ((dat)        & 0xff))
@@ -47,6 +52,11 @@ G_BEGIN_DECLS
 	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff),	\
 	 (*((guint8 *)(p) + 2) = ((dat) >> 16) & 0xff),	\
 	 (*((guint8 *)(p) + 3) = ((dat) >> 24) & 0xff))
+#define GSF_LE_SET_GINT8(p,dat) GSF_LE_SET_GUINT8((p),(dat))
+#define GSF_LE_SET_GINT16(p,dat) GSF_LE_SET_GUINT16((p),(dat))
+#define GSF_LE_SET_GINT32(p,dat) GSF_LE_SET_GUINT32((p),(dat))
+#define GSF_LE_SET_DOUBLE(p,dat) gsf_le_set_double((p),(dat))
+void gsf_le_set_double (void *p, double d);
 
 void gsf_init (void);
 void gsf_shutdown (void);
