@@ -1,5 +1,10 @@
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input.c: Doc fixes, notably reversing the sense of
+	gsf_input_seek_emulate's return value.
+
+2004-09-17  Morten Welinder  <terra@gnome.org>
+
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri):
 	Force local copy for small (<256KB) files that are not local.
 

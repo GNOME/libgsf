@@ -161,9 +161,9 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
 
 /**
  * gsf_input_name :
- * @input : 
+ * @input : the input stream
  *
- * Returns @input's name in utf8 form, DO NOT FREE THIS STRING
+ * Returns @input's name in utf8 form, or NULL if it has no name.
  **/
 char const *
 gsf_input_name (GsfInput *input)
@@ -174,7 +174,7 @@ gsf_input_name (GsfInput *input)
 
 /**
  * gsf_input_container :
- * @input : 
+ * @input : the input stream
  *
  * Returns, but does not add a reference to @input's container.
  * Potentially NULL
@@ -261,11 +261,11 @@ gsf_input_eof (GsfInput *input)
 
 /**
  * gsf_input_read :
- * @input :
- * @num_bytes :
- * @optional_buffer : If supplied copy the data into it
+ * @input : the input stream
+ * @num_bytes : number of bytes to read
+ * @optional_buffer : NULL, or pointer to destination memory area
  *
- * Read at at least @num_bytes.  Does not change the current position if there
+ * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
@@ -291,7 +291,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 
 /**
  * gsf_input_remaining :
- * @input :
+ * @input : the input stream
  *
  * Returns the number of bytes left in the file.
  **/
@@ -305,7 +305,7 @@ gsf_input_remaining (GsfInput *input)
 
 /**
  * gsf_input_tell :
- * @input :
+ * @input : the input stream
  *
  * Returns the current offset in the file.
  **/
@@ -319,9 +319,10 @@ gsf_input_tell (GsfInput *input)
 
 /**
  * gsf_input_seek :
- * @input :
- * @offset :
- * @whence :
+ * @input : the input stream
+ * @offset : target offset
+ * @whence : determines whether the offset is relative to the beginning or
+ *           the end of the stream, or to the current location.
  *
  * Returns TRUE on error.
  **/
@@ -358,8 +359,8 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 /**
  * gsf_input_set_name :
- * @input :
- * @name :
+ * @input : the input stream
+ * @name : the new name of the stream, or NULL.
  *
  * protected.
  *
@@ -373,15 +374,14 @@ gsf_input_set_name (GsfInput *input, char const *name)
 	g_return_val_if_fail (input != NULL, FALSE);
 
 	buf = g_strdup (name);
-	if (input->name != NULL)
-		g_free (input->name);
+	g_free (input->name);
 	input->name = buf;
 	return TRUE;
 }
 
 /**
  * gsf_input_set_container :
- * @input :
+ * @input : the input stream
  * @container :
  *
  * Returns : TRUE if the assignment was ok.
@@ -401,8 +401,8 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 
 /**
  * gsf_input_set_size :
- * @input :
- * @size :
+ * @input : the input stream
+ * @size : the size of the stream
  *
  * Returns : TRUE if the assignment was ok.
  */
@@ -410,6 +410,7 @@ gboolean
 gsf_input_set_size (GsfInput *input, gsf_off_t size)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
+	g_return_val_if_fail (size >= 0, FALSE);
 
 	input->size = size;
 	return TRUE;
@@ -417,10 +418,10 @@ gsf_input_set_size (GsfInput *input, gsf_off_t size)
 
 /**
  * gsf_input_seek_emulate: Emulate forward seeks by reading.
- * @input :
- * @pos :
+ * @input : stream to emulate seek for
+ * @pos : absolute position to seek to
  *
- * Returns : TRUE if the emulation worked.
+ * Returns : TRUE if the emulation failed.
  */
 gboolean
 gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
