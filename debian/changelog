@@ -1,3 +1,10 @@
+libgsf (1.9.1-6) unstable; urgency=high
+
+  * [debian/control] Readded libgsf-1-dev Depends: libbz2-dev as libgsf-1.la 
+    has `-lbz2' in dependency_libs.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 13 Jun 2004 13:57:29 +0200
+
 libgsf (1.9.1-5) unstable; urgency=medium
 
   * [debian/control] Dependencies overhaul.
