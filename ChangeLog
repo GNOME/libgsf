@@ -1,5 +1,8 @@
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (zip_find_trailer): Fix gsf_input_seek
+	check.
+
 	* gsf/gsf-input.c: Doc fixes, notably reversing the sense of
 	gsf_input_seek_emulate's return value.
 

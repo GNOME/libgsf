@@ -141,7 +141,7 @@ zip_find_trailer (GsfInfileZip *zip)
 	while (TRUE) {
 		guchar *p, *s;
 
-		if ((gsf_input_seek (zip->input, offset, G_SEEK_SET)) < 0)
+		if (gsf_input_seek (zip->input, offset, G_SEEK_SET))
 			return -1;
 
 		if ((data = gsf_input_read (zip->input, maplen, NULL)) == NULL)

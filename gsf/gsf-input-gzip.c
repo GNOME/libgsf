@@ -339,4 +339,3 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfInputGZip, gsf_input_gzip,
 	   gsf_input_gzip_class_init, gsf_input_gzip_init, GSF_INPUT_TYPE)
-
