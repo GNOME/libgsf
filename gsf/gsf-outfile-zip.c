@@ -103,7 +103,7 @@ gsf_outfile_zip_finalize (GObject *obj)
 	g_free (zip->buf);
 
 	if (zip == zip->root)
-		vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
+		gsf_vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
 
 	parent_class = g_type_class_peek (GSF_OUTFILE_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -297,7 +297,7 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 	if (!name)
 		return NULL;
 
-	dirent = zip_dirent_new ();
+	dirent = gsf_zip_dirent_new ();
 	if (!dirent)
 		return NULL;
 
@@ -567,7 +567,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent, char const *name,
 	g_return_val_if_fail (zip_parent->vdir->is_directory, NULL);
 
 	child = g_object_new (GSF_OUTFILE_ZIP_TYPE, NULL);
-	child->vdir = vdir_new (name, is_dir, NULL);
+	child->vdir = gsf_vdir_new (name, is_dir, NULL);
 	g_object_ref (G_OBJECT (zip_parent->sink));
 	child->sink = zip_parent->sink;
 	gsf_output_set_name (GSF_OUTPUT (child), name);
@@ -635,7 +635,7 @@ gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 	g_object_ref (G_OBJECT (sink));
 	zip->sink = sink;
 
-	zip->vdir = vdir_new ("", TRUE, NULL);
+	zip->vdir = gsf_vdir_new ("", TRUE, NULL);
 	zip->root_order = g_ptr_array_new ();
 	zip->root = zip;
 

@@ -27,13 +27,13 @@
 
 /* Doesn't do much, but include for symmetry */
 ZipDirent*
-zip_dirent_new (void)
+gsf_zip_dirent_new (void)
 {
 	return g_new0 (ZipDirent, 1);
 }
 
 void
-zip_dirent_free (ZipDirent *dirent)
+gsf_zip_dirent_free (ZipDirent *dirent)
 {
 	g_return_if_fail (dirent != NULL);
 
@@ -45,7 +45,7 @@ zip_dirent_free (ZipDirent *dirent)
 }
 
 ZipVDir *
-vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
+gsf_vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
 {
 	ZipVDir *vdir = g_new (ZipVDir, 1);
 
@@ -57,7 +57,7 @@ vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
 }
 
 void
-vdir_free (ZipVDir *vdir, gboolean free_dirent)
+gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent)
 {
 	GSList *l;
 
@@ -65,18 +65,18 @@ vdir_free (ZipVDir *vdir, gboolean free_dirent)
 		return;
 
 	for (l = vdir->children; l; l = l->next)
-		vdir_free ((ZipVDir *)l->data, free_dirent);
+		gsf_vdir_free ((ZipVDir *)l->data, free_dirent);
 
 	g_slist_free (vdir->children);
 	g_free (vdir->name);
 	if (free_dirent && vdir->dirent)
-		zip_dirent_free (vdir->dirent);
+		gsf_zip_dirent_free (vdir->dirent);
 	g_free (vdir);
 }
 
 /* Comparison doesn't have to be UTF-8 safe, as long as it is consistent */
 static gint
-vdir_compare (gconstpointer ap, gconstpointer bp)
+gsf_vdir_compare (gconstpointer ap, gconstpointer bp)
 {
 	ZipVDir *a = (ZipVDir *) ap;
 	ZipVDir *b = (ZipVDir *) bp;
@@ -91,10 +91,10 @@ vdir_compare (gconstpointer ap, gconstpointer bp)
 }
 
 void
-vdir_add_child (ZipVDir *vdir, ZipVDir *child)
+gsf_vdir_add_child (ZipVDir *vdir, ZipVDir *child)
 {
 	vdir->children = g_slist_insert_sorted (vdir->children,
 						(gpointer) child,
-						vdir_compare);
+						gsf_vdir_compare);
 }
 

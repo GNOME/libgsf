@@ -116,12 +116,12 @@ typedef struct {
 	GSList *children;
 } ZipVDir;
 
-ZipDirent* zip_dirent_new (void);
-void       zip_dirent_free (ZipDirent *dirent);
+ZipDirent* gsf_zip_dirent_new (void);
+void       gsf_zip_dirent_free (ZipDirent *dirent);
 
-ZipVDir* vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent);
-void     vdir_free (ZipVDir *vdir, gboolean free_dirent);
-void     vdir_add_child (ZipVDir *vdir, ZipVDir *child);
+ZipVDir* gsf_vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent);
+void     gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent);
+void     gsf_vdir_add_child (ZipVDir *vdir, ZipVDir *child);
 
 G_END_DECLS
 

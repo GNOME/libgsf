@@ -1,5 +1,12 @@
 2004-05-09  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-infile-zip.c: Don't pollute the global namespace
+	* gsf/gsf-outfile-zip.c: Ditto
+	* gsf/gsf-zip-impl.h: Ditto
+	* gsf/gsf-zip-utils.c: Ditto
+
+2004-05-09  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-infile-stdio.c: Fix non-static definition of 'parent_class'
 	* gsf/gsf-outfile-stdio.c: Ditto
 	

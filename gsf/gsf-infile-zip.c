@@ -103,7 +103,7 @@ vdir_insert (ZipVDir *vdir, char const * name, ZipDirent *dirent)
 		dirname = g_strndup (name, (gsize) (p - name));
 		child = vdir_child_by_name (vdir, dirname);
 		if (!child) {
-			child = vdir_new (dirname, TRUE, NULL);
+			child = gsf_vdir_new (dirname, TRUE, NULL);
 			vdir_add_child (vdir, child);
 		}
 		g_free (dirname);
@@ -112,7 +112,7 @@ vdir_insert (ZipVDir *vdir, char const * name, ZipDirent *dirent)
 			vdir_insert (child, name, dirent);
 		}
 	} else { /* A simple file name */
-		child = vdir_new (name, FALSE, dirent);
+		child = gsf_vdir_new (name, FALSE, dirent);
 		vdir_add_child (vdir, child);
 	}
 }
@@ -217,7 +217,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	memcpy (name, data, name_len);
 	name[name_len] = '\0';
 
-	dirent = zip_dirent_new ();
+	dirent = gsf_zip_dirent_new ();
 	dirent->name = name;
 
 	dirent->compr_method =  compr_method;
@@ -353,7 +353,7 @@ zip_build_vdirs (GsfInfileZip *zip)
 	ZipDirent *dirent;
 	ZipInfo *info = zip->info;
 
-	info->vdir = vdir_new ("", TRUE, NULL);
+	info->vdir = gsf_vdir_new ("", TRUE, NULL);
 	for (l = info->dirent_list; l; l = l->next) {
 		dirent = (ZipDirent *) l->data;
 		vdir_insert (info->vdir, dirent->name, dirent);
