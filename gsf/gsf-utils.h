@@ -41,7 +41,7 @@ void gsf_init (void);
 void gsf_shutdown (void);
 
 /* Debugging utilities */
-void gsf_mem_dump   (guint8 const *ptr, int len);
+void gsf_mem_dump   (guint8 const *ptr, size_t len);
 void gsf_input_dump (GsfInput *input);
 
 /* Some version checking */

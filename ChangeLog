@@ -1,3 +1,9 @@
+2002-06-15  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_eof) : fix docs.
+
+	* gsf/gsf-utils.c (gsf_mem_dump) : use size_t.
+
 2002-06-13  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-input-textline.c (gsf_input_textline_ascii_gets) : implement.

@@ -27,6 +27,7 @@
 
 #include <zlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define Z_BUFSIZE 0x100
 

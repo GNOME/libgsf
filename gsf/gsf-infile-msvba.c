@@ -33,6 +33,7 @@
 #include <gsf/gsf-utils.h>
 
 #include <stdio.h>
+#include <string.h>
 
 typedef struct {
 	char	 *name;
@@ -53,7 +54,7 @@ typedef struct {
 #define GSF_INFILE_MSVBA_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBAClass))
 #define GSF_IS_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
 
-#define VBA_DIR_HEADER_SIZE	(2 + /* magic */	\
+#define VBA_DIRENT_HEADER_SIZE	(2 + /* magic */	\
 				 4 + /* ? version ? */	\
 				 2 + /* 0x00 0xff */	\
 				 28) /* misc */
@@ -209,6 +210,78 @@ vba_dirent_read (guint8 const *data, int *size)
 	return data + offset + 52;
 }
 
+static gboolean
+vba_dir_read (GsfInfileMSVBA *vba, GError **err)
+{
+	static struct {
+		size_t   const offset;
+		gboolean const is_unicode;
+	} const magic [] = {
+		{ 0x28, FALSE },			/* VBAProject */
+		{ 0x46, FALSE },	{ 0x02, TRUE },	/* stdole */
+		{ 0x06, FALSE },			/* OLE.Automation */
+		{ 0x08, FALSE },	{ 0x02, TRUE },	/* MSForms */
+		{ 0x02, FALSE },			/* object library */
+		{ 0x06, FALSE }
+	};
+
+	GsfInput *dir;
+	size_t inflated_size;
+	guint8 *inflated;
+	guint8 const *data;
+	unsigned offset, size, name_len, i, j;
+	char *name;
+
+	dir = gsf_infile_child_by_name (vba->source, "dir");
+	if (dir == NULL) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Can't find the VBA directory stream.");
+		return TRUE;
+	}
+
+	inflated = vba_inflate (dir, 0, &inflated_size);
+	if (inflated != NULL) {
+
+		gsf_mem_dump (inflated, 0x333);
+		offset = 0;
+		for (i = 0; i < G_N_ELEMENTS (magic); i++) {
+			/* be very careful reading the name size */
+			offset += magic [i].offset;
+			g_return_val_if_fail ((offset + 4) < inflated_size, TRUE);
+			name_len = GSF_LE_GET_GUINT32 (inflated + offset);
+			offset += 4;
+			g_return_val_if_fail ((offset + name_len) < inflated_size, TRUE);
+
+			if (magic [i].is_unicode) {  /* unicode */
+				gunichar2 *uni_name = g_new0 (gunichar2, name_len/2 + 1);
+
+				/* be wary about endianness */
+				for (j = 0 ; j < name_len ; j += 2)
+					uni_name [j/2] = GSF_LE_GET_GUINT16 (inflated + offset + j);
+				name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
+				g_free (uni_name);
+			} else /* ascii */
+				name = g_strndup (inflated + offset, (unsigned)name_len);
+
+			offset += name_len;
+			puts (name);
+		}
+		return;
+
+		size = inflated_size - 0x333;
+		data = inflated + 0x333;
+		printf ("SIZE == 0x%x\n", size);
+		gsf_mem_dump (inflated, inflated_size);
+
+		while (NULL != (data = vba_dirent_read (data, &size)))
+			;
+		g_free (inflated);
+	}
+	g_object_unref (G_OBJECT (dir));
+	return FALSE;
+}
+
 /**
  * vba_init_info :
  * @vba :
@@ -241,30 +314,8 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 	};
 
 	guint8 const *header;
-	GsfInput *dir;
 	unsigned i;
-	int inflated_size;
-	guint8 *inflated;
-
-	dir = gsf_infile_child_by_name (vba->source, "dir");
-	if (dir == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-				"Can't find the VBA directory stream.");
-		return TRUE;
-	}
-
-	inflated = vba_inflate (dir, 0, &inflated_size);
-	if (inflated != NULL) {
-		guint8 const *data = inflated + 0x333;
-		int size = inflated_size - 0x333;
-		printf ("SIZE == 0x%x\n", size);
-		gsf_mem_dump (inflated, inflated_size);
-		while (NULL != (data = vba_dirent_read (data, &size)))
-			;
-		g_free (inflated);
-	}
-	g_object_unref (G_OBJECT (dir));
+	GsfInput *dir;
 
 #if 0
 	/******************************************************/
@@ -295,7 +346,11 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 				"Can't find the VBA directory stream.");
 		return TRUE;
 	}
-	if (NULL == (header = gsf_input_read (dir, VBA_DIR_HEADER_SIZE, NULL)) ||
+	header = gsf_input_read (dir, gsf_input_size (dir), NULL);
+	gsf_mem_dump (header, gsf_input_size (dir));
+	return TRUE;
+
+	if (NULL == (header = gsf_input_read (dir, VBA_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
@@ -314,6 +369,10 @@ vba_init_info (GsfInfileMSVBA *vba, GError **err)
 				header[2], header[3], header[4], header[5]);
 		return TRUE;
 	}
+
+	/* find the name offset pairs */
+	if (vba_dir_read (vba, err))
+		return TRUE;
 
 	return FALSE;
 }
@@ -353,6 +412,8 @@ gsf_infile_msvba_dup (GsfInput *src_input, GError **err)
 	GsfInfileMSVBA const *src = GSF_INFILE_MSVBA (src_input);
 	GsfInfileMSVBA *dst = NULL;
 
+	(void) src;
+	(void) err;
 #warning TODO
 	return GSF_INPUT (dst);
 }
@@ -378,6 +439,9 @@ gsf_infile_msvba_new_child (GsfInfileMSVBA *parent, MSVBADirent *dirent)
 {
 	GsfInputMemory *child = NULL;
 
+	(void) parent;
+	(void) dirent;
+#warning TODO
 	return GSF_INPUT (child);
 }
 

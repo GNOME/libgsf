@@ -1,7 +1,5 @@
 Immediate:
-    - textline
-    - zip
-    - move OLE_GET macros to utils and renam LE
+    - zip import
 
 Near:
     - MS property set parsing

@@ -148,7 +148,7 @@ gsf_input_eof (GsfInput *input)
 }
 
 /**
- * gsf_input_get_data :
+ * gsf_input_read :
  * @input :
  * @num_bytes :
  * @optional_buffer : If supplied copy the data into it

@@ -44,10 +44,9 @@ gsf_shutdown (void)
  * Dump @len bytes from the memory location given by @ptr.
  **/
 void
-gsf_mem_dump (guint8 const *ptr, int len)
+gsf_mem_dump (guint8 const *ptr, size_t len)
 {
-	int lp,lp2;
-	int off;
+	size_t lp, lp2, off;
 
 	for (lp = 0;lp<(len+15)/16;lp++)
 	{

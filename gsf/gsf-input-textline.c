@@ -24,6 +24,8 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include <string.h>
+
 struct _GsfInputTextline {
 	GsfInput input;
 
