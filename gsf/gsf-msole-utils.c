@@ -1295,7 +1295,7 @@ gsf_msole_iconv_open_codepages_for_export (guint codepage_to, const char * from)
 		from = "UTF-8";
 	}
 
-	iconv_handle = g_iconv_open (dest_charset, "UTF-8");
+	iconv_handle = g_iconv_open (dest_charset, from);
 	g_free (dest_charset);
 	return iconv_handle;
 }

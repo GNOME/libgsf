@@ -1,3 +1,7 @@
+2002-10-22  Dom Lahcowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_iconv_open_codepage_for_export): Fix bug where we used UTF-8 regardless of the 'from' codepage
+
 2002-10-21  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-msole-utils.c (*): Large rewrite of the codepage handling
