@@ -1,3 +1,9 @@
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Check if res is a GValue.
+	(gsf_msole_metadata_read): Check if v is a GValue and holds an int
+	before reading codepage. Check if v is a GValue before unsetting.
+
 2002-12-23  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-libxml.c (gsf_xml_output_buffer_new): Fix comment and

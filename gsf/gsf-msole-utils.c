@@ -444,7 +444,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 	};
 
-	d ( if (res != NULL) {
+	d ( if (res != NULL && G_IS_VALUE (res)) {
 		char *val = g_strdup_value_contents (res);
 		printf ("%s\n", val);
 		g_free (val);
@@ -640,11 +640,15 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			if (props[j].id == 1) {
 				GValue *v = msole_prop_read (in, sections+i, props, j);
 				if (v != NULL) {
-					int codepage = g_value_get_int (v);
-					sections[i].iconv_handle = gsf_msole_iconv_open_for_import (codepage);
-					if (codepage == 1200 || codepage == 1201)
-						sections[i].char_size = 2;
-					g_value_unset (v);
+					if (G_IS_VALUE (v)) {
+						if G_VALUE_HOLDS_INT (v) {
+							int codepage = g_value_get_int (v);
+							sections[i].iconv_handle = gsf_msole_iconv_open_for_import (codepage);
+							if (codepage == 1200 || codepage == 1201)
+								sections[i].char_size = 2;
+						}
+						g_value_unset (v);
+					}
 					g_free (v) ;
 				}
 			}
@@ -656,7 +660,8 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 				GValue *v = msole_prop_read (in, sections+i, props, j);
 				if (v) {
 					/* FIXME: do something with it.  */
-					g_value_unset (v);
+					if (G_IS_VALUE (v))
+						g_value_unset (v);
 					g_free (v);
 				}
 			}
@@ -665,7 +670,8 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 				GValue *v = msole_prop_read (in, sections+i, props, j);
 				if (v) {
 					/* FIXME: do something with it.  */
-					g_value_unset (v);
+					if (G_IS_VALUE (v))
+						g_value_unset (v);
 					g_free (v);
 				}
 			}

@@ -1,5 +1,8 @@
 libgsf 1.7.0
 
+Jon Kåre:
+	* Only unset valid GValues when reading msole properties.
+
 Morten:
 	* Fix xml save problem.
 
