@@ -7,6 +7,7 @@ Jody:
 Jon Kåre:
 	* Add printf mechanism.
 	* Fix misc bugs.
+	* Add gzip output.
 
 ------------------------------------------------------------------------------
 libgsf 1.5.0
