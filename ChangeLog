@@ -1,5 +1,8 @@
 2002-12-10  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-structured-blob.c (blob_finalize): Link to the right
+	parent type.
+
 	* gsf/gsf-outfile-zip.c (zip_dirent_new_out): Don't allocate and
 	throw away memory.
 

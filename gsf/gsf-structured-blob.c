@@ -59,7 +59,7 @@ blob_finalize (GObject *obj)
 		blob->children = NULL;
 	}
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
 }
@@ -108,11 +108,10 @@ blob_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 static gboolean
-blob_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
+blob_seek (G_GNUC_UNUSED GsfInput *input,
+	   G_GNUC_UNUSED gsf_off_t offset,
+	   G_GNUC_UNUSED GSeekType whence)
 {
-	(void)input;
-	(void)offset;
-	(void)whence;
 	return FALSE;
 }
 
@@ -243,8 +242,14 @@ gsf_structured_blob_read (GsfInput *input)
 			g_object_unref (G_OBJECT (child));
 
 			g_ptr_array_index (blob->children, i) = child_blob;
+#if 0
+			/*
+			 * We don't need this, and setting it causes circular
+			 * links.
+			 */
 			gsf_input_set_container (GSF_INPUT (child_blob),
-						 GSF_INFILE (input));
+						 GSF_INFILE (blob));
+#endif
 		}
 	}
 
