@@ -2,10 +2,10 @@
 /*
  * gsf-output.c: interface for storing data
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
+ * modify it under the terms of version 2.1 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -13,7 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
@@ -40,15 +40,14 @@ enum {
 static void
 gsf_output_set_property (GObject      *object,
 			 guint         property_id,
-			 const GValue *value,
+	 G_GNUC_UNUSED   GValue const *value,
 			 GParamSpec   *pspec)
 {
-	switch (property_id)
-		{
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-		}
+	switch (property_id) {
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -58,24 +57,23 @@ gsf_output_get_property (GObject     *object,
 			 GParamSpec  *pspec)
 {
 	/* gsf_off_t is typedef'd to gint64 */
-	switch (property_id)
-		{
-		case PROP_NAME:
-			g_value_set_string (value, gsf_output_name (GSF_OUTPUT (object)));
-			break;
-		case PROP_SIZE:
-			g_value_set_int64 (value, gsf_output_size (GSF_OUTPUT (object)));
-			break;
-		case PROP_POS:
-			g_value_set_int64 (value, gsf_output_tell (GSF_OUTPUT (object)));
-			break;
-		case PROP_CLOSED:
-			g_value_set_boolean (value, gsf_output_is_closed (GSF_OUTPUT (object)));
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-		}
+	switch (property_id) {
+	case PROP_NAME:
+		g_value_set_string (value, gsf_output_name (GSF_OUTPUT (object)));
+		break;
+	case PROP_SIZE:
+		g_value_set_int64 (value, gsf_output_size (GSF_OUTPUT (object)));
+		break;
+	case PROP_POS:
+		g_value_set_int64 (value, gsf_output_tell (GSF_OUTPUT (object)));
+		break;
+	case PROP_CLOSED:
+		g_value_set_boolean (value, gsf_output_is_closed (GSF_OUTPUT (object)));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static void

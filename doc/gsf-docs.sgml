@@ -37,8 +37,9 @@
     <partintro>
     <para>
 The GNOME Structured File Library (GSF) is an I/O abstraction for
-reading/writing compound files.  GSF is released under the GNU General Public
-License (GNU GPL), which allows for flexible licensing of client applications.
+reading/writing compound files.  GSF is released under the GNU Lesser General
+Public License (GNU LGPL), which allows for flexible licensing of client
+applications.
     </para>
     <para>
 GSF depends on the following libraries:

@@ -30,4 +30,4 @@ EXTRA_DIST = 		\
     libgsf-gnome-1.spec	\
     libgsf-gnome-1.spec.in	\
     libgsf-gnome-1.pc.in \
-    README TODO HACKING NEWS BUGS ChangeLog
+    README TODO HACKING NEWS BUGS ChangeLog COPYING.LIB

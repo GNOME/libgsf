@@ -1,3 +1,7 @@
+2003-03-09  Jody Goldberg <jody@gnome.org>
+
+	* Relicense from GPL -> LGPL
+
 2003-03-05  Dom Lachowicz <cinamod@hotmail.com>
 
 	* NEWS: update for correctness and mention AR infile

@@ -1,5 +1,9 @@
 libgsf 1.8
 
+    2003 Mar 9
+	With the approval off all contributors the library has been
+	relicensed from GPL -> LGPL
+
 Dom:
 	* Some extra casts to make Bloodshed DevC++ happy
 	* IOChannel input work

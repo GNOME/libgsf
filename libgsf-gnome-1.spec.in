@@ -9,7 +9,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Group: System Environment/Libraries
-License: GPL
+License: LGPL
 
 Source: ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libgsf/libgsf-%{version}.tar.gz
 Buildroot: /var/tmp/%{name}-%{version}-%{release}-root
