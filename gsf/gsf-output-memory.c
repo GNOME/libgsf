@@ -103,7 +103,6 @@ gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
 	    capacity *= 2;
 	else
 	    capacity += MAX_STEP;
-	g_message ("capacity=%d", capacity);
     }
 	    
     mem->buffer  = g_realloc (mem->buffer, capacity);
@@ -167,7 +166,6 @@ void
 gsf_output_memory_get_bytes (GsfOutputMemory * mem,
 			     guint8 ** outbuffer, gsf_off_t * outlength)
 {
-    g_message ("mem=0x%x", mem);
     /* set these to 0 to start out with */
     if (outbuffer != NULL)
         *outbuffer = NULL;
