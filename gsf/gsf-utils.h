@@ -26,19 +26,9 @@
 
 G_BEGIN_DECLS
 
-#ifdef WORDS_BIGENDIAN
-#define GSF_GET_GUINT8(p)  	    ((*((guint8 const *)(p))))
-#define GSF_GET_GUINT16(p) (guint16)((*((guint8 const *)(p)+0))     |	\
-				     (*((guint8 const *)(p)+1)<<8))
-#define GSF_GET_GUINT32(p) (guint32)((*((guint8 const *)(p)+0))     |	\
-				     (*((guint8 const *)(p)+1)<<8)  |	\
-				     (*((guint8 const *)(p)+2)<<16) |	\
-				     (*((guint8 const *)(p)+3)<<24))
-#else
-#define GSF_GET_GUINT8(p)	(*(guint8  const *)(p))
-#define GSF_GET_GUINT16(p)	(*(guint16 const *)(p))
-#define GSF_GET_GUINT32(p)	(*(guint32 const *)(p))
-#endif
+#define GSF_GET_GUINT8(p)  		   (*(guint8  const *)(p))
+#define GSF_GET_GUINT16(p) GUINT16_FROM_LE((*(guint16 const *)(p)))
+#define GSF_GET_GUINT32(p) GUINT32_FROM_LE((*(guint32 const *)(p)))
 
 void gsf_init (void);
 void gsf_shutdown (void);
