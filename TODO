@@ -7,6 +7,7 @@ Near:
       Maybe something signal based ?
     - for the stdio output check that we can actually write to the target file
       on open even though we do not want to write to it until later.
+    - extend Output::close to support 'cancel'
 
 Longer:
     - More work on VBA directory parsing so that we can decompress

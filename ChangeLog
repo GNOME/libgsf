@@ -1,3 +1,8 @@
+2003-01-07  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c : rename the base64 utilities and clean up the types
+	  and const to match gsf conventions.
+
 2003-01-06  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-transaction.c : New capability - transacted outputs. Not thoroughly tested.

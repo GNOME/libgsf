@@ -13,6 +13,9 @@ Jon Kåre:
 Morten:
 	* Fix xml save problem.
 
+Tor Lillqvist:
+	* Tweaks for the win32 build.
+
 ------------------------------------------------------------------------------
 libgsf 1.6.0
 

@@ -71,6 +71,20 @@ void gsf_shutdown (void);
 void gsf_mem_dump   (guint8 const *ptr, size_t len);
 void gsf_input_dump (GsfInput *input);
 
+/* base64 encoding utilities */
+guint8 *gsf_base64_encode_simple (guint8 const *data, size_t len);
+size_t  gsf_base64_encode_close  (guint8 const *in, size_t inlen,
+				  gboolean break_lines, guint8 *out,
+				  int *state, int *save);
+size_t  gsf_base64_encode_step   (guint8 const *in, size_t len,
+				  gboolean break_lines, guint8 *out,
+				  int *state, int *save);
+
+size_t  gsf_base64_decode_simple (guint8 *data, size_t len);
+size_t  gsf_base64_decode_step   (guint8 const *in, size_t len,
+				  guint8 *out, int *state, unsigned *save);
+
+
 /* For putting filenames into error messages.  */
 char *gsf_filename_to_utf8 (const char *filename, gboolean quoted);
 

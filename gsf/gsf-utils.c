@@ -189,7 +189,7 @@ gsf_le_set_float (void *p, float d)
 }
 
 double
-gsf_le_get_double (const void *p)
+gsf_le_get_double (void const *p)
 {
 #if G_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
@@ -265,7 +265,7 @@ gsf_le_set_double (void *p, double d)
  * have an extension.
  */
 char const *
-gsf_extension_pointer (char const * path)
+gsf_extension_pointer (char const *path)
 {
 	char *s, *t;
 	
@@ -305,7 +305,7 @@ gsf_iconv_close (GIConv handle)
  * Caller must g_free the result.
  **/
 char *
-gsf_filename_to_utf8 (const char *filename, gboolean quoted)
+gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 {
 	GError *err = NULL;
 	char *res = g_filename_to_utf8 (filename, -1, NULL, NULL, &err);
@@ -360,8 +360,8 @@ gsf_filename_to_utf8 (const char *filename, gboolean quoted)
  */
 
 /* dont touch this file without my permission - Michael */
-static unsigned char camel_mime_base64_rank[256];
-static char *base64_alphabet =
+static guint8 camel_mime_base64_rank[256];
+static char const *base64_alphabet =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 #define d(x)
@@ -381,16 +381,17 @@ base64_init(void)
 /* call this when finished encoding everything, to
    flush off the last little bit */
 size_t
-base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
+gsf_base64_encode_close (guint8 const *in, size_t inlen,
+			 gboolean break_lines, guint8 *out, int *state, int *save)
 {
 	int c1, c2;
-	unsigned char *outptr = out;
+	guint8 *outptr = out;
 
 	if (inlen>0)
-		outptr += base64_encode_step(in, inlen, break_lines, outptr, state, save);
+		outptr += gsf_base64_encode_step(in, inlen, break_lines, outptr, state, save);
 
-	c1 = ((unsigned char *)save)[1];
-	c2 = ((unsigned char *)save)[2];
+	c1 = ((guint8 *)save)[1];
+	c2 = ((guint8 *)save)[2];
 	
 	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
 		 (int)((char *)save)[0],
@@ -426,9 +427,11 @@ base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsig
   0 on first invocation).
 */
 size_t
-base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save)
+gsf_base64_encode_step (guint8 const *in, size_t len,
+			gboolean break_lines, guint8 *out, int *state, int *save)
 {
-	register unsigned char *inptr, *outptr;
+	register guint8 const *inptr;
+	register guint8 *outptr;
 
 	if (len<=0)
 		return 0;
@@ -439,16 +442,16 @@ base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned
 	d(printf("we have %d chars, and %d saved chars\n", len, ((char *)save)[0]));
 
 	if (len + ((char *)save)[0] > 2) {
-		unsigned char *inend = in+len-2;
+		guint8 const *inend = in+len-2;
 		register int c1, c2, c3;
 		register int already;
 
 		already = *state;
 
 		switch (((char *)save)[0]) {
-		case 1:	c1 = ((unsigned char *)save)[1]; goto skip1;
-		case 2:	c1 = ((unsigned char *)save)[1];
-			c2 = ((unsigned char *)save)[2]; goto skip2;
+		case 1:	c1 = ((guint8 *)save)[1]; goto skip1;
+		case 2:	c1 = ((guint8 *)save)[1];
+			c2 = ((guint8 *)save)[2]; goto skip2;
 		}
 		
 		/* yes, we jump into the loop, no i'm not going to change it, it's beautiful! */
@@ -502,7 +505,7 @@ base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned
 
 
 /**
- * base64_decode_step: decode a chunk of base64 encoded data
+ * gsf_base64_decode_step: decode a chunk of base64 encoded data
  * @in: input stream
  * @len: max length of data to decode
  * @out: output stream
@@ -512,11 +515,13 @@ base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned
  * Decodes a chunk of base64 encoded data
  **/
 size_t
-base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save)
+gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
+			int *state, unsigned int *save)
 {
-	register unsigned char *inptr, *outptr;
-	unsigned char *inend, c;
+	register guint8 const *inptr;
+	register guint8 *outptr, c;
 	register unsigned int v;
+	guint8 const *inend;
 	int i;
 
 	inend = in+len;
@@ -559,26 +564,23 @@ base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state
 	return outptr-out;
 }
 
-char *
-base64_encode_simple (const char *data, size_t len)
+guint8 *
+gsf_base64_encode_simple (guint8 const *data, size_t len)
 {
-	unsigned char *out;
+	guint8 *out;
 	int state = 0, outlen;
 	unsigned int save = 0;
 	
 	out = g_malloc (len * 4 / 3 + 5);
-	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
-				      out, &state, &save);
-	out[outlen] = '\0';
-	return (char *)out;
+	outlen = gsf_base64_encode_close (data, len, FALSE, out, &state, &save);
+	out [outlen] = '\0';
+	return out;
 }
 
 size_t
-base64_decode_simple (char *data, size_t len)
+gsf_base64_decode_simple (guint8 *data, size_t len)
 {
 	int state = 0;
 	unsigned int save = 0;
-
-	return base64_decode_step ((unsigned char *)data, len,
-				   (unsigned char *)data, &state, &save);
+	return gsf_base64_decode_step (data, len, data, &state, &save);
 }
