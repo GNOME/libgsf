@@ -26,6 +26,7 @@
 #include <gsf/gsf-input-textline.h>
 
 #include <stdio.h>
+#include <string.h>
 
 static void
 dump_child (GsfInfile *infile, const char * childname)

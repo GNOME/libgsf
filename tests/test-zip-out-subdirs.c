@@ -25,6 +25,7 @@
 #include <gsf/gsf-outfile-zip.h>
 
 #include <stdio.h>
+#include <string.h>
 
 static gboolean
 test_write_once (GsfOutput *output)
