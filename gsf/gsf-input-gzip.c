@@ -71,6 +71,7 @@ check_header (GsfInputGZip *input)
 	if (gsf_input_seek (input->source, (gsf_off_t) -4, GSF_SEEK_END) ||
 	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
 		return TRUE;
+	/* FIXME, but how?  The size read here is modulo 2^32.  */
 	gsf_input_set_size (GSF_INPUT (input),
 			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
 
@@ -92,17 +93,21 @@ check_header (GsfInputGZip *input)
 		if (NULL == gsf_input_read (input->source, len, NULL))
 			return TRUE;
 	}
-	if (flags & GZIP_ORIGINAL_NAME)
+	if (flags & GZIP_ORIGINAL_NAME) {
+		/* Skip over the filename (which is in ISO 8859-1 encoding).  */
 		do {
 			if (NULL == (data = gsf_input_read (input->source, 1, NULL)))
 				return TRUE;
 		} while (*data != 0);
+	}
 
-	if (flags & GZIP_HAS_COMMENT)
+	if (flags & GZIP_HAS_COMMENT) {
+		/* Skip over the comment (which is in ISO 8859-1 encoding).  */
 		do {
 			if (NULL == (data = gsf_input_read (input->source, 1, NULL)))
 				return TRUE;
 		} while (*data != 0);
+	}
 
 	if (flags & GZIP_HEADER_CRC &&
 	    NULL == (data = gsf_input_read (input->source, 2, NULL)))

@@ -23,6 +23,7 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
