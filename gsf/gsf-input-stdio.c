@@ -162,8 +162,13 @@ static gboolean
 gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
-	gsf_off_t loffset;
 	int stdio_whence = SEEK_SET;
+
+#ifndef HAVE_FSEEKO
+	long loffset;
+#else
+	off_t loffset;
+#endif
 
 	if (stdio->file == NULL)
 		return TRUE;
