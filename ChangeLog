@@ -1,4 +1,8 @@
-2003-02-10  Jody Goldberg <jody@gnome.org>
+2003-02-11  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : compartmentalize the bzip config tests, and trust
+	  libtool for the dependent libraries enough to not mention them in
+	  the pkg-config file
 
 	* gsf/gsf-output-bzip.c : improve the conditionalization.
 

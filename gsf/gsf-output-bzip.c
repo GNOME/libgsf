@@ -27,7 +27,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 #include <bzlib.h>
 #endif
 
@@ -38,7 +38,7 @@ struct _GsfOutputBzip {
 
 	GsfOutput *sink; /* compressed data */
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 	bz_stream  stream;
 #endif
 	guint8   *buf;
@@ -49,7 +49,7 @@ typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputBzipClass;
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 static gboolean
 init_bzip (GsfOutputBzip *bzip, GError **err)
 {
@@ -92,7 +92,7 @@ gsf_output_bzip_finalize (GObject *obj)
 		parent_class->finalize (obj);
 }
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 static gboolean
 bzip_output_block (GsfOutputBzip *bzip)
 {
@@ -134,7 +134,7 @@ static gboolean
 gsf_output_bzip_write (GsfOutput *output,
 		       size_t num_bytes, guint8 const *data)
 {
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 
 	g_return_val_if_fail (data, FALSE);
@@ -168,7 +168,7 @@ gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
 static gboolean
 gsf_output_bzip_close (GsfOutput *output)
 {
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 	gboolean rt;
 
@@ -224,7 +224,7 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 GsfOutputBzip *
 gsf_output_bzip_new (GsfOutput *sink, GError **err)
 {
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 	GsfOutputBzip *bzip;
 
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);

@@ -238,7 +238,8 @@ AC_ARG_WITH(bz2,
 
 with_bz2=false
 if test "x$test_bz2" = xtrue ; then
-   AC_CHECK_LIB(bz2, BZ2_bzCompressInit, [BZ2_LIBS="-lbz2" LIBGSF_CFLAGS="$LIBGSF_CFLAGS -DHAVE_BZIP" LIBGSF_LIBS="$LIBGSF_LIBS -lbz2"])
+   AC_CHECK_LIB(bz2, BZ2_bzCompressInit, \
+	[AC_DEFINE(HAVE_BZ2, 1, [Is bzip2 available and enabled]) BZ2_LIBS="-lbz2"])
 else
    AC_MSG_WARN([BZ2 support disabled, as requested (Use --with-bz2 to enable)])
 fi

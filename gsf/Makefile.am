@@ -18,7 +18,7 @@ INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
 lib_LTLIBRARIES = libgsf-1.la
 
-libgsf_1_la_LIBADD  = $(LIBGSF_LIBS)
+libgsf_1_la_LIBADD  = $(Z_LIBS) $(BZ2_LIBS)
 libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO) $(no_undefined)
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
