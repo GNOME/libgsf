@@ -23,6 +23,7 @@
  */
 
 #include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
@@ -107,17 +108,48 @@ test (int argc, char *argv[])
 	GError    *err;
 	int i;
 	guint16 len, opcode;
+	gboolean use_memory = FALSE;
 
 	for (i = 1 ; i < argc ; i++) {
-		fprintf( stderr, "%s\n",argv[i]);
-		input = gsf_input_stdio_new (argv[i], &err);
-		if (input == NULL) {
-
-			g_return_val_if_fail (err != NULL, 1);
-
-			g_warning ("'%s' error: %s\n", argv[i], err->message);
-			g_error_free (err);
+		if (strcmp (argv[i], "--memory") == 0) {
+			use_memory = TRUE;
 			continue;
+		}
+
+		fprintf( stderr, "%s\n",argv[i]);
+
+		if (use_memory) {
+			size_t size;
+			void *infile_data;
+			const void *src;
+
+			/* Use gsf to read file into memory, :-)  */
+			GsfInput *tmpinput = gsf_input_stdio_new (argv[i], &err);
+			if (tmpinput == NULL) {
+				g_return_val_if_fail (err != NULL, 1);
+				g_warning ("'%s' error: %s\n", argv[i], err->message);
+				g_error_free (err);
+				continue;
+			}
+
+			size = gsf_input_size (tmpinput);
+			src = gsf_input_read (tmpinput, size, NULL);
+			if (!src) {
+				g_warning ("'%s' error: Ugh\n", argv[i]);
+				g_object_unref (G_OBJECT (tmpinput));
+				continue;
+			}
+			infile_data = g_malloc (size);
+			memcpy (infile_data, src, size);
+			input = gsf_input_memory_new (infile_data, size, TRUE);
+		} else {
+			input = gsf_input_stdio_new (argv[i], &err);
+			if (input == NULL) {
+				g_return_val_if_fail (err != NULL, 1);
+				g_warning ("'%s' error: %s\n", argv[i], err->message);
+				g_error_free (err);
+				continue;
+			}
 		}
 
 		infile = gsf_infile_msole_new (input, &err);
@@ -139,7 +171,7 @@ test (int argc, char *argv[])
 			unsigned pos = gsf_input_tell (stream);
 
 			while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
-				gboolean enable_dump = FALSE;
+				gboolean enable_dump = TRUE;
 
 				opcode	= GSF_OLE_GET_GUINT16 (data);
 				len	= GSF_OLE_GET_GUINT16 (data+2);

@@ -30,9 +30,14 @@ libgsf_1_la_SOURCES =		\
 	gsf-infile-zip.c	\
 	\
 	gsf-output.c 		\
-	gsf-output-impl.h 
-	gsf-output-memory.c 	\
-	gsf-output-stdio.c
+	gsf-output-impl.h	\
+	\
+	gsf-shared-memory.c	\
+	gsf-shared-memory.h
+
+#	gsf-output-memory.c 	\
+#	gsf-output-stdio.c	\
+
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\

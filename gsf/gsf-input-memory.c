@@ -23,34 +23,23 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-shared-memory.h>
 
 struct _GsfInputMemory {
 	GsfInput parent;
-
-	gboolean needs_free;
-	guint8 const *buf;
+	GsfSharedMemory *shared;
 };
 typedef struct {
 	GsfInputClass input_class;
 } GsfInputMemoryClass;
 
-static GsfInput *
-gsf_input_memory_construct (GsfInputMemory *mem,
-			    guint8 const *buf, unsigned length,
-			    gboolean needs_free)
-{
-	gsf_input_set_size (GSF_INPUT (mem), length);
-	mem->buf        = buf;
-	mem->needs_free = needs_free;
-	return GSF_INPUT (mem);
-}
-
 GsfInput *
 gsf_input_memory_new (guint8 const *buf, unsigned length, gboolean needs_free)
 {
-	return gsf_input_memory_construct (
-			g_object_new (GSF_INPUT_MEMORY_TYPE, NULL),
-			buf, length, needs_free);
+	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
+	gsf_input_set_size (GSF_INPUT (mem), length);
+	return GSF_INPUT (mem);
 }
 
 static void
@@ -59,13 +48,8 @@ gsf_input_memory_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 
-	if (mem->buf != NULL) {
-		if (mem->needs_free)
-			g_free ((char *)mem->buf);
-		mem->buf = NULL;
-	}
-	gsf_input_set_size (GSF_INPUT (obj), 0);
-	mem->needs_free = FALSE;
+	if (mem->shared)
+		g_object_unref (G_OBJECT (mem->shared));
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -78,6 +62,9 @@ gsf_input_memory_dup (GsfInput *src_input)
 	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 
+	dst->shared = src->shared;
+	g_object_ref (G_OBJECT (dst->shared));
+
 	return GSF_INPUT (dst);
 }
 
@@ -85,32 +72,39 @@ static gboolean
 gsf_input_memory_eof (GsfInput *input)
 {
 	GsfInputMemory *memory = (GsfInputMemory *) (input);
+	/* FIXME?  */
 	return FALSE;
 }
 
 static guint8 const *
-gsf_input_memory_read (GsfInput *input, unsigned num_bytes)
+gsf_input_memory_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
 {
 	GsfInputMemory *mem = (GsfInputMemory *) (input);
+	const char *src = mem->shared->buf;
 
-	if (mem->buf == NULL)
+	if (src == NULL)
 		return NULL;
-	return mem->buf + input->cur_offset;
+	if (optional_buffer) {
+		memcpy (optional_buffer, src + input->cur_offset, num_bytes);
+		return optional_buffer;
+	} else
+		return src + input->cur_offset;
 }
 
 static int
 gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
-	return TRUE;
+	(void)input;
+	(void)offset;
+	(void)whence;
+	return FALSE;
 }
 
 static void
 gsf_input_memory_init (GObject *obj)
 {
 	GsfInputMemory *mem = (GsfInputMemory *) (obj);
-
-	mem->buf = NULL;
-	mem->needs_free = FALSE;
+	mem->shared = NULL;
 }
 
 static void
@@ -148,23 +142,17 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 /* Someone needs their head examined - BSD ? */
 #	define MAP_FAILED ((void *)-1)
 #endif
-
-struct _GsfInputMMap {
-	GsfInputMemory parent;
-
-	int fd;
-};
-typedef struct {
-	GsfInputMemoryClass mem_class;
-} GsfInputMMapClass;
+#endif
 
 GsfInput *
 gsf_input_mmap_new (char const *filename, GError **err)
 {
-	GsfInputMMap *m_map;
+#ifdef HAVE_MMAP
+	GsfInputMemory *mem;
 	guint8 *buf = NULL;
 	struct stat st;
 	int fd;
+	size_t size;
 
 	fd = open (filename, O_RDONLY);
 	if (fd < 0 || fstat (fd, &st) < 0) {
@@ -180,8 +168,9 @@ gsf_input_mmap_new (char const *filename, GError **err)
 				"%s: Is not a regular file", filename);
 		return NULL;
 	}
-
-	buf = mmap (0, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
+	
+	size = st.st_size;
+	buf = mmap (0, size, PROT_READ, MAP_SHARED, fd, 0);
 	if (buf == MAP_FAILED) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
@@ -189,58 +178,17 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		close (fd);
 		return NULL;
 	}
+	close (fd);
 
-	m_map = g_object_new (GSF_INPUT_MMAP_TYPE, NULL);
-	m_map->fd = fd;
-
-	return gsf_input_memory_construct (GSF_INPUT_MEMORY (m_map),
-		buf, (unsigned)st.st_size, FALSE);
-}
-
-static void
-gsf_input_mmap_finalize (GObject *obj)
-{
-	GObjectClass *parent_class;
-	GsfInputMMap *m_map = GSF_INPUT_MMAP (obj);
-	GsfInput     *input = GSF_INPUT (obj);
-
-	if (m_map->fd >= 0) {
-		GsfInputMemory *mem = GSF_INPUT_MEMORY (obj);
-		munmap ((void *)mem->buf, input->size);
-		mem->buf = NULL;
-		m_map->fd = -1;
-	}
-
-	parent_class = g_type_class_peek (GSF_INPUT_MEMORY_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
-}
-
-static void
-gsf_input_mmap_init (GObject *obj)
-{
-	GsfInputMMap *m_map = GSF_INPUT_MMAP (obj);
-
-	m_map->fd = -1;
-}
-
-static void
-gsf_input_mmap_class_init (GObjectClass *gobject_class)
-{
-	gobject_class->finalize = gsf_input_mmap_finalize;
-}
-
-GSF_CLASS (GsfInputMMap, gsf_input_mmap,
-	   gsf_input_mmap_class_init, gsf_input_mmap_init,
-	   GSF_INPUT_MEMORY_TYPE)
+	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	mem->shared = gsf_shared_memory_mmapped_new (buf, size);
+	gsf_input_set_size (GSF_INPUT (mem), size);
+	return GSF_INPUT (mem);
 #else
-GType gsf_input_mmap_get_type (void) { return (GType) 0; }
-GsfInput *
-gsf_input_mmap_new (char const *filename, GError **err)
-{
+	(void)filename;
 	if (err != NULL)
 		*err = g_error_new (gsf_input_error (),
 			"MMAP Unsupported");
 	return NULL;
-}
 #endif
+}
