@@ -39,10 +39,23 @@ typedef struct {
 	gsf_off_t (*Vprintf) (GsfOutput *output,
 			     char const *format, va_list args);
 } GsfOutputClass;
-
 #define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))
 #define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
 
+struct _GsfOutput {
+	GObject g_object;
+
+	/*< protected >*/
+	gsf_off_t   cur_size, cur_offset;
+	char       *name;
+	GObject    *wrapped_by;
+	GsfOutfile *container;
+	GError	   *err;
+	gboolean    is_closed;
+
+	char	   *printf_buf;
+	int	    printf_buf_size;
+};
 #define GSF_OUTPUT_TYPE        (gsf_output_get_type ())
 #define GSF_OUTPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_TYPE, GsfOutput))
 #define GSF_IS_OUTPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_TYPE))

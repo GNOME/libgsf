@@ -25,20 +25,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct {
-	GsfOutputClass output_class;
-} GsfOutputCsvClass;
-
-#define GSF_OUTPUT_CSV_TYPE        (gsf_output_csv_get_type ())
-#define GSF_OUTPUT_CSV(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_CSV_TYPE, GsfOutputCsv))
-#define GSF_IS_OUTPUT_CSV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_CSV_TYPE))
-typedef struct _GsfOutputCsv GsfOutputCsv;
-GType gsf_output_csv_get_type (void);
-gboolean gsf_output_csv_write_field (GsfOutputCsv *csv,
-				     const char *field,
-				     size_t len);
-gboolean gsf_output_csv_write_eol (GsfOutputCsv *csv);
-
 typedef enum {
 	GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,
 	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,
@@ -46,6 +32,38 @@ typedef enum {
 } GsfOutputCsvQuotingMode;
 GType gsf_output_csv_quoting_mode_get_type (void);
 #define GSF_OUTPUT_CSV_QUOTING_MODE_TYPE (gsf_output_csv_quoting_mode_get_type ())
+
+typedef struct {
+	GsfOutput output;
+
+	GsfOutput *sink;
+
+	char *quote;
+	size_t quote_len;
+	GsfOutputCsvQuotingMode quoting_mode;
+	char *quoting_triggers;
+
+	char *eol;
+	size_t eol_len;
+	char *separator;
+	size_t separator_len;
+	gboolean fields_on_line;
+
+	GString *buf;
+} GsfOutputCsv;
+
+#define GSF_OUTPUT_CSV_TYPE        (gsf_output_csv_get_type ())
+#define GSF_OUTPUT_CSV(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_CSV_TYPE, GsfOutputCsv))
+#define GSF_IS_OUTPUT_CSV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_CSV_TYPE))
+GType gsf_output_csv_get_type (void);
+gboolean gsf_output_csv_write_field (GsfOutputCsv *csv,
+				     const char *field,
+				     size_t len);
+gboolean gsf_output_csv_write_eol (GsfOutputCsv *csv);
+
+typedef struct {
+	GsfOutputClass output_class;
+} GsfOutputCsvClass;
 
 G_END_DECLS
 

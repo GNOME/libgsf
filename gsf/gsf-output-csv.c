@@ -28,25 +28,6 @@
 
 static GObjectClass *parent_class;
 
-struct _GsfOutputCsv {
-	GsfOutput output;
-
-	GsfOutput *sink;
-
-	char *quote;
-	size_t quote_len;
-	GsfOutputCsvQuotingMode quoting_mode;
-	char *quoting_triggers;
-
-	char *eol;
-	size_t eol_len;
-	char *separator;
-	size_t separator_len;
-	gboolean fields_on_line;
-
-	GString *buf;
-};
-
 enum {
 	PROP_0,
 	PROP_SINK,
