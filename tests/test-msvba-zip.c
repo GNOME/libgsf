@@ -11,16 +11,6 @@ gboolean compress = FALSE;
 
 #define HEADER_SIZE 3
 
-static void
-copy_header (GsfInput *input, GsfOutput *output)
-{
-	gboolean err = FALSE;
-	guint8 data[HEADER_SIZE];
-
-	err |= !gsf_input_read (input, HEADER_SIZE, data);
-	err |= !gsf_output_write (output, HEADER_SIZE, data);
-}
-
 /* Brute force and ugliness ! */
 typedef struct {
 	guint8  inblock[VBA_COMPRESSION_WINDOW];
@@ -173,15 +163,20 @@ do_compress (GsfInput *input, GsfOutput *output)
 {
 	CompressBuf real_buf, *buf;
 	GString *string;
-
-	copy_header (input, output);
-
-	string = g_string_sized_new (64);
+	guint8   data[HEADER_SIZE];
+	int      length;
 
 	buf = &real_buf;
 	memset (buf, 0, sizeof (CompressBuf));
 	buf->output = output;
 	buf->outstr = g_string_sized_new (20);
+
+	data[0] = 0x01;
+	data[1] = 0x00;
+	data[2] = 0xb0;
+	gsf_output_write (buf->output, 3, data); /* dummy padding */
+
+	string = g_string_sized_new (64);
 
 	while (gsf_input_remaining (input) > 0) {
 		buf->length = MIN (gsf_input_remaining (input), VBA_COMPRESSION_WINDOW);
@@ -194,6 +189,14 @@ do_compress (GsfInput *input, GsfOutput *output)
 		gsf_output_write (buf->output, 1, &buf->mask);
 		gsf_output_write (buf->output, buf->outstr->len, buf->outstr->str);
 	}
+
+	length = gsf_output_size (buf->output) - 3 - 1;
+	if (length > 0x0c0c) /* TESTME: is this really right ? */
+		length = 0x0c0c;
+	data[1] = length & 0xff;
+	data[2] |= (length >> 8);
+	gsf_output_seek (output, 0, G_SEEK_SET);
+	gsf_output_write (buf->output, 3, data); /* real data */
 }
 
 static void
@@ -202,10 +205,17 @@ do_decompress (GsfInput *input, GsfOutput *output)
 	gboolean err = FALSE;
 	guint8   data[HEADER_SIZE];
 	guint8  *decompressed;
-	int      size;
+	int      size, comp_len;
 
 	err |= !gsf_input_read (input, HEADER_SIZE, data);
-	err |= !gsf_output_write (output, HEADER_SIZE, data);
+	if (data [0] != 0x01)
+		fprintf (stderr, "Odd pre-amble byte 0x%x\n", data[0]);
+	if ((data [2] & 0xf0) != 0xb0)
+		fprintf (stderr, "Odd high nibble 0x%x\n", (data[2] & 0xf0));
+	comp_len = ((data[2] & 0x0f) << 8) + data[1];
+	if (comp_len + 1 != gsf_input_size (input) - 3)
+		fprintf (stderr, "Size mismatch %d %d\n",
+			 comp_len + 1, (int) (gsf_input_size (input) - 3));
 
 	decompressed = gsf_msole_inflate (input, 3, &size);
 	if (!decompressed)
