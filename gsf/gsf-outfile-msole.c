@@ -172,8 +172,17 @@ bb_pad_zero (GsfOutput *out)
 		gsf_output_write (out, size - len, zeros);
 }
 
+/**
+ * ole_write_bat :
+ * @sink :
+ * @block :
+ * @blocks :
+ *
+ * Utility routine to generate a BAT for a file known to be sequential
+ * and continuous.
+ **/
 static void
-write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
+ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
 	guint8 buf [BAT_INDEX_SIZE];
 
@@ -181,13 +190,19 @@ write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 		block++;
 		GSF_LE_SET_GUINT32 (buf, block);
 		gsf_output_write (sink, BAT_INDEX_SIZE, buf);
-		//printf ("0x%x\n", block);
 	}
 	GSF_LE_SET_GUINT32 (buf, BAT_MAGIC_END_OF_CHAIN);
 	gsf_output_write (sink, BAT_INDEX_SIZE, buf);
-	//printf ("0x%x <----\n", BAT_MAGIC_END_OF_CHAIN);
 }
 
+/**
+ * ole_cur_block :
+ * @ole :
+ *
+ * Calculate the block of the current offset in the file.  A useful idiom is to
+ * pad_zero to move to the start of the next block, then get the block number.
+ * This avoid fence post type problems with partial blocks.
+ **/
 static inline guint32
 ole_cur_block (GsfOutfileMSOle const *ole)
 {
@@ -236,7 +251,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 		for (i = 0 ; i < elem->len ; i++) {
 			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 			if (child->type == MSOLE_SMALL_BLOCK)
-				write_bat (ole->sink,  child->first_block, child->blocks);
+				ole_write_bat (ole->sink,  child->first_block, child->blocks);
 		}
 		bb_pad_zero (ole->sink);
 		num_sbat = ole_cur_block (ole) - sbat_start;
@@ -316,12 +331,12 @@ gsf_outfile_msole_close (GsfOutput *output)
 			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 			if (child->type == MSOLE_BIG_BLOCK) {
 				printf ("OUT 0x%x with 0x%x\n", child->first_block, child->blocks);
-				write_bat (ole->sink, child->first_block, child->blocks);
+				ole_write_bat (ole->sink, child->first_block, child->blocks);
 			}
 		}
-		write_bat (ole->sink, sb_data_start, sb_data_blocks);
-		write_bat (ole->sink, sbat_start, num_sbat);
-		write_bat (ole->sink, dirent_start, num_dirent_blocks);
+		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
+		ole_write_bat (ole->sink, sbat_start, num_sbat);
+		ole_write_bat (ole->sink, dirent_start, num_dirent_blocks);
 		bb_pad_zero (ole->sink);
 		num_bat = ole_cur_block (ole) - bat_start;
 

@@ -1,5 +1,10 @@
 2002-07-06  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-msole-impl.h : pull in more information.  We may not need it
+	  but it makes for better documentation than 'unknown'
+
+2002-07-06  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-outfile-msole.c : initial implementation.
 	* gsf/gsf-outfile.c : initial implementation.
 	* gsf/gsf-output.c : initial implementation.

@@ -26,11 +26,18 @@
 
 G_BEGIN_DECLS
 
-#define OLE_HEADER_SIZE		 0x200	/* always 0x200 no mater what the big block size is */
+#define OLE_HEADER_SIZE		 0x200	/* independent of big block size size */
+#define OLE_HEADER_SIGNATURE	 0x00
+#define OLE_HEADER_CLSID	 0x08	/* See ReadClassStg */
+#define OLE_HEADER_MINOR_VER	 0x18	/* 0x33 and 0x3e have been seen */
+#define OLE_HEADER_MAJOR_VER	 0x1a	/* 0x3 been seen in wild */
+#define OLE_HEADER_BYTE_ORDER	 0x1c	/* 0xfe 0xff == Intel Little Endian */
 #define OLE_HEADER_BB_SHIFT      0x1e
 #define OLE_HEADER_SB_SHIFT      0x20
+/* 0x22..0x2b reserved == 0 */
 #define OLE_HEADER_NUM_BAT	 0x2c
 #define OLE_HEADER_DIRENT_START  0x30
+/* 0x34..0x37 transacting signature must be 0 */
 #define OLE_HEADER_THRESHOLD	 0x38
 #define OLE_HEADER_SBAT_START    0x3c
 #define OLE_HEADER_NUM_SBAT      0x40
@@ -42,17 +49,25 @@ G_BEGIN_DECLS
 #define DIRENT_MAX_NAME_SIZE	0x40
 #define DIRENT_DETAILS_SIZE	0x40
 #define DIRENT_SIZE		(DIRENT_MAX_NAME_SIZE + DIRENT_DETAILS_SIZE)
-#define DIRENT_NAME_LEN		0x40
+#define DIRENT_NAME_LEN		0x40	/* length in bytes incl 0 terminator */
 #define DIRENT_TYPE		0x42
 #define DIRENT_COLOUR		0x43
 #define DIRENT_PREV		0x44
 #define DIRENT_NEXT		0x48
 #define DIRENT_CHILD		0x4c
+#define DIRENT_CLSID		0x50	/* only for dirs */
+#define DIRENT_USERFLAGS	0x60	/* only for dirs */
+#define DIRENT_CREATE_TIME	0x64	/* for files */
+#define DIRENT_MODIFY_TIME	0x6c	/* for files */
 #define DIRENT_FIRSTBLOCK	0x74
 #define DIRENT_FILE_SIZE	0x78
+/* 0x7c..0x7f reserved == 0 */
 
+#define DIRENT_TYPE_INVALID	0
 #define DIRENT_TYPE_DIR		1
 #define DIRENT_TYPE_FILE	2
+#define DIRENT_TYPE_LOCKBYTES	3	/* ? */
+#define DIRENT_TYPE_PROPERTY	4	/* ? */
 #define DIRENT_TYPE_ROOTDIR	5
 #define DIRENT_MAGIC_END	0xffffffff
 
