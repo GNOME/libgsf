@@ -1,5 +1,14 @@
 2002-09-14  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-outfile-zip.[ch]: Really add this time.
+	
+	* gsf/gsf-infile-zip.c: gsf-zip-utils.h doesn't exist - don't
+	include it!
+
+	* gsf/gsf-zip-utils.c: Ditto.
+
+2002-09-14  Jon K Hellan  <hellan@acm.org>
+
 	* tests/Makefile.am: Add test-cp-zip.c
 
 2002-09-13  Jon K Hellan  <hellan@acm.org>
@@ -8,8 +17,6 @@
 
 2002-09-13  Jon K Hellan  <hellan@acm.org>
 
-	* gsf/gsf-infile-zip.[ch]: Add.
-	
 	* gsf/gsf-zip-util.c: Add.
 	
 	* gsf/gsf-infile-zip.c (enum ZipCompressionMethod, struct

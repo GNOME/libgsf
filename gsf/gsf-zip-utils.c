@@ -23,7 +23,6 @@
 #include <gsf/gsf.h>
 #include <sys/types.h>
 #include "gsf-zip-impl.h"
-#include "gsf-zip-utils.h"
 
 /* Doesn't do much, but include for symmetry */
 ZipDirent*

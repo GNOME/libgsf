@@ -26,7 +26,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-zip-impl.h>
-#include <gsf/gsf-zip-utils.h>
 
 #include <string.h>
 #include <zlib.h>
