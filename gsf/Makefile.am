@@ -22,6 +22,7 @@ libgsf_1_la_SOURCES =		\
 	$(bonobo_sources)	\
 	gsf-utils.c		\
 	gsf-msole-impl.h	\
+	gsf-zip-impl.h		\
 	\
 	gsf-input.c		\
 	gsf-input-impl.h	\
