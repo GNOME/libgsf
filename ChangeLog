@@ -1,3 +1,8 @@
+2002-09-27  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-structured-blob.c (gsf_structured_blob_read) : fix.
+	(gsf_structured_blob_write) : fix.
+
 2002-09-26  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-output-memory.c: Remove debug printouts.

@@ -81,6 +81,7 @@ blob_dup (GsfInput *input, GError **err)
 		gpointer child;
 
 		dst->children = g_ptr_array_sized_new (src->children->len);
+		g_ptr_array_set_size  (dst->children, src->children->len);
 		for (i = 0; i < src->children->len ; i++) {
 			child = g_ptr_array_index (src->children, i);
 			g_ptr_array_index (dst->children, i) = child;
@@ -235,9 +236,10 @@ gsf_structured_blob_read (GsfInput *input)
 		GsfStructuredBlob *child_blob;
 
 		blob->children = g_ptr_array_sized_new (i);
+		g_ptr_array_set_size  (blob->children, i);
 		while (i-- > 0) {
 			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
-			child_blob = gsf_structured_blob_read (input);
+			child_blob = gsf_structured_blob_read (child);
 			g_object_unref (G_OBJECT (child));
 
 			g_ptr_array_index (blob->children, i) = child_blob;
@@ -260,32 +262,34 @@ gsf_structured_blob_read (GsfInput *input)
  * Returns : TRUE on success.
  **/
 gboolean
-gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutput *output)
+gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 {
-	g_return_val_if_fail (GSF_IS_STRUCTURED_BLOB (blob), FALSE);
-	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
+	GsfOutput *output;
+	gboolean has_kids;
 
-	if (blob->children != NULL && blob->children->len > 0) {
-		GsfOutput	  *child;
+	g_return_val_if_fail (GSF_IS_STRUCTURED_BLOB (blob), FALSE);
+	g_return_val_if_fail (GSF_IS_OUTFILE (container), FALSE);
+
+	has_kids = (blob->children != NULL && blob->children->len > 0);
+
+	output = gsf_outfile_new_child  (GSF_OUTFILE (container),
+		gsf_input_name (GSF_INPUT (blob)),
+		has_kids);
+	if (has_kids) {
 		GsfStructuredBlob *child_blob;
 		unsigned i;
 
-		g_return_val_if_fail (GSF_IS_OUTFILE (output), FALSE);
-
 		for (i = 0 ; i < blob->children->len ; i++) {
 			child_blob = g_ptr_array_index (blob->children, i);
-			child = gsf_outfile_new_child  (GSF_OUTFILE (output),
-				gsf_input_name (GSF_INPUT (child_blob)),
-				child_blob->children != NULL);
-			if (!gsf_structured_blob_write (child_blob, child))
+			if (!gsf_structured_blob_write (child_blob, GSF_OUTFILE (output)))
 				return FALSE;
-			gsf_output_close (child);
-			g_object_unref (G_OBJECT (child));
 		}
 	}
 
 	if (blob->data != NULL)
 		gsf_output_write (output, blob->data->size, blob->data->buf);
+	gsf_output_close (output);
+	g_object_unref (G_OBJECT (output));
 
 	return TRUE;
 }

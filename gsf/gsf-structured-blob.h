@@ -38,7 +38,7 @@ GType gsf_structured_blob_get_type (void);
 
 GsfStructuredBlob *gsf_structured_blob_read  (GsfInput *input);
 gboolean	   gsf_structured_blob_write (GsfStructuredBlob *blob,
-					      GsfOutput *output);
+					      GsfOutfile *outfile);
 
 G_END_DECLS
 
