@@ -66,7 +66,7 @@ GTKDOC_LIBS = $(LIBGSF_LIBS)
 #
 GPATH = $(srcdir)
 
-TARGET_DIR=$(HTML_DIR)
+TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
 
 EXTRA_DIST = 				\
 	$(content_files)		\

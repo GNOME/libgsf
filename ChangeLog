@@ -1,3 +1,8 @@
+2004-05-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* doc/Makefile.am: Install docs in the $(DOC_MODULE) subdir of
+	$(HTML_DIR) rather than in $(HTML_DIR) itself.
+
 2004-05-05  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
