@@ -1,3 +1,11 @@
+libgsf (1.10.0-3) unstable; urgency=low
+
+  * [debian/watch] Added.
+  * [debian/libgsf-1-dev.doc-base] Corrected documentation location. 
+    (Closes: #262912)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  3 Aug 2004 19:15:22 +0200
+
 libgsf (1.10.0-2) unstable; urgency=low
 
   * Upload to unstable.

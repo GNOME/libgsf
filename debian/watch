@@ -1,0 +1,4 @@
+version=2
+ftp://ftp.gnome.org/pub/GNOME/sources/libgsf/1.10/ \
+	libgsf-(.*)\.tar\.gz \
+	debian
