@@ -22,6 +22,9 @@ modulename gnome
 import gsf.Input as PyGsfInput_Type
 import gsf.Output as PyGsfOutput_Type
 %%
+init
+  gnome_vfs_init();
+%%
 ignore-glob
  _*
  gsf_input_set_*

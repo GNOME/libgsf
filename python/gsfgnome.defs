@@ -48,7 +48,7 @@
 
 (define-function gsf_output_gnomevfs_new
   (c-name "gsf_output_gnomevfs_new")
-  (is-constructor-of "GsfOutputGnomevfs")
+  (is-constructor-of "GsfOutputGnomeVFS")
   (return-type "GsfOutput*")
   (parameters
     '("char-const*" "filename")
