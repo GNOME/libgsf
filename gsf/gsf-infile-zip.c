@@ -430,7 +430,8 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 	if (dst == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
-					    "Something went wrong in zip_dup.");		return NULL;
+					    "Something went wrong in zip_dup.");
+		return NULL;
 	}
 
 	dst->vdir = src->vdir;
@@ -487,7 +488,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		pos = zip->vdir->dirent->data_offset + input->cur_offset;
 		gsf_input_seek (zip->input, pos, G_SEEK_SET);
 		return gsf_input_read (zip->input, num_bytes, buffer);
-		break;
+
 	case ZIP_DEFLATED:
 
 		if (buffer == NULL) {

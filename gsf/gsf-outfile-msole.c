@@ -295,16 +295,20 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 			memset (buf, 0, DIRENT_SIZE);
 
-			/* be wary about endianness */
-			if (gsf_output_name (GSF_OUTPUT (child)) != NULL) {
+			if (i > 0 && /* no name for the root */
+			    gsf_output_name (GSF_OUTPUT (child)) != NULL) {
+			    /* be wary about endianness */
 				gunichar2 *name_utf16 = g_utf8_to_utf16 (
 					gsf_output_name (GSF_OUTPUT (child)),
 					-1, NULL, &name_len, NULL);
+				if (name_len >= DIRENT_MAX_NAME_SIZE)
+					name_len = DIRENT_MAX_NAME_SIZE-1;
 				for (j = 0 ; j < name_len ; j++)
 					GSF_LE_SET_GUINT16 (buf + j*2, name_utf16 [j]);
 				g_free (name_utf16);
+				name_len++;
 			}
-			GSF_LE_SET_GUINT16 (buf + DIRENT_NAME_LEN, name_len*2 + 2);
+			GSF_LE_SET_GUINT16 (buf + DIRENT_NAME_LEN, name_len*2);
 
 			if (child->root == child) {
 				GSF_LE_SET_GUINT8  (buf + DIRENT_TYPE,	DIRENT_TYPE_ROOTDIR);

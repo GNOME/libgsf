@@ -1,4 +1,13 @@
-libgsf 1.7.0
+libgsf 1.8
+
+Dom:
+	* Some extra casts to make MSVC happy.
+
+Jody:
+	* Fix ms ole export bug that would not clip overly long file names.
+
+------------------------------------------------------------------------------
+libgsf 1.7
 
 Dom:
 	* Extend gnome-vfs support to handle uris

@@ -1,3 +1,8 @@
+2003-02-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : clip long names,
+	  and do not output a name for the root file.
+
 2003-02-04  Dom Lachowicz <cinamod@hotmail.com>
 
 	* Changed below commit to use g_new instead of g_malloc + typecast, at 
