@@ -11,6 +11,7 @@ gsf-decl-list.txt
 gsf-undocumented.txt
 gsf-unused.txt
 gsf-scan.lo
+version.xml
 *.stamp
 *.lo
 .libs
