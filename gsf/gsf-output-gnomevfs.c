@@ -49,9 +49,9 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
     GsfOutputGnomeVFS *output;
     GnomeVFSHandle *handle;
     GnomeVFSResult res;
-    
+
     if (filename == NULL) {
-        g_set_error (err, gsf_output_error(), 0,
+        g_set_error (err, gsf_output_error (), 0,
                      "Filename/URI cannot be NULL");
         return NULL;
     } else
@@ -62,7 +62,7 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
                      gnome_vfs_result_to_string (res));
         return NULL;
     }
-    
+
     output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
     output->handle = handle;
 
@@ -131,13 +131,13 @@ gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
 
 static gboolean
 gsf_output_gnomevfs_write (GsfOutput *output,
-                        size_t num_bytes,
-                        guint8 const *buffer)
+			   size_t num_bytes,
+			   guint8 const *buffer)
 {
     GsfOutputGnomeVFS *vfs = GSF_OUTPUT_GNOMEVFS (output);
     GnomeVFSFileSize nwritten;
     GnomeVFSResult res;
-    
+
     g_return_val_if_fail (vfs != NULL, FALSE);
     g_return_val_if_fail (vfs->handle != NULL, FALSE);
 

@@ -95,9 +95,6 @@ gsf_output_memory_write (GsfOutput *output,
 
     g_return_val_if_fail (mem != NULL, FALSE);
 
-    if (num_bytes == 0)
-	    return TRUE;
-
     mem->buffer = g_realloc (mem->buffer, mem->nwritten + num_bytes);
     memcpy (mem->buffer + mem->nwritten, buffer, num_bytes);
 

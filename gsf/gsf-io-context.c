@@ -257,7 +257,7 @@ gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value)
 	/* update progress status */
 	ioc->last_progress = value;
 
-	new_range = g_new0 (gdouble, 1);
+	new_range = g_new (gdouble, 1);
 	*new_range = value;
 	ioc->progress_ranges = g_list_append (ioc->progress_ranges, new_range);
 	/* FIXME: update ioc->last_time */

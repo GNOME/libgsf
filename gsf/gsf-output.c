@@ -37,7 +37,7 @@ gsf_output_finalize (GObject *obj)
 	 */
 	if (!output->is_closed)
 		g_warning ("unrefing an unclosed stream");
-	
+
 	if (output->name != NULL) {
 		g_free (output->name);
 		output->name = NULL;
@@ -73,7 +73,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
 
 /**
  * gsf_output_name :
- * @output : 
+ * @output :
  *
  * Returns @output's name in utf8 form, DO NOT FREE THIS STRING
  **/
@@ -86,7 +86,7 @@ gsf_output_name (GsfOutput const *output)
 
 /**
  * gsf_output_container :
- * @output : 
+ * @output :
  *
  * Returns, but does not add a reference to @output's container.
  * Potentially NULL
@@ -174,9 +174,9 @@ gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
 	g_return_val_if_fail (output != NULL, -1);
 
 	switch (whence) {
-	case GSF_SEEK_SET : break;
-	case GSF_SEEK_CUR : pos += output->cur_offset;	break;
-	case GSF_SEEK_END : pos += output->cur_size;	break;
+	case GSF_SEEK_SET: break;
+	case GSF_SEEK_CUR: pos += output->cur_offset;	break;
+	case GSF_SEEK_END: pos += output->cur_size;	break;
 	default : return TRUE;
 	}
 
@@ -319,7 +319,7 @@ gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee)
 	return TRUE;
 }
 
-GQuark 
+GQuark
 gsf_output_error (void)
 {
 	static GQuark quark;
