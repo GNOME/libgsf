@@ -257,12 +257,10 @@ gsf_outfile_msole_close (GsfOutput *output)
 		num_sbat = ole_cur_block (ole) - sbat_start;
 
 		/* write dirents */
-		printf ("%d dirents\n", elem->len);
 		dirent_start = ole_cur_block (ole);
 		for (i = 0 ; i < elem->len ; i++) {
 			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 			glong j, name_len = 0;
-			char *name = "";
 
 			memset (buf, 0, DIRENT_SIZE);
 
@@ -274,7 +272,6 @@ gsf_outfile_msole_close (GsfOutput *output)
 				for (j = 0 ; j < name_len ; j++)
 					GSF_LE_SET_GUINT16 (buf + j*2, name_utf16 [j]);
 				g_free (name_utf16);
-				name = gsf_output_name (GSF_OUTPUT (child));
 			}
 			GSF_LE_SET_GUINT16 (buf + DIRENT_NAME_LEN, name_len*2 + 2);
 
@@ -318,21 +315,17 @@ gsf_outfile_msole_close (GsfOutput *output)
 			}
 			GSF_LE_SET_GUINT32 (buf + DIRENT_CHILD, child_index);
 
-			printf ("dirent #%x next = %x child = %x '%s'\n", i, next, child_index, name);
 			gsf_output_write (ole->sink, DIRENT_SIZE, buf);
 		}
 		bb_pad_zero (ole->sink);
 		num_dirent_blocks = ole_cur_block (ole) - dirent_start;
-		printf ("DIRENT OUT @ 0x%x with 0x%x\n", dirent_start, num_dirent_blocks);
 
 		/* write BAT */
 		bat_start = ole_cur_block (ole);
 		for (i = 0 ; i < elem->len ; i++) {
 			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-			if (child->type == MSOLE_BIG_BLOCK) {
-				printf ("OUT 0x%x with 0x%x\n", child->first_block, child->blocks);
+			if (child->type == MSOLE_BIG_BLOCK)
 				ole_write_bat (ole->sink, child->first_block, child->blocks);
-			}
 		}
 		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
 		ole_write_bat (ole->sink, sbat_start, num_sbat);
@@ -341,7 +334,6 @@ gsf_outfile_msole_close (GsfOutput *output)
 		num_bat = ole_cur_block (ole) - bat_start;
 
 		/* fix up the header */
-		printf ("numbat = %d @ 0x%x\n",   num_bat, bat_start);
 		GSF_LE_SET_GUINT32 (buf,   num_bat);
 		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
 		gsf_output_seek (ole->sink, OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
@@ -556,13 +548,14 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
  * Returns : the new ole file handler
  **/
 GsfOutfile *
-gsf_outfile_msole_new (GsfOutput *sink, GError **err)
+gsf_outfile_msole_new (GsfOutput *sink)
 {
 	static guint8 const default_header [] = {
-		0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0x3e, 0x00, 0x03, 0x00, 0xfe, 0xff, 0x09, 0x00,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* 0x00 */	0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1,
+/* 0x08 */	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* 0x18 */	0x3e, 0x00, 0x03, 0x00, 0xfe, 0xff, 0x09, 0x00,
+/* 0x20 */	0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+/* 0x28 */	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x10, 0x00, 0x00, 0xfe, 0xff, 0xff, 0xff,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

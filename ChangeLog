@@ -1,5 +1,14 @@
 2002-07-08  Jody Goldberg <jody@gnome.org>
 
+	* tests/test-cp-msole.c (test) : simplify.
+
+2002-07-08  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new) : doh!
+	  fix the header to include the correct small block shift.
+
+2002-07-08  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-outfile-msole.c (ole_name_cmp) : new.
 	(gsf_outfile_msole_new_child) : order the names correctly.
 	(gsf_outfile_msole_close) : write meta bats.

@@ -1,6 +1,3 @@
-Immediate:
-    - Test OLE export
-
 Near:
     - ZIP import
     - MS property set parsing

@@ -109,17 +109,8 @@ test (char *argv[])
 		return 1;
 	}
 
-	outfile = gsf_outfile_msole_new (output, &err);
+	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-
-	if (outfile == NULL) {
-		g_return_val_if_fail (err != NULL, 1);
-
-		g_warning ("'%s' : %s", argv[1], err->message);
-		g_error_free (err);
-		return 1;
-	}
-
 	clone (infile, outfile);
 
 	return 0;
