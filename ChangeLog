@@ -1,3 +1,17 @@
+2003-08-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_make_bat) : weaken the post condition
+	  from error -> warning in the event that a BAT is missing a valid
+	  terminator.  We've already loaded a BAT, and we're sure that it is
+	  not too big.  Hopefully this will allow some of the data to be
+	  restored.
+
+2003-08-01  Jody Goldberg <jody@gnome.org>
+
+	For Stuart Cunningham <stuartc@rd.bbc.co.uk>
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_read) : another patch to
+	  fix non-default sector size support.
+
 2003-07-17  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-zip.c (zip_dup) : take an error arg.

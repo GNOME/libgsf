@@ -121,7 +121,6 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 
 /**
  * ole_make_bat :
- * @info	: the general descriptor
  * @metabat	: a meta bat to connect to the raw blocks (small or large)
  * @size_guess	: An optional guess as to how many blocks are in the file
  * @block	: The first block in the list.
@@ -154,10 +153,16 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 		} while (block < metabat->num_blocks);
 
 	res->block = NULL;
-	g_return_val_if_fail (block == BAT_MAGIC_END_OF_CHAIN, TRUE);
 
 	res->num_blocks = bat->len;
 	res->block = (guint32 *) (gpointer) g_array_free (bat, FALSE);
+
+	if (block != BAT_MAGIC_END_OF_CHAIN) {
+		g_warning ("This OLE2 file is invalid.\n"
+			   "The Block Allocation  Table for one of the streams is missing a terminator.\n"
+			   "We might still be able to extract some data, but you'll want to check the file.");
+	}
+
 	return FALSE;
 }
 
@@ -659,10 +664,10 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	while (++i <= last_block && ++raw_block == ole->bat.block [i])
 		;
 	if (i > last_block) {
-		/* optimization don't see if we don't need to */
+		/* optimization don't seek if we don't need to */
 		if (ole->cur_block != first_block) {
 			if (gsf_input_seek (ole->input,
-				(gsf_off_t)(OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
+				(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
 				G_SEEK_SET) < 0)
 				return NULL;
 		}
