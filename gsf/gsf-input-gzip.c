@@ -119,7 +119,7 @@ check_header (GsfInputGZip *input)
 
 	input->header_size = input->source->cur_offset;
 
-	if (gsf_input_remaing (input->source) < 9)
+	if (gsf_input_remaining (input->source) < 9)
 		return TRUE;	/* No room for payload */
 
 	return FALSE;

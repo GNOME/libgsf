@@ -1,5 +1,9 @@
 2002-09-03  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-input-gzip.c (check_header): Fix typo.
+
+2002-09-03  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-libxml.c (gsf_libxml_read): Don't signal error when
 	reading len = 0.
 
