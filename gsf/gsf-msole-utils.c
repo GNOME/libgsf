@@ -175,7 +175,7 @@ static GsfMSOleMetaDataPropMap const common_props[] = {
 static char const *
 msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 {
-	char const * res = NULL;
+	char const *res = NULL;
 	GsfMSOleMetaDataPropMap const *map = NULL;
 	unsigned i = 0;
 
@@ -535,7 +535,7 @@ msole_prop_read (GsfInput *in,
 	d (printf ("%u) ", i););
 	prop_name = msole_prop_id_to_gsf (section, props[i].id);
 
-	d (printf (" @ %x %x = ", (unsigned)props[i].offset, size););
+	d (printf (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
 	return msole_prop_parse (section, type, &data, data + size);
 }
 
@@ -652,7 +652,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 				GValue *v = msole_prop_read (in, sections+i, props, j);
 				if (v != NULL) {
 					if (G_IS_VALUE (v)) {
-						if G_VALUE_HOLDS_INT (v) {
+						if (G_VALUE_HOLDS_INT (v)) {
 							int codepage = g_value_get_int (v);
 							sections[i].iconv_handle = gsf_msole_iconv_open_for_import (codepage);
 							if (codepage == 1200 || codepage == 1201)
@@ -972,7 +972,7 @@ gsf_msole_language_for_lid (guint lid)
  * Covert the the codepage into an applicable LID
  */
 guint
-gsf_msole_codepage_to_lid (guint codepage)
+gsf_msole_codepage_to_lid (int codepage)
 {
 	switch (codepage) {
 	case 77:		/* MAC_CHARSET */
@@ -1267,19 +1267,24 @@ gsf_msole_iconv_win_codepage (void)
  * Open an iconv converter for @codepage -> utf8.
  **/
 GIConv
-gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
+gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
 {
 	GIConv iconv_handle;
 	g_return_val_if_fail (to != NULL, (GIConv)(-1));
 
-	if (codepage != 1200 && codepage != 1201) {
+	/* sometimes it is stored as signed short */
+	if (codepage == 65001 || codepage == -535) {
+		iconv_handle = g_iconv_open (to, "UTF-8");
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
+	} else if (codepage != 1200 && codepage != 1201) {
 		char* src_charset = g_strdup_printf ("CP%d", codepage);
 		iconv_handle = g_iconv_open (to, src_charset);
 		g_free (src_charset);
 		if (iconv_handle != (GIConv)(-1))
 			return iconv_handle;
 	} else {
-		const char *from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
+		char const *from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
 		iconv_handle = g_iconv_open (to, from);
 		if (iconv_handle != (GIConv)(-1))
 			return iconv_handle;
@@ -1312,7 +1317,7 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
  * since this is only supposed to be used for single bytes.
  **/
 GIConv
-gsf_msole_iconv_open_for_import (guint codepage)
+gsf_msole_iconv_open_for_import (int codepage)
 {
 	return gsf_msole_iconv_open_codepage_for_import ("UTF-8", codepage);
 }

@@ -30,8 +30,7 @@ Libraries, headers, and support files necessary to compile applications using
 GNOME specific extensions to libgsf.
 
 %prep
-
-%setup
+%setup -n libgsf-%{version} 
 
 %build
 %ifarch alpha
@@ -65,14 +64,17 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install
 %defattr(644,root,root,755)
 %{prefix}/lib/lib*.so
 %{prefix}/lib/*a
-%{prefix}/lib/*.sh
 %{prefix}/include/libgsf-1/*
-%{prefix}/share/doc/gsf/*
-%{prefix}/lib/pkgconfig/libgsf-gnome-1.pc
++%{prefix}/lib/pkgconfig/*
++%{prefix}/share/doc/*
 
 %clean
 rm -r $RPM_BUILD_ROOT
 
 %changelog
+* Sun Aug 03 2003 Joseph Frazee <jfrazee@ling.osu.edu>
+- Fixed some things, %{setup} -n libgsf-%{version} and removed %files devel 
+  %{prefix}/lib/*.sh and %{prefix}/share/doc/gsf/*
+
 * Thu Aug 15 2002 Jody Goldberg <jody@gnome.org>
 - Initial version

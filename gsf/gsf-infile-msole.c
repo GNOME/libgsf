@@ -884,6 +884,7 @@ GsfInfileMSOle *
 gsf_infile_msole_new (GsfInput *source, GError **err)
 {
 	GsfInfileMSOle *ole;
+	gsf_off_t calling_pos;
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
@@ -892,7 +893,10 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 	ole->input = source;
 	gsf_input_set_size (GSF_INPUT (ole), (gsf_off_t) 0);
 
+	calling_pos = gsf_input_tell (source);
 	if (ole_init_info (ole, err)) {
+		gsf_input_seek (source, calling_pos, G_SEEK_SET);
+
 		g_object_unref (G_OBJECT (ole));
 		return NULL;
 	}

@@ -1,3 +1,18 @@
+2003-10-21  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c : Make the codepage arguments int to allow
+	  smooth handling of bogus files that encode the codepage as an int
+	  and break the utf-8 page '65001' because it looks like -535
+
+2003-10-09  Jody Goldberg <jody@gnome.org>
+
+	* libgsf-gnome-1.spec.in : An old patche from Joseph Frazee
+
+2003-09-29  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new) : as noted by Nick
+	  Lamb a failure should not change the file pos of @input.
+
 2003-09-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : downgrade.  No need to force a version bump yet.
