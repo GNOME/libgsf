@@ -1,3 +1,17 @@
+2002-08-21  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-infile-zip.c (struct _GsfInfileZip): Add buf and
+	buf_size for inflating.
+	(zip_init_info, gsf_infile_zip_dup): Use g_error_new rather than
+	g_set_error.
+	(gsf_infile_zip_read): Fix segfaulting bug. Make inflate buffer a
+	private member of the class rather than a static.
+	(gsf_infile_zip_finalize): Free inflate buffer.
+	(gsf_infile_zip_new): Initialize inflate buffer.
+
+	* tests/test-cp-msole.c: Revert 2nd arg to
+	gsf_input_read/write from gsf_off_t to size_t.
+
 2002-08-21  Mikael Hallendal  <micke@codefactory.se>
 
 	* tests/test-textline.c (test): output argv[0] when printing

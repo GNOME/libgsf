@@ -37,7 +37,7 @@ clone (GsfInfile *in, GsfOutfile *out)
 	GsfInput *input = GSF_INPUT (in);
 	GsfOutput *output = GSF_OUTPUT (out);
 	guint8 const *data;
-	gsf_off_t len;
+	size_t len;
 	int i;
 
 	if (gsf_input_size (input) > 0) {
@@ -45,14 +45,11 @@ clone (GsfInfile *in, GsfOutfile *out)
 			/* copy in odd sized chunks to exercise system */
 			if (len > 314)
 				len = 314;
-			if (NULL == (data = gsf_input_read (input,
-							    (gsf_off_t) len,
-							    NULL))) {
+			if (NULL == (data = gsf_input_read (input, len, NULL))) {
 				g_warning ("error reading ?");
 				return;
 			}
-			if (!gsf_output_write (output,
-					       (gsf_off_t) len, data)) {
+			if (!gsf_output_write (output, len, data)) {
 				g_warning ("error writing ?");
 				return;
 			}

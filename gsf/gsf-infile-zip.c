@@ -76,6 +76,9 @@ struct _GsfInfileZip {
 	GList     *dirent_list;
 
 	ZipDirent *dirent;
+
+	guint8   *buf;
+	size_t    buf_size;
 };
 
 typedef struct {
@@ -279,19 +282,26 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 	if (gsf_input_seek (zip->input, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, header_signature, sizeof (header_signature))) {
-		g_set_error (err, gsf_input_error (), 0, "No Zip signature");
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"No Zip signature");
+		return TRUE;
 	}
 
 	/* Find and check the trailing header */
 	offset = zip_find_trailer (zip);
 	if (offset < 0) {
-		g_set_error (err, gsf_input_error (), 0, "No Zip trailer");
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+			     "No Zip trailer");
 		return TRUE;
 	}
 
 	if (gsf_input_seek (zip->input, offset, G_SEEK_SET) ||
 	    NULL == (trailer = gsf_input_read (zip->input, ZIP_TRAILER_SIZE, NULL))) {
-		g_set_error (err, gsf_input_error (), 0, "Error reading Zip signature");
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+					    "Error reading Zip signature");
 		return TRUE;
 	}
 
@@ -311,7 +321,10 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 
 		d = zip_dirent_new (zip, &offset);
 		if (d == NULL) {
-			g_set_error (err, gsf_input_error (), 0, "Error reading zip dirent");
+			if (err != NULL)
+				*err = g_error_new
+					(gsf_input_error (), 0,
+					 "Error reading zip dirent");
 			return TRUE;
 		}
 
@@ -330,8 +343,9 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 	GsfInfileZip *dst = zip_dup (src);
 
 	if (dst == NULL) {
-		g_set_error (err, gsf_input_error (), 0, "Something went wrong in zip_dup.");
-		return NULL;
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+					    "Something went wrong in zip_dup.");		return NULL;
 	}
 
 	dst->dirent = src->dirent;
@@ -370,11 +384,6 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 	ZipDirent    *dirent = zip->dirent;
 
-	static guint8 *buf;
-
-	if (buf == NULL)
-		buf = g_malloc (256);
-
 	if (dirent->restlen < num_bytes)
 		return NULL;
 
@@ -385,8 +394,15 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		break;
 	case ZIP_DEFLATED:
 
-		if (buffer == NULL)
-			buffer = buf;
+		if (buffer == NULL) {
+			if (zip->buf_size < num_bytes) {
+				zip->buf_size = MAX (num_bytes, 256);
+				if (zip->buf != NULL)
+					g_free (zip->buf);
+				zip->buf = g_malloc (zip->buf_size);
+			}
+			buffer = zip->buf;
+		}
 
 		dirent->stream.avail_out = num_bytes;
 		dirent->stream.next_out = (unsigned char *)buffer;
@@ -556,6 +572,8 @@ gsf_infile_zip_finalize (GObject *obj)
 
 	g_list_free (zip->dirent_list);
 
+	g_free (zip->buf);
+
 	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
@@ -616,6 +634,8 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 		g_object_unref (G_OBJECT (zip));
 		return NULL;
 	}
+	zip->buf		= NULL;
+	zip->buf_size		= 0;
 
 	return GSF_INFILE (zip);
 }

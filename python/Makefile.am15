@@ -37,6 +37,7 @@ gsf.c: gsf.defs gsf.override
 .defs.c:
 	(cd $(srcdir) \
 	 && $(PYGTK_CODEGEN) \
+	    --load-types gsf-arg-types.py \
 	    --override $*.override \
 	    --prefix py$* $*.defs) > gen-$*.c \
 	&& cp gen-$*.c $*.c \
