@@ -127,11 +127,7 @@ int
 gsf_input_size (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, -1);
-
-	if (input->size >= 0)
-		return input->size;
-
-	return (input->size = GET_CLASS (input)->size (input));
+	return (int)input->size;
 }
 
 /**
@@ -159,15 +155,18 @@ gsf_input_eof (GsfInput *input)
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
- * Returns : pointer to the buffer or NULL if there is an error.
+ * Returns : pointer to the buffer or NULL if there is an error or 0 bytes are
+ * 	requested.
  **/
 guint8 const *
-gsf_input_read (GsfInput *input, int num_bytes)
+gsf_input_read (GsfInput *input, unsigned num_bytes)
 {
 	guint8 const *res;
 
 	g_return_val_if_fail (input != NULL, NULL);
 
+	if (num_bytes == 0 || (input->cur_offset + num_bytes) > input->size)
+		return NULL;
 	res = GET_CLASS (input)->read (input, num_bytes);
 	if (res == NULL)
 		return NULL;
@@ -205,7 +204,7 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 	g_return_val_if_fail (input != NULL, -1);
 
 	offset = GET_CLASS (input)->seek (input, offset, whence);
-	if (offset < 0 || offset >= gsf_input_size (input))
+	if (offset < 0 || offset > gsf_input_size (input))
 		return TRUE;
 	input->cur_offset = offset;
 	return FALSE;

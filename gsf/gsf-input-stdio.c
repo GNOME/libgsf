@@ -33,9 +33,9 @@
 struct _GsfInputStdio {
 	GsfInput input;
 
-	FILE   *file;
-	guint8 *buf;
-	int     buf_size;
+	FILE     *file;
+	guint8   *buf;
+	unsigned  buf_size;
 };
 
 typedef struct {
@@ -53,20 +53,29 @@ GsfInput *
 gsf_input_stdio_new (char const *filename, GError **err)
 {
 	GsfInputStdio *input;
+	struct stat st;
 	FILE *file;
 	
 	file = fopen (filename, "r");
-	if (file == NULL) {
+	if (file == NULL || fstat (fileno (file), &st) < 0) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: %s", filename, g_strerror (errno));
 		return NULL;
 	}
 
+	if (!S_ISREG (st.st_mode)) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"%s: Is not a regular file", filename);
+		return NULL;
+	}
+
 	input = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 	input->file = file;
 	input->buf  = NULL;
-	input->buf_size = -1;
+	input->buf_size = 0;
+	gsf_input_set_size (GSF_INPUT (input), st.st_size);
 
 	return GSF_INPUT (input);
 }
@@ -84,7 +93,7 @@ gsf_input_stdio_finalize (GObject *obj)
 	if (input->buf != NULL) {
 		g_free (input->buf);
 		input->buf  = NULL;
-		input->buf_size = -1;
+		input->buf_size = 0;
 	}
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
@@ -104,19 +113,6 @@ gsf_input_stdio_dup (GsfInput *src_input)
 	return GSF_INPUT (dst);
 }
 
-static unsigned
-gsf_input_stdio_size (GsfInput *input)
-{
-	GsfInputStdio const *stdio = (GsfInputStdio *)input;
-	struct stat st;
-
-	if (stdio->file != NULL &&
-	    fstat (fileno (stdio->file), &st) >= 0 &&
-	    S_ISREG (st.st_mode))
-		return st.st_size;
-	return 0;
-}
-
 static gboolean
 gsf_input_stdio_eof (GsfInput *input)
 {
@@ -125,7 +121,7 @@ gsf_input_stdio_eof (GsfInput *input)
 }
 
 static guint8 const *
-gsf_input_stdio_read (GsfInput *input, int num_bytes)
+gsf_input_stdio_read (GsfInput *input, unsigned num_bytes)
 {
 	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
 	size_t res;
@@ -141,7 +137,7 @@ gsf_input_stdio_read (GsfInput *input, int num_bytes)
 	}
 
 	res = fread (stdio->buf, 1, num_bytes, stdio->file);
-	if (res < (size_t)num_bytes)
+	if (res < num_bytes)
 		return NULL;
 
 	return stdio->buf;
@@ -189,7 +185,6 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize = gsf_input_stdio_finalize;
 	input_class->dup	= gsf_input_stdio_dup;
-	input_class->size	= gsf_input_stdio_size;
 	input_class->eof	= gsf_input_stdio_eof;
 	input_class->read	= gsf_input_stdio_read;
 	input_class->seek	= gsf_input_stdio_seek;

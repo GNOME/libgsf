@@ -1,3 +1,26 @@
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c : fix small block support.
+	  Handle the bogus use of ascii stream names in some case.
+
+2002-05-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new) : merge the size
+	  checking in here and do more error reporting.
+	(gsf_input_stdio_class_init) : delete gsf_input_stdio_size
+	(gsf_input_stdio_size) : delete.
+
+	* gsf/gsf-input.c (gsf_input_read) : put the bound check here.
+
+2002-05-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new) : make buf_size unsigned.
+	(gsf_input_stdio_finalize) : and here.
+	(gsf_input_stdio_read) : and here.
+
+	* gsf/gsf-input.c (gsf_input_seek) : As morten suggested this is
+	  better as > size rather than >= size.
+
 2002-05-24  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_read) : only seek if we

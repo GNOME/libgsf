@@ -29,8 +29,6 @@ struct _GsfInputMemory {
 
 	gboolean needs_free;
 	guint8 const *buf;
-	int length;
-	int cur_pos;
 };
 typedef struct {
 	GsfInputClass input_class;
@@ -38,19 +36,17 @@ typedef struct {
 
 static GsfInput *
 gsf_input_memory_construct (GsfInputMemory *mem,
-			    guint8 const *buf, int length,
+			    guint8 const *buf, unsigned length,
 			    gboolean needs_free)
 {
-	mem->buf        = buf;
-	mem->length     = length;
-	mem->needs_free = needs_free;
-	mem->cur_pos    = 0;
 	gsf_input_set_size (GSF_INPUT (mem), length);
+	mem->buf        = buf;
+	mem->needs_free = needs_free;
 	return GSF_INPUT (mem);
 }
 
 GsfInput *
-gsf_input_memory_new (guint8 const *buf, int length, gboolean needs_free)
+gsf_input_memory_new (guint8 const *buf, unsigned length, gboolean needs_free)
 {
 	return gsf_input_memory_construct (
 			g_object_new (GSF_INPUT_MEMORY_TYPE, NULL),
@@ -61,15 +57,14 @@ static void
 gsf_input_memory_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfInputMemory *mem = GSF_INPUT_MEMORY (obj);
+	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 
 	if (mem->buf != NULL) {
-		g_return_if_fail (mem->length > 0);
 		if (mem->needs_free)
 			g_free ((char *)mem->buf);
+		mem->buf = NULL;
 	}
-	mem->buf = NULL;
-	mem->length = -1;
+	gsf_input_set_size (GSF_INPUT (obj), 0);
 	mem->needs_free = FALSE;
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
@@ -80,43 +75,33 @@ gsf_input_memory_finalize (GObject *obj)
 static GsfInput *
 gsf_input_memory_dup (GsfInput *src_input)
 {
-	GsfInputMemory const *src = GSF_INPUT_MEMORY (src_input);
+	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 
 	return GSF_INPUT (dst);
 }
 
-static unsigned
-gsf_input_memory_size (GsfInput *input)
-{
-	GsfInputMemory *memory = GSF_INPUT_MEMORY (input);
-	return 0;
-}
-
 static gboolean
 gsf_input_memory_eof (GsfInput *input)
 {
-	GsfInputMemory *memory = GSF_INPUT_MEMORY (input);
+	GsfInputMemory *memory = (GsfInputMemory *) (input);
 	return FALSE;
 }
 
 static guint8 const *
-gsf_input_memory_read (GsfInput *input, int num_bytes)
+gsf_input_memory_read (GsfInput *input, unsigned num_bytes)
 {
-	GsfInputMemory *mem = GSF_INPUT_MEMORY (input);
-	guint8 const *res;
+	GsfInputMemory *mem = (GsfInputMemory *) (input);
 
-	if (mem->buf == NULL || (mem->cur_pos + num_bytes) >= mem->length)
+	if (mem->buf == NULL)
 		return NULL;
-	res = mem->buf + mem->cur_pos;
-	mem->cur_pos += num_bytes;
-	return res;
+	return mem->buf + input->cur_offset;
 }
 
 static int
 gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
-	GsfInputMemory const *memory = GSF_INPUT_MEMORY (input);
+	GsfInputMemory const *memory = (GsfInputMemory *) (input);
 
 	switch (whence) {
 	case GSF_SEEK_SET :
@@ -132,10 +117,9 @@ gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
 static void
 gsf_input_memory_init (GObject *obj)
 {
-	GsfInputMemory *mem = GSF_INPUT_MEMORY (obj);
+	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 
 	mem->buf = NULL;
-	mem->length = -1;
 	mem->needs_free = FALSE;
 }
 
@@ -146,7 +130,6 @@ gsf_input_memory_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize = gsf_input_memory_finalize;
 	input_class->dup	= gsf_input_memory_dup;
-	input_class->size	= gsf_input_memory_size;
 	input_class->eof	= gsf_input_memory_eof;
 	input_class->read	= gsf_input_memory_read;
 	input_class->seek	= gsf_input_memory_seek;
@@ -197,7 +180,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	if (fd < 0 || fstat (fd, &st) < 0) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s : %s", filename, g_strerror (errno));
+				"%s: %s", filename, g_strerror (errno));
 		return NULL;
 	}
 
@@ -205,7 +188,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	if ((caddr_t)buf == (caddr_t)MAP_FAILED) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s : %s", filename, g_strerror (errno));
+				"%s: %s", filename, g_strerror (errno));
 		close (fd);
 		return NULL;
 	}
@@ -222,12 +205,12 @@ gsf_input_mmap_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 	GsfInputMMap *m_map = GSF_INPUT_MMAP (obj);
+	GsfInput     *input = GSF_INPUT (obj);
 
 	if (m_map->fd >= 0) {
 		GsfInputMemory *mem = GSF_INPUT_MEMORY (obj);
-		munmap ((char *)mem->buf, mem->length);
+		munmap ((char *)mem->buf, input->size);
 		mem->buf = NULL;
-		mem->length = -1;
 		m_map->fd = -1;
 	}
 
