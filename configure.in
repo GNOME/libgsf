@@ -14,8 +14,8 @@ dnl               only bug fixes or internal changes made.
 dnl     4b) Set to zero when adding, removing or changing interfaces.
 LIBGSF_MICRO_VERSION=1
 dnl
-dnl     Set this too (I don't know how to do it automatically =) ):
-MAJOR_VERSION_PLUS_MINOR_VERSION=8
+dnl     Set this too
+MAJOR_VERSION_PLUS_MINOR_VERSION=`expr $LIBGSF_MAJOR_VERSION + $LIBGSF_MINOR_VERSION`
 dnl
 VERSION=$LIBGSF_MAJOR_VERSION.$LIBGSF_MINOR_VERSION.$LIBGSF_MICRO_VERSION
 dnl Version info for libraries = CURRENT:REVISION:AGE
