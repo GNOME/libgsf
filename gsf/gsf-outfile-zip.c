@@ -109,12 +109,10 @@ gsf_outfile_zip_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_outfile_zip_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
+gsf_outfile_zip_seek (G_GNUC_UNUSED GsfOutput *output,
+		      G_GNUC_UNUSED gsf_off_t offset,
+		      G_GNUC_UNUSED GSeekType whence)
 {
-	(void) output;
-	(void) offset;
-	(void) whence;
-
 	return FALSE;
 }
 

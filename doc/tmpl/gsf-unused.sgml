@@ -744,6 +744,14 @@ gsf
 @dirent: 
 @children: 
 
+<!-- ##### FUNCTION g_value_set_timestamp ##### -->
+<para>
+
+</para>
+
+@value: 
+@stamp: 
+
 <!-- ##### FUNCTION gsf_infile_get_type ##### -->
 <para>
 

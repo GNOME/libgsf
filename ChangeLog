@@ -1,3 +1,12 @@
+2004-08-27  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_seek): Use G_GNUC_UNUSED.
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_seek): Likewise.
+	* gsf/gsf-structured-blob.c (blob_dup): Likewise.
+	* gsf/gsf-input-textline.c (gsf_input_textline_dup): Likewise.
+	* gsf/gsf-input-memory.c (gsf_input_memory_dup): Likewise.
+	(gsf_input_mmap_new): Remove useless #warning.
+
 2004-08-26  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-shared-memory.c (gsf_shared_memory_finalize): Don't
@@ -10,8 +19,8 @@
 
 2004-08-25  Stepan Kasal  <kasal@ucw.cz>
 
-        * gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Be careful
-          with empty files (fixes bug #150923).
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Be careful
+	  with empty files (fixes bug #150923).
 
 2004-08-25  Morten Welinder  <terra@gnome.org>
 
