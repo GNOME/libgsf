@@ -1,5 +1,13 @@
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new): Add a proxy layer
+	so we don't have to dup files or net connections.
+
+	* gsf/gsf-input.c (gsf_input_dup): Provide error messages.
+
+	* gsf/gsf-input-proxy.c (gsf_input_proxy_read): gsf_input_read
+	updates our position so we should not.
+
 	* gsf/gsf-input-proxy.[ch]: New file.
 
 2004-09-16  Morten Welinder  <terra@gnome.org>

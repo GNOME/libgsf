@@ -204,12 +204,21 @@ gsf_input_dup (GsfInput *input, GError **err)
 
 	dst = GET_CLASS (input)->Dup (input, err);
 	if (dst != NULL) {
-		if (dst->size != input->size ||
-		    gsf_input_seek (dst, (gsf_off_t)input->cur_offset, G_SEEK_SET)) {
-			/* Yes, this has been known to happen.  */
+		if (dst->size != input->size) {
+			if (err != NULL)
+				*err = g_error_new (gsf_input_error (), 0,
+						    "Duplicate size mismatch");
 			g_object_unref (dst);
 			return NULL;
 		}
+		if (gsf_input_seek (dst, input->cur_offset, G_SEEK_SET)) {
+			if (err != NULL)
+				*err = g_error_new (gsf_input_error (), 0,
+						    "Seek failed");
+			g_object_unref (dst);
+			return NULL;
+		}
+
 		if (input->name != NULL)
 			gsf_input_set_name (dst, input->name);
 		dst->container = input->container;
@@ -278,7 +287,6 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 
 	input->cur_offset += num_bytes;
 	return res;
-
 }
 
 /**

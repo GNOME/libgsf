@@ -25,6 +25,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-impl.h>
+#include <gsf/gsf-input-proxy.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -907,8 +908,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	ole = (GsfInfileMSOle *)g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	g_object_ref (G_OBJECT (source));
-	ole->input = source;
+	ole->input = gsf_input_proxy_new (source);
 	gsf_input_set_size (GSF_INPUT (ole), (gsf_off_t) 0);
 
 	calling_pos = gsf_input_tell (source);

@@ -124,7 +124,6 @@ static guint8 const *
 gsf_input_proxy_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInputProxy *proxy = GSF_INPUT_PROXY (input);
-	guint8 const *result;
 
 	/* Seek to our position in the source.  */
 	if (gsf_input_seek (proxy->source,
@@ -133,14 +132,7 @@ gsf_input_proxy_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		return NULL;
 
 	/* Read the data.  */
-	result = gsf_input_read (proxy->source, num_bytes, buffer);
-
-	/* Retrieve our new position.  */
-	gsf_input_seek (input,
-			gsf_input_tell (proxy->source) - proxy->offset,
-			G_SEEK_SET);
-
-	return result;
+	return gsf_input_read (proxy->source, num_bytes, buffer);
 }
 
 static gboolean
