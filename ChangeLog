@@ -1,3 +1,13 @@
+2004-11-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : Check the unknown
+	  handler if we come across something that has not been registered
+	  yet.
+	(gsf_xml_in_doc_set_unknown_handler) : new.
+	(gsf_xml_in_doc_new) : split part of this out into
+	(gsf_xml_in_doc_extend) : here, so that we can add nodes to a
+	  description later.
+
 2004-11-12  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Escape 1..31 when used

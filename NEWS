@@ -9,6 +9,8 @@ Frank Chiulli:
 
 Jody:
 	* More work on storing OLE2 properties
+	* Add soem hooks to the libxml sax wrappers to facilitate extending
+	  specs
 
 Jon Kåre:
 	* make xml string export more convenient by ignoring NULL

@@ -30,3 +30,4 @@ potential 2.0 api changes
 - Convert Input, Infile, Output, Outfile into interfaces
 - Split Input/Output into base and seekable
 - Remove/Alleviate requirement that we know the size of a stream on open
+- input::seek and output::seek use the opposite conventions

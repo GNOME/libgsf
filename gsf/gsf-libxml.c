@@ -168,6 +168,7 @@ struct _GsfXMLInDoc {
 	GsfXMLInNode	*root;
 	GsfXMLInNS	*ns;
 	GPtrArray	*ns_by_id;
+	GsfXMLInUnknownFunc	unknown_handler;
 };
 
 typedef struct {
@@ -198,6 +199,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	xmlChar const **ns_ptr;
 	char const *tmp;
 	int i;
+	gboolean check_unknown_handler = TRUE;
 
 	/* Scan for namespace declarations.  Yes it is ugly to have the api
 	 * flag that its children can declare namespaces. However, given that a
@@ -238,6 +240,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		}
 	}
 
+lookup_child :
 	for (ptr = state->node->groups ; ptr != NULL ; ptr = ptr->next) {
 		group = ptr->data;
 		/* does the namespace match */
@@ -275,6 +278,12 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		}
 	}
 
+	if (check_unknown_handler) {
+		check_unknown_handler = FALSE; /* only loop once */
+		if (state->doc->unknown_handler != NULL &&
+		    (state->doc->unknown_handler) (state, name, attrs))
+			goto lookup_child;
+	}
 	if (state->unknown_depth++)
 		return;
 	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->node));
@@ -448,8 +457,6 @@ GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 {
 	GsfXMLInDoc  *doc;
-	GHashTable   *symbols;
-	GsfXMLInNode *tmp, *real_node, *node;
 	unsigned i;
 
 	if (root->parent_initialized)
@@ -468,10 +475,24 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = ns+i;
 		}
 	}
+	gsf_xml_in_doc_extend (doc, root);
+	return doc;
+}
 
-	symbols = g_hash_table_new (g_str_hash, g_str_equal);
-	for (node = root; node->id != NULL ; node++ ) {
-		g_return_val_if_fail (!node->parent_initialized, NULL);
+void
+gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
+		       GsfXMLInNode *extension_nodes)
+{
+	GsfXMLInNode *tmp, *real_node, *node;
+	GHashTable   *symbols = g_hash_table_new (g_str_hash, g_str_equal);
+
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (extension_nodes != NULL);
+
+	if (extension_nodes->parent_initialized)
+		return;
+	for (node = extension_nodes; node->id != NULL ; node++ ) {
+		g_return_if_fail (!node->parent_initialized);
 
 		tmp = g_hash_table_lookup (symbols, node->id);
 		if (tmp != NULL) {
@@ -480,7 +501,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			    node->has_content != GSF_XML_NO_CONTENT || node->user_data.v_int != 0) {
 				g_warning ("ID '%s' has already been registered.\n"
 					   "The additional decls should not specify start,end,content,data", node->id);
-				return NULL;
+				return;
 			}
 			real_node = tmp;
 		} else {
@@ -512,7 +533,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			group->elem = g_slist_prepend (group->elem, real_node);
 		} else if (strcmp (node->id, node->parent_id)) {
 			g_warning ("Parent ID '%s' unknown", node->parent_id);
-			return NULL;
+			return;
 		}
 
 		/* WARNING VILE HACK :
@@ -528,8 +549,21 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 	}
 
 	g_hash_table_destroy (symbols);
+}
 
-	return doc;
+/**
+ * gsf_xml_in_doc_set_unknown_handler:
+ * @doc : #GsfXMLInDoc
+ * @handler : The function to call
+ *
+ * Call the function @handler when an unexpected child node is found
+ **/
+void
+gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
+				    GsfXMLInUnknownFunc handler)
+{
+	g_return_if_fail (doc != NULL);
+	doc->unknown_handler = handler;
 }
 
 /**

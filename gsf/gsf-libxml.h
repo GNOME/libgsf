@@ -55,6 +55,7 @@ typedef enum {
 	GSF_XML_SHARED_CONTENT
 } GsfXMLContent;
 
+typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs);
 struct _GsfXMLIn {
 	GsfXMLInDoc  const *doc;	/* init before parsing */
 
@@ -115,6 +116,10 @@ struct _GsfXMLInNS {
 
 GsfXMLInDoc *gsf_xml_in_doc_new	 (GsfXMLInNode *root, GsfXMLInNS *ns);
 void	     gsf_xml_in_doc_free (GsfXMLInDoc *doc);
+void	     gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
+				    GsfXMLInNode *nodes);
+void	     gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
+						 GsfXMLInUnknownFunc handler);
 
 gboolean    gsf_xml_in_parse	 (GsfXMLIn *state, GsfInput *input);
 char const *gsf_xml_in_check_ns	 (GsfXMLIn const *state, char const *str,
