@@ -36,7 +36,7 @@ struct _GsfOutputGZip {
 	GsfOutput output;
 
 	GsfOutput *sink; /* compressed data */
-	gboolean container;
+	gboolean raw; /* No header and no trailer.  */
 
 	z_stream  stream;
 	uLong     crc;     /* crc32 of uncompressed data */
@@ -52,7 +52,7 @@ typedef struct {
 
 enum {
 	PROP_0,
-	PROP_CONTAINER,
+	PROP_RAW,
 	PROP_SINK
 };
 
@@ -246,7 +246,7 @@ gsf_output_gzip_close (GsfOutput *output)
 		if (!gzip_flush (gzip))
 			return FALSE;
 
-		if (gzip->container) {
+		if (!gzip->raw) {
 			guint8 buf[8];
 
 			GSF_LE_SET_GUINT32 (buf,     gzip->crc);
@@ -286,8 +286,8 @@ gsf_output_gzip_get_property (GObject     *object,
 	GsfOutputGZip *gzip = (GsfOutputGZip *)object;
 
 	switch (property_id) {
-	case PROP_CONTAINER:
-		g_value_set_boolean (value, gzip->container);
+	case PROP_RAW:
+		g_value_set_boolean (value, gzip->raw);
 		break;
 	case PROP_SINK:
 		g_value_set_object (value, gzip->sink);
@@ -317,8 +317,8 @@ gsf_output_gzip_set_property (GObject      *object,
 	GsfOutputGZip *gzip = (GsfOutputGZip *)object;
 
 	switch (property_id) {
-	case PROP_CONTAINER:
-		gzip->container = g_value_get_boolean (value);
+	case PROP_RAW:
+		gzip->raw = g_value_get_boolean (value);
 		break;
 	case PROP_SINK:
 		gsf_output_gzip_set_sink (gzip, g_value_get_object (value));
@@ -348,7 +348,7 @@ gsf_output_gzip_constructor (GType                  type,
 	  gsf_output_set_error (GSF_OUTPUT (gzip),
 				0,
 				"Failed to initialize zlib structure");
-  else if (gzip->container && !gzip_output_header (gzip))
+  else if (!gzip->raw && !gzip_output_header (gzip))
 	  gsf_output_set_error (GSF_OUTPUT (gzip),
 				0,
 				"Failed to write gzip header");
@@ -371,10 +371,10 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property
 		(gobject_class,
-		 PROP_CONTAINER,
-		 g_param_spec_boolean ("container", "Container",
-				       "Whether to write a gzip container.",
-				       TRUE,
+		 PROP_RAW,
+		 g_param_spec_boolean ("raw", "Raw",
+				       "Whether to write compressed data with no header/tailer.",
+				       FALSE,
 				       G_PARAM_READABLE |
 				       G_PARAM_WRITABLE |
 				       G_PARAM_CONSTRUCT_ONLY));
@@ -393,4 +393,3 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfOutputGZip, gsf_output_gzip,
 	   gsf_output_gzip_class_init, gsf_output_gzip_init, GSF_OUTPUT_TYPE)
-

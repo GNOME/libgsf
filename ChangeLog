@@ -1,5 +1,10 @@
 2005-03-25  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_class_init): Rename
+	"container" property to "raw" with opposite semantics.
+
+2005-03-25  Morten Welinder  <terra@gnome.org>
+
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_set_property): Handle
 	NULL sink better.
 	(gsf_output_gzip_new): Don't bother closing the output on error.
