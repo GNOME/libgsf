@@ -1,3 +1,13 @@
+2003-01-08  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output-iochannel.c (gsf_output_iochannel_write): ensure large writes happen
+
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_write): Ditto
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_read): Ensure that large reads happen
+
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_input_gnomevfs_read) : Ditto
+	
 2003-01-08  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : fix off by 1 in

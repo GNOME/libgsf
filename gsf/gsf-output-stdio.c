@@ -134,20 +134,6 @@ follow_symlinks (char const *filename, GError **error)
 #endif /* !HAVE_READLINK */
 }
 
-#if 0
-		switch (errno)
-		{
-			case ENOSPC:
-				msg = "There is not enough disk space to save the file.\n"
-					"Please free some disk space and try again.";
-				break;
-
-			case EFBIG:
-				msg = "The disk where you are trying to save the file has "
-					"a limitation on file sizes.  Please try saving "
-					"a smaller file or saving it to a disk that does not "
-					"have this limitation.";
-#endif
 /**
  * gsf_output_stdio_new :
  * @filename : in utf8.
@@ -321,7 +307,6 @@ gsf_output_stdio_finalize (GObject *obj)
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
 }
-
 
 static gboolean
 gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)

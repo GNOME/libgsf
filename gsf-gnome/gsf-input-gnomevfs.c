@@ -166,8 +166,8 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
                          guint8 *buffer)
 {
     GsfInputGnomeVFS *vfs = GSF_INPUT_GNOMEVFS (input);
-    GnomeVFSResult res;
-    GnomeVFSFileSize nread = 0;
+    GnomeVFSResult res = GNOME_VFS_OK;
+    GnomeVFSFileSize nread = 0, total_read = 0;
 
     g_return_val_if_fail (vfs != NULL, NULL);
     g_return_val_if_fail (vfs->handle != NULL, NULL);
@@ -182,15 +182,16 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
         buffer = vfs->buf;
     }
 
-    res = gnome_vfs_read (vfs->handle, (gpointer)buffer,
-			  (GnomeVFSFileSize) num_bytes, &nread);
+    while ((res == GNOME_VFS_OK) && (total_read < num_bytes))
+	    {
+		    res = gnome_vfs_read (vfs->handle, (gpointer)(buffer + total_read),
+					  (GnomeVFSFileSize) (num_bytes - total_read), &nread);
+		    total_read += nread;
+	    }
 
-    if (res != GNOME_VFS_OK)
+    if (res != GNOME_VFS_OK || total_read != num_bytes)
         return NULL;
     
-    if (nread < num_bytes)
-        return NULL;
-
     return buffer;
 }
 

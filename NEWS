@@ -3,6 +3,7 @@ libgsf 1.7.0
 Dom:
 	* Extend gnome-vfs support to handle uris
 	* Transacted output capability
+	* Ensure large reads and writes happen
 
 Jody:
 	* Start work on some simplified xml export utilities.

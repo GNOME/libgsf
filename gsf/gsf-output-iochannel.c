@@ -100,18 +100,17 @@ gsf_output_iochannel_write (GsfOutput *output,
 {
 	GsfOutputIOChannel *io = GSF_OUTPUT_IOCHANNEL (output);
 	GIOStatus status = G_IO_STATUS_NORMAL;
-	size_t bytes_written = 0;
+	size_t bytes_written = 0, total_written = 0;
 
 	g_return_val_if_fail (io != NULL, FALSE);
 
-	status = g_io_channel_write_chars (io->channel, (const gchar *)buffer,
-					   num_bytes, &bytes_written, NULL);
+	while ((status == G_IO_STATUS_NORMAL) && (total_written < num_bytes)) {
+		status = g_io_channel_write_chars (io->channel, (const gchar *)(buffer + total_written),
+						   num_bytes - total_written, &bytes_written, NULL);
+		total_written += bytes_written;
+	}
 
-	if (status == G_IO_STATUS_NORMAL && bytes_written == num_bytes)
-		return TRUE;
-
-	gsf_output_set_error (output, status, " ");
-	return FALSE;
+	return (status == G_IO_STATUS_NORMAL && total_written == num_bytes);
 }
 
 #define GET_OUTPUT_CLASS(instance) \

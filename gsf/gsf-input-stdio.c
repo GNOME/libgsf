@@ -125,7 +125,7 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 		      guint8 *buffer)
 {
 	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
-	size_t res;
+	size_t nread = 0, total_read = 0;
 
 	g_return_val_if_fail (stdio != NULL, NULL);
 	g_return_val_if_fail (stdio->file != NULL, NULL);
@@ -140,9 +140,13 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 		buffer = stdio->buf;
 	}
 
-	res = fread (buffer, 1, num_bytes, stdio->file);
-	if (res < num_bytes)
-		return NULL;
+	while (total_read < num_bytes) {
+		nread = fread (buffer + total_read, 1, 
+			       num_bytes - total_read, stdio->file);
+		total_read += nread;
+		if ((total_read < num_bytes) && ferror (stdio->file) != 0)
+			return NULL;
+	}
 
 	return buffer;
 }
@@ -152,6 +156,7 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
 	long loffset;
+	int stdio_whence = SEEK_SET;
 
 	if (stdio->file == NULL)
 		return TRUE;
@@ -162,19 +167,16 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		return TRUE;
 	}
 	switch (whence) {
-	case G_SEEK_SET :
-		if (0 == fseek (stdio->file, loffset, SEEK_SET))
-			return FALSE;
+	case G_SEEK_CUR : stdio_whence = SEEK_CUR; break;
+	case G_SEEK_END : stdio_whence = SEEK_END; break;
+	case G_SEEK_SET:
+	default:
 		break;
-	case G_SEEK_CUR :
-		if (0 == fseek (stdio->file, loffset, SEEK_CUR))
-			return FALSE;
-		break;
-	case G_SEEK_END :
-		if (0 == fseek (stdio->file, loffset, SEEK_END))
-			return FALSE;
 	}
 
+	if (0 == fseek (stdio->file, loffset, stdio_whence))
+		return FALSE;
+	
 	return TRUE;
 }
 

@@ -160,17 +160,19 @@ gsf_output_gnomevfs_write (GsfOutput *output,
 			   guint8 const *buffer)
 {
     GsfOutputGnomeVFS *vfs = GSF_OUTPUT_GNOMEVFS (output);
-    GnomeVFSFileSize nwritten;
-    GnomeVFSResult res;
+    GnomeVFSFileSize nwritten = 0, total_written = 0;
+    GnomeVFSResult res = GNOME_VFS_OK;
 
     g_return_val_if_fail (vfs != NULL, FALSE);
     g_return_val_if_fail (vfs->handle != NULL, FALSE);
 
-    res = gnome_vfs_write (vfs->handle, (gconstpointer)buffer,
-			   (GnomeVFSFileSize) num_bytes, &nwritten);
-    if (GNOME_VFS_OK != res)
-        return FALSE;
-    return nwritten == num_bytes;
+    while ((res == GNOME_VFS_OK) && (total_written < num_bytes))
+	    {
+		    res = gnome_vfs_write (vfs->handle, (gconstpointer)(buffer + total_written),
+					   (GnomeVFSFileSize)(num_bytes - total_written), &nwritten);
+		    total_written += nwritten;
+	    }
+    return (res == GNOME_VFS_OK && total_written == num_bytes);
 }
 
 static void
