@@ -1,3 +1,9 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_filename_to_utf8): Make this sane (which it
+	never was).  We no longer use this, but keep it around.
+	(gsf_extension_pointer): Fix this for Win32.
+
 2005-03-23  Ivan, Wong Yat Cheung <email@ivanwong.info>
 
 	* gsf/gsf-msole-utils.c: Add new function

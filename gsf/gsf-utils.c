@@ -315,15 +315,20 @@ gsf_le_set_double (void *p, double d)
 char const *
 gsf_extension_pointer (char const *path)
 {
-	char *s, *t;
+	const char *s, *end;
 	
 	g_return_val_if_fail (path != NULL, NULL);
 
-	t = strrchr (path, G_DIR_SEPARATOR);
-	s = strrchr ((t != NULL) ? t : path, '.');
-	if (s != NULL)
-		return s + 1;
-	return path + strlen(path);
+	end = path + strlen (path);
+	for (s = end; s > path; ) {
+		s--;
+		if (G_IS_DIR_SEPARATOR (*s))
+			break;
+		if (*s == '.')
+			return s + 1;
+	}
+
+	return end;
 }
 
 /**
@@ -336,11 +341,6 @@ gsf_iconv_close (GIConv handle)
 	if (handle != NULL && handle != ((GIConv)-1))
 		g_iconv_close (handle);
 }
-
-/* FIXME: what about translations?  */
-#ifndef _
-#define _(x) x
-#endif
 
 /**
  * gsf_filename_to_utf8:
@@ -356,32 +356,16 @@ gsf_iconv_close (GIConv handle)
 char *
 gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 {
-	GError *err = NULL;
-	char *res = g_filename_to_utf8 (filename, -1, NULL, NULL, &err);
-
-	if (err) {
-		char *msg;
-		if (res && res[0])
-			/*
-			 * Translators: the ellipsis ("...") here refers to
-			 * a truncated file name.
-			 */
-			msg = g_strdup_printf (_("(Invalid file name: \"%s...\")"),
-					       res);
-		else
-			msg = g_strdup (_("(Invalid file name)"));
-		g_free (res);
-		g_clear_error (&err);
-		return msg;
-	}
+	char *dname = g_filename_display_name (filename);
+	char *result;
 
 	if (quoted) {
-		char *newres = g_strdup_printf (_("\"%s\""), res);
-		g_free (res);
-		res = newres;
-	}						
+		result = g_strconcat ("\"", dname, "\"", NULL);
+		g_free (dname);
+	} else
+		result = dname;
 
-	return res;
+	return result;
 }
 
 /***************************************************************************/

@@ -247,6 +247,7 @@ stream_name_write_to_buf (GsfOutfileZip *zip, char *buf, int buflen)
 					  buf, buflen);
 		len = strlen (buf);
 		if (len > 0) {
+#warning "Is this the right kind of slash on Win32?"
 			buf[len++] = '/';
 			buf[len]   = '\0';
 		}
