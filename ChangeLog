@@ -1,3 +1,13 @@
+2004-02-05  Tomasz K³oczko <kloczek@pld.org.pl>
+
+	* Makefile.am: Added "DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc"
+	  for force correct pass build documentation during "make dist"
+	  (like in many other GNOME projects).
+	  Added gtk-doc.make to EXTRA_DIST for generate correct tar ball on 
+	  "make dist".
+	* configure.in: Removed old on place defined gtk-doc suport and added use
+	  GTK_DOC_CHECK([1.0]).
+
 2004-01-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_fatal_error) : Looks like Daniel has

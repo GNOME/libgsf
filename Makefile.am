@@ -1,5 +1,7 @@
 AUTOMAKE_OPTIONS = gnu 1.4
 
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
+
 if WITH_LIBGSF_GNOME
 LIBGSF_GNOME_PC = libgsf-gnome-1.pc
 GSF_GNOME_DIR   = gsf-gnome
@@ -22,13 +24,14 @@ SUBDIRS = gsf $(GSF_GNOME_DIR) doc tests $(PYTHON_DIR)
 clean-local:
 	rm -f intl/po2tbl.sed
 
-EXTRA_DIST = 		\
-    autogen.sh 		\
-    libgsf-1.spec	\
-    libgsf-1.spec.in	\
-    libgsf-1.pc.in	\
-    libgsf-gnome-1.spec	\
-    libgsf-gnome-1.spec.in	\
-    libgsf-gnome-1.pc.in \
-    libgsf-zip.in	\
-    README TODO HACKING NEWS BUGS ChangeLog COPYING.LIB
+EXTRA_DIST = 			\
+	autogen.sh 		\
+	gtk-doc.make		\
+	libgsf-1.pc.in		\
+	libgsf-1.spec		\
+	libgsf-1.spec.in	\
+	libgsf-gnome-1.pc.in	\
+	libgsf-gnome-1.spec	\
+	libgsf-gnome-1.spec.in	\
+	libgsf-zip.in		\
+	README TODO HACKING NEWS BUGS ChangeLog COPYING.LIB
