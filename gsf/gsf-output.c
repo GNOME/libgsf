@@ -24,8 +24,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-static gboolean
-gsf_output_vprintf (GsfOutput *output, char const* format, va_list args);
+static gsf_off_t
+gsf_output_real_vprintf (GsfOutput *output, char const* format, va_list args);
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
@@ -129,7 +129,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize     = gsf_output_finalize;
 	gobject_class->set_property = gsf_output_set_property;
 	gobject_class->get_property = gsf_output_get_property;
-	output_class->Vprintf       = gsf_output_vprintf;
+	output_class->Vprintf       = gsf_output_real_vprintf;
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -300,6 +300,17 @@ gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	return FALSE;
 }
 
+static inline gboolean
+gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
+{
+	output->cur_offset += num_bytes;
+	if (output->cur_offset < num_bytes)
+		return gsf_output_set_error (output, 0, "Output size overflow.");
+	if (output->cur_size < output->cur_offset)
+		output->cur_size = output->cur_offset;
+	return TRUE;
+}
+
 /**
  * gsf_output_write :
  * @output :
@@ -316,12 +327,8 @@ gsf_output_write (GsfOutput *output,
 
 	if (num_bytes == 0)
 		return TRUE;
-	if (GET_CLASS (output)->Write (output, num_bytes, data)) {
-		output->cur_offset += num_bytes;
-		if (output->cur_size < output->cur_offset)
-			output->cur_size = output->cur_offset;
-		return TRUE;
-	}
+	if (GET_CLASS (output)->Write (output, num_bytes, data))
+		return gsf_output_inc_cur_offset (output, num_bytes);
 
 	/* the implementation should have assigned whatever errors are necessary */
 	return FALSE;
@@ -480,10 +487,55 @@ gsf_output_error_id (void)
 	return quark;
 }
 
-static gboolean
-gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
+/**
+ * gsf_output_printf:
+ * @output: A #GsfOutput
+ * @format: The printf-style format string
+ * @Varargs: the arguments for @format
+ *
+ * Returns: TRUE if successful, FALSE if not
+ **/
+gboolean
+gsf_output_printf (GsfOutput *output, char const *format, ...)
 {
-	int reslen;
+	va_list args;
+	gboolean res;
+
+	va_start (args, format);
+	res = (gsf_output_vprintf (output, format, args) >= 0);
+	va_end (args);
+	return res;
+}
+
+/**
+ * gsf_output_vprintf:
+ * @output: A #GsfOutput
+ * @format: The printf-style format string
+ * @args: the arguments for @format
+ *
+ * Returns: number of bytes printed, a negative value if not successful
+ **/
+gsf_off_t
+gsf_output_vprintf (GsfOutput *output, char const *format, va_list args)
+{
+	gsf_off_t num_bytes;
+
+	g_return_val_if_fail (output != NULL, -1);
+	g_return_val_if_fail (format != NULL, -1);
+	/* g_return_val_if_fail (strlen (format) > 0, -1); -- Why? */
+
+	num_bytes = GET_CLASS (output)->Vprintf (output, format, args);
+
+	if (num_bytes >= 0)
+		if (!gsf_output_inc_cur_offset (output, num_bytes))
+			return -1;
+	return num_bytes;
+}
+
+static gsf_off_t
+gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
+{
+	gsf_off_t reslen;
 
 	if (NULL == output->printf_buf) {
 		output->printf_buf_size = 128;
@@ -498,32 +550,11 @@ gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
 		reslen = output->printf_buf_size = strlen (output->printf_buf);
 	}
 
-	return gsf_output_write (output, reslen, output->printf_buf);
-}
+	if (reslen == 0 ||
+	    GET_CLASS (output)->Write (output, reslen, output->printf_buf))
+		return reslen;
 
-/**
- * gsf_output_printf:
- * @output: A #GsfOutput
- * @format: The printf-style format string
- * @Varargs: the arguments for @format
- *
- * Returns: TRUE if successful, FALSE if not
- **/
-gboolean
-gsf_output_printf (GsfOutput *output, char const *format, ...)
-{
-	va_list args;
-	gboolean ret;
-
-	g_return_val_if_fail (output != NULL, FALSE);
-	g_return_val_if_fail (format != NULL, FALSE);
-	g_return_val_if_fail (strlen (format) > 0, FALSE);
-
-	va_start (args, format);
-	ret = GET_CLASS (output)->Vprintf (output, format, args);
-	va_end (args);
-
-	return ret;
+	return -1;
 }
 
 /**

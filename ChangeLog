@@ -1,5 +1,38 @@
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
 
+	The gsf_ouput_printf method didn't correctly update cur_offset.
+
+	The implementations of vprintf virtual method shouldn't touch
+	cur_offset but they should return the number of bytes written;
+	the dispatcher updates cur_offset accordingly.
+
+	* gsf/gsf-output-impl.h (Vprintf): The virtual private method now
+	  returns number of bytes printed.
+	* gsf/gsf-output.c (gsf_output_vprintf): Renamed to ...
+	  (gsf_output_ireal_vprintf): ... this.
+	  (gsf_output_printf): Collect the va_list and call ...
+	  (gsf_output_vprintf): ... this new function, which dispatches
+	  the Vprintf virtual method and takes care of updating cur_offset
+	  and cur_size, via ...
+	  (gsf_output_inc_cur_offset): ... a new static function, extracted
+	  from ...
+	  (gsf_output_write): ... there.
+	  (gsf_output_real_vprintf): In this fallback code, don't call
+	  gsf_output_write, but only dispatch to the Write virual method,
+	  so that gsf_output_inc_cur_offset is not called twice.
+	* gsf/gsf-output.h (gsf_output_vprintf): New public method.
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_vprintf): Adapt.
+	* gsf/gsf-output-transaction.c (gsf_output_trans_vprintf): Likewise.
+	* gsf/gsf-outfile-msole.c (gsf_output_class): New static variable,
+	  which is set to point to GsfOutput class structure.
+	  (gsf_outfile_msole_vprintf): Adapt. If it's a MSOLE_BIG_FILE,
+	  call vprintf method of the underlaying file, else fall back to
+	  gsf_output_class->Vprintf.
+	* gsf/gsf-output-memory.c (parent_class): New static variable.
+	  (gsf_output_memory_vprintf): Use it too. Adapt to the new prototype.
+	
+2004-07-21  Stepan Kasal  <kasal@ucw.cz>
+
 	Make the two fseek() wrappers more consistent.
 
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Fix the overflow
@@ -7,6 +40,8 @@
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Don't give the
 	  same message twice, set errno=0 before calling fseek().
 
+2004-07-21  Stepan Kasal  <kasal@ucw.cz>
+	
 	Gnomish autogen.sh uses ACLOCAL_FLAGS, if some of the macros are
 	in nonstandard places.  If you touch configure.in then, aclocal.m4
 	is regenerated, but without ACLOCAL_FLAGS.  This change ensures

@@ -50,7 +50,7 @@ typedef struct {
 			     gsf_off_t offset, GSeekType whence);
 	gboolean (*Write)   (GsfOutput *output,
 			     size_t num_bytes, guint8 const *data);
-	gboolean (*Vprintf) (GsfOutput *output,
+	gsf_off_t (*Vprintf) (GsfOutput *output,
 			     char const *format, va_list args);
 } GsfOutputClass;
 

@@ -230,11 +230,11 @@ gsf_output_trans_write (GsfOutput *output,
 }
 
 /* vprintf function. emits "updated" or "aborted" */
-static gboolean
+static gsf_off_t
 gsf_output_trans_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutputTransaction * trans = (GsfOutputTransaction *)output;
-	gboolean result;
+	gsf_off_t result;
 
 	g_return_val_if_fail (output != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_OUTPUT_TRANSACTION (output), FALSE);
@@ -245,7 +245,7 @@ gsf_output_trans_vprintf (GsfOutput *output, char const *format, va_list args)
 	}
 	
 	result = proxy_class->Vprintf (trans->proxy, format, args);
-	if (result)
+	if (result >= 0)
 		g_signal_emit (G_OBJECT (trans), transaction_signals[UPDATED], 0);
 	else
 		gsf_output_transaction_abort (trans);

@@ -29,6 +29,8 @@
 #include <string.h>
 #include <stdio.h>
 
+static GsfOutputClass *gsf_output_class;
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:msole"
 
@@ -536,28 +538,20 @@ gsf_outfile_msole_write (GsfOutput *output,
 }
 
 
-#define GET_OUTPUT_CLASS(instance) \
-         G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
-
-static gboolean
+static gsf_off_t
 gsf_outfile_msole_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
-	GsfOutputClass *klass;
-	gboolean res;
 
-	g_return_val_if_fail (ole->type != MSOLE_DIR, FALSE);
+	/* An optimization. */
+	if (ole->type == MSOLE_BIG_BLOCK)
+		return gsf_output_vprintf (ole->sink, format, args);
 
-	if (ole->type == MSOLE_BIG_BLOCK) {
-		klass = GET_OUTPUT_CLASS (ole->sink);
-		res = klass->Vprintf (ole->sink, format, args);
-	} else {
-		char *tmp = g_strdup_vprintf (format, args);
-		res = gsf_outfile_msole_write (output, strlen (tmp), tmp);
-		g_free (tmp);
-	}
-
-	return res;
+	/* In other cases, use the gsf_output_real_vprintf fallback method.
+	 * (This eventually calls gsf_outfile_msole_write, which will also
+	 * check that ole->type != MSOLE_DIR.)
+	 */
+	return gsf_output_class->Vprintf (output, format, args);
 }
 
 
@@ -667,6 +661,8 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 	output_class->Write		= gsf_outfile_msole_write;
 	output_class->Vprintf		= gsf_outfile_msole_vprintf;
 	outfile_class->new_child	= gsf_outfile_msole_new_child;
+
+	gsf_output_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 }
 
 GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,

@@ -27,6 +27,8 @@
 #define MIN_BLOCK 512
 #define MAX_STEP  (MIN_BLOCK * 128)
 
+static GsfOutputClass *parent_class;
+
 struct _GsfOutputMemory {
 	GsfOutput output;
 	guint8 *buffer;
@@ -137,29 +139,21 @@ gsf_output_memory_write (GsfOutput *output,
 	return TRUE;
 }
 
-#define GET_OUTPUT_CLASS(instance) \
-         G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
-
-static gboolean
+static gsf_off_t
 gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutputMemory *mem = (GsfOutputMemory *)output;
-	GsfOutputClass *klass;
-	gulong len;
-	
+
 	if (mem->buffer) {
-		len = g_vsnprintf (mem->buffer + output->cur_offset,
-				   mem->capacity - output->cur_offset,
-				   format, args);
-		if (len < mem->capacity - output->cur_offset) {
-			/* There was sufficient space */
-			output->cur_offset += len;
-			return TRUE;
-		}
+		gsf_off_t len =
+			g_vsnprintf (mem->buffer + output->cur_offset,
+				     mem->capacity - output->cur_offset,
+				     format, args);
+
+		if (len < mem->capacity - output->cur_offset)
+			return len; /* There was sufficient space */
 	}
-	klass = (GsfOutputClass *) (g_type_class_peek_parent
-				    (GET_OUTPUT_CLASS (output)));
-	return klass->Vprintf (output, format, args);
+	return parent_class->Vprintf (output, format, args);
 }
 
 static void
@@ -181,6 +175,8 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
 	output_class->Seek      = gsf_output_memory_seek;
 	output_class->Write     = gsf_output_memory_write;
 	output_class->Vprintf   = gsf_output_memory_vprintf;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 /**
