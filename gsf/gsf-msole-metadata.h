@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-timestamp.c: 
+ * gsf-msole-metadata.h: read and write OLE metadata streams
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,53 +19,13 @@
  * USA
  */
 
-#include <gsf-config.h>
-#include <gsf/gsf-timestamp.h>
-#include <string.h>
+#ifndef GSF_MSOLE_METADATA_H
+#define GSF_MSOLE_METADATA_H
 
-GType
-gsf_timestamp_get_type (void)
-{
-	static GType our_type = 0;
+#include <gsf/gsf.h>
 
-	if (our_type == 0)
-		our_type = g_boxed_type_register_static ("GsfTimestamp",
-					(GBoxedCopyFunc)gsf_timestamp_copy,
-					(GBoxedFreeFunc)gsf_timestamp_free);
-	return our_type;
-}
+G_BEGIN_DECLS
 
-GsfTimestamp *
-gsf_timestamp_copy (GsfTimestamp const *stamp)
-{
-	return NULL;
-}
+G_END_DECLS
 
-void
-gsf_timestamp_free (GsfTimestamp *stamp)
-{
-}
-
-int
-gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
-{
-	return 0;
-}
-
-char *
-gsf_timestamp_as_string	(GsfTimestamp const *stamp)
-{
-	return NULL;
-}
-
-guint
-gsf_timestamp_hash (GsfTimestamp const *stamp)
-{
-	return 0;
-}
-
-gboolean
-gsf_timestamp_equal (GsfTimestamp const *a, GsfTimestamp const *b)
-{
-	return FALSE;
-}
+#endif /* GSF_MSOLE_METADATA_H */

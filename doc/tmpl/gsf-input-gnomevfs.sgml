@@ -14,29 +14,3 @@ gsf-input-gnomevfs
 
 </para>
 
-<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### FUNCTION gsf_input_gnomevfs_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
-<para>
-
-</para>
-
-@uri: 
-@error: 
-@Returns: 
-<!-- # Unused Parameters # -->
-@filename: 
-
-

@@ -19,6 +19,12 @@
 
 @p: 
 
+<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ENUM GsfOff_t ##### -->
 <para>
 
@@ -152,6 +158,23 @@
 
 </para>
 
+
+<!-- ##### FUNCTION gsf_input_gnomevfs_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
+<para>
+
+</para>
+
+@uri: 
+@error: 
+@Returns: 
+@filename: 
 
 <!-- ##### FUNCTION gsf_outfile_add_child ##### -->
 <para>
