@@ -1,4 +1,9 @@
-2004-09-25 Stepan Kasal <kasal@ucw.cz>
+2005-01-16  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output-gnomevfs.c: This should fix bug 159442 by truncating 
+	newly-created files whenever possible WHILE preserving file permissions.
+	
+2004-09-25  Stepan Kasal <kasal@ucw.cz>
 
 	* gsf/gsf-output-stdio.c: Use g_file_read_link() - (bug 149827)
 	

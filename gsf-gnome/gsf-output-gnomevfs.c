@@ -63,6 +63,7 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	GsfOutputGnomeVFS *output;
 	GnomeVFSHandle *handle;
 	GnomeVFSResult res;
+	int perms = -1;
 
 	if (uri == NULL) {
 		g_set_error (err, gsf_output_error_id (), 0,
@@ -70,7 +71,28 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 		return NULL;
 	}
 
-	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);
+	if (gnome_vfs_uri_exists (uri)) {
+
+		/* see bug 159442 - if the file exists, we want to preserve existing pemissions AND truncate the file */
+		GnomeVFSFileInfo *info;
+
+		info = gnome_vfs_file_info_new ();
+		res = gnome_vfs_get_file_info_uri (uri,
+						   info,
+						   GNOME_VFS_FILE_INFO_FOLLOW_LINKS|GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS);
+
+		if ((res == GNOME_VFS_OK) && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_PERMISSIONS)) {
+			perms = info->permissions;
+		} 
+
+		gnome_vfs_file_info_unref (info);
+	}
+
+	if (perms == -1) {
+		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);	
+	} else {
+		res = gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM, FALSE, perms);
+	}
 
 	if (res != GNOME_VFS_OK) {
 		g_set_error (err, gsf_output_error_id (), (gint) res,
@@ -78,13 +100,12 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 		return NULL;
 	}
 
+	/* truncate the file to length 0 so if we overwrite a file smaller than
+	 * it has been before, it would show rests of the old file (Bug: 159442) */
+	gnome_vfs_truncate_handle(handle, 0);
+
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
 	output->handle = handle;
-
-	/* truncate the file to length 0 so if we overwrite a file smaller than
-	 * it has been before, it would show rests of the old file (Bug:
-	 * 159442) */
-	gnome_vfs_truncate_handle(output->handle, 0);
 
 	return GSF_OUTPUT (output);
 }
