@@ -58,6 +58,7 @@ typedef struct {
 
 /* protected */
 gboolean gsf_input_set_name	 (GsfInput *input, char const *name);
+gboolean gsf_input_set_name_from_filename (GsfInput *input, char const *filename);
 gboolean gsf_input_set_container (GsfInput *input, GsfInfile *container);
 gboolean gsf_input_set_size	 (GsfInput *input, gsf_off_t size);
 gboolean gsf_input_seek_emulate  (GsfInput *input, gsf_off_t pos);

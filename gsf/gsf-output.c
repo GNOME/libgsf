@@ -376,6 +376,26 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 }
 
 /**
+ * gsf_output_set_name_from_filename :
+ * @input : the output stream
+ * @filename : the (fs-sys encoded) filename
+ *
+ * <note>This is a utility routine that should only be used by derived
+ * outputs.</note>
+ *
+ * Returns : TRUE if the assignment was ok.
+ **/
+gboolean
+gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
+{
+	g_return_val_if_fail (output != NULL, FALSE);
+
+	g_free (output->name);
+	output->name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	return TRUE;
+}
+
+/**
  * gsf_output_set_container :
  * @output :
  * @container :

@@ -380,6 +380,26 @@ gsf_input_set_name (GsfInput *input, char const *name)
 }
 
 /**
+ * gsf_input_set_name_from_filename :
+ * @input : the input stream
+ * @filename : the (fs-sys encoded) filename
+ *
+ * protected.
+ *
+ * Returns : TRUE if the assignment was ok.
+ **/
+gboolean
+gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
+{
+	g_return_val_if_fail (input != NULL, FALSE);
+
+	g_free (input->name);
+	input->name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	return TRUE;
+}
+
+
+/**
  * gsf_input_set_container :
  * @input : the input stream
  * @container :
@@ -509,7 +529,7 @@ gsf_input_uncompress (GsfInput *src)
 	gsf_off_t cur_offset = src->cur_offset;
 	const guint8 *data;
 
-	if (gsf_input_seek (src, (gsf_off_t) 0, G_SEEK_SET))
+	if (gsf_input_seek (src, 0, G_SEEK_SET))
 		goto error;
 
 	/* Read header up front, so we avoid extra seeks in tests.  */

@@ -118,7 +118,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 	}
 
 	/* 1. decompress it */
-	ptr = inflated_data = gsf_vba_inflate (dir, (gsf_off_t) 0, &inflated_size, FALSE);
+	ptr = inflated_data = gsf_vba_inflate (dir, 0, &inflated_size, FALSE);
 	if (inflated_data == NULL)
 		goto fail_compression;
 	end = inflated_data + inflated_size;
@@ -317,7 +317,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 		return FALSE;
 	}
 
-	if (gsf_input_seek (dir, (gsf_off_t) 0, G_SEEK_SET) ||
+	if (gsf_input_seek (dir, 0, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (dir, VBA56_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature))) {
 		if (err != NULL)

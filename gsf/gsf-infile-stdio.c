@@ -215,5 +215,7 @@ gsf_infile_stdio_new (char const *root, GError **err)
 				g_strdup (dirp->d_name));
 	closedir (dir);
 
+	gsf_input_set_name_from_filename (GSF_INPUT (ifs), root);
+
 	return GSF_INFILE (ifs);
 }

@@ -439,7 +439,7 @@ recalc_bat_bat :
 
 	/* write extended Meta-BAT */
 	if (num_xbat > 0) {
-		gsf_output_seek (ole->sink, (gsf_off_t) 0, G_SEEK_END);
+		gsf_output_seek (ole->sink, 0, G_SEEK_END);
 		for (i = 0 ; i++ < num_xbat ; ) {
 			bat_start += blocks;
 			num_bat   -= blocks;
@@ -477,7 +477,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 		return gsf_outfile_msole_close_root (ole);
 
 	if (ole->type == MSOLE_BIG_BLOCK) {
-		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
+		gsf_outfile_msole_seek (output, 0, G_SEEK_END);
 		ole_pad_zero (ole);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (G_OBJECT (output), ole->sink);

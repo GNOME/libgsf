@@ -485,7 +485,7 @@ gsf_infile_ar_new (GsfInput *source, GError **err)
 	ar = g_object_new (GSF_INFILE_AR_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	ar->input = source;
-	gsf_input_set_size (GSF_INPUT (ar), (gsf_off_t) 0);
+	gsf_input_set_size (GSF_INPUT (ar), 0);
 
 	if (ar_init_info (ar, err)) {
 		g_object_unref (G_OBJECT (ar));

@@ -1,7 +1,3 @@
-Grave:
-
-  we ignore the result of gsf_input_seek several places.
-
 General
     - Can we buffer things to support sequential access only ?
 

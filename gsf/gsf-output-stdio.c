@@ -166,7 +166,6 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	char *dirname = NULL;
 	char *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
-	char *filename_utf8;
 	int fd;
 	mode_t saved_umask;
 	struct stat st;
@@ -236,11 +235,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio->real_filename = real_filename;
 	stdio->temp_filename = temp_filename;
 
-	filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-	if (filename_utf8) {
-		gsf_output_set_name (GSF_OUTPUT (stdio), filename_utf8);
-		g_free (filename_utf8);
-	}
+	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
 
 	g_free (dirname);
 
@@ -360,11 +355,10 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 #endif
 	}
 	switch (whence) {
+	default : ; /*checked in GsfOutput wrapper */
 	case G_SEEK_SET : stdio_whence = SEEK_SET;	break;
 	case G_SEEK_CUR : stdio_whence = SEEK_CUR;	break;
 	case G_SEEK_END : stdio_whence = SEEK_END;	break;
-	default :
-		break; /*checked in GsfOutput wrapper */
 	}
 
 	errno = 0;
@@ -375,8 +369,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	if (0 == fseek (stdio->file, loffset, stdio_whence))
 		return TRUE;
 #endif
-	return gsf_output_set_error (output, errno,
-		g_strerror (errno));
+	return gsf_output_set_error (output, errno, g_strerror (errno));
 }
 
 static gboolean

@@ -478,7 +478,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint32 metabat_block, *ptr;
 
 	/* check the header */
-	if (gsf_input_seek (ole->input, (gsf_off_t) 0, G_SEEK_SET) ||
+	if (gsf_input_seek (ole->input, 0, G_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
@@ -909,11 +909,13 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 
 	ole = (GsfInfileMSOle *)g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
 	ole->input = gsf_input_proxy_new (source);
-	gsf_input_set_size (GSF_INPUT (ole), (gsf_off_t) 0);
+	gsf_input_set_size (GSF_INPUT (ole), 0);
 
 	calling_pos = gsf_input_tell (source);
 	if (ole_init_info (ole, err)) {
-		gsf_input_seek (source, calling_pos, G_SEEK_SET);
+		/* It's not clear to me why we do this.  And if this
+		   fails, there's really nothing we can do.  */
+		(void)gsf_input_seek (source, calling_pos, G_SEEK_SET);
 
 		g_object_unref (G_OBJECT (ole));
 		return NULL;

@@ -70,7 +70,7 @@ check_header (GsfInputGZip *input)
 	unsigned flags, len;
 
 	/* Check signature */
-	if (gsf_input_seek (input->source, (gsf_off_t) 0, G_SEEK_SET) ||
+	if (gsf_input_seek (input->source, 0, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (input->source, 2 + 1 + 1 + 6, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature)))
 		return TRUE;
@@ -88,8 +88,7 @@ check_header (GsfInputGZip *input)
 	gsf_input_set_size (GSF_INPUT (input),
 			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
 
-	if (gsf_input_seek (input->source, (gsf_off_t) 2 + 1 + 1 + 6,
-			    G_SEEK_SET))
+	if (gsf_input_seek (input->source, 2 + 1 + 1 + 6, G_SEEK_SET))
 		return TRUE;
 
 	if (flags & GZIP_EXTRA_FIELD) {

@@ -132,5 +132,7 @@ gsf_outfile_stdio_new (char const *root, GError **err)
 
 	ofs = g_object_new (gsf_outfile_stdio_get_type(), NULL);
 	ofs->root = g_strdup (root);
+	gsf_output_set_name_from_filename (GSF_OUTPUT (ofs), root);
+
 	return GSF_OUTFILE (ofs);
 }

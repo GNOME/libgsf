@@ -1,3 +1,22 @@
+2004-09-20  Morten Welinder  <terra@gnome.org>
+
+	* gsf/*.c: Remove useless casts of 0 to gsf_off_t in parameters.
+
+	* gsf/gsf-output.c (gsf_output_set_name_from_filename): New function.
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Use
+	gsf_output_set_name_from_filename.
+	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new): Use
+	gsf_output_set_name_from_filename.
+
+	* gsf/gsf-input.c (gsf_input_set_name_from_filename): New function.
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Use
+	gsf_input_set_name_from_filename.
+	* gsf/gsf-infile-stdio.c (gsf_infile_stdio_new): Use
+	gsf_input_set_name_from_filename.
+
+	* gsf/gsf-infile-zip.c (zip_update_stream_in): Add seek error check.
+	(gsf_infile_zip_read): Ditto.
+
 2004-09-19  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Morten's VFS local copy requires VFS >= 2.2. Upgrade configure check.

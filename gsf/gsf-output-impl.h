@@ -59,6 +59,7 @@ typedef struct {
 
 /* protected */
 gboolean gsf_output_set_name	  (GsfOutput *output, char const *name);
+gboolean gsf_output_set_name_from_filename (GsfOutput *output, char const *filename);
 gboolean gsf_output_set_container (GsfOutput *output, GsfOutfile *container);
 gboolean gsf_output_set_error	  (GsfOutput *output,
 				   gint        code,

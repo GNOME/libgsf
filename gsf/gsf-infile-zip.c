@@ -462,7 +462,8 @@ zip_update_stream_in (GsfInfileZip *zip)
 	read_now = MIN (zip->crestlen, ZIP_BLOCK_SIZE);
 
 	pos = zip->vdir->dirent->data_offset + zip->stream->total_in;
-	gsf_input_seek (zip->input, pos, G_SEEK_SET);
+	if (gsf_input_seek (zip->input, pos, G_SEEK_SET))
+		return FALSE;
 	if ((data = gsf_input_read (zip->input, read_now, NULL)) == NULL)
 		return FALSE;
 
@@ -487,7 +488,8 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	case GSF_ZIP_STORED:
 		zip->restlen -= num_bytes;
 		pos = zip->vdir->dirent->data_offset + input->cur_offset;
-		gsf_input_seek (zip->input, pos, G_SEEK_SET);
+		if (gsf_input_seek (zip->input, pos, G_SEEK_SET))
+			return NULL;
 		return gsf_input_read (zip->input, num_bytes, buffer);
 
 	case GSF_ZIP_DEFLATED:
@@ -604,7 +606,7 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 			return NULL;
 		}
 	} else
-		gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) 0);
+		gsf_input_set_size (GSF_INPUT (child), 0);
 
 	return GSF_INPUT (child);
 }
@@ -736,7 +738,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	zip->input = source;
-	gsf_input_set_size (GSF_INPUT (zip), (gsf_off_t) 0);
+	gsf_input_set_size (GSF_INPUT (zip), 0);
 
 	if (zip_init_info (zip, err)) {
 		g_object_unref (G_OBJECT (zip));
