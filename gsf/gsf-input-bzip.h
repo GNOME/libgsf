@@ -22,7 +22,7 @@
 #ifndef GSF_INPUT_BZIP_H
 #define GSF_INPUT_BZIP_H
 
-#include <gsf-input-memory.h>
+#include <gsf/gsf-input-memory.h>
 
 G_BEGIN_DECLS
 

@@ -44,6 +44,21 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 	return mem;
 }
 
+GsfInputMemory *
+gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
+{	
+	GsfInputMemory *mem = NULL;
+	guint8 * cpy = g_try_malloc (length * sizeof (guint8));
+	if (cpy == NULL)
+		return NULL;
+
+	memcpy (cpy, buf, length);
+	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	mem->shared = gsf_shared_memory_new ((void *)cpy, length, TRUE);
+	gsf_input_set_size (GSF_INPUT (mem), length);
+	return mem;
+}
+
 static void
 gsf_input_memory_finalize (GObject *obj)
 {
@@ -204,6 +219,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 
 	return mem;
 #else
+#warning MMAP Unsupported
 	(void)filename;
 	if (err != NULL)
 		*err = g_error_new (gsf_input_error (), 0,

@@ -35,6 +35,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-input-stdio.c 	\
 	gsf-input-textline.c 	\
 	gsf-input-gzip.c 	\
+	gsf-input-bzip.c	\
 	gsf-input-iochannel.c	\
 	\
 	gsf-infile.c 		\
@@ -78,6 +79,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-stdio.h 	\
 	gsf-input-textline.h 	\
 	gsf-input-gzip.h 	\
+	gsf-input-bzip.h	\
 	gsf-input-iochannel.h	\
 	\
 	gsf-infile.h 		\

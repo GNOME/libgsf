@@ -1,3 +1,11 @@
+2003-02-21  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-input-bzip.c: Implement this
+	* gsf/gsf-input-memory.[ch]: New function: gsf_input_memory_new_clone
+	* gsf/Makefile.am: Build bz2 importer, distribute header
+	* tests/test-bzip.c: New test
+	* tests/Makefile.am: Add new test
+	
 2003-02-20  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-bzip.[ch]: Stubs for a BZ2 input I'm working on

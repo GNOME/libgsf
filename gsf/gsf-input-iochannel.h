@@ -21,8 +21,7 @@
 #ifndef GSF_INPUT_IOCHANNEL_H
 #define GSF_INPUT_IOCHANNEL_H
 
-#include "gsf-input.h"
-#include <gsf-input-memory.h>
+#include <gsf/gsf-input-memory.h>
 
 G_BEGIN_DECLS
 
