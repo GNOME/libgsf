@@ -24,8 +24,6 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <libgnomevfs/gnome-vfs.h>
-
 struct _GsfInputGnomeVFS {
 	GsfInput input;
 
@@ -38,27 +36,13 @@ typedef struct {
     GsfInputClass input_class;
 } GsfInputGnomeVFSClass;
 
-/**
-* gsf_input_gnomevfs_new :
- * @uri : uri you wish to open.
- * @err	     : optionally NULL.
- *
- * Returns a new file or NULL.
- **/
-GsfInput *
-gsf_input_gnomevfs_new (char const *uri, GError **error)
+static GsfInput *
+gsf_input_gnomevfs_setup_handle (GnomeVFSHandle * handle, char const *uri, GError **error)
 {
         GsfInputGnomeVFS *input;
-	GnomeVFSHandle *handle;
         GnomeVFSFileInfo info;
         gsf_off_t size;
-	GnomeVFSResult res = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	
-	if (res != GNOME_VFS_OK) {
-		g_set_error (error, gsf_input_error (), (gint) res,
-			gnome_vfs_result_to_string (res));
-		return NULL;
-	}
+	GnomeVFSResult res = 0;
 
         res = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
         if (res != GNOME_VFS_OK) {
@@ -69,7 +53,7 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
         
         if (info.type != GNOME_VFS_FILE_TYPE_REGULAR) {
             g_set_error (error, gsf_input_error (), 0,
-                         "%s: Is not a regular file", uri);
+                         "Not a regular file");
             gnome_vfs_close (handle);
             return NULL;
         }
@@ -80,9 +64,72 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
         input->buf  = NULL;
         input->buf_size = 0;
         gsf_input_set_size (GSF_INPUT (input), size);
-        gsf_input_set_name (GSF_INPUT (input), uri);
+	gsf_input_set_name (GSF_INPUT (input), uri);
 
         return GSF_INPUT (input);
+}
+
+/**
+* gsf_input_gnomevfs_new :
+ * @uri : uri you wish to open.
+ * @err	     : optionally NULL.
+ *
+ * Returns a new file or NULL.
+ **/
+GsfInput *
+gsf_input_gnomevfs_new (char const *uri, GError **error)
+{
+	GnomeVFSHandle *handle = NULL;
+	GsfInput       *input  = NULL;
+	GnomeVFSResult  res    = 0;
+
+	if (uri == NULL) {
+		g_set_error (error, gsf_output_error_id (), 0,
+			     "URI cannot be NULL");
+		return NULL;
+	}
+
+	res = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);	
+
+	if (res != GNOME_VFS_OK) {
+		g_set_error (error, gsf_input_error (), (gint) res,
+			     gnome_vfs_result_to_string (res));
+		return NULL;
+	}
+
+	input = gsf_input_gnomevfs_setup_handle (handle, uri, error);
+
+	return input;
+}
+
+/**
+* gsf_input_gnomevfs_new :
+ * @uri : uri you wish to open.
+ * @err	     : optionally NULL.
+ *
+ * Returns a new file or NULL.
+ **/
+GsfInput *
+gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
+{
+	GsfInput      *input = NULL;
+	gchar         *name  = NULL;
+
+	if (uri == NULL) {
+		g_set_error (error, gsf_output_error_id (), 0,
+			     "URI cannot be NULL");
+		return NULL;
+	}
+
+	input = gsf_input_gnomevfs_new (name, error);
+
+	if (input != NULL) {
+		name = gnome_vfs_uri_to_string (uri, 0);
+		gsf_input_set_name (input, name);
+		g_free (name);
+	}
+
+	return input;
 }
 
 static void

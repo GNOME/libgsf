@@ -23,6 +23,7 @@
 #define GSF_INPUT_GNOMEVFS_H
 
 #include <gsf/gsf-input.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 G_BEGIN_DECLS
 
@@ -34,6 +35,7 @@ typedef struct _GsfInputGnomeVFS GsfInputGnomeVFS;
 
 GType	  gsf_input_gnomevfs_get_type (void);
 GsfInput *gsf_input_gnomevfs_new      (char const *uri, GError **error);
+GsfInput *gsf_input_gnomevfs_new_uri  (GnomeVFSURI *uri, GError **error);
 
 G_END_DECLS
 

@@ -1,3 +1,10 @@
+2002-12-19  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : Able to
+	open URI objects as well as strings
+	
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new_uri) : ditto
+	
 2002-12-11  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump.

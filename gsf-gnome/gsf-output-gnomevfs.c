@@ -24,9 +24,6 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <libgnomevfs/gnome-vfs.h>
-/* libgnomevfs/gnome-vfs-result.h */
-
 struct _GsfOutputGnomeVFS {
     GsfOutput output;
 
@@ -57,6 +54,39 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
 		return NULL;
 	} else
 		res = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_WRITE);
+
+	if (res != GNOME_VFS_OK) {
+		g_set_error (err, gsf_output_error_id (), (gint) res,
+			     gnome_vfs_result_to_string (res));
+		return NULL;
+	}
+
+	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
+	output->handle = handle;
+
+	return GSF_OUTPUT (output);
+}
+
+/**
+ * gsf_output_gnomevfs_new_uri :
+ * @uri      : resource indicator
+ * @err	     : optionally NULL.
+ *
+ * Returns a new file or NULL.
+ **/
+GsfOutput *
+gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
+{
+	GsfOutputGnomeVFS *output;
+	GnomeVFSHandle *handle;
+	GnomeVFSResult res;
+
+	if (uri == NULL) {
+		g_set_error (err, gsf_output_error_id (), 0,
+			     "Filename/URI cannot be NULL");
+		return NULL;
+	} else
+		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
 
 	if (res != GNOME_VFS_OK) {
 		g_set_error (err, gsf_output_error_id (), (gint) res,
