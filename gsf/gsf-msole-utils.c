@@ -243,7 +243,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		d (printf (" array with %d elem\n", n);
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
 		for (i = 0 ; i < n ; i++) {
-			GValue *prop;
+			GValue *v;
 			d (printf ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
 			if (!v) {

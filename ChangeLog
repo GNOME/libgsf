@@ -1,3 +1,7 @@
+2002-12-09  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Fix typo.
+
 2002-12-09  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Free the property
