@@ -62,6 +62,7 @@ typedef enum {
 	GSF_MSOLE_PROP_SECURITY		= 0x40013,
 } GsfMSOleProperty;
 
+/* Do this the ugly way so that we don't have to worry about alignment */
 #define GSF_OLE_GET_GUINT8(p) (*(guint8 const *)(p))
 #define GSF_OLE_GET_GUINT16(p)			\
   (guint16)((((guint8 const *)(p))[0] << 0) |	\

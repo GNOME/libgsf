@@ -207,8 +207,8 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 
 	switch (whence) {
 	case GSF_SEEK_SET : break;
-	case GSF_SEEK_CUR : pos += input->cur_offset;
-	case GSF_SEEK_END : pos += input->size;
+	case GSF_SEEK_CUR : pos += input->cur_offset;	break;
+	case GSF_SEEK_END : pos += input->size;		break;
 	default : return TRUE;
 	}
 
