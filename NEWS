@@ -12,6 +12,9 @@ Morten:
 	* Fix crashes having to do with NULL input->name.
 	* Work around gnome-vfs bug #152844.
 	* Create input proxy object.
+	* Make msole reading use a proxy layer instead of dup-ing the source
+	  like crazy.  (Dup-ing is expensive for network connections and
+	  slightly expensive for disk files.)
 
 ------------------------------------------------------------------------------
 libgsf 1.10.1
