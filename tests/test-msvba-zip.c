@@ -34,25 +34,64 @@ typedef struct {
 	GsfOutput *output;
 } CompressBuf;
 
-#define noDEBUG
+#define DEBUG
+
+static gint
+get_shift (guint cur_pos)
+{
+	int shift;
+
+	if (cur_pos <= 0x80) {
+		if (cur_pos <= 0x20)
+			shift = (cur_pos <= 0x10) ? 12 : 11;
+		else
+			shift = (cur_pos <= 0x40) ? 10 : 9;
+	} else {
+		if (cur_pos <= 0x200)
+			shift = (cur_pos <= 0x100) ? 8 : 7;
+		else if (cur_pos <= 0x800)
+			shift = (cur_pos <= 0x400) ? 6 : 5;
+		else
+			shift = 4;
+	}
+
+	return shift;
+}
 
 static gint
 find_match (CompressBuf *buf, guint pos, guint *len)
 {
-	guint i;
-	
-	for (i = 0; i < pos; i++) {
+	gint i;
+
+	/* FIXME: the MS impl. does different to a linear search here
+	   and is not very good at this either; is happy to get much
+	   worse matches; perhaps some single-entry match lookup table ?
+	   it seems to ~regularly truncate strings, and get earlier
+	   / later matches of equivalent length with no predictability
+	   ( hashing ? ).
+	*/
+	for (i = pos - 1; i >= 0; i--) {
 		guint j;
 
 		for (j = 0; j < buf->length - pos && j < pos; j++)
 			if (buf->inblock[pos + j] != buf->inblock[i + j])
 				break;
 
-		if (j >= 3) {
-			*len = j;
-#ifdef DEBUG		
-			fprintf (stderr, "Match at %d\n", i);
+#ifdef HACKS
+		if (pos == 117 || pos == 118 || pos == 150)
+			return -1;
+
+		if (pos == 189 && j == 4)
+			j = 3;  /* bin 1 perfectly good char (!) */
 #endif
+
+		if (j >= 3) {
+			gint shift = get_shift (pos);
+			if (j >= (1 << (shift - 1)))
+				j = (1<<(shift - 1)) - 1;
+/*			fprintf (stderr, "Check: %d %d  %d !\n",
+				pos, (1<<get_shift(pos)), (int) (pos - j - 1)); */
+			*len = j;
 			return i;
 		}
 	}
@@ -77,7 +116,7 @@ output_data (CompressBuf *buf, guint8 *data, gboolean compressed)
 		gsf_output_write (buf->output, buf->outstr->len, buf->outstr->str);
 
 #ifdef DEBUG		
-		fprintf (stderr, "Block: 0x%x\n'", buf->mask);
+		fprintf (stderr, "Block: 0x%x '", buf->mask);
 		for (i = 0; i < buf->outstr->len; i++)
 			fprintf (stderr, "%c", buf->outstr->str[i] >= 0x20 ? buf->outstr->str[i] : '.');
 		fprintf (stderr, "'\n");
@@ -95,24 +134,14 @@ output_match (CompressBuf *buf, guint cur_pos, guint pos, guint len)
 	int shift, token, distance;
 	guint8 data[2];
 
-	if (cur_pos <= 0x80) {
-		if (cur_pos <= 0x20)
-			shift = (cur_pos <= 0x10) ? 12 : 11;
-		else
-			shift = (cur_pos <= 0x40) ? 10 : 9;
-	} else {
-		if (cur_pos <= 0x200)
-			shift = (cur_pos <= 0x100) ? 8 : 7;
-		else if (cur_pos <= 0x800)
-			shift = (cur_pos <= 0x400) ? 6 : 5;
-		else
-			shift = 4;
-	}
+	shift = get_shift (cur_pos);
 
 	distance = cur_pos - pos - 1;
 
+	/* Window size issue !? - get a better match later with a larger window !? */
 #ifdef DEBUG		
-	fprintf (stderr, "distance %d [0x%x - %d], len %d\n", distance, cur_pos, pos, len);
+	fprintf (stderr, "distance %d [0x%x(%d) - %d], len %d\n",
+		 distance, cur_pos, cur_pos, pos, len);
 	if (cur_pos + len >= (1<<shift))
 		fprintf (stderr, "Overlaps boundary\n");
 #endif
