@@ -302,6 +302,7 @@ libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
 libgsf-gnome-1.spec
+libgsf-zip
 ])
 
 AC_MSG_RESULT([Configured $PACKAGE $VERSION])

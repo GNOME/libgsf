@@ -1,3 +1,11 @@
+2003-09-21  Tor Lillqvist  <tml@iki.fi>
+
+	* libgsf-zip.in: New file.
+	
+	* configure.in: Expand it.
+
+	* Makefile.am (EXTRA_DIST): Distribute it.
+	
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump to 1.8.3 for now.
