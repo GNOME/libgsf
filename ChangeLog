@@ -36,9 +36,9 @@
 	Make the two fseek() wrappers more consistent.
 
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Fix the overflow
-	  checking, give a warning if the file is missing.
-	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Don't give the
-	  same message twice, set errno=0 before calling fseek().
+	  checking.
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Set errno=0
+	  before calling fseek().
 
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
 	
@@ -768,7 +768,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 2003-02-07  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-doc-metadata.[ch]: Clean API a bit to include consts, gsize
+	* gsf/gsf-doc-meta-data.[ch]: Clean API a bit to include consts, gsize
 	
 2003-02-05  Jody Goldberg <jody@gnome.org>
 
