@@ -24,6 +24,7 @@
 #define GSF_TIMESTAMP_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

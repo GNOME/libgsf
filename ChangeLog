@@ -1,3 +1,12 @@
+2002-08-26  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf.h: Don't include <glib-object.h> here.
+	* gsf/gsf-input.h: Do it here.
+	* gsf/gsf-output.h: And here.
+
+	* configure.in: Take out -Wcast-align until someone fixes the
+	hundreds of things that violates it.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump

@@ -24,6 +24,7 @@
 
 #include <gsf/gsf.h>
 #include <sys/types.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

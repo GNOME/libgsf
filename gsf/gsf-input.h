@@ -23,6 +23,7 @@
 #define GSF_INPUT_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 #include <sys/types.h>
 
 G_BEGIN_DECLS

@@ -22,7 +22,9 @@
 #include <gsf-config.h>
 #include <gsf/gsf-msole-metadata.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
+#include <stdio.h>
 
 static guint8 const component_guid [] = {
 	0xe0, 0x85, 0x9f, 0xf2, 0xf9, 0x4f, 0x68, 0x10,
@@ -206,7 +208,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		}
 
 		sections [i].offset = GSF_LE_GET_GUINT32 (data + 16);
-		printf ("0x%x\n", sections [i].offset);
+		printf ("0x%x\n", (guint32)sections [i].offset);
 	}
 	for (i = 0 ; i < num_sections ; i++) {
 		if (gsf_input_seek (in, sections[i].offset, G_SEEK_SET) ||
