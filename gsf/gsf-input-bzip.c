@@ -25,6 +25,8 @@
 #include <string.h>
 
 #ifdef HAVE_BZ2
+/* For getting FILE.  Don't ask.  */
+#include <stdio.h>
 #include <bzlib.h>
 #define BZ_BUFSIZ 1024
 #endif
