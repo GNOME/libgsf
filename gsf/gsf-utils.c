@@ -23,6 +23,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
 
+#include <ctype.h>
 #include <stdio.h>
 
 void
@@ -55,10 +56,10 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 			off = lp2 + (lp<<4);
 			off<len?g_print("%2x ", ptr[off]):g_print("XX ");
 		}
-		printf ("| ");
+		g_print ("| ");
 		for (lp2 = 0;lp2<16;lp2++) {
 			off = lp2 + (lp<<4);
-			g_print ("%c", off<len?(ptr[off]>'!'&&ptr[off]<127?ptr[off]:'.'):'*');
+			g_print ("%c", off < len ? (ptr[off] >= '!' && ptr[off] < 127 ? ptr[off] : '.') : '*');
 		}
 		g_print ("\n");
 	}

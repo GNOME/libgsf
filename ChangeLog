@@ -1,3 +1,7 @@
+2002-07-17  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_mem_dump) : tweak.
+
 2002-07-15  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_dup): Don't ignore err
