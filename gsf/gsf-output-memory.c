@@ -78,7 +78,7 @@ gsf_output_memory_finalize (GObject *obj)
 
 static gboolean
 gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
-			GsfSeekType whence)
+			GSeekType whence)
 {
     (void)output;
     (void)offset;

@@ -35,8 +35,8 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
-	gsf-io-context.c
-#	gsf-output-memory.c
+	gsf-io-context.c	\
+	gsf-output-memory.c
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
@@ -60,5 +60,5 @@ libgsf_1_include_HEADERS = 	\
 	gsf-output.h		\
 	gsf-output-stdio.h	\
 	gsf-outfile.h 		\
-	gsf-outfile-msole.h
-#	gsf-output-memory.h
+	gsf-outfile-msole.h	\
+	gsf-output-memory.h

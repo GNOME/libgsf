@@ -21,6 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf-gnome/gsf-output-bonobo.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-persist-stream.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -96,6 +98,7 @@ gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
         (boutput->stream, offset, bwhence, &ev);
     if (BONOBO_EX (&ev)) {
         g_warning (bonobo_exception_get_text (&ev));
+	CORBA_exception_free (&ev);
         return TRUE;
     } else {
         return FALSE;
@@ -108,26 +111,25 @@ gsf_output_bonobo_write (GsfOutput *output,
                          guint8 const *buffer)
 {
     GsfOutputBonobo *boutput = GSF_OUTPUT_BONOBO (output);
-    size_t res;
-    CORBA_unsigned_long num_written;
     Bonobo_Stream_iobuf *bsobuf;
     CORBA_Environment ev;
 
     g_return_val_if_fail (boutput != NULL, FALSE);
     g_return_val_if_fail (boutput->stream != NULL, FALSE);
+    
+    bsobuf = Bonobo_Stream_iobuf__alloc ();
+    bsobuf->_buffer = (CORBA_octet*)buffer;
+    bsobuf->_length = num_bytes;
 
     CORBA_exception_init (&ev);
-    Bonobo_Stream_write (boutput->stream, (CORBA_long) num_bytes,
-                         &bsobuf, &ev);
+    Bonobo_Stream_write (boutput->stream, bsobuf, &ev);
     if (BONOBO_EX (&ev)) {
         g_warning (bonobo_exception_get_text (&ev));
+	CORBA_exception_free (&ev);
         return FALSE;
-    } else {
-        memcpy (buffer, bsobuf->_buffer, bsobuf->_length);
-        num_read = bsobuf->_length;
-        CORBA_free (bsobuf);
     }
-    return ((size_t) num_read == num_bytes);
+
+    return TRUE;
 }
 
 static void

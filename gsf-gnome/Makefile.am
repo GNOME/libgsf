@@ -14,6 +14,7 @@ libgsf_gnome_1_la_SOURCES =	\
 	gsf-input-gnomevfs.c 	\
 	gsf-output-gnomevfs.c	\
 	gsf-input-bonobo.c	\
+	gsf-output-bonobo.c	\
 	gsf-shared-bonobo-stream.c
 
 libgsf_gnome_1_includedir = $(includedir)/libgsf-1/gsf-gnome
@@ -21,6 +22,7 @@ libgsf_gnome_1_include_HEADERS =  \
 	gsf-input-gnomevfs.h	\
 	gsf-output-gnomevfs.h	\
 	gsf-input-bonobo.h 	\
+	gsf-output-bonobo.h	\
 	gsf-shared-bonobo-stream.h
 
 # include these just in case we are building a tarball without
