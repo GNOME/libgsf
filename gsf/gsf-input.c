@@ -125,29 +125,34 @@ gsf_input_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class,
 					 PROP_NAME,
-					 g_param_spec_pointer ("name", "Name",
-							       "The Input's Name",
-							       G_PARAM_READABLE));
+					 g_param_spec_string ("name", "Name",
+							      "The Input's Name",
+							      NULL,
+							      G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_SIZE,
-					 g_param_spec_pointer ("size", "Size",
-							       "The Input's Size",
-							       G_PARAM_READABLE));
+					 g_param_spec_int64 ("size", "Size",
+							     "The Input's Size",
+							     0, G_MAXINT64, 0,
+							     G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_EOF,
-					 g_param_spec_pointer ("eof", "OEF",
+					 g_param_spec_boolean ("eof", "OEF",
 							       "End Of File",
+							       FALSE,
 							       G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_REMAINING,
-					 g_param_spec_pointer ("remaining", "Remaining",
-							       "Amount of Data Remaining",
-							       G_PARAM_READABLE));
+					 g_param_spec_int64 ("remaining", "Remaining",
+							     "Amount of Data Remaining",
+							     0, G_MAXINT64, 0,
+							     G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_POS,
-					 g_param_spec_pointer ("position", "Position",
-							       "The Output's Current Position",
-							       G_PARAM_READABLE));
+					 g_param_spec_int64 ("position", "Position",
+							     "The Output's Current Position",
+							     0, G_MAXINT64, 0,
+							     G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfInput, gsf_input,

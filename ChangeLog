@@ -1,3 +1,8 @@
+2004-07-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* gsf/gsf-input.c (gsf_input_class_init), gsf/gsf-output.c
+	(gsf_output_class_init): Use correct types for properties here.
+
 2004-07-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_class_init) : Init the parent_class
