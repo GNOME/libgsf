@@ -23,6 +23,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
 
 #include <stdio.h>
 #include <errno.h>
@@ -59,17 +60,23 @@ gsf_input_stdio_new (char const *filename, GError **err)
 
 	file = fopen (filename, "r");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
-		if (err != NULL)
+		if (err != NULL) {
+			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s: %s", filename, g_strerror (errno));
+				"%s: %s", utf8name, g_strerror (errno));
+			g_free (utf8name);
+		}
 		if (file) fclose (file); /* Just in case.  */
 		return NULL;
 	}
 
 	if (!S_ISREG (st.st_mode)) {
-		if (err != NULL)
+		if (err != NULL) {
+			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s: Is not a regular file", filename);
+				"%s: Is not a regular file", utf8name);
+			g_free (utf8name);
+		}
 		fclose (file);
 		return NULL;
 	}

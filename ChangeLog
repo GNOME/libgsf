@@ -1,3 +1,13 @@
+2002-10-08  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-utils.c (gsf_filename_to_utf8): New function.
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Ensure sane
+	filenames before putting them into error messages.
+	* gsf/gsf-output-stdio.c (follow_symlinks): Ditto.
+	(gsf_output_stdio_new): Ditto.
+	(gsf_output_stdio_close): Ditto.
+
 2002-10-01  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xmlSAX_prep_dtd) : support recursive

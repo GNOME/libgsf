@@ -3,6 +3,9 @@ libgsf 1.5.0
 Jody:
 	* Adjust sax routines to support recusive structures.
 
+Morten:
+	* Handle file names that are not valid utf8.
+
 ------------------------------------------------------------------------------
 libgsf 1.4.0
 

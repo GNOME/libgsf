@@ -71,6 +71,9 @@ void gsf_shutdown (void);
 void gsf_mem_dump   (guint8 const *ptr, size_t len);
 void gsf_input_dump (GsfInput *input);
 
+/* For putting filenames into error messages.  */
+char *gsf_filename_to_utf8 (const char *filename, gboolean quoted);
+
 /* Some version checking */
 extern int libgsf_major_version;
 extern int libgsf_minor_version;

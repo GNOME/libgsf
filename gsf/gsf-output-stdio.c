@@ -23,6 +23,7 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -85,9 +86,11 @@ follow_symlinks (char const *filename, GError **error)
 			len = readlink (followed_filename, linkname, GSF_MAX_PATH_LEN - 1);
 
 			if (len == -1) {
+				char *utf8name = gsf_filename_to_utf8 (followed_filename, FALSE);
 				g_set_error (error, gsf_output_error_id (), errno,
 					     "Could not read symbolic link information "
-					       "for %s", followed_filename);
+					       "for %s", utf8name);
+				g_free (utf8name);
 				g_free (followed_filename);
 				return NULL;
 			}
@@ -212,9 +215,12 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	umask (saved_umask);
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "w"))) {
-		if (err != NULL)
+		if (err != NULL) {
+			char *utf8name = gsf_filename_to_utf8 (temp_filename, FALSE);
 			*err = g_error_new (gsf_output_error_id (), errno,
-				"%s: %s", temp_filename, g_strerror (errno));
+				"%s: %s", utf8name, g_strerror (errno));
+			g_free (utf8name);
+		}
 		goto failure;
 	}
 
@@ -257,9 +263,11 @@ gsf_output_stdio_close (GsfOutput *output)
 		backup_filename = g_strconcat (stdio->real_filename, ".bak", NULL);
 		result = rename (stdio->real_filename, backup_filename);
 		if (result != 0) {
+			char *utf8name = gsf_filename_to_utf8 (backup_filename, TRUE);
 			gsf_output_set_error (output, errno,
 				"Could not backup the original as %s.",
-				backup_filename);
+				utf8name);
+			g_free (utf8name);
 			g_free (backup_filename);
 			unlink (stdio->temp_filename);
 			return FALSE;

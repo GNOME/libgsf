@@ -285,3 +285,49 @@ gsf_iconv_close (GIConv handle)
 	if (handle != NULL && handle != ((GIConv)-1))
 		g_iconv_close (handle);
 }
+
+/* FIXME: what about translations?  */
+#ifndef _
+#define _(x) x
+#endif
+
+/**
+ * gsf_filename_to_utf8: a utility wrapper to make sure filenames are
+ * valid utf8.
+ *
+ * @filename: file name suitable for open(2).
+ * @quoted: if TRUE, the resulting utf8 file name will be quoted
+ *    (unless it is invalid).
+ *
+ * Caller must g_free the result.
+ **/
+char *
+gsf_filename_to_utf8 (const char *filename, gboolean quoted)
+{
+	GError *err = NULL;
+	char *res = g_filename_to_utf8 (filename, -1, NULL, NULL, &err);
+
+	if (err) {
+		char *msg;
+		if (res && res[0])
+			/*
+			 * Translators: the ellipsis ("...") here refers to
+			 * a truncated file name.
+			 */
+			msg = g_strdup_printf (_("(Invalid file name: \"%s...\")"),
+					       res);
+		else
+			msg = g_strdup (_("(Invalid file name)"));
+		g_free (res);
+		g_clear_error (&err);
+		return msg;
+	}
+
+	if (quoted) {
+		char *newres = g_strdup_printf (_("\"%s\""), res);
+		g_free (res);
+		res = newres;
+	}						
+
+	return res;
+}
