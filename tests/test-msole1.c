@@ -167,7 +167,7 @@ test (int argc, char *argv[])
 					if (data == NULL)
 						break;
 					if (enable_dump)
-						gsf_mem_dump (data, 255);
+						gsf_mem_dump (data, len);
 				}
 				pos = gsf_input_tell (stream);
 			}
