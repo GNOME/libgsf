@@ -13,6 +13,8 @@ Jody Goldberg:
 	* Work around a -fstrict-alias warning for SuSE
 	* Move to automake-1.7
 	* Fix gnome-vfs backend to open files with random access
+	* Support merging content from nested nodes for sax parsing
+	* Fix gtk-doc
 
 Joseph Frazee:
 	* patch the spec file.
