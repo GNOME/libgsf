@@ -1,3 +1,160 @@
+2002-08-15  Jon K Hellan  <hellan@acm.org>
+ 
+	* configure.in: Bump minor verision to 1.3. Add AC_SYS_LARGEFILE.
+ 
+	* gsf/gsf.h: Rename GsfOff_t enum to GsfSeekType. Define gsf_off_t
+	type to use instead of off_t. We have to do this because we do not
+	know what idea the application has of the size of off_t, this can
+	be defined with #define _FILE_OFFS_BITS xx.
+ 
+	* gsf/gsf-shared-memory.h (struct _GsfSharedMemory): Change type
+	of size to gsf_off_t.
+ 
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Change type of
+	offset parameter to gsf_off_t, type of 'whence' parameter to
+	GsfSeekType. Check for overflow copying from gsf_off_t to off_t.
+ 
+	* gsf/gsf-output-impl.h (struct _GsfOutput): Change type of
+	cur_size, cur_offset to gsf_off_t.
+	(GsfOutputClass): Change type of offset parameter of Seek method
+	to gsf_off_t, type of 'whence' parameter to GsfSeekType.
+ 
+	* gsf/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new): Various
+	fixes.
+	(gsf_output_gnomevfs_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.  Cast
+	'whence' argument to gnome_vfs_seek to GnomeVFSFileOffset to shut
+	up warning.
+	(gsf_output_gnomevfs_write): Cast 'bytes' argument to
+	gnome_vfs_write to GnomeVFSFileSize to shut up warning.
+ 
+	* gsf/gsf-output-bonobo.c (gsf_output_bonobo_seek): Change type of
+	offset parameter to gsf_off_t, type of 'whence' parameter to
+	GsfSeekType.
+ 
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek): Change type of
+	offset parameter to gsf_off_t, type of 'whence' parameter to
+	GsfSeekType. Type of offset argument to gsf_input_seek has changed
+	to gsf_off_t. Use.
+	(gsf_outfile_msole_close): Return type of gsf_output_tell is
+	changed to gsf_off_t. Introduce gsf_off_t typed variable data_size
+	to detect overflow. Type of size argument to gsf_output_set_size
+	has changed to gsf_off_t. Use. Type of offset argument to
+	gsf_output_seek has changed to gsf_off_t. Use.
+	(gsf_outfile_msole_write): Return type of gsf_output_tell is
+	changed to gsf_off_t. Introduce gsf_off_t typed variables wsize
+	and start_offset to detect overflow.
+ 
+	* gsf/gsf-libxml.c (gsf_libxml_read): Return type of
+	gsf_input_remaining has changed to gsf_off_t. Use.
+ 
+	* gsf/gsf-io-context.c (GSF_CLASS): G_TYPE_GLIB is the parent
+	class, not the io-context class itself.
+ 
+	* gsf/gsf-input.h: (gsf_input_size, gsf_input_remaining,
+	gsf_input_tell): Change return type to gsf_off_t.
+	(gsf_input_seek): Change type of offset parameter to gsf_off_t,
+	type of 'whence' parameter to GsfSeekType.
+ 
+	* gsf/gsf-input.c (gsf_input_dup): Type of offset argument to
+	gsf_input_seek has changed to gsf_off_t. Use.
+	(gsf_input_size, gsf_input_remaining, gsf_input_tell): Change
+	return type to gsf_off_t.
+	(gsf_input_seek): Change type of offset parameter to gsf_off_t,
+	type of 'whence' parameter to GsfSeekType.
+	(gsf_input_set_size): Change type of size parameter to gsf_off_t.
+	(gsf_input_seek_emulate): Change type of pos parameter to
+	gsf_off_t.
+	(gsf_input_uncompress): Change type of cur_offset variable to
+	gsf_off_t. Type of offset argument to gsf_input_seek has changed
+	to gsf_off_t. Use.
+ 
+	* gsf/gsf-input-textline.c (gsf_input_textline_new): Remove cast
+	of size argument to gsf_input_set_size.
+	(gsf_input_textline_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+	(gsf_input_textline_ascii_gets, gsf_input_textline_utf8_gets ):
+	Add 'remain' variable, and make sure that overflows don't occur.
+ 
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Change type of size
+	variable to gsf_off_t.
+	(gsf_input_stdio_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType. Check for
+	overflow copying from gsf_off_t to off_t.
+ 
+        * gsf/gsf-input-memory.h: Change type of length parameter to
+	gsf_off_t.
+ 
+	* gsf/gsf-input-memory.c (gsf_input_memory_new): Change type of
+	length parameter to gsf_off_t.
+	(gsf_input_memory_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+	(gsf_input_mmap_new): Check for overflow copying from st.st_size
+	to ssize_t. Type of size argument to gsf_shared_memory_mmapped_new
+	and gsf_input_set_size has changed to gsf_off_t. Use.
+ 
+	* gsf/gsf-input-impl.h (struct _GsfInput): Change type of size,
+	cur_offset to gsf_off_t.
+	(GsfInputClass): Change type of offset parameter of Seek method to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+	(gsf_input_set_size): Change type of size parameter to gsf_off_t.
+	(gsf_input_seek_emulate): Change type of pos parameter to
+	gsf_off_t.
+ 
+	* gsf/gsf-input-gzip.c (struct _GsfInputGZip): Change type of
+	seek_skipped to gsf_off_t.
+	(check_header): Type of offset argument to gsf_input_seek is
+	changed to gsf_off_t. Use. Type of size argument to
+	gsf_input_set_size has changed to gsf_off_t. Use.
+	(gsf_input_gzip_read): Return type of gsf_input_remaing has
+	changed to gsf_off_t. Use.
+	(gsf_input_gzip_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+ 
+	* gsf/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Change type
+	of size variable to gsf_off_t. Cast 'code' argument to g_set_error
+	to gint to shut up warning.
+	(gsf_input_gnomevfs_read): Cast 'bytes' argument to gnome_vfs_read
+	to GnomeVFSFileSize to shut up warning.
+	(gsf_input_gnomevfs_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.  Cast
+	'whence' argument to gnome_vfs_seek to GnomeVFSFileOffset to shut
+	up warning.
+ 
+	* gsf/gsf-input-bonobo.c (struct _GsfInputBonobo): Change type of
+	'pos' to gsf_off_t.
+	(gib_synch_shared_ptr): Cast to gsf_off_t when assigning pos.
+	(gsf_input_bonobo_new): Change type of size variable to
+	CORBA_long.  Type of size argument to gsf_input_set_size is
+	changed to gsf_off_t. Use.
+	(gsf_input_bonobo_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType. Check for
+	overflow copying from gsf_off_t to CORBA_long.
+ 
+	* gsf/gsf-infile-zip.c (zip_find_trailer): Change return type to
+	gsf_off_t. Check for overflow copying from gsf_off_t to size_t.
+	(zip_dirent_new, gsf_infile_zip_new_child): Change type of offset
+	parameter to gsf_off_t. Type of size argument to
+	gsf_input_set_size has changed to gsf_off_t. Use.
+	(gsf_infile_zip_new): Type of size argument to gsf_input_set_size
+	has changed to gsf_off_t. Use.
+ 
+	* gsf/gsf-infile-msvba.c (vba_inflate): Change type of offset
+	parameter to gsf_off_t.
+	(vba3_dir_read): Cast 2nd argument to vba_inflate to gsf_off_t.
+	(gsf_infile_msvba_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+	(gsf_infile_msvba_new): Type of size argument to
+	gsf_input_set_size has changed to gsf_off_t. Use.
+
+	* gsf/gsf-infile-msole.c (ole_get_block, ole_init_info,
+	gsf_infile_msole_read, gsf_infile_msole_new_child): Type of offset
+	argument to gsf_input_seek has changed to gsf_off_t. Use.
+	(gsf_infile_msole_seek): Change type of offset parameter to
+	gsf_off_t, type of 'whence' parameter to GsfSeekType.
+	(gsf_infile_msole_new_child, gsf_infile_msole_new): Type of size
+	argument to gsf_input_set_size has changed to gsf_off_t. Use.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0
