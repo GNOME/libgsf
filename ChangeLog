@@ -9,6 +9,9 @@
 	position here.
 	(gsf_input_uncompress): Reorganise a bit.
 
+	* gsf/gsf-infile-msole.c (ole_dirent_free): Actually free the
+	dirent.  And the list of children.
+
 2002-06-27  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Exit on error.

@@ -386,6 +386,7 @@ ole_dirent_free (MSOleDirent *dirent)
 	for (tmp = dirent->children; tmp; tmp = tmp->next)
 		ole_dirent_free (tmp->data);
 	g_list_free (dirent->children);
+	g_free (dirent);
 }
 
 /*****************************************************************************/
