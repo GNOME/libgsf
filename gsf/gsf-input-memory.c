@@ -35,13 +35,13 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputMemoryClass;
 
-GsfInput *
+GsfInputMemory *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
 	gsf_input_set_size (GSF_INPUT (mem), length);
-	return GSF_INPUT (mem);
+	return mem;
 }
 
 static void
@@ -139,7 +139,7 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 #endif
 #endif
 
-GsfInput *
+GsfInputMemory *
 gsf_input_mmap_new (char const *filename, GError **err)
 {
 #ifdef HAVE_MMAP
@@ -202,7 +202,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	gsf_input_set_size (GSF_INPUT (mem), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (mem), filename);
 
-	return GSF_INPUT (mem);
+	return mem;
 #else
 	(void)filename;
 	if (err != NULL)

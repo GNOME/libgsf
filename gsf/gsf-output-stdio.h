@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 typedef struct _GsfOutputStdio GsfOutputStdio;
 
 GType     gsf_output_stdio_get_type (void);
-GsfOutput *gsf_output_stdio_new      (char const *filename, GError **err);
+GsfOutputStdio *gsf_output_stdio_new      (char const *filename, GError **err);
 
 G_END_DECLS
 

@@ -29,9 +29,7 @@
 static gboolean
 test_write_once (GsfOutput *output)
 {
-	const char *str = "The cat sat on the mat.
-2 cats sat on the mat.
-The quick brown fox is afraid of the cats.\n";
+	const char *str = "The cat sat on the mat. 2 cats sat on the mat. The quick brown fox is afraid of the cats.\n";
 
 	return gsf_output_write (output, strlen (str), str);
 }
@@ -49,7 +47,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_stdio_new (argv[1], &err);
+	output = GSF_OUTPUT (gsf_output_stdio_new (argv[1], &err));
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -57,7 +55,7 @@ test (int argc, char *argv[])
 		g_error_free (err);
 		return 1;
 	}
-	outfile = gsf_outfile_zip_new (output, &err);
+	outfile = GSF_OUTFILE (gsf_outfile_zip_new (output, &err));
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 

@@ -61,7 +61,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_memory_new ();
+	output = GSF_OUTPUT (gsf_output_memory_new ());
 	for (i = 1; i <= 100; i++) {
 		if (!gsf_output_printf (output, "=== Round %d ===\n", i))
 		    return 1;

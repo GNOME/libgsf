@@ -42,7 +42,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfOutput *
+GsfOutputBonobo *
 gsf_output_bonobo_new (Bonobo_Stream const stream, GError **err)
 {
 	GsfOutputBonobo *bonobo;
@@ -51,7 +51,7 @@ gsf_output_bonobo_new (Bonobo_Stream const stream, GError **err)
 	bonobo = g_object_new (GSF_OUTPUT_BONOBO_TYPE, NULL);
 	bonobo->stream = stream;
 
-	return GSF_OUTPUT (bonobo);
+	return bonobo;
 }
 
 static gboolean

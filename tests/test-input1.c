@@ -35,7 +35,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	input = gsf_input_stdio_new (argv[1], &err);
+	input = GSF_INPUT (gsf_input_stdio_new (argv[1], &err));
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);

@@ -33,7 +33,7 @@ typedef struct _GsfOutfileMSOle GsfOutfileMSOle;
 #define GSF_IS_OUTFILE_MSOLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_MSOLE_TYPE))
 
 GType gsf_outfile_msole_get_type (void);
-GsfOutfile *gsf_outfile_msole_new (GsfOutput *sink);
+GsfOutfileMSOle *gsf_outfile_msole_new (GsfOutput *sink);
 
 G_END_DECLS
 

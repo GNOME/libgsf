@@ -141,7 +141,7 @@ follow_symlinks (char const *filename, GError **error)
  *
  * Returns a new file or NULL.
  **/
-GsfOutput *
+GsfOutputStdio *
 gsf_output_stdio_new (char const *filename, GError **err)
 {
 	GsfOutputStdio *stdio;
@@ -217,7 +217,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio->temp_filename = temp_filename;
 	gsf_output_set_name (GSF_OUTPUT (stdio), filename);
 
-	return GSF_OUTPUT (stdio);
+	return stdio;
 
 failure :
 	g_free (temp_filename);

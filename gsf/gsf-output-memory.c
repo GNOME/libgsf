@@ -42,11 +42,11 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfOutput *
+GsfOutputMemory *
 gsf_output_memory_new (void)
 {
 	GsfOutputMemory *output = g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);	
-	return GSF_OUTPUT (output);
+	return output;
 }
 
 static gboolean

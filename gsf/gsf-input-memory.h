@@ -33,17 +33,9 @@ G_BEGIN_DECLS
 typedef struct _GsfInputMemory GsfInputMemory;
 
 GType     gsf_input_memory_get_type (void);
-GsfInput *gsf_input_memory_new      (guint8 const *buf, gsf_off_t length,
-				     gboolean needs_free);
-
-#define GSF_INPUT_MMAP_TYPE	(gsf_input_mmap_get_type ())
-#define GSF_INPUT_MMAP(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_MMAP_TYPE, GsfInputMMap))
-#define GSF_IS_INPUT_MMAP(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_MMAP_TYPE))
-
-typedef struct _GsfInputMMap GsfInputMMap;
-
-GType     gsf_input_mmap_get_type (void);
-GsfInput *gsf_input_mmap_new	  (char const *filename, GError **err);
+GsfInputMemory *gsf_input_memory_new      (guint8 const *buf, gsf_off_t length,
+					   gboolean needs_free);
+GsfInputMemory *gsf_input_mmap_new	  (char const *filename, GError **err);
 
 G_END_DECLS
 

@@ -34,7 +34,7 @@ typedef struct _GsfInfileMSVBA GsfInfileMSVBA;
 
 GType gsf_infile_msvba_get_type (void);
 
-GsfInfile *gsf_infile_msvba_new (GsfInfile *source, GError **err);
+GsfInfileMSVBA *gsf_infile_msvba_new (GsfInfile *source, GError **err);
 
 G_END_DECLS
 

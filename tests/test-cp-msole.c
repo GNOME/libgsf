@@ -76,7 +76,7 @@ test (char *argv[])
 	GError    *err;
 
 	fprintf (stderr, "%s\n", argv [1]);
-	input = gsf_input_stdio_new (argv[1], &err);
+	input = GSF_INPUT (gsf_input_stdio_new (argv[1], &err));
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -87,7 +87,7 @@ test (char *argv[])
 		return 1;
 	}
 
-	infile = gsf_infile_msole_new (input, &err);
+	infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
 	g_object_unref (G_OBJECT (input));
 
 	if (infile == NULL) {
@@ -98,7 +98,7 @@ test (char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_stdio_new (argv[2], &err);
+	output = GSF_OUTPUT (gsf_output_stdio_new (argv[2], &err));
 	if (output == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -109,7 +109,7 @@ test (char *argv[])
 		return 1;
 	}
 
-	outfile = gsf_outfile_msole_new (output);
+	outfile = GSF_OUTFILE (gsf_outfile_msole_new (output));
 	g_object_unref (G_OBJECT (output));
 	clone (infile, outfile);
 

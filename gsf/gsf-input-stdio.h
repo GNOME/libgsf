@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInputStdio GsfInputStdio;
 
 GType     gsf_input_stdio_get_type (void);
-GsfInput *gsf_input_stdio_new      (char const *filename, GError **err);
+GsfInputStdio *gsf_input_stdio_new      (char const *filename, GError **err);
 
 G_END_DECLS
 

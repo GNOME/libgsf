@@ -38,7 +38,7 @@ typedef struct _GsfOutfileZip GsfOutfileZip;
 #define GSF_IS_OUTFILE_ZIP(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_ZIP_TYPE))
 
 GType gsf_outfile_zip_get_type (void);
-GsfOutfile *gsf_outfile_zip_new (GsfOutput *sink, GError **err);
+GsfOutfileZip *gsf_outfile_zip_new (GsfOutput *sink, GError **err);
 gboolean gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
 						 GsfZipCompressionMethod method);
 

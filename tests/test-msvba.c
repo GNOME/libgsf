@@ -37,15 +37,15 @@ test (int argc, char *argv[])
 	int i;
 
 	for (i = 1 ; i < argc ; i++) {
-		input = gsf_input_mmap_new (argv[i], &err);
+		input = GSF_INPUT (gsf_input_mmap_new (argv[i], &err));
 		if (input != NULL) {
-			GsfInfile *infile = gsf_infile_msole_new (input, &err);
+			GsfInfile *infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
 			if (infile != NULL) {
 				GsfInput *vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
 				if (vba != NULL) {
 					fprintf( stderr, "%s\n",argv[i]);
 
-					vba_wrapper = gsf_infile_msvba_new (GSF_INFILE (vba), &err);
+					vba_wrapper = GSF_INFILE (gsf_infile_msvba_new (GSF_INFILE (vba), &err));
 					if (vba_wrapper != NULL) {
 					}
 					g_object_unref (G_OBJECT (vba));

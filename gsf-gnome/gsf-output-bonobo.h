@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 typedef struct _GsfOutputBonobo GsfOutputBonobo;
 
 GType     gsf_output_bonobo_get_type (void);
-GsfOutput *gsf_output_bonobo_new      (Bonobo_Stream const stream, GError **err);
+GsfOutputBonobo *gsf_output_bonobo_new      (Bonobo_Stream const stream, GError **err);
 
 G_END_DECLS
 

@@ -543,7 +543,7 @@ GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
 	   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
 	   GSF_INFILE_TYPE)
 
-GsfInfile *
+GsfInfileMSVBA *
 gsf_infile_msvba_new (GsfInfile *source, GError **err)
 {
 	GsfInfileMSVBA *vba;
@@ -557,7 +557,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 
 	/* find the name offset pairs */
 	if (vba56_dir_read (vba, err) || vba3_dir_read (vba, err))
-		return GSF_INFILE (vba);
+		return vba;
 
 	if (err != NULL && *err == NULL) {
 		*err = g_error_new (gsf_input_error (), 0,

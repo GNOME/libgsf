@@ -34,7 +34,7 @@ typedef struct _GsfInfileZip GsfInfileZip;
 
 GType gsf_infile_zip_get_type (void);
 
-GsfInfile  *gsf_infile_zip_new	      (GsfInput *source, GError **err);
+GsfInfileZip  *gsf_infile_zip_new	      (GsfInput *source, GError **err);
 
 
 G_END_DECLS

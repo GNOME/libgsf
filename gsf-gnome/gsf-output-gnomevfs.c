@@ -41,7 +41,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfOutput *
+GsfOutputGnomeVFS *
 gsf_output_gnomevfs_new (char const *filename, GError **err)
 {
 	GsfOutputGnomeVFS *output;
@@ -64,7 +64,7 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
 	output->handle = handle;
 
-	return GSF_OUTPUT (output);
+	return output;
 }
 
 /**
@@ -74,7 +74,7 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
  *
  * Returns a new file or NULL.
  **/
-GsfOutput *
+GsfOutputGnomeVFS *
 gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 {
 	GsfOutputGnomeVFS *output;
@@ -97,7 +97,7 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
 	output->handle = handle;
 
-	return GSF_OUTPUT (output);
+	return output;
 }
 
 static gboolean

@@ -720,7 +720,7 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
  *
  * Returns : the new zip file handler
  **/
-GsfInfile *
+GsfInfileZip *
 gsf_infile_zip_new (GsfInput *source, GError **err)
 {
 	GsfInfileZip *zip;
@@ -738,5 +738,5 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	}
 	zip->vdir               = zip->info->vdir;
 
-	return GSF_INFILE (zip);
+	return zip;
 }

@@ -647,7 +647,7 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
  *
  * Returns : the new ole file handler
  **/
-GsfOutfile *
+GsfOutfileMSOle *
 gsf_outfile_msole_new (GsfOutput *sink)
 {
 	static guint8 const default_header [] = {
@@ -705,5 +705,5 @@ gsf_outfile_msole_new (GsfOutput *sink)
 
 	gsf_output_write (sink, sizeof (default_header), default_header);
 
-	return GSF_OUTFILE (ole);
+	return ole;
 }

@@ -57,7 +57,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_stdio_new (argv[1], &err);
+	output = GSF_OUTPUT (gsf_output_stdio_new (argv[1], &err));
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -65,7 +65,7 @@ test (int argc, char *argv[])
 		g_error_free (err);
 		return 1;
 	}
-	outfile = gsf_outfile_msole_new (output);
+	outfile = GSF_OUTFILE (gsf_outfile_msole_new (output));
 	g_object_unref (G_OBJECT (output));
 	small = gsf_outfile_new_child  (outfile, "small", FALSE);
 

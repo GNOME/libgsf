@@ -624,7 +624,7 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
  *
  * Returns : the new zip file handler
  **/
-GsfOutfile *
+GsfOutfileZip *
 gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 {
 	GsfOutfileZip *zip;
@@ -643,7 +643,7 @@ gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 	gsf_output_set_name (GSF_OUTPUT (zip), gsf_output_name (sink));
 	gsf_output_set_container (GSF_OUTPUT (zip), NULL);
 
-	return GSF_OUTFILE (zip);
+	return zip;
 }
 
 gboolean

@@ -70,7 +70,7 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_stdio_new (argv[1], &err);
+	output = GSF_OUTPUT (gsf_output_stdio_new (argv[1], &err));
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -80,14 +80,14 @@ test (int argc, char *argv[])
 	}
 
 	/* should write STRING_1 to the file */
-	trans = gsf_output_transaction_new_named (output, "Trans 1");
+	trans = GSF_OUTPUT (gsf_output_transaction_new_named (output, "Trans 1"));
 	connect_signals (trans);
 	gsf_output_write (trans, strlen (STRING_1), STRING_1);
 	gsf_output_transaction_commit (GSF_OUTPUT_TRANSACTION (trans));
 	g_object_unref (G_OBJECT (trans));
 
 	/* should write strings 1&2 to the file */
-	trans = gsf_output_transaction_new_named (output, "Trans 2");
+	trans = GSF_OUTPUT (gsf_output_transaction_new_named (output, "Trans 2"));
 	connect_signals (trans);
 	gsf_output_write (trans, strlen (STRING_1), STRING_1);
 	gsf_output_write (trans, strlen (STRING_2), STRING_2);
@@ -95,7 +95,7 @@ test (int argc, char *argv[])
 	g_object_unref (G_OBJECT (trans));
 
 	/* should not write anything to the file */
-	trans = gsf_output_transaction_new_named (output, "Trans 3");
+	trans = GSF_OUTPUT (gsf_output_transaction_new_named (output, "Trans 3"));
 	connect_signals (trans);
 	gsf_output_write (trans, strlen (STRING_1), STRING_1);
 	gsf_output_transaction_abort (GSF_OUTPUT_TRANSACTION (trans));

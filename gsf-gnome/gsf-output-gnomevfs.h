@@ -34,8 +34,8 @@ G_BEGIN_DECLS
 typedef struct _GsfOutputGnomeVFS GsfOutputGnomeVFS;
 
 GType      gsf_output_gnomevfs_get_type (void);
-GsfOutput *gsf_output_gnomevfs_new      (char const *filename, GError **err);
-GsfOutput *gsf_output_gnomevfs_new_uri  (GnomeVFSURI * uri, GError **err);
+GsfOutputGnomeVFS *gsf_output_gnomevfs_new      (char const *filename, GError **err);
+GsfOutputGnomeVFS *gsf_output_gnomevfs_new_uri  (GnomeVFSURI * uri, GError **err);
 
 G_END_DECLS
 

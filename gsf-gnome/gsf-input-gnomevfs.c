@@ -36,7 +36,7 @@ typedef struct {
     GsfInputClass input_class;
 } GsfInputGnomeVFSClass;
 
-static GsfInput *
+static GsfInputGnomeVFS *
 gsf_input_gnomevfs_setup_handle (GnomeVFSHandle * handle, char const *uri, GError **error)
 {
         GsfInputGnomeVFS *input;
@@ -66,7 +66,7 @@ gsf_input_gnomevfs_setup_handle (GnomeVFSHandle * handle, char const *uri, GErro
         gsf_input_set_size (GSF_INPUT (input), size);
 	gsf_input_set_name (GSF_INPUT (input), uri);
 
-        return GSF_INPUT (input);
+        return input;
 }
 
 /**
@@ -76,12 +76,11 @@ gsf_input_gnomevfs_setup_handle (GnomeVFSHandle * handle, char const *uri, GErro
  *
  * Returns a new file or NULL.
  **/
-GsfInput *
+GsfInputGnomeVFS *
 gsf_input_gnomevfs_new (char const *uri, GError **error)
 {
-	GnomeVFSHandle *handle = NULL;
-	GsfInput       *input  = NULL;
-	GnomeVFSResult  res    = 0;
+	GnomeVFSHandle   *handle = NULL;
+	GnomeVFSResult    res    = 0;
 
 	if (uri == NULL) {
 		g_set_error (error, gsf_output_error_id (), 0,
@@ -97,9 +96,7 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
 		return NULL;
 	}
 
-	input = gsf_input_gnomevfs_setup_handle (handle, uri, error);
-
-	return input;
+	return gsf_input_gnomevfs_setup_handle (handle, uri, error);
 }
 
 /**
@@ -109,11 +106,11 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
  *
  * Returns a new file or NULL.
  **/
-GsfInput *
+GsfInputGnomeVFS *
 gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 {
-	GsfInput      *input = NULL;
-	gchar         *name  = NULL;
+	GsfInputGnomeVFS *input = NULL;
+	gchar            *name  = NULL;
 
 	if (uri == NULL) {
 		g_set_error (error, gsf_output_error_id (), 0,
@@ -125,7 +122,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 
 	if (input != NULL) {
 		name = gnome_vfs_uri_to_string (uri, 0);
-		gsf_input_set_name (input, name);
+		gsf_input_set_name (GSF_INPUT (input), name);
 		g_free (name);
 	}
 
@@ -158,7 +155,7 @@ static GsfInput *
 gsf_input_gnomevfs_dup (GsfInput *src_input, GError **err)
 {
     GsfInputGnomeVFS const *src = (GsfInputGnomeVFS *)src_input;
-    return gsf_input_gnomevfs_new (src->input.name, err);
+    return GSF_INPUT (gsf_input_gnomevfs_new (src->input.name, err));
 }
 
 static guint8 const *

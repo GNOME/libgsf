@@ -50,7 +50,7 @@ typedef struct {
  *
  * Returns a new file or NULL.
  **/
-GsfInput *
+GsfInputStdio *
 gsf_input_stdio_new (char const *filename, GError **err)
 {
 	GsfInputStdio *input;
@@ -89,7 +89,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	gsf_input_set_size (GSF_INPUT (input), size);
 	gsf_input_set_name (GSF_INPUT (input), filename);
 
-	return GSF_INPUT (input);
+	return input;
 }
 
 static void
@@ -117,7 +117,7 @@ static GsfInput *
 gsf_input_stdio_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputStdio const *src = (GsfInputStdio *)src_input;
-	return gsf_input_stdio_new (src->input.name, err);
+	return GSF_INPUT (gsf_input_stdio_new (src->input.name, err));
 }
 
 static guint8 const *
