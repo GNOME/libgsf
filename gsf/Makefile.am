@@ -7,8 +7,8 @@ libxml_sources     = gsf-libxml.c
 libxml_headers     = gsf-libxml.h
 endif
 if WITH_GNOME_VFS
-gnomevfs_sources   = gsf-input-gnomevfs.c
-gnomevfs_headers   = gsf-input-gnomevfs.h
+gnomevfs_sources   = gsf-input-gnomevfs.c gsf-output-gnomevfs.c
+gnomevfs_headers   = gsf-input-gnomevfs.h gsf-output-gnomevfs.h
 endif
 if WITH_BONOBO
 bonobo_sources   = gsf-input-bonobo.c gsf-shared-bonobo-stream.c

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-file.h: interface for used by the ole layer to read raw data
+ * gsf-output-memory.h: interface for used by the ole layer to read raw data
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *
@@ -19,22 +19,23 @@
  * USA
  */
 
-#ifndef GSF_INPUT_GNOMEVFS_H
-#define GSF_INPUT_GNOMEVFS_H
+#ifndef GSF_OUTPUT_MEMORY_H
+#define GSF_OUTPUT_MEMORY_H
 
-#include <gsf/gsf-input.h>
+#include "gsf-output.h"
 
 G_BEGIN_DECLS
 
-#define GSF_INPUT_GNOMEVFS_TYPE        (gsf_input_gnomevfs_get_type ())
-#define GSF_INPUT_GNOMEVFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_GNOMEVFS_TYPE, GsfInputGnomeVFS))
-#define GSF_IS_INPUT_GNOMEVFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_GNOMEVFS_TYPE))
+#define GSF_OUTPUT_MEMORY_TYPE	(gsf_output_memory_get_type ())
+#define GSF_OUTPUT_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_MEMORY_TYPE, GsfOutputMemory))
+#define GSF_IS_OUTPUT_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_MEMORY_TYPE))
 
-typedef struct _GsfInputGnomeVFS GsfInputGnomeVFS;
+typedef struct _GsfOutputMemory GsfOutputMemory;
 
-GType	  gsf_input_gnomevfs_get_type (void);
-GsfInput *gsf_input_gnomevfs_new      (char const *uri, GError **error);
+GType     gsf_output_memory_get_type (void);
+GsfOutput *gsf_output_memory_new      ();
+void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, size_t * outlength);
 
 G_END_DECLS
 
-#endif /* GSF_INPUT_GNOMEVFS_H */
+#endif /* GSF_OUTPUT_MEMORY_H */

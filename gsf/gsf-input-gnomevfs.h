@@ -2,7 +2,7 @@
 /*
  * gsf-input-file.h: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -26,15 +26,15 @@
 
 G_BEGIN_DECLS
 
-#define MS_OLE_INPUT_GNOMEVFS_TYPE        (gsf_input_gnomevfs_get_type ())
-#define MS_OLE_INPUT_GNOMEVFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MS_OLE_INPUT_GNOMEVFS_TYPE, GsfInputStdio))
-#define IS_MS_OLE_INPUT_GNOMEVFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MS_OLE_INPUT_GNOMEVFS_TYPE))
+#define GSF_INPUT_GNOMEVFS_TYPE        (gsf_input_gnomevfs_get_type ())
+#define GSF_INPUT_GNOMEVFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_GNOMEVFS_TYPE, GsfInputGnomeVFS))
+#define GSF_IS_INPUT_GNOMEVFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_GNOMEVFS_TYPE))
 
 typedef struct _GsfInputGnomeVFS GsfInputGnomeVFS;
 
 GType	  gsf_input_gnomevfs_get_type (void);
-GsfInput *gsf_input_gnomevfs_new      (char const *filename, GError **error);
+GsfInput *gsf_input_gnomevfs_new      (char const *uri, GError **error);
 
 G_END_DECLS
 
-#endif /* MS_OLE_INPUT_GNOMEVFS_H */
+#endif /* GSF_INPUT_GNOMEVFS_H */

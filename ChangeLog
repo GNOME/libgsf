@@ -1,3 +1,9 @@
+2002-07-25  Dom Lachowicz <cinamod@hotmail.com>
+
+        * gsf-input-gnomevfs.c: implement (untested)
+        * gsf-output-gnomevfs.c: implement (untested)
+        * gsf-output-memory.c: implement (untested)
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gsf-input-gnomevfs.c (struct _GsfInputGnomeVFS):
