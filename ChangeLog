@@ -1,3 +1,12 @@
+2002-11-24  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-outfile-zip.c (stream_name_len,
+	stream_name_write_to_buf): Stop recursing at root of zip archive,
+	i.e. don't append name of archive file to stream names. Take zip
+	rather than outfile argument.
+	(stream_name_build): Take zip rather than outfile argument.
+	(zip_dirent_new_out): Call stream_name_build with new signature.
+
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-ouput-iochannel.c (): New output sink. No IOChannel input sink possible due to API limitations

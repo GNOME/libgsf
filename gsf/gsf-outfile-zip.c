@@ -184,16 +184,24 @@ zip_close_root (GsfOutput *output)
 }
 
 static int
-stream_name_len (GsfOutfile *outfile)
+stream_name_len (GsfOutfileZip *zip)
 {
-	GsfOutput  *output = GSF_OUTPUT (outfile);
-	GsfOutfile *container = gsf_output_container (output);
-	char const *name = gsf_output_name (output);
-	int len = name ? strlen (name) : 0;
+	GsfOutput  *output;
+	GsfOutfile *container;
+	char const *name;
+	int len = 0;
 	int cnlen;
 
+	if (zip == zip->root)
+		return 0;
+	
+	output = GSF_OUTPUT (zip);
+	container = gsf_output_container (output);
+	name = gsf_output_name (output);
+	len = name ? strlen (name) : 0;
+
 	if (container) {
-		cnlen = stream_name_len (container);
+		cnlen = stream_name_len (GSF_OUTFILE_ZIP (container));
 		if (cnlen > 0)
 			len += 1 + cnlen;
 	}
@@ -202,15 +210,23 @@ stream_name_len (GsfOutfile *outfile)
 }
 
 static void
-stream_name_write_to_buf (GsfOutfile *outfile, char *buf, int buflen)
+stream_name_write_to_buf (GsfOutfileZip *zip, char *buf, int buflen)
 {
-	GsfOutput  *output = GSF_OUTPUT (outfile);
-	GsfOutfile *container = gsf_output_container (output);
-	char const *name = gsf_output_name (output);
+	GsfOutput  *output;
+	GsfOutfile *container;
+	char const *name;
 	int len = 0;
 
+	if (zip == zip->root)
+		return;
+	
+	output = GSF_OUTPUT (zip);
+	container = gsf_output_container (output);
+	name = gsf_output_name (output);
+
 	if (container) {
-		stream_name_write_to_buf (container, buf, buflen);
+		stream_name_write_to_buf (GSF_OUTFILE_ZIP (container),
+					  buf, buflen);
 		len = strlen (buf);
 		if (len > 0) {
 			buf[len++] = '/';
@@ -219,17 +235,16 @@ stream_name_write_to_buf (GsfOutfile *outfile, char *buf, int buflen)
 	}
 	if (name)
 		strncpy (buf + len, name, buflen - len);
-
 }
 
 static char *
-stream_name_build (GsfOutfile *outfile)
+stream_name_build (GsfOutfileZip *zip)
 {
-	int namelen = stream_name_len (outfile);
+	int namelen = stream_name_len (zip);
 	char *name = g_malloc (namelen + 1);
 
 	name[0] = '\0';
-	stream_name_write_to_buf (outfile, name, namelen + 1);
+	stream_name_write_to_buf (zip, name, namelen + 1);
 
 	return name;
 }
@@ -253,10 +268,9 @@ zip_time_make (time_t *t)
 static ZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
-	GsfOutfile *outfile = GSF_OUTFILE (zip);
 	ZipDirent *dirent = g_new (ZipDirent, 1);
 	time_t t = time (NULL);
-	char *name = stream_name_build (outfile);
+	char *name = stream_name_build (zip);
 
 	if (!name)
 		return NULL;
