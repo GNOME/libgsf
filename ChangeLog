@@ -1,5 +1,10 @@
 2004-03-08  Michael Meeks  <michael@ximian.com>
 
+	* tests/test-msvba-zip.c (output_match): add a
+	small/stupid LZSS compressor.
+
+2004-03-08  Michael Meeks  <michael@ximian.com>
+
 	* tests/test-msvba-zip.c: add for compressing/decompressing
 	'dir' (or other pure compressed) streams.
 
