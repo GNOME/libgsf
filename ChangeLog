@@ -52,7 +52,7 @@
 	(zip_close_stream): Unset "writing" flag in zip root to indicate
 	that we're now free to write to a new stream.
 	 (zip_close_root): s/g_message/g_warning/.
-	
+
 	* tests/test-zip-out-subdirs.c (test): Close each substream before
 	starting to write to the next.
 
@@ -67,28 +67,33 @@
 
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-ouput-iochannel.c (): New output sink. No IOChannel input sink possible due to API limitations
+	* gsf/gsf-ouput-iochannel.c (): New output sink. No IOChannel
+	input sink possible due to API limitations
+
 	* gsf/gsf-input-stdio.c (_new): Open files with "rb" status
-	
+
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-memory.c (gsf_output_memory_get_bytes): WARNING: changed prototype
+	* gsf/gsf-output-memory.c (gsf_output_memory_get_bytes): WARNING:
+	changed prototype
 	(gsf_output_memory_seek): Re-implement seek() in a saner fashion
 	(gsf_output_memory_write): ditto
 	(gsf_output_memory_vprintf): ditto
 	(gsf_output_memory_init): ditto
-	
+
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Code cleanup
-	
+
 2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-memory.c (gsf_output_memory_seek): Implement seek() by implementing a cursor as well as the existing nwritten and capacity fields
+	* gsf/gsf-output-memory.c (gsf_output_memory_seek): Implement
+	seek() by implementing a cursor as well as the existing nwritten
+	and capacity fields
 	(gsf_output_memory_write): ditto
 	(gsf_output_memory_vprintf): ditto
 	(gsf_output_memory_init): ditto
-	
+
 2002-11-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_vprintf) : rename from
@@ -125,16 +130,19 @@
 
 	* gsf/gsf-outfile-zip.c (zip_close_root): Free the root_array and
 	unref the child outputs when closing the root directory
-	
+
 2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Disable creating backup copies of files, open files with "wb" status instead of just "w"
-	
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Disable creating
+	backup copies of files, open files with "wb" status instead of
+	just "w"
+
 2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output.c (gsf_output_puts): Check for null input
-	(gsf_output_vprintf): Don't use static internal buffer, will lead to nasty race conditions and a memory-leak on shutdown
-	
+	(gsf_output_vprintf): Don't use static internal buffer, will lead
+	to nasty race conditions and a memory-leak on shutdown
+
 2002-11-22  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-outmem-printf.c: New test program. Add.
@@ -144,7 +152,7 @@
 	* gsf/gsf-output-memory.c (gsf_output_memory_vprintf):
 	New. vprintf implementation which uses g_vsnprintf directly
 	into buffer if there is space.
-	(gsf_output_memory_class_init):  Initialize vprintf virtual. 
+	(gsf_output_memory_class_init):  Initialize vprintf virtual.
 
 2002-11-22  Jody Goldberg <jody@gnome.org>
 
@@ -156,7 +164,7 @@
 	* gsf/gsf-outfile-msole.c (gsf_output_msole_vprintf): New. vprintf
 	implementation which falls through to the sink's implementation if
 	possible.
-	(gsf_outfile_msole_class_init):  Initialize vprintf virtual. 
+	(gsf_outfile_msole_class_init):  Initialize vprintf virtual.
 
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_vprintf): New. vprintf
 	implementation which just falls through to vfprintf.
@@ -222,15 +230,17 @@
 	* gsf/gsf-output-memory.c (gsf_output_memory_finalize) : close != exit.
 	  Chain to the parent, and keep the content around until detruction.
 
-2002-10-22  Dom Lahcowicz <cinamod@hotmail.com>
+2002-10-22  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-msole-utils.c (gsf_msole_iconv_open_codepage_for_export): Fix bug where we used UTF-8 regardless of the 'from' codepage
+	* gsf/gsf-msole-utils.c
+	(gsf_msole_iconv_open_codepage_for_export): Fix bug where we used
+	UTF-8 regardless of the 'from' codepage
 
 2002-10-21  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-msole-utils.c (*): Large rewrite of the codepage handling
 	code. More functions, more complete, more flexible, etc...
-	
+
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-textline.c (gsf_input_textline_ascii_gets): Handle
@@ -314,7 +324,7 @@
 
 2002-09-19  Jon K Hellan  <hellan@acm.org>
 
-	* gsf/gsf-outfile-zip.h (enum GsfZipCompressionMethod): Define. 
+	* gsf/gsf-outfile-zip.h (enum GsfZipCompressionMethod): Define.
 
 	* gsf/gsf-outfile-zip.[ch]
 	(gsf_outfile_zip_set_compression_method): New function. Set
@@ -400,7 +410,7 @@
 2002-09-14  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-outfile-zip.[ch]: Really add this time.
-	
+
 	* gsf/gsf-infile-zip.c: gsf-zip-utils.h doesn't exist - don't
 	include it!
 
@@ -417,7 +427,7 @@
 2002-09-13  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-zip-util.c: Add.
-	
+
 	* gsf/gsf-infile-zip.c (enum ZipCompressionMethod, struct
 	ZipDirent, struct ZipDir): Move to gsf-zip-impl.h.
 	(vdir_new, vdir_free, vdir_compare, vdir_add_child,
@@ -439,7 +449,7 @@
 	* gsf-gnome/Makefile.am: add gsf-output-bonobo
 
 	* gsf-gnome/gsf-output-bonobo.c (): make compile
-	
+
 2002-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-input-gzip.c (init_zip): Factored out of gsf_input_gzip_new.
@@ -470,7 +480,7 @@
 
 	* gsf/gsf-input-gzip.c (check_header): Check signature before
 	seeking to end. Seeking to end is *expensive* if seek is slow in
-	underlying stream. 
+	underlying stream.
 	Add check that there's room for payload.
 
 2002-09-02  Jon K Hellan  <hellan@acm.org>
@@ -652,7 +662,7 @@
 	* gsf/gsf-output-impl.h (GsfOutputClass) Ditto.
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_seek):
-	s/GsfSeekType/GSeekType/ in signature.  
+	s/GsfSeekType/GSeekType/ in signature.
 
 	* gsf/gsf-infile-msvba.c (gsf_infile_msvba_seek): Ditto.
 
@@ -682,7 +692,7 @@
 	with G_SEEK_SET, CUR, END.
 
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_seek): Ditto.
-	
+
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Ditto.
 
 	* gsf/gsf-output.c (gsf_output_seek): Ditto.
@@ -702,12 +712,12 @@
 	* gsf/gsf-infile-msole.c (ole_get_block, ole_init_info,
 	gsf_infile_msole_read, gsf_infile_msole_new_child):
 	s/GSF_SEEK_SET/G_SEEK_SET/.
-	
+
 	* gsf/gsf-infile-msvba.c (vba_inflate, vba56_dir_read,
 	gsf_infile_msvba_seek, gsf_infile_msvba_seek): Ditto.
 
-	* gsf/gsf-infile-zip.c (zip_find_trailer, zip_dirent_new) 
-	(zip_init_info, zip_init_info, zip_update_stream_in) 
+	* gsf/gsf-infile-zip.c (zip_find_trailer, zip_dirent_new)
+	(zip_init_info, zip_init_info, zip_update_stream_in)
 	(gsf_infile_zip_new_child): Ditto.
 
 	* gsf/gsf-input-gzip.c (check_header, check_header): Ditto.
@@ -825,24 +835,24 @@
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Bump minor verision to 1.3. Add AC_SYS_LARGEFILE.
- 
+
 	* gsf/gsf.h: Rename GsfOff_t enum to GsfSeekType. Define gsf_off_t
 	type to use instead of off_t. We have to do this because we do not
 	know what idea the application has of the size of off_t, this can
 	be defined with #define _FILE_OFFS_BITS xx.
- 
+
 	* gsf/gsf-shared-memory.h (struct _GsfSharedMemory): Change type
 	of size to gsf_off_t.
- 
+
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Change type of
 	offset parameter to gsf_off_t, type of 'whence' parameter to
 	GsfSeekType. Check for overflow copying from gsf_off_t to off_t.
- 
+
 	* gsf/gsf-output-impl.h (struct _GsfOutput): Change type of
 	cur_size, cur_offset to gsf_off_t.
 	(GsfOutputClass): Change type of offset parameter of Seek method
 	to gsf_off_t, type of 'whence' parameter to GsfSeekType.
- 
+
 	* gsf/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new): Various
 	fixes.
 	(gsf_output_gnomevfs_seek): Change type of offset parameter to
@@ -851,11 +861,11 @@
 	up warning.
 	(gsf_output_gnomevfs_write): Cast 'bytes' argument to
 	gnome_vfs_write to GnomeVFSFileSize to shut up warning.
- 
+
 	* gsf/gsf-output-bonobo.c (gsf_output_bonobo_seek): Change type of
 	offset parameter to gsf_off_t, type of 'whence' parameter to
 	GsfSeekType.
- 
+
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek): Change type of
 	offset parameter to gsf_off_t, type of 'whence' parameter to
 	GsfSeekType. Type of offset argument to gsf_input_seek has changed
@@ -868,18 +878,18 @@
 	(gsf_outfile_msole_write): Return type of gsf_output_tell is
 	changed to gsf_off_t. Introduce gsf_off_t typed variables wsize
 	and start_offset to detect overflow.
- 
+
 	* gsf/gsf-libxml.c (gsf_libxml_read): Return type of
 	gsf_input_remaining has changed to gsf_off_t. Use.
- 
+
 	* gsf/gsf-io-context.c (GSF_CLASS): G_TYPE_GLIB is the parent
 	class, not the io-context class itself.
- 
+
 	* gsf/gsf-input.h: (gsf_input_size, gsf_input_remaining,
 	gsf_input_tell): Change return type to gsf_off_t.
 	(gsf_input_seek): Change type of offset parameter to gsf_off_t,
 	type of 'whence' parameter to GsfSeekType.
- 
+
 	* gsf/gsf-input.c (gsf_input_dup): Type of offset argument to
 	gsf_input_seek has changed to gsf_off_t. Use.
 	(gsf_input_size, gsf_input_remaining, gsf_input_tell): Change
@@ -892,23 +902,23 @@
 	(gsf_input_uncompress): Change type of cur_offset variable to
 	gsf_off_t. Type of offset argument to gsf_input_seek has changed
 	to gsf_off_t. Use.
- 
+
 	* gsf/gsf-input-textline.c (gsf_input_textline_new): Remove cast
 	of size argument to gsf_input_set_size.
 	(gsf_input_textline_seek): Change type of offset parameter to
 	gsf_off_t, type of 'whence' parameter to GsfSeekType.
 	(gsf_input_textline_ascii_gets, gsf_input_textline_utf8_gets ):
 	Add 'remain' variable, and make sure that overflows don't occur.
- 
+
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Change type of size
 	variable to gsf_off_t.
 	(gsf_input_stdio_seek): Change type of offset parameter to
 	gsf_off_t, type of 'whence' parameter to GsfSeekType. Check for
 	overflow copying from gsf_off_t to off_t.
- 
+
         * gsf/gsf-input-memory.h: Change type of length parameter to
 	gsf_off_t.
- 
+
 	* gsf/gsf-input-memory.c (gsf_input_memory_new): Change type of
 	length parameter to gsf_off_t.
 	(gsf_input_memory_seek): Change type of offset parameter to
@@ -916,7 +926,7 @@
 	(gsf_input_mmap_new): Check for overflow copying from st.st_size
 	to ssize_t. Type of size argument to gsf_shared_memory_mmapped_new
 	and gsf_input_set_size has changed to gsf_off_t. Use.
- 
+
 	* gsf/gsf-input-impl.h (struct _GsfInput): Change type of size,
 	cur_offset to gsf_off_t.
 	(GsfInputClass): Change type of offset parameter of Seek method to
@@ -924,7 +934,7 @@
 	(gsf_input_set_size): Change type of size parameter to gsf_off_t.
 	(gsf_input_seek_emulate): Change type of pos parameter to
 	gsf_off_t.
- 
+
 	* gsf/gsf-input-gzip.c (struct _GsfInputGZip): Change type of
 	seek_skipped to gsf_off_t.
 	(check_header): Type of offset argument to gsf_input_seek is
@@ -934,7 +944,7 @@
 	changed to gsf_off_t. Use.
 	(gsf_input_gzip_seek): Change type of offset parameter to
 	gsf_off_t, type of 'whence' parameter to GsfSeekType.
- 
+
 	* gsf/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Change type
 	of size variable to gsf_off_t. Cast 'code' argument to g_set_error
 	to gint to shut up warning.
@@ -944,7 +954,7 @@
 	gsf_off_t, type of 'whence' parameter to GsfSeekType.  Cast
 	'whence' argument to gnome_vfs_seek to GnomeVFSFileOffset to shut
 	up warning.
- 
+
 	* gsf/gsf-input-bonobo.c (struct _GsfInputBonobo): Change type of
 	'pos' to gsf_off_t.
 	(gib_synch_shared_ptr): Cast to gsf_off_t when assigning pos.
@@ -954,7 +964,7 @@
 	(gsf_input_bonobo_seek): Change type of offset parameter to
 	gsf_off_t, type of 'whence' parameter to GsfSeekType. Check for
 	overflow copying from gsf_off_t to CORBA_long.
- 
+
 	* gsf/gsf-infile-zip.c (zip_find_trailer): Change return type to
 	gsf_off_t. Check for overflow copying from gsf_off_t to size_t.
 	(zip_dirent_new, gsf_infile_zip_new_child): Change type of offset
@@ -962,7 +972,7 @@
 	gsf_input_set_size has changed to gsf_off_t. Use.
 	(gsf_infile_zip_new): Type of size argument to gsf_input_set_size
 	has changed to gsf_off_t. Use.
- 
+
 	* gsf/gsf-infile-msvba.c (vba_inflate): Change type of offset
 	parameter to gsf_off_t.
 	(vba3_dir_read): Cast 2nd argument to vba_inflate to gsf_off_t.
@@ -1023,18 +1033,21 @@
 	* doc/gsf-docs.sgml : tidy up.
 
 2002-07-27  Dom Lachowicz <cinamod@hotmail.com>
-	
+
 	* MAINTAINERS : add myself
-	* gsf-metadata-bag.[ch] : add cardinatliy (size) method 
+	* gsf-metadata-bag.[ch] : add cardinatliy (size) method
 
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
-	
+
 	* gsf-output-bonobo.[ch]: implement output stream (untested)
 
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf-meta-keys.h: list of default/builtin keys that we will want to support
-	* gsf-metadata-bag.[ch]: add key creation and manipulation functions, update TODO list
+	* gsf-meta-keys.h: list of default/builtin keys that we will want
+	to support
+
+	* gsf-metadata-bag.[ch]: add key creation and manipulation
+	functions, update TODO list
 
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
 
@@ -1202,7 +1215,7 @@
 
 	* python/Makefile.am : pyexec is not available in automake-1.4.
 	nor is nodist_.
-	
+
 	* acinclude.m4 : something was still interpretting the AC_REQUIRE even
 	  though ti was commented out.  change case and comment for now to
 	  avoid problems.
@@ -1564,11 +1577,11 @@
 	  own.
 
 2002-05-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
- 
+
  	* doc/Makefile.am: Introduced DOC_DIR so the location can be easily
  	overridden when building packages.
  	* debian/*: Preliminary Debian packaging.
- 
+
 2002-05-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_info_read_xbat) : DOH!
