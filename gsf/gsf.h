@@ -33,7 +33,7 @@ typedef struct _GsfInfile 	GsfInfile;
 typedef struct _GsfOutput	GsfOutput;
 typedef struct _GsfOutfile 	GsfOutfile;
 
-typedef struct _GsfMetaDataBag	GsfMetaDataBag;
+typedef struct _GsfDocMetaData	GsfDocMetaData;
 typedef struct _GsfTimestamp	GsfTimestamp;
 
 /* FIXME:

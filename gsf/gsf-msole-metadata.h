@@ -26,6 +26,10 @@
 
 G_BEGIN_DECLS
 
+gboolean gsf_msole_metadata_read  (GsfInput *in,   GError **err);
+gboolean gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
+				   GError **err);
+
 G_END_DECLS
 
 #endif /* GSF_MSOLE_METADATA_H */

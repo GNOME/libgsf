@@ -4,7 +4,9 @@ libgsf 1.3.0
 Jody:
 	* Split gnome-vfs and bonobo into a distinct library
 	* Polish the OLE export so that libole2 is molified.
-	* Some utility routines to help map locale <-> MS codepage
+	* Add a timestamp object for use with metadata
+	* Some initial work on MS OLE property streams (doc metadata)
+	* Some initial work on doc meta data (expect changes as ole settles)
 
 Jon Kåre:
 	* Work and plan to support big files.

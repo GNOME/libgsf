@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-metadata-bag.c:
+ * gsf-doc-meta-data.c:
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *
@@ -20,9 +20,10 @@
  */
 
 #include <gsf-config.h>
-#include <libgsf/gsf-metadata-bag.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-impl-utils.h>
 
-struct _GsfMetaDataBag {
+struct _GsfDocMetaData {
 	GObject parent;
 
 	GHashTable *table;
@@ -30,28 +31,31 @@ struct _GsfMetaDataBag {
 
 typedef struct {
 	GObjectClass object_class;
-} GsfMetaDataBagClass;
+} GsfDocMetaDataClass;
 
 /**
- * gsf_metadata_bag_new :
- * Returns a new metadata property bag
+ * gsf_doc_meta_data_new :
+ *
+ * Returns a new metadata property collection
  **/
-GsfMetaDataBag *
-gsf_metadata_bag_new (void)
+GsfDocMetaData *
+gsf_doc_meta_data_new (void)
 {
-	GsfMetaDataBag *meta = g_object_new (GSF_METADATA_BAG_TYPE, NULL);
+	GsfDocMetaData *meta = g_object_new (GSF_DOC_META_DATA_TYPE, NULL);
 	return meta;
 }
 
 /**
- * gsf_metadata_bag_set_prop :
- * If @prop does not exist in the bag, add it to the bag. If @prop does exist in the bag, replace the old value with this new one
- * @meta : the bag
+ * gsf_doc_meta_data_set_prop :
+ * @meta : the collection
  * @prop : the non-null string name of the property.
  * @value : the non-null value associated with @prop
+ *
+ * If @prop does not exist in the collection, add it to the collection. If
+ * @prop does exist in the collection, replace the old value with this new one
  **/
 void
-gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GValue * value)
+gsf_doc_meta_data_set_prop (GsfDocMetaData * meta, const gchar * prop, const GValue * value)
 {
 	GValue *cpy;
 
@@ -62,80 +66,72 @@ gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GVal
 	/* make a copy of our input value so that we own it internally */
 	cpy = g_new0 (GValue, 1);
 	g_value_copy (value, cpy);
-	g_hash_table_replace (meta->table, prop, cpy);
+	g_hash_table_replace (meta->table, g_strdup (prop), cpy);
 }
 
 /**
- * gsf_metadata_bag_remove_prop :
- * If @prop does not exist in the bag, do nothing. If @prop does exist, remove it and its value from the bag
- * @meta : the bag
+ * gsf_doc_meta_data_remove_prop :
+ * @meta : the collection
  * @prop : the non-null string name of the property
+ *
+ * If @prop does not exist in the collection, do nothing. If @prop does exist,
+ * remove it and its value from the collection
  **/
 void
-gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const gchar * prop)
+gsf_doc_meta_data_remove_prop (GsfDocMetaData *meta, const gchar * prop)
 {
 	g_return_if_fail (meta != NULL);
 	g_hash_table_remove (meta->table, prop);
 }
 
 /**
- * gsf_metadata_bag_get_prop :
- * Returns the value associate with @prop. If @prop does not exist in the bag, return NULL. If @prop does exist in the bag, return its associated value
- * @meta : the bag
+ * gsf_doc_meta_data_get_prop :
+ * @meta : the collection
  * @prop : the non-null string name of the property.
+ *
+ * Returns the value associate with @prop. If @prop does not exist in the
+ * collection, return NULL. If @prop does exist in the collection, return its
+ * associated value
  **/
 GValue const *
-gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const gchar * prop)
+gsf_doc_meta_data_get_prop (GsfDocMetaData * meta, const gchar * prop)
 {
-	g_return_if_fail (meta != NULL, NULL);
+	g_return_val_if_fail (meta != NULL, NULL);
 	return g_hash_table_lookup (meta->table, prop);
 }
 
 /**
- * gsf_metadata_bag_contains_prop :
- * If @prop does not exist in the bag, return FALSE. If @prop does exist in the bag, return TRUE
- * @meta : the bag
- * @prop : the non-null string name of the property
- **/
-gboolean
-gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const gchar * prop)
-{
-	g_return_val_if_fail (meta != NULL, false);
-
-	return (g_hash_table_lookup (meta->table, prop) != NULL ? TRUE : FALSE);
-}
-
-/**
- * gsf_metadata_bag_foreach :
- * Iterate/enumerate through each (key, value) pair in this bag
- * @meta : the bag
- * @func : the function called once for each element in the bag
+ * gsf_doc_meta_data_foreach :
+ * @meta : the collection
+ * @func : the function called once for each element in the collection
  * @user_data : any supplied user data or NULL
+ *
+ * Iterate through each (key, value) pair in this collection
  **/
 void
-gsf_metadata_bag_foreach (GsfMetaDataBag *meta,
-			  GsfMetaDataBagEnumFunc func, gpointer user_data)
+gsf_doc_meta_data_foreach (GsfDocMetaData *meta, GHFunc func, gpointer data)
 {
 	g_return_if_fail (meta != NULL);
 
-	g_hash_table_foreach (meta->table, func, user_data);
+	g_hash_table_foreach (meta->table, func, data);
 }
 
 /**
- * gsf_metadata_bag_size :
- * @meta : the bag
- * Returns the number of items in this bag
+ * gsf_doc_meta_data_size :
+ * @meta : the collection
+ *
+ * Returns the number of items in this collection
  **/
-gsize_t
-gsf_metadata_bag_size (GsfMetaDataBag *meta)
+int
+gsf_doc_meta_data_size (GsfDocMetaData *meta)
 {
 	g_return_val_if_fail (meta != NULL, 0);
 
-	return (gsize_t) g_hash_table_size (meta->table);
+	return g_hash_table_size (meta->table);
 }
 
 static void
-gsf_metadata_bag_value_destroyed (gpointer data)
+gsf_doc_meta_data_value_destroyed (gpointer data)
 {
 	GValue *value = (GValue *)data;
 
@@ -148,32 +144,32 @@ gsf_metadata_bag_value_destroyed (gpointer data)
 }
 
 static void
-gsf_metadata_bag_finalize (GObject *obj)
+gsf_doc_meta_data_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfMetaDataBag *meta = (GsfMetaDataBag *)obj;
+	GsfDocMetaData *meta = (GsfDocMetaData *)obj;
 
-	/* will handle destroying values for us since we created out bag using g_hash_table_new_full */
+	/* will handle destroying values for us since we created out collection using g_hash_table_new_full */
 	g_hash_table_destroy (meta->table);
 
-	parent_class = g_type_class_peek (G_OBJECT_TYPE);
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
 }
 
 static void
-gsf_metadata_bag_init (GObject *obj)
+gsf_doc_meta_data_init (GObject *obj)
 {
-	GsfMetaDataBag *meta = GSF_METADATA_BAG (obj);
-	mem->table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL,
-					    gsf_metadata_bag_value_destroyed);
+	GsfDocMetaData *meta = GSF_DOC_META_DATA (obj);
+	meta->table = g_hash_table_new_full (g_str_hash, g_str_equal,
+		g_free, gsf_doc_meta_data_value_destroyed);
 }
 
 static void
-gsf_metadata_bag_class_init (GObjectClass *gobject_class)
+gsf_doc_meta_data_class_init (GObjectClass *gobject_class)
 {
-	gobject_class->finalize = gsf_metadata_bag_finalize;
+	gobject_class->finalize = gsf_doc_meta_data_finalize;
 }
 
-GSF_CLASS (GsfMetaDataBag, gsf_metadata_bag,
-	   gsf_metadata_bag_class_init, gsf_metadata_bag_init, G_OBJECT_TYPE)
+GSF_CLASS (GsfDocMetaData, gsf_doc_meta_data,
+	   gsf_doc_meta_data_class_init, gsf_doc_meta_data_init, G_TYPE_OBJECT)

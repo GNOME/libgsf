@@ -34,9 +34,10 @@ typedef struct {
 } GsfOutputMemoryClass;
 
 /**
-* gsf_output_memory_new :
-* Returns a new file or NULL.
-**/
+ * gsf_output_memory_new :
+ *
+ * Returns a new file or NULL.
+ **/
 GsfOutput *
 gsf_output_memory_new (void)
 {
@@ -122,7 +123,7 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
 }
 
 /**
-* gsf_output_memory_get_bytes :
+ * gsf_output_memory_get_bytes :
  * @output : the output device.
  * @outbuffer     : optionally NULL, where to store a *non-freeable* pointer to the contents (i.e. get the length and copy it yourself before unref'ing @output).
  * @outlength     : optionally NULL, the returned size of the in-memory contents

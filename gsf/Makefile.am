@@ -43,6 +43,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf.h			\
 	gsf-utils.h		\
 	gsf-libxml.h		\
+	gsf-doc-meta-data.h	\
 	gsf-impl-utils.h	\
 	gsf-msole-metadata.h	\
 	gsf-timestamp.h		\

@@ -27,6 +27,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-msole-metadata.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,7 +106,7 @@ test (int argc, char *argv[])
 {
 	GsfInput  *input, *stream;
 	GsfInfile *infile;
-	GError    *err;
+	GError    *err = NULL;
 	int i;
 	guint16 len, opcode;
 
@@ -131,6 +132,24 @@ test (int argc, char *argv[])
 			g_error_free (err);
 			g_object_unref (G_OBJECT (input));
 			continue;
+		}
+
+		stream = gsf_infile_child_by_name (infile, "\05SummaryInformation");
+		if (stream != NULL) {
+			puts ( "SummaryInfo");
+			gsf_msole_metadata_read (stream, &err);
+			if (err != NULL)
+				g_warning ("'%s' error: %s", argv[i], err->message);
+			g_object_unref (G_OBJECT (stream));
+		}
+
+		stream = gsf_infile_child_by_name (infile, "\05DocumentSummaryInformation");
+		if (stream != NULL) {
+			puts ( "DocSummaryInfo");
+			gsf_msole_metadata_read (stream, &err);
+			if (err != NULL)
+				g_warning ("'%s' error: %s", argv[i], err->message);
+			g_object_unref (G_OBJECT (stream));
 		}
 
 		stream = gsf_infile_child_by_name (infile, "Workbook");

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-metadata-bag.h: get, set, remove custom meta properties associated with documents
+ * gsf-meta_data-bag.h: get, set, remove custom meta properties associated with documents
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *
@@ -19,31 +19,28 @@
  * USA
  */
 
-#ifndef GSF_METADATA_BAG_H
-#define GSF_METADATA_BAG_H
+#ifndef GSF_DOC_META_DATA_H
+#define GSF_DOC_META_DATA_H
 
 #include <gsf/gsf.h>
 #include <sys/types.h>
 
 G_BEGIN_DECLS
 
-#define GSF_METADATA_BAG_TYPE        (gsf_metadata_bag_get_type ())
-#define GSF_METADATA_BAG(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_METADATA_BAG_TYPE, GsfMetaDataBag))
-#define GSF_IS_METADATA_BAG(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_METADATA_BAG_TYPE))
+#define GSF_DOC_META_DATA_TYPE        (gsf_doc_meta_data_get_type ())
+#define GSF_DOC_META_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_DOC_META_DATA_TYPE, GsfDocMetaData))
+#define GSF_IS_DOC_META_DATA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_DOC_META_DATA_TYPE))
 
-GType  gsf_metadata_bag_get_type (void);
-GQuark gsf_metadata_bag_error (void);
+GType  gsf_doc_meta_data_get_type (void);
+GQuark gsf_doc_meta_data_error (void);
 
-typedef GHFunc GMetaDataBagEnumFunc;
-
-GsfMetaDataBag *gsf_metadata_bag_new (void);
-void            gsf_metadata_bag_set_prop	(GsfMetaDataBag *meta, char const *prop, GValue const *value);
-void            gsf_metadata_bag_remove_prop	(GsfMetaDataBag *meta, char const *prop);
-GValuec const  *gsf_metadata_bag_get_prop	(GsfMetaDataBag *meta, char const *prop);
-gboolean        gsf_metadata_bag_contains_prop	(GsfMetaDataBag *meta, char const *prop);
-void            gsf_metadata_bag_iterate	(GsfMetaDataBag *meta, GsfMetaDataBagEnumFunc func, gpointer user_data);
-gsize_t         gsf_metadata_bag_cardinality	(GsfMetaDataBag *meta);
+GsfDocMetaData *gsf_doc_meta_data_new		(void);
+void            gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta, char const *prop, GValue const *value);
+void            gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta, char const *prop);
+GValue const   *gsf_doc_meta_data_get_prop	(GsfDocMetaData *meta, char const *prop);
+void            gsf_doc_meta_data_foreach	(GsfDocMetaData *meta, GHFunc func, gpointer user_data);
+int		gsf_doc_meta_data_size		(GsfDocMetaData *meta);
 
 G_END_DECLS
 
-#endif /* GSF_METADATA_BAG_H */
+#endif /* GSF_DOC_META_DATA_H */

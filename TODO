@@ -1,5 +1,6 @@
 Near:
-    - MS property set parsing
+    - Complete MS property set read and write
+    - Adjust ZIP import directory handling (JK has a patch)
     - ZIP export
 
 Longer:

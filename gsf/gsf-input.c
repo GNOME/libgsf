@@ -30,6 +30,8 @@
 static void
 gsf_input_finalize (GObject *obj)
 {
+	GObjectClass *parent_class;
+
 	GsfInput *input = GSF_INPUT (obj);
 	if (input->name != NULL) {
 		g_free (input->name);
@@ -39,6 +41,10 @@ gsf_input_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (input->container));
 		input->container = NULL;
 	}
+
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	if (parent_class && parent_class->finalize)
+		parent_class->finalize (obj);
 }
 
 static void

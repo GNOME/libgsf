@@ -29,7 +29,17 @@ G_BEGIN_DECLS
 
 #define GSF_TIMESTAMP_TYPE        (gsf_timestamp_get_type ())
 
+struct _GsfTimestamp {
+	GDate	  date;			/* In local timezone */
+	glong     seconds;		/* time of day */
+	GString	  time_zone;		/* possibly blank */
+};
+
 GType gsf_timestamp_get_type (void);
+
+GsfTimestamp *gsf_timestamp_new_now	(void);
+GsfTimestamp *gsf_timestamp_new		(GDate const *date, glong seconds,
+					 char const *tz);
 
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);
@@ -38,7 +48,6 @@ char 	     *gsf_timestamp_as_string	(GsfTimestamp const *stamp);
 guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
 gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
 					 GsfTimestamp const *b);
-
 
 G_END_DECLS
 
