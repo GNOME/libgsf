@@ -5,6 +5,7 @@ Jody:
 	* Better error handling for Infile::child_by_*
 	* Work harder to restore invalid ole2 files with bad BATs.
 	* Begin an interface for ole2 export with non-default block sizes.
+	* Name the root directory 'Root Entry' to keep libole2 happy.
 
 Stuart Cunningham <stuartc@rd.bbc.co.uk>:
 	* Support CLSIDs for Storages for the AAF project

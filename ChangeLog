@@ -1,3 +1,12 @@
+2003-09-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.2
+
+2003-09-12  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : libole2 depends
+	  on all entries having names.  Hard code 'Root Entry' for the root.
+
 2003-08-24  Dom Lachowicz <cinamod@hotmail.com>
 
 	* win/libgsf.ds*: Add win32 project files, from Jeremy Davis

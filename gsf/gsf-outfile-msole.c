@@ -303,14 +303,16 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 			memset (buf, 0, DIRENT_SIZE);
 
-			if (i > 0 && /* no name for the root */
-			    gsf_output_name (GSF_OUTPUT (child)) != NULL) {
-			    /* be wary about endianness */
-				gunichar2 *name_utf16 = g_utf8_to_utf16 (
-					gsf_output_name (GSF_OUTPUT (child)),
+			/* Hard code 'Root Entry' for the root */
+			if (i == 0 || gsf_output_name (GSF_OUTPUT (child)) != NULL) {
+				char const *name = (i == 0)
+					? "Root Entry" : gsf_output_name (GSF_OUTPUT (child));
+				gunichar2 *name_utf16 = g_utf8_to_utf16 (name,
 					-1, NULL, &name_len, NULL);
 				if (name_len >= DIRENT_MAX_NAME_SIZE)
 					name_len = DIRENT_MAX_NAME_SIZE-1;
+
+				/* be wary about endianness */
 				for (j = 0 ; j < name_len ; j++)
 					GSF_LE_SET_GUINT16 (buf + j*2, name_utf16 [j]);
 				g_free (name_utf16);
