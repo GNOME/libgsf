@@ -41,10 +41,11 @@ gsf_output_finalize (GObject *obj)
 	if (!output->is_closed)
 		g_warning ("unrefing an unclosed stream");
 
-	if (output->name != NULL) {
-		g_free (output->name);
-		output->name = NULL;
-	}
+	g_free (output->name);
+	output->name = NULL;
+	g_free (output->printf_buf);
+	output->printf_buf = NULL;
+
 	if (output->container != NULL) {
 		g_object_unref (G_OBJECT (output->container));
 		output->container = NULL;
@@ -64,6 +65,8 @@ gsf_output_init (GObject *obj)
 	output->container	= NULL;
 	output->err		= NULL;
 	output->is_closed	= FALSE;
+	output->printf_buf	= NULL;
+	output->printf_buf_size = 0;
 }
 
 static void
@@ -399,12 +402,24 @@ gsf_output_error_id (void)
 }
 
 static gboolean
-gsf_output_vprintf (GsfOutput *output, char const* format, va_list args)
+gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {
-	char    *buf  = g_strdup_vprintf (format, args);
-	gboolean rval = gsf_output_write (output, buf, strlen(buf));
-	g_free (buf);
-	return rval;
+	int reslen;
+
+	if (NULL == output->printf_buf) {
+		output->printf_buf_size = 128;
+		output->printf_buf = g_malloc (output->printf_buf_size);
+	}
+	reslen = g_vsnprintf (output->printf_buf, output->printf_buf_size, fmt, args);
+
+	/* handle C99 or older -1 case of vsnprintf */
+	if (reslen < 0 || reslen >= output->printf_buf_size) {
+		g_free (output->printf_buf);
+		output->printf_buf = g_strdup_vprintf (fmt, args);
+		reslen = output->printf_buf_size = strlen (output->printf_buf);
+	}
+
+	return gsf_output_write (output, reslen, output->printf_buf);
 }
 
 gboolean

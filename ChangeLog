@@ -1,3 +1,16 @@
+2002-11-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_vprintf) : rename from
+	  gsf_output_msole_vprintf to conform to naming convention.
+	(gsf_outfile_msole_class_init) : hook up the vprintf method and fix
+	  some old cut-n-paste errors.
+
+	* gsf/gsf-output.c (gsf_output_finalize) : free the new printf buf.
+	(gsf_output_init) : init the new printf buf.
+	(gsf_output_vprintf) :  use a stream local buffer and handle older
+	  version of glibc that did not return the required number of
+	  characters.
+
 2002-11-23  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-zip-out-subdirs.c: New test program. Add.

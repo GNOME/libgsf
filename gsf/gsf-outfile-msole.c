@@ -520,7 +520,7 @@ gsf_outfile_msole_write (GsfOutput *output,
          G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
 static gboolean
-gsf_output_msole_vprintf (GsfOutput *output, char const *format, va_list args)
+gsf_outfile_msole_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 	GsfOutputClass *klass;
@@ -620,13 +620,14 @@ gsf_outfile_msole_init (GObject *obj)
 static void
 gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 {
-	GsfOutputClass  *input_class  = GSF_OUTPUT_CLASS (gobject_class);
+	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_outfile_msole_finalize;
-	input_class->Close		= gsf_outfile_msole_close;
-	input_class->Seek		= gsf_outfile_msole_seek;
-	input_class->Write		= gsf_outfile_msole_write;
+	output_class->Close		= gsf_outfile_msole_close;
+	output_class->Seek		= gsf_outfile_msole_seek;
+	output_class->Write		= gsf_outfile_msole_write;
+	output_class->Vprintf		= gsf_outfile_msole_vprintf;
 	outfile_class->new_child	= gsf_outfile_msole_new_child;
 }
 

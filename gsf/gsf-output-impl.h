@@ -37,6 +37,9 @@ struct _GsfOutput {
 	GsfOutfile *container;
 	GError	   *err;
 	gboolean    is_closed;
+
+	char	   *printf_buf;
+	int	    printf_buf_size;
 };
 
 typedef struct {

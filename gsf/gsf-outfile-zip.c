@@ -160,7 +160,6 @@ zip_close_root (GsfOutput *output)
 	GPtrArray *elem = zip->root_order;
 	unsigned entries = elem->len;
 	unsigned i;
-	gboolean result = FALSE;
 
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
@@ -402,7 +401,6 @@ zip_header_write_sizes (GsfOutfileZip *zip)
 	guint8 hbuf[ZIP_HEADER_SIZE];
 	ZipDirent *dirent = zip->vdir->dirent;
 	gsf_off_t pos = gsf_output_tell (zip->sink);
-	gsf_off_t hpos = dirent->offset;
 
 	if (!gsf_output_seek (zip->sink, dirent->offset + ZIP_HEADER_CRC,
 			      G_SEEK_SET))

@@ -289,9 +289,7 @@ zip_dup (GsfInfileZip const *src)
 static gboolean
 zip_read_dirents (GsfInfileZip *zip, GError **err)
 {
-	static guint8 const header_signature[] =
-		{ 'P', 'K', 0x03, 0x04 };
-	guint8 const *header, *trailer;
+	guint8 const *trailer;
 	guint16 entries, i;
 	guint32 dir_pos;
 	ZipInfo *info;

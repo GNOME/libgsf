@@ -38,9 +38,9 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
-	gsf-structured-blob.c	\
-	gsf-command-context.c	\
-	gsf-io-context.c
+	gsf-structured-blob.c
+#	gsf-command-context.c	\
+#	gsf-io-context.c
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
@@ -71,6 +71,6 @@ libgsf_1_include_HEADERS = 	\
 	gsf-outfile-msole.h	\
 	gsf-outfile-zip.h       \
 	\
-	gsf-structured-blob.h	\
-	gsf-command-context.h	\
-	gsf-io-context.h
+	gsf-structured-blob.h
+#	gsf-command-context.h	\
+#	gsf-io-context.h

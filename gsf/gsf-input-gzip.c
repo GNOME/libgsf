@@ -165,7 +165,6 @@ GsfInputGZip *
 gsf_input_gzip_new (GsfInput *source, GError **err)
 {
 	GsfInputGZip *gzip;
-	gsf_off_t  cur_pos;
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
