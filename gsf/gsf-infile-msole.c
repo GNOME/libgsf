@@ -137,7 +137,7 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 	GArray *bat = g_array_sized_new (FALSE, FALSE,
 		sizeof (guint32), size_guess);
 
-	guint8 *used = g_alloca (1 + metabat->num_blocks / 8);
+	guint8 *used = (guint8*)g_alloca (1 + metabat->num_blocks / 8);
 	memset (used, 0, 1 + metabat->num_blocks / 8);
 
 	if (block < metabat->num_blocks)
@@ -371,7 +371,7 @@ ole_dirent_free (MSOleDirent *dirent)
 	g_free (dirent->collation_name);
 
 	for (tmp = dirent->children; tmp; tmp = tmp->next)
-		ole_dirent_free (tmp->data);
+		ole_dirent_free ((MSOleDirent *)tmp->data);
 	g_list_free (dirent->children);
 	g_free (dirent);
 }
@@ -504,7 +504,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		info->bb.bat.num_blocks = num_bat * (info->bb.size / BAT_INDEX_SIZE);
 		info->bb.bat.block	= g_new0 (guint32, info->bb.bat.num_blocks);
 
-		metabat = g_alloca (MAX (info->bb.size, OLE_HEADER_SIZE));
+		metabat = (guint32 *)g_alloca (MAX (info->bb.size, OLE_HEADER_SIZE));
 
 		/* Reading the elements invalidates this memory, make copy */
 		gsf_ole_get_guint32s (metabat, header + OLE_HEADER_START_BAT,

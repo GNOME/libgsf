@@ -573,7 +573,7 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 	}
 
 	/* extract the section info */
-	sections = g_alloca (sizeof (GsfMSOleMetaDataSection)* num_sections);
+	sections = (GsfMSOleMetaDataSection *)g_alloca (sizeof (GsfMSOleMetaDataSection)* num_sections);
 	for (i = 0 ; i < num_sections ; i++) {
 		data = gsf_input_read (in, 20, NULL);
 		if (NULL == data) {

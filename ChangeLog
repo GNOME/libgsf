@@ -1,3 +1,9 @@
+2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-infile-msole.c: Some castings to help things build using
+	MSVC++
+	* gsf/gsf-msole-utils.c: Ditto
+	
 2003-01-31  Dom Lachowicz <cinamod@hotmail.com>
 
 	* test/*.c: Correctness fixes in the testcases. No need to unref a null
