@@ -44,8 +44,7 @@ static int
 test (int argc, char *argv[])
 {
 	GsfOutput  *output;
-	GsfOutputMemory *mem;
-	guint8 *buf;
+	guint8 const *buf;
 	gsf_off_t size;
 	GError   *err;
 	FILE *fout;
@@ -71,10 +70,8 @@ test (int argc, char *argv[])
 		    return 1;
 	}
 
-	mem = GSF_OUTPUT_MEMORY (output);
-//void gsf_output_memory_get_bytes (GsfOutputMemory * mem,
-//				  guint8 ** outbuffer, gsf_off_t * outlength);
-	gsf_output_memory_get_bytes (mem, &buf, &size);
+	buf = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output));
+	size = gsf_output_size (output);
 	res = fwrite (buf, size, 1, fout);
 	fclose (fout);
 	gsf_output_close (output);

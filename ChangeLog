@@ -1,5 +1,8 @@
 2002-11-25  Jon K Hellan  <hellan@acm.org>
 
+	* tests/test-outmem-printf.c (test): Adjust to new
+	gsf_output_memory_get_bytes API.
+
 	* gsf/gsf-outfile-zip.c (root_register_child): Don't ref children
 	which are directories.
 
