@@ -245,16 +245,25 @@ static gboolean
 gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputGnomeVFS const *vfs     = GSF_INPUT_GNOMEVFS (input);
-	GnomeVFSSeekPosition vfs_whence = 0; /* make compiler shut up */    
+	GnomeVFSSeekPosition vfs_whence;
 
 	if (vfs->handle == NULL)
 		return TRUE;
 
 	switch (whence) {
+	default:
 	case G_SEEK_SET : vfs_whence = GNOME_VFS_SEEK_START;	break;
 	case G_SEEK_CUR : vfs_whence = GNOME_VFS_SEEK_CURRENT;	break;
 	case G_SEEK_END : vfs_whence = GNOME_VFS_SEEK_END;	break;
-	default : break;
+	}
+
+	/* Work around http://bugzilla.gnome.org/show_bug.cgi?id=152844  */
+	if (whence == G_SEEK_SET && offset > 0 && offset == gsf_input_size (input)) {
+		if (gsf_input_gnomevfs_seek (input, offset - 1, whence))
+			return TRUE;
+		if (gsf_input_gnomevfs_read (input, 1, NULL) == NULL)
+			return TRUE;
+		return FALSE;
 	}
 
 	if (GNOME_VFS_OK == gnome_vfs_seek (vfs->handle,vfs_whence,

@@ -1,5 +1,8 @@
 2004-09-16  Morten Welinder  <terra@gnome.org>
 
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Ugly
+	work-around for gnome-vfs bug.
+
 	* gsf/gsf-input.c (gsf_input_dup): Check size and seek return
 	value.
 
