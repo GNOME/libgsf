@@ -1,3 +1,25 @@
+2004-07-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_vprintf) : premature
+	  optimization is the root of all evil.  We can not directly write
+	  small block data because it will be in the wrong place and will miss
+	  the transition to large block.  This is not a hugely common case and
+	  does not need such special attention.
+
+2004-06-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek) : conditionalize the
+	  use of fseeko.
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek) : ditto.
+	* gsf/gsf-outfile-msole.c : Extend Stuart's work to use the internal
+	  block sizes rather than keeping them global.
+
+2004-06-25  Jody Goldberg <jody@gnome.org>
+	For : Stuart Cunningham <stuartc@rd.bbc.co.uk>
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek) : use fseeko
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek) : ditto.
+	* gsf/gsf-outfile-msole.c : rework to honor the requested block sizes
+
 2004-06-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri):

@@ -170,7 +170,11 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 	loffset = offset;
 	if ((gsf_off_t) loffset != offset) { /* Check for overflow */
+#ifdef HAVE_FSEEKO
+		g_warning ("offset too large for fseeko");
+#else
 		g_warning ("offset too large for fseek");
+#endif
 		return TRUE;
 	}
 	switch (whence) {
@@ -181,9 +185,15 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		break;
 	}
 
-	if (0 == fseek (stdio->file, (unsigned long)loffset, stdio_whence))
+	errno = 0;
+#ifdef HAVE_FSEEKO
+	if (0 == fseeko (stdio->file, loffset, stdio_whence))
 		return FALSE;
-	
+#else
+	if (0 == fseek (stdio->file, loffset, stdio_whence))
+		return FALSE;
+#endif
+	perror ("\tERROR");
 	return TRUE;
 }
 

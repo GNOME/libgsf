@@ -1,11 +1,16 @@
-libgsf 1.9.2
+libgsf 1.10.0
 
 Jody:
 	* Patch to read slightly odd planmaker generated OLE2.
+	* Fix printf implementation in GsfOutfileMSOle
+	* Make the msole block sizes instance specific
 
 Morten:
 	* Attempt fix for ARM.
 	* Make gsf_input_gnomevfs_new_uri handle missing "seek" methods.
+
+Stuart Cunningham <stuartc@rd.bbc.co.uk>
+	* Enable OLE2 export for larger block sizes
 
 ------------------------------------------------------------------------------
 libgsf 1.9.1

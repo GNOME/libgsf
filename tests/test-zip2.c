@@ -41,7 +41,7 @@ dump_child (GsfInfile *infile, const char * childname)
 		return;
 	}
 
-	textinput = gsf_input_textline_new (child);
+	textinput = (GsfInputTextline *)gsf_input_textline_new (child);
 	if (textinput == NULL) {
 		printf ("Could not read lines from %s",
 			gsf_input_name (child));

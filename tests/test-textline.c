@@ -48,7 +48,7 @@ test (int argc, char *argv[])
 		g_error_free (err);
 		return 1;
 	}
-	textline = gsf_input_textline_new (input);
+	textline = (GsfInputTextline *)gsf_input_textline_new (input);
 	if (textline == NULL) {
 		g_warning ("unable to create a textline");
 		return 2;

@@ -55,6 +55,7 @@ struct _GsfOutfileMSOle {
 		unsigned shift;
 		unsigned size;
 	} bb, sb;
+	unsigned metabat_size;
 
 	union {
 		struct {
@@ -154,35 +155,30 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 	return FALSE;
 }
 
+
+/* Globals to support variable OLE sector size.					*/
+/* 512 and 4096 bytes are the only known values for sector size on		*/
+/* Win2k/XP platforms.  Attempts to create OLE files on Win2k/XP with		*/
+/* other values	using StgCreateStorageEx() fail with invalid parameter.		*/
+/* This code has been tested with 128,256,512,4096,8192	sizes for		*/
+/* libgsf read/write.  Interoperability with MS OLE32.DLL has been		*/
+/* tested with 512 and 4096 block size for filesizes up to 2GB.			*/
+
+#define ZERO_PAD_BUF_SIZE 4096
+
+/* static objects are zero-initialized as per C/C++ standards */
+static guint8 const zero_buf[ZERO_PAD_BUF_SIZE];
+
+/* used by gsf_outfile_msole_close() to pad out to ole->bb.size */
 static void
-bb_pad_zero (GsfOutput *out)
+bb_pad_zero (GsfOutfileMSOle *ole)
 {
-	unsigned size = OLE_DEFAULT_BB_SIZE;
-	static guint8 const zeros [] = {
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	};
+	unsigned len = (ole->sink->cur_size - ole->bb.size) % ole->bb.size;
 
-	unsigned len = (out->cur_size - OLE_HEADER_SIZE) % size;
-
-	g_return_if_fail (len < sizeof (zeros));
+	g_return_if_fail (len < sizeof (zero_buf));
 
 	if (len > 0)
-		gsf_output_write (out, size - len, zeros);
+		gsf_output_write (ole->sink, ole->bb.size - len, zero_buf);
 }
 
 /**
@@ -222,11 +218,11 @@ ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 }
 
 static void
-ole_pad_bat_unused (GsfOutput *sink)
+ole_pad_bat_unused (GsfOutfileMSOle *ole)
 {
-	ole_write_const (sink, BAT_MAGIC_UNUSED, 
-		(unsigned) (OLE_DEFAULT_BB_SIZE -
-			    ((sink->cur_size - OLE_HEADER_SIZE) % OLE_DEFAULT_BB_SIZE) / BAT_INDEX_SIZE));
+	ole_write_const (ole->sink, BAT_MAGIC_UNUSED, 
+		(unsigned) (ole->bb.size -
+			    ((ole->sink->cur_size - ole->bb.size) % ole->bb.size) / BAT_INDEX_SIZE));
 }
 
 /**
@@ -240,7 +236,7 @@ ole_pad_bat_unused (GsfOutput *sink)
 static inline guint32
 ole_cur_block (GsfOutfileMSOle const *ole)
 {
-	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) >> OLE_DEFAULT_BB_SHIFT;
+	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) >> ole->bb.shift;
 }
 
 static gboolean
@@ -282,7 +278,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 			g_warning ("File too big");
 			return FALSE;
 		}
-		bb_pad_zero (ole->sink);
+		bb_pad_zero (ole);
 		sb_data_blocks = ole_cur_block (ole) - sb_data_start;
 
 		/* write small block BAT (the meta bat is in a file) */
@@ -292,7 +288,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 			if (child->type == MSOLE_SMALL_BLOCK)
 				ole_write_bat (ole->sink,  child->first_block, child->blocks);
 		}
-		ole_pad_bat_unused (ole->sink);
+		ole_pad_bat_unused (ole);
 		num_sbat = ole_cur_block (ole) - sbat_start;
 
 		/* write dirents */
@@ -366,7 +362,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 			gsf_output_write (ole->sink, DIRENT_SIZE, buf);
 		}
-		bb_pad_zero (ole->sink);
+		bb_pad_zero (ole);
 		num_dirent_blocks = ole_cur_block (ole) - dirent_start;
 
 		/* write BAT */
@@ -391,7 +387,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 recalc_bat_bat :
 		i = ((ole->sink->cur_size
 		      + BAT_INDEX_SIZE * (num_bat + num_xbat)
-		      - OLE_HEADER_SIZE - 1) >> OLE_DEFAULT_BB_SHIFT) + 1;
+		      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
 		i -= bat_start;
 		if (num_bat != i) {
 			num_bat = i;
@@ -400,7 +396,7 @@ recalc_bat_bat :
 		i = 0;
 		if (num_bat > OLE_HEADER_METABAT_SIZE)
 			i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
-				 / OLE_DEFAULT_METABAT_SIZE);
+				 / ole->metabat_size);
 		if (num_xbat != i) {
 			num_xbat = i;
 			goto recalc_bat_bat;
@@ -408,7 +404,7 @@ recalc_bat_bat :
 
 		ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
 		ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat);
-		ole_pad_bat_unused (ole->sink);
+		ole_pad_bat_unused (ole);
 
 		if (num_xbat > 0) {
 			xbat_pos = ole_cur_block (ole);
@@ -419,6 +415,13 @@ recalc_bat_bat :
 		}
 
 		/* fix up the header */
+		if (ole->bb.size == 4096) {
+			/* set _cSectDir for 4k sector files */
+			GSF_LE_SET_GUINT32 (buf,   num_dirent_blocks);
+			gsf_output_seek (ole->sink,
+				(gsf_off_t) OLE_HEADER_CSECTDIR, G_SEEK_SET);
+			gsf_output_write (ole->sink, 4, buf);
+		}
 		GSF_LE_SET_GUINT32 (buf,   num_bat);
 		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
 		gsf_output_seek (ole->sink,
@@ -448,8 +451,8 @@ recalc_bat_bat :
 			for (i = 0 ; i++ < num_xbat ; ) {
 				bat_start += blocks;
 				blocks = num_bat - bat_start;
-				if (blocks > OLE_DEFAULT_METABAT_SIZE)
-					blocks = OLE_DEFAULT_METABAT_SIZE;
+				if (blocks > ole->metabat_size)
+					blocks = ole->metabat_size;
 				for (j = 0 ; j < blocks ; j++) {
 					GSF_LE_SET_GUINT32 (buf, bat_start + j);
 					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
@@ -461,7 +464,7 @@ recalc_bat_bat :
 					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 				}
 			}
-			bb_pad_zero (ole->sink);
+			bb_pad_zero (ole);
 		}
 
 		/* free the children */
@@ -473,7 +476,7 @@ recalc_bat_bat :
 		return gsf_output_close (ole->sink);
 	} else if (ole->type == MSOLE_BIG_BLOCK) {
 		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
-		bb_pad_zero (ole->sink);
+		bb_pad_zero (ole);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (G_OBJECT (output), ole->sink);
 	}
@@ -541,7 +544,7 @@ gsf_outfile_msole_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 	GsfOutputClass *klass;
-	int res;
+	gboolean res;
 
 	g_return_val_if_fail (ole->type != MSOLE_DIR, FALSE);
 
@@ -549,9 +552,9 @@ gsf_outfile_msole_vprintf (GsfOutput *output, char const *format, va_list args)
 		klass = GET_OUTPUT_CLASS (ole->sink);
 		res = klass->Vprintf (ole->sink, format, args);
 	} else {
-		klass = (GsfOutputClass *) (g_type_class_peek_parent
-					    (GET_OUTPUT_CLASS (output)));
-		res = klass->Vprintf (output, format, args);
+		char *tmp = g_strdup_vprintf (format, args);
+		res = gsf_outfile_msole_write (output, strlen (tmp), tmp);
+		g_free (tmp);
 	}
 
 	return res;
@@ -590,14 +593,14 @@ ole_name_cmp (GsfOutfileMSOle const *a, GsfOutfileMSOle const *b)
 }
 
 static void
-gsf_outfile_msole_set_block_size (GsfOutfileMSOle *ole,
-				  unsigned bb_shift, unsigned sb_shift)
+gsf_outfile_msole_set_block_shift (GsfOutfileMSOle *ole,
+				   unsigned bb_shift, unsigned sb_shift)
 {
-	/* None of these are actually used yet */
 	ole->bb.shift = bb_shift;
 	ole->bb.size  = (1 << ole->bb.shift);
 	ole->sb.shift = sb_shift;
-	ole->bb.size  = (1 << ole->bb.shift);
+	ole->sb.size  = (1 << ole->sb.shift);
+	ole->metabat_size = (1 << (ole->bb.shift - 2)) - 1;
 }
 
 static GsfOutput *
@@ -622,7 +625,7 @@ gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 	g_object_ref (G_OBJECT (ole_parent->sink));
 	child->sink   = ole_parent->sink;
 	child->root   = ole_parent->root;
-	gsf_outfile_msole_set_block_size (child,
+	gsf_outfile_msole_set_block_shift (child,
 		ole_parent->bb.shift, ole_parent->sb.shift); 
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
@@ -644,7 +647,7 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->root   = NULL;
 	ole->type   = MSOLE_DIR;
 
-	gsf_outfile_msole_set_block_size (ole, 
+	gsf_outfile_msole_set_block_shift (ole, 
 		OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
 
 	ole->content.dir.children = NULL;
@@ -670,12 +673,24 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
 	   gsf_outfile_msole_class_init, gsf_outfile_msole_init,
 	   GSF_OUTFILE_TYPE)
 
+/* returns the number of times 1 must be shifted left to reach value */
+static unsigned
+compute_shift (unsigned value, unsigned def_val)
+{
+	unsigned i = 0;
+	while (value > 1) {
+		value >>= 1;
+		i++;
+	}
+	return (value == 1) ? i : def_val;
+}
+
 /**
  * gsf_outfile_msole_new_full :
  * @sink :
  * @err   :
- * @bb_shift : the shift size of large blocks
- * @sb_shift : the shift size of small blocks
+ * @bb_size : size of large blocks
+ * @sb_size : size of small blocks
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
@@ -687,45 +702,74 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
  *
  * Returns : the new ole file handler
  **/
-static GsfOutfile *
-gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shift)
+GsfOutfile *
+gsf_outfile_msole_new_full (GsfOutput *sink,
+			    unsigned bb_size, unsigned sb_size)
 {
-	static guint8 const default_header [] = {
+	static guint8 default_header [] = {
 /* 0x00 */	0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1,
 /* 0x08 */	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 /* 0x18 */	0x3e, 0x00, 0x03, 0x00, 0xfe, 0xff, 0x09, 0x00,
 /* 0x20 */	0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 /* 0x28 */	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x10, 0x00, 0x00, 0xfe, 0xff, 0xff, 0xff,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+/* 0x30 */	0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,
+/* 0x38 */	0x00, 0x10, 0x00, 0x00, 0xfe, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 	};
 
 	GsfOutfileMSOle *ole;
@@ -739,17 +783,24 @@ gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shif
 	ole->content.dir.root_order = g_ptr_array_new ();
 	ole_register_child (ole, ole);
 
-	/*  NOT IMPLEMENTED, DOES NOTHING, as a start we need to validate the
-	 *  values and store them in the header, then we can start worrying
-	 *  about resizing the header block, and storing these in it */
-	gsf_outfile_msole_set_block_size (ole, bb_shift, sb_shift);
+	gsf_outfile_msole_set_block_shift (ole,
+		compute_shift (bb_size, OLE_DEFAULT_BB_SHIFT),
+		compute_shift (sb_size, OLE_DEFAULT_SB_SHIFT));
 
 	/* The names are the same */
 	gsf_output_set_name (GSF_OUTPUT (ole), gsf_output_name (sink));
 	gsf_output_set_container (GSF_OUTPUT (ole), NULL);
 
+	/* 4k sector OLE files seen in the wild have version 4 */
+	default_header[OLE_HEADER_MAJOR_VER] = (ole->bb.size == 4096) ? 4 : 3;
+	default_header[OLE_HEADER_BB_SHIFT]  = ole->bb.shift;
 	gsf_output_write (sink, sizeof (default_header), default_header);
 
+	/* Pad with zeros out to ole->bb.size */
+	/* TODO: won't be clean for sector sizes > ZERO_PAD_BUF_SIZE */
+	gsf_output_write (sink,
+		MAX (OLE_HEADER_SIZE, ole->bb.size) - sizeof (default_header),
+		zero_buf);
 	return GSF_OUTFILE (ole);
 }
 
@@ -768,7 +819,7 @@ GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)
 {
 	return gsf_outfile_msole_new_full (sink, 
-		OLE_DEFAULT_SB_SIZE, OLE_DEFAULT_BB_SIZE);
+		OLE_DEFAULT_BB_SIZE, OLE_DEFAULT_SB_SIZE);
 }
 
 /**
