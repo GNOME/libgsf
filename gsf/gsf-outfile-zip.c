@@ -79,7 +79,8 @@ gsf_outfile_zip_finalize (GObject *obj)
 	g_free (zip->stream);
 	g_free (zip->buf);
 	
-	vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
+	if (zip == zip->root)
+		vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
 	
 	parent_class = g_type_class_peek (GSF_OUTFILE_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -133,13 +134,12 @@ zip_dirent_write (GsfOutput *sink, ZipDirent *dirent)
 }
 
 static gboolean
-zip_trailer_write (GsfOutfileZip *zip, gsf_off_t dirpos)
+zip_trailer_write (GsfOutfileZip *zip, unsigned entries, gsf_off_t dirpos)
 {
 	static guint8 const trailer_signature[] =
 		{ 'P', 'K', 0x05, 0x06 };
 	guint8 buf[ZIP_TRAILER_SIZE];
 	gsf_off_t pos = gsf_output_tell (zip->sink);
-	unsigned entries = zip->root_order->len;
 
 	memset (buf, 0, sizeof buf);
 	memcpy (buf, trailer_signature, sizeof trailer_signature);
@@ -158,6 +158,7 @@ zip_close_root (GsfOutput *output)
 	GsfOutfileZip *child;
 	gsf_off_t dirpos = gsf_output_tell (zip->sink);
 	GPtrArray *elem = zip->root_order;
+	unsigned entries = elem->len;
 	unsigned i;
 	gboolean result = FALSE;
 
@@ -170,21 +171,17 @@ zip_close_root (GsfOutput *output)
 		}
 	}
 	/* Write directory */
-	for (i = 0 ; i < elem->len ; i++) {
+	for (i = 0 ; i < entries ; i++) {
 		child = g_ptr_array_index (elem, i);
 		if (!zip_dirent_write (zip->sink, child->vdir->dirent))
 			return FALSE;
+		g_object_unref (G_OBJECT (child));
 	}		
 
-	result = zip_trailer_write (zip, dirpos);
+	g_ptr_array_free (zip->root_order, FALSE);
+	zip->root_order = NULL;
 
-	/* free the children after zip_trailer_write coz
-	 * it needs the root_array */
-	for (i = 0 ; i < elem->len ; i++)
-		g_object_unref (G_OBJECT (g_ptr_array_index (elem, i)));
-	g_ptr_array_free (elem, TRUE);
-
-	return result;
+	return zip_trailer_write (zip, entries, dirpos);
 }
 
 static int

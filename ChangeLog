@@ -1,6 +1,20 @@
+2002-11-23  Jon K Hellan  <hellan@acm.org>
+
+	* tests/test-zip-out.c: New test program. Add.
+
+	* tests/Makefile.am (check_PROGRAMS): Add test-zip-out.
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_finalize): Only free
+	vdirs from the root down.
+	(zip_trailer_write): Take no. of entries as a parameter, so that
+	the root_order array doesn't have to be live when we call this
+	function.
+	(zip_close_root): Slight tweak of Dom's fix.
+
 2002-11-23  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-outfile-zip.c (zip_close_root): Free the root_array and unref the child outputs when closing the root directory
+	* gsf/gsf-outfile-zip.c (zip_close_root): Free the root_array and
+	unref the child outputs when closing the root directory
 	
 2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
 
