@@ -455,13 +455,13 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
 {
 	gsf_off_t    remaining = 0;
 	size_t       toread    = 0;
-	const guint8 * buffer    = NULL;
+	const guint8 * buffer  = NULL;
 	gboolean     success   = TRUE;
 
 	g_return_val_if_fail (input != NULL, FALSE);
 	g_return_val_if_fail (output != NULL, FALSE);
 
-	while ((remaining = gsf_input_remaining (input)) > 0 && (success == TRUE)) {
+	while ((remaining = gsf_input_remaining (input)) > 0 && (success)) {
 		toread = MIN (remaining, GSF_READ_BUFSIZE);
 		if (NULL == (buffer = gsf_input_read (input, toread, NULL)))
 			success = FALSE;
