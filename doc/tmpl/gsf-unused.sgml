@@ -1,3 +1,43 @@
+<!-- ##### SECTION ./tmpl/gsf-infile-impl.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-infile-impl.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-infile-impl.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-infile-impl.sgml:Title ##### -->
+GsfInfile
+
+
+<!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf-output-impl.sgml:Title ##### -->
+GsfOutput
+
+
 <!-- ##### MACRO GSF_INFILE ##### -->
 <para>
 
@@ -123,6 +163,13 @@
 </para>
 
 @p: 
+
+<!-- ##### MACRO GSF_OUTPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
 
 <!-- ##### STRUCT GsfInputMMap ##### -->
 <para>

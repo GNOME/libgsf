@@ -48,14 +48,6 @@ gsf_infile_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gsf-infile-impl</FILE>
-<TITLE>GsfInfile</TITLE>
-<SUBSECTION Standard>
-GSF_INFILE_CLASS
-IS_GSF_INFILE_CLASS
-</SECTION>
-
-<SECTION>
 <FILE>gsf-input-stdio</FILE>
 GsfInputStdio
 gsf_input_stdio_new
@@ -118,13 +110,6 @@ GSF_INPUT_GNOMEVFS_TYPE
 GSF_INPUT_GNOMEVFS
 GSF_IS_INPUT_GNOMEVFS
 gsf_input_gnomevfs_get_type
-</SECTION>
-
-<SECTION>
-<FILE>gsf-output-impl</FILE>
-<TITLE>GsfOutput</TITLE>
-GSF_OUTPUT_CLASS
-IS_GSF_OUTPUT_CLASS
 </SECTION>
 
 <SECTION>

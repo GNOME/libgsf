@@ -4,27 +4,26 @@
 
 <!entity hash "#">
 <!entity percent "%">
-<!entity GsfImplUtils	SYSTEM "sgml/gsf-impl-utils.sgml">
-<!entity GsfInfileImpl	SYSTEM "sgml/gsf-infile-impl.sgml">
-<!entity GsfInfileMsole	SYSTEM "sgml/gsf-infile-msole.sgml">
-<!entity GsfInfileZip	SYSTEM "sgml/gsf-infile-zip.sgml">
-<!entity GsfInfile	SYSTEM "sgml/gsf-infile.sgml">
-<!entity GsfInputeGnomevfs	SYSTEM "sgml/gsf-input-gnomevfs.sgml">
-<!entity GsfInputGzip	SYSTEM "sgml/gsf-input-gzip.sgml">
-<!entity GsfInputImpl	SYSTEM "sgml/gsf-input-impl.sgml">
-<!entity GsfInputMemory	SYSTEM "sgml/gsf-input-memory.sgml">
-<!entity GsfInputStdio	SYSTEM "sgml/gsf-input-stdio.sgml">
+<!entity Gsf			SYSTEM "sgml/gsf.sgml">
+<!entity GsfInput		SYSTEM "sgml/gsf-input.sgml">
+<!entity GsfOutput		SYSTEM "sgml/gsf-output.sgml">
+<!entity GsfInfile		SYSTEM "sgml/gsf-infile.sgml">
+<!entity GsfOutfile		SYSTEM "sgml/gsf-outfile.sgml">
+
+<!entity GsfInputStdio		SYSTEM "sgml/gsf-input-stdio.sgml">
+<!entity GsfInputGzip		SYSTEM "sgml/gsf-input-gzip.sgml">
 <!entity GsfInputTextline	SYSTEM "sgml/gsf-input-textline.sgml">
-<!entity GsfInput	SYSTEM "sgml/gsf-input.sgml">
-<!entity GsfLibxml	SYSTEM "sgml/gsf-libxml.sgml">
-<!entity GsfOutfile	SYSTEM "sgml/gsf-outfile.sgml">
-<!entity GsfOutputImpl	SYSTEM "sgml/gsf-output-impl.sgml">
-<!entity GsfOutput	SYSTEM "sgml/gsf-output.sgml">
+<!entity GsfInputMemory		SYSTEM "sgml/gsf-input-memory.sgml">
 <!entity GsfSharedMemory	SYSTEM "sgml/gsf-shared-memory.sgml">
-<!entity GsfUtils	SYSTEM "sgml/gsf-utils.sgml">
-<!entity Gsf	SYSTEM "sgml/gsf.sgml">
-<!entity ObjectIndex	SYSTEM "sgml/object_index.sgml">
-<!entity TreeIndex	SYSTEM "sgml/tree_index.sgml">
+<!entity GsfInputeGnomevfs	SYSTEM "sgml/gsf-input-gnomevfs.sgml">
+
+<!entity GsfInfileMsole		SYSTEM "sgml/gsf-infile-msole.sgml">
+<!entity GsfInfileZip		SYSTEM "sgml/gsf-infile-zip.sgml">
+<!entity GsfLibxml		SYSTEM "sgml/gsf-libxml.sgml">
+<!entity GsfUtils		SYSTEM "sgml/gsf-utils.sgml">
+<!entity ObjectIndex		SYSTEM "sgml/object_index.sgml">
+<!entity TreeIndex		SYSTEM "sgml/tree_index.sgml">
+<!entity GsfImplUtils		SYSTEM "sgml/gsf-impl-utils.sgml">
 ]>
 
 <book id="index">
@@ -80,13 +79,6 @@ gsf-infile
 
 <reference>
 <title>
-gsf-infile-impl
-</title>
-&GsfInfileImpl;
-</reference>
-
-<reference>
-<title>
 gsf-infile-msole
 </title>
 &GsfInfileMsole;
@@ -104,13 +96,6 @@ gsf-infile-zip
 gsf-input
 </title>
 &GsfInput;
-</reference>
-
-<reference>
-<title>
-gsf-input-impl
-</title>
-&GsfInputImpl;
 </reference>
 
 <reference>
@@ -153,13 +138,6 @@ gsf-input-textline
 gsf-out-file
 </title>
 &GsfOutfile;
-</reference>
-
-<reference>
-<title>
-gsf-output-impl
-</title>
-&GsfOutputImpl;
 </reference>
 
 <reference>
