@@ -1,7 +1,7 @@
 Near:
     - Complete MS property set read and write
-    - Adjust ZIP import directory handling (JK has a patch)
     - ZIP export
+    - merge in the temp file handling while saving from gedit
 
 Longer:
     - More work on VBA directory parsing so that we can decompress
