@@ -1,3 +1,7 @@
+2002-12-20  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-libxml.c (gsf_libxml_close): Plug leak.
+
 2002-12-19  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : Able to
