@@ -109,6 +109,7 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 
 	dst->shared = src->shared;
 	g_object_ref (G_OBJECT (dst->shared));
+	gsf_input_set_size (GSF_INPUT (dst), src->shared->size);
 
 #ifdef HAVE_BROKEN_MMAP
 	if (src->fd != -1)

@@ -1,5 +1,7 @@
 2004-09-16  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input-memory.c (gsf_input_memory_dup): Set size.
+
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Ugly
 	work-around for gnome-vfs bug.
 
