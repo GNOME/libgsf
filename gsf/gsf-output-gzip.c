@@ -147,6 +147,7 @@ gsf_output_gzip_finalize (GObject *obj)
 
 	g_free (gzip->buf);
 
+	/* FIXME: check for error?  */
 	deflateEnd (&gzip->stream);
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
