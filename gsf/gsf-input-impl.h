@@ -2,7 +2,7 @@
 /*
  * gsf-input.h-impl.h: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -44,6 +44,13 @@ typedef struct {
 			       guint8 *optional_buffer);
 	gboolean      (*Seek) (GsfInput *input, gsf_off_t offset,
 			       GSeekType whence);
+	GsfInput     *(*OpenSibling)  (GsfInput *input, char const *path, GError **err);
+
+	/* Padding for future expansion */
+	void (*_gsf_reserved0) (void);
+	void (*_gsf_reserved1) (void);
+	void (*_gsf_reserved2) (void);
+	void (*_gsf_reserved3) (void);
 } GsfInputClass;
 
 #define GSF_INPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INPUT_TYPE, GsfInputClass))

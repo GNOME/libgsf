@@ -30,7 +30,6 @@ libgsf_1_la_SOURCES =		\
 	gsf-zip-utils.c		\
 	\
 	gsf-input.c		\
-	gsf-input-impl.h	\
 	gsf-input-memory.c 	\
 	gsf-input-stdio.c 	\
 	gsf-input-textline.c 	\
@@ -39,13 +38,11 @@ libgsf_1_la_SOURCES =		\
 	gsf-input-iochannel.c	\
 	\
 	gsf-infile.c 		\
-	gsf-infile-impl.h 	\
 	gsf-infile-msole.c 	\
 	gsf-infile-msvba.c 	\
 	gsf-infile-zip.c	\
 	\
 	gsf-output.c 		\
-	gsf-output-impl.h	\
 	gsf-output-iochannel.c	\
 	gsf-output-memory.c	\
 	gsf-output-stdio.c	\
@@ -53,7 +50,6 @@ libgsf_1_la_SOURCES =		\
 	gsf-output-bzip.c	\
 	\
 	gsf-outfile.c 		\
-	gsf-outfile-impl.h 	\
 	gsf-outfile-msole.c 	\
 	gsf-outfile-zip.c	\
 	\
@@ -75,6 +71,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-timestamp.h		\
 	\
 	gsf-input.h		\
+	gsf-input-impl.h		\
 	gsf-input-memory.h 	\
 	gsf-input-stdio.h 	\
 	gsf-input-textline.h 	\
@@ -83,11 +80,13 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-iochannel.h	\
 	\
 	gsf-infile.h 		\
+	gsf-infile-impl.h 	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
 	gsf-infile-zip.h	\
 	\
 	gsf-output.h		\
+	gsf-output-impl.h	\
 	gsf-output-iochannel.h	\
 	gsf-output-memory.h	\
 	gsf-output-stdio.h	\
@@ -95,6 +94,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-output-bzip.h	\
 	\
 	gsf-outfile.h 		\
+	gsf-outfile-impl.h 	\
 	gsf-outfile-msole.h	\
 	gsf-outfile-zip.h       \
 	\

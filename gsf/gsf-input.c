@@ -2,7 +2,7 @@
 /*
  * gsf-input.c: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -183,7 +183,7 @@ gsf_input_container (GsfInput *input)
 
 /**
  * gsf_input_dup :
- * @src : The input to duplicate
+ * @input : The input to duplicate
  * @err : optionally NULL
  *
  * Duplicates input @src leaving the new one at the same offset.
@@ -191,21 +191,21 @@ gsf_input_container (GsfInput *input)
  * Returns : the duplicate, or NULL on error
  **/
 GsfInput *
-gsf_input_dup (GsfInput *src, GError **err)
+gsf_input_dup (GsfInput *input, GError **err)
 {
 	GsfInput *dst;
 
-	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (input != NULL, NULL);
 
-	dst = GET_CLASS (src)->Dup (src, err);
+	dst = GET_CLASS (input)->Dup (input, err);
 	if (dst != NULL) {
-		dst->size = src->size;
-		if (src->name != NULL)
-			gsf_input_set_name (dst, src->name);
-		dst->container = src->container;
+		dst->size = input->size;
+		if (input->name != NULL)
+			gsf_input_set_name (dst, input->name);
+		dst->container = input->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, (gsf_off_t)src->cur_offset, G_SEEK_SET);
+		gsf_input_seek (dst, (gsf_off_t)input->cur_offset, G_SEEK_SET);
 	}
 	return dst;
 }

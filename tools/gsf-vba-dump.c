@@ -45,9 +45,12 @@ test (int argc, char *argv[])
 				if (vba != NULL) {
 					fprintf( stderr, "%s\n",argv[i]);
 
+#if 1
 					vba_wrapper = GSF_INFILE (gsf_infile_msvba_new (GSF_INFILE (vba), &err));
 					if (vba_wrapper != NULL) {
+						g_object_unref (G_OBJECT (vba_wrapper));
 					}
+#endif
 					g_object_unref (G_OBJECT (vba));
 				} else {
 #if 0

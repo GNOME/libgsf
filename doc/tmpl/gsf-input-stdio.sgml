@@ -14,33 +14,10 @@ gsf-input-stdio
 
 </para>
 
-<!-- ##### MACRO GSF_INPUT_STDIO_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INPUT_STDIO ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfInputStdio ##### -->
 <para>
 
 </para>
-
-
-<!-- ##### FUNCTION gsf_input_stdio_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
 
 
 <!-- ##### FUNCTION gsf_input_stdio_new ##### -->

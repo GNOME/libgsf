@@ -20,21 +20,6 @@ gsf-infile-msole
 </para>
 
 
-<!-- ##### MACRO GSF_INFILE_MSOLE_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INFILE_MSOLE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### FUNCTION gsf_infile_msole_get_type ##### -->
 <para>
 

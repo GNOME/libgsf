@@ -20,29 +20,6 @@ gsf-infile-zip
 </para>
 
 
-<!-- ##### MACRO GSF_INFILE_ZIP_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INFILE_ZIP ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gsf_infile_zip_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_infile_zip_new ##### -->
 <para>
 

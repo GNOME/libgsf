@@ -1,7 +1,8 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-shared-memory.h
  *
- * Copyright (C) 2002-2003 Morten Welinder (terra@diku.dk)
+ * Copyright (C) 2002-2004 Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

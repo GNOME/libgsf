@@ -37,6 +37,17 @@ gsf-outfile
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_outfile_new_child ##### -->
+<para>
+
+</para>
+
+@outfile: 
+@name: 
+@is_dir: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_outfile_error ##### -->
 <para>
 

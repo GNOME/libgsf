@@ -1,7 +1,8 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-io-context.c: IO context class
  *
- * Copyright (C) 2002-2003 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2002-2004 Rodrigo Moya (rodrigo@gnome-db.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

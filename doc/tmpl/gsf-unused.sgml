@@ -1,3 +1,76 @@
+<!-- ##### MACRO GSF_INFILE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_INFILE_MSOLE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INFILE_MSOLE_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INFILE_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INFILE_ZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INFILE_ZIP_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_INPUT_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INPUT_MEMORY_TYPE ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_INPUT_MMAP ##### -->
 <para>
 
@@ -6,6 +79,25 @@
 @o: 
 
 <!-- ##### MACRO GSF_INPUT_MMAP_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INPUT_STDIO ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INPUT_STDIO_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INPUT_TYPE ##### -->
 <para>
 
 </para>
@@ -31,12 +123,6 @@
 </para>
 
 @p: 
-
-<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
-<para>
-
-</para>
-
 
 <!-- ##### STRUCT GsfInputMMap ##### -->
 <para>
@@ -210,6 +296,27 @@
 </para>
 
 
+<!-- ##### FUNCTION gsf_infile_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_infile_zip_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 <!-- ##### FUNCTION gsf_input_gnomevfs_get_type ##### -->
 <para>
 
@@ -217,17 +324,21 @@
 
 @Returns: 
 
-<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
+<!-- ##### FUNCTION gsf_input_memory_get_type ##### -->
 <para>
 
 </para>
 
-@uri: 
-@error: 
 @Returns: 
-@filename: 
 
 <!-- ##### FUNCTION gsf_input_mmap_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_stdio_get_type ##### -->
 <para>
 
 </para>

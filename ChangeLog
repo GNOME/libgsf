@@ -1,3 +1,13 @@
+2004-01-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_fatal_error) : Looks like Daniel has
+	  added another field
+
+2004-01-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130596
+	* configure.in : apply the patch
+
 Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* doc/Makefile.am (EXTRA_HFILES): Add ../gsf-gnome/*.h to give

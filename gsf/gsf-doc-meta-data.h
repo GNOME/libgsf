@@ -2,7 +2,7 @@
 /*
  * gsf-doc-meta-data.h: get, set, remove custom meta properties associated with documents
  *
- * Copyright (C) 2002-2003 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2004 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

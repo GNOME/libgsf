@@ -14,33 +14,10 @@ gsf-input-memory
 
 </para>
 
-<!-- ##### MACRO GSF_INPUT_MEMORY_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INPUT_MEMORY ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfInputMemory ##### -->
 <para>
 
 </para>
-
-
-<!-- ##### FUNCTION gsf_input_memory_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
 
 
 <!-- ##### FUNCTION gsf_input_memory_new ##### -->

@@ -14,29 +14,6 @@ gsf-input
 
 </para>
 
-<!-- ##### MACRO GSF_INPUT_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INPUT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gsf_input_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_input_container ##### -->
 <para>
 
@@ -51,9 +28,11 @@ gsf-input
 
 </para>
 
-@src: 
+@input: 
 @err: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@src: 
 
 
 <!-- ##### FUNCTION gsf_input_size ##### -->

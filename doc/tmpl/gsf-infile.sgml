@@ -14,29 +14,6 @@ gsf-infile
 
 </para>
 
-<!-- ##### MACRO GSF_INFILE_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INFILE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gsf_infile_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_infile_num_children ##### -->
 <para>
 

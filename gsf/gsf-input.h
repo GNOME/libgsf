@@ -2,7 +2,7 @@
 /*
  * gsf-input.h: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -38,7 +38,8 @@ GType gsf_input_get_type (void);
 char const   *gsf_input_name	  (GsfInput *input);
 GsfInfile    *gsf_input_container (GsfInput *input);
 
-GsfInput     *gsf_input_dup	  (GsfInput *src, GError **err);
+GsfInput     *gsf_input_dup	  (GsfInput *input, GError **err);
+GsfInput     *gsf_input_sibling	  (GsfInput const *input, char const *name, GError **err);
 gsf_off_t     gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *input);
 guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,
@@ -47,9 +48,9 @@ gsf_off_t     gsf_input_remaining (GsfInput *input);
 gsf_off_t     gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
 				   gsf_off_t offset, GSeekType whence);
-gboolean      gsf_input_copy      (GsfInput *input,
-				   GsfOutput *output);
 
+/* Utilities */
+gboolean  gsf_input_copy       (GsfInput *input, GsfOutput *output);
 GsfInput *gsf_input_uncompress (GsfInput *src);
 
 GQuark gsf_input_error (void);

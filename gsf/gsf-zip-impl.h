@@ -2,7 +2,7 @@
 /*
  * gsf-zip-impl.h: 
  *
- * Copyright (C) 2002-2003 Tambet Ingo (tambet@ximian.com)
+ * Copyright (C) 2002-2004 Tambet Ingo (tambet@ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

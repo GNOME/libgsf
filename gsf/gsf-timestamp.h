@@ -3,7 +3,7 @@
  * gsf-timestamp.h: A useful little type for metadata, contains a superset of
  *		 all the features it would be nice to have.
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

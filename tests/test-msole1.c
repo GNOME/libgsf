@@ -134,6 +134,18 @@ test (int argc, char *argv[])
 			continue;
 		}
 
+#if 0
+		stream = gsf_infile_child_by_name (infile, "\01CompObj");
+		if (stream != NULL) {
+			gsf_off_t len = gsf_input_size (stream);
+			guint8 const *data = gsf_input_read (stream, len, NULL);
+			if (data != NULL)
+				gsf_mem_dump (data, len);
+			g_object_unref (G_OBJECT (stream));
+		}
+		return 0;
+#endif
+
 		stream = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 		if (stream != NULL) {
 			puts ( "SummaryInfo");

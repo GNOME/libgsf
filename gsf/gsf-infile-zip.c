@@ -2,7 +2,7 @@
 /*
  * gsf-infile-zip.c :
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *                    Tambet Ingo   (tambet@ximian.com)
  *
  * This program is free software; you can redistribute it and/or

@@ -2,7 +2,7 @@
 /*
  * gsf-libxml.c :
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -409,6 +409,10 @@ static xmlSAXHandler gsfXMLInParser = {
 #if LIBXML_VERSION >= 20600
 	,
 	NULL, NULL, NULL
+#if LIBXML_VERSION >= 20602
+	,
+	NULL /* serror */
+#endif
 #endif
 };
 

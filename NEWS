@@ -5,6 +5,7 @@ Jody Goldberg:
 	* Handle broken ole files that specify codepage as signed short
 	* Fix reading ole files > 13.6 Meg on sparc/alpha (from Xavier Roche)
 	* Tune validation test for LPSTR properties to handle char width > 1
+	* Make the impl headers for the base interfaces public as requested
 
 Joseph Frazee:
 	* patch the spec file.

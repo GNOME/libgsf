@@ -2,7 +2,7 @@
 /*
  * gsf-input-memory.c: 
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -42,13 +42,10 @@ struct _GsfInputMemory {
 	int fd;
 #endif
 };
-typedef struct {
-	GsfInputClass input_class;
-} GsfInputMemoryClass;
+typedef GsfInputClass GsfInputMemoryClass;
 
 /**
  * gsf_input_memory_new:
- *
  * @buf: The input bytes
  * @length: The length of @buf
  * @needs_free: Whether you want this memory to be free'd at object destruction
@@ -66,7 +63,6 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 
 /**
  * gsf_input_memory_new_clone:
- *
  * @buf: The input bytes
  * @length: The length of @buf
  *
@@ -197,7 +193,6 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
      
 /**
  * gsf_input_mmap_new:
- *
  * @filename: The file on disk that you want to mmap
  * @err: A #GError, or optionally %null
  *
