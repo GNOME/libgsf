@@ -516,6 +516,31 @@ gsf_outfile_msole_write (GsfOutput *output,
 }
 
 
+#define GET_OUTPUT_CLASS(instance) \
+         G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
+
+static gboolean
+gsf_output_msole_vprintf (GsfOutput *output, char const *format, va_list args)
+{
+	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
+	GsfOutputClass *klass;
+	int res;
+
+	g_return_val_if_fail (ole->type != MSOLE_DIR, FALSE);
+
+	if (ole->type == MSOLE_BIG_BLOCK) {
+		klass = GET_OUTPUT_CLASS (ole->sink);
+		res = klass->Vprintf (ole->sink, format, args);
+	} else {
+		klass = (GsfOutputClass *) (g_type_class_peek_parent
+					    (GET_OUTPUT_CLASS (output)));
+		res = klass->Vprintf (output, format, args);
+	}
+
+	return res;
+}
+
+
 static void
 ole_register_child (GsfOutfileMSOle *root, GsfOutfileMSOle *child)
 {

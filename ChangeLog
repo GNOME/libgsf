@@ -1,5 +1,15 @@
 2002-11-22  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-outfile-msole.c (gsf_output_msole_vprintf): New. vprintf
+	implementation which falls through to the sink's implementation if
+	possible.
+
+	* gsf/gsf-output-stdio.c (gsfi_output_stdio_vprintf): New. vprintf
+	implementation which just falls through to vfprintf.
+	(gsf_output_stdio_class_init): Initialize vprintf virtual.
+
+2002-11-22  Jon K Hellan  <hellan@acm.org>
+
 	* tests/test-msole-printf.c: New test program. Add.
 
 	* tests/Makefile.am (check_PROGRAMS): Add test-msole-printf.

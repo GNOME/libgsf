@@ -360,6 +360,15 @@ gsf_output_stdio_write (GsfOutput *output,
 	return res == num_bytes;
 }
 
+static gboolean
+gsf_output_stdio_vprintf (GsfOutput *output, char const *format, va_list args)
+{
+	GsfOutputStdio *stdio = (GsfOutputStdio *)output;
+	int res = vfprintf (stdio->file, format, args);
+
+	return (res >= 0);
+}
+
 static void
 gsf_output_stdio_init (GObject *obj)
 {
@@ -378,6 +387,7 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 	output_class->Close	= gsf_output_stdio_close;
 	output_class->Seek	= gsf_output_stdio_seek;
 	output_class->Write	= gsf_output_stdio_write;
+	output_class->Vprintf	= gsf_output_stdio_vprintf;
 }
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
