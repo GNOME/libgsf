@@ -136,11 +136,10 @@ gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffe
 }
 
 static gboolean
-gsf_input_memory_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
+gsf_input_memory_seek (G_GNUC_UNUSED GsfInput *input,
+		       G_GNUC_UNUSED gsf_off_t offset,
+		       G_GNUC_UNUSED GSeekType whence)
 {
-	(void)input;
-	(void)offset;
-	(void)whence;
 	return FALSE;
 }
 
@@ -244,7 +243,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		close (fd);
 		return NULL;
 	}
-	buf = mmap (0, size, PROT_READ, MAP_SHARED, fd, (off_t) 0);
+	buf = mmap (NULL, size, PROT_READ, MAP_SHARED, fd, (off_t) 0);
 	if (buf == MAP_FAILED) {
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);

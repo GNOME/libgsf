@@ -31,8 +31,8 @@
  * Glib gets this wrong, really.  ARM's floating point format is a weird
  * mixture.
  */
-#if defined(__arm__) && !defined(__vfp__) && (G_BYTE_ORDER == G_LITTLE_ENDIAN)
 #define G_ARMFLOAT_ENDIAN 56781234
+#if defined(__arm__) && !defined(__vfp__) && (G_BYTE_ORDER == G_LITTLE_ENDIAN)
 #define G_FLOAT_BYTE_ORDER G_ARMFLOAT_ENDIAN
 #else
 #define G_FLOAT_BYTE_ORDER G_BYTE_ORDER

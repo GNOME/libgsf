@@ -1,3 +1,18 @@
+2004-07-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Use NULL, not 0 for
+	pointer.
+	(gsf_input_memory_seek): Use G_GNUC_UNUSED instead of
+	void-casting.
+
+	* gsf/gsf-libxml.c (gsfXMLInParser): Ditto.
+	(gsf_xml_in_get_entity, gsf_xml_in_warning, gsf_xml_in_error,
+	gsf_xml_in_fatal_error): Use G_GNUC_UNUSED instead of
+	void-casting.
+	(gsf_xml_out_add_color): Make buffer size overflow safe.
+
+	* gsf/gsf-utils.c: Always #define G_ARMFLOAT_ENDIAN.
+
 2004-07-28  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root):

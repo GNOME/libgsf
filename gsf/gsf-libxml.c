@@ -329,9 +329,8 @@ gsf_xml_in_characters (GsfXMLIn *state, const xmlChar *chars, int len)
 }
 
 static xmlEntityPtr
-gsf_xml_in_get_entity (GsfXMLIn *state, const xmlChar *name)
+gsf_xml_in_get_entity (G_GNUC_UNUSED GsfXMLIn *state, const xmlChar *name)
 {
-	(void)state;
 	return xmlGetPredefinedEntity (name);
 }
 
@@ -365,66 +364,63 @@ gsf_xml_in_end_document (GsfXMLIn *state)
 }
 
 static void
-gsf_xml_in_warning (GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
-	(void)state;
 	va_start (args, msg);
 	g_logv ("XML", G_LOG_LEVEL_WARNING, msg, args);
 	va_end (args);
 }
 
 static void
-gsf_xml_in_error (GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
-	(void)state;
 	va_start (args, msg);
 	g_logv ("XML", G_LOG_LEVEL_CRITICAL, msg, args);
 	va_end (args);
 }
 
 static void
-gsf_xml_in_fatal_error (GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
-	(void)state;
 	va_start (args, msg);
 	g_logv ("XML", G_LOG_LEVEL_ERROR, msg, args);
 	va_end (args);
 }
 
 static xmlSAXHandler gsfXMLInParser = {
-	0, /* internalSubset */
-	0, /* isStandalone */
-	0, /* hasInternalSubset */
-	0, /* hasExternalSubset */
-	0, /* resolveEntity */
+	NULL, /* internalSubset */
+	NULL, /* isStandalone */
+	NULL, /* hasInternalSubset */
+	NULL, /* hasExternalSubset */
+	NULL, /* resolveEntity */
 	(getEntitySAXFunc)gsf_xml_in_get_entity, /* getEntity */
-	0, /* entityDecl */
-	0, /* notationDecl */
-	0, /* attributeDecl */
-	0, /* elementDecl */
-	0, /* unparsedEntityDecl */
-	0, /* setDocumentLocator */
+	NULL, /* entityDecl */
+	NULL, /* notationDecl */
+	NULL, /* attributeDecl */
+	NULL, /* elementDecl */
+	NULL, /* unparsedEntityDecl */
+	NULL, /* setDocumentLocator */
 	(startDocumentSAXFunc)gsf_xml_in_start_document, /* startDocument */
 	(endDocumentSAXFunc)gsf_xml_in_end_document, /* endDocument */
 	(startElementSAXFunc)gsf_xml_in_start_element, /* startElement */
 	(endElementSAXFunc)gsf_xml_in_end_element, /* endElement */
-	0, /* reference */
+	NULL, /* reference */
 	(charactersSAXFunc)gsf_xml_in_characters, /* characters */
-	0, /* ignorableWhitespace */
-	0, /* processingInstruction */
-	0, /* comment */
+	NULL, /* ignorableWhitespace */
+	NULL, /* processingInstruction */
+	NULL, /* comment */
 	(warningSAXFunc)gsf_xml_in_warning, /* warning */
 	(errorSAXFunc)gsf_xml_in_error, /* error */
 	(fatalErrorSAXFunc)gsf_xml_in_fatal_error, /* fatalError */
-	0, /* getParameterEntity */
-	0, /* cdataBlock */
-	0, /* externalSubset */
+	NULL, /* getParameterEntity */
+	NULL, /* cdataBlock */
+	NULL, /* externalSubset */
 	0
 #if LIBXML_VERSION >= 20600
 	,
@@ -976,7 +972,7 @@ void
 gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
 		      unsigned int val)
 {
-	char buf [4 * sizeof (int)];
+	char buf [4 * sizeof (unsigned int)];
 	sprintf (buf, "%u", val);
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
@@ -1021,7 +1017,7 @@ void
 gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
 		       unsigned int r, unsigned int g, unsigned int b)
 {
-	char buf [4 * sizeof (unsigned)];
+	char buf [3 * 4 * sizeof (unsigned int) + 1];
 	sprintf (buf, "%X:%X:%X", r, g, b);
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
@@ -1050,4 +1046,3 @@ gsf_xml_out_add_base64 (GsfXMLOut *xml, char const *id,
 	gsf_xml_out_add_cstr_unchecked (xml, id, tmp);
 	g_free (tmp);
 }
-
