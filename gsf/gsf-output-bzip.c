@@ -256,9 +256,6 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 
 	return GSF_OUTPUT (bzip);
 #else
-#ifdef __GNUC__
-#warning Building without BZ2 support
-#endif
 	if (err)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				    "BZ2 support not enabled");
