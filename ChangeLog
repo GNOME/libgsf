@@ -1,6 +1,17 @@
+2002-11-22  Jon K Hellan  <hellan@acm.org>
+
+	* tests/test-outmem-printf.c: New test program. Add.
+
+	* tests/Makefile.am (check_PROGRAMS): Add test-outmem-printf.
+
+	* gsf/gsf-output-memory.c (gsf_output_memory_vprintf):
+	New. vprintf implementation which uses g_vsnprintf directly
+	into buffer if there is space.
+	(gsf_output_memory_class_init):  Initialize vprintf virtual. 
+
 2002-11-22  Jody Goldberg <jody@gnome.org>
 
-	* doc/Makefile.am : pull in newer magic frm gtk.
+	* doc/Makefile.am : pull in newer magic from gtk.
 	* configure.in : ditto.
 
 2002-11-22  Jon K Hellan  <hellan@acm.org>
@@ -8,8 +19,9 @@
 	* gsf/gsf-outfile-msole.c (gsf_output_msole_vprintf): New. vprintf
 	implementation which falls through to the sink's implementation if
 	possible.
+	(gsf_outfile_msole_class_init):  Initialize vprintf virtual. 
 
-	* gsf/gsf-output-stdio.c (gsfi_output_stdio_vprintf): New. vprintf
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_vprintf): New. vprintf
 	implementation which just falls through to vfprintf.
 	(gsf_output_stdio_class_init): Initialize vprintf virtual.
 

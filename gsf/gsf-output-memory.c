@@ -138,6 +138,31 @@ gsf_output_memory_write (GsfOutput *output,
     return TRUE;
 }
 
+#define GET_OUTPUT_CLASS(instance) \
+         G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
+
+static gboolean
+gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
+{
+	GsfOutputMemory *mem = (GsfOutputMemory *)output;
+	GsfOutputClass *klass;
+	gulong len;
+
+	if (mem->buffer) {
+		len = g_vsnprintf (mem->buffer + mem->nwritten,
+				   mem->capacity - mem->nwritten,
+				   format, args);
+		if (len < mem->capacity - mem->nwritten) {
+			/* There was sufficient space */
+			mem->nwritten += len;
+			return TRUE;
+		}
+	}
+	klass = (GsfOutputClass *) (g_type_class_peek_parent
+				    (GET_OUTPUT_CLASS (output)));
+	return klass->Vprintf (output, format, args);
+}
+
 static void
 gsf_output_memory_init (GObject *obj)
 {
@@ -154,9 +179,10 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
     GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
 
     gobject_class->finalize = gsf_output_memory_finalize;
-    output_class->Close	= gsf_output_memory_close;
-    output_class->Seek	= gsf_output_memory_seek;
-    output_class->Write	= gsf_output_memory_write;
+    output_class->Close     = gsf_output_memory_close;
+    output_class->Seek	    = gsf_output_memory_seek;
+    output_class->Write	    = gsf_output_memory_write;
+    output_class->Vprintf   = gsf_output_memory_vprintf;
 }
 
 /**
