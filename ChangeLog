@@ -1,3 +1,8 @@
+2004-08-25  Stepan Kasal  <kasal@ucw.cz>
+
+        * gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Be careful
+          with empty files (fixes bug #150923).
+
 2004-08-25  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_base64_encode_step): Avoid potential

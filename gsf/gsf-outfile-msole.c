@@ -248,13 +248,17 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 		if (child->type == MSOLE_SMALL_BLOCK) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
-
-			child->blocks = ((size - 1) >> ole->sb.shift) + 1;
-			gsf_output_write (ole->sink, child->blocks << ole->sb.shift,
-				child->content.small_block.buf);
-
-			child->first_block = blocks;
-			blocks += child->blocks;
+			if (size > 0) {
+				child->blocks = ((size - 1) >> ole->sb.shift) + 1;
+				gsf_output_write (ole->sink,
+						  child->blocks << ole->sb.shift,
+						  child->content.small_block.buf);
+				child->first_block = blocks;
+				blocks += child->blocks;
+			} else {
+				child->blocks = 0;
+				child->first_block = BAT_MAGIC_END_OF_CHAIN;
+			}
 		}
 	}
 	data_size = gsf_output_tell (ole->sink) - data_size;
@@ -271,8 +275,8 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 	sbat_start = ole_cur_block (ole);
 	for (i = 0 ; i < elem->len ; i++) {
 		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-		if (child->type == MSOLE_SMALL_BLOCK)
-			ole_write_bat (ole->sink,  child->first_block, child->blocks);
+		if (child->type == MSOLE_SMALL_BLOCK && child->blocks > 0)
+			ole_write_bat (ole->sink, child->first_block, child->blocks);
 	}
 	ole_pad_bat_unused (ole, 0);
 	num_sbat = ole_cur_block (ole) - sbat_start;
