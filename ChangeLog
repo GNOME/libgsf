@@ -1,3 +1,9 @@
+2004-07-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_class_init) : Init the parent_class
+	  here.
+	(gsf_xml_out_init) : not here.
+
 2004-07-27  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new_full):

@@ -678,13 +678,13 @@ gsf_xml_out_init (GObject *obj)
 	xml->indent = 0;
 	xml->needs_header = TRUE;
 	xml->doc_type = NULL;
-	parent_class = g_type_class_peek_parent (obj);
 }
 
 static void
 gsf_xml_out_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize = gsf_xml_out_finalize;
+	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
 GSF_CLASS (GsfXMLOut, gsf_xml_out,
