@@ -1,3 +1,12 @@
+2002-08-02  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* gsf/gsf-io-context.c: removed progress_min and progress_max, since
+	they don't seem too useful right now (ie, let's keep it simple).
+	(gsf_io_context_clear): free progress_ranges list and initialize
+	progress-related internal values.
+	(gsf_io_context_update_progress): implemented.
+	(gsf_io_context_class_init): added "progress" signal to class.
+
 2002-08-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/Makefile.am (HTML_DIR) : conditionally define.

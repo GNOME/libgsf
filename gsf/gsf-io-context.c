@@ -30,7 +30,6 @@ struct _GsfIOContext {
 
 	/* operation progress */
 	GList *progress_ranges;
-	gfloat progress_min, progress_max;
 	gdouble last_progress;
 	gdouble last_time;
 };
@@ -41,6 +40,7 @@ static void gsf_io_context_finalize   (GObject *object);
 
 enum {
 	ERROR_OCCURRED,
+	PROGRESS,
 	LAST_SIGNAL
 };
 
@@ -64,6 +64,14 @@ gsf_io_context_class_init (GsfIOContextClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	io_context_signals[PROGRESS] =
+		g_signal_new ("progress",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GsfIOContextClass, progress),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__DOUBLE,
+			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 }
 
 static void
@@ -73,8 +81,6 @@ gsf_io_context_init (GsfIOContext *ioc, GsfIOContextClass *klass)
 	ioc->error_occurred = FALSE;
 
 	ioc->progress_ranges = NULL;
-	ioc->progress_min = 0.0;
-	ioc->progress_max = 1.0;
 	ioc->last_progress = -1.0;
 	ioc->last_time = 0.0;
 }
@@ -87,9 +93,7 @@ gsf_io_context_finalize (GObject *object)
 	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
 
 	/* free memory */
-	g_list_foreach (ioc->errors, (GFunc) g_error_free, NULL);
-	g_list_free (ioc->errors);
-	ioc->errors = NULL;
+	gsf_io_context_clear (ioc);
 
 	parent_class->finalize (object);
 }
@@ -157,7 +161,7 @@ gsf_io_context_error_message (GsfIOContext *ioc, const gchar *msg, gint code)
  *
  * Adds a new GError to the given #GsfIOContext. The error is added
  * to the end of the error queue, so that it can only be read,
- * via #gsf_io_context_pop_error, after all previous errors are
+ * via #gsf_io_context_pop_error, after all previous errors have
  * being read.
  */
 void
@@ -216,5 +220,46 @@ gsf_io_context_clear (GsfIOContext *ioc)
 	g_list_foreach (ioc->errors, (GFunc) g_error_free, NULL);
 	g_list_free (ioc->errors);
 	ioc->errors = NULL;
+	
 	ioc->error_occurred = FALSE;
+	
+	g_list_foreach (ioc->progress_ranges, (GFunc) g_free, NULL);
+	g_list_free (ioc->progress_ranges);
+	ioc->progress_ranges = NULL;
+
+	ioc->last_progress = -1.0;
+	ioc->last_time = 0.0;
+}
+
+/**
+ * gsf_io_context_update_progress
+ * @ioc: a #GsfIOContext object.
+ * @value: new value for the progress status.
+ *
+ * Update the progress percentage for the given #GsfIOContext. This
+ * will lead to the "progress_changed" signal to be emitted on the
+ * IO context object.
+ */
+void
+gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value)
+{
+	gdouble *new_range;
+	
+	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
+
+	/* check value */
+	if (value <= ioc->last_progress) {
+		g_warning ("Invalid progress value");
+		return;
+	}
+
+	/* update progress status */
+	ioc->last_progress = value;
+
+	new_range = g_new0 (gdouble, 1);
+	*new_range = value;
+	ioc->progress_ranges = g_list_append (ioc->progress_ranges, new_range);
+	/* FIXME: update ioc->last_time */
+
+	g_signal_emit (G_OBJECT (ioc), io_context_signals[PROGRESS], 0, ioc->last_progress);
 }

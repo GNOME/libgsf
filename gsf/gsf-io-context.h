@@ -37,6 +37,7 @@ struct _GsfIOContextClass {
 
 	/* signals */
 	void (* error_occurred) (GsfIOContext *ioc);	
+	void (* progress) (GsfIOContext *ioc, gdouble percent);
 };
 
 GType         gsf_io_context_get_type (void);
@@ -48,6 +49,8 @@ void          gsf_io_context_push_error (GsfIOContext *ioc, const GError *error)
 GError       *gsf_io_context_pop_error (GsfIOContext *ioc);
 
 void          gsf_io_context_clear (GsfIOContext *ioc);
+
+void          gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value);
 
 G_END_DECLS
 
