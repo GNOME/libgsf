@@ -1,6 +1,8 @@
 files
-libgsf1
-libgsf1-dev
+libgsf-1
+libgsf-1-dev
+libgsf-gnome-1
+libgsf-gnome-1-dev
 tmp
 *.pre*.debhelper
 *.post*.debhelper

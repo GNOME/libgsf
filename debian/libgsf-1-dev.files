@@ -1,6 +1,6 @@
-usr/include/*
-usr/lib/lib*.a
-usr/lib/lib*.la
-usr/lib/lib*.so
-usr/lib/pkgconfig/*.pc
+usr/include/libgsf-*/gsf/*
+usr/lib/libgsf-*.a
+usr/lib/libgsf-*.la
+usr/lib/libgsf-*.so
+usr/lib/pkgconfig/libgsf-*.pc
 usr/share/doc/libgsf-1-dev/*.html

@@ -25,9 +25,7 @@ confflags :=	--prefix=/usr \
 		--infodir=\$${prefix}/share/info \
 		--enable-iso-c \
 		--enable-compile-warnings=maximum \
-		--with-libxml \
-		--with-bonobo \
-		--without-gnomevfs \
+		--with-gnome \
 		-v
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
@@ -121,6 +119,12 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_movefiles
+
+	# Remove files that we don't need in the packages
+	rm -f debian/tmp/usr/share/doc/libgsf-1-dev/index.sgml
+	
+	# Ensure there are no files left over with which we haven't dealt with
+	rmdir `find debian/tmp -type d -depth`
 
 #	dh_installdebconf	
 	dh_installdocs
