@@ -52,7 +52,6 @@ gsf_libxml_write (void *context, char const *buffer, int len)
 static int
 gsf_libxml_close (void *context)
 {
-	g_object_unref (G_OBJECT (context));
 	return TRUE;
 }
 
@@ -110,12 +109,11 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 }
 
 int
-gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, gboolean format)
+gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, const char * encoding,
+		      gboolean format)
 {
 	xmlOutputBufferPtr buf;
-	const char * encoding;
 	xmlCharEncodingHandlerPtr handler = NULL;
-	int ret;
 
 	if (cur == NULL) {
 #ifdef DEBUG_TREE
@@ -124,7 +122,6 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, gboolean format)
 #endif
 		return(-1);
 	}
-	encoding = (const char *) cur->encoding;
 
 	if (encoding != NULL) {
 		xmlCharEncoding enc;
@@ -145,9 +142,7 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, gboolean format)
 		}
 	}
 	buf = gsf_xml_output_buffer_new (output, handler);
-	xmlSaveFormatFileTo (buf, cur, encoding, format);
-	ret = xmlOutputBufferClose (buf);
-	return ret;
+	return xmlSaveFormatFileTo (buf, cur, encoding, format);
 }
 
 /***************************************************************************/

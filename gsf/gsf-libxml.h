@@ -29,7 +29,9 @@ G_BEGIN_DECLS
 
 xmlParserCtxtPtr	gsf_xml_parser_context	(GsfInput  *input);
 int			gsf_xmlDocFormatDump	(GsfOutput *output,
-						 xmlDocPtr cur, gboolean format);
+						 xmlDocPtr cur,
+						 const char * encoding,
+						 gboolean format);
 
 /* SAX Utils */
 typedef struct _GsfXmlSAXState	GsfXmlSAXState;

@@ -1,5 +1,15 @@
 2002-11-27  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-libxml.c (gsf_libxml_close): Change to do nothing. We
+	expect higher layers to close.
+	(gsf_xmlDocFormatDump): Use encoding argument. Don't call
+	xmlOutputBufferClose - libxml calls it for us via the callback we
+	supply.
+
+	* gsf/gsf-libxml.[ch] (gsf_xmlDocFormatDump: Add encoding parameter.
+
+2002-11-27  Jon K Hellan  <hellan@acm.org>
+
 	* tests/Makefile.am (check_PROGRAMS): Add test-out-gzip.c
 
 	* gsf/gsf-output-gzip.[ch]: New files. Gzip output.
