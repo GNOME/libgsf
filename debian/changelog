@@ -1,3 +1,9 @@
+libgsf (1.11.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 29 Nov 2004 14:43:07 +0100
+
 libgsf (1.10.1-1) unstable; urgency=high
 
   * New upstream bugfix release. XLS files larger than 6.8 MB written by
