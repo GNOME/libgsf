@@ -1,9 +1,25 @@
+if PLATFORM_WIN32
+no_undefined = -no-undefined
+endif
+
+if OS_WIN32
+
+install-libtool-import-lib:
+	$(INSTALL) .libs/libgsf-1.dll.a $(DESTDIR)$(libdir)
+
+uninstall-libtool-import-lib:
+	-rm $(DESTDIR)$(libdir)/libgsf-1.dll.a
+else
+install-libtool-import-lib:
+uninstall-libtool-import-lib:
+endif
+
 INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
 lib_LTLIBRARIES = libgsf-1.la
 
 libgsf_1_la_LIBADD  = $(LIBGSF_LIBS)
-libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
+libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO) $(no_undefined)
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\
@@ -78,3 +94,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-structured-blob.h
 #	gsf-command-context.h	\
 #	gsf-io-context.h
+
+install-data-local: install-libtool-import-lib
+
+uninstall-local: uninstall-libtool-import-lib

@@ -32,6 +32,18 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef G_OS_WIN32
+
+#define S_IRGRP S_IRUSR
+#define S_IROTH S_IRUSR
+#define S_ISGID 0
+
+#define getuid() 0
+#define getgid() 0
+#define chown(filename, uid, gid) 0
+
+#endif /* G_OS_WIN32 */
+
 struct _GsfOutputStdio {
 	GsfOutput output;
 
@@ -58,6 +70,7 @@ typedef struct {
 static char *
 follow_symlinks (char const *filename, GError **error)
 {
+#ifdef HAVE_READLINK
 	gchar *followed_filename;
 	gint link_count;
 
@@ -114,6 +127,11 @@ follow_symlinks (char const *filename, GError **error)
 				      g_strerror (ELOOP));
 
 	return NULL;
+#else  /* !HAVE_READLINK */
+
+	return g_strdup (filename);
+
+#endif /* !HAVE_READLINK */
 }
 
 #if 0

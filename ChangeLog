@@ -1,3 +1,16 @@
+2003-01-05  Tor Lillqvist  <tml@iki.fi>
+
+	* configure.in: Check for lstat() and readlink().  Check for
+	native Win32 and for Win32 in general (including Cygwin).  Set
+	automake conditionals OS_WIN32 and PLATFORM_WIN32 accordingly.
+	Add AC_LIBTOOL_WIN32_DLL.
+
+	* gsf/Makefile.am: On Win32, use -no-undefined, and install (and
+	uninstall) import libraries.
+	
+	* gsf/gsf-output-stdio.c: Add workaround #defines for various Unix
+	stuff on Win32. Bypass follow_symlinks() unless HAVE_READLINK.
+
 2003-01-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.c : Pull in the bas64 utilites from evolution.  Unused

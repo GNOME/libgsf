@@ -33,6 +33,7 @@ AM_MAINTAINER_MODE
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_MAKE_SET
+AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 AC_SYS_LARGEFILE
@@ -100,6 +101,32 @@ fi
 
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
 AC_FUNC_MMAP
+
+AC_CHECK_FUNCS(lstat readlink)
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    native_win32=yes
+    ;;
+  *)
+    native_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$native_win32])
+AM_CONDITIONAL(OS_WIN32, test "$native_win32" = yes)
+
+AC_MSG_CHECKING([for Win32 platform in general])
+case "$host" in
+  *-*-mingw*|*-*-cygwin*)
+    platform_win32=yes
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT($platform_win32)
+AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = yes)
 
 ##################################################
 # Checks for gtk-doc and docbook-tools
