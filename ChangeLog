@@ -1,5 +1,13 @@
 2002-05-25  Jody Goldberg <jody@gnome.org>
 
+	* gsf/test-msole1.c (test) : add more safety checks to automate
+	  validation of imported biff records.
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : Based on char-width2.xls
+	  it looks like directory sizes are periodically screwed.
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-infile-msole.c : fix small block support.
 	  Handle the bogus use of ascii stream names in some case.
 

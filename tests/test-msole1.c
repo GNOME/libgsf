@@ -147,6 +147,9 @@ test (int argc, char *argv[])
 					data = gsf_input_read (stream, len);
 					/* gsf_mem_dump (data, len); */
 				}
+				if (len > 15000) {
+					g_warning ("Suspicious import of biff record > 15,000 (0x%x)", len);
+				}
 				pos = gsf_input_tell (stream);
 			}
 			g_object_unref (G_OBJECT (stream));

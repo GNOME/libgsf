@@ -271,9 +271,6 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		return NULL;
 	data += (DIRENTRY_SIZE * entry) % ole->info->bb.size;
 
-	size = GSF_OLE_GET_GUINT32 (data + 0x78);
-	g_return_val_if_fail (size <= (guint32)ole->input->size, NULL);
-
 	type = GSF_OLE_GET_GUINT8 (data + 0x42);
 	if (type != DIRENTRY_TYPE_DIR &&
 	    type != DIRENTRY_TYPE_FILE &&
@@ -281,6 +278,11 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		g_warning ("Unknown stream type 0x%x", type);
 		return NULL;
 	}
+
+	/* It looks like directory sizes are sometimes bogus */
+	size = GSF_OLE_GET_GUINT32 (data + 0x78);
+	g_return_val_if_fail (type == DIRENTRY_TYPE_DIR ||
+			      size <= (guint32)ole->input->size, NULL);
 
 	dirent = g_new0 (MSOleDirent, 1);
 	dirent->index	     = entry;
