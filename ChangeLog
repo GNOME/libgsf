@@ -1,5 +1,8 @@
 2002-12-09  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Free the property
+	values until we figure out what to do with them.
+
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_finalize): Plug leak.
 
 	* gsf/gsf-timestamp.c (gsf_timestamp_as_string): 64-bit fix.

@@ -243,8 +243,14 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		d (printf (" array with %d elem\n", n);
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
 		for (i = 0 ; i < n ; i++) {
+			GValue *prop;
 			d (printf ("\t[%d] ", i););
-			msole_prop_parse (section, type, data, data_end);
+			v = msole_prop_parse (section, type, data, data_end);
+			if (!v) {
+				/* FIXME: do something with it.  */
+				g_value_unset (v);
+				g_free (v);
+			}
 		}
 		return NULL;
 	}
@@ -645,11 +651,23 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			sections[i].iconv_handle = gsf_msole_iconv_open_for_import (1252);
 
 		for (j = 0; j < sections[i].num_props; j++) /* then dictionary */
-			if (props[j].id == 0)
-				msole_prop_read (in, sections+i, props, j);
+			if (props[j].id == 0) {
+				GValue *v = msole_prop_read (in, sections+i, props, j);
+				if (v) {
+					/* FIXME: do something with it.  */
+					g_value_unset (v);
+					g_free (v);
+				}
+			}
 		for (j = 0; j < sections[i].num_props; j++) /* the rest */
-			if (props[j].id > 1)
-				msole_prop_read (in, sections+i, props, j);
+			if (props[j].id > 1) {
+				GValue *v = msole_prop_read (in, sections+i, props, j);
+				if (v) {
+					/* FIXME: do something with it.  */
+					g_value_unset (v);
+					g_free (v);
+				}
+			}
 
 		gsf_iconv_close (sections[i].iconv_handle);
 		g_free (props);
