@@ -3,7 +3,7 @@ INCLUDES = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-zip1 test-input1 test-gzip1			\
 		 test-textline test-ls-zip test-cat-zip test-zip2 	\
-		 test-cp-zip test-out-printf
+		 test-cp-zip test-out-printf test-msole-printf
 
 ldadd = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
@@ -20,3 +20,4 @@ test_ls_zip_LDADD	= $(ldadd)
 test_cat_zip_LDADD	= $(ldadd)
 test_cp_zip_LDADD	= $(ldadd)
 test_out_printf_LDADD	= $(ldadd)
+test_msole_printf_LDADD	= $(ldadd)
