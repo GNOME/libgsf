@@ -1,11 +1,15 @@
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
-
-	*gsf-meta-keys.h: list of default/builtin keys that we will want to support
-	*gsf-metadata-bag.[ch]: add key creation and manipulation functions, update TODO list
+	
+	* gsf-output-bonobo.[ch]: implement output stream (untested)
 
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
 
-	*gsf-metadata-bag.c: implement (untested)
+	* gsf-meta-keys.h: list of default/builtin keys that we will want to support
+	* gsf-metadata-bag.[ch]: add key creation and manipulation functions, update TODO list
+
+2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf-metadata-bag.c: implement (untested)
 
 2002-07-25  Dom Lachowicz <cinamod@hotmail.com>
 
