@@ -643,6 +643,7 @@ struct _GsfXMLOut {
 	GObject	   base;
 
 	GsfOutput	 *output;
+	char		 *doc_type;
 	GSList		 *stack;
 	GsfXMLOutState state;
 	unsigned   	  indent;
@@ -656,9 +657,10 @@ typedef struct {
 static void
 gsf_xml_out_finalize (GObject *obj)
 {
+	GsfXMLOut *xml = GSF_XML_OUT (obj);
 	GObjectClass *parent_class;
 
-	/* already unwrapped */
+	g_free (xml->doc_type);
 
 	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	if (parent_class && parent_class->finalize)
@@ -674,6 +676,7 @@ gsf_xml_out_init (GObject *obj)
 	xml->state  = GSF_XML_OUT_CHILD;
 	xml->indent = 0;
 	xml->needs_header = TRUE;
+	xml->doc_type = NULL;
 }
 
 static void
@@ -694,6 +697,20 @@ gsf_xml_out_new (GsfOutput *output)
 		return NULL;
 	xml->output = output;
 	return xml;
+}
+
+/**
+ * gsf_xml_out_set_doc_type :
+ * @xml : #GsfXMLOut
+ * @type :
+ * 
+ * Store some optional some &lt;!DOCTYPE .. &gt; content
+ **/
+void
+gsf_xml_out_set_doc_type (GsfXMLOut *xml, char const *type)
+{
+	g_free (xml->doc_type);
+	xml->doc_type = g_strdup (type);
 }
 
 static inline void
@@ -725,9 +742,11 @@ gsf_xml_out_start_element (GsfXMLOut *xml, char const *id)
 	g_return_if_fail (xml->state != GSF_XML_OUT_CONTENT);
 
 	if (xml->needs_header) {
-		static char const header[] =
+		static char const header0[] =
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		gsf_output_write (xml->output, sizeof (header) - 1, header);
+		gsf_output_write (xml->output, sizeof (header0) - 1, header0);
+		if (xml->doc_type != NULL)
+			gsf_output_puts (xml->output, xml->doc_type);
 		xml->needs_header = FALSE;
 	}
 	if (xml->state == GSF_XML_OUT_NOCONTENT)
@@ -784,7 +803,8 @@ gsf_xml_out_simple_element (GsfXMLOut *xml, char const *id,
 			    char const *content)
 {
 	gsf_xml_out_start_element (xml, id);
-	gsf_xml_out_add_cstr (xml, NULL, content);
+	if (content != NULL)
+		gsf_xml_out_add_cstr (xml, NULL, content);
 	gsf_xml_out_end_element (xml);
 }
 

@@ -139,22 +139,22 @@ Zip
 
 
 
-<!-- ##### ENUM ZipCompressionMethod ##### -->
+<!-- ##### ENUM GsfZipCompressionMethod ##### -->
 <para>
 
 </para>
 
-@ZIP_STORED: 
-@ZIP_SHRUNK: 
-@ZIP_REDUCEDx1: 
-@ZIP_REDUCEDx2: 
-@ZIP_REDUCEDx3: 
-@ZIP_REDUCEDx4: 
-@ZIP_IMPLODED: 
-@ZIP_TOKENIZED: 
-@ZIP_DEFLATED: 
-@ZIP_DEFLATED_BETTER: 
-@ZIP_IMPLODED_BETTER: 
+@GSF_ZIP_STORED: 
+@GSF_ZIP_SHRUNK: 
+@GSF_ZIP_REDUCEDx1: 
+@GSF_ZIP_REDUCEDx2: 
+@GSF_ZIP_REDUCEDx3: 
+@GSF_ZIP_REDUCEDx4: 
+@GSF_ZIP_IMPLODED: 
+@GSF_ZIP_TOKENIZED: 
+@GSF_ZIP_DEFLATED: 
+@GSF_ZIP_DEFLATED_BETTER: 
+@GSF_ZIP_IMPLODED_BETTER: 
 
 <!-- ##### MACRO ZIP_FILE_HEADER_NAME_SIZE ##### -->
 <para>
@@ -332,23 +332,6 @@ Zip
 </para>
 
 
-
-<!-- ##### ENUM ZipCompressionMethod ##### -->
-<para>
-
-</para>
-
-@ZIP_STORED: 
-@ZIP_SHRUNK: 
-@ZIP_REDUCEDx1: 
-@ZIP_REDUCEDx2: 
-@ZIP_REDUCEDx3: 
-@ZIP_REDUCEDx4: 
-@ZIP_IMPLODED: 
-@ZIP_TOKENIZED: 
-@ZIP_DEFLATED: 
-@ZIP_DEFLATED_BETTER: 
-@ZIP_IMPLODED_BETTER: 
 
 <!-- ##### MACRO ZIP_DIRENT_EXTRAS_SIZE ##### -->
 <para>

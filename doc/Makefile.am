@@ -34,7 +34,9 @@ IGNORE_HFILES=			 \
 	gsf-output-transaction.h \
 	gsf-infile-ar.h 	\
 	gsf-infile-tar.h 	\
-	gsf-outfile-tar.h
+	gsf-infile-tar.c 	\
+	gsf-outfile-tar.h	\
+	gsf-outfile-tar.c
 
 EXTRA_HFILES = ../gsf-gnome/*.h
 

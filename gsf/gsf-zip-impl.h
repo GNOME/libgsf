@@ -22,6 +22,8 @@
 #ifndef GSF_ZIP_IMPL_H
 #define GSF_ZIP_IMPL_H
 
+#include <gsf/gsf-outfile-zip.h> /* for GsfZipCompressionMethod */
+
 G_BEGIN_DECLS
 
 #define ZIP_HEADER_SIZE 		30
@@ -84,23 +86,9 @@ G_BEGIN_DECLS
 #define ZZIP_IS_COMPRLEVEL(p)  (((*(unsigned char*)p)>>1)&3)
 #define ZZIP_IS_STREAMED(p)    (((*(unsigned char*)p)>>3)&1)
 
-typedef enum {
-	ZIP_STORED =          0,
-	ZIP_SHRUNK =          1,
-	ZIP_REDUCEDx1 =       2,
-	ZIP_REDUCEDx2 =       3,
-	ZIP_REDUCEDx3 =       4,
-	ZIP_REDUCEDx4 =       5,
-	ZIP_IMPLODED  =       6,
-	ZIP_TOKENIZED =       7,
-	ZIP_DEFLATED =        8,
-	ZIP_DEFLATED_BETTER = 9,
-	ZIP_IMPLODED_BETTER = 10
-} ZipCompressionMethod;
-
 typedef struct {	
 	char                 *name;
-	ZipCompressionMethod  compr_method;
+	GsfZipCompressionMethod  compr_method;
 	guint32               crc32;
 	size_t                csize;
 	size_t                usize;

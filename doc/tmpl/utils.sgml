@@ -119,6 +119,24 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -159,6 +177,24 @@ utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\
@@ -272,6 +308,12 @@ utils
 
 </para>
 
+
+
+<!-- ##### TYPEDEF gsf_off_t ##### -->
+<para>
+
+</para>
 
 
 <!-- ##### FUNCTION gsf_filename_to_utf8 ##### -->

@@ -23,14 +23,6 @@ XML and libxml
 @uri: 
 
 
-<!-- ##### MACRO GSF_IS_XML_OUT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### ENUM GsfXMLContent ##### -->
 <para>
 
@@ -54,14 +46,6 @@ XML and libxml
 @unknown_depth: 
 @ns_prefixes: 
 @ns_by_id: 
-
-<!-- ##### MACRO GSF_XML_OUT ##### -->
-<para>
-
-</para>
-
-@o: 
-
 
 <!-- ##### FUNCTION gsf_xmlDocFormatDump ##### -->
 <para>
@@ -87,13 +71,6 @@ XML and libxml
 <para>
 
 </para>
-
-
-<!-- ##### MACRO GSF_XML_OUT_TYPE ##### -->
-<para>
-
-</para>
-
 
 
 <!-- ##### STRUCT GsfXMLOut ##### -->
@@ -126,6 +103,24 @@ XML and libxml
 @ns: 
 @name: 
 @has_content: 
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
 @\
 			     allow_unknown:
 @\
@@ -258,43 +253,40 @@ XML and libxml
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_xml_out_add_base64 ##### -->
+<!-- ##### FUNCTION gsf_xml_out_new ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_xml_out_set_doc_type ##### -->
+<para>
+
+</para>
+
+@xml: 
+@type: 
+
+
+<!-- ##### FUNCTION gsf_xml_out_start_element ##### -->
 <para>
 
 </para>
 
 @xml: 
 @id: 
-@data: 
-@len: 
-<!-- # Unused Parameters # -->
-@Param4: 
 
 
-<!-- ##### FUNCTION gsf_xml_out_add_bool ##### -->
+<!-- ##### FUNCTION gsf_xml_out_end_element ##### -->
 <para>
 
 </para>
 
 @xml: 
-@id: 
-@val: 
-
-
-<!-- ##### FUNCTION gsf_xml_out_add_color ##### -->
-<para>
-
-</para>
-
-@xml: 
-@id: 
-@r: 
-@g: 
-@b: 
-<!-- # Unused Parameters # -->
-@Param3: 
-@Param4: 
-@Param5: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_add_cstr ##### -->
@@ -317,7 +309,7 @@ XML and libxml
 @val_utf8: 
 
 
-<!-- ##### FUNCTION gsf_xml_out_add_float ##### -->
+<!-- ##### FUNCTION gsf_xml_out_add_bool ##### -->
 <para>
 
 </para>
@@ -325,7 +317,6 @@ XML and libxml
 @xml: 
 @id: 
 @val: 
-@precision: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_add_int ##### -->
@@ -350,21 +341,44 @@ XML and libxml
 @Param3: 
 
 
-<!-- ##### FUNCTION gsf_xml_out_get_type ##### -->
+<!-- ##### FUNCTION gsf_xml_out_add_float ##### -->
 <para>
 
 </para>
 
-@Returns: 
+@xml: 
+@id: 
+@val: 
+@precision: 
 
 
-<!-- ##### FUNCTION gsf_xml_out_new ##### -->
+<!-- ##### FUNCTION gsf_xml_out_add_color ##### -->
 <para>
 
 </para>
 
-@output: 
-@Returns: 
+@xml: 
+@id: 
+@r: 
+@g: 
+@b: 
+<!-- # Unused Parameters # -->
+@Param3: 
+@Param4: 
+@Param5: 
+
+
+<!-- ##### FUNCTION gsf_xml_out_add_base64 ##### -->
+<para>
+
+</para>
+
+@xml: 
+@id: 
+@data: 
+@len: 
+<!-- # Unused Parameters # -->
+@Param4: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_simple_element ##### -->
@@ -396,14 +410,5 @@ XML and libxml
 @xml: 
 @id: 
 @val: 
-
-
-<!-- ##### FUNCTION gsf_xml_out_start_element ##### -->
-<para>
-
-</para>
-
-@xml: 
-@id: 
 
 

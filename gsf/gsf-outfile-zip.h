@@ -23,13 +23,24 @@
 #define GSF_OUTFILE_ZIP_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
 typedef enum {
-	GSF_ZIP_STORED = 0,
-	GSF_ZIP_DEFLATED = 8
+	GSF_ZIP_STORED =          0,		/* supported for export */
+	GSF_ZIP_SHRUNK =          1,
+	GSF_ZIP_REDUCEDx1 =       2,
+	GSF_ZIP_REDUCEDx2 =       3,
+	GSF_ZIP_REDUCEDx3 =       4,
+	GSF_ZIP_REDUCEDx4 =       5,
+	GSF_ZIP_IMPLODED  =       6,
+	GSF_ZIP_TOKENIZED =       7,
+	GSF_ZIP_DEFLATED =        8,		/* supported for export */
+	GSF_ZIP_DEFLATED_BETTER = 9,
+	GSF_ZIP_IMPLODED_BETTER = 10
 } GsfZipCompressionMethod;
+
 
 typedef struct _GsfOutfileZip GsfOutfileZip;
 

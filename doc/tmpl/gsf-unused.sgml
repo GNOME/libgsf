@@ -278,6 +278,26 @@ GsfOutput
 gsf-utils
 
 
+<!-- ##### SECTION ./tmpl/gsf.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/gsf.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/gsf.sgml:Title ##### -->
+gsf
+
+
 <!-- ##### MACRO GSF_INFILE ##### -->
 <para>
 
@@ -411,6 +431,13 @@ gsf-utils
 
 @k: 
 
+<!-- ##### MACRO GSF_IS_XML_OUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
 <!-- ##### MACRO GSF_OLE_GET_GUINT16 ##### -->
 <para>
 
@@ -445,6 +472,19 @@ gsf-utils
 </para>
 
 @k: 
+
+<!-- ##### MACRO GSF_XML_OUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_XML_OUT_TYPE ##### -->
+<para>
+
+</para>
+
 
 <!-- ##### STRUCT GsfInfileClass ##### -->
 <para>
@@ -537,14 +577,6 @@ gsf-utils
 @Seek: 
 @Write: 
 @Vprintf: 
-
-<!-- ##### ENUM GsfZipCompressionMethod ##### -->
-<para>
-
-</para>
-
-@GSF_ZIP_STORED: 
-@GSF_ZIP_DEFLATED: 
 
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
@@ -671,6 +703,23 @@ gsf-utils
 </para>
 
 
+<!-- ##### ENUM ZipCompressionMethod ##### -->
+<para>
+
+</para>
+
+@ZIP_STORED: 
+@ZIP_SHRUNK: 
+@ZIP_REDUCEDx1: 
+@ZIP_REDUCEDx2: 
+@ZIP_REDUCEDx3: 
+@ZIP_REDUCEDx4: 
+@ZIP_IMPLODED: 
+@ZIP_TOKENIZED: 
+@ZIP_DEFLATED: 
+@ZIP_DEFLATED_BETTER: 
+@ZIP_IMPLODED_BETTER: 
+
 <!-- ##### STRUCT ZipDirent ##### -->
 <para>
 
@@ -754,6 +803,13 @@ gsf-utils
 @Returns: 
 
 <!-- ##### FUNCTION gsf_output_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_xml_out_get_type ##### -->
 <para>
 
 </para>

@@ -134,8 +134,9 @@ typedef struct _GsfXMLOut	GsfXMLOut;
 GType gsf_xml_out_get_type (void);
 GsfXMLOut *gsf_xml_out_new (GsfOutput *output);
 
+void	    gsf_xml_out_set_doc_type	(GsfXMLOut *xml, char const *type);
 void	    gsf_xml_out_start_element	(GsfXMLOut *xml, char const *id);
-char const *gsf_xml_out_end_element	(GsfXMLOut *xml);
+const char *gsf_xml_out_end_element	(GsfXMLOut *xml);
 
 void gsf_xml_out_simple_element		(GsfXMLOut *xml, char const *id,
 					 char const *content);

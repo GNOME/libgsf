@@ -1,9 +1,4 @@
 <SECTION>
-<FILE>gsf</FILE>
-gsf_off_t
-</SECTION>
-
-<SECTION>
 <TITLE>Input from unstructured files</TITLE>
 <FILE>input</FILE>
 GsfInput
@@ -354,7 +349,7 @@ gsf_vdir_add_child
 
 ZIP_DIRENT_USIZE
 ZIP_DIRENT_OFFSET
-ZipCompressionMethod
+GsfZipCompressionMethod
 ZIP_FILE_HEADER_NAME_SIZE
 ZZIP_IS_STREAMED
 ZIP_FILE_HEADER_EXTRACT
@@ -380,7 +375,6 @@ ZIP_NAME_SEPARATOR
 ZIP_HEADER_SIZE
 ZIP_HEADER_CRC
 ZIP_FILE_HEADER_FLAGS
-ZipCompressionMethod
 ZIP_DIRENT_EXTRAS_SIZE
 ZIP_HEADER_COMP_METHOD
 ZZIP_IS_COMPRLEVEL
@@ -452,14 +446,11 @@ gsf_shared_bonobo_stream_get_type
 <TITLE>XML and libxml</TITLE>
 <FILE>xml</FILE>
 GSF_XML_IN_NS
-GSF_IS_XML_OUT
 GsfXMLContent
 GsfXMLIn
-GSF_XML_OUT
 gsf_xmlDocFormatDump
 gsf_xml_in_doc_free
 GsfXMLBlob
-GSF_XML_OUT_TYPE
 GsfXMLOut
 GsfXMLInDoc
 GsfXMLInNS
@@ -470,20 +461,29 @@ gsf_xml_parser_context
 gsf_xml_in_doc_new
 gsf_xml_in_namecmp
 gsf_xml_in_parse
-gsf_xml_out_add_base64
-gsf_xml_out_add_bool
-gsf_xml_out_add_color
+
+gsf_xml_out_new
+gsf_xml_out_set_doc_type
+
+gsf_xml_out_start_element
+gsf_xml_out_end_element
+
 gsf_xml_out_add_cstr
 gsf_xml_out_add_cstr_unchecked
-gsf_xml_out_add_float
+gsf_xml_out_add_bool
 gsf_xml_out_add_int
 gsf_xml_out_add_uint
-gsf_xml_out_get_type
-gsf_xml_out_new
+gsf_xml_out_add_float
+gsf_xml_out_add_color
+gsf_xml_out_add_base64
 gsf_xml_out_simple_element
 gsf_xml_out_simple_float_element
 gsf_xml_out_simple_int_element
-gsf_xml_out_start_element
+<SUBSECTION Standard>
+GSF_XML_OUT_TYPE
+GSF_XML_OUT
+GSF_IS_XML_OUT
+gsf_xml_out_get_type
 </SECTION>
 
 <SECTION>
@@ -522,6 +522,8 @@ gsf_mem_dump
 gsf_input_dump
 <SUBSECTION Types>
 GSF_OFF_T_FORMAT
+gsf_off_t
+
 gsf_filename_to_utf8
 gsf_iconv_close
 <SUBSECTION Types>

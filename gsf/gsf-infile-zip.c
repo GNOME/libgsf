@@ -413,7 +413,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	child->restlen  = dirent->usize;
 	child->crestlen = dirent->csize;
 
-	if (dirent->compr_method != ZIP_STORED) {
+	if (dirent->compr_method != GSF_ZIP_STORED) {
 		int err;
 
 		if (!child->stream)
@@ -487,13 +487,13 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		return NULL;
 
 	switch (vdir->dirent->compr_method) {
-	case ZIP_STORED:
+	case GSF_ZIP_STORED:
 		zip->restlen -= num_bytes;
 		pos = zip->vdir->dirent->data_offset + input->cur_offset;
 		gsf_input_seek (zip->input, pos, G_SEEK_SET);
 		return gsf_input_read (zip->input, num_bytes, buffer);
 
-	case ZIP_DEFLATED:
+	case GSF_ZIP_DEFLATED:
 
 		if (buffer == NULL) {
 			if (zip->buf_size < num_bytes) {

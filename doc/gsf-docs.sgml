@@ -2,7 +2,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!ENTITY Gsf			SYSTEM "xml/gsf.xml">
 <!ENTITY GsfInput		SYSTEM "xml/input.xml">
 <!ENTITY GsfOutput		SYSTEM "xml/output.xml">
 <!ENTITY GsfInfile		SYSTEM "xml/infile.xml">
@@ -86,7 +85,6 @@ string utilities, file utilities, a main loop abstraction, and so on.
   </chapter>
   <chapter id="misc">
     <title>Miscellaneous</title>
-    &Gsf;
     &GsfUtils;
   </chapter>
  </part>

@@ -321,7 +321,7 @@ zip_header_write (GsfOutfileZip *zip)
 	memset (hbuf, 0, sizeof hbuf);
 	memcpy (hbuf, header_signature, sizeof header_signature);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_VERSION, 0x14);
-	if (dirent->compr_method == ZIP_DEFLATED)
+	if (dirent->compr_method == GSF_ZIP_DEFLATED)
 		flags = 0x08;
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, flags);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_COMP_METHOD,

@@ -1,12 +1,15 @@
 libgsf 1.9.1
 
+J.H.M. Dassen (Ray):
+	* Corrected the location where the documentation gets installed.
+	*
 James Cape :
 	* Clean up the gtk-doc build
 
-J.H.M. Dassen (Ray):
-	* Corrected the location where the documentation gets installed.
+Jody :
+	* Support DOCTYPE in the simplified xml generator
 
-Morten,Dom:
+Morten, Dom:
 	* Avoid polluting global name space with symbols lacking gsf_ prefix.
 	  This only effects implementation utilites shared by the zip in/out
 	  code so hopefully the abi breakage will not hurt too many people.
