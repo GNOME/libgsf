@@ -42,21 +42,6 @@ struct _GsfOutput {
 	int	    printf_buf_size;
 };
 
-typedef struct {
-	GObjectClass g_object_class;
-
-	gboolean (*Close)   (GsfOutput *output);
-	gboolean (*Seek)    (GsfOutput *output,
-			     gsf_off_t offset, GSeekType whence);
-	gboolean (*Write)   (GsfOutput *output,
-			     size_t num_bytes, guint8 const *data);
-	gsf_off_t (*Vprintf) (GsfOutput *output,
-			     char const *format, va_list args);
-} GsfOutputClass;
-
-#define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))
-#define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
-
 /* protected */
 gboolean gsf_output_set_name	  (GsfOutput *output, char const *name);
 gboolean gsf_output_set_name_from_filename (GsfOutput *output, char const *filename);

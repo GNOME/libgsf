@@ -47,10 +47,6 @@ struct _GsfOutputCsv {
 	GString *buf;
 };
 
-typedef struct {
-	GsfOutputClass output_class;
-} GsfOutputCsvClass;
-
 enum {
 	PROP_0,
 	PROP_SINK,

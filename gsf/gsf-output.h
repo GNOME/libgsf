@@ -28,6 +28,21 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GObjectClass g_object_class;
+
+	gboolean (*Close)   (GsfOutput *output);
+	gboolean (*Seek)    (GsfOutput *output,
+			     gsf_off_t offset, GSeekType whence);
+	gboolean (*Write)   (GsfOutput *output,
+			     size_t num_bytes, guint8 const *data);
+	gsf_off_t (*Vprintf) (GsfOutput *output,
+			     char const *format, va_list args);
+} GsfOutputClass;
+
+#define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))
+#define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
+
 #define GSF_OUTPUT_TYPE        (gsf_output_get_type ())
 #define GSF_OUTPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_TYPE, GsfOutput))
 #define GSF_IS_OUTPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_TYPE))

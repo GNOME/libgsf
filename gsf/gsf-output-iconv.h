@@ -25,6 +25,10 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GsfOutputClass output_class;
+} GsfOutputIconvClass;
+
 #define GSF_OUTPUT_ICONV_TYPE        (gsf_output_iconv_get_type ())
 #define GSF_OUTPUT_ICONV(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_ICONV_TYPE, GsfOutputIconv))
 #define GSF_IS_OUTPUT_ICONV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_ICONV_TYPE))
@@ -32,7 +36,7 @@ G_BEGIN_DECLS
 typedef struct _GsfOutputIconv GsfOutputIconv;
 
 GType	   gsf_output_iconv_get_type (void);
-GsfOutput *gsf_output_iconv_new	    (GsfOutput *sink, const char *dst, const char *src);
+GsfOutput *gsf_output_iconv_new      (GsfOutput *sink, const char *dst, const char *src);
 
 G_END_DECLS
 

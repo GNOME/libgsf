@@ -42,10 +42,6 @@ struct _GsfOutputIconv {
 	size_t buf_len;
 };
 
-typedef struct {
-	GsfOutputClass output_class;
-} GsfOutputIconvClass;
-
 enum {
 	PROP_0,
 	PROP_SINK,

@@ -25,6 +25,10 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GsfOutputClass output_class;
+} GsfOutputCsvClass;
+
 #define GSF_OUTPUT_CSV_TYPE        (gsf_output_csv_get_type ())
 #define GSF_OUTPUT_CSV(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_CSV_TYPE, GsfOutputCsv))
 #define GSF_IS_OUTPUT_CSV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_CSV_TYPE))
