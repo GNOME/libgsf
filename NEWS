@@ -1,7 +1,12 @@
 libgsf 1.6.0
 
 Jody:
-	* Be more anal about invalid stream names.
+	* Be more anal about invalid stream names..
+	* Fix documentation install.
+
+Jon Kåre:
+	* Add printf mechanism.
+	* Fix misc bugs.
 
 ------------------------------------------------------------------------------
 libgsf 1.5.0
