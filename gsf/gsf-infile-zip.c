@@ -131,12 +131,7 @@ zip_find_trailer (GsfInfileZip *zip)
 		return -1;
 
 	trailer_offset = filesize;
-	maplen = filesize;
-	if ((gsf_off_t) maplen != filesize) { /* Check for overflow */
-		g_warning ("File too large");
-		return -1;
-	}
-	maplen &= (ZIP_BUF_SIZE - 1);
+	maplen = filesize & (ZIP_BUF_SIZE - 1);
 	if (maplen == 0)
 		maplen = ZIP_BUF_SIZE;
 	offset = filesize - maplen; /* offset is now BUFSIZ aligned */

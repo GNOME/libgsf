@@ -1,3 +1,13 @@
+2004-07-09  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-infile-zip.c (zip_find_trailer): Remove the
+	  "overflow check"; it can never catch anything.
+
+	* gsf/gsf-output-memory.c (MAX_STEP): Parenthesize.
+	(gsf_output_memory_expand): Fix the overflow checking.
+	(gsf_output_memory_seek): make use of G_GNUC_UNUSED, instead of void
+	 reference.
+
 2004-07-12  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-output-iochannel.c (GET_OUTPUT_CLASS): Remove unused macro.

@@ -25,7 +25,7 @@
 #include <string.h>
 
 #define MIN_BLOCK 512
-#define MAX_STEP  MIN_BLOCK * 128
+#define MAX_STEP  (MIN_BLOCK * 128)
 
 struct _GsfOutputMemory {
 	GsfOutput output;
@@ -78,36 +78,38 @@ gsf_output_memory_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
-			GSeekType whence)
+gsf_output_memory_seek (G_GNUC_UNUSED GsfOutput *output,
+			G_GNUC_UNUSED gsf_off_t offset,
+			G_GNUC_UNUSED GSeekType whence)
 {
 	/* let parent implementation handle maneuvering cur_offset */
-	(void)output;
-	(void)offset;
-	(void)whence;
-
 	return TRUE;
 }
 
 static gboolean
-gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
+gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t needed)
 {
 	gsf_off_t capacity = MAX (mem->capacity, MIN_BLOCK);
-	gsf_off_t needed   = min_capacity;
+	gsize lcapacity;
 	
-	if ((gsf_off_t) min_capacity != needed) { /* Checking for overflow */
+	/* If we need >= MAX_STEP, align to a next multiple of MAX_STEP.
+	 * Since MAX_STEP is probably a power of two, this computation
+	 * should reduce to "dec, shr, inc, shl", which is probably
+	 * quicker then branching.
+	 */
+	if (needed < MAX_STEP)
+		while (capacity < needed)
+			capacity *= 2;
+	else
+		capacity = ((needed - 1) / MAX_STEP + 1) * MAX_STEP;
+
+	/* Check for overflow: g_renew() casts its parameters to gsize. */
+	lcapacity = capacity;
+	if ((gsf_off_t) lcapacity != capacity || capacity < 0) {
 		g_warning ("overflow in gsf_output_memory_expand");
 		return FALSE;
 	}
-	
-	while (capacity < needed) {
-		if (capacity <= MAX_STEP)
-			capacity *= 2;
-		else
-			capacity += MAX_STEP;
-	}
-	
-	mem->buffer   = g_renew (guint8, mem->buffer, capacity);
+	mem->buffer   = g_renew (guint8, mem->buffer, lcapacity);
 	mem->capacity = capacity;
 	
 	return TRUE;
