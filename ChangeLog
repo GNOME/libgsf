@@ -1,3 +1,8 @@
+2002-10-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : be more careful about
+	  invalid stream names.
+
 2002-10-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/changelog, debian/control, debian/rules: updated.

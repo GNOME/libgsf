@@ -297,6 +297,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	next  = GSF_LE_GET_GUINT32 (data + DIRENT_NEXT);
 	child = GSF_LE_GET_GUINT32 (data + DIRENT_CHILD);
 	name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
+	dirent->name = NULL;
 	if (0 < name_len && name_len <= DIRENT_MAX_NAME_SIZE) {
 		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE];
 		guint8 const *end;
@@ -315,7 +316,9 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 		} else
 			dirent->name = g_strndup ((gchar *)data, (gsize)(end - data + 1));
-	} else
+	}
+	/* be really anal in the face of screwups */
+	if (dirent->name == NULL)
 		dirent->name = g_strdup ("");
 	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);
 
