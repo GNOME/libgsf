@@ -1,3 +1,8 @@
+2002-12-23  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-libxml.c (gsf_xml_output_buffer_new): Fix comment and
+	ref output to match gsf_libxml_close.
+
 2002-12-20  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-libxml.c (gsf_libxml_close): Plug leak.

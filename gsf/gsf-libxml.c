@@ -92,7 +92,7 @@ gsf_xml_parser_context (GsfInput *input)
  * @output :
  * @encoding : optionally NULL.
  *
- * NOTE : adds a reference to @input
+ * NOTE : adds a reference to @output
  *
  */
 static xmlOutputBufferPtr
@@ -101,6 +101,7 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 {
 	xmlOutputBufferPtr res = xmlAllocOutputBuffer (handler);
 	if (res != NULL) {
+		g_object_ref (G_OBJECT (output));
 		res->context = (void *)output;
 		res->writecallback = gsf_libxml_write;
 		res->closecallback = gsf_libxml_close;
