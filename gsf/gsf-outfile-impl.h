@@ -1,6 +1,7 @@
+
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-infile-msole.h: 
+ * gsf-outfile-impl.h: 
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,22 +20,27 @@
  * USA
  */
 
-#ifndef GSF_INFILE_MSOLE_H
-#define GSF_INFILE_MSOLE_H
+#ifndef GSF_OUTFILE_IMPL_H
+#define GSF_OUTFILE_IMPL_H
 
 #include <gsf/gsf.h>
+#include <gsf/gsf-output-impl.h>
+#include <gsf/gsf-outfile.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GsfInfileMSOle GsfInfileMSOle;
+struct _GsfOutfile {
+	GsfOutput parent;
+};
 
-#define GSF_INFILE_MSOLE_TYPE        (gsf_infile_msole_get_type ())
-#define GSF_INFILE_MSOLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOle))
-#define GSF_IS_INFILE_MSOLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSOLE_TYPE))
+typedef struct {
+	GsfOutputClass output_class;
+	GsfOutput   *(*new_child) (GsfOutfile *outfile, char const *name);
+} GsfOutfileClass;
 
-GType gsf_infile_msole_get_type (void);
-GsfInfile *gsf_infile_msole_new (GsfInput *source, GError **err);
+#define GSF_OUTFILE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTFILE_TYPE, GsfOutfileClass))
+#define GSF_IS_OUTFILE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTFILE_TYPE))
 
 G_END_DECLS
 
-#endif /* GSF_INFILE_MSOLE_H */
+#endif /* GSF_OUTFILE_IMPL_H */

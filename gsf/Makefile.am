@@ -27,13 +27,17 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-infile.c 		\
 	gsf-infile-impl.h 	\
-	gsf-infile-zip.c	\
 	gsf-infile-msole.c 	\
 	gsf-infile-msvba.c 	\
+	gsf-infile-zip.c	\
 	\
 	gsf-output.c 		\
 	gsf-output-impl.h	\
 	gsf-output-stdio.c	\
+	\
+	gsf-outfile.c 		\
+	gsf-outfile-impl.h 	\
+	gsf-outfile-msole.c 	\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h
@@ -53,22 +57,16 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-textline.h 	\
 	gsf-input-gzip.h 	\
 	gsf-infile.h 		\
-	gsf-infile-zip.h	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
+	gsf-infile-zip.h	\
 	gsf-output.h		\
-	gsf-output-stdio.h
+	gsf-output-stdio.h	\
+	gsf-outfile.h 		\
+	gsf-outfile-msole.h
 #gsf-output-memory.h
-
-noinst_PROGRAMS = test-msole1 test-msole2 test-msvba test-zip1 test-input1 test-gzip1
-test_msole1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
-test_msole2_LDADD = libgsf-1.la $(LIBGSF_LIBS)
-test_msvba_LDADD  = libgsf-1.la $(LIBGSF_LIBS)
-test_zip1_LDADD   = libgsf-1.la $(LIBGSF_LIBS)
-test_input1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
-test_gzip1_LDADD  = libgsf-1.la $(LIBGSF_LIBS)
 
 # include these just in case we are building a tarball without lixml
 # or gnomevfs support.
-EXTRA_DIST =	gsf-libxml.c		gsf-libxml.h \
+EXTRA_DIST =	gsf-libxml.c		gsf-libxml.h 		\
 		gsf-input-gnomevfs.c	gsf-input-gnomevfs.h

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-infile-msole.h: 
+ * gsf-outfile-msole.h: interface for creating OLE files
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,22 +19,22 @@
  * USA
  */
 
-#ifndef GSF_INFILE_MSOLE_H
-#define GSF_INFILE_MSOLE_H
+#ifndef GSF_OUTFILE_MSOLE_H
+#define GSF_OUTFILE_MSOLE_H
 
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GsfInfileMSOle GsfInfileMSOle;
+typedef struct _GsfOutfileMSOle GsfOutfileMSOle;
 
-#define GSF_INFILE_MSOLE_TYPE        (gsf_infile_msole_get_type ())
-#define GSF_INFILE_MSOLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOle))
-#define GSF_IS_INFILE_MSOLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSOLE_TYPE))
+#define GSF_OUTFILE_MSOLE_TYPE	(gsf_outfile_msole_get_type ())
+#define GSF_OUTFILE_MSOLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_MSOLE_TYPE, GsfOutfileMSOle))
+#define GSF_IS_OUTFILE_MSOLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_MSOLE_TYPE))
 
-GType gsf_infile_msole_get_type (void);
-GsfInfile *gsf_infile_msole_new (GsfInput *source, GError **err);
+GType gsf_outfile_msole_get_type (void);
+GsfOutfile *gsf_outfile_msole_new (GsfOutput *sink, GError **err);
 
 G_END_DECLS
 
-#endif /* GSF_INFILE_MSOLE_H */
+#endif /* GSF_OUTFILE_H */

@@ -2,8 +2,7 @@
 /*
  * gsf-infile-msole.c :
  *
- * Copyright (C) 2002 Michael Meeks (michael@ximian.com)
- *		      Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,8 +20,9 @@
  */
 
 /* Info extracted from
-	svx/source/msfilter/msvbasic.cxx
-	http://calgary.virusbtn.com/vb2000/Programme/papers/bontchev.pdf
+ *	svx/source/msfilter/msvbasic.cxx
+ *	Costin Raiu, Kaspersky Labs, 'Apple of Discord'
+ *	Virus bulletin's bontchev.pdf, svajcer.pdf
  */
 #include <gsf-config.h>
 #include <gsf/gsf-infile-impl.h>
@@ -75,6 +75,7 @@ vba_inflate (GsfInput *input, off_t offset, int *size)
 
 	res = g_byte_array_new ();
 
+	/* explaination from libole2/ms-ole-vba.c */
 	/* The first byte is a flag byte.  Each bit in this byte
 	 * determines what the next byte is.  If the bit is zero,
 	 * the next byte is a character.  Otherwise the  next two
@@ -87,39 +88,26 @@ vba_inflate (GsfInput *input, off_t offset, int *size)
 			if (flag & mask) {
 				if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
 					break;
-				token = GSF_LE_GET_GUINT16 (tmp);
-
-				clean = TRUE;
-
 				win_pos = pos % VBA_COMPRESSION_WINDOW;
-				if (win_pos <= 0x10)
-					shift = 12;
-				else if (win_pos <= 0x20)
-					shift = 11;
-				else if (win_pos <= 0x40)
-					shift = 10;
-				else if (win_pos <= 0x80)
-					shift = 9;
-				else if (win_pos <= 0x100)
-					shift = 8;
-				else if (win_pos <= 0x200)
-					shift = 7;
-				else if (win_pos <= 0x400)
-					shift = 6;
-				else if (win_pos <= 0x800)
-					shift = 5;
-				else
-					shift = 4;
+				if (win_pos <= 0x80) {
+					if (win_pos <= 0x20)
+						shift = (win_pos <= 0x10) ? 12 : 11;
+					else
+						shift = (win_pos <= 0x40) ? 10 : 9;
+				} else {
+					if (win_pos <= 0x200)
+						shift = (win_pos <= 0x100) ? 8 : 7;
+					else if (win_pos <= 0x800)
+						shift = (win_pos <= 0x400) ? 6 : 5;
+					else
+						shift = 4;
+				}
 
+				token = GSF_LE_GET_GUINT16 (tmp);
 				len = (token & ((1 << shift) - 1)) + 3;
 				distance = token >> shift;
+				clean = TRUE;
 
-				/*
-				 * read the len of data from the history, wrapping around the
-				 * VBA_COMPRESSION_WINDOW boundary if necessary
-				 * data read from the history is also copied into the recent
-				 * part of the history as well.
-				 */
 				for (i = 0; i < len; i++) {
 					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
 					guint8 c = buffer [srcpos];
@@ -147,7 +135,7 @@ static guint8 const *
 vba_dirent_read (guint8 const *data, int *size)
 {
 	static guint16 const magic [] = { 0x19, 0x47, 0x1a, 0x32 };
-	int i, offset = 0;
+	int name_len, i, j, offset = 0;
 	guint16 tmp16;
 
 	g_return_val_if_fail (*size >= 2, NULL);
@@ -155,7 +143,6 @@ vba_dirent_read (guint8 const *data, int *size)
 	/* make sure there is enough to read the first size */
 	for (offset = 0, i = 0 ; i < 4; i++) {
 		char *name = NULL;
-		guint32 name_len;
 
 		/* check for the magic numbers */
 		tmp16 = GSF_LE_GET_GUINT16 (data + offset);
@@ -176,7 +163,6 @@ vba_dirent_read (guint8 const *data, int *size)
 
 		if (i % 2) {  /* unicode */
 			gunichar2 *uni_name = g_new0 (gunichar2, name_len/2 + 1);
-			int j;
 
 			/* be wary about endianness */
 			for (j = 0 ; j < name_len ; j += 2)
@@ -184,7 +170,7 @@ vba_dirent_read (guint8 const *data, int *size)
 			name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 			g_free (uni_name);
 		} else /* ascii */
-			name = g_strndup (data + offset, name_len);
+			name = g_strndup (data + offset, (unsigned)name_len);
 
 		if (i == 0)
 			printf ("%s\t: ", name);
@@ -367,20 +353,24 @@ gsf_infile_msvba_dup (GsfInput *src_input, GError **err)
 	GsfInfileMSVBA const *src = GSF_INFILE_MSVBA (src_input);
 	GsfInfileMSVBA *dst = NULL;
 
+#warning TODO
 	return GSF_INPUT (dst);
 }
 
 static guint8 const *
 gsf_infile_msvba_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
+	/* no data at this level */
+	(void)input; (void)num_bytes; (void)buffer;
 	return NULL;
 }
 
 static gboolean
 gsf_infile_msvba_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
+	/* no data at this level */
 	(void)input; (void)offset; (void)whence;
-	return FALSE;
+	return offset != 0;
 }
 
 static GsfInput *
