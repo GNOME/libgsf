@@ -1,3 +1,8 @@
+2002-11-22  Jody Goldberg <jody@gnome.org>
+
+	* doc/Makefile.am : pull in newer magic frm gtk.
+	* configure.in : ditto.
+
 2002-11-22  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_output_msole_vprintf): New. vprintf

@@ -46,8 +46,6 @@ GTKDOC_CFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
 GTKDOC_LIBS = $(LIBGSF_LIBS)
 
-HTML_DIR ?= .
-
 ####################################
 # Everything below here is generic #
 ####################################
@@ -59,8 +57,7 @@ HTML_DIR ?= .
 #
 GPATH = $(srcdir)
 
-TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
-DOC_DIR=$(datadir)/doc$(TARGET_DIR)
+TARGET_DIR=$(HTML_DIR)
 
 EXTRA_DIST = 				\
 	$(content_files)		\
@@ -87,7 +84,7 @@ all-local: html-build.stamp
 scan-build.stamp: $(HFILE_GLOB)
 	@echo '*** Scanning header files ***'
 	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null ; then \
-	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scangobj $(SCANGOBJ_OPTIONS) --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
+	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scangobj $(SCANGOBJ_OPTIONS) --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
 	else \
 	    cd $(srcdir) ; \
 	    for i in $(SCANOBJ_FILES) ; do \
@@ -144,17 +141,17 @@ maintainer-clean-local: clean
 	cd $(srcdir) && rm -rf sgml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
 install-data-local:
-	$(mkinstalldirs) $(DOC_DIR)
+	$(mkinstalldirs) $(DESTDIR)$(TARGET_DIR)
 	(installfiles=`echo $(srcdir)/html/*`; \
 	if test "$$installfiles" = '$(srcdir)/html/*'; \
 	then echo '-- Nothing to install' ; \
 	else \
 	  for i in $$installfiles; do \
 	    echo '-- Installing '$$i ; \
-	    $(INSTALL_DATA) $$i $(DOC_DIR); \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(TARGET_DIR); \
 	  done; \
 	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
-	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DOC_DIR); \
+	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR); \
 	fi)
 
 #
