@@ -101,14 +101,56 @@ get_biff_opcode_name (unsigned opcode)
 	return "Unknown";
 }
 
-static int
-test (int argc, char *argv[])
+static void
+dump_biff_stream (GsfInput *stream)
 {
+	guint8 const *data;
+	guint16 len, opcode;
+	unsigned pos = gsf_input_tell (stream);
+
+	while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
+		gboolean enable_dump = TRUE;
+
+		opcode	= GSF_LE_GET_GUINT16 (data);
+		len	= GSF_LE_GET_GUINT16 (data+2);
+
+		if (len > 15000) {
+			enable_dump = TRUE;
+			g_warning ("Suspicious import of biff record > 15,000 (0x%x) for opcode 0x%hx",
+				   len, opcode);
+		} else if ((opcode & 0xff00) > 0x1000) {
+			enable_dump = TRUE;
+			g_warning ("Suspicious import of biff record with opcode 0x%hx",
+				   opcode);
+		}
+
+		if (enable_dump)
+			printf ("Opcode 0x%3hx : %15s, length 0x%hx (=%hd) @ pos = 0x%x (=%d)\n",
+				opcode, get_biff_opcode_name (opcode),
+				len, len, pos, pos);
+
+		if (len > 0) {
+			data = gsf_input_read (stream, len, NULL);
+			if (data == NULL)
+				break;
+			if (enable_dump)
+				gsf_mem_dump (data, len);
+		}
+		pos = gsf_input_tell (stream);
+	}
+}
+static int
+test (unsigned argc, char *argv[])
+{
+	static char const * const stream_names[] = {
+		"Workbook",	"WORKBOOK",	"workbook",
+		"Book",		"BOOK",		"book"
+	};
+
 	GsfInput  *input, *stream;
 	GsfInfile *infile;
 	GError    *err = NULL;
-	int i;
-	guint16 len, opcode;
+	unsigned i, j;
 
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
@@ -124,16 +166,19 @@ test (int argc, char *argv[])
 		input = gsf_input_uncompress (input);
 
 		infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
+
 		if (infile == NULL) {
 
 			g_return_val_if_fail (err != NULL, 1);
 
 			g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);
 			g_error_free (err);
+
+			dump_biff_stream (input);
+
 			g_object_unref (G_OBJECT (input));
 			continue;
 		}
-
 #if 0
 		stream = gsf_infile_child_by_name (infile, "\01CompObj");
 		if (stream != NULL) {
@@ -164,46 +209,15 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (stream));
 		}
 
-		stream = gsf_infile_child_by_name (infile, "Workbook");
-		if (stream == NULL)
-			stream = gsf_infile_child_by_name (infile, "Book");
-
-		if (stream != NULL) {
-			guint8 const *data;
-			unsigned pos = gsf_input_tell (stream);
-
-			while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
-				gboolean enable_dump = TRUE;
-
-				opcode	= GSF_LE_GET_GUINT16 (data);
-				len	= GSF_LE_GET_GUINT16 (data+2);
-
-				if (len > 15000) {
-					enable_dump = TRUE;
-					g_warning ("Suspicious import of biff record > 15,000 (0x%x) for opcode 0x%hx",
-						   len, opcode);
-				} else if ((opcode & 0xff00) > 0x1000) {
-					enable_dump = TRUE;
-					g_warning ("Suspicious import of biff record with opcode 0x%hx",
-						   opcode);
-				}
-
-				if (enable_dump)
-					printf ("Opcode 0x%3hx : %15s, length 0x%hx (=%hd) @ pos = 0x%x (=%d)\n",
-						opcode, get_biff_opcode_name (opcode),
-						len, len, pos, pos);
-
-				if (len > 0) {
-					data = gsf_input_read (stream, len, NULL);
-					if (data == NULL)
-						break;
-					if (enable_dump)
-						gsf_mem_dump (data, len);
-				}
-				pos = gsf_input_tell (stream);
+		for (j = 0 ; j < G_N_ELEMENTS (stream_names) ; j++) {
+			stream = gsf_infile_child_by_name (infile, stream_names[j]);
+			if (stream != NULL) {
+				dump_biff_stream (stream);
+				g_object_unref (G_OBJECT (stream));
+				break;
 			}
-			g_object_unref (G_OBJECT (stream));
 		}
+
 		g_object_unref (G_OBJECT (infile));
 		g_object_unref (G_OBJECT (input));
 	}
