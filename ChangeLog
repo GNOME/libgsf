@@ -1,3 +1,13 @@
+2002-09-01  Jody Goldberg <jody@gnome.org>
+
+	* tests/test-cat-zip.c : replace the old test with test-msole2.c
+	  with s/msole/zip/ so that we get the end of file right.
+
+2002-08-31  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_num_children) : return -1 for
+	  non directories.
+
 2002-08-31  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-timestamp.c : dummy up a quick implementation.

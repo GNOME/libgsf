@@ -3,6 +3,8 @@ libgsf 1.4.0
 Jody:
 	* Move some iconv utility routines here from gnumeric.
 	* More work on reading ole property sets.
+	* Minor tweak directory handling for infile-zip.
+	* Replace test-cat-zip with test-msole2
 
 Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.

@@ -714,6 +714,10 @@ gsf_infile_zip_num_children (GsfInfile *infile)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
 
+	g_return_val_if_fail (zip->vdir != NULL, -1);
+
+	if (!zip->vdir->is_directory)
+		return -1;
 	return g_slist_length (zip->vdir->children);
 }
 
