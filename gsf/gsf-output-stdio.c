@@ -28,11 +28,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
 #ifdef G_OS_WIN32
+
+#ifndef S_IRUSR
+#define S_IRUSR 04
+#define S_IWUSR 02
+#define W_OK    00  /* existance mode only */
+typedef int mode_t;
+#endif
 
 #define S_IRGRP S_IRUSR
 #define S_IROTH S_IRUSR
@@ -41,6 +51,10 @@
 #define getuid() 0
 #define getgid() 0
 #define chown(filename, uid, gid) 0
+
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 
 #endif /* G_OS_WIN32 */
 
@@ -313,7 +327,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	GsfOutputStdio const *stdio = GSF_OUTPUT_STDIO (output);
 	int stdio_whence = 0;	/* make compiler shut up */
-	long loffset;
+	gsf_off_t loffset;
 
 	g_return_val_if_fail (stdio->file != NULL, 
 		gsf_output_set_error (output, 0, "missing file"));

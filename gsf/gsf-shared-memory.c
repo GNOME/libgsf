@@ -54,7 +54,9 @@ static void
 gsf_shared_memory_finalize (GObject *obj)
 {
 	GsfSharedMemory *mem = (GsfSharedMemory *) (obj);
+#ifdef HAVE_MMAP
 	size_t msize;
+#endif
 	
 	if (mem->buf != NULL) {
 		if (mem->needs_free)

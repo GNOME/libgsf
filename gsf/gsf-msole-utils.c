@@ -400,7 +400,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		GsfTimestamp ts;
 
 		ft /= 10000000; /* convert to seconds */
+#ifdef _MSC_VER
+		ft -= 11644473600i64; /* move to Jan 1 1970 */
+#else
 		ft -= 11644473600ULL; /* move to Jan 1 1970 */
+#endif
 		ts.timet = (time_t)ft;
 		g_value_set_timestamp (res, &ts);
 		*data += 8;
@@ -467,7 +471,7 @@ msole_prop_read (GsfInput *in,
 	guint32 type;
 	guint8 const *data;
 	/* TODO : why size-4 ? I must be missing something */
-	unsigned size = ((i+1) >= section->num_props)
+	gsf_off_t size = ((i+1) >= section->num_props)
 		? section->size-4 : props[i+1].offset;
 	char const *prop_name;
 

@@ -248,7 +248,9 @@ gsf_input_mmap_new (char const *filename, GError **err)
 
 	return mem;
 #else
+#ifdef __GNUC__
 #warning MMAP Unsupported
+#endif
 	(void)filename;
 	if (err != NULL)
 		*err = g_error_new (gsf_input_error (), 0,

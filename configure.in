@@ -104,7 +104,7 @@ if test $need_bsd1 = yes -o $need_bsd2 = yes; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
 fi
 
-AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
+AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h)
 AC_FUNC_MMAP
 
 AC_CHECK_FUNCS(lstat readlink)

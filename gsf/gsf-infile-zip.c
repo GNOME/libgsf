@@ -123,7 +123,7 @@ zip_find_trailer (GsfInfileZip *zip)
 	static guint8 const trailer_signature[] =
 		{ 'P', 'K', 0x05, 0x06 };
 	gsf_off_t offset, trailer_offset, filesize;
-	size_t maplen;
+	gsf_off_t maplen;
 	guint8 const *data;
 
 	filesize = gsf_input_size (zip->input);

@@ -56,7 +56,7 @@ typedef struct {
 		unsigned filter;
 		size_t   size;
 	} bb, sb;
-	unsigned max_block;
+	gsf_off_t max_block;
 	guint32 threshold; /* transition between small and big blocks */
         guint32 sbat_start, num_sbat;
 
@@ -73,7 +73,7 @@ struct _GsfInfileMSOle {
 	MSOleInfo   *info;
 	MSOleDirent *dirent;
 	MSOleBAT     bat;
-	guint32	     cur_block;
+	gsf_off_t    cur_block;
 
 	struct {
 		guint8  *buf;
@@ -640,10 +640,10 @@ static guint8 const *
 gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
-	guint32 first_block, last_block, raw_block, offset, i;
+	gsf_off_t first_block, last_block, raw_block, offset, i;
 	guint8 const *data;
 	guint8 *ptr;
-	unsigned count;
+	size_t count;
 
 	/* small block files are preload */
 	if (ole->dirent != NULL && ole->dirent->use_sb) {

@@ -27,9 +27,15 @@
 
 #include <stdio.h>
 #include <errno.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef _MSC_VER
+#define S_ISREG(x) ((x) & _S_IFREG)
+#endif
 
 struct _GsfInputStdio {
 	GsfInput input;
@@ -156,7 +162,7 @@ static gboolean
 gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
-	long loffset;
+	gsf_off_t loffset;
 	int stdio_whence = SEEK_SET;
 
 	if (stdio->file == NULL)
@@ -175,7 +181,7 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		break;
 	}
 
-	if (0 == fseek (stdio->file, loffset, stdio_whence))
+	if (0 == fseek (stdio->file, (unsigned long)loffset, stdio_whence))
 		return FALSE;
 	
 	return TRUE;

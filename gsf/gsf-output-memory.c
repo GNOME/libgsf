@@ -92,8 +92,8 @@ gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
 static gboolean
 gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
 {
-	size_t capacity = MAX (mem->capacity, MIN_BLOCK);
-	size_t needed   = min_capacity;
+	gsf_off_t capacity = MAX (mem->capacity, MIN_BLOCK);
+	gsf_off_t needed   = min_capacity;
 	
 	if ((gsf_off_t) min_capacity != needed) { /* Checking for overflow */
 		g_warning ("overflow in gsf_output_memory_expand");

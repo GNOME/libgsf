@@ -437,7 +437,9 @@ gsf_infile_msvba_dup (GsfInput *src_input, GError **err)
 
 	(void) src;
 	(void) err;
+#ifdef __GNUC__
 #warning TODO
+#endif
 	return GSF_INPUT (dst);
 }
 
@@ -465,7 +467,11 @@ gsf_infile_msvba_new_child (GsfInfileMSVBA *parent, MSVBADirent *dirent, GError 
 	(void) parent;
 	(void) dirent;
 	(void) err;
+
+#ifdef __GNUC__
 #warning TODO
+#endif
+
 	return GSF_INPUT (child);
 }
 

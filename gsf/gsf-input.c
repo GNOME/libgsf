@@ -411,7 +411,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 		return TRUE;
 
 	while (pos > input->cur_offset) {
-		size_t readcount = MIN (pos - input->cur_offset, 8192);
+		gsf_off_t readcount = MIN (pos - input->cur_offset, 8192);
 		if (!gsf_input_read (input, readcount, NULL))
 			return TRUE;
 	}
@@ -455,7 +455,7 @@ gboolean
 gsf_input_copy (GsfInput *input, GsfOutput *output)
 {
 	gsf_off_t    remaining = 0;
-	size_t       toread    = 0;
+	gsf_off_t    toread    = 0;
 	const guint8 * buffer  = NULL;
 	gboolean     success   = TRUE;
 
