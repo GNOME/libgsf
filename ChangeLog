@@ -1,3 +1,17 @@
+2002-09-26  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-output-memory.[ch] (gsf_output_memory_get_bytes): Take
+	1st argument GsfOutputMemory instead of GsfOutput.
+
+	* gsf/gsf-output-memory.c (struct _GsfOutputMemory): Add
+	'capacity' member.
+	(gsf_output_memory_new): Don't duplicate work done in
+	gsf_output_memory_init.
+	(gsf_output_memory_expand): Encapsulate expansion and make it more
+	intelligent.
+	(gsf_output_memory_write): Use gsf_output_memory_expand.
+	(gsf_output_memory_init): Initialize capacity.
+
 2002-09-25  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_read) : remove some debug spew

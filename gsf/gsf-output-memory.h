@@ -34,7 +34,8 @@ typedef struct _GsfOutputMemory GsfOutputMemory;
 
 GType     gsf_output_memory_get_type (void);
 GsfOutput *gsf_output_memory_new      (void);
-void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_off_t * outlength);
+void gsf_output_memory_get_bytes (GsfOutputMemory * mem,
+				  guint8 ** outbuffer, gsf_off_t * outlength);
 
 G_END_DECLS
 

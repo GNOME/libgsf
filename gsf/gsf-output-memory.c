@@ -23,10 +23,14 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+#define MIN_BLOCK 512
+#define MAX_STEP  MIN_BLOCK * 128
+
 struct _GsfOutputMemory {
     GsfOutput output;
     guint8 *buffer;
     size_t nwritten;
+    size_t capacity;
 };
 
 typedef struct {
@@ -42,8 +46,6 @@ GsfOutput *
 gsf_output_memory_new (void)
 {
     GsfOutputMemory *output = g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);
-    output->buffer   = NULL;
-    output->nwritten = 0;
 
     return GSF_OUTPUT (output);
 }
@@ -86,6 +88,31 @@ gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
 }
 
 static gboolean
+gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
+{
+    size_t capacity = MAX (mem->capacity, MIN_BLOCK);
+    size_t needed   = min_capacity;
+
+    if ((gsf_off_t) min_capacity != needed) { /* Checking for overflow */
+	g_warning ("overflow in gsf_output_memory_expand");
+	return FALSE;
+    }
+
+    while (capacity < needed) {
+	if (capacity <= MAX_STEP)
+	    capacity *= 2;
+	else
+	    capacity += MAX_STEP;
+	g_message ("capacity=%d", capacity);
+    }
+	    
+    mem->buffer  = g_realloc (mem->buffer, capacity);
+    mem->capacity = capacity;
+
+    return TRUE;
+}
+
+static gboolean
 gsf_output_memory_write (GsfOutput *output,
                         size_t num_bytes,
                         guint8 const *buffer)
@@ -94,8 +121,17 @@ gsf_output_memory_write (GsfOutput *output,
 
     g_return_val_if_fail (mem != NULL, FALSE);
 
-    mem->buffer = g_realloc (mem->buffer, mem->nwritten + num_bytes);
+    if (!mem->buffer) {
+	    mem->buffer   = g_malloc (MIN_BLOCK);
+	    mem->capacity = MIN_BLOCK;
+    }
+    if (num_bytes + mem->nwritten > mem->capacity) {
+	    if (!gsf_output_memory_expand (mem, mem->nwritten + num_bytes))
+		    return FALSE;
+    }
+
     memcpy (mem->buffer + mem->nwritten, buffer, num_bytes);
+    mem->nwritten += num_bytes;
 
     return TRUE;
 }
@@ -107,6 +143,7 @@ gsf_output_memory_init (GObject *obj)
 
     mem->buffer   = NULL;
     mem->nwritten = 0;
+    mem->capacity = 0;
 }
 
 static void
@@ -127,19 +164,18 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * @outlength     : optionally NULL, the returned size of the in-memory contents
  **/
 void
-gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_off_t * outlength)
+gsf_output_memory_get_bytes (GsfOutputMemory * mem,
+			     guint8 ** outbuffer, gsf_off_t * outlength)
 {
-    GsfOutputMemory * mem;
-
+    g_message ("mem=0x%x", mem);
     /* set these to 0 to start out with */
     if (outbuffer != NULL)
         *outbuffer = NULL;
     if (outlength != NULL)
         *outlength = 0;
 
-    g_return_if_fail (output != NULL);
+    g_return_if_fail (mem != NULL);
 
-    mem = GSF_OUTPUT_MEMORY (output);
     if (outbuffer != NULL)
         *outbuffer = mem->buffer;
     if (outlength != NULL)

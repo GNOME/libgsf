@@ -542,6 +542,31 @@
   )
 )
 
+;; From gsf-output-memory.[hh]
+
+(define-object OutputMemory
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputMemory")
+  (gtype-id "GSF_TYPE_OUTPUT_MEMORY")
+)
+
+(define-function gsf_output_memory_new
+  (c-name "gsf_output_memory_new")
+  (is-constructor-of "GsfOutputMemory")
+  (return-type "GsfOutput*")
+)
+
+(define-method get_bytes
+  (of-object "GsfOutputMemory")
+  (c-name "gsf_output_memory_get_bytes")
+  (return-type "none")
+  (parameters
+    '("guint8**" "outbuffer")
+    '("gsf_off_t*" "outlength")
+  )
+)
+
 (define-function gsf_xml_parser_context
   (c-name "gsf_xml_parser_context")
   (return-type "xmlParserCtxtPtr")

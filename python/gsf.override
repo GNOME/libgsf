@@ -20,6 +20,7 @@ headers
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-output-memory.h>
 
 #define GSF_TYPE_INPUT GSF_INPUT_TYPE
 #define GSF_TYPE_INPUT_STDIO GSF_INPUT_STDIO_TYPE
@@ -48,7 +49,6 @@ ignore-glob
  gsf_input_set_*
  *_get_type
  gsf_metadata_bag_*
- gsf_output_memory_*
  gsf_*_error
 %%
 override gsf_input_size noargs
@@ -228,6 +228,26 @@ _wrap_gsf_output_write(PyGObject *self, PyObject *args, PyObject *kwargs)
         return NULL;
     ret = gsf_output_write(GSF_OUTPUT(self->obj), num_bytes, data);
     return PyInt_FromLong((long) ret);
+}
+%%
+override gsf_output_memory_get_bytes noargs
+static PyObject *
+_wrap_gsf_output_memory_get_bytes(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    guint8 *outbuffer = NULL;
+    gsf_off_t outlength = 0;
+    int       num_bytes;
+    
+    gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY(self->obj),
+				 &outbuffer, &outlength);
+    if (outbuffer) {
+	num_bytes = outlength;
+	if (num_bytes != outlength) { /* Check for overflow */
+	    PyErr_SetString(PyExc_OverflowError, "Size is too large");
+	}
+	return PyString_FromStringAndSize(outbuffer, (int) num_bytes);
+    } else 
+	return NULL;
 }
 %%
 override gsf_xml_parser_context kwargs
