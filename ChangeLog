@@ -1,3 +1,12 @@
+2004-08-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-utils.c (BASE64_LINE_LEN): New constant to determine
+	  the line length, my mbox indicates that 76 is commonly used.
+	(gsf_base64_encode_simple): Use it.
+	(gsf_base64_encode_step): Use it too; remember that `already'
+	  holds line length / 4.
+	(gsf_base64_encode_close): Don't add '\n' if not necessary.
+
 2004-07-29  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new_full): One more sanity

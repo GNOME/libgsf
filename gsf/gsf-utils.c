@@ -415,6 +415,10 @@ static char const *base64_alphabet =
 
 #define d(x)
 
+/* Approximate line length for base64 encoding.  This number should
+   probably by divisible by 4.  */
+enum { BASE64_LINE_LEN = 76 };
+
 static void
 base64_init(void)
 {
@@ -459,9 +463,10 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 		outptr[1] = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 )];
 		outptr[3] = '=';
 		outptr += 4;
+		++*state;
 		break;
 	}
-	if (break_lines)
+	if (break_lines && *state > 0)
 		*outptr++ = '\n';
 
 	*save = 0;
@@ -515,7 +520,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 			*outptr++ = base64_alphabet[ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
 			*outptr++ = base64_alphabet[ c3 & 0x3f ];
 			/* this is a bit ugly ... */
-			if (break_lines && (++already)>=59) {
+			if (break_lines && (++already) >= BASE64_LINE_LEN / 4) {
 				*outptr++='\n';
 				already = 0;
 			}
@@ -624,7 +629,8 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 	gboolean break_lines = TRUE;
 
 	outlen = len * 4 / 3 + 5;
-	if (break_lines) outlen += outlen / 50;
+	if (break_lines)
+		outlen += outlen / BASE64_LINE_LEN + 1;
 	out = g_new (guint8, outlen);
 	outlen = gsf_base64_encode_close (data, len, break_lines,
 					  out, &state, &save);
