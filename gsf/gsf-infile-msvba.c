@@ -60,7 +60,7 @@ typedef struct {
 #define VBA_COMPRESSION_WINDOW 4096
 
 static guint8 *
-vba_inflate (GsfInput *input, unsigned offset, int *size)
+vba_inflate (GsfInput *input, off_t offset, int *size)
 {
 	GByteArray *res;
 	unsigned	i, win_pos, pos = 0;
