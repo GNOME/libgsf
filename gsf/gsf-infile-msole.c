@@ -31,31 +31,6 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:msole"
 
-static inline guint8
-GSF_OLE_GET_GUINT8 (gconstpointer p)
-{
-	return *(guint8  const *)p;
-}
-
-static inline guint16
-GSF_OLE_GET_GUINT16 (gconstpointer p)
-{
-	guint16 data;
-	/* gcc should make pretty nice code out of this.  */
-	memcpy (&data, p, sizeof (data));
-	return GUINT16_FROM_LE (data);
-}
-
-static inline guint32
-GSF_OLE_GET_GUINT32 (gconstpointer p)
-{
-	guint32 data;
-	/* gcc should make pretty nice code out of this.  */
-	memcpy (&data, p, sizeof (data));
-	return GUINT32_FROM_LE (data);
-}
-
-
 typedef struct {
 	guint32 *block;
 	guint32  num_blocks;
