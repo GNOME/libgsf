@@ -46,6 +46,15 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputMemoryClass;
 
+/**
+ * gsf_input_memory_new:
+ *
+ * @buf: The input bytes
+ * @length: The length of @buf
+ * @needs_free: Whether you want this memory to be free'd at object destruction
+ *
+ * Returns: A new #GsfInputMemory
+ */
 GsfInputMemory *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
@@ -55,6 +64,14 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 	return mem;
 }
 
+/**
+ * gsf_input_memory_new_clone:
+ *
+ * @buf: The input bytes
+ * @length: The length of @buf
+ *
+ * Returns: A new #GsfInputMemory
+ */
 GsfInputMemory *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 {	
@@ -177,7 +194,15 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 #	define MAP_FAILED ((void *)-1)
 #endif
 #endif
-
+     
+/**
+ * gsf_input_mmap_new:
+ *
+ * @filename: The file on disk that you want to mmap
+ * @err: A #GError, or optionally %null
+ *
+ * Returns: A new #GsfInputMemory
+ */
 GsfInputMemory *
 gsf_input_mmap_new (char const *filename, GError **err)
 {

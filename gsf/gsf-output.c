@@ -449,7 +449,7 @@ gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
  * @wrapper :
  * @wrapee :
  *
- * Returns TRUE if the wrapping succeeded.
+ * Returns TRUE if the unwrapping succeeded.
  **/
 gboolean
 gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)
@@ -493,6 +493,14 @@ gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
 	return gsf_output_write (output, reslen, output->printf_buf);
 }
 
+/**
+ * gsf_output_printf:
+ *
+ * @output: A #GsfOutput
+ * @format: The printf-style format string
+ *
+ * Returns: TRUE if successful, FALSE if not
+ */
 gboolean
 gsf_output_printf (GsfOutput *output, char const* format, ...)
 {
@@ -510,7 +518,16 @@ gsf_output_printf (GsfOutput *output, char const* format, ...)
 	return ret;
 }
 
-/* Like fputs, this assumes that the line already ends with a newline */
+/**
+ * gsf_output_puts:
+ *
+ * @output: A #GsfOutput
+ * @line: %null-terminated string to write
+ *
+ * Like fputs, this assumes that the line already ends with a newline 
+ *
+ * Returns: TRUE if successful, FALSE if not
+ */
 gboolean
 gsf_output_puts (GsfOutput *output, char const* line)
 {

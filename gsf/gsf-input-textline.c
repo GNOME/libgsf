@@ -234,6 +234,16 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 	return textline->buf;
 }
 
+/**
+ * gsf_input_textline_utf8_gets :
+ * @input :
+ *
+ * A utility routine to read things line by line from the underlying source.
+ * Trailing newlines and carriage returns are stipped, and the resultant buffer
+ * can be edited.
+ *
+ * returns the string read, or NULL on eof.
+ **/
 guint8 *
 gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 {

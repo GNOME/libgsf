@@ -27,8 +27,9 @@
 
 /**
  * gsf_outfile_new_child :
- * @outfile :
- * @name :
+ * @outfile : A #GsfOutfile
+ * @name : The name of the new child to create
+ * @is_dir : TRUE to create a directory, FALSE to create a plain file
  *
  * Returns a newly created child
  **/

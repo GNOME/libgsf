@@ -722,8 +722,8 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
 
 /**
  * gsf_infile_zip_new :
- * @source :
- * @err   :
+ * @source : A base #GsfInput
+ * @err   : A #GError, optionally %null
  *
  * Opens the root directory of a Zip file.
  * NOTE : adds a reference to @source
