@@ -1,3 +1,8 @@
+2004-09-19  Dom Lachowicz <cinamod@hotmail.com>
+
+	* configure.in: Morten's VFS local copy requires VFS >= 2.2. Upgrade configure check.
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri): Follow symlinks similarly to the STDIO input
+	
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (zip_find_trailer): Fix gsf_input_seek
