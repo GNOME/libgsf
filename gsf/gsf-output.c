@@ -409,7 +409,7 @@ gsf_output_vprintf (GsfOutput *output, char const *fmt, va_list args)
 
 	if (NULL == output->printf_buf) {
 		output->printf_buf_size = 128;
-		output->printf_buf = g_malloc (output->printf_buf_size);
+		output->printf_buf = g_new (char, output->printf_buf_size);
 	}
 	reslen = g_vsnprintf (output->printf_buf, output->printf_buf_size, fmt, args);
 

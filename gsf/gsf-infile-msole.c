@@ -669,7 +669,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			if (ole->stream.buf != NULL)
 				g_free (ole->stream.buf);
 			ole->stream.buf_size = num_bytes;
-			ole->stream.buf = (guint8 *)g_malloc (num_bytes);
+			ole->stream.buf = g_new (guint8, num_bytes);
 		}
 		buffer = ole->stream.buf;
 	}
@@ -748,7 +748,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 		g_return_val_if_fail (sb_file != NULL, NULL);
 
 		child->stream.buf_size = info->threshold;
-		child->stream.buf = (guint8 *)g_malloc (info->threshold);
+		child->stream.buf = g_new (guint8, info->threshold);
 
 		for (i = 0 ; i < child->bat.num_blocks; i++)
 			if (gsf_input_seek (GSF_INPUT (sb_file),

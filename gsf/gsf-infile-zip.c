@@ -213,7 +213,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	if ((data = gsf_input_read (zip->input, name_len, NULL)) == NULL)
 		return NULL;
 
-	name = (gchar *) g_malloc ((gulong) (name_len + 1));
+	name = g_new (gchar, (gulong) (name_len + 1));
 	memcpy (name, data, name_len);
 	name[name_len] = '\0';
 
@@ -495,7 +495,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 				zip->buf_size = MAX (num_bytes, 256);
 				if (zip->buf != NULL)
 					g_free (zip->buf);
-				zip->buf = (guint8 *)g_malloc (zip->buf_size);
+				zip->buf = g_new (guint8, zip->buf_size);
 			}
 			buffer = zip->buf;
 		}

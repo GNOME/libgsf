@@ -571,7 +571,7 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 	int state = 0, outlen;
 	unsigned int save = 0;
 	
-	out = (guint8 *)g_malloc (len * 4 / 3 + 5);
+	out = g_new (guint8, len * 4 / 3 + 5);
 	outlen = gsf_base64_encode_close (data, len, FALSE, out, &state, &save);
 	out [outlen] = '\0';
 	return out;

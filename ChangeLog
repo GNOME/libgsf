@@ -1,3 +1,8 @@
+2003-02-04  Dom Lachowicz <cinamod@hotmail.com>
+
+	* Changed below commit to use g_new instead of g_malloc + typecast, at 
+	Jody's and Morten's request
+	
 2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-infile-msole.c

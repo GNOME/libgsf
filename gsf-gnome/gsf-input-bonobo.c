@@ -188,7 +188,7 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 			binput->buf_size = num_bytes;
 			if (binput->buf != NULL)
 				g_free (binput->buf);
-			binput->buf = (guint8 *)g_malloc (binput->buf_size);
+			binput->buf = g_new (guint8, binput->buf_size);
 		}
 		buffer = binput->buf;
 	}

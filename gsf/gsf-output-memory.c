@@ -124,7 +124,7 @@ gsf_output_memory_write (GsfOutput *output,
 	g_return_val_if_fail (mem != NULL, FALSE);
 	
 	if (!mem->buffer) {
-		mem->buffer   = (guint8 *)g_malloc (MIN_BLOCK);
+		mem->buffer   = g_new (guint8, MIN_BLOCK);
 		mem->capacity = MIN_BLOCK;
 	}
 	if (num_bytes + output->cur_offset > mem->capacity) {

@@ -213,7 +213,7 @@ gsf_structured_blob_read (GsfInput *input)
 
 	content_size = gsf_input_remaining (input);
 	if (content_size > 0) {
-		guint8 *buf = g_try_malloc (content_size);
+		guint8 *buf = (guint8*)g_try_malloc (content_size);
 
 		if (buf == NULL) {
 			g_warning ("Failed attempting to allocate %" GSF_OFF_T_FORMAT " bytes",

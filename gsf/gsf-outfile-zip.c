@@ -263,7 +263,7 @@ static char *
 stream_name_build (GsfOutfileZip *zip)
 {
 	int namelen = stream_name_len (zip);
-	char *name = g_malloc (namelen + 1);
+	char *name = g_new (char, namelen + 1);
 
 	name[0] = '\0';
 	stream_name_write_to_buf (zip, name, namelen + 1);
@@ -372,7 +372,7 @@ zip_init_write (GsfOutput *output)
 			return FALSE;
 		if (!zip->buf) {
 			zip->buf_size = ZIP_BUF_SIZE;
-			zip->buf = g_malloc (zip->buf_size);
+			zip->buf = g_new (guint8, zip->buf_size);
 		}
 		zip->stream->next_out  = zip->buf;
 		zip->stream->avail_out = zip->buf_size;
