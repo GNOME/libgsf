@@ -1,3 +1,32 @@
+2002-09-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output.c (gsf_output_close) : always close even if the
+	  implementation failed.
+	(gsf_output_finalize) : free the error.
+	(gsf_output_init) : init the error.
+	(gsf_output_seek) : inver the return flag to be consistent with write.
+	(gsf_output_error) : new.
+	(gsf_output_set_error) : new.
+
+	* gsf/gsf-output-stdio.c : borrow the temp file handling from gedit so
+	  that we can handle setgid directories correctly.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek) :
+	  invert the return type.
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_seek) : ditto.
+	* gsf/gsf-output-memory.c (gsf_output_memory_seek) : ditto.
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : add some error
+	  checking.
+
+2002-09-15  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_iconv_win_codepage) : fix warning.
+
+	* configure.in : reorder the _BSD_SOURCE and _POSIX_SOURCE tests
+	  because POSIX changes things under linux.
+	  Add an lstat test
+
 2002-09-15  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-zip2.c: Add.

@@ -91,7 +91,7 @@ gsf_outfile_zip_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	(void) offset;
 	(void) whence;
 	
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean

@@ -116,23 +116,24 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 	switch (whence) {
 	case G_SEEK_SET : break;
 	case G_SEEK_CUR : offset += output->cur_offset;	break;
-	case G_SEEK_END : offset += output->cur_size;		break;
-	default : return TRUE;
+	case G_SEEK_END : offset += output->cur_size;	break;
+	default :
+		break; /*checked in GsfOutput wrapper */
 	}
 
 	switch (ole->type) {
 	case MSOLE_DIR:
 		if (offset != 0) {
 			g_warning ("Attempt to seek a directory");
-			return TRUE;
+			return FALSE;
 		}
-		return FALSE;
+		return TRUE;
 
 	case MSOLE_SMALL_BLOCK:
 		/* it is ok to seek past the big block threshold
 		 * we don't convert until they _write_ something
 		 */
-		return FALSE;
+		return TRUE;
 
 	case MSOLE_BIG_BLOCK:
 		return gsf_output_seek (ole->sink,
@@ -140,10 +141,10 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 			G_SEEK_SET);
 
 	default :
-		return TRUE;
+		return FALSE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 static void

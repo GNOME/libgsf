@@ -40,6 +40,7 @@ typedef struct _GsfTimestamp	GsfTimestamp;
  * to on the platform
  */ 
 typedef gint64 gsf_off_t;
+#define GSF_OFF_T_FORMAT	G_GINT64_FORMAT
 
 G_END_DECLS
 

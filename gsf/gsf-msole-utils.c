@@ -614,18 +614,28 @@ gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 	/* TODO : add a test to set this */
 	if (has_user_defined)
 		GSF_LE_SET_GUINT32 (header + sizeof (header) - 4, 2);
-	gsf_output_write (out, sizeof (header), header);
+	if (!gsf_output_write (out, sizeof (header), header))
+		goto err;
 	guid = doc_not_component ? document_guid : component_guid;
-	gsf_output_write (out, 16, guid);
+	if (!gsf_output_write (out, 16, guid))
+		goto err;
 
 	GSF_LE_SET_GUINT32 (buf, sizeof (header) + 16 /* guid */ + 4 /* this size */);
-	gsf_output_write (out, 4, buf);
+	if (!gsf_output_write (out, 4, buf))
+		goto err;
 
 	GSF_LE_SET_GUINT32 (buf+0, 8);	/* 8 bytes in header, 0 bytes in props */
 	GSF_LE_SET_GUINT32 (buf+4, 0);	/* 0 props */
-	gsf_output_write (out, 8, buf);
+	if (!gsf_output_write (out, 8, buf))
+		goto err;
 
 	return TRUE;
+
+err:
+
+	if (err != NULL)
+		*err = g_error_copy (gsf_output_error (out));
+	return FALSE;
 }
 
 typedef struct
@@ -702,7 +712,7 @@ gsf_msole_iconv_win_codepage (void)
 
 		for (entry = win_codepages; entry->keys; ++entry) {
 			for (key = entry->keys; *key; ++key)
-				if (!g_strcasecmp (*key, lang)) {
+				if (!g_ascii_strcasecmp (*key, lang)) {
 					g_free (lang);
 					return entry->value;
 				}

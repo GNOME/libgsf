@@ -7,8 +7,10 @@ test-msole1
 test-msole2
 test-cp-msole
 test-msvba
-test-zip1
 test-gzip1
 test-textline
+test-zip1
+test-zip2
+test-cp-zip
 test-cat-zip
 test-ls-zip

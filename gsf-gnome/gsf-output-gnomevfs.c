@@ -25,6 +25,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <libgnomevfs/gnome-vfs.h>
+/* libgnomevfs/gnome-vfs-result.h */
 
 struct _GsfOutputGnomeVFS {
     GsfOutput output;
@@ -46,27 +47,27 @@ typedef struct {
 GsfOutput *
 gsf_output_gnomevfs_new (char const *filename, GError **err)
 {
-    GsfOutputGnomeVFS *output;
-    GnomeVFSHandle *handle;
-    GnomeVFSResult res;
+	GsfOutputGnomeVFS *output;
+	GnomeVFSHandle *handle;
+	GnomeVFSResult res;
 
-    if (filename == NULL) {
-        g_set_error (err, gsf_output_error (), 0,
-                     "Filename/URI cannot be NULL");
-        return NULL;
-    } else
-       res = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_WRITE);
+	if (filename == NULL) {
+		g_set_error (err, gsf_output_error_id (), 0,
+			     "Filename/URI cannot be NULL");
+		return NULL;
+	} else
+		res = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_WRITE);
 
-    if (res != GNOME_VFS_OK) {
-        g_set_error (err, gsf_output_error (), (gint) res,
-                     gnome_vfs_result_to_string (res));
-        return NULL;
-    }
+	if (res != GNOME_VFS_OK) {
+		g_set_error (err, gsf_output_error_id (), (gint) res,
+			     gnome_vfs_result_to_string (res));
+		return NULL;
+	}
 
-    output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
-    output->handle = handle;
+	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
+	output->handle = handle;
 
-    return GSF_OUTPUT (output);
+	return GSF_OUTPUT (output);
 }
 
 static gboolean
@@ -100,33 +101,27 @@ static gboolean
 gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
 			  GSeekType whence)
 {
-    GsfOutputGnomeVFS const *vfs = GSF_OUTPUT_GNOMEVFS (output);
+	GsfOutputGnomeVFS const *vfs = GSF_OUTPUT_GNOMEVFS (output);
+	GnomeVFSSeekPosition	vfs_whence = 0; /* make compiler shut up */
+	GnomeVFSResult	 	res;
 
-    if (vfs->handle == NULL)
-        return TRUE;
+	g_return_val_if_fail (vfs->handle != NULL, 
+		gsf_output_set_error (output, 0, "missing handle"));
 
-    switch (whence) {
-        case G_SEEK_SET :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_START,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
-        case G_SEEK_CUR :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_CURRENT,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
-        case G_SEEK_END :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
-						GNOME_VFS_SEEK_END,
-						(GnomeVFSFileOffset) offset))
-                return FALSE;
-            break;
-    }
+	switch (whence) {
+	case G_SEEK_SET : vfs_whence = GNOME_VFS_SEEK_START;	break;
+	case G_SEEK_CUR : vfs_whence = GNOME_VFS_SEEK_CURRENT;	break;
+	case G_SEEK_END : vfs_whence = GNOME_VFS_SEEK_END;	break;
+	default :
+		break; /*checked in GsfOutput wrapper */
+	}
 
-    return TRUE;
+	res = gnome_vfs_seek (vfs->handle, vfs_whence,
+			      (GnomeVFSFileOffset) offset);
+	if (GNOME_VFS_OK == res)
+		return TRUE;
+	return gsf_output_set_error (output, 0,
+		gnome_vfs_result_to_string (res));
 }
 
 static gboolean

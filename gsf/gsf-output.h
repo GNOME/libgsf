@@ -36,6 +36,7 @@ GType gsf_output_get_type (void);
 
 char const   *gsf_output_name	   (GsfOutput const *output);
 GsfOutfile   *gsf_output_container (GsfOutput const *output);
+GError const *gsf_output_error	   (GsfOutput const *output);
 
 gsf_off_t     gsf_output_size      (GsfOutput *output);
 gboolean      gsf_output_close     (GsfOutput *output);
@@ -49,7 +50,7 @@ gboolean      gsf_output_write     (GsfOutput *output,
 gboolean gsf_output_wrap   (GsfOutput *wrapper, GsfOutput *wrapee);
 gboolean gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee);
 
-GQuark gsf_output_error (void);
+GQuark gsf_output_error_id (void);
 
 G_END_DECLS
 

@@ -46,6 +46,7 @@ gsf_output_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (output->container));
 		output->container = NULL;
 	}
+	g_clear_error (&output->err);
 }
 
 static void
@@ -56,8 +57,9 @@ gsf_output_init (GObject *obj)
 	output->cur_offset	= 0;
 	output->cur_size	= 0;
 	output->name		= NULL;
-	output->container	= NULL;
 	output->wrapped_by	= NULL;
+	output->container	= NULL;
+	output->err		= NULL;
 	output->is_closed	= FALSE;
 }
 
@@ -116,19 +118,24 @@ gsf_output_size (GsfOutput *output)
  * @output :
  *
  * Close a stream.
- * Returns TRUE if things are successful.
+ * Returns FALSE on error
  **/
 gboolean
 gsf_output_close (GsfOutput *output)
 {
-	g_return_val_if_fail (output != NULL, FALSE);
-	g_return_val_if_fail (!output->is_closed, FALSE);
+	gboolean res;
 
-	if (GET_CLASS (output)->Close (output)) {
-		output->is_closed = TRUE;
-		return TRUE;
-	}
-	return FALSE;
+	g_return_val_if_fail (GSF_IS_OUTPUT (output),
+		gsf_output_set_error (output, 0, "<internal>"));
+	g_return_val_if_fail (!output->is_closed,
+		gsf_output_set_error (output, 0, "<internal>"));
+
+	/* The implementation will log any errors, but we can never try to
+	 * close multiple times even on failure.
+	 */
+	res = GET_CLASS (output)->Close (output);
+	output->is_closed = TRUE;
+	return res;
 }
 
 /**
@@ -164,41 +171,46 @@ gsf_output_tell	(GsfOutput *output)
  * @offset :
  * @whence :
  *
- * Returns TRUE on error.
+ * Returns FALSE on error.
  **/
 gboolean
 gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	gsf_off_t pos = offset;
 
-	g_return_val_if_fail (output != NULL, -1);
+	g_return_val_if_fail (output != NULL, FALSE);
 
 	switch (whence) {
 	case G_SEEK_SET: break;
 	case G_SEEK_CUR: pos += output->cur_offset;	break;
 	case G_SEEK_END: pos += output->cur_size;	break;
-	default : return TRUE;
+	default :
+		g_warning ("Invalid seek type %d", (int)whence);
+		return FALSE;
 	}
 
-	if (pos < 0)
-		return TRUE;
+	if (pos < 0) {
+		g_warning ("Invalid seek position %" GSF_OFF_T_FORMAT
+			   ", which is before the start of the file", pos);
+		return FALSE;
+	}
 
 	/* If we go nowhere, just return.  This in particular handles null
 	 * seeks for streams with no seek method.
 	 */
 	if (pos == output->cur_offset)
-		return FALSE;
-
-	if (GET_CLASS (output)->Seek (output, offset, whence))
 		return TRUE;
 
-	output->cur_offset = pos;
+	if (GET_CLASS (output)->Seek (output, offset, whence)) {
+		/* NOTE : it is possible for the current pos to be beyond the
+		 * end of the file.  The intervening space is not filled with 0
+		 * until something is written.
+		 */
+		output->cur_offset = pos;
+		return TRUE;
+	}
 
-	/* NOTE : it is possible for the current pos to be beyond the end of
-	 * the file.  The intervening space is not filled with 0 until
-	 * something is written.
-	 */
-
+	/* the implementation should have assigned whatever errors are necessary */
 	return FALSE;
 }
 
@@ -224,7 +236,22 @@ gsf_output_write (GsfOutput *output,
 			output->cur_size = output->cur_offset;
 		return TRUE;
 	}
+
+	/* the implementation should have assigned whatever errors are necessary */
 	return FALSE;
+}
+
+/**
+ * gsf_output_error :
+ * @output :
+ *
+ * Returns the last error logged on the output, or NULL.
+ **/
+GError const *
+gsf_output_error (GsfOutput const *output)
+{
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), NULL);
+	return output->err;
 }
 
 /**
@@ -232,7 +259,8 @@ gsf_output_write (GsfOutput *output,
  * @output :
  * @name :
  *
- * protected.
+ * <protected> This is a utility routine that should only be used by derived
+ * outputs.
  *
  * Returns : TRUE if the assignment was ok.
  **/
@@ -241,7 +269,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 {
 	char *buf;
 
-	g_return_val_if_fail (output != NULL, FALSE);
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	buf = g_strdup (name);
 	if (output->name != NULL)
@@ -255,12 +283,15 @@ gsf_output_set_name (GsfOutput *output, char const *name)
  * @output :
  * @container :
  *
+ * <protected> This is a utility routine that should only be used by derived
+ * outputs.
+ *
  * Returns : TRUE if the assignment was ok.
  */
 gboolean
 gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 {
-	g_return_val_if_fail (output != NULL, FALSE);
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	if (container != NULL)
 		g_object_ref (G_OBJECT (container));
@@ -268,6 +299,39 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 		g_object_unref (G_OBJECT (output->container));
 	output->container = container;
 	return TRUE;
+}
+
+/**
+ * gsf_output_set_error :
+ * @output :
+ * @container :
+ *
+ * <protected> This is a utility routine that should only be used by derived
+ * outputs.
+ *
+ * Returns : Always returns FALSE to facilitate its use.
+ */
+gboolean
+gsf_output_set_error (GsfOutput  *output,
+		      gint        code,
+		      char const *format,
+		      ...)
+{
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
+
+	g_clear_error (&output->err);
+
+	if (format != NULL) {
+		va_list args;
+		va_start (args, format);
+		output->err = g_new (GError, 1);
+		output->err->domain = gsf_output_error_id ();
+		output->err->code = code;
+		output->err->message = g_strdup_vprintf (format, args);
+		va_end (args);
+	}
+
+	return FALSE;
 }
 
 static void
@@ -320,7 +384,7 @@ gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee)
 }
 
 GQuark
-gsf_output_error (void)
+gsf_output_error_id (void)
 {
 	static GQuark quark;
 	if (!quark)

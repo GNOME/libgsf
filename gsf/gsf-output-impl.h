@@ -35,6 +35,7 @@ struct _GsfOutput {
 	char       *name;
 	GsfOutput  *wrapped_by;
 	GsfOutfile *container;
+	GError	   *err;
 	gboolean    is_closed;
 };
 
@@ -52,8 +53,12 @@ typedef struct {
 #define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
 
 /* protected */
-gboolean gsf_output_set_name	  (GsfOutput *input, char const *name);
-gboolean gsf_output_set_container (GsfOutput *input, GsfOutfile *container);
+gboolean gsf_output_set_name	  (GsfOutput *output, char const *name);
+gboolean gsf_output_set_container (GsfOutput *output, GsfOutfile *container);
+gboolean gsf_output_set_error	  (GsfOutput *output,
+				   gint        code,
+				   char const *format,
+				   ...) G_GNUC_PRINTF (3, 4);
 
 G_END_DECLS
 

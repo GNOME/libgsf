@@ -52,7 +52,6 @@ static gboolean
 gsf_output_memory_close (GsfOutput *output)
 {
     GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
-    gboolean res = FALSE;
 
     if (mem->buffer != NULL) {
         g_free (mem->buffer);
@@ -83,7 +82,7 @@ gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
     (void)output;
     (void)offset;
     (void)whence;
-    return FALSE;
+    return TRUE;
 }
 
 static gboolean
@@ -92,7 +91,6 @@ gsf_output_memory_write (GsfOutput *output,
                         guint8 const *buffer)
 {
     GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
-    size_t res;
 
     g_return_val_if_fail (mem != NULL, FALSE);
 

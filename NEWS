@@ -5,6 +5,8 @@ Jody:
 	* More work on reading ole property sets.
 	* Minor tweak directory handling for infile-zip.
 	* Replace test-cat-zip with test-msole2
+	* Add error handling mechanism to GsfOutput
+	* Borrow the temp file handling from gedit
 
 Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.

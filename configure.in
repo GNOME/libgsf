@@ -47,7 +47,7 @@ libxml-2.0 >= 2.4.16
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
-CFLAGS="$CFLAGS $WARN_CFLAGS"
+CFLAGS="$CFLAGS $WARN_CFLAGS -DG_DISABLE_DEPRECATED"
 if test "$GCC" = "yes"; then
 	for option in -Wno-system-headers -W -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-format-attribute -Wnested-externs -Wunreachable-code -Winline; do
 		SAVE_CFLAGS="$CFLAGS"
@@ -66,13 +66,6 @@ if test "$GCC" = "yes"; then
 	unset option
 fi
 
-AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
-AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
-if test $need_bsd = yes ; then
-	CFLAGS="$CFLAGS -D_BSD_SOURCE"
-fi
-AC_MSG_RESULT($need_bsd)
-
 AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
 saved_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Werror"
@@ -89,6 +82,20 @@ if test $need_posix = yes ; then
 	if test $need_posix = yes ; then
 		CFLAGS="$CFLAGS -D__EXTENSIONS__"
 	fi
+fi
+
+AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
+AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd1=no, need_bsd1=yes)
+AC_MSG_RESULT($need_bsd1)
+
+AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for lstat])
+AC_TRY_LINK([#include <sys/types.h>
+	     #include <sys/stat.h>
+	     #include <unistd.h>
+	    ], [void *ptr = &lstat], need_bsd2=no, need_bsd2=yes)
+AC_MSG_RESULT($need_bsd2)
+if test $need_bsd1 = yes -o $need_bsd2 = yes; then
+	CFLAGS="$CFLAGS -D_BSD_SOURCE"
 fi
 
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
