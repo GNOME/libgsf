@@ -164,7 +164,7 @@ gsf_input_gzip_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_gzip_dup (GsfInput *src_input)
+gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputGZip const *src = (GsfInputGZip *)src_input;
 	GsfInputGZip *dst = g_object_new (GSF_INPUT_GZIP_TYPE, NULL);

@@ -39,7 +39,7 @@ struct _GsfInput {
 typedef struct {
 	GObjectClass g_object_class;
 
-	GsfInput     *(*Dup)  (GsfInput *input);
+	GsfInput     *(*Dup)  (GsfInput *input, GError **err);
 	guint8 const *(*Read) (GsfInput *input, size_t num_bytes,
 			       guint8 *optional_buffer);
 	gboolean      (*Seek) (GsfInput *input, off_t offset, GsfOff_t whence);

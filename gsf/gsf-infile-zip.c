@@ -190,7 +190,7 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 }
 
 static GsfInput *
-gsf_infile_zip_dup (GsfInput *src_input)
+gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileZip const *src = GSF_INFILE_ZIP (src_input);
 	GsfInfileZip *dst = NULL;

@@ -91,19 +91,20 @@ gsf_input_container (GsfInput *input)
 /**
  * gsf_input_dup :
  * @src : The input to duplicate
+ * @err : optionally NULL
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
  * Returns : the duplicate, or NULL on error
  **/
 GsfInput *
-gsf_input_dup (GsfInput *src)
+gsf_input_dup (GsfInput *src, GError **err)
 {
 	GsfInput *dst;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	dst = GET_CLASS (src)->Dup (src);
+	dst = GET_CLASS (src)->Dup (src, err);
 	if (dst != NULL) {
 		dst->size = src->size;
 		dst->name = (src->name != NULL) ? g_strdup (src->name) : NULL;

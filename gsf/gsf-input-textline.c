@@ -87,7 +87,7 @@ gsf_input_textline_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_textline_dup (GsfInput *src_input)
+gsf_input_textline_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputTextline const *src = (GsfInputTextline *)src_input;
 	GsfInputTextline *dst = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);

@@ -429,7 +429,7 @@ ole_dup (GsfInfileMSOle const *src)
 	g_return_val_if_fail (src != NULL, NULL);
 
 	dst = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	dst->input = gsf_input_dup (src->input);
+	dst->input = gsf_input_dup (src->input, NULL);
 	dst->info  = ole_info_ref (src->info);
 
 	/* buf and buf_size are initialized to NULL */
@@ -592,10 +592,13 @@ gsf_infile_msole_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_infile_msole_dup (GsfInput *src_input)
+gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
 	GsfInfileMSOle *dst = ole_dup (src);
+
+	if (dst == NULL)
+		return NULL;
 
 	if (src->bat.block != NULL) {
 		dst->bat.block = g_new (guint32, src->bat.num_blocks),

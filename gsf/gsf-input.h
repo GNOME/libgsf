@@ -36,7 +36,7 @@ GType gsf_input_get_type (void);
 char const   *gsf_input_name	  (GsfInput *input);
 GsfInfile    *gsf_input_container (GsfInput *input);
 
-GsfInput     *gsf_input_dup	  (GsfInput *src);
+GsfInput     *gsf_input_dup	  (GsfInput *src, GError **err);
 ssize_t	      gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *input);
 guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,

@@ -107,10 +107,10 @@ gsf_input_stdio_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_stdio_dup (GsfInput *src_input)
+gsf_input_stdio_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputStdio const *src = (GsfInputStdio *)src_input;
-	return gsf_input_stdio_new (src->input.name, NULL);
+	return gsf_input_stdio_new (src->input.name, err);
 }
 
 static guint8 const *

@@ -57,7 +57,7 @@ gsf_input_memory_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_memory_dup (GsfInput *src_input)
+gsf_input_memory_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
