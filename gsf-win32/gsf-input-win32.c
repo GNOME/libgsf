@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-win32.c: 
+ * gsf-input-win32.c:
  *
  * Copyright (C) 2003-2004 Dom Lachowicz <cinamod@hotmail.com>
  *
@@ -30,14 +30,13 @@ struct _GsfInputIStream {
 	IStream * stream;
 	guint8   *buf;
 	size_t   buf_size;
-	gsf_off_t pos;
 };
 
 typedef struct {
 	GsfInputClass input_class;
 } GsfInputIStreamClass;
 
-static void 
+static void
 hresult_to_gerror (HRESULT hr, GError ** err)
 {
 	if (err)
@@ -48,7 +47,9 @@ hresult_to_gerror (HRESULT hr, GError ** err)
 static char *
 lpwstr_to_utf8(LPWSTR str)
 {
-	return g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
+	if (str)
+		return g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
+	return NULL;
 }
 
 /**
@@ -73,7 +74,7 @@ gsf_input_istream_new (IStream * stream, GError **err)
 		return NULL;
 	}
 
-	if (FAILED(hr = stream->Stat(stream, &statbuf))) {
+	if (FAILED (hr = IStream_Stat (stream, &statbuf))) {
 		hresult_to_gerror (hr, err);
 		return NULL;
 	}
@@ -83,14 +84,19 @@ gsf_input_istream_new (IStream * stream, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 
-	input->stream->Ref ();
+	IStream_AddRef (input->stream);
+
+	/* LowPart and HiPart are the low and high 32 bit UINT parts. The MSDN documentation
+	   says to use QuadPart if your compiler supports 64 bit ints. gsf_off_t is a gint64 value.
+	   http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winprog/winprog/large_integer_str.asp
+	 */
+	gsf_input_set_size (GSF_INPUT (input), (gsf_off_t) statbuf.cbSize.QuadPart);
 
 	name = lpwstr_to_utf8 (statbuf.pwcsName);
-
-	gsf_input_set_size (GSF_INPUT (input), (gsf_off_t) statbuf.cbSize);
-	gsf_input_set_name (GSF_INPUT (input), name);
-
-	g_free (name);
+	if(name) {
+		gsf_input_set_name (GSF_INPUT (input), name);
+		g_free (name);
+	}
 
 	return input;
 }
@@ -101,7 +107,7 @@ gsf_input_istream_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfInputIStream *input = (GsfInputIStream *)obj;
 
-	input->stream->Release (input->stream);
+	IStream_Release (input->stream);
 	input->stream = NULL;
 
 	if (input->buf != NULL) {
@@ -123,12 +129,12 @@ gsf_input_istream_dup (GsfInput *src_input, GError **err)
 	HRESULT hr;
 	IStream * clone;
 
-	g_return_val_if_fail(src_input != NULL, NULL);
-	g_return_val_if_fail(src->stream != NULL, NULL);
+	g_return_val_if_fail (src_input != NULL, NULL);
+	g_return_val_if_fail (src->stream != NULL, NULL);
 
-	if (SUCCEEDED(hr = src->stream->Clone(src->stream, &clone))) {
-		dst = g_object_new (GSF_INPUT_ISTREAM_TYPE, NULL);
-		dst->stream = clone;
+	if (SUCCEEDED(hr = IStream_Clone (src->stream, &clone))) {
+		dst = gsf_input_istream_new (clone, NULL);
+		IStream_Release (clone); /* gsf_input_istream_new() adds a ref */
 
 		return GSF_INPUT (dst);
 	}
@@ -158,11 +164,12 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 		buffer = istm->buf;
 	}
 
-	while(1)
+	while (1)
 	    {
-		    hr = istm->stream->Read (istm->stream, (buffer + total_read), (ULONG)(num_bytes - total_read), &nread);
+		    hr = IStream_Read (istm->stream, (buffer + total_read), (ULONG)(num_bytes - total_read), &nread);
 
 		    if (SUCCEEDED (hr)) {
+				total_read += nread;
 			    if ((size_t) total_read == num_bytes) {
 				    return buffer;
 			    }
@@ -170,7 +177,7 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 			    break;
 	    }
 
-	g_warning ("FAILED (hr)\n");
+	g_warning ("IStream read failed\n");
 	return NULL;
 }
 
@@ -182,7 +189,7 @@ gsf_input_istream_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 	g_return_val_if_fail (istm != NULL, TRUE);
 	g_return_val_if_fail (istm->stream != NULL, TRUE);
-	
+
 	switch (whence) {
 	case G_SEEK_SET :
 		dwhence = STREAM_SEEK_SET;
@@ -196,8 +203,8 @@ gsf_input_istream_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	default:
 		return TRUE;
 	}
-	
-	return (FAILED(istm->stream->Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)));
+
+	return (SUCCEEDED (IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)));
 }
 
 static void

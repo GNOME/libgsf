@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-win32.c: 
+ * gsf-output-win32.c:
  *
  * Copyright (C) 2003-2004 Dom Lachowicz <cinamod@hotmail.com>
  *
@@ -32,15 +32,10 @@ struct _GsfOutputIStream {
 
 typedef struct {
 	GsfOutputClass output_class;
-} GsfOutputStreamClass;
+} GsfOutputIStreamClass;
 
-static void 
-hresult_to_gerror (HRESULT hr, GError ** err)
-{
-	if (err)
-		*err = g_error_new (gsf_output_error (), hr,
-				    "HRESULT != S_OK");
-}
+/* declared in gsf-input-win32.c */
+extern void hresult_to_gerror (HRESULT hr, GError ** err);
 
 /**
  * gsf_output_istream_new :
@@ -53,13 +48,11 @@ gsf_output_istream_new (IStream * stream)
 {
 	GsfOutputIStream *output;
 
-	if (stream == NULL) {
-		return NULL;
-	}
+	g_return_val_if_fail(stream != NULL, NULL);
 
 	output = g_object_new (GSF_OUTPUT_ISTREAM_TYPE, NULL);
 	output->stream = stream;
-	output->stream->Ref ();
+	IStream_AddRef (output->stream);
 
 	return output;
 }
@@ -71,7 +64,7 @@ gsf_output_istream_close (GsfOutput *output)
 	gboolean res = FALSE;
 
 	if (istream->stream != NULL) {
-		istream->stream->Release (istream->stream);
+		IStream_Release (istream->stream);
 		istream->stream = NULL;
 		res = TRUE;
 	}
@@ -85,7 +78,7 @@ gsf_output_istream_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfOutputIStream *output = (GsfOutputIStream *)obj;
 
-	gsf_output_istream_close (output);
+	gsf_output_istream_close (GSF_OUTPUT(output));
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -104,19 +97,19 @@ gsf_output_istream_write (GsfOutput *output,
 	g_return_val_if_fail (istm != NULL, FALSE);
 	g_return_val_if_fail (istm->stream != NULL, FALSE);
 
-	while(1) {
-		hr = istm->stream->Write(istm->stream, (buffer + total_written), (ULONG)(num_bytes - total_written), &nwritten);
-		
-		if (SUCCEEDED(hr)) {
+	while (1) {
+		hr = IStream_Write(istm->stream, (buffer + total_written), (ULONG)(num_bytes - total_written), &nwritten);
+
+		if (SUCCEEDED (hr)) {
 			total_written += nwritten;
-			if (total_written == num_bytes)
+			if ((size_t)total_written == num_bytes)
 				return TRUE;
 		} else {
 			g_warning ("Write failed\n");
 			return FALSE;
-		}	
+		}
 	}
-	
+
 	return TRUE;
 }
 
@@ -128,7 +121,7 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 
 	g_return_val_if_fail (istm != NULL, gsf_output_set_error(output, 0, "missing handle"));
 	g_return_val_if_fail (istm->stream != NULL, gsf_output_set_error(output, 0, "missing handle"));
-	
+
 	switch (whence) {
 	case G_SEEK_SET :
 		dwhence = STREAM_SEEK_SET;
@@ -142,8 +135,8 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	default:
 		break; /* checked in parent wrapper */
 	}
-	
-	if (SUCCEEDED(istm->stream->Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
+
+	if (SUCCEEDED(IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
 		return TRUE;
 
 	return gsf_output_set_error(output, 0, "seek failed");
