@@ -969,7 +969,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* doc/Makefile.am : fix the case when gtk-doc is not available
 
-2003-06-20  Morten Welinder  <welinder@rentec.com>
+2003-06-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Handle premature end
 	of stream.
