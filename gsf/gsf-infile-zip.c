@@ -488,6 +488,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 	ZipVDir      *vdir = zip->vdir;
+	gsf_off_t pos;
 
 	if (zip->restlen < num_bytes)
 		return NULL;
@@ -495,7 +496,9 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	switch (vdir->dirent->compr_method) {
 	case ZIP_STORED:
 		zip->restlen -= num_bytes;
-		return gsf_input_read (input, num_bytes, buffer);
+		pos = zip->vdir->dirent->data_offset + input->cur_offset;
+		gsf_input_seek (zip->input, pos, G_SEEK_SET);
+		return gsf_input_read (zip->input, num_bytes, buffer);
 		break;
 	case ZIP_DEFLATED:
 
