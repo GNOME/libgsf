@@ -27,7 +27,7 @@ gsfgnome.c: gsfgnome.defs gsfgnome.override
 
 _gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS)
 _gsfmodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex init_gsf
-_gsfmodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-gnome-1 -lgsf-1
+_gsfmodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-1
 _gsfmodule_la_SOURCES = gsfmodule.c
 nodist__gsfmodule_la_SOURCES = gsf.c
 CLEANFILES += gsf.c
