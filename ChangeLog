@@ -1,5 +1,10 @@
 2002-06-06  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : remove -Wmissing-noreturn
+
+	* gsf/test-msole1.c (test) : remove the --use-memory bit.  Just use
+	  mmap.  We can test the other input types in another program.
+
 	* gsf/*.c : change the convention for wrappers.  They all add their
 	       own references to the source rather than absorbing the ref that
 	       was passed in.

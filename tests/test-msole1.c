@@ -108,7 +108,6 @@ test (int argc, char *argv[])
 	GError    *err;
 	int i;
 	guint16 len, opcode;
-	gboolean use_memory = FALSE;
 
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
