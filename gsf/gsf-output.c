@@ -441,7 +441,6 @@ gboolean
 gsf_output_puts (GsfOutput *output, char const* line)
 {
 	int nbytes = strlen (line);
-	gboolean ret;
 
 	return gsf_output_write (output, nbytes, line);
 }

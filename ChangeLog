@@ -1,5 +1,9 @@
 2002-11-21  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-output.c (gsf_output_puts): Remove unused variable.
+
+2002-11-21  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-libxml.c (gsf_libxml_write): Fix inverted
 	success/failure test.
 
