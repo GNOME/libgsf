@@ -25,6 +25,3 @@ gsf-output-stdio.c:
    likely take ownership.
 
 6. Race conditions (inter-process and inter-thread) all over.
-
-gsf-input-gnomevfs
-    - Make local copies of remote files without random access
