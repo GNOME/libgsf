@@ -8,7 +8,7 @@ endif
 
 lib_LTLIBRARIES = $(target_libgsf_gnome)
 
-libgsf_gnome_1_la_LIBADD  = $(LIBGSF_GNOME_LIBS)
+libgsf_gnome_1_la_LIBADD  = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_GNOME_LIBS)
 libgsf_gnome_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 libgsf_gnome_1_la_SOURCES =	\
 	gsf-input-gnomevfs.c 	\
