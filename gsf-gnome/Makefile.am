@@ -1,12 +1,7 @@
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_GNOME_CFLAGS)
 
 if WITH_LIBGSF_GNOME
-target_libgsf_gnome = libgsf-gnome-1.la
-else
-target_libgsf_gnome =
-endif
-
-lib_LTLIBRARIES = $(target_libgsf_gnome)
+lib_LTLIBRARIES = libgsf-gnome-1.la
 
 libgsf_gnome_1_la_LIBADD  = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_GNOME_LIBS)
 libgsf_gnome_1_la_LDFLAGS = -version-info $(VERSION_INFO)
@@ -17,6 +12,9 @@ libgsf_gnome_1_la_SOURCES =	\
 	gsf-output-bonobo.c	\
 	gsf-shared-bonobo-stream.c
 
+endif
+
+## But headers are installed always:
 libgsf_gnome_1_includedir = $(includedir)/libgsf-1/gsf-gnome
 libgsf_gnome_1_include_HEADERS =  \
 	gsf-input-gnomevfs.h	\
@@ -24,7 +22,3 @@ libgsf_gnome_1_include_HEADERS =  \
 	gsf-input-bonobo.h 	\
 	gsf-output-bonobo.h	\
 	gsf-shared-bonobo-stream.h
-
-# include these just in case we are building a tarball without
-# gnomevfs or bonobo support.
-EXTRA_DIST = $(libgsf_gnome_1_la_SOURCES) $(libgsf_gnome_1_include_HEADERS)

@@ -1,7 +1,3 @@
-if PLATFORM_WIN32
-no_undefined = -no-undefined
-endif
-
 if OS_WIN32
 
 install-libtool-import-lib:
@@ -19,7 +15,11 @@ AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS)
 lib_LTLIBRARIES = libgsf-1.la
 
 libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS)
-libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO) $(no_undefined)
+libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
+if PLATFORM_WIN32
+  libgsf_1_la_LDFLAGS += -no-undefined
+endif
+
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\

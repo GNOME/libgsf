@@ -10,9 +10,8 @@ EXTRA_DIST =
 pygsfexec_LTLIBRARIES =
 
 if WITH_LIBGSF_GNOME
-gnomemodule_la = gnomemodule.la
+  pygsfexec_LTLIBRARIES += gnomemodule.la
 endif
-pygsfexec_LTLIBRARIES += $(gnomemodule_la)
 
 pygsfexec_LTLIBRARIES += _gsfmodule.la
 

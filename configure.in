@@ -47,11 +47,26 @@ AC_SYS_LARGEFILE
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
 dnl Checks for libraries.
+ifelse([
+  If we defined the module lists on the M4 level, we could have problems
+  with PKG_CHECK_MODULES from pkgconfig 0.16.0, which double quotes its
+  second argument (the module list).
+  As a handy workaround, we use shell variables.
+])
 dnl Modules common to libgsf and libgsf-gnome
-m4_define(LIBGSF_MODULES,[gobject-2.0 >= 2.6.0
+libgsf_reqs="
+    gobject-2.0 >= 2.6.0
     glib-2.0 >= 2.6.0
-    libxml-2.0 >= 2.4.16])
-PKG_CHECK_MODULES(LIBGSF, LIBGSF_MODULES)
+    libxml-2.0 >= 2.4.16
+"
+dnl Modules required for libgsf-gnome
+libgsf_gnome_reqs="
+    $libgsf_reqs
+    libbonobo-2.0 >= 2.0.0
+    gnome-vfs-2.0 >= 2.2.0
+    gnome-vfs-module-2.0 >= 2.2.0
+"
+PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
@@ -121,7 +136,7 @@ AC_FUNC_MMAP
 AC_CHECK_FUNCS(chown)
 
 AC_MSG_CHECKING([for native Win32])
-case "$host" in
+case $host in
   *-*-mingw*)
     native_win32=yes
     ;;
@@ -133,7 +148,7 @@ AC_MSG_RESULT([$native_win32])
 AM_CONDITIONAL(OS_WIN32, test "$native_win32" = yes)
 
 AC_MSG_CHECKING([for Win32 platform in general])
-case "$host" in
+case $host in
   *-*-mingw*|*-*-cygwin*)
     platform_win32=yes
     ;;
@@ -156,8 +171,8 @@ AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 dnl ***********************************************************************************
 # Check for zlib.
-_cppflags="${CPPFLAGS}"
-_ldflags="${LDFLAGS}"
+_cppflags=$CPPFLAGS
+_ldflags=$LDFLAGS
 
 Z_DIR= Z_LIBS= Z_CPPFLAGS=
 
@@ -180,7 +195,7 @@ if test "$with_zlib" = no; then
 fi
 if test "x$Z_DIR" != "x"; then
         Z_CPPFLAGS="-I$Z_DIR/include"
-        case ${host} in
+        case $host in
         *-*-solaris*)   Z_LIBS="-L$Z_DIR/lib -R$Z_DIR/lib -lz" ;;
         *)              Z_LIBS="-L$Z_DIR/lib -lz" ;;
         esac
@@ -264,25 +279,27 @@ dnl ****************************************************************************
 
 dnl gnome
 dnl
-test_gnome=true
+want_gnome=auto
 AC_ARG_WITH(gnome,
 	[--{with,without}-gnome   Build additional wrappers for GNOME-VFS and BONOBO],
-	if test "x$withval" = xno; then
-		test_gnome=false
-	fi
-)
-with_gnome=false
-if  test "x$test_gnome" = xtrue ; then 
-    PKG_CHECK_MODULES(LIBGSF_GNOME,
-    LIBGSF_MODULES [
-    libbonobo-2.0 >= 2.0.0
-    gnome-vfs-2.0 >= 2.2.0
-    gnome-vfs-module-2.0 >= 2.2.0
-    ],[with_gnome=true], [AC_MSG_WARN([GNOME support disabled, unable to find required version of VFS and/or Bonobo])])
-else
+	[case $withval in
+	yes) want_gnome=yes;;
+	no) want_gnome=no;;
+	esac[]dnl
+])
+have_gnome=no
+if  test $want_gnome = no ; then 
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
+else
+    PKG_CHECK_MODULES(LIBGSF_GNOME, $libgsf_gnome_reqs,
+	[have_gnome=yes],
+	[if test $want_gnome = yes; then
+	    AC_MSG_ERROR([GNOME support requested, but not available.])
+	 else
+	    AC_MSG_WARN([GNOME support disabled, unable to find required version of VFS and/or Bonobo])
+	 fi])
 fi
-AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
+AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
 AC_OUTPUT([
 Makefile

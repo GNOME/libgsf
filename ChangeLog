@@ -1,3 +1,13 @@
+2005-04-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (LIBGSF_MODULES): This macro was replaced by...
+	(libgsf_reqs, libgsf_gnome_reqs): ... these two shell variables.
+	PKG_CHECK_MODULES from pkconfig-0.16.0 double quotes its arguments,
+	which is an error; using shell variables is a handy workaround.
+	* Makefile.am: Clean up.
+	* test/Makefile.am (LDADD): Use this, instead of the per-target
+	  variables.
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-iconv.h: Make GsfOutputIconvClass public.
