@@ -9,6 +9,9 @@ Jon Kåre:
 	* Fix misc bugs.
 	* Add gzip output.
 
+Morten:
+	* Don't overwrite files we're not supposed to write.
+
 ------------------------------------------------------------------------------
 libgsf 1.5.0
 
