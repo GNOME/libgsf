@@ -312,15 +312,15 @@ static guint32 *
 ole_info_read_xbat (GsfInfileMSOle *ole, guint32 *bats,
 		    guint8 const *xbat, guint8 const *xbat_end)
 {
-	int i = 0;
-	guint8 const *bat;
+	guint8 const *bat, *end;
 
-	for (; xbat < xbat_end; xbat += BAT_INDEX_SIZE, i++) {
+	for (; xbat < xbat_end; xbat += BAT_INDEX_SIZE) {
 		bat = ole_get_block (ole, GSF_GET_GUINT32 (xbat));
 		if (bat == NULL)
 			return NULL;
-		memcpy (bats, bat, ole->info->bb.size);
-		bats += (ole->info->bb.size / BAT_INDEX_SIZE);
+		end = bat + ole->info->bb.size;
+		for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++)
+			*bats = GSF_GET_GUINT32 (bat);
 	}
 	return bats;
 }
@@ -533,10 +533,15 @@ gsf_infile_msole_read (GsfInput *input, int num_bytes)
 
 	first_block = OLE_BIG_BLOCK (input->cur_offset, ole);
 	last_block = OLE_BIG_BLOCK (end, ole);
+	offset = input->cur_offset & ole->info->bb.filter;
 
 	/* optimization : are all the raw blocks contiguous */
 	i = first_block;
 	raw_block = ole->bat [i];
+	if (gsf_input_seek (ole->input,
+		OLE_HEADER_SIZE + (raw_block << ole->info->bb.shift) + offset,
+		GSF_SEEK_SET) < 0)
+		return NULL;
 	while (++i <= last_block && ++raw_block == ole->bat [i])
 		;
 	if (i > last_block)
@@ -551,7 +556,6 @@ gsf_infile_msole_read (GsfInput *input, int num_bytes)
 	}
 
 	ptr = ole->stream.buf;
-	offset = input->cur_offset & ole->info->bb.filter;
 	for (i = first_block ; i <= last_block ; i++ , ptr += count, num_bytes -= count) {
 		count = ole->info->bb.size - offset;
 		if (count > num_bytes)

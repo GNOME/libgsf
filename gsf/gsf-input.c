@@ -177,6 +177,12 @@ gsf_input_read (GsfInput *input, int num_bytes)
 
 }
 
+/**
+ * gsf_input_tell :
+ * @input :
+ *
+ * Returns the current offset in the file.
+ **/
 int
 gsf_input_tell (GsfInput *input)
 {
@@ -185,6 +191,14 @@ gsf_input_tell (GsfInput *input)
 	return input->cur_offset;
 }
 
+/**
+ * gsf_input_seek :
+ * @input :
+ * @offset :
+ * @whence
+ *
+ * Returns TRUE on error.
+ **/
 gboolean
 gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 {
@@ -197,6 +211,13 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 	return FALSE;
 }
 
+/**
+ * gsf_input_set_name :
+ * @inpue :
+ * @name :
+ *
+ * protected.
+ **/
 gboolean
 gsf_input_set_name (GsfInput *input, char const *name)
 {
@@ -211,6 +232,12 @@ gsf_input_set_name (GsfInput *input, char const *name)
 	return TRUE;
 }
 
+/**
+ * gsf_input_set_container :
+ * @input :
+ * @container :
+ *
+ */
 gboolean
 gsf_input_set_container (GsfInput *input, GsfInfile *container)
 {

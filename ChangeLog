@@ -1,3 +1,11 @@
+2002-05-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_info_read_xbat) : DOH!
+	  We need to check endianness when reading the bat elements.
+	(gsf_infile_msole_read) : slow but effective work around for
+	  breaking at block boundaries.  I'll work up something faster this
+	  evening.
+
 2002-05-19  Jody Goldberg <jody@gnome.org>
 
 	* Start making this into a real package.
