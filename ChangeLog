@@ -1,3 +1,8 @@
+2002-10-21  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-msole-utils.c (*): Large rewrite of the codepage handling
+	code. More functions, more complete, more flexible, etc...
+	
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-textline.c (gsf_input_textline_ascii_gets): Handle

@@ -3,6 +3,7 @@
  * gsf-msole-utils.c: 
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  *
  * This program is free software; you can redistribute it and/or
@@ -700,51 +701,503 @@ err:
 	return FALSE;
 }
 
-typedef struct
-{
-	char const * const * keys;/*NULL-terminated list*/
-	int value;
-} s_hash_entry;
+typedef struct {
+	const char * tag;
+	guint lid;
+} GsfLanguageMapping;
 
-/* here is a list of languages for which cp1251 is used on Windows*/
-static char const * const cyr_locales[] =
-{
-	"be", "be_BY", "bulgarian", "bg", "bg_BG", "mk", "mk_MK",
-	"russian", "ru", "ru_RU", "ru_UA", "sp", "sp_YU", "sr", "sr_YU",
-	"ukrainian", "uk", "uk_UA", NULL
-};
+static const GsfLanguageMapping gsf_msole_language_ids[] =
+	{
+		{ "-none-", 0x0000 }, /* none (language neutral) */
+		{ "-none-", 0x0400 }, /* none */
+		{ "af_ZA",  0x0436 }, /* Afrikaans */
+		{ "am",     0x045e }, /* Amharic */
+		{ "al_AL",  0x041c }, /* Albanian */
+		{ "ar_SA",  0x0401 }, /* Arabic (Saudi) */
+		{ "ar_IQ",  0x0801 }, /* Arabic (Iraq) */
+		{ "ar_EG",  0x0c01 }, /* Arabic (Egypt) */		
+		{ "ar_LY",  0x1001 }, /* Arabic (Libya) */
+		{ "ar_DZ",  0x1401 }, /* Arabic (Algeria) */
+		{ "ar_MA",  0x1801 }, /* Arabic (Morocco) */
+		{ "ar_TN",  0x1c01 }, /* Arabic (Tunisia) */
+		{ "ar_OM",  0x2001 }, /* Arabic (Oman) */
+		{ "ar_YE",  0x2401 }, /* Arabic (Yemen) */		
+		{ "ar_SY",  0x2801 }, /* Arabic (Syria) */
+		{ "ar_JO",  0x2c01 }, /* Arabic (Jordan) */
+		{ "ar_LB",  0x3001 }, /* Arabic (Lebanon) */
+		{ "ar_KW",  0x3401 }, /* Arabic (Kuwait) */
+		{ "ar_AE",  0x3801 }, /* Arabic (United Arab Emirates) */
+		{ "ar_BH",  0x3c01 }, /* Arabic (Bahrain) */		
+		{ "ar_QA",  0x4001 }, /* Arabic (Qatar) */
+		{ "as",     0x044d }, /* Assamese */
+		{ "az",     0x042c }, /* Azerbaijani */
+		{ "hy_AM",  0x042b }, /* Armenian */
+		{ "az",     0x044c }, /* Azeri (Latin) az_ */
+		{ "az",     0x082c }, /* Azeri (Cyrillic) az_ */
+		{ "eu_ES",  0x042d }, /* Basque */
+		{ "be_BY",  0x0423 }, /* Belarussian */		
+		{ "bn",     0x0445 }, /* Bengali bn_ */
+		{ "bg_BG",  0x0402 }, /* Bulgarian */
+		{ "ca_ES",  0x0403 }, /* Catalan */
+		{ "zh_TW",  0x0404 }, /* Chinese (Taiwan) */
+		{ "zh_CN",  0x0804 }, /* Chinese (PRC) */
+		{ "zh_HK",  0x0c04 }, /* Chinese (Hong Kong) */		
+		{ "zh_SG",  0x1004 }, /* Chinese (Singapore) */
+		{ "ch_MO",  0x1404 }, /* Chinese (Macau SAR) */
+		{ "hr_HR",  0x041a }, /* Croatian */
+		{ "cs_CZ",  0x0405 }, /* Czech */
+		{ "da_DK",  0x0406 }, /* Danish */
+		{ "div",    0x465 }, /* Divehi div_*/
+		{ "nl_NL",  0x0413 }, /* Dutch (Netherlands) */		
+		{ "nl_BE",  0x0813 }, /* Dutch (Belgium) */
+		{ "en_US",  0x0409 }, /* English (USA) */
+		{ "en_GB",  0x0809 }, /* English (UK) */
+		{ "en_AU",  0x0c09 }, /* English (Australia) */
+		{ "en_CA",  0x1009 }, /* English (Canada) */
+		{ "en_NZ",  0x1409 }, /* English (New Zealand) */
+		{ "en_IE",  0x1809 }, /* English (Ireland) */
+		{ "en_ZA",  0x1c09 }, /* English (South Africa) */
+		{ "en_JM",  0x2009 }, /* English (Jamaica) */
+		{ "en",     0x2409 }, /* English (Caribbean) */
+		{ "en_BZ",  0x2809 }, /* English (Belize) */
+		{ "en_TT",  0x2c09 }, /* English (Trinidad) */		
+		{ "en_ZW",  0x3009 }, /* English (Zimbabwe) */
+		{ "en_PH",  0x3409 }, /* English (Phillipines) */
+		{ "et_EE",  0x0425 }, /* Estonian */
+		{ "fo",     0x0438 }, /* Faeroese fo_ */
+		{ "fa_IR",  0x0429 }, /* Farsi */
+		{ "fi_FI",  0x040b }, /* Finnish */		
+		{ "fr_FR",  0x040c }, /* French (France) */
+		{ "fr_BE",  0x080c }, /* French (Belgium) */
+		{ "fr_CA",  0x0c0c }, /* French (Canada) */
+		{ "fr_CH",  0x100c }, /* French (Switzerland) */
+		{ "fr_LU",  0x140c }, /* French (Luxembourg) */
+		{ "fr_MC",  0x180c }, /* French (Monaco) */		
+		{ "gl",     0x0456 }, /* Galician gl_ */
+		{ "ga_IE",  0x083c }, /* Irish Gaelic */
+		{ "gd_GB",  0x100c }, /* Scottish Gaelic */
+		{ "ka_GE",  0x0437 }, /* Georgian */
+		{ "de_DE",  0x0407 }, /* German (Germany) */
+		{ "de_CH",  0x0807 }, /* German (Switzerland) */
+		{ "de_AT",  0x0c07 }, /* German (Austria) */
+		{ "de_LU",  0x1007 }, /* German (Luxembourg) */
+		{ "de_LI",  0x1407 }, /* German (Liechtenstein) */
+		{ "el_GR",  0x0408 }, /* Greek */
+		{ "gu",     0x0447 }, /* Gujarati gu_ */
+		{ "ha",     0x0468 }, /* Hausa */
+		{ "he_IL",  0x040d }, /* Hebrew */
+		{ "hi_IN",  0x0439 }, /* Hindi */
+		{ "hu_HU",  0x040e }, /* Hungarian */
+		{ "is_IS",  0x040f }, /* Icelandic */		
+		{ "id_ID",  0x0421 }, /* Indonesian */
+		{ "iu",     0x045d }, /* Inkutitut */
+		{ "it_IT",  0x0410 }, /* Italian (Italy) */
+		{ "it_CH",  0x0810 }, /* Italian (Switzerland) */
+		{ "ja_JP",  0x0411}, /* Japanese */
+		{ "kn",     0x044b }, /* Kannada kn_ */
+		{ "ks",     0x0860 }, /* Kashmiri (India) ks_ */
+		{ "kk",     0x043f }, /* Kazakh kk_ */
+		{ "kok",    0x0457 }, /* Konkani kok_ */
+		{ "ko_KR",  0x0412 }, /* Korean */
+		{ "ko",     0x0812 }, /* Korean (Johab) ko_ */
+		{ "kir",    0x0440 }, /* Kyrgyz */
+		{ "la",     0x0476 }, /* Latin */
+		{ "lo",     0x0454 }, /* Laothian */
+		{ "lv_LV",  0x0426 }, /* Latvian */
+		{ "lt_LT",  0x0427 }, /* Lithuanian */		
+		{ "lt_LT",  0x0827 }, /* Lithuanian (Classic) */
+		{ "mk",     0x042f }, /* FYRO Macedonian */
+		{ "my_MY",  0x043e }, /* Malaysian */
+		{ "my_BN",  0x083e }, /* Malay Brunei Darussalam */
+		{ "ml",     0x044c }, /* Malayalam ml_ */
+		{ "mr",     0x044e }, /* Marathi mr_ */
+		{ "mt",     0x043a }, /* Maltese */
+		{ "mo",     0x0450 }, /* Mongolian */
+		{ "ne_NP",  0x0461 }, /* Napali (Nepal) */
+		{ "ne_IN",  0x0861 }, /* Nepali (India) */
+		{ "nb_NO",  0x0414 }, /* Norwegian (Bokmai) */
+		{ "nn_NO",  0x0814 }, /* Norwegian (Nynorsk) */
+		{ "or",     0x0448 }, /* Oriya or_ */
+		{ "om",     0x0472 }, /* Oromo (Afan, Galla) */
+		{ "pl_PL",  0x0415 }, /* Polish */		
+		{ "pt_BR",  0x0416 }, /* Portuguese (Brazil) */
+		{ "pt_PT",  0x0816 }, /* Portuguese (Portugal) */
+		{ "pa",     0x0446 }, /* Punjabi pa_ */
+		{ "ps",     0x0463 }, /* Pashto (Pushto) */
+		{ "rm",     0x0417 }, /* Rhaeto_Romanic rm_ */
+		{ "ro_RO",  0x0418 }, /* Romanian */
+		{ "ro_MD",  0x0818 }, /* Romanian (Moldova) */		
+		{ "ru_RU",  0x0419 }, /* Russian */
+		{ "ru_MD",  0x0819 }, /* Russian (Moldova) */
+		{ "se",     0x043b }, /* Sami (Lappish) se_ */
+		{ "sa",     0x044f }, /* Sanskrit sa_ */
+		{ "sr",     0x0c1a }, /* Serbian (Cyrillic) sr_ */
+		{ "sr",     0x081a }, /* Serbian (Latin) sr_ */		
+		{ "sd",     0x0459 }, /* Sindhi sd_ */
+		{ "sk_SK",  0x041b }, /* Slovak */
+		{ "sl_SI",  0x0424 }, /* Slovenian */
+		{ "wen",    0x042e }, /* Sorbian wen_ */
+		{ "so",     0x0477 }, /* Somali */
+		{ "es_ES",  0x040a }, /* Spanish (Spain, Traditional) */
+		{ "es_MX",  0x080a }, /* Spanish (Mexico) */		
+		{ "es_ES",  0x0c0a }, /* Spanish (Modern) */
+		{ "es_GT",  0x100a }, /* Spanish (Guatemala) */
+		{ "es_CR",  0x140a }, /* Spanish (Costa Rica) */
+		{ "es_PA",  0x180a }, /* Spanish (Panama) */
+		{ "es_DO",  0x1c0a }, /* Spanish (Dominican Republic) */
+		{ "es_VE",  0x200a }, /* Spanish (Venezuela) */		
+		{ "es_CO",  0x240a }, /* Spanish (Colombia) */
+		{ "es_PE",  0x280a }, /* Spanish (Peru) */
+		{ "es_AR",  0x2c0a }, /* Spanish (Argentina) */
+		{ "es_EC",  0x300a }, /* Spanish (Ecuador) */
+		{ "es_CL",  0x340a }, /* Spanish (Chile) */
+		{ "es_UY",  0x380a }, /* Spanish (Uruguay) */		
+		{ "es_PY",  0x3c0a }, /* Spanish (Paraguay) */
+		{ "es_BO",  0x400a }, /* Spanish (Bolivia) */
+		{ "es_SV",  0x440a }, /* Spanish (El Salvador) */
+		{ "es_HN",  0x480a }, /* Spanish (Honduras) */
+		{ "es_NI",  0x4c0a }, /* Spanish (Nicaragua) */
+		{ "es_PR",  0x500a }, /* Spanish (Puerto Rico) */
+		{ "sx",     0x0430 }, /* Sutu */
+		{ "sw",     0x0441 }, /* Swahili (Kiswahili/Kenya) */
+		{ "sv_SE",  0x041d }, /* Swedish */
+		{ "sv_FI",  0x081d }, /* Swedish (Finland) */
+		{ "ta",     0x0449 }, /* Tamil ta_ */
+		{ "tt",     0x0444 }, /* Tatar (Tatarstan) tt_ */
+		{ "te",     0x044a }, /* Telugu te_ */
+		{ "th_TH",  0x041e }, /* Thai */
+		{ "ts",     0x0431 }, /* Tsonga ts_ */
+		{ "tn",     0x0432 }, /* Tswana tn_ */
+		{ "tr_TR",  0x041f }, /* Turkish */
+		{ "tl",     0x0464 }, /* Tagalog */
+		{ "tg",     0x0428 }, /* Tajik */
+		{ "bo",     0x0451 }, /* Tibetan */
+		{ "ti",     0x0473 }, /* Tigrinya */
+		{ "uk_UA",  0x0422 }, /* Ukrainian */		
+		{ "ur_PK",  0x0420 }, /* Urdu (Pakistan) */
+		{ "ur_IN",  0x0820 }, /* Urdu (India) */
+		{ "uz",     0x0443 }, /* Uzbek (Latin) uz_ */
+		{ "uz",     0x0843 }, /* Uzbek (Cyrillic) uz_ */
+		{ "ven",    0x0433 }, /* Venda ven_ */
+		{ "vi_VN",  0x042a }, /* Vietnamese */
+		{ "cy_GB",  0x0452 }, /* Welsh */
+		{ "xh",     0x0434 }, /* Xhosa xh */
+		{ "yi",     0x043d }, /* Yiddish yi_ */
+		{ "yo",     0x046a }, /* Yoruba */
+		{ "zu",     0x0435 }, /* Zulu zu_ */
+		{ "en_US",  0x0800 } /* Default */
+	};
 
+/**
+ * gsf_msole_lid_for_language
+ *
+ * Return the LID (Language Identifier) for the input language.
+ * If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
+ */
+guint
+gsf_msole_lid_for_language (const char * lang)
+{
+	guint i = 0 ;
 
-/* here is a list of languages for which cp for cjk is used on Windows*/
-static char const * const jp_locales[] =
-{
-	"japan", "japanese", "ja", "ja_JP", NULL
-};
+	if (lang == NULL)
+		return 0x0400;   /* return -none- */
+	
+	for (i = 0 ; i < G_N_ELEMENTS(gsf_msole_language_ids); i++)
+		if (!strcmp (lang, gsf_msole_language_ids[i].tag))
+			return gsf_msole_language_ids[i].lid;
+	
+	return 0x0400 ;   /* return -none- */
+}
 
-static char const * const zhs_locales[] =
+/**
+ * gsf_msole_language_for_lid
+ *
+ * Returns the xx_YY style string (can be just xx or xxx) for the given LID.
+ * Return value must not be freed. If the LID is not found, is set to 0x0400,
+ * or is set to 0x0000, will return "-none-"
+ */
+G_CONST_RETURN char *
+gsf_msole_language_for_lid (guint lid)
 {
-	"chinese-s", "zh", "zh_CN", NULL
-};
+	guint i = 0 ;
+	
+	for (i = 0 ; i < G_N_ELEMENTS(gsf_msole_language_ids); i++)
+		if (gsf_msole_language_ids[i].lid == lid)
+			return gsf_msole_language_ids[i].tag;
+	
+	return "-none-"; /* default */
+}
 
-static char const * const kr_locales[] =
+/**
+ * gsf_msole_locale_to_lid :
+ *
+ * Covert the the codepage into an applicable LID
+ */
+guint
+gsf_msole_codepage_to_lid (guint codepage)
 {
-	"korean", "ko", "ko_KR", NULL
-};
+	switch (codepage)
+		{
+		case 77:		/* MAC_CHARSET */
+			return 0xFFF;	/* This number is a hack */
+		case 128:		/* SHIFTJIS_CHARSET */
+			return 0x411;	/* Japanese */
+		case 129:		/* HANGEUL_CHARSET */
+			return 0x412;	/* Korean */
+		case 130:		/* JOHAB_CHARSET */
+			return 0x812;	/* Korean (Johab) */
+		case 134:		/* GB2312_CHARSET - Chinese Simplified */
+			return 0x804;	/* China PRC - And others!! */
+		case 136:		/* CHINESEBIG5_CHARSET - Chinese Traditional */
+			return 0x404;	/* Taiwan - And others!! */
+		case 161:		/* GREEK_CHARSET */
+			return 0x408;	/* Greek */
+		case 162:		/* TURKISH_CHARSET */
+			return 0x41f;	/* Turkish */
+		case 163:		/* VIETNAMESE_CHARSET */
+			return 0x42a;	/* Vietnamese */
+		case 177:		/* HEBREW_CHARSET */
+			return 0x40d;	/* Hebrew */
+		case 178:		/* ARABIC_CHARSET */
+			return 0x01;	/* Arabic */
+		case 186:		/* BALTIC_CHARSET */
+			return 0x425;	/* Estonian - And others!! */
+		case 204:		/* RUSSIAN_CHARSET */
+			return 0x419;	/* Russian - And others!! */
+		case 222:		/* THAI_CHARSET */
+			return 0x41e;	/* Thai */
+		case 238:		/* EASTEUROPE_CHARSET */
+			return 0x405;	/* Czech - And many others!! */
+		}
 
-static char const * const zht_locales[] =
+	/* default */
+	return 0x0;
+}
+
+/**
+ * gsf_msole_lid_to_codepage
+ *
+ * Our best guess at the codepage for the given language id
+ */
+guint
+gsf_msole_lid_to_codepage (guint lid)
 {
-	"chinese-t", "zh_HK", "zh_TW", NULL
- };
- 
-static s_hash_entry const win_codepages[]=
+	if (lid == 0x0FFF) /* Macintosh Hack */
+		return 0x0FFF;
+
+	switch (lid & 0xff)
+		{
+		case 0x01:		/* Arabic */
+			return 1256;
+		case 0x02:		/* Bulgarian */
+			return 1251;
+		case 0x03:		/* Catalan */
+			return 1252;
+		case 0x04:		/* Chinese */
+			{
+				switch (lid)
+					{
+					case 0x1004:		/* Chinese (Singapore) */
+					case 0x0404:		/* Chinese (Taiwan) */
+					case 0x1404:		/* Chinese (Macau SAR) */
+					case 0x0c04:		/* Chinese (Hong Kong SAR, PRC) */
+						return 950;
+						
+					case 0x0804:		/* Chinese (PRC) */
+						return 936;
+					}
+			}
+			break;
+		case 0x05:		/* Czech */
+			return 1250;
+		case 0x06:		/* Danish */
+			return 1252;
+		case 0x07:		/* German */
+			return 1252;
+		case 0x08:		/* Greek */
+			return 1253;
+		case 0x09:		/* English */
+			return 1252;
+		case 0x0a:		/* Spanish */
+			return 1252;
+		case 0x0b:		/* Finnish */
+			return 1252;
+		case 0x0c:		/* French */
+			return 1252;
+		case 0x0d:		/* Hebrew */
+			return 1255;
+		case 0x0e:		/* Hungarian */
+			return 1250;
+		case 0x0f:		/* Icelandic */
+			return 1252;
+		case 0x10:		/* Italian */
+			return 1252;
+		case 0x11:		/* Japanese */
+			return 932;
+		case 0x12:		/* Korean */
+			{
+				switch (lid)
+					{
+					case 0x0812:		/* Korean (Johab) */
+						return 1361;
+					case 0x0412:		/* Korean */
+						return 949;
+					}
+			}
+			break;
+		case 0x13:		/* Dutch */
+			return 1252;
+		case 0x14:		/* Norwegian */
+			return 1252;
+		case 0x15:		/* Polish */
+			return 1250;
+		case 0x16:		/* Portuguese */
+			return 1252;
+		case 0x17:		/* Rhaeto-Romanic */
+			return 1252;
+		case 0x18:		/* Romanian */
+			return 1250;
+		case 0x19:		/* Russian */
+			return 1251;
+		case 0x1a:		/* Serbian, Croatian, (Bosnian?) */
+			{
+				switch (lid)
+					{
+					case 0x041a:		/* Croatian */
+						return 1252;
+					case 0x0c1a:		/* Serbian (Cyrillic) */
+						return 1251;
+					case 0x081a:		/* Serbian (Latin) */
+						return 1252;
+					}
+			}
+			break;
+		case 0x1b:		/* Slovak */
+			return 1250;
+		case 0x1c:		/* Albanian */
+			return 1251;
+		case 0x1d:		/* Swedish */
+			return 1252;
+		case 0x1e:		/* Thai */
+			return 874;
+		case 0x1f:		/* Turkish */
+			return 1254;
+		case 0x20:		/* Urdu. This is Unicode only. */
+			return 0;
+		case 0x21:		/* Bahasa Indonesian */
+			return 1252;
+		case 0x22:		/* Ukrainian */
+			return 1251;
+		case 0x23:		/* Byelorussian / Belarusian */
+			return 1251;
+		case 0x24:		/* Slovenian */
+			return 1250;
+		case 0x25:		/* Estonian */
+			return 1257;
+		case 0x26:		/* Latvian */
+			return 1257;
+		case 0x27:		/* Lithuanian */
+			return 1257;
+		case 0x29:		/* Farsi / Persian. This is Unicode only. */
+			return 0;
+		case 0x2a:		/* Vietnamese */
+			return 1258;
+		case 0x2b:		/* Windows 2000: Armenian. This is Unicode only. */
+			return 0;
+		case 0x2c:		/* Azeri */
+			{
+				switch (lid)
+					{
+					case 0x082c:		/* Azeri (Cyrillic) */
+						return 1251;
+					}
+			}
+			break;
+		case 0x2d:		/* Basque */
+			return 1252;
+		case 0x2f:		/* Macedonian */
+			return 1251;
+		case 0x36:		/* Afrikaans */
+			return 1252;
+		case 0x37:		/* Windows 2000: Georgian. This is Unicode only. */
+			return 0;
+		case 0x38:		/* Faeroese */
+			return 1252;
+		case 0x39:		/* Windows 2000: Hindi. This is Unicode only. */
+			return 0;
+		case 0x3E:		/* Malaysian / Malay */
+			return 1252;
+		case 0x41:		/* Swahili */
+			return 1252;
+		case 0x43:		/* Uzbek */
+			{
+				switch (lid)
+					{
+					case 0x0843:		/* Uzbek (Cyrillic) */
+						return 1251;
+					}
+			}
+			break;
+		case 0x45:		/* Windows 2000: Bengali. This is Unicode only. */
+		case 0x46:		/* Windows 2000: Punjabi. This is Unicode only. */
+		case 0x47:		/* Windows 2000: Gujarati. This is Unicode only. */
+		case 0x48:		/* Windows 2000: Oriya. This is Unicode only. */
+		case 0x49:		/* Windows 2000: Tamil. This is Unicode only. */
+		case 0x4a:		/* Windows 2000: Telugu. This is Unicode only. */
+		case 0x4b:		/* Windows 2000: Kannada. This is Unicode only. */
+		case 0x4c:		/* Windows 2000: Malayalam. This is Unicode only. */
+		case 0x4d:		/* Windows 2000: Assamese. This is Unicode only. */
+		case 0x4e:		/* Windows 2000: Marathi. This is Unicode only. */
+		case 0x4f:		/* Windows 2000: Sanskrit. This is Unicode only. */
+		case 0x55:		/* Myanmar / Burmese. This is Unicode only. */
+		case 0x57:		/* Windows 2000: Konkani. This is Unicode only. */
+		case 0x61:		/* Windows 2000: Nepali (India). This is Unicode only. */
+			return 0;
+
+#if 0
+			/******************************************************************/
+			/* Below this line is untested, unproven, and are just guesses.   *
+			 * Insert above and use at your own risk                          *
+			/******************************************************************/
+
+		case 0x042c:		/* Azeri (Latin) */
+		case 0x0443:		/* Uzbek (Latin) */
+		case 0x30:		/* Sutu */
+			return 1252; /* UNKNOWN, believed to be CP1252 */
+
+		case 0x3f:		/* Kazakh */
+			return 1251; /* JUST UNKNOWN, probably CP1251 */
+
+		case 0x44:		/* Tatar */
+		case 0x58:		/* Manipuri */
+		case 0x59:		/* Sindhi */
+		case 0x60:		/* Kashmiri (India) */
+			return 0; /* UNKNOWN, believed to be Unicode only */
+#endif
+		};
+	
+	/* This is just a guess. Perhaps emit warning */
+	g_warning ("No matching codepage for LID %d found. Using 1252 (ANSI) instead.\n", lid);
+	return 1252;
+}
+
+/**
+ * gsf_msole_lid_to_codepage_str
+ * 
+ * Returns the Iconv codepage string for the given LID.
+ * Return value must be g_free()'d
+ */
+gchar *
+gsf_msole_lid_to_codepage_str (guint lid)
 {
-	{ cyr_locales , 1251 },
-	{ jp_locales  , 932 },
-	{ zhs_locales , 936 },
-	{ kr_locales  , 949 },
-	{ zht_locales , 950 },
-	{ NULL, 0 } /*terminator*/
-};
+	guint cp = 0;
+
+	if (lid == 0x0FFF)	/* Macintosh Hack */
+		return g_strdup ("MACINTOSH");
+
+	cp = gsf_msole_lid_to_codepage (lid);
+	return g_strdup_printf ("CP%d", cp);
+}
 
 /**
  * gsf_msole_iconv_win_codepage :
@@ -769,19 +1222,46 @@ gsf_msole_iconv_win_codepage (void)
 	}
 
 	if (lang != NULL) {
-		s_hash_entry const *entry;
-		char const * const *key;
-
-		for (entry = win_codepages; entry->keys; ++entry) {
-			for (key = entry->keys; *key; ++key)
-				if (!g_ascii_strcasecmp (*key, lang)) {
-					g_free (lang);
-					return entry->value;
-				}
-		}
+		guint lid = gsf_msole_lid_for_language (lang);
 		g_free (lang);
+		return gsf_msole_lid_to_codepage (lid);
 	}
 	return 1252; /* default ansi */
+}
+
+/**
+ * gsf_msole_iconv_open_codepage_for_import :
+ * @to
+ * @codepage :
+ *
+ * Open an iconv converter for single byte encodings @codepage -> utf8.
+ * Attempt to handle the semantics of a specification for multibyte encodings
+ * since this is only supposed to be used for single bytes.
+ **/
+GIConv
+gsf_msole_iconv_open_codepage_for_import (const char * to, guint codepage)
+{
+	GIConv iconv_handle;
+
+	g_return_val_if_fail (to != NULL, (GIConv)(-1));
+
+	if (codepage != 1200 && codepage != 1201) {
+		char* src_charset = g_strdup_printf ("CP%d", codepage);
+		iconv_handle = g_iconv_open (to, src_charset);
+		g_free (src_charset);
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
+		g_warning ("Unknown codepage %d", codepage);
+		return (GIConv)(-1);
+	}
+
+	iconv_handle = g_iconv_open (to,
+		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
+	if (iconv_handle != (GIConv)(-1))
+		return iconv_handle;
+	g_warning ("Unable to open an iconv handle from %s -> %s",
+		   (codepage == 1200) ? "UTF-16LE" : "UTF-16BE", to);
+	return (GIConv)(-1);
 }
 
 /**
@@ -795,25 +1275,42 @@ gsf_msole_iconv_win_codepage (void)
 GIConv
 gsf_msole_iconv_open_for_import (guint codepage)
 {
+	return gsf_msole_iconv_open_codepage_for_import ("UTF-8", codepage);
+}
+
+/**
+ * gsf_msole_iconv_open_for_export :
+ *
+ * Open an iconv convert to go from utf8 -> to our best guess at a useful
+ * windows codepage.
+ **/
+GIConv
+gsf_msole_iconv_open_codepages_for_export (guint codepage_to, const char * from)
+{
+	char *dest_charset = g_strdup_printf ("CP%d", codepage_to);
 	GIConv iconv_handle;
 
-	if (codepage != 1200 && codepage != 1201) {
-		char* src_charset = g_strdup_printf ("CP%d", codepage);
-		iconv_handle = g_iconv_open ("UTF-8", src_charset);
-		g_free (src_charset);
-		if (iconv_handle != (GIConv)(-1))
-			return iconv_handle;
-		g_warning ("Unknown codepage %d", codepage);
-		return (GIConv)(-1);
+	if (from == NULL) {
+		g_warning ("No codepage supplied. Assuming UTF-8\n");
+		from = "UTF-8";
 	}
 
-	iconv_handle = g_iconv_open ("UTF-8",
-		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
-	if (iconv_handle != (GIConv)(-1))
-		return iconv_handle;
-	g_warning ("Unable to open an iconv handle from %s -> UTF8",
-		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
-	return (GIConv)(-1);
+	iconv_handle = g_iconv_open (dest_charset, "UTF-8");
+	g_free (dest_charset);
+	return iconv_handle;
+}
+
+/**
+ * gsf_msole_iconv_open_for_export :
+ * @to
+ *
+ * Open an iconv convert to go from utf8 -> to our best guess at a useful
+ * windows codepage.
+ **/
+GIConv
+gsf_msole_iconv_open_codepage_for_export (guint codepage_to)
+{
+	return gsf_msole_iconv_open_codepages_for_export (codepage_to, "UTF-8");
 }
 
 /**
@@ -825,8 +1322,5 @@ gsf_msole_iconv_open_for_import (guint codepage)
 GIConv
 gsf_msole_iconv_open_for_export (void)
 {
-	char *dest_charset = g_strdup_printf ("CP%d", gsf_msole_iconv_win_codepage());
-	GIConv iconv_handle = g_iconv_open (dest_charset, "UTF-8");
-	g_free (dest_charset);
-	return iconv_handle;
+	return gsf_msole_iconv_open_codepage_for_export (gsf_msole_iconv_win_codepage ());
 }
