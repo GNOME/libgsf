@@ -1,5 +1,9 @@
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
+	* libgsf-gnome-1.pc.in (Cflags): Fix Libs line.
+
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
 	* Makefile.am (pkgconfig_DATA): Add libgsf-gnome-1.pc when
 	--with-gnome is selected.
 	(EXTRA_DIST): Add libgsf-gnome-1.spec, libgsf-gnome-1.spec.in and
