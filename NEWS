@@ -1,5 +1,8 @@
 libgsf 1.10.1
 
+Jon Kåre:
+	* Fix base64 decoding.
+
 Kasal:
 	* Lots of code auditing and cleanup.
 	* Identified the long standing source of the problem with XL corrupting
