@@ -27,6 +27,7 @@
 #include <gsf/gsf-utils.h>
 
 #include <string.h>
+#include <stdio.h>
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:msole"
@@ -381,8 +382,8 @@ recalc_bat_bat :
 		}
 		i = 0;
 		if (num_bat > OLE_HEADER_METABAT_SIZE)
-			i = (num_bat - OLE_HEADER_METABAT_SIZE - 1)
-				/ OLE_DEFAULT_METABAT_SIZE;
+			i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
+				 / OLE_DEFAULT_METABAT_SIZE);
 		if (num_xbat != i) {
 			num_xbat = i;
 			goto recalc_bat_bat;
@@ -393,8 +394,7 @@ recalc_bat_bat :
 		ole_pad_bat_unused (ole->sink);
 
 		if (num_xbat > 0) {
-			/* 1st xbat is immediately after bat */
-			xbat_pos = bat_start + num_bat;
+			xbat_pos = ole_cur_block (ole);
 			blocks = OLE_HEADER_METABAT_SIZE;
 		} else {
 			xbat_pos = BAT_MAGIC_END_OF_CHAIN;

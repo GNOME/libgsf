@@ -616,7 +616,7 @@ gsf_output_xml_add_attr_cstr_safe (GsfOutputXML *xml, char const *id,
 		} else if (*cur >= 0x80) {
 			gsf_output_printf (xml->output, "&#%d;",
 					   g_utf8_get_char (cur));
-			cur = g_utf8_next_char (cur);
+			start = cur = g_utf8_next_char (cur);
 		} else {
 			g_warning ("Unknown char 0x%hhx in string", *cur);
 			cur++;

@@ -1,3 +1,13 @@
+2003-01-08  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : fix off by 1 in
+	  calculation of how many meta bats are required.  Store correct
+	  position of initial xbat, the original code did not take small
+	  blocks into account.
+
+	* gsf/gsf-infile-msole.c (ole_make_bat) : add protection against
+	  cycles.
+
 2003-01-07  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_output_xml_add_attr_cstr_safe) : clone over

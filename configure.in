@@ -50,7 +50,7 @@ libxml-2.0 >= 2.4.16
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
 CFLAGS="$CFLAGS $WARN_CFLAGS -DG_DISABLE_DEPRECATED"
 if test "$GCC" = "yes"; then
-	for option in -Wno-system-headers -W -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-format-attribute -Wnested-externs -Wunreachable-code -Winline; do
+	for option in -Wno-system-headers -W -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wnested-externs -Wunreachable-code -Winline; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -70,7 +70,7 @@ fi
 AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
 saved_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Werror"
-AC_TRY_COMPILE([#include <stdio.h>], [FILE *f = fdopen(1, "r")], need_posix=no, need_posix=yes)
+AC_TRY_COMPILE([#include <stdio.h>], [FILE *f; f = fdopen(1, "r")], need_posix=no, need_posix=yes)
 CFLAGS="$saved_CFLAGS"
 AC_MSG_RESULT($need_posix)
 if test $need_posix = yes ; then
