@@ -1,3 +1,11 @@
+2002-09-02  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-infile-zip.c (struct _GsfInfileZip): Add seek_skipped.
+	(gsf_infile_zip_seek): Implement. As slow as gzip.
+	(zip_child_init): Initialize dirent->restlen,
+	dirent->crestlen. Don't call zip_update_stream_in.
+	(gsf_infile_zip_new): Initialize seek_skipped.
+
 2002-09-01  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-cat-zip.c : replace the old test with test-msole2.c

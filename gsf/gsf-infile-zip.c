@@ -87,6 +87,7 @@ struct _GsfInfileZip {
 	
 	guint8   *buf;
 	size_t    buf_size;
+	gsf_off_t seek_skipped;
 };
 
 typedef struct {
@@ -593,23 +594,6 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
-{
-	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
-
-	(void) zip;
-	(void) offset; 
-	(void) whence;
-
-	return FALSE;
-}
-
-/* GsfInfile class functions */
-
-/*****************************************************************************/
-
-
-static gboolean
 zip_child_init (GsfInfileZip *child)
 {
 	static guint8 const header_signature[] =
@@ -633,12 +617,11 @@ zip_child_init (GsfInfileZip *child)
 	extras_len = GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_EXTRAS_SIZE);
 
 	dirent->data_offset = dirent->offset + ZIP_FILE_HEADER_SIZE + name_len + extras_len;
+	dirent->restlen  = dirent->usize;
+	dirent->crestlen = dirent->csize;
 
 	if (dirent->compr_method != ZIP_STORED) {
 		int err;
-
-		if (!zip_update_stream_in (child))
-			return TRUE;
 
 		err = inflateInit2 (&child->vdir->dirent->stream, -MAX_WBITS);
 		if (err != Z_OK)
@@ -647,6 +630,45 @@ zip_child_init (GsfInfileZip *child)
 
 	return FALSE;
 }
+
+static gboolean
+gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
+{
+	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
+	/* Global flag -- we don't want one per stream.  */
+	static gboolean warned = FALSE;
+	gsf_off_t pos = offset;
+
+	/* Note, that pos has already been sanity checked.  */
+	switch (whence) {
+	case G_SEEK_SET : break;
+	case G_SEEK_CUR : pos += input->cur_offset;	break;
+	case G_SEEK_END : pos += input->size;		break;
+	default : return TRUE;
+	}
+
+	if (zip_child_init (zip) != FALSE)
+		return TRUE;
+
+	input->cur_offset = 0;
+	if (gsf_input_seek_emulate (input, pos))
+		return TRUE;
+
+	zip->seek_skipped += pos;
+	if (!warned &&
+	    zip->seek_skipped != pos && /* Don't warn for single seek.  */
+	    zip->seek_skipped >= 1000000) {
+		warned = TRUE;
+		g_warning ("Seeking in zip child streams is awfully slow.");
+	}
+
+	return FALSE;
+}
+
+/* GsfInfile class functions */
+
+/*****************************************************************************/
+
 
 static GsfInput *
 gsf_infile_zip_new_child (GsfInfileZip *parent, ZipVDir *vdir)
@@ -792,6 +814,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	zip->input = source;
+	zip->seek_skipped = 0;
 	gsf_input_set_size (GSF_INPUT (zip), (gsf_off_t) 0);
 
 	if (zip_init_info (zip, err)) {
