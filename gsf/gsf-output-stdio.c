@@ -184,7 +184,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	char *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
-	unsigned int saved_umask;
+	mode_t saved_umask;
 	struct stat st;
 	gboolean fixup_mode = FALSE;
 

@@ -128,30 +128,35 @@ gsf_input_class_init (GObjectClass *gobject_class)
 					 g_param_spec_string ("name", "Name",
 							      "The Input's Name",
 							      NULL,
+							      GSF_PARAM_STATIC |
 							      G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_SIZE,
 					 g_param_spec_int64 ("size", "Size",
 							     "The Input's Size",
 							     0, G_MAXINT64, 0,
+							     GSF_PARAM_STATIC |
 							     G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_EOF,
 					 g_param_spec_boolean ("eof", "OEF",
 							       "End Of File",
 							       FALSE,
+							       GSF_PARAM_STATIC |
 							       G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_REMAINING,
 					 g_param_spec_int64 ("remaining", "Remaining",
 							     "Amount of Data Remaining",
 							     0, G_MAXINT64, 0,
+							     GSF_PARAM_STATIC |
 							     G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_POS,
 					 g_param_spec_int64 ("position", "Position",
 							     "The Output's Current Position",
 							     0, G_MAXINT64, 0,
+							     GSF_PARAM_STATIC |
 							     G_PARAM_READABLE));
 }
 

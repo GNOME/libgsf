@@ -1,3 +1,14 @@
+2005-03-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_PARAM_STATIC): Define suitably.
+	* gsf/*.c: Use GSF_PARAM_STATIC for properties.
+
+	* configure.in: Don't check for readline and lstat.  Do check for
+	mode_t.
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Again use mode_t
+	for saved umask.
+
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Use canonical property names.

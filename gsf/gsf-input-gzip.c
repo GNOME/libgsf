@@ -485,6 +485,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("raw", "Raw",
 				       "Whether to read compressed data with no header and no trailer.",
 				       FALSE,
+				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -493,6 +494,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_object ("source", "Source",
 				      "Where the compressed data comes from.",
 				      GSF_INPUT_TYPE,
+				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	/**
@@ -508,6 +510,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_int64 ("uncompressed-size", "Size after decompression",
 				     "The source's uncompressed size",
 				     -1, G_MAXINT64, -1,
+				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE |
 				     G_PARAM_CONSTRUCT_ONLY));
 

@@ -95,6 +95,13 @@ prefix ## _get_type (void)						\
 #define GSF_INTERFACE(init_func, iface_type)			\
 	GSF_INTERFACE_FULL(type, init_func, iface_type)
 
+/* We need to do this with a version check as this header gets installed.  */
+#if GLIB_CHECK_VERSION(2,7,0)
+#define GSF_PARAM_STATIC (G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB)
+#else
+#define GSF_PARAM_STATIC 0
+#endif
+
 G_END_DECLS
 
 #endif /* GSF_IMPL_UTILS_H */
