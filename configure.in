@@ -70,8 +70,8 @@ fi
 AC_MSG_CHECKING([whether to -D_POSIX_SOURCE for the fdopen prototype])
 need_posix=no
 echo '#include <stdio.h>' > conftest.h
-if ! $CPP $CFLAGS conftest.h | grep -q '\<fdopen\>' ; then
-	if $CPP $CFLAGS -D_POSIX_SOURCE conftest.h | grep -q '\<fdopen\>' ; then
+if ! $CPP $CFLAGS conftest.h | grep '\<fdopen\>' > /dev/null ; then
+	if $CPP $CFLAGS -D_POSIX_SOURCE conftest.h | grep '\<fdopen\>' > /dev/null ; then
 		need_posix=yes
 	fi
 fi
