@@ -4,10 +4,11 @@ Jody:
 	* Catch invalid OLE2 files that claim there is data in a directory.
 	* Better error handling for Infile::child_by_*
 	* Work harder to restore invalid ole2 files with bad BATs.
+	* Begin an interface for ole2 export with non-default block sizes.
 
 Stuart Cunningham <stuartc@rd.bbc.co.uk>:
 	* Support CLSIDs for Storages for the AAF project
-	* Test and fix bugs reading ole files with non default block sizes.
+	* Test and fix bugs reading ole files with non-default block sizes.
 
 ------------------------------------------------------------------------------
 libgsf 1.8.1

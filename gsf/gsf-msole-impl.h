@@ -78,14 +78,6 @@ G_BEGIN_DECLS
 #define BAT_MAGIC_BAT		0xfffffffd	/* a bat block,    -3 */
 #define BAT_MAGIC_METABAT	0xfffffffc	/* a metabat block -4 */
 
-/* The most common values */
-#define OLE_DEFAULT_THRESHOLD	 0x1000
-#define OLE_DEFAULT_SB_SHIFT	 6
-#define OLE_DEFAULT_SB_SIZE	 (1 << OLE_DEFAULT_SB_SHIFT)
-#define OLE_DEFAULT_BB_SHIFT	 9
-#define OLE_DEFAULT_BB_SIZE	 (1 << OLE_DEFAULT_BB_SHIFT)
-#define OLE_DEFAULT_METABAT_SIZE ((1 << (OLE_DEFAULT_BB_SHIFT - 2)) - 1)
-
 G_END_DECLS
 
 #endif /* GSF_MSOLE_IMPL_H */

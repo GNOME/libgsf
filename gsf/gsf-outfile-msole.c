@@ -34,6 +34,12 @@
 
 typedef enum { MSOLE_DIR, MSOLE_SMALL_BLOCK, MSOLE_BIG_BLOCK } MSOleOutfileType;
 
+/* The most common values */
+#define OLE_DEFAULT_THRESHOLD	 0x1000
+#define OLE_DEFAULT_BB_SIZE	 (1 << OLE_DEFAULT_BB_SHIFT)
+#define OLE_DEFAULT_SB_SIZE	 (1 << OLE_DEFAULT_SB_SHIFT)
+#define OLE_DEFAULT_METABAT_SIZE ((1 << (OLE_DEFAULT_BB_SHIFT - 2)) - 1)
+
 struct _GsfOutfileMSOle {
 	GsfOutfile parent;
 
@@ -44,6 +50,11 @@ struct _GsfOutfileMSOle {
 	unsigned	 first_block;
 	unsigned	 blocks;
 	unsigned	 child_index;
+
+	struct {
+		unsigned shift;
+		unsigned size;
+	} bb, sb;
 
 	union {
 		struct {
@@ -59,13 +70,7 @@ struct _GsfOutfileMSOle {
 	} content;
 	unsigned char clsid[16];		/* 16 byte GUID used by some apps */
 };
-
-typedef struct {
-	GsfOutfileClass  parent_class;
-} GsfOutfileMSOleClass;
-
-#define GSF_OUTFILE_MSOLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTFILE_MSOLE_TYPE, GsfOutfileMSOleClass))
-#define GSF_IS_OUTFILE_MSOLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTFILE_MSOLE_TYPE))
+typedef GsfOutfileClass GsfOutfileMSOleClass;
 
 static void
 gsf_outfile_msole_finalize (GObject *obj)
@@ -580,6 +585,17 @@ ole_name_cmp (GsfOutfileMSOle const *a, GsfOutfileMSOle const *b)
 	}
 }
 
+static void
+gsf_outfile_msole_set_block_size (GsfOutfileMSOle *ole,
+				  unsigned bb_shift, unsigned sb_shift)
+{
+	/* None of these are actually used yet */
+	ole->bb.shift = bb_shift;
+	ole->bb.size  = (1 << ole->bb.shift);
+	ole->sb.shift = sb_shift;
+	ole->bb.size  = (1 << ole->bb.shift);
+}
+
 static GsfOutput *
 gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 			     gboolean is_dir)
@@ -602,6 +618,8 @@ gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 	g_object_ref (G_OBJECT (ole_parent->sink));
 	child->sink   = ole_parent->sink;
 	child->root   = ole_parent->root;
+	gsf_outfile_msole_set_block_size (child,
+		ole_parent->bb.shift, ole_parent->sb.shift); 
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 
@@ -621,6 +639,10 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->sink   = NULL;
 	ole->root   = NULL;
 	ole->type   = MSOLE_DIR;
+
+	gsf_outfile_msole_set_block_size (ole, 
+		OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
+
 	ole->content.dir.children = NULL;
 	ole->content.dir.root_order = NULL;
 	memset (ole->clsid, 0, sizeof (ole->clsid));
@@ -645,19 +667,24 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
 	   GSF_OUTFILE_TYPE)
 
 /**
- * gsf_outfile_msole_new :
+ * gsf_outfile_msole_new_full :
  * @sink :
  * @err   :
+ * @bb_shift : the shift size of large blocks
+ * @sb_shift : the shift size of small blocks
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
  * NOTE : adds a reference to @sink
  *
+ * NOTE the block sizes are still hard coded, so this interface is kept
+ * private.
+ *
  * Returns : the new ole file handler
  **/
-GsfOutfileMSOle *
-gsf_outfile_msole_new (GsfOutput *sink)
+static GsfOutfileMSOle *
+gsf_outfile_msole_new_full (GsfOutput *sink, unsigned bb_shift, unsigned sb_shift)
 {
 	static guint8 const default_header [] = {
 /* 0x00 */	0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1,
@@ -708,6 +735,11 @@ gsf_outfile_msole_new (GsfOutput *sink)
 	ole->content.dir.root_order = g_ptr_array_new ();
 	ole_register_child (ole, ole);
 
+	/*  NOT IMPLEMENTED, DOES NOTHING, as a start we need to validate the
+	 *  values and store them in the header, then we can start worrying
+	 *  about resizing the header block, and storing these in it */
+	gsf_outfile_msole_set_block_size (ole, bb_shift, sb_shift);
+
 	/* The names are the same */
 	gsf_output_set_name (GSF_OUTPUT (ole), gsf_output_name (sink));
 	gsf_output_set_container (GSF_OUTPUT (ole), NULL);
@@ -715,6 +747,25 @@ gsf_outfile_msole_new (GsfOutput *sink)
 	gsf_output_write (sink, sizeof (default_header), default_header);
 
 	return ole;
+}
+
+/**
+ * gsf_outfile_msole_new :
+ * @sink :
+ * @err   :
+ *
+ * Creates the root directory of an MS OLE file and manages the addition of
+ * children.
+ *
+ * NOTE : adds a reference to @sink
+ *
+ * Returns : the new ole file handler
+ **/
+GsfOutfileMSOle *
+gsf_outfile_msole_new (GsfOutput *sink)
+{
+	return gsf_outfile_msole_new_full (sink, 
+		OLE_DEFAULT_SB_SIZE, OLE_DEFAULT_BB_SIZE);
 }
 
 /**
