@@ -1,3 +1,13 @@
+2003-07-03  Jody Goldberg <jody@gnome.org>
+
+	For : Stuart Cunningham <stuartc@rd.bbc.co.uk>
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : store the directory's CLSID
+	(gsf_infile_msole_get_class_id) : new.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : store the CLSID
+	(gsf_outfile_msole_set_class_id) : new.
+	(gsf_outfile_msole_init) : be really anal and ensure the CLSID is 0.
+
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child) : Even if a

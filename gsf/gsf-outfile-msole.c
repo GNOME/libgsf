@@ -57,6 +57,7 @@ struct _GsfOutfileMSOle {
 			size_t  start_offset;	/* in bytes */
 		} big_block;
 	} content;
+	unsigned char clsid[16];		/* 16 byte GUID used by some apps */
 };
 
 typedef struct {
@@ -315,10 +316,13 @@ gsf_outfile_msole_close (GsfOutput *output)
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK,
 					(sb_data_size > 0) ? sb_data_start : BAT_MAGIC_END_OF_CHAIN);
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, sb_data_size);
+				memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
 			} else if (child->type == MSOLE_DIR) {
 				GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, DIRENT_MAGIC_END);
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, 0);
+				/* write the class id */
+				memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
 			} else {
 				GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_FILE);
 				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
@@ -619,6 +623,7 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->type   = MSOLE_DIR;
 	ole->content.dir.children = NULL;
 	ole->content.dir.root_order = NULL;
+	memset (ole->clsid, 0, sizeof (ole->clsid));
 }
 
 static void
@@ -710,4 +715,21 @@ gsf_outfile_msole_new (GsfOutput *sink)
 	gsf_output_write (sink, sizeof (default_header), default_header);
 
 	return ole;
+}
+
+/**
+ * gsf_outfile_msole_set_class_id :
+ * @ole: a #GsfOutfileMSOle
+ * @clsid: 16 byte identifier (often a GUID in MS Windows apps)
+ *
+ * Write @clsid to the directory associated with @ole.
+ *
+ * Returns TRUE on success.
+ **/
+gboolean
+gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole, guint8 const *clsid)
+{
+	g_return_val_if_fail (ole != NULL && ole->type == MSOLE_DIR, FALSE);
+	memcpy (ole->clsid, clsid, sizeof(ole->clsid));
+	return TRUE;
 }

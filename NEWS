@@ -3,6 +3,9 @@ libgsf 1.8.2
 Jody:
 	* Catch invalid OLE2 files that claim there is data in a directory.
 
+Stuart Cunningham <stuartc@rd.bbc.co.uk>:
+	* Support CLSIDs for Storages for the AAF project
+
 ------------------------------------------------------------------------------
 libgsf 1.8.1
 

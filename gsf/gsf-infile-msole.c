@@ -46,6 +46,7 @@ typedef struct {
 	guint32   first_block;
 	gboolean  is_directory;
 	GList	 *children;
+	unsigned char clsid[16];	/* 16 byte GUID used by some apps */
 } MSOleDirent;
 
 typedef struct {
@@ -299,6 +300,9 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	dirent = g_new0 (MSOleDirent, 1);
 	dirent->index	     = entry;
 	dirent->size	     = size;
+	/* Store the class id which is 16 byte identifier used by some apps */
+	memcpy(dirent->clsid, data + DIRENT_CLSID, sizeof(dirent->clsid));
+
 	/* root dir is always big block */
 	dirent->use_sb	     = parent && (size < ole->info->threshold);
 	dirent->first_block  = (GSF_LE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
@@ -885,4 +889,24 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 	}
 
 	return ole;
+}
+
+/**
+ * gsf_infile_msole_get_class_id :
+ * @ole: a #GsfInfileMSOle
+ * @res: 16 byte identifier (often a GUID in MS Windows apps)
+ *
+ * Retrieves the 16 byte indentifier (often a GUID in MS Windows apps)
+ * stored within the directory associated with @ole and stores it in @res.
+ *
+ * Returns TRUE on success
+ **/
+gboolean
+gsf_infile_msole_get_class_id (GsfInfileMSOle const *ole, guint8 *res)
+{
+	g_return_val_if_fail (ole != NULL && ole->dirent != NULL, FALSE);
+
+	memcpy (res, ole->dirent->clsid,
+		sizeof(ole->dirent->clsid));
+	return TRUE;
 }
