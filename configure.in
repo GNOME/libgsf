@@ -41,11 +41,11 @@ AC_SYS_LARGEFILE
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
 dnl Checks for libraries.
-PKG_CHECK_MODULES(LIBGSF,[
-gobject-2.0 >= 2.0.0
-glib-2.0 >= 2.0.0
-libxml-2.0 >= 2.4.16
-])
+dnl Modules common to libgsf and libgsf-gnome
+m4_define(LIBGSF_MODULES,[gobject-2.0 >= 2.0.0
+    glib-2.0 >= 2.0.0
+    libxml-2.0 >= 2.4.16])
+PKG_CHECK_MODULES(LIBGSF,LIBGSF_MODULES)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
@@ -230,6 +230,7 @@ AC_ARG_WITH(gnome,
 with_gnome=false
 if  test "x$test_gnome" = xtrue ; then 
     PKG_CHECK_MODULES(LIBGSF_GNOME,[
+    LIBGSF_MODULES
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 1.9.16
     gnome-vfs-module-2.0 >= 1.9.16

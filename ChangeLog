@@ -1,3 +1,9 @@
+2004-07-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: recheck all PKG_CHECK_MODULES for libgsf for
+	libgsf-gnome as well, so as not to trip on unresolved symbols with a
+	-Wl,z,defs build.
+
 2004-07-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
