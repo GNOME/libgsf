@@ -159,6 +159,8 @@ gzip_output_block (GsfOutputGZip *gzip)
 	size_t num_bytes = gzip->buf_size - gzip->stream.avail_out;
 
 	if (!gsf_output_write (gzip->sink, num_bytes, gzip->buf)) {
+		gsf_output_set_error (GSF_OUTPUT (gzip), 0,
+				      "Failed to write");
 		return FALSE;
 	}
 	gzip->stream.next_out  = gzip->buf;
@@ -182,6 +184,8 @@ gzip_flush (GsfOutputGZip *gzip)
 		}
 	} while (zret == Z_OK);
 	if (zret != Z_STREAM_END) {
+		gsf_output_set_error (GSF_OUTPUT (gzip), 0,
+				      "Unexpected compression failure");
 		g_warning ("Unexpected error code %d from zlib during compression.",
 			   zret);
 		return FALSE;
@@ -212,6 +216,8 @@ gsf_output_gzip_write (GsfOutput *output,
 
 		zret = deflate (&gzip->stream, Z_NO_FLUSH);
 		if (zret != Z_OK) {
+			gsf_output_set_error (output, 0,
+					      "Unexpected compression failure");
 			g_warning ("Unexpected error code %d from zlib during compression.",
 				   zret);
 			return FALSE;

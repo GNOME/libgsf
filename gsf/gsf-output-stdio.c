@@ -322,6 +322,33 @@ gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 }
 
 static gboolean
+close_file_helper (GsfOutputStdio *stdio, gboolean seterr)
+{
+	gboolean res = (0 == fclose (stdio->file));
+	stdio->file = NULL;
+	if (!res && seterr)
+		gsf_output_set_error (GSF_OUTPUT (stdio), errno,
+				      "Failed to close file: %s",
+				      g_strerror (errno));
+	return res;
+}
+
+static gboolean
+unlink_file_helper (GsfOutputStdio *stdio)
+{
+	if (!stdio->temp_filename)
+		return TRUE;
+
+	if (g_unlink (stdio->temp_filename) == 0) {
+		g_free (stdio->temp_filename);
+		stdio->temp_filename = NULL;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 gsf_output_stdio_close (GsfOutput *output)
 {
 	GsfOutputStdio *stdio = GSF_OUTPUT_STDIO (output);
@@ -330,6 +357,17 @@ gsf_output_stdio_close (GsfOutput *output)
 
 	if (stdio->file == NULL)
 		return FALSE;
+
+	if (gsf_output_error (output)) {
+		res = TRUE;
+		if (!stdio->keep_open && !close_file_helper (stdio, FALSE))
+			res = FALSE;
+
+		if (!unlink_file_helper (stdio))
+			res = FALSE;
+
+		return res;
+	}
 
 	if (stdio->keep_open) {
 		gboolean res = (0 == fflush (stdio->file));
@@ -340,21 +378,13 @@ gsf_output_stdio_close (GsfOutput *output)
 		return res;
 	}
 
-	res = (0 == fclose (stdio->file));
-	stdio->file = NULL;
+	res = close_file_helper (stdio, TRUE);
 
 	/* short circuit our when dealing with raw FILE */
-	if (NULL == stdio->real_filename) {
-		if (!res)
-			gsf_output_set_error (output, errno,
-				"Failed to close file.");
+	if (!stdio->real_filename)
 		return res;
-	}
-
 	if (!res) {
-		gsf_output_set_error (output, errno,
-				      "Failed to close temporary file.");
-		g_unlink (stdio->temp_filename);
+		unlink_file_helper (stdio);
 		return FALSE;
 	}
 

@@ -1,5 +1,14 @@
 2005-03-25  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_close): In case of
+	error, simply unlink the temporary file and leave the target file
+	alone.
+
+	* gsf/gsf-output-gzip.c (gzip_output_block): If we cannot write to
+	the sink, set an error for ourself.
+	(gzip_flush): If we get a compression failure, set an error for
+	ourself.
+
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_class_init): Install
 	set_property, get_property, and constructor methods.
 	(check_header): Allow skipping the header.  Allow getting

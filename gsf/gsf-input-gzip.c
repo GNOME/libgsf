@@ -283,18 +283,25 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		int zerr;
 		if (gzip->stream.avail_in == 0) {
 			gsf_off_t remain = gsf_input_remaining (gzip->source);
-			size_t n;
-			if (remain < gzip->trailer_size)
-				return NULL;
-			n = MIN (remain - gzip->trailer_size, Z_BUFSIZE);
+			if (remain <= gzip->trailer_size) {
+				/* zlib requires an extra byte.  */
+				gzip->stream.avail_in = 1;
+				gzip->gzipped_data = "";
+			} else {
+				size_t n = MIN (remain - gzip->trailer_size,
+						Z_BUFSIZE);
 
-			if (NULL == (gzip->gzipped_data = gsf_input_read (gzip->source, n, NULL))) {
-				g_clear_error (&gzip->err);
-				gzip->err = g_error_new (gsf_input_error (), 0,
-							 "Failed to read from source");
-				return NULL;
+				gzip->gzipped_data =
+					gsf_input_read (gzip->source, n, NULL);
+				if (!gzip->gzipped_data) {
+					g_clear_error (&gzip->err);
+					gzip->err = g_error_new
+						(gsf_input_error (), 0,
+						 "Failed to read from source");
+					return NULL;
+				}
+				gzip->stream.avail_in = n;
 			}
-			gzip->stream.avail_in = n;
 			gzip->stream.next_in = (Byte *)gzip->gzipped_data;
 		}
 		zerr = inflate (&(gzip->stream), Z_NO_FLUSH);
