@@ -157,6 +157,7 @@ binary-arch: build install
 	dh_link
 	dh_strip
 	dh_compress
+	dh_buildinfo
 	dh_fixperms
 	dh_makeshlibs -plibgsf-1 -V 'libgsf-1 (>= $(upstreamversion))'
 	dh_makeshlibs -plibgsf-gnome-1 -V 'libgsf-gnome-1 (>= $(upstreamversion))'
