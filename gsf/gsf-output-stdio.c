@@ -168,7 +168,6 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	char *slashpos, *dirname, *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
-	gboolean create_backup_copy = TRUE;
 	mode_t saved_umask;
 	struct stat st;
 	
@@ -190,12 +189,13 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		struct stat dir_st;
 		int result;
 
-		/* File does not exist? */
-		create_backup_copy = FALSE;
-
 		/* Use default permissions */
 		st.st_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 		st.st_uid = getuid ();
+
+		/* Used to set create_backup_copy = FALSE, but
+		   creating backup copies on this level is a 
+		   horrible mistake. -DAL- */
 
 		result = stat (dirname, &dir_st);
 
@@ -214,7 +214,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
 	umask (saved_umask);
 
-	if (fd < 0 || NULL == (file = fdopen (fd, "w"))) {
+	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (temp_filename, FALSE);
 			*err = g_error_new (gsf_output_error_id (), errno,
@@ -227,7 +227,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
 	stdio->file = file;
 	stdio->st = st;
-	stdio->create_backup_copy = create_backup_copy;
+	stdio->create_backup_copy = FALSE;
 	stdio->real_filename = real_filename;
 	stdio->temp_filename = temp_filename;
 	gsf_output_set_name (GSF_OUTPUT (stdio), filename);

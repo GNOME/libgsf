@@ -1,5 +1,9 @@
 2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Disable creating backup copies of files, open files with "wb" status instead of just "w"
+	
+2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-output.c (gsf_output_puts): Check for null input
 	(gsf_output_vprintf): Don't use static internal buffer, will lead to nasty race conditions and a memory-leak on shutdown
 	
