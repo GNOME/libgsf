@@ -635,13 +635,7 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 size_t
 gsf_base64_decode_simple (guint8 *data, size_t len)
 {
-	static gboolean inited = FALSE;
 	int state = 0;
 	unsigned int save = 0;
-
-	if (!inited) {
-		base64_init ();
-		inited = TRUE;
-	}
 	return gsf_base64_decode_step (data, len, data, &state, &save);
 }
