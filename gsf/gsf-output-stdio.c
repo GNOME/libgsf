@@ -109,8 +109,9 @@ follow_symlinks (char const *filename, GError **error)
 
 			default:
 				if (error)
-					*error = g_error_new (gsf_output_error_id (), errno,
-							      g_strerror (errno));
+					*error = g_error_new_literal 
+						(gsf_output_error_id (), errno,
+						 g_strerror (errno));
 				g_free (followed_filename);
 				return NULL;
 			}
@@ -139,8 +140,8 @@ follow_symlinks (char const *filename, GError **error)
 
 	/* Too many symlinks */
 	if (error)
-		*error = g_error_new (gsf_output_error_id (), ELOOP,
-				      g_strerror (ELOOP));
+		*error = g_error_new_literal (gsf_output_error_id (), ELOOP,
+					      g_strerror (ELOOP));
 
 	return NULL;
 #else  /* !HAVE_READLINK */
@@ -180,8 +181,9 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		/* FIXME? Race conditions en masse.  */
 		if (access (real_filename, W_OK) != 0) {
 			if (err != NULL)
-				*err = g_error_new (gsf_output_error_id (), errno,
-						    g_strerror (errno));
+				*err = g_error_new_literal
+					(gsf_output_error_id (), errno,
+					 g_strerror (errno));
 			goto failure;
 		}
 	} else {
@@ -220,8 +222,9 @@ gsf_output_stdio_new (char const *filename, GError **err)
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
 		if (err != NULL)
-			*err = g_error_new (gsf_output_error_id (), errno,
-					    g_strerror (errno));
+			*err = g_error_new_literal
+				(gsf_output_error_id (), errno,
+				 g_strerror (errno));
 		goto failure;
 	}
 

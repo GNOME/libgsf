@@ -1,3 +1,9 @@
+2004-08-08  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-output-stdio.c (follow_symlinks, gsf_output_stdio_new): 
+	Use g_error_new_literal, not g_error_new on strings which we do
+	not control.
+
 2004-07-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* gsf/gsf-input.c (gsf_input_class_init), gsf/gsf-output.c
