@@ -16,16 +16,16 @@ pygsfexec_LTLIBRARIES += $(gnomemodule_la)
 
 pygsfexec_LTLIBRARIES += _gsfmodule.la
 
-gnomemodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
+gnomemodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(LIBGSF_GNOME_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
 gnomemodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex initgnome
-gnomemodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-gnome-1 -lgsf-1
+gnomemodule_la_LIBADD = $(LIBGSF_LIBS) $(LIBGSF_GNOME_LIBS) -lgsf-gnome-1 -lgsf-1
 gnomemodule_la_SOURCES = gsfgnomemodule.c
 nodist_gnomemodule_la_SOURCES = gsfgnome.c
 CLEANFILES += gsfgnome.c
 EXTRA_DIST += gsfgnome.defs gsfgnome.override  
-gnome.c: gsfgnome.defs gsfnome.override
+gsfgnome.c: gsfgnome.defs gsfgnome.override
 
-_gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
+_gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS)
 _gsfmodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex init_gsf
 _gsfmodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-gnome-1 -lgsf-1
 _gsfmodule_la_SOURCES = gsfmodule.c

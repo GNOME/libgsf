@@ -6,11 +6,11 @@ headers
 #include "pygobject.h"
 #include <orbit-python.h>
 #include <gsf/gsf-input.h>
-#include <gsf/gsf-input-bonobo.h>
-#include <gsf/gsf-input-gnomevfs.h>
+#include <gsf-gnome/gsf-input-bonobo.h>
+#include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf/gsf-output.h>
-#include <gsf/gsf-output-bonobo.h>
-#include <gsf/gsf-output-gnomevfs.h>
+#include <gsf-gnome/gsf-output-bonobo.h>
+#include <gsf-gnome/gsf-output-gnomevfs.h>
 
 #define GSF_TYPE_INPUT_BONOBO GSF_INPUT_BONOBO_TYPE
 #define GSF_TYPE_INPUT_GNOME_VFS GSF_INPUT_GNOMEVFS_TYPE
