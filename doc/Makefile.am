@@ -85,6 +85,7 @@ all-local: html-build.stamp
 
 scan-build.stamp: $(HFILE_GLOB)
 	@echo '*** Scanning header files ***'
+	@-chmod -R u+w $(srcdir)
 	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null ; then \
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scangobj $(SCANGOBJ_OPTIONS) --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
 	else \
@@ -156,6 +157,8 @@ install-data-local:
 	  done; \
 	fi)
 
+uninstall-local:
+	rm -f $(DESTDIR)$(TARGET_DIR)/*
 #
 # Require gtk-doc when making dist
 #

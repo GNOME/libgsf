@@ -88,7 +88,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	}
 
 	size = st.st_size;
-	input = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
+	input = (GsfInputStdio *)g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 	input->file = file;
 	input->buf  = NULL;
 	input->buf_size = 0;
@@ -114,7 +114,7 @@ gsf_input_stdio_finalize (GObject *obj)
 		input->buf_size = 0;
 	}
 
-	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
+	parent_class = (GObjectClass *)g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);
 }

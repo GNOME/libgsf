@@ -29,6 +29,14 @@ gsf-input-textline
 @o: 
 
 
+<!-- ##### MACRO GSF_IS_INPUT_TEXTLINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### STRUCT GsfInputTextline ##### -->
 <para>
 

@@ -29,6 +29,14 @@ gsf-input-gzip
 @o: 
 
 
+<!-- ##### MACRO GSF_IS_INPUT_GZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### STRUCT GsfInputGZip ##### -->
 <para>
 

@@ -1,5 +1,8 @@
 libgsf 1.8.3
 
+Dom:
+	* Fix bzip output to flush if last deflate fills buffer
+
 Jody Goldberg:
 	* If the file is not an OLE2 file do not change the filepos.
 	* Handle broken ole files that specify codepage as signed short
@@ -7,12 +10,15 @@ Jody Goldberg:
 	* Tune validation test for LPSTR properties to handle char width > 1
 	* Make the impl headers for the base interfaces public as requested
 	* Add some directory tree wrappers
+	* Work around a -fstrict-alias warning for SuSE
+	* Move to automake-1.7
 
 Joseph Frazee:
 	* patch the spec file.
 
 Morten Welinder:
 	* Properly chain finalizer.
+	* Fix gzip output to flush if last deflate fills buffer
 
 Tor Lillqvist:
 	* packaging tools for win32.

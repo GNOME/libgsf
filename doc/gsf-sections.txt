@@ -4,7 +4,7 @@ GsfInput
 GsfInfile
 GsfOutput
 GsfOutfile
-GsfOff_t
+gsf_off_t
 </SECTION>
 
 <SECTION>
@@ -20,7 +20,7 @@ gsf_input_error
 <SUBSECTION Standard>
 GSF_INPUT_TYPE
 GSF_INPUT
-IS_GSF_INPUT
+GSF_IS_INPUT
 gsf_input_get_type
 </SECTION>
 
@@ -32,7 +32,7 @@ gsf_input_set_container
 gsf_input_set_size
 <SUBSECTION Standard>
 GSF_INPUT_CLASS
-IS_GSF_INPUT_CLASS
+GSF_IS_INPUT_CLASS
 </SECTION>
 
 <SECTION>
@@ -43,7 +43,7 @@ gsf_infile_child_by_name
 <SUBSECTION Standard>
 GSF_INFILE_TYPE
 GSF_INFILE
-IS_GSF_INFILE
+GSF_IS_INFILE
 gsf_infile_get_type
 </SECTION>
 
@@ -54,7 +54,7 @@ gsf_input_stdio_new
 <SUBSECTION Standard>
 GSF_INPUT_STDIO_TYPE
 GSF_INPUT_STDIO
-IS_GSF_INPUT_STDIO
+GSF_IS_INPUT_STDIO
 gsf_input_stdio_get_type
 </SECTION>
 
@@ -62,32 +62,24 @@ gsf_input_stdio_get_type
 <FILE>gsf-input-memory</FILE>
 GsfInputMemory
 gsf_input_memory_new
-GsfInputMMap
+gsf_input_memory_new_clone
 gsf_input_mmap_new
 <SUBSECTION Standard>
 GSF_INPUT_MEMORY_TYPE
 GSF_INPUT_MEMORY
-IS_GSF_INPUT_MEMORY
+GSF_IS_INPUT_MEMORY
 gsf_input_memory_get_type
-GSF_INPUT_MMAP_TYPE
-GSF_INPUT_MMAP
-IS_GSF_INPUT_MMAP
-gsf_input_mmap_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gsf-infile-msole</FILE>
 GsfInfileMSOle
-GsfMSOleProperty
-GSF_OLE_GET_GUINT8
-GSF_OLE_GET_GUINT16
-GSF_OLE_GET_GUINT32
 gsf_infile_msole_get_type
 gsf_infile_msole_new
 <SUBSECTION Standard>
 GSF_INFILE_MSOLE_TYPE
 GSF_INFILE_MSOLE
-IS_GSF_INFILE_MSOLE
+GSF_IS_INFILE_MSOLE
 </SECTION>
 
 <SECTION>
@@ -97,7 +89,7 @@ gsf_infile_zip_new
 <SUBSECTION Standard>
 GSF_INFILE_ZIP_TYPE
 GSF_INFILE_ZIP
-IS_GSF_INFILE_ZIP
+GSF_IS_INFILE_ZIP
 gsf_infile_zip_get_type
 </SECTION>
 
@@ -116,20 +108,19 @@ gsf_input_gnomevfs_get_type
 <FILE>gsf-output</FILE>
 GSF_OUTPUT_TYPE
 GSF_OUTPUT
-IS_GSF_OUTPUT
+GSF_IS_OUTPUT
 gsf_output_get_type
 gsf_output_close
 gsf_output_tell
 gsf_output_seek
 gsf_output_write
-gsf_output_error
 </SECTION>
 
 <SECTION>
 <FILE>gsf-input-gzip</FILE>
 GSF_INPUT_GZIP_TYPE
 GSF_INPUT_GZIP
-IS_GSF_INPUT_GZIP
+GSF_IS_INPUT_GZIP
 GsfInputGZip
 gsf_input_gzip_get_type
 gsf_input_gzip_new
@@ -144,7 +135,7 @@ gsf_xml_parser_context
 <FILE>gsf-outfile</FILE>
 GSF_OUTFILE_TYPE
 GSF_OUTFILE
-IS_GSF_OUTFILE
+GSF_IS_OUTFILE
 gsf_outfile_get_type
 gsf_outfile_new_child
 gsf_outfile_error
@@ -154,7 +145,7 @@ gsf_outfile_error
 <FILE>gsf-input-textline</FILE>
 GSF_INPUT_TEXTLINE_TYPE
 GSF_INPUT_TEXTLINE
-IS_GSF_INPUT_TEXTLINE
+GSF_IS_INPUT_TEXTLINE
 GsfInputTextline
 gsf_input_textline_get_type
 gsf_input_textline_new
@@ -166,7 +157,7 @@ gsf_input_textline_utf8_gets
 <FILE>gsf-shared-memory</FILE>
 GSF_SHARED_MEMORY_TYPE
 GSF_SHARED_MEMORY
-IS_GSF_SHARED_MEMORY
+GSF_IS_SHARED_MEMORY
 GsfSharedMemory
 gsf_shared_memory_get_type
 gsf_shared_memory_new
@@ -179,9 +170,35 @@ gsf_init
 gsf_shutdown
 gsf_mem_dump
 gsf_input_dump
+gsf_filename_to_utf8
+gsf_iconv_close
+gsf_base64_encode_simple
+gsf_base64_encode_close
+gsf_base64_encode_step 
+gsf_base64_decode_simple
+gsf_base64_decode_step
 libgsf_major_version
 libgsf_minor_version
 libgsf_micro_version
+GSF_LE_GET_GUINT64
+GSF_LE_GET_GINT8
+GSF_LE_GET_GINT16
+GSF_LE_GET_GINT32
+GSF_LE_GET_FLOAT
+GSF_LE_GET_DOUBLE
+gsf_le_get_guint64
+gsf_le_get_float
+gsf_le_get_double
+GSF_LE_SET_GUINT8
+GSF_LE_SET_GUINT16
+GSF_LE_SET_GUINT32
+GSF_LE_SET_GINT8
+GSF_LE_SET_GINT16
+GSF_LE_SET_GINT32
+GSF_LE_SET_FLOAT
+GSF_LE_SET_DOUBLE
+gsf_le_set_float
+gsf_le_set_double
 </SECTION>
 
 <SECTION>

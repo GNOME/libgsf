@@ -305,13 +305,14 @@ gsf_iconv_close (GIConv handle)
 
 /**
  * gsf_filename_to_utf8:
- *
  * @filename: file name suitable for open(2).
  * @quoted: if TRUE, the resulting utf8 file name will be quoted
  *    (unless it is invalid).
  *
  * A utility wrapper to make sure filenames are valid utf8.
  * Caller must g_free the result.
+ *
+ * Returns @filename using utf-8 encoding for display
  **/
 char *
 gsf_filename_to_utf8 (char const *filename, gboolean quoted)
@@ -522,6 +523,8 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
  * @save: leftover bits that have not yet been decoded
  *
  * Decodes a chunk of base64 encoded data
+ *
+ * Returns the number of bytes converted
  **/
 size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,

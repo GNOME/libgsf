@@ -37,6 +37,8 @@ GType	  gsf_input_gnomevfs_get_type (void);
 GsfInputGnomeVFS *gsf_input_gnomevfs_new      (char const *uri, GError **error);
 GsfInputGnomeVFS *gsf_input_gnomevfs_new_uri  (GnomeVFSURI *uri, GError **error);
 
+gboolean	  gsf_input_gnomevfs_needs_local_copy (GsfInputGnomeVFS *vfs_input);
+
 G_END_DECLS
 
 #endif /* GSF_INPUT_GNOMEVFS_H */

@@ -1,3 +1,19 @@
+2004-04-26  Jody Goldberg <jody@gnome.org>
+
+	* doc/Makefile.am : steal a few things from gtk-doc.make to get things
+	  building.  A full jump to gtk-doc.make directly is failing, dunno
+	  why
+
+	* Makefile.am : Remove the AUTOMAKE_OPTIONS = 1.4 that disabled the
+	  DISTCHECK_CONFIGURE_FLAGS
+
+2004-04-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : placate the bogus
+	  -fstrict-aliasing gods.  gcc is being stupid.
+
+	* configure.in : call this 1.9.0
+
 2004-04-27  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-bzip.c (gsf_output_bzip_write): If the output

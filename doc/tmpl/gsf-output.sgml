@@ -29,6 +29,14 @@ gsf-output
 @o: 
 
 
+<!-- ##### MACRO GSF_IS_OUTPUT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### FUNCTION gsf_output_get_type ##### -->
 <para>
 

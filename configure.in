@@ -8,11 +8,11 @@ dnl     4a) Increment when removing or changing interfaces.
 LIBGSF_MAJOR_VERSION=1
 dnl     4a) 5) Increment when adding interfaces.
 dnl     6) Set to zero when removing or changing interfaces.
-LIBGSF_MINOR_VERSION=8
+LIBGSF_MINOR_VERSION=9
 dnl     3) Increment when interfaces not changed at all,
 dnl               only bug fixes or internal changes made.
 dnl     4b) Set to zero when adding, removing or changing interfaces.
-LIBGSF_MICRO_VERSION=3
+LIBGSF_MICRO_VERSION=0
 dnl
 dnl     Set this too
 MAJOR_VERSION_PLUS_MINOR_VERSION=`expr $LIBGSF_MAJOR_VERSION + $LIBGSF_MINOR_VERSION`
@@ -50,7 +50,7 @@ libxml-2.0 >= 2.4.16
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
 CFLAGS="$CFLAGS $WARN_CFLAGS -DG_DISABLE_DEPRECATED"
 if test "$GCC" = "yes"; then
-	for option in -Wno-system-headers -W -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wnested-externs -Winline; do
+	for option in -Wno-system-headers -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wnested-externs -Winline; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -231,6 +231,7 @@ if  test "x$test_gnome" = xtrue ; then
     PKG_CHECK_MODULES(LIBGSF_GNOME,[
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 1.9.16
+    gnome-vfs-module-2.0 >= 1.9.16
     ],[with_gnome=true], [AC_MSG_WARN([GNOME support disabled, unable to find required version of VFS and/or Bonobo])])
 else
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
@@ -258,6 +259,7 @@ libgsf-gnome-1.pc
 libgsf-gnome-1.spec
 libgsf-win32-1.pc
 libgsf-zip
+doc/version.xml
 ])
 
 AC_MSG_RESULT([Configured $PACKAGE $VERSION])

@@ -24,217 +24,202 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include <libgnomevfs/gnome-vfs-method.h>
+
 struct _GsfInputGnomeVFS {
 	GsfInput input;
 
 	GnomeVFSHandle *handle;
+	GnomeVFSURI    *uri;
+
         guint8   *buf;
         size_t   buf_size;
 };
 
-typedef struct {
-    GsfInputClass input_class;
-} GsfInputGnomeVFSClass;
-
-static GsfInputGnomeVFS *
-gsf_input_gnomevfs_setup_handle (GnomeVFSHandle * handle, char const *uri, GError **error)
-{
-        GsfInputGnomeVFS *input;
-        GnomeVFSFileInfo info;
-        gsf_off_t size;
-	GnomeVFSResult res = 0;
-
-        res = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
-        if (res != GNOME_VFS_OK) {
-            g_set_error (error, gsf_input_error (), (gint) res,
-                         gnome_vfs_result_to_string (res));
-            return NULL;
-        }        
-        
-        if (info.type != GNOME_VFS_FILE_TYPE_REGULAR) {
-            g_set_error (error, gsf_input_error (), 0,
-                         "Not a regular file");
-            gnome_vfs_close (handle);
-            return NULL;
-        }
-
-        size = (gsf_off_t) info.size ;
-        input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
-        input->handle = handle;
-        input->buf  = NULL;
-        input->buf_size = 0;
-        gsf_input_set_size (GSF_INPUT (input), size);
-	gsf_input_set_name (GSF_INPUT (input), uri);
-
-        return input;
-}
+typedef GsfInputClass GsfInputGnomeVFSClass;
 
 /**
-* gsf_input_gnomevfs_new :
+ * gsf_input_gnomevfs_new_uri:
  * @uri : uri you wish to open.
- * @err	     : optionally NULL.
+ * @err	: optionally NULL.
  *
- * Returns a new file or NULL.
+ * Returns a new input or NULL.
  **/
 GsfInputGnomeVFS *
-gsf_input_gnomevfs_new (char const *uri, GError **error)
+gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 {
-	GnomeVFSHandle   *handle = NULL;
-	GnomeVFSResult    res    = 0;
+	GsfInputGnomeVFS *input;
+	GnomeVFSHandle	 *handle;
+	GnomeVFSFileInfo  info;
+	GnomeVFSResult    res = 0;
+	gsf_off_t	  size;
+	gchar            *name;
 
-	if (uri == NULL) {
-		g_set_error (error, gsf_output_error_id (), 0,
-			     "URI cannot be NULL");
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	res = gnome_vfs_get_file_info_uri (uri, &info, GNOME_VFS_FILE_INFO_DEFAULT);
+	if (res != GNOME_VFS_OK) {
+		g_set_error (error, gsf_input_error (), (gint) res,
+			     gnome_vfs_result_to_string (res));
+		return NULL;
+	}        
+	if (info.type != GNOME_VFS_FILE_TYPE_REGULAR) {
+		g_set_error (error, gsf_input_error (), 0,
+			     "Not a regular file");
 		return NULL;
 	}
 
-	res = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);	
-
+	res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);	
 	if (res != GNOME_VFS_OK) {
 		g_set_error (error, gsf_input_error (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
 	}
 
-	return gsf_input_gnomevfs_setup_handle (handle, uri, error);
+	if (!VFS_METHOD_HAS_FUNC (uri->method, tell) ||
+	    !VFS_METHOD_HAS_FUNC (uri->method, seek)) {
+	}
+
+	size = (gsf_off_t) info.size ;
+	input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
+	input->handle = handle;
+	input->uri = gnome_vfs_uri_ref (uri);
+	input->buf  = NULL;
+	input->buf_size = 0;
+	gsf_input_set_size (GSF_INPUT (input), size);
+	name = gnome_vfs_uri_to_string (uri, 0);
+	gsf_input_set_name (GSF_INPUT (input), name);
+	g_free (name);
+
+	return input;
 }
 
 /**
-* gsf_input_gnomevfs_new :
+ * gsf_input_gnomevfs_new :
  * @uri : uri you wish to open.
- * @err	     : optionally NULL.
+ * @err	: optionally NULL.
  *
  * Returns a new file or NULL.
  **/
 GsfInputGnomeVFS *
-gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
+gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 {
-	GsfInputGnomeVFS *input = NULL;
-	gchar            *name  = NULL;
-
-	if (uri == NULL) {
-		g_set_error (error, gsf_output_error_id (), 0,
-			     "URI cannot be NULL");
-		return NULL;
-	}
-
-	input = gsf_input_gnomevfs_new (name, error);
-
-	if (input != NULL) {
-		name = gnome_vfs_uri_to_string (uri, 0);
-		gsf_input_set_name (GSF_INPUT (input), name);
-		g_free (name);
-	}
-
-	return input;
+	GnomeVFSURI 	 *uri = gnome_vfs_uri_new (text_uri);
+	GsfInputGnomeVFS *res =gsf_input_gnomevfs_new_uri (uri, error);
+	gnome_vfs_uri_unref (uri);
+	return res;
 }
 
 static void
 gsf_input_gnomevfs_finalize (GObject *obj)
 {
-    GObjectClass *parent_class;
-    GsfInputGnomeVFS *input = (GsfInputGnomeVFS *)obj;
+	GObjectClass *parent_class;
+	GsfInputGnomeVFS *input = (GsfInputGnomeVFS *)obj;
 
-    if (input->handle != NULL) {
-        gnome_vfs_close (input->handle);
-        input->handle = NULL;
-    }
+	if (input->handle != NULL) {
+		gnome_vfs_close (input->handle);
+		input->handle = NULL;
+	}
+	if (input->uri != NULL) {
+		gnome_vfs_uri_unref (input->uri);
+		input->uri = NULL;
+	}
 
-    if (input->buf != NULL) {
-        g_free (input->buf);
-        input->buf  = NULL;
-        input->buf_size = 0;
-    }
-    
-    parent_class = g_type_class_peek (GSF_INPUT_TYPE);
-    if (parent_class && parent_class->finalize)
-        parent_class->finalize (obj);
+	if (input->buf != NULL) {
+		g_free (input->buf);
+		input->buf  = NULL;
+		input->buf_size = 0;
+	}
+
+	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
+	if (parent_class && parent_class->finalize)
+		parent_class->finalize (obj);
 }
 
 static GsfInput *
 gsf_input_gnomevfs_dup (GsfInput *src_input, GError **err)
 {
-    GsfInputGnomeVFS const *src = (GsfInputGnomeVFS *)src_input;
-    return GSF_INPUT (gsf_input_gnomevfs_new (src->input.name, err));
+	GsfInputGnomeVFS const *src = (GsfInputGnomeVFS *)src_input;
+	return GSF_INPUT (gsf_input_gnomevfs_new (src->input.name, err));
 }
 
 static guint8 const *
 gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
-                         guint8 *buffer)
+			 guint8 *buffer)
 {
-    GsfInputGnomeVFS *vfs = GSF_INPUT_GNOMEVFS (input);
-    GnomeVFSResult res = GNOME_VFS_OK;
-    GnomeVFSFileSize nread = 0, total_read = 0;
+	GsfInputGnomeVFS *vfs = GSF_INPUT_GNOMEVFS (input);
+	GnomeVFSResult res = GNOME_VFS_OK;
+	GnomeVFSFileSize nread = 0, total_read = 0;
 
-    g_return_val_if_fail (vfs != NULL, NULL);
-    g_return_val_if_fail (vfs->handle != NULL, NULL);
+	g_return_val_if_fail (vfs != NULL, NULL);
+	g_return_val_if_fail (vfs->handle != NULL, NULL);
 
-    if (buffer == NULL) {
-        if (vfs->buf_size < num_bytes) {
-            vfs->buf_size = num_bytes;
-            if (vfs->buf != NULL)
-                g_free (vfs->buf);
-            vfs->buf = g_new (guint8, vfs->buf_size);
-        }
-        buffer = vfs->buf;
-    }
+	if (buffer == NULL) {
+		if (vfs->buf_size < num_bytes) {
+			vfs->buf_size = num_bytes;
+			if (vfs->buf != NULL)
+				g_free (vfs->buf);
+			vfs->buf = g_new (guint8, vfs->buf_size);
+		}
+		buffer = vfs->buf;
+	}
 
-    while ((res == GNOME_VFS_OK) && (total_read < num_bytes))
-	    {
-		    res = gnome_vfs_read (vfs->handle, (gpointer)(buffer + total_read),
-					  (GnomeVFSFileSize) (num_bytes - total_read), &nread);
-		    total_read += nread;
-	    }
+	while ((res == GNOME_VFS_OK) && (total_read < num_bytes)) {
+		res = gnome_vfs_read (vfs->handle,
+			(gpointer)(buffer + total_read),
+			(GnomeVFSFileSize) (num_bytes - total_read), &nread);
+		total_read += nread;
+	}
 
-    if (res != GNOME_VFS_OK || total_read != num_bytes)
-        return NULL;
-    
-    return buffer;
+	if (res != GNOME_VFS_OK || total_read != num_bytes)
+		return NULL;
+
+	return buffer;
 }
 
 static gboolean
 gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
-    GsfInputGnomeVFS const *vfs     = GSF_INPUT_GNOMEVFS (input);
-    GnomeVFSSeekPosition vfs_whence = 0; /* make compiler shut up */    
+	GsfInputGnomeVFS const *vfs     = GSF_INPUT_GNOMEVFS (input);
+	GnomeVFSSeekPosition vfs_whence = 0; /* make compiler shut up */    
 
-    if (vfs->handle == NULL)
-        return TRUE;
+	if (vfs->handle == NULL)
+		return TRUE;
 
-    switch (whence) {
-    case G_SEEK_SET : vfs_whence = GNOME_VFS_SEEK_START;	break;
-    case G_SEEK_CUR : vfs_whence = GNOME_VFS_SEEK_CURRENT;	break;
-    case G_SEEK_END : vfs_whence = GNOME_VFS_SEEK_END;	break;
-    default :
-	    break;
-    }
+	switch (whence) {
+	case G_SEEK_SET : vfs_whence = GNOME_VFS_SEEK_START;	break;
+	case G_SEEK_CUR : vfs_whence = GNOME_VFS_SEEK_CURRENT;	break;
+	case G_SEEK_END : vfs_whence = GNOME_VFS_SEEK_END;	break;
+	default : break;
+	}
 
-    if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,vfs_whence,
-					(GnomeVFSFileOffset) offset))
-	    return FALSE;
-    return TRUE;
+	if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,vfs_whence,
+					    (GnomeVFSFileOffset) offset))
+		return FALSE;
+	return TRUE;
 }
 
 static void
 gsf_input_gnomevfs_init (GObject *obj)
 {
-    GsfInputGnomeVFS *vfs = GSF_INPUT_GNOMEVFS (obj);
+	GsfInputGnomeVFS *vfs = GSF_INPUT_GNOMEVFS (obj);
 
-    vfs->handle   = NULL;
-    vfs->buf      = NULL;
-    vfs->buf_size = 0;
+	vfs->handle   = NULL;
+	vfs->buf      = NULL;
+	vfs->buf_size = 0;
 }
 
 static void
 gsf_input_gnomevfs_class_init (GObjectClass *gobject_class)
 {
-    GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
+	GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
-    gobject_class->finalize = gsf_input_gnomevfs_finalize;
-    input_class->Dup	    = gsf_input_gnomevfs_dup;
-    input_class->Read	    = gsf_input_gnomevfs_read;
-    input_class->Seek	    = gsf_input_gnomevfs_seek;
+	gobject_class->finalize = gsf_input_gnomevfs_finalize;
+	input_class->Dup	    = gsf_input_gnomevfs_dup;
+	input_class->Read	    = gsf_input_gnomevfs_read;
+	input_class->Seek	    = gsf_input_gnomevfs_seek;
 }
 
 GSF_CLASS (GsfInputGnomeVFS, gsf_input_gnomevfs,
-           gsf_input_gnomevfs_class_init, gsf_input_gnomevfs_init, GSF_INPUT_TYPE)
+	   gsf_input_gnomevfs_class_init, gsf_input_gnomevfs_init,
+	   GSF_INPUT_TYPE)
