@@ -1,3 +1,12 @@
+libgsf (1.8.2-6) unstable; urgency=low
+
+  * [doc/Makefile.am] Patch from CVS to fix one of the two jade complaints
+    about the SGML documentation.
+  * [configure.in] Patch from CVS to improve fdopen detection.
+  * [gsf/gsf-libxml.c] Updated from CVS.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  5 Feb 2004 20:08:12 +0100
+
 libgsf (1.8.2-5) unstable; urgency=medium
 
   * [debian/control] Pass along -Wl,-z,defs through LDFLAGS rather than
