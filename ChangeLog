@@ -1,3 +1,11 @@
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-gzip.c : wrapper to uncompress things.
+
+	* gsf/gsf-libxml.c : some convenience routines for dealing with libxml.
+
+	* gsf/test-gzip1.c :  add some tests for gzip.
+
 2002-06-05  Morten Welinder  <terra@diku.dk>
 
 	* gsf/*.[ch]: switch to using system types.

@@ -178,6 +178,20 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 /**
+ * gsf_input_remaining :
+ * @input :
+ *
+ * Returns the number of bytes left in the file.
+ **/
+size_t
+gsf_input_remaining (GsfInput *input)
+{
+	g_return_val_if_fail (input != NULL, 0);
+
+	return input->size - input->cur_offset;
+}
+
+/**
  * gsf_input_tell :
  * @input :
  *

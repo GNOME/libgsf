@@ -42,7 +42,7 @@ typedef struct {
 
 /**
  * gsf_input_textline_new :
- * @source : in utf8.
+ * @source : in some combination of ascii and utf8
  * @err	   : optionally NULL.
  *
  * Absorb a reference to @source.
@@ -142,15 +142,17 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
 	   gsf_input_textline_class_init, gsf_input_textline_init, GSF_INPUT_TYPE)
 
 /**
- * gsf_input_textline_get :
+ * gsf_input_textline_ascii_gets :
  * @input :
  *
  * A utility routine to read things line by line from the underlying source.
+ * Trailing newlines and carriage returns are stipped, and the resultant buffer
+ * can be edited.
  *
  * returns the string read, or NULL on eof.
  **/
 char *
-gsf_input_textline_get (GsfInputTextline *textline)
+gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 {
 	GsfInput *input = GSF_INPUT (textline);
 	unsigned n, i;
@@ -160,9 +162,11 @@ gsf_input_textline_get (GsfInputTextline *textline)
 
 	if (textline->remainder == NULL ||
 	    textline->remainder_size == 0) {
-		n = gsf_input_tell (input) - gsf_input_size (input);
-		n = MIN (textline->max_line_size, n);
-		textline->remainder = gsf_input_read (input, textline->remainder_size, NULL);
+		n = gsf_input_remaining (textline->source);
+		if (n > textline->max_line_size)
+			n = textline->max_line_size;
+
+		textline->remainder = gsf_input_read (textline->source, n, NULL);
 		if (textline->remainder == NULL)
 			return NULL;
 	}

@@ -80,7 +80,6 @@ if test $need_posix = yes ; then
 fi
 AC_MSG_RESULT($need_posix)
 
-
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
 AC_FUNC_MMAP
 
@@ -119,6 +118,13 @@ STRIP_DUMMY=
 AC_SUBST(STRIP_DUMMY)
 AC_SUBST(STRIP_BEGIN)
 AC_SUBST(STRIP_END)
+
+dnl ***********************************************************************************
+dnl libxml
+dnl
+AC_CHECK_LIB(z, zlibVersion,
+    [Z_LIBS=-lz AC_SUBST(Z_LIBS)],
+    AC_MSG_ERROR([*** zlib is required]))
 
 dnl ***********************************************************************************
 dnl libxml

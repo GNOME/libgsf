@@ -23,6 +23,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-input-memory.c 	\
 	gsf-input-stdio.c 	\
 	gsf-input-textline.c 	\
+	gsf-input-gzip.c 	\
 	\
 	gsf-infile.c 		\
 	gsf-infile-impl.h 	\
@@ -49,6 +50,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-memory.h 	\
 	gsf-input-stdio.h 	\
 	gsf-input-textline.h 	\
+	gsf-input-gzip.h 	\
 	gsf-infile.h 		\
 	gsf-infile-msole.h 	\
 	gsf-infile-zip.h	\
@@ -56,11 +58,12 @@ libgsf_1_include_HEADERS = 	\
 #gsf-output-memory.h
 #gsf-output-stdio.h
 
-noinst_PROGRAMS = test-msole1 test-msole2 test-zip1 test-input1
+noinst_PROGRAMS = test-msole1 test-msole2 test-zip1 test-input1 test-gzip1
 test_msole1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
 test_msole2_LDADD = libgsf-1.la $(LIBGSF_LIBS)
 test_zip1_LDADD   = libgsf-1.la $(LIBGSF_LIBS)
 test_input1_LDADD = libgsf-1.la $(LIBGSF_LIBS)
+test_gzip1_LDADD  = libgsf-1.la $(LIBGSF_LIBS)
 
 # include these just in case we are building a tarball without lixml
 # or gnomevfs support.

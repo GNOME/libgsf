@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-text-line.h: a utility wrapper to pull in text, line by line.
+ * gsf-input-textline.h: a utility wrapper to pull in text, line by line.
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -34,8 +34,9 @@ typedef struct _GsfInputTextline GsfInputTextline;
 
 GType gsf_input_textline_get_type (void);
 
-GsfInputTextline *gsf_input_textline_new (GsfInput *source);
-char 		 *gsf_input_textline_get (GsfInputTextline *input);
+GsfInputTextline *gsf_input_textline_new	(GsfInput *source);
+char 		 *gsf_input_textline_ascii_gets	(GsfInputTextline *input);
+guint8 		 *gsf_input_textline_utf8_gets	(GsfInputTextline *input);
 
 G_END_DECLS
 

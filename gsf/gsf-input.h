@@ -41,6 +41,7 @@ ssize_t	      gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *file);
 guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,
 				   guint8 *optional_buffer);
+size_t        gsf_input_remaining (GsfInput *input);
 size_t        gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
 				   off_t offset, GsfOff_t whence);

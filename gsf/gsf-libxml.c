@@ -22,11 +22,15 @@
 #include <gsf-config.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-input-gzip.h>
 
 /* Note: libxml erroneously declares the length argument as int.  */
 static int
 gsf_libxml_read (void * context, char * buffer, int len)
 {
+	int remaining = gsf_input_remaining ((GsfInput *)context);
+	if (len > remaining)
+		len = remaining;
 	if (NULL == gsf_input_read ((GsfInput *)context, (size_t)len, buffer))
 		return -1;
 	return len;
@@ -42,13 +46,17 @@ gsf_libxml_close_read (void * context)
 xmlParserCtxtPtr
 gsf_xml_parser_context (GsfInput *input)
 {
-	xmlParserCtxtPtr context = xmlCreateIOParserCtxt (
+	GsfInputGZip *gzip;
+
+	gzip = gsf_input_gzip_new (input, NULL);
+	if (gzip != NULL)
+		input = GSF_INPUT (gzip);
+	else
+		g_object_ref (G_OBJECT (input));
+
+	return xmlCreateIOParserCtxt (
 		NULL, NULL,
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close_read,
 		input, XML_CHAR_ENCODING_NONE);
-
-	if (context != NULL)
-		g_object_ref (G_OBJECT (input));
-	return context;
 }
