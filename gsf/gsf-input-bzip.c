@@ -49,7 +49,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	bz_stream         bzstm;
 	GsfInputMemory  * mem       = NULL;
 	GsfOutputMemory * sink      = NULL;
-	guint8          * out_buf   = NULL;
+	guint8            out_buf [BZ_BUFSIZ];
 	gsf_off_t         avail_out = 0;
 	int               bzerr     = BZ_OK;
 
@@ -64,7 +64,6 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	}
 
 	sink = gsf_output_memory_new ();
-	out_buf = g_new (guint8, BZ_BUFSIZ);
 
 	for (;;) {
 		bzstm.next_out  = (char *)out_buf;
@@ -83,7 +82,6 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 			BZ2_bzDecompressEnd (&bzstm);
 			gsf_output_close (GSF_OUTPUT (sink));
 			g_object_unref (G_OBJECT (sink));
-			g_free (out_buf);
 			return NULL;
 		}
 		
@@ -92,7 +90,6 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 			break;
 	}
 
-	g_free (out_buf);
 	gsf_output_close (GSF_OUTPUT (sink));
 	
 	if (BZ_OK != BZ2_bzDecompressEnd (&bzstm)) {
