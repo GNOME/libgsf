@@ -12,7 +12,7 @@ LIBGSF_MINOR_VERSION=7
 dnl     3) Increment when interfaces not changed at all,
 dnl               only bug fixes or internal changes made.
 dnl     4b) Set to zero when adding, removing or changing interfaces.
-LIBGSF_MICRO_VERSION=0
+LIBGSF_MICRO_VERSION=1
 dnl
 dnl     Set this too (I don't know how to do it automatically =) ):
 MAJOR_VERSION_PLUS_MINOR_VERSION=8

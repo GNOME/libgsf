@@ -98,7 +98,7 @@ gsf_xml_parser_context (GsfInput *input)
  * @encoding : optionally NULL.
  *
  * NOTE : adds a reference to @output
- * NOTE : This is _not_ releated to GsfOutputXML
+ * NOTE : This is _not_ releated to GsfXMLOut
  */
 static xmlOutputBufferPtr
 gsf_xml_output_buffer_new (GsfOutput *output,
@@ -154,20 +154,89 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, const char * encoding,
 
 /***************************************************************************/
 
-static void
-gsf_input_xml_start_element (GsfInputXML *state, xmlChar const *name, xmlChar const **attrs)
-{
-	GSList *ptr;
-	GsfInputXMLNode *node;
+struct _GsfXMLInDoc {
+	GsfXMLInNode	*root;
+	GsfXMLInNS	*ns;
+	GPtrArray	*ns_by_id;
+};
 
-	for (ptr = state->node->first_child ; ptr != NULL ; ptr = ptr->next) {
-		node = ptr->data;
-		if (node->name != NULL && !strcmp (name, node->name)) {
-			state->state_stack = g_slist_prepend (state->state_stack, state->node);
-			state->node = node;
-			if (node->start != NULL)
-				node->start (state, attrs);
-			return;
+typedef struct {
+	char    *tag;
+	unsigned taglen;
+	unsigned ref_count;
+} GsfXMLInNSInstance;
+
+typedef struct {
+	GsfXMLInNS const *ns;
+	GSList *elem;
+} GsfXMLInNodeGroup;
+
+static void
+gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **attrs)
+{
+	GSList *ptr, *elem;
+	GsfXMLInNSInstance *inst;
+	GsfXMLInNodeGroup  *group;
+	GsfXMLInNode	   *node;
+	GsfXMLInNS	   *ns;
+	xmlChar const **ns_ptr;
+	char const *tmp;
+	int i;
+
+	/* Scan for namespace declarations.  Yes it is ugly to have the api
+	 * flag that its children can declare namespaces. However, given that a
+	 * we need to know which namespace we are in before we can recognize
+	 * the current node there is no choice.
+	 * eg <gnm:Workbook xmlns:gnm="www.gnumeric.org"/> we can not know
+	 * that we are in node WORKSPACE without recognizing ns=gnm, which we
+	 * would not do unless we checked for a namespace */
+	ns = state->doc->ns;
+	if (ns != NULL && state->node->check_children_for_ns) {
+		for (ns_ptr = attrs; ns_ptr != NULL && ns_ptr[0] && ns_ptr[1] ; ns_ptr += 2) {
+			if (strncmp (*ns_ptr, "xmlns:", 6))
+				continue;
+
+			for (i = 0; (tmp = ns[i].uri) != NULL ; i++) {
+				if (strcmp (tmp, ns_ptr[1]))
+					continue;
+
+				inst = g_hash_table_lookup (state->ns_prefixes, ns_ptr[0] + 6);
+				if (inst == NULL) {
+					inst = g_new0 (GsfXMLInNSInstance, 1);
+					inst->tag    = g_strconcat (ns_ptr[0] + 6, ":", NULL);
+					inst->taglen = strlen (inst->tag);
+					inst->ref_count = 1;
+					if (ns[i].ns_id >= state->ns_by_id->len)
+						g_ptr_array_set_size  (state->ns_by_id, ns[i].ns_id+1);
+					g_ptr_array_index (state->ns_by_id, ns[i].ns_id) = inst;
+				} else
+					inst->ref_count++;
+				break;
+			}
+		}
+	}
+
+	for (ptr = state->node->groups ; ptr != NULL ; ptr = ptr->next) {
+		group = ptr->data;
+		/* does the namespace match */
+		if (group->ns != NULL) {
+			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
+			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+			if (0 != strncmp (name, inst->tag, inst->taglen))
+				continue;
+			tmp = name + inst->taglen;
+		} else
+			tmp = name;
+		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
+			node = elem->data;
+			if (node->name != NULL && !strcmp (tmp, node->name)) {
+				state->state_stack = g_slist_prepend (state->state_stack,
+								      (gpointer)state->node);
+				state->node = node;
+				if (node->start != NULL)
+					node->start (state, attrs);
+				return;
+			}
 		}
 	}
 
@@ -176,13 +245,19 @@ gsf_input_xml_start_element (GsfInputXML *state, xmlChar const *name, xmlChar co
 	g_warning ("Unexpected element '%s' in state %s.", name, state->node->name);
 	{
 		GSList *ptr = state->state_stack;
-		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next)
-			puts (((GsfInputXMLNode *)(ptr->data))->name);
+		GsfXMLInNode *node;
+		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
+			node = ptr->data;
+			if (node != NULL) {
+				puts (((GsfXMLInNode *)(ptr->data))->name);
+			}
+		}
 	}
 }
 
 static void
-gsf_input_xml_end_element (GsfInputXML *state, const xmlChar *name)
+gsf_xml_in_end_element (GsfXMLIn *state,
+			G_GNUC_UNUSED xmlChar const *name)
 {
 	if (state->unknown_depth > 0) {
 		state->unknown_depth--;
@@ -190,10 +265,9 @@ gsf_input_xml_end_element (GsfInputXML *state, const xmlChar *name)
 	}
 
 	g_return_if_fail (state->state_stack != NULL);
-	g_return_if_fail (!strcmp (name, state->node->name));
 
 	if (state->node->end)
-		state->node->end (state);
+		state->node->end (state, NULL);
 	if (state->node->has_content)
 		g_string_truncate (state->content, 0);
 
@@ -203,39 +277,48 @@ gsf_input_xml_end_element (GsfInputXML *state, const xmlChar *name)
 }
 
 static void
-gsf_input_xml_characters (GsfInputXML *state, const xmlChar *chars, int len)
+gsf_xml_in_characters (GsfXMLIn *state, const xmlChar *chars, int len)
 {
 	if (state->node->has_content)
 		g_string_append_len (state->content, chars, len);
 }
 
 static xmlEntityPtr
-gsf_input_xml_get_entity (GsfInputXML *state, const xmlChar *name)
+gsf_xml_in_get_entity (GsfXMLIn *state, const xmlChar *name)
 {
 	(void)state;
 	return xmlGetPredefinedEntity (name);
 }
 
 static void
-gsf_input_xml_start_document (GsfInputXML *state)
+gsf_xml_in_start_document (GsfXMLIn *state)
 {
-	state->node = state->root;
+	state->node = state->doc->root;
 	state->unknown_depth = 0;
 	state->state_stack = NULL;
+	state->ns_by_id    = g_ptr_array_new ();
+	state->ns_prefixes = g_hash_table_new_full (g_str_hash, g_str_equal,
+		g_free, g_free);
 }
 
 static void
-gsf_input_xml_end_document (GsfInputXML *state)
+gsf_xml_in_end_document (GsfXMLIn *state)
 {
 	g_string_free (state->content, TRUE);
 	state->content = NULL;
 
-	g_return_if_fail (state->node == state->root);
+	g_return_if_fail (state->node == state->doc->root);
 	g_return_if_fail (state->unknown_depth == 0);
+
+	g_ptr_array_free (state->ns_by_id, TRUE);
+	state->ns_by_id = NULL;
+
+	g_hash_table_destroy (state->ns_prefixes);
+	state->ns_prefixes = NULL;
 }
 
 static void
-gsf_input_xml_warning (GsfInputXML *state, const char *msg, ...)
+gsf_xml_in_warning (GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
@@ -246,7 +329,7 @@ gsf_input_xml_warning (GsfInputXML *state, const char *msg, ...)
 }
 
 static void
-gsf_input_xml_error (GsfInputXML *state, const char *msg, ...)
+gsf_xml_in_error (GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
@@ -257,7 +340,7 @@ gsf_input_xml_error (GsfInputXML *state, const char *msg, ...)
 }
 
 static void
-gsf_input_xml_fatal_error (GsfInputXML *state, const char *msg, ...)
+gsf_xml_in_fatal_error (GsfXMLIn *state, const char *msg, ...)
 {
 	va_list args;
 
@@ -267,31 +350,31 @@ gsf_input_xml_fatal_error (GsfInputXML *state, const char *msg, ...)
 	va_end (args);
 }
 
-static xmlSAXHandler gsfInputXMLParser = {
+static xmlSAXHandler gsfXMLInParser = {
 	0, /* internalSubset */
 	0, /* isStandalone */
 	0, /* hasInternalSubset */
 	0, /* hasExternalSubset */
 	0, /* resolveEntity */
-	(getEntitySAXFunc)gsf_input_xml_get_entity, /* getEntity */
+	(getEntitySAXFunc)gsf_xml_in_get_entity, /* getEntity */
 	0, /* entityDecl */
 	0, /* notationDecl */
 	0, /* attributeDecl */
 	0, /* elementDecl */
 	0, /* unparsedEntityDecl */
 	0, /* setDocumentLocator */
-	(startDocumentSAXFunc)gsf_input_xml_start_document, /* startDocument */
-	(endDocumentSAXFunc)gsf_input_xml_end_document, /* endDocument */
-	(startElementSAXFunc)gsf_input_xml_start_element, /* startElement */
-	(endElementSAXFunc)gsf_input_xml_end_element, /* endElement */
+	(startDocumentSAXFunc)gsf_xml_in_start_document, /* startDocument */
+	(endDocumentSAXFunc)gsf_xml_in_end_document, /* endDocument */
+	(startElementSAXFunc)gsf_xml_in_start_element, /* startElement */
+	(endElementSAXFunc)gsf_xml_in_end_element, /* endElement */
 	0, /* reference */
-	(charactersSAXFunc)gsf_input_xml_characters, /* characters */
+	(charactersSAXFunc)gsf_xml_in_characters, /* characters */
 	0, /* ignorableWhitespace */
 	0, /* processingInstruction */
 	0, /* comment */
-	(warningSAXFunc)gsf_input_xml_warning, /* warning */
-	(errorSAXFunc)gsf_input_xml_error, /* error */
-	(fatalErrorSAXFunc)gsf_input_xml_fatal_error, /* fatalError */
+	(warningSAXFunc)gsf_xml_in_warning, /* warning */
+	(errorSAXFunc)gsf_xml_in_error, /* error */
+	(fatalErrorSAXFunc)gsf_xml_in_fatal_error, /* fatalError */
 	0, /* getParameterEntity */
 	0, /* cdataBlock */
 	0, /* externalSubset */
@@ -299,25 +382,40 @@ static xmlSAXHandler gsfInputXMLParser = {
 };
 
 /**
- * gsf_input_xml_prep_dtd :
- * @node :
+ * gsf_xml_in_doc_new :
+ * @doc :
  *
  * link  up the static parent descriptors
  *
  * Returns : TRUE on success
  **/
-gboolean
-gsf_input_xml_prep_dtd (GsfInputXMLNode *node)
+GsfXMLInDoc *
+gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 {
-	GHashTable *symbols;
-	GsfInputXMLNode *tmp;
-	GsfInputXMLNode *real_node;
+	GsfXMLInDoc  *doc;
+	GHashTable   *symbols;
+	GsfXMLInNode *tmp, *real_node, *node;
+	unsigned i;
 
-	if (node->parent_initialized)
-		return TRUE;
+	if (root->parent_initialized)
+		return NULL;
+
+	doc = g_new0 (GsfXMLInDoc, 1);
+	doc->root     = root;
+	doc->ns       = ns;
+	doc->ns_by_id = g_ptr_array_new ();
+
+	/* Add namespaces to an idex */
+	if (ns != NULL) {
+		for (i = 0; ns[i].uri != NULL ; i++) {
+			if (ns[i].ns_id >= doc->ns_by_id->len)
+				g_ptr_array_set_size  (doc->ns_by_id, ns[i].ns_id+1);
+			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = ns+i;
+		}
+	}
 
 	symbols = g_hash_table_new (g_str_hash, g_str_equal);
-	for (; node->id != NULL ; node++ ) {
+	for (node = root; node->id != NULL ; node++ ) {
 		g_return_val_if_fail (!node->parent_initialized, FALSE);
 
 		tmp = g_hash_table_lookup (symbols, node->id);
@@ -331,44 +429,100 @@ gsf_input_xml_prep_dtd (GsfInputXMLNode *node)
 			real_node = tmp;
 		} else {
 			/* be anal, the macro probably initialized this, but do it just in case */
-			node->first_child = NULL;
+			node->groups = NULL;
 			g_hash_table_insert (symbols, (gpointer)node->id, node);
 			real_node = node;
 		}
 
 		tmp = g_hash_table_lookup (symbols, node->parent_id);
-		if (tmp == NULL) {
-			if (strcmp (node->id, node->parent_id)) {
-				g_warning ("Parent ID '%s' unknown", node->parent_id);
-				return FALSE;
+		if (tmp != NULL) {
+			GSList *ptr;
+			GsfXMLInNodeGroup *group;
+			GsfXMLInNS const *ns = NULL;
+			
+			ns = (real_node->ns_id < 0) ? NULL
+				: g_ptr_array_index (doc->ns_by_id,
+						     real_node->ns_id);
+			for (ptr = tmp->groups; ptr != NULL ; ptr = ptr->next) {
+				group = ptr->data;
+				if (group->ns == ns)
+					break;
 			}
-		} else
-			tmp->first_child = g_slist_prepend (tmp->first_child, real_node);
+			if (ptr == NULL) {
+				group = g_new0 (GsfXMLInNodeGroup, 1);
+				group->ns = ns;
+				tmp->groups = g_slist_prepend (tmp->groups, group);
+			}
+			group->elem = g_slist_prepend (group->elem, real_node);
+		} else if (strcmp (node->id, node->parent_id)) {
+			g_warning ("Parent ID '%s' unknown", node->parent_id);
+			return FALSE;
+		}
 		node->parent_initialized = TRUE;
 	}
 
 	g_hash_table_destroy (symbols);
 
-	return TRUE;
+	return doc;
 }
 
+/**
+ * gsf_xml_in_doc_free :
+ * @doc :
+ *
+ * Free up resources allocated by gsf_xml_in_doc_prep
+ **/
+void
+gsf_xml_in_doc_free (GsfXMLInDoc *doc)
+{
+	GSList *ptr;
+	GsfXMLInNode *node;
+	GsfXMLInNodeGroup *group;
+
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (doc->root != NULL);
+	g_return_if_fail (doc->ns_by_id != NULL);
+
+	for (node = doc->root; node->id != NULL ; node++ ) {
+		for (ptr = node->groups; ptr != NULL ; ptr = ptr->next) {
+			group = ptr->data;
+			g_slist_free (group->elem);
+			g_free (group);
+		}
+		g_slist_free (node->groups);
+		node->groups = NULL;
+	}
+
+	g_ptr_array_free (doc->ns_by_id, TRUE);
+	g_free (doc);
+}
+
+/**
+ * gsf_xml_in_parse :
+ * @state :
+ * @input :
+ *
+ * Read an xml document from @input and parse based on the the descriptor in
+ * @state::doc
+ *
+ * returns FALSE on error
+ **/
 gboolean
-gsf_input_xml_parse (GsfInput *input, GsfInputXML *doc)
+gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
 {
 	xmlParserCtxt *ctxt;
 	gboolean res;
-	gboolean valid_dtd = gsf_input_xml_prep_dtd (doc->root);
 
-	g_return_val_if_fail (valid_dtd, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 	ctxt = gsf_xml_parser_context (input);
 
 	g_return_val_if_fail (ctxt != NULL, FALSE);
 
-	ctxt->userData = doc;
-	doc->content = g_string_sized_new (128);
-	ctxt->sax = &gsfInputXMLParser;
+	ctxt->userData = state;
+	state->content = g_string_sized_new (128);
+	ctxt->sax = &gsfXMLInParser;
 	xmlParseDocument (ctxt);
 	ctxt->sax = NULL;
 	res = ctxt->wellFormed;
@@ -377,31 +531,72 @@ gsf_input_xml_parse (GsfInput *input, GsfInputXML *doc)
 	return res;
 }
 
+/**
+ * gsf_xml_in_check_ns :
+ * @state :
+ * @str :
+ * @ns_id :
+ * 
+ * According to @state is @str in the namespace @ns_id ?
+ *
+ * Returns a pointer to @str after the namespace if successful,
+ * otherwise NULL.
+ **/
+char const *
+gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned ns_id)
+{
+	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
+
+	if (strncmp (str, inst->tag, inst->taglen))
+		return NULL;
+	return str + inst->taglen;
+}
+
+/**
+ * gsf_xml_in_namecmp :
+ *
+ * @state :
+ * @str   :
+ * @ns_id :
+ * @name  :
+ *
+ * Returns TRUE if @str == @ns_id:@name according to @state.
+ **/
+gboolean
+gsf_xml_in_namecmp (GsfXMLIn const *state, char const *str,
+		    unsigned ns_id, char const *name)
+{
+	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
+
+	if (strncmp (str, inst->tag, inst->taglen))
+		return FALSE;
+	return 0 == strcmp (name, str + inst->taglen);
+}
+
 /****************************************************************************/
 
 typedef enum {
-	GSF_OUTPUT_XML_NOCONTENT,
-	GSF_OUTPUT_XML_CHILD,
-	GSF_OUTPUT_XML_CONTENT
-} GsfOutputXMLState;
+	GSF_XML_OUT_NOCONTENT,
+	GSF_XML_OUT_CHILD,
+	GSF_XML_OUT_CONTENT
+} GsfXMLOutState;
 
-struct _GsfOutputXML {
+struct _GsfXMLOut {
 	GObject	   base;
 
 	GsfOutput	 *output;
 	GSList		 *stack;
-	char const 	 *name_space;
-	GsfOutputXMLState state;
+	GsfXMLOutState state;
 	unsigned   	  indent;
 	gboolean	  needs_header;
 };
 
 typedef struct {
 	GObjectClass  base;
-} GsfOutputXMLClass;
+} GsfXMLOutClass;
 
 static void
-gsf_output_xml_finalize (GObject *obj)
+gsf_xml_out_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 
@@ -413,31 +608,30 @@ gsf_output_xml_finalize (GObject *obj)
 }
 
 static void
-gsf_output_xml_init (GObject *obj)
+gsf_xml_out_init (GObject *obj)
 {
-	GsfOutputXML *xml = GSF_OUTPUT_XML (obj);
+	GsfXMLOut *xml = GSF_XML_OUT (obj);
 	xml->output = NULL;
-	xml->name_space = NULL;
 	xml->stack  = NULL;
-	xml->state  = GSF_OUTPUT_XML_CHILD;
+	xml->state  = GSF_XML_OUT_CHILD;
 	xml->indent = 0;
 	xml->needs_header = TRUE;
 }
 
 static void
-gsf_output_xml_class_init (GObjectClass *gobject_class)
+gsf_xml_out_class_init (GObjectClass *gobject_class)
 {
-	gobject_class->finalize = gsf_output_xml_finalize;
+	gobject_class->finalize = gsf_xml_out_finalize;
 }
 
-GSF_CLASS (GsfOutputXML, gsf_output_xml,
-	   gsf_output_xml_class_init, gsf_output_xml_init,
+GSF_CLASS (GsfXMLOut, gsf_xml_out,
+	   gsf_xml_out_class_init, gsf_xml_out_init,
 	   G_TYPE_OBJECT)
 
-GsfOutputXML *
-gsf_output_xml_new (GsfOutput *output)
+GsfXMLOut *
+gsf_xml_out_new (GsfOutput *output)
 {
-	GsfOutputXML *xml = g_object_new (GSF_OUTPUT_XML_TYPE, NULL);
+	GsfXMLOut *xml = g_object_new (GSF_XML_OUT_TYPE, NULL);
 	if (!gsf_output_wrap (G_OBJECT (xml), output))
 		return NULL;
 	xml->output = output;
@@ -445,7 +639,7 @@ gsf_output_xml_new (GsfOutput *output)
 }
 
 static inline void
-gsf_output_xml_indent (GsfOutputXML *xml)
+gsf_xml_out_indent (GsfXMLOut *xml)
 {
 	static char const spaces [] =
 		"                                        "
@@ -460,24 +654,17 @@ gsf_output_xml_indent (GsfOutputXML *xml)
 	gsf_output_write (xml->output, i*2, spaces);
 }
 
-void
-gsf_output_xml_set_namespace (GsfOutputXML *xml, char const *ns)
-{
-	g_return_if_fail (xml != NULL);
-	xml->name_space = ns; 
-}
-
 /**
- * gsf_output_xml_start_elem :
+ * gsf_xml_out_start_elem :
  * @xml :
  * @id  :
  */
 void
-gsf_output_xml_start_element (GsfOutputXML *xml, char const *id)
+gsf_xml_out_start_element (GsfXMLOut *xml, char const *id)
 {
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (xml != NULL);
-	g_return_if_fail (xml->state != GSF_OUTPUT_XML_CONTENT);
+	g_return_if_fail (xml->state != GSF_XML_OUT_CONTENT);
 
 	if (xml->needs_header) {
 		static char const header[] =
@@ -485,26 +672,23 @@ gsf_output_xml_start_element (GsfOutputXML *xml, char const *id)
 		gsf_output_write (xml->output, sizeof (header) - 1, header);
 		xml->needs_header = FALSE;
 	}
-	if (xml->state == GSF_OUTPUT_XML_NOCONTENT)
+	if (xml->state == GSF_XML_OUT_NOCONTENT)
 		gsf_output_write (xml->output, 2, ">\n");
 
-	gsf_output_xml_indent (xml);
-	if (xml->name_space != NULL)
-		gsf_output_printf (xml->output, "<%s:%s", xml->name_space, id);
-	else
-		gsf_output_printf (xml->output, "<%s", id);
+	gsf_xml_out_indent (xml);
+	gsf_output_printf (xml->output, "<%s", id);
 
 	xml->stack = g_slist_prepend (xml->stack, (gpointer)id);
 	xml->indent++;
-	xml->state = GSF_OUTPUT_XML_NOCONTENT;
+	xml->state = GSF_XML_OUT_NOCONTENT;
 }
 
 /**
- * gsf_output_xml_end_elem :
+ * gsf_xml_out_end_elem :
  * @xml :
  */
 char const *
-gsf_output_xml_end_element (GsfOutputXML *xml)
+gsf_xml_out_end_element (GsfXMLOut *xml)
 {
 	char const *id;
 
@@ -515,25 +699,22 @@ gsf_output_xml_end_element (GsfOutputXML *xml)
 	xml->stack = g_slist_remove (xml->stack, id);
 	xml->indent--;
 	switch (xml->state) {
-	case GSF_OUTPUT_XML_NOCONTENT :
-		gsf_output_write (xml->output, 3, "/>\n");
-		break;
+	case GSF_XML_OUT_NOCONTENT :
+	gsf_output_write (xml->output, 3, "/>\n");
+	break;
 
-	case GSF_OUTPUT_XML_CHILD :
-		gsf_output_xml_indent (xml);
-		/* fall through */
-	case GSF_OUTPUT_XML_CONTENT :
-		if (xml->name_space != NULL)
-			gsf_output_printf (xml->output, "</%s:%s>\n", xml->name_space, id);
-		else
-			gsf_output_printf (xml->output, "</%s>\n", id);
+	case GSF_XML_OUT_CHILD :
+	gsf_xml_out_indent (xml);
+	/* fall through */
+	case GSF_XML_OUT_CONTENT :
+	gsf_output_printf (xml->output, "</%s>\n", id);
 	};
-	xml->state = GSF_OUTPUT_XML_CHILD;
+	xml->state = GSF_XML_OUT_CHILD;
 	return id;
 }
 
 /**
- * gsf_output_xml_simple_element :
+ * gsf_xml_out_simple_element :
  * @xml :
  * @id  :
  * @content :
@@ -541,28 +722,28 @@ gsf_output_xml_end_element (GsfOutputXML *xml)
  * A convenience routine
  **/
 void
-gsf_output_xml_simple_element (GsfOutputXML *xml, char const *id,
+gsf_xml_out_simple_element (GsfXMLOut *xml, char const *id,
 			       char const *content)
 {
-	gsf_output_xml_start_element (xml, id);
-	gsf_output_xml_add_attr_cstr (xml, NULL, content);
-	gsf_output_xml_end_element (xml);
+	gsf_xml_out_start_element (xml, id);
+	gsf_xml_out_add_cstr (xml, NULL, content);
+	gsf_xml_out_end_element (xml);
 }
 
 /**
- * gsf_output_xml_add_attr_cstr :
+ * gsf_xml_out_add_cstr_unchecked :
  * @xml :
  * @id : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_cstr (GsfOutputXML *xml, char const *id,
-			      char const *val_utf8)
+gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
+				   char const *val_utf8)
 {
 	g_return_if_fail (xml != NULL);
-	g_return_if_fail (xml->state == GSF_OUTPUT_XML_NOCONTENT);
+	g_return_if_fail (xml->state == GSF_XML_OUT_NOCONTENT);
 
 	if (id == NULL) {
-		xml->state = GSF_OUTPUT_XML_CONTENT;
+		xml->state = GSF_XML_OUT_CONTENT;
 		gsf_output_write (xml->output, 1, ">");
 		gsf_output_write (xml->output, strlen (val_utf8), val_utf8);
 	} else
@@ -570,7 +751,7 @@ gsf_output_xml_add_attr_cstr (GsfOutputXML *xml, char const *id,
 }
 
 /**
- * gsf_output_xml_add_attr_cstr_safe :
+ * gsf_xml_out_add_cstr :
  * @xml :
  * @id : optionally NULL for content
  * @val_utf8 : a utf8 encoded string
@@ -579,14 +760,14 @@ gsf_output_xml_add_attr_cstr (GsfOutputXML *xml, char const *id,
  * characters as necessary.
  */
 void
-gsf_output_xml_add_attr_cstr_safe (GsfOutputXML *xml, char const *id,
-				   char const *val_utf8)
+gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
+			 char const *val_utf8)
 {
 	guint8 const *cur   = val_utf8;
 	guint8 const *start = val_utf8;
 
 	if (id == NULL) {
-		xml->state = GSF_OUTPUT_XML_CONTENT;
+		xml->state = GSF_XML_OUT_CONTENT;
 		gsf_output_write (xml->output, 1, ">");
 	} else
 		gsf_output_printf (xml->output, " %s=\"", id);
@@ -611,13 +792,9 @@ gsf_output_xml_add_attr_cstr_safe (GsfOutputXML *xml, char const *id,
 				gsf_output_write (xml->output, cur-start, start);
 			start = ++cur;
 			gsf_output_write (xml->output, 6, "&quot;");
-		} else if (((*cur >= 0x20) && (*cur < 0x80)) ||
+		} else if (((*cur >= 0x20) && (*cur != 0x7f)) ||
 			   (*cur == '\n') || (*cur == '\r') || (*cur == '\t')) {
 			cur++;
-		} else if (*cur >= 0x80) {
-			gsf_output_printf (xml->output, "&#%d;",
-					   g_utf8_get_char (cur));
-			start = cur = g_utf8_next_char (cur);
 		} else {
 			g_warning ("Unknown char 0x%hhx in string", *cur);
 			cur++;
@@ -630,54 +807,54 @@ gsf_output_xml_add_attr_cstr_safe (GsfOutputXML *xml, char const *id,
 }
 
 /**
- * gsf_output_xml_add_attr_int :
+ * gsf_xml_out_add_int :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_bool (GsfOutputXML *xml, char const *id,
-			      gboolean val)
+gsf_xml_out_add_bool (GsfXMLOut *xml, char const *id,
+			 gboolean val)
 {
-	gsf_output_xml_add_attr_cstr (xml, id,
-		val ? "1" : "0");
+	gsf_xml_out_add_cstr_unchecked (xml, id,
+					   val ? "1" : "0");
 }
 
 /**
- * gsf_output_xml_add_attr_int :
+ * gsf_xml_out_add_int :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_int (GsfOutputXML *xml, char const *id,
-			     int val)
+gsf_xml_out_add_int (GsfXMLOut *xml, char const *id,
+			int val)
 {
 	char buf [4 * sizeof (int)];
 	sprintf (buf, "%d", val);
-	gsf_output_xml_add_attr_cstr (xml, id, buf);
+	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
 /**
- * gsf_output_xml_add_attr_uint :
+ * gsf_xml_out_add_uint :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_uint (GsfOutputXML *xml, char const *id,
-			      unsigned val)
+gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
+			 unsigned val)
 {
 	char buf [4 * sizeof (int)];
 	sprintf (buf, "%u", val);
-	gsf_output_xml_add_attr_cstr (xml, id, buf);
+	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
 /**
- * gsf_output_xml_add_attr_float :
+ * gsf_xml_out_add_float :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_float (GsfOutputXML *xml, char const *id,
-			       double val, int precision)
+gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
+			  double val, int precision)
 {
 	char buf [101 + DBL_DIG];
 
@@ -688,31 +865,31 @@ gsf_output_xml_add_attr_float (GsfOutputXML *xml, char const *id,
 		snprintf (buf, sizeof buf-1, "%.*g", precision, val);
 	else
 		snprintf (buf, sizeof buf-1, "%f", val);
-	gsf_output_xml_add_attr_cstr (xml, id, buf);
+	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
 /**
- * gsf_output_xml_add_attr_color :
+ * gsf_xml_out_add_color :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_color (GsfOutputXML *xml, char const *id,
-			       unsigned r, unsigned g, unsigned b)
+gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
+			  unsigned r, unsigned g, unsigned b)
 {
 	char buf [4 * sizeof (unsigned)];
 	sprintf (buf, "%X:%X:%X", r, g, b);
-	gsf_output_xml_add_attr_cstr (xml, id, buf);
+	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
 /**
- * gsf_output_xml_add_attr_base64 :
+ * gsf_xml_out_add_base64 :
  * @xml :
  * @id  : optionally NULL for content
  */
 void
-gsf_output_xml_add_attr_base64 (GsfOutputXML *xml, char const *id,
-				guint8 const *data, unsigned len)
+gsf_xml_out_add_base64 (GsfXMLOut *xml, char const *id,
+			   guint8 const *data, unsigned len)
 {
 	/* We could optimize and stream right to the output,
 	 * or even just keep the buffer around
@@ -722,7 +899,7 @@ gsf_output_xml_add_attr_base64 (GsfOutputXML *xml, char const *id,
 		return;
 	if (id != NULL)
 		g_warning ("Stream a binary blob into an attribute ??");
-	gsf_output_xml_add_attr_cstr (xml, id, tmp);
+	gsf_xml_out_add_cstr_unchecked (xml, id, tmp);
 	g_free (tmp);
 }
 

@@ -7,6 +7,7 @@ Dom:
 
 Jody:
 	* Start work on some simplified xml export utilities.
+	* Extend xml import facilities to support namespaces.
 	* Catch invalid OLE files with cycles.
 	* Fix exporting OLE files larger than 6.8 Meg
 

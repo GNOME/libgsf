@@ -23,6 +23,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #ifdef HAVE_MMAP
+#include <sys/types.h>
 #include <sys/mman.h>
 #endif
 
