@@ -99,13 +99,13 @@ test (char *argv[])
 	}
 
 	output = gsf_output_stdio_new (argv[2], &err);
-	if (input == NULL) {
+	if (file == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[2], err->message);
 		g_error_free (err);
-		g_object_unref (G_OBJECT (input));
+		g_object_unref (G_OBJECT (infile));
 		return 1;
 	}
 
