@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
 2002-07-17  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_mem_dump) : tweak.
