@@ -1,3 +1,7 @@
+2004-01-20  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : minor portability fix.
+
 2004-01-18  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-msole-utils.c: Country code for Albania is sq_AL not al_AL
@@ -13,6 +17,16 @@
 	  We can now extract the compressed source for all of our sample
 	  files.  There's still lots of unknowns, but at least the code
 	  is visible now.  The next step will be looking at the p-code
+
+2003-11-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_input_hex_dump) : new.
+	(gsf_mem_dump_full) : expand the interface a bit.
+
+2003-11-03  Jody Goldberg <jody@gnome.org>
+
+	* gsf/Makefile.am (uninstall) : make the impl headers for the base
+	  interfaces public.
 
 2003-10-29  Jody Goldberg <jody@gnome.org>
 

@@ -266,7 +266,9 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
 			node = ptr->data;
 			if (node != NULL) {
+#ifdef __GNUC__
 #warning if we really want this do we also want namespaces ?
+#endif
 				g_print ("%s", node->name);
 				if (ptr->next != NULL && ptr->next->data != NULL)
 					g_print (" -> ");
