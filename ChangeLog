@@ -1,3 +1,7 @@
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : uncomment the AM_CONDITIONAL for WITH_PYTHON
+
 2002-06-21  Jon K Hellan  <hellan@acm.org>
 
 	* acinclude.m4: Ad it. It provides AM_CHECK_PYTHON_HEADERS.

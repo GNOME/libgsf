@@ -181,11 +181,12 @@ dnl AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
 dnl if test "x$PYGTK_CODEGEN" = xno; then
 dnl   AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
 dnl fi
-dnl if test "x$pygtk_msg" = "xyes"; then
-dnl   AM_CONDITIONAL(WITH_PYTHON, true)
-dnl else
-dnl   AM_CONDITIONAL(WITH_PYTHON, false)
-dnl fi
+
+if test "x$pygtk_msg" = "xyes"; then
+  AM_CONDITIONAL(WITH_PYTHON, true)
+else
+  AM_CONDITIONAL(WITH_PYTHON, false)
+fi
 
 dnl ***********************************************************************************
 
