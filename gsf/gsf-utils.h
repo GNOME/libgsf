@@ -75,10 +75,10 @@ void gsf_input_dump (GsfInput *input);
 guint8 *gsf_base64_encode_simple (guint8 const *data, size_t len);
 size_t  gsf_base64_encode_close  (guint8 const *in, size_t inlen,
 				  gboolean break_lines, guint8 *out,
-				  int *state, int *save);
+				  int *state, unsigned int *save);
 size_t  gsf_base64_encode_step   (guint8 const *in, size_t len,
 				  gboolean break_lines, guint8 *out,
-				  int *state, int *save);
+				  int *state, unsigned int *save);
 
 size_t  gsf_base64_decode_simple (guint8 *data, size_t len);
 size_t  gsf_base64_decode_step   (guint8 const *in, size_t len,

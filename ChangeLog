@@ -1,7 +1,8 @@
 2003-01-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/gsf-utils.h, gsf/gsf-utils.c (gsf_base64_encode_close,
-	gsf_base64_encode_step): Fixed signedness.
+	gsf_base64_encode_step), gsf/gsf-input.c (gsf_input_copy,
+	gsf_input_uncompress): Fixed signedness.
 
 2003-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

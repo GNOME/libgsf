@@ -382,7 +382,7 @@ base64_init(void)
    flush off the last little bit */
 size_t
 gsf_base64_encode_close (guint8 const *in, size_t inlen,
-			 gboolean break_lines, guint8 *out, int *state, int *save)
+			 gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
 	int c1, c2;
 	guint8 *outptr = out;
@@ -428,7 +428,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 */
 size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
-			gboolean break_lines, guint8 *out, int *state, int *save)
+			gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
 	register guint8 const *inptr;
 	register guint8 *outptr;

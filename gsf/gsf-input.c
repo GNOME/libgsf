@@ -370,7 +370,7 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
 {
 	gsf_off_t    remaining = 0;
 	size_t       toread    = 0;
-	const char * buffer    = NULL;
+	const guint8 * buffer    = NULL;
 	gboolean     success   = TRUE;
 
 	g_return_val_if_fail (input != NULL, FALSE);
@@ -404,7 +404,7 @@ GsfInput *
 gsf_input_uncompress (GsfInput *src)
 {
 	gsf_off_t cur_offset = src->cur_offset;
-	const char *data;
+	const guint8 *data;
 
 	if (gsf_input_seek (src, (gsf_off_t) 0, G_SEEK_SET))
 		goto error;
