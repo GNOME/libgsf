@@ -87,7 +87,7 @@ gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffe
 }
 
 static int
-gsf_input_memory_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_memory_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	(void)input;
 	(void)offset;

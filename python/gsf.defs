@@ -64,7 +64,7 @@
   (return-type "gboolean")
   (parameters
     '("gsf_off_t" "offset")
-    '("GsfSeekType" "whence")
+    '("GSeekType" "whence")
   )
 )
 
@@ -445,7 +445,7 @@
   (return-type "gboolean")
   (parameters
     '("gsf_off_t" "offset")
-    '("GsfSeekType" "whence")
+    '("GSeekType" "whence")
   )
 )
 

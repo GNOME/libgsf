@@ -98,7 +98,7 @@ gsf_output_gnomevfs_finalize (GObject *obj)
 
 static gboolean
 gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
-			  GsfSeekType whence)
+			  GSeekType whence)
 {
     GsfOutputGnomeVFS const *vfs = GSF_OUTPUT_GNOMEVFS (output);
 
@@ -106,19 +106,19 @@ gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
         return TRUE;
 
     switch (whence) {
-        case GSF_SEEK_SET :
+        case G_SEEK_SET :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_START,
 						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
-        case GSF_SEEK_CUR :
+        case G_SEEK_CUR :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_CURRENT,
 						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
-        case GSF_SEEK_END :
+        case G_SEEK_END :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_END,
 						(GnomeVFSFileOffset) offset))

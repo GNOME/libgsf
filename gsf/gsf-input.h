@@ -44,7 +44,7 @@ guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,
 gsf_off_t     gsf_input_remaining (GsfInput *input);
 gsf_off_t     gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
-				   gsf_off_t offset, GsfSeekType whence);
+				   gsf_off_t offset, GSeekType whence);
 
 GsfInput *gsf_input_uncompress (GsfInput *src);
 

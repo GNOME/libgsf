@@ -148,7 +148,7 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
     GsfInputGnomeVFS const *vfs = GSF_INPUT_GNOMEVFS (input);
     
@@ -156,19 +156,19 @@ gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
         return TRUE;
 
     switch (whence) {
-        case GSF_SEEK_SET :
+        case G_SEEK_SET :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_START,
 						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
-        case GSF_SEEK_CUR :
+        case G_SEEK_CUR :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_CURRENT,
 						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
-        case GSF_SEEK_END :
+        case G_SEEK_END :
             if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
 						GNOME_VFS_SEEK_END,
 						(GnomeVFSFileOffset) offset))

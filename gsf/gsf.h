@@ -36,12 +36,6 @@ typedef struct _GsfOutfile 	GsfOutfile;
 typedef struct _GsfMetaDataBag	GsfMetaDataBag;
 typedef struct _GsfTimestamp	GsfTimestamp;
 
-typedef enum {
-	GSF_SEEK_SET,
-	GSF_SEEK_CUR,
-	GSF_SEEK_END
-} GsfSeekType;
-
 /* FIXME:
  * gsf_off_t is really supposed to be the widest type off_t can be configured
  * to on the platform

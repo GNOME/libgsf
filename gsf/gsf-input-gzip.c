@@ -68,7 +68,7 @@ check_header (GsfInputGZip *input)
 	unsigned flags, len;
 
 	/* Get the uncompressed size first, so that the seeking is finished */
-	if (gsf_input_seek (input->source, (gsf_off_t) -4, GSF_SEEK_END) ||
+	if (gsf_input_seek (input->source, (gsf_off_t) -4, G_SEEK_END) ||
 	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
 		return TRUE;
 	/* FIXME, but how?  The size read here is modulo 2^32.  */
@@ -76,7 +76,7 @@ check_header (GsfInputGZip *input)
 			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
 
 	/* Check signature */
-	if (gsf_input_seek (input->source, (gsf_off_t) 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (input->source, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (input->source, 2 + 1 + 1 + 6, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature)))
 		return TRUE;
@@ -236,7 +236,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
 	/* Global flag -- we don't want one per stream.  */
@@ -245,16 +245,16 @@ gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 
 	/* Note, that pos has already been sanity checked.  */
 	switch (whence) {
-	case GSF_SEEK_SET : break;
-	case GSF_SEEK_CUR : pos += input->cur_offset;	break;
-	case GSF_SEEK_END : pos += input->size;		break;
+	case G_SEEK_SET : break;
+	case G_SEEK_CUR : pos += input->cur_offset;	break;
+	case G_SEEK_END : pos += input->size;		break;
 	default : return TRUE;
 	}
 
 	if (pos < input->cur_offset) {
 		if (gsf_input_seek (gzip->source,
 				    (gsf_off_t)gzip->header_size,
-				    GSF_SEEK_SET))
+				    G_SEEK_SET))
 			return TRUE;
 		gzip->crc = crc32 (0L, Z_NULL, 0);
 		gzip->stream.avail_in = 0;

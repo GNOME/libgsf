@@ -112,7 +112,7 @@ gsf_input_textline_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_textline_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_textline_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
 	textline->remainder = NULL;

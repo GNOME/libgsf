@@ -89,7 +89,7 @@ _wrap_gsf_input_seek(PyGObject *self, PyObject *args, PyObject *kwargs)
     static char *kwlist[] = { (char *) "offset", (char *) "whence", NULL };
     long loffset;
     gsf_off_t offset;
-    GsfSeekType whence;
+    GSeekType whence;
     gboolean ret;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, (char *) "li:GsfInput.seek",
@@ -199,7 +199,7 @@ _wrap_gsf_output_seek(PyGObject *self, PyObject *args, PyObject *kwargs)
     static char *kwlist[] = { (char *) "offset", (char *) "whence", NULL };
     long loffset;
     gsf_off_t offset;
-    GsfSeekType whence;
+    GSeekType whence;
     gboolean ret;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,

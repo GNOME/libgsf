@@ -43,7 +43,7 @@ typedef struct {
 	guint8 const *(*Read) (GsfInput *input, size_t num_bytes,
 			       guint8 *optional_buffer);
 	gboolean      (*Seek) (GsfInput *input, gsf_off_t offset,
-			       GsfSeekType whence);
+			       GSeekType whence);
 } GsfInputClass;
 
 #define GSF_INPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INPUT_TYPE, GsfInputClass))

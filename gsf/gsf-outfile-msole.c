@@ -109,14 +109,14 @@ gsf_outfile_msole_finalize (GObject *obj)
 
 static gboolean
 gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
-			GsfSeekType whence)
+			GSeekType whence)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 
 	switch (whence) {
-	case GSF_SEEK_SET : break;
-	case GSF_SEEK_CUR : offset += output->cur_offset;	break;
-	case GSF_SEEK_END : offset += output->cur_size;		break;
+	case G_SEEK_SET : break;
+	case G_SEEK_CUR : offset += output->cur_offset;	break;
+	case G_SEEK_END : offset += output->cur_size;		break;
 	default : return TRUE;
 	}
 
@@ -137,7 +137,7 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 	case MSOLE_BIG_BLOCK:
 		return gsf_output_seek (ole->sink,
 			(gsf_off_t)(ole->content.big_block.start_offset + offset),
-			GSF_SEEK_SET);
+			G_SEEK_SET);
 
 	default :
 		return TRUE;
@@ -404,7 +404,7 @@ recalc_bat_bat :
 		GSF_LE_SET_GUINT32 (buf,   num_bat);
 		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
 		gsf_output_seek (ole->sink,
-			(gsf_off_t) OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
+			(gsf_off_t) OLE_HEADER_NUM_BAT, G_SEEK_SET);
 		gsf_output_write (ole->sink, 8, buf);
 
 		GSF_LE_SET_GUINT32 (buf+0x0,
@@ -413,7 +413,7 @@ recalc_bat_bat :
 		GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
 		GSF_LE_SET_GUINT32 (buf+0xc, num_xbat);
 		gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
-				 GSF_SEEK_SET);
+				 G_SEEK_SET);
 		gsf_output_write (ole->sink, 0x10, buf);
 
 		/* write initial Meta-BAT */
@@ -426,7 +426,7 @@ recalc_bat_bat :
 		if (blocks < num_bat) {
 			/* Append the meta bats */
 			gsf_output_seek (ole->sink,
-					 (gsf_off_t) 0, GSF_SEEK_END);
+					 (gsf_off_t) 0, G_SEEK_END);
 			for (i = 0 ; i++ < num_xbat ; ) {
 				bat_start += blocks;
 				blocks = num_bat - bat_start;
@@ -454,7 +454,7 @@ recalc_bat_bat :
 
 		return gsf_output_close (ole->sink);
 	} else if (ole->type == MSOLE_BIG_BLOCK) {
-		gsf_outfile_msole_seek (output, (gsf_off_t) 0, GSF_SEEK_END);
+		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
 		bb_pad_zero (ole->sink);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (ole->sink, output);

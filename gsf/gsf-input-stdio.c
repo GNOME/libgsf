@@ -141,7 +141,7 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
 	long loffset;
@@ -155,15 +155,15 @@ gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 		return TRUE;
 	}
 	switch (whence) {
-	case GSF_SEEK_SET :
+	case G_SEEK_SET :
 		if (0 == fseek (stdio->file, loffset, SEEK_SET))
 			return FALSE;
 		break;
-	case GSF_SEEK_CUR :
+	case G_SEEK_CUR :
 		if (0 == fseek (stdio->file, loffset, SEEK_CUR))
 			return FALSE;
 		break;
-	case GSF_SEEK_END :
+	case G_SEEK_END :
 		if (0 == fseek (stdio->file, loffset, SEEK_END))
 			return FALSE;
 	}

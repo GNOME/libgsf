@@ -1,3 +1,84 @@
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf.h: Remove GsfSeekType.
+
+	* gsf/gsf-input.[ch]: s/GsfSeekType/GSeekType/ in gsf_input_seek
+	signature.
+
+	* gsf/gsf-output.[ch]: s/GsfSeekType/GSeekType/ in gsf_output_seek
+	signature.
+
+	* gsf/gsf-input-impl.h (GsfInputClass) s/GsfSeekType/GSeekType/ in
+	Seek method.
+
+	* gsf/gsf-output-impl.h (GsfOutputClass) Ditto.
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_seek):
+	s/GsfSeekType/GSeekType/ in signature.  
+
+	* gsf/gsf-infile-msvba.c (gsf_infile_msvba_seek): Ditto.
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek): Ditto.
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_seek): Ditto.
+
+	* gsf/gsf-input-memory.c (gsf_input_memory_seek): Ditto.
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Ditto.
+
+	* gsf/gsf-input-textline.c (gsf_input_textline_seek): Ditto.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek): Ditto.
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Ditto.
+
+	* gsf-gnome/gsf-input-bonobo.c (gsf_input_bonobo_seek): Ditto.
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Ditto.
+
+	* gsf-gnome/gsf-output-bonobo.c (gsf_output_bonobo_seek): Ditto.
+
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_seek): Ditto.
+
+	* gsf/gsf-input.c (gsf_input_seek): Replace GSF_SEEK_SET, CUR, END
+	with G_SEEK_SET, CUR, END.
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_seek): Ditto.
+	
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_seek): Ditto.
+
+	* gsf/gsf-output.c (gsf_output_seek): Ditto.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek): Ditto.
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_seek): Ditto.
+
+	* gsf-gnome/gsf-input-bonobo.c (gsf_input_bonobo_seek): Ditto.
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_seek): Ditto.
+
+	* gsf-gnome/gsf-output-bonobo.c (gsf_output_bonobo_seek): Ditto.
+
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_seek): Ditto.
+
+	* gsf/gsf-infile-msole.c (ole_get_block, ole_init_info,
+	gsf_infile_msole_read, gsf_infile_msole_new_child):
+	s/GSF_SEEK_SET/G_SEEK_SET/.
+	
+	* gsf/gsf-infile-msvba.c (vba_inflate, vba56_dir_read,
+	gsf_infile_msvba_seek, gsf_infile_msvba_seek): Ditto.
+
+	* gsf/gsf-infile-zip.c (zip_find_trailer, zip_dirent_new) 
+	(zip_init_info, zip_init_info, zip_update_stream_in) 
+	(gsf_infile_zip_new_child): Ditto.
+
+	* gsf/gsf-input-gzip.c (check_header, check_header): Ditto.
+
+	* gsf/gsf-input.c (gsf_input_dup, gsf_input_uncompress): Ditto.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_seek,
+	gsf_outfile_msole_close): Ditto.
+
 2002-08-18  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Revert today's first change to the file, but keep

@@ -43,7 +43,7 @@ typedef struct {
 
 	gboolean (*Close) (GsfOutput *output);
 	gboolean (*Seek)  (GsfOutput *output,
-			   gsf_off_t offset, GsfSeekType whence);
+			   gsf_off_t offset, GSeekType whence);
 	gboolean (*Write) (GsfOutput *output,
 			   size_t num_bytes, guint8 const *data);
 } GsfOutputClass;

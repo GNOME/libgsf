@@ -67,7 +67,7 @@ gsf_output_bonobo_close (GsfOutput *output)
 
 static gboolean
 gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
-			GsfSeekType whence)
+			GSeekType whence)
 {
     GsfOutputBonobo *boutput = GSF_OUTPUT_BONOBO (output);
     Bonobo_Stream_SeekType bwhence;
@@ -78,13 +78,13 @@ gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
     g_return_val_if_fail (boutput->stream != NULL, TRUE);
 
     switch (whence) {
-        case GSF_SEEK_SET :
+        case G_SEEK_SET :
             bwhence =  Bonobo_Stream_SeekSet;
             break;
-        case GSF_SEEK_CUR :
+        case G_SEEK_CUR :
             bwhence = Bonobo_Stream_SeekCur;
             break;
-        case GSF_SEEK_END :
+        case G_SEEK_END :
             bwhence = Bonobo_Stream_SeekEnd;
             break;
         default:

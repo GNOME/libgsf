@@ -1,5 +1,12 @@
 2002-08-19  Jon K Hellan  <hellan@acm.org>
 
+	* gsf.defs (GsfInput.seek, GsfOutput.seek):
+	s/GsfSeekType/GSeekType/.
+
+	* gsf.override (_wrap_gsf_input_seek, _wrap_gsf_output_seek): Ditto.
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
 	* Makefile.am15: Different CFLAGS and LIBADD for gsf and gsf.gnome
 	modules.
 

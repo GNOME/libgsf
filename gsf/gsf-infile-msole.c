@@ -109,7 +109,7 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 
 	if (gsf_input_seek (ole->input,
 		(gsf_off_t)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
-		GSF_SEEK_SET) < 0)
+		G_SEEK_SET) < 0)
 		return NULL;
 
 	return gsf_input_read (ole->input, ole->info->bb.size, buffer);
@@ -436,7 +436,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint32 metabat_block, *ptr;
 
 	/* check the header */
-	if (gsf_input_seek (ole->input, (gsf_off_t) 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (ole->input, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
@@ -638,7 +638,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		if (ole->cur_block != first_block) {
 			if (gsf_input_seek (ole->input,
 				(gsf_off_t)(OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
-				GSF_SEEK_SET) < 0)
+				G_SEEK_SET) < 0)
 				return NULL;
 		}
 		ole->cur_block = last_block;
@@ -675,7 +675,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_msole_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_infile_msole_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
 
@@ -734,7 +734,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 
 		for (i = 0 ; i < child->bat.num_blocks; i++)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-				(gsf_off_t)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
+				(gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) < 0 ||
 			    (data = gsf_input_read (GSF_INPUT (sb_file),
 				info->sb.size, 
 				child->stream.buf + (i << info->sb.shift))) == NULL) {

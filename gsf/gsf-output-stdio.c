@@ -106,7 +106,7 @@ gsf_output_stdio_finalize (GObject *obj)
 
 
 static gboolean
-gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
+gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	GsfOutputStdio const *stdio = GSF_OUTPUT_STDIO (output);
 	long loffset;
@@ -120,15 +120,15 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
 		return TRUE;
 	}
 	switch (whence) {
-	case GSF_SEEK_SET :
+	case G_SEEK_SET :
 		if (0 == fseek (stdio->file, loffset, SEEK_SET))
 			return FALSE;
 		break;
-	case GSF_SEEK_CUR :
+	case G_SEEK_CUR :
 		if (0 == fseek (stdio->file, loffset, SEEK_CUR))
 			return FALSE;
 		break;
-	case GSF_SEEK_END :
+	case G_SEEK_END :
 		if (0 == fseek (stdio->file, loffset, SEEK_END))
 			return FALSE;
 	}

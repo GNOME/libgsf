@@ -41,7 +41,7 @@ gboolean      gsf_output_close     (GsfOutput *output);
 gboolean      gsf_output_is_closed (GsfOutput const *output);
 gsf_off_t     gsf_output_tell      (GsfOutput *output);
 gboolean      gsf_output_seek      (GsfOutput *output,
-				    gsf_off_t offset, GsfSeekType whence);
+				    gsf_off_t offset, GSeekType whence);
 gboolean      gsf_output_write     (GsfOutput *output,
 				    size_t num_bytes, guint8 const *data);
 

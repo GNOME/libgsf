@@ -113,7 +113,7 @@ gsf_input_dup (GsfInput *src, GError **err)
 		dst->container = src->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, (gsf_off_t)src->cur_offset, GSF_SEEK_SET);
+		gsf_input_seek (dst, (gsf_off_t)src->cur_offset, G_SEEK_SET);
 	}
 	return dst;
 }
@@ -217,16 +217,16 @@ gsf_input_tell (GsfInput *input)
  * Returns TRUE on error.
  **/
 gboolean
-gsf_input_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	gsf_off_t pos = offset;
 
 	g_return_val_if_fail (input != NULL, -1);
 
 	switch (whence) {
-	case GSF_SEEK_SET : break;
-	case GSF_SEEK_CUR : pos += input->cur_offset;	break;
-	case GSF_SEEK_END : pos += input->size;		break;
+	case G_SEEK_SET : break;
+	case G_SEEK_CUR : pos += input->cur_offset;	break;
+	case G_SEEK_END : pos += input->size;		break;
 	default : return TRUE;
 	}
 
@@ -361,7 +361,7 @@ gsf_input_uncompress (GsfInput *src)
 	gsf_off_t cur_offset = src->cur_offset;
 	const char *data;
 
-	if (gsf_input_seek (src, (gsf_off_t) 0, GSF_SEEK_SET))
+	if (gsf_input_seek (src, (gsf_off_t) 0, G_SEEK_SET))
 		goto error;
 
 	/* Read header up front, so we avoid extra seeks in tests.  */
@@ -385,6 +385,6 @@ gsf_input_uncompress (GsfInput *src)
 	/* Other methods go here.  */
 
  error:
-	(void)gsf_input_seek (src, cur_offset, GSF_SEEK_SET);
+	(void)gsf_input_seek (src, cur_offset, G_SEEK_SET);
 	return src;
 }

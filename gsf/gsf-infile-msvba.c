@@ -74,7 +74,7 @@ vba_inflate (GsfInput *input, gsf_off_t offset, int *size)
 	guint16		token, len;
 	gboolean	clean = TRUE;
 
-	if (gsf_input_seek (input, offset+3, GSF_SEEK_SET))
+	if (gsf_input_seek (input, offset+3, G_SEEK_SET))
 		return NULL;
 
 	res = g_byte_array_new ();
@@ -341,7 +341,7 @@ vba56_dir_read (GsfInfileMSVBA *vba, GError **err)
 		return FALSE;
 	}
 
-	if (gsf_input_seek (dir, (gsf_off_t) 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (dir, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (dir, VBA56_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature))) {
 		if (err != NULL)
@@ -451,7 +451,7 @@ gsf_infile_msvba_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_msvba_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_infile_msvba_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	/* no data at this level */
 	(void)input; (void)offset; (void)whence;

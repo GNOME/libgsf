@@ -167,16 +167,16 @@ gsf_output_tell	(GsfOutput *output)
  * Returns TRUE on error.
  **/
 gboolean
-gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
+gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	gsf_off_t pos = offset;
 
 	g_return_val_if_fail (output != NULL, -1);
 
 	switch (whence) {
-	case GSF_SEEK_SET: break;
-	case GSF_SEEK_CUR: pos += output->cur_offset;	break;
-	case GSF_SEEK_END: pos += output->cur_size;	break;
+	case G_SEEK_SET: break;
+	case G_SEEK_CUR: pos += output->cur_offset;	break;
+	case G_SEEK_END: pos += output->cur_size;	break;
 	default : return TRUE;
 	}
 

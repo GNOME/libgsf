@@ -112,7 +112,7 @@ zip_find_trailer (GsfInfileZip *zip)
 	while (TRUE) {
 		guchar *p, *s;
 
-		if ((gsf_input_seek (zip->input, offset, GSF_SEEK_SET)) < 0)
+		if ((gsf_input_seek (zip->input, offset, G_SEEK_SET)) < 0)
 			return -1;
 
 		if ((data = gsf_input_read (zip->input, maplen, NULL)) == NULL)
@@ -161,7 +161,7 @@ zip_dirent_new (GsfInfileZip *zip, gsf_off_t *offset)
 	gchar *name;
 
 	/* Read data and check the header */
-	if (gsf_input_seek (zip->input, *offset, GSF_SEEK_SET) ||
+	if (gsf_input_seek (zip->input, *offset, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (zip->input, ZIP_DIRENT_SIZE, NULL)) ||
 	    0 != memcmp (data, dirent_signature, sizeof (dirent_signature))) {
 		return NULL;
@@ -276,7 +276,7 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 	gsf_off_t offset;
 
 	/* Check the header */
-	if (gsf_input_seek (zip->input, (gsf_off_t) 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (zip->input, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, header_signature, sizeof (header_signature))) {
 		g_set_error (err, gsf_input_error (), 0, "No Zip signature");
@@ -289,7 +289,7 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 		return TRUE;
 	}
 
-	if (gsf_input_seek (zip->input, offset, GSF_SEEK_SET) ||
+	if (gsf_input_seek (zip->input, offset, G_SEEK_SET) ||
 	    NULL == (trailer = gsf_input_read (zip->input, ZIP_TRAILER_SIZE, NULL))) {
 		g_set_error (err, gsf_input_error (), 0, "Error reading Zip signature");
 		return TRUE;
@@ -353,7 +353,7 @@ zip_update_stream_in (GsfInfileZip const *zip)
 
 	read_now = (dirent->crestlen > ZIP_BLOCK_SIZE) ? ZIP_BLOCK_SIZE : dirent->crestlen;
 
-	gsf_input_seek (zip->input, (gsf_off_t) (dirent->data_offset + dirent->stream.total_in), GSF_SEEK_SET);
+	gsf_input_seek (zip->input, (gsf_off_t) (dirent->data_offset + dirent->stream.total_in), G_SEEK_SET);
 	if ((data = gsf_input_read (zip->input, read_now, NULL)) == NULL)
 		return FALSE;
 
@@ -422,7 +422,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 
@@ -460,7 +460,7 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
 	 **/
 
 	if (gsf_input_seek (child->input, (gsf_off_t) dirent->offset,
-			    GSF_SEEK_SET) ||
+			    G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
 		g_object_unref (child);

@@ -217,7 +217,7 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
+gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputBonobo *binput = GSF_INPUT_BONOBO (input);
 	Bonobo_Stream_SeekType bwhence;
@@ -228,19 +228,19 @@ gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 	g_return_val_if_fail (binput->shared != NULL, TRUE);
 	g_return_val_if_fail (binput->shared->stream != NULL, TRUE);
 
-	if (whence == GSF_SEEK_CUR) {
+	if (whence == G_SEEK_CUR) {
 		if (gib_synch_shared_ptr (binput) != 0)
 			return TRUE;
 	}
 	
 	switch (whence) {
-	case GSF_SEEK_SET :
+	case G_SEEK_SET :
 		bwhence =  Bonobo_Stream_SeekSet;
 		break;
-	case GSF_SEEK_CUR :
+	case G_SEEK_CUR :
 		bwhence = Bonobo_Stream_SeekCur;
 		break;
-	case GSF_SEEK_END :
+	case G_SEEK_END :
 		bwhence = Bonobo_Stream_SeekEnd;
 		break;
 	default:
