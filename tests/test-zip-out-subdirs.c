@@ -73,6 +73,8 @@ test (int argc, char *argv[])
 	ch1  = gsf_outfile_new_child  (dir1, "portfolio.abw", FALSE);
 	ch2  = gsf_outfile_new_child  (dir1, "test.abw", FALSE);
 	dir2 = GSF_OUTFILE (gsf_outfile_new_child  (dir1, "1", TRUE));
+	if (!gsf_output_close ((GsfOutput *) dir1))
+		return 1;
 	ch3  = gsf_outfile_new_child  (dir2, "simply.pve", FALSE);
 	
 	if (!test_write_once (ch1))
@@ -87,8 +89,6 @@ test (int argc, char *argv[])
 		return 1;
 	if (!gsf_output_close ((GsfOutput *) ch3))
 		return 1;
-	if (!gsf_output_close ((GsfOutput *) dir1))
-		return 1;
 	if (!gsf_output_close ((GsfOutput *) dir2))
 		return 1;
 	if (!gsf_output_close ((GsfOutput *) outfile))
@@ -99,9 +99,6 @@ test (int argc, char *argv[])
 	g_object_unref (ch3);
 	g_object_unref (dir1);
 	g_object_unref (dir2);
-
-	if (!gsf_output_close (output))
-		return 1;
 
 	return 0;
 }

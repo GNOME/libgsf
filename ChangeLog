@@ -1,5 +1,14 @@
 2002-11-25  Jon K Hellan  <hellan@acm.org>
 
+	* gsf/gsf-outfile-zip.c (root_register_child): Don't ref children
+	which are directories.
+
+	* tests/test-zip-out-subdirs.c (test): Make close/unref strategy
+	the same as in test-cp-zip/test-cp-ole (with change above, this
+	works!). Test closing subdirs at different times in the lifecycle.
+
+2002-11-25  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-outfile-zip.c (zip_init_write): Fail if already writing
 	to another stream in archive. Set "writing" flag in zip root to
 	indicate that we're writing to a stream.

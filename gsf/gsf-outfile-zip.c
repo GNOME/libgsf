@@ -525,9 +525,10 @@ static void
 root_register_child (GsfOutfileZip *root, GsfOutfileZip *child)
 {
 	child->root = root;
-	g_object_ref (G_OBJECT (child));
-	if (!child->vdir->is_directory)
+	if (!child->vdir->is_directory) {
+		g_object_ref (G_OBJECT (child));
 		g_ptr_array_add (root->root_order, child);
+	}
 }
 
 static GsfOutput *
