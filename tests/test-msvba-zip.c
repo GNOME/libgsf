@@ -5,8 +5,6 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 
-gboolean compress = FALSE;
-
 #define VBA_COMPRESSION_WINDOW 4096
 
 #define HEADER_SIZE 3
@@ -25,6 +23,12 @@ typedef struct {
 } CompressBuf;
 
 #define DEBUG
+
+static char
+byte_to_char (guint8 data)
+{
+	return data >= 0x20 ? data : '.';
+}
 
 static gint
 get_shift (guint cur_pos)
@@ -108,7 +112,7 @@ output_data (CompressBuf *buf, guint8 *data, gboolean compressed)
 #ifdef DEBUG		
 		fprintf (stderr, "Block: 0x%x '", buf->mask);
 		for (i = 0; i < buf->outstr->len; i++)
-			fprintf (stderr, "%c", buf->outstr->str[i] >= 0x20 ? buf->outstr->str[i] : '.');
+			fprintf (stderr, "%c", byte_to_char (buf->outstr->str[i]));
 		fprintf (stderr, "'\n");
 #endif
 
@@ -227,6 +231,41 @@ do_decompress (GsfInput *input, GsfOutput *output)
 		fprintf (stderr, "I/O error\n");
 }
 
+static void
+decode_dir (GsfInput *input)
+{
+	gboolean err = FALSE;
+	guint8 data[6];
+
+	while (gsf_input_remaining (input) && !err) {
+		int i;
+		guint16 op;
+		guint32 length;
+
+		err |= !gsf_input_read (input, 6, data);
+
+		op     = GSF_LE_GET_GUINT16 (&data[0]);
+		length = GSF_LE_GET_GUINT32 (&data[2]);
+
+		/* Special nasties / up-stream bugs */
+		switch (op) {
+		case 0x34:
+			length -= 4;
+			break;
+		default:
+			break;
+		}
+
+		fprintf (stderr, "Op 0x%x, length %d: '", op, length);
+		for (i = 0 ; i < length; i++) {
+			guint8 ug;
+			err |= !gsf_input_read (input, 1, &ug);
+			fprintf (stderr, "%c", byte_to_char (ug));
+		}
+		fprintf (stderr, "'\n");
+	}
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -237,37 +276,58 @@ main (int argc, char *argv[])
 	GsfOutput *output;
 	GError   *error = NULL;
 
+	/* options */
+	gboolean dir = FALSE;
+	gboolean compress = FALSE;
+
 	gsf_init ();
 
 	for (i = 1; i < argc; i++) {
-		if (argv[i][0] == '-' &&
-		    argv[i][1] == 'c')
-			compress = TRUE;
-		else if (!src)
+		if (argv[i][0] == '-') {
+			switch (argv[i][1]) {
+			case 'c':
+				compress = TRUE;
+				break;
+			case 'd':
+				dir = TRUE;
+				break;
+			default:
+				fprintf (stderr, "Unknown option '%s'\n", argv[i]);
+				return 1;
+				break;
+			}
+		} else if (!src)
 			src = argv[i];
 		else
 			dest = argv[i];
 	}
-	if (!src || !dest) {
+
+	if (!src || (!dir && !dest)) {
 		fprintf (stderr, "%s: [-c(ompress)] <infile> <outfile>\n", argv[0]);
+		fprintf (stderr, "%s: [-d(ecode dir)] <infile>\n", argv[0]);
 		return 1;
 	}
 
 	input = GSF_INPUT (gsf_input_stdio_new (src, &error));
-	output = GSF_OUTPUT (gsf_output_stdio_new (dest, &error));
-	if (!input || !output) {
-		fprintf (stderr, "Failed to open input(%p)/output(%p): '%s'\n",
-			 input, output, error ? error->message : "<NoMsg>");
-		return 1;
+	if (dir)
+		decode_dir (input);
+	else {
+		output = GSF_OUTPUT (gsf_output_stdio_new (dest, &error));
+		if (!input || !output) {
+			fprintf (stderr, "Failed to open input(%p)/output(%p): '%s'\n",
+				 input, output, error ? error->message : "<NoMsg>");
+			return 1;
+		}
+		
+		if (compress)
+			do_compress (input, output);
+		else
+			do_decompress (input, output);
+
+		g_object_unref (output);
 	}
 
-	if (compress)
-		do_compress (input, output);
-	else
-		do_decompress (input, output);
-
 	g_object_unref (input);
-	g_object_unref (output);
 
 	gsf_shutdown ();
 

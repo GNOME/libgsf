@@ -1,5 +1,8 @@
 2004-03-10  Michael Meeks  <michael@ximian.com>
 
+	* tests/test-msvba-zip.c (decode_dir): impl.
+	a good run at enterpreting 'dir'.
+	
 	* tests/test-msvba-zip.c (do_compress): bin nasty
 	3 byte header store / restore and generate header
 	on the fly.
