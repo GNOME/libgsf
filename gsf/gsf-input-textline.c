@@ -186,8 +186,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 
 		/* copy the remains into the buffer, grow it if necessary */
 		len = ptr - textline->remainder;
-		/* "+1", just in case len==0.  */
-		if (count + len + 1 > textline->buf_size) {
+		if (count + len >= textline->buf_size) {
 			textline->buf_size += len;
 			textline->buf = g_renew (guint8, textline->buf,
 						 textline->buf_size + 1);
@@ -274,7 +273,7 @@ gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 
 		/* copy the remains into the buffer, grow it if necessary */
 		len = ptr - textline->remainder;
-		if ((count + len) > textline->buf_size) {
+		if (count + len >= textline->buf_size) {
 			textline->buf_size += len;
 			textline->buf = g_renew (guint8, textline->buf,
 						 textline->buf_size + 1);
