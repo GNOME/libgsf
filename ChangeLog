@@ -7,6 +7,7 @@
 	* gsf/gsf-output-stdio.c (follow_symlinks): Ditto.
 	(gsf_output_stdio_new): Ditto.
 	(gsf_output_stdio_close): Ditto.
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Ditto.
 
 2002-10-01  Jody Goldberg <jody@gnome.org>
 
