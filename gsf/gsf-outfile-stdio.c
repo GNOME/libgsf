@@ -115,8 +115,12 @@ GsfOutfileStdio *
 gsf_outfile_stdio_new (char const *root, GError **err)
 {
 	GsfOutfileStdio *ofs;
-	
+
+#ifdef G_OS_WIN32
+	if (0 != mkdir (root)) {
+#else	
 	if (0 != mkdir (root, 0777)) {
+#endif
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (root, FALSE);
 			*err = g_error_new (gsf_output_error_id (), 0,
