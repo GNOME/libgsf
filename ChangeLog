@@ -1,3 +1,10 @@
+2002-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Add support for building Python bindings, but
+	comment it out because it requires automake1.5.
+
+	* Makefile.am: Build python subdir if WITH_PYTHON is set.
+
 2002-06-18  Rui M. Seabra <rms@1407.org>
 
 	* libgsf-1.spec.in : set permission correctly

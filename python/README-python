@@ -2,9 +2,10 @@ These are Python bindings for libgsf.
 
 The input bindings are almost complete, but output is missing.
 
-The bindings require gnome-python 1.99.10 or later. There is no
-autoconfiscation for the Python bindings in libgsf/configure.in. This
-will be added soon, but commented out, because we will use macros
-which are only found in automake 1.5 and newer.
+The bindings require gnome-python 1.99.10 or later. If you build from
+CVS, you may bootstrap with Python bindings by removing 'dnl' from the
+beginning of the lines from AM_PATH_PYTHON down to the next line of
+asterisks in ../configure.in and running autogen.sh. You need
+automake1.5 or later.
 
 ex-1.py is a simple example.
