@@ -8,6 +8,7 @@ Jody:
 
 Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.
+	* Support seeking within zip streams
 
 ------------------------------------------------------------------------------
 libgsf 1.3.0
