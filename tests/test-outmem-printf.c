@@ -46,7 +46,6 @@ test (int argc, char *argv[])
 	GsfOutput  *output;
 	guint8 const *buf;
 	gsf_off_t size;
-	GError   *err;
 	FILE *fout;
 	int i;
 	int res;

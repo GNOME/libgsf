@@ -42,9 +42,7 @@ test (int argc, char *argv[])
 	GsfOutput  *output;
 	GsfOutfile *outfile;
 	GsfOutput  *child;
-	GsfOutput  *large;
 	GError   *err;
-	int i;
 
 	if (argc != 2) {
 		fprintf (stderr, "Usage : %s outfile\n", argv[0]);

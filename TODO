@@ -4,10 +4,19 @@ Near:
     - Complete MS property set read and write
     - work on GsfOutput error handling to propagate errors up the stack.
       Maybe something signal based ?
+    - try to support canceling a write (eg we've written 1/2 a tmp file
+      don't overwrite the real file)
+    - for the stdio output check that we can actually write to the target file
+      on open even though we do not want to write to it until later.
 
 Longer:
     - More work on VBA directory parsing so that we can decompress
       source streams.
+    - Add encrypt and decrypt wrappers
+	- precede with some randomness due to static nature of xml header
+	- be absolutely clear about how we handle seek (only encrypt data on
+	  first pass)
+    - Can we do we put a mechanism for signing and authenticating ?
 
 Future:
     - parse vba p-code directly to produce some other language.

@@ -45,6 +45,8 @@ gsf
 @container: 
 @err: 
 @is_closed: 
+@printf_buf: 
+@printf_buf_size: 
 
 <!-- ##### STRUCT GsfOutfile ##### -->
 <para>

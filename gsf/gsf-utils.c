@@ -292,13 +292,13 @@ gsf_iconv_close (GIConv handle)
 #endif
 
 /**
- * gsf_filename_to_utf8: a utility wrapper to make sure filenames are
- * valid utf8.
+ * gsf_filename_to_utf8:
  *
  * @filename: file name suitable for open(2).
  * @quoted: if TRUE, the resulting utf8 file name will be quoted
  *    (unless it is invalid).
  *
+ * A utility wrapper to make sure filenames are valid utf8.
  * Caller must g_free the result.
  **/
 char *

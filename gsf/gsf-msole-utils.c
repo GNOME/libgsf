@@ -248,7 +248,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 			v = msole_prop_parse (section, type, data, data_end);
 			if (v) {
 				/* FIXME: do something with it.  */
-				g_value_unset (v);
+				if (G_IS_VALUE (v))
+					g_value_unset (v);
 				g_free (v);
 			}
 		}
@@ -912,15 +913,18 @@ static GsfLanguageMapping const gsf_msole_language_ids[] = {
  * If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
  */
 guint
-gsf_msole_lid_for_language (const char * lang)
+gsf_msole_lid_for_language (char const *lang)
 {
 	guint i = 0 ;
+	size_t len;
 
 	if (lang == NULL)
 		return 0x0400;   /* return -none- */
-	
+
+	/* Allow lang to match as a prefix (eg fr == fr_FR@euro) */
+	len = strlen (lang);
 	for (i = 0 ; i < G_N_ELEMENTS(gsf_msole_language_ids); i++)
-		if (!strcmp (lang, gsf_msole_language_ids[i].tag))
+		if (!strncmp (lang, gsf_msole_language_ids[i].tag, len))
 			return gsf_msole_language_ids[i].lid;
 	
 	return 0x0400 ;   /* return -none- */
@@ -1230,13 +1234,13 @@ gsf_msole_iconv_win_codepage (void)
 
 /**
  * gsf_msole_iconv_open_codepage_for_import :
- * @to
+ * @to:
  * @codepage :
  *
  * Open an iconv converter for @codepage -> utf8.
  **/
 GIConv
-gsf_msole_iconv_open_codepage_for_import (const char * to, guint codepage)
+gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 {
 	GIConv iconv_handle;
 
@@ -1299,7 +1303,8 @@ gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
 
 /**
  * gsf_msole_iconv_open_for_export :
- * @to
+ *
+ * @codepage_to:
  *
  * Open an iconv convert to go from utf8 -> to our best guess at a useful
  * windows codepage.

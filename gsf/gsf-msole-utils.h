@@ -30,7 +30,7 @@ gboolean gsf_msole_metadata_read  (GsfInput *in,   GError **err);
 gboolean gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 				   GError **err);
 
-guint   gsf_msole_lid_for_language	(const char * lang);
+guint   gsf_msole_lid_for_language	(char const *lang);
 guint   gsf_msole_codepage_to_lid	(guint codepage);
 guint   gsf_msole_lid_to_codepage	(guint lid);
 gchar * gsf_msole_lid_to_codepage_str	(guint lid);
@@ -41,7 +41,7 @@ GIConv	gsf_msole_iconv_open_for_import (guint codepage) ;
 GIConv	gsf_msole_iconv_open_for_export (void) ;
 
 GIConv gsf_msole_iconv_open_codepage_for_import  (char const *to, guint codepage) ;
-GIConv gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const* from);
+GIConv gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from);
 GIConv gsf_msole_iconv_open_codepage_for_export  (guint codepage_to);
 
 G_END_DECLS

@@ -92,6 +92,7 @@ typedef struct {
 
 static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 					     MSOleDirent *dirent);
+static void ole_info_unref (MSOleInfo *info);
 
 /**
  * ole_get_block :
@@ -215,6 +216,9 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 
 	parent->info->sb_file = gsf_infile_msole_new_child (parent,
 		parent->info->root_dir);
+
+	/* avoid creating a circular reference */
+	ole_info_unref (((GsfInfileMSOle *)parent->info->sb_file)->info);
 
 	g_return_val_if_fail (parent->info->sb.bat.block == NULL, NULL);
 
@@ -366,6 +370,7 @@ ole_dirent_free (MSOleDirent *dirent)
 }
 
 /*****************************************************************************/
+
 static void
 ole_info_unref (MSOleInfo *info)
 {
@@ -572,7 +577,8 @@ gsf_infile_msole_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (ole->input));
 		ole->input = NULL;
 	}
-	if (ole->info != NULL) {
+	if (ole->info != NULL &&
+	    ole->info->sb_file != (GsfInput *)ole) {
 		ole_info_unref (ole->info);
 		ole->info = NULL;
 	}

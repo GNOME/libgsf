@@ -64,7 +64,7 @@ test (int argc, char *argv[])
 		for (j = 0; j < gsf_infile_num_children (infile); j++) {
 			GsfInput *child = gsf_infile_child_by_index (infile, j);
 
-			g_print ("\t%s\t\t%d\n", gsf_input_name (child), gsf_input_size (child));
+			g_print ("\t%s\t\t%" GSF_OFF_T_FORMAT "\n", gsf_input_name (child), gsf_input_size (child));
 			g_object_unref (G_OBJECT (child));
 		}
 
