@@ -62,6 +62,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: %s", filename, g_strerror (errno));
+		if (file) fclose (file); /* Just in case.  */
 		return NULL;
 	}
 
@@ -69,6 +70,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: Is not a regular file", filename);
+		fclose (file);
 		return NULL;
 	}
 
@@ -108,12 +110,7 @@ static GsfInput *
 gsf_input_stdio_dup (GsfInput *src_input)
 {
 	GsfInputStdio const *src = (GsfInputStdio *)src_input;
-	GsfInputStdio *dst = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
-
-	if (src->file != NULL)
-		dst->file = fdopen (dup (fileno (src->file)), "r");
-
-	return GSF_INPUT (dst);
+	return gsf_input_stdio_new (src->input.name, NULL);
 }
 
 static guint8 const *

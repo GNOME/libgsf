@@ -1,3 +1,8 @@
+2002-06-07  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Plug FILE* leak.
+	(gsf_input_stdio_dup): Go via filename.
+
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
 	* doc/Makefile.am : fix the type init function for gtk-doc.
