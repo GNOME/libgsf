@@ -1,5 +1,9 @@
 2004-11-28  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.11.0
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-msole-utils.c (msole_prop_parse) : NULL unhandled types
 
 2004-11-25  Sven Herzberg  <herzi@gnome-de.org>
