@@ -1,3 +1,36 @@
+2003-01-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c : Pull in the bas64 utilites from evolution.  Unused
+	  for now.
+
+2003-01-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output.c (cb_output_unwrap) : renamed from
+	  cb_output_wrap_screwup and weaken restrictions.  The weak ref
+	  handler is called before the wrappers finalize, so we can not always
+	  unwrap in such a way as to avoid a warning.  Jsut handle it silently
+	  now.
+	(gsf_output_wrap) : ditto.  Weaken the requirement of the wrapper to
+	  be a GObject, no need for a full fledged GsfOutput.
+	(gsf_output_unwrap) : ditto.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : fix reversal of
+	  arguments for the wrapping.
+	(gsf_outfile_msole_write) : ditto.
+	* gsf/gsf-outfile-zip.c (zip_init_write) : ditto.
+	(zip_close_stream) : ditto.
+
+	* gsf/gsf-libxml.c : rename xml_sax -> GsfInputXML
+	(GsfOutputXML) : new
+
+2003-01-03  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-impl-utils.h : add hooks for interfaces
+
+2002-12-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read) : patch some warnings.
+
 2003-01-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/changelog, debian/control, debian/libgsf-1-dev.dirs,

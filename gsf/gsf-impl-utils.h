@@ -27,7 +27,8 @@
 
 G_BEGIN_DECLS
 
-#define	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, abstract) \
+#define	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, \
+		       abstract, interface_decl) \
 GType									\
 prefix ## _get_type (void)						\
 {									\
@@ -47,14 +48,23 @@ prefix ## _get_type (void)						\
 		};							\
 		type = g_type_register_static (parent_type, #name,	\
 			&object_info, (GTypeFlags) abstract);		\
+		interface_decl						\
 	}								\
 	return type;							\
 }
 
-#define	GSF_CLASS(name, prefix, class_init, instance_init, parent_type) \
-	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, 0)
-#define	GSF_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent_type) \
-	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, G_TYPE_FLAG_ABSTRACT)
+#define	GSF_CLASS(name, prefix, class_init, instance_init, parent) \
+	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
+		       0, {})
+#define	GSF_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent) \
+	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
+		       G_TYPE_FLAG_ABSTRACT, {})
+
+#define GSF_INTERFACE(init_func, inferface_name) {			\
+	static GInterfaceInfo const iface = {				\
+		(GInterfaceInitFunc) init_func, NULL, NULL };		\
+	g_type_add_interface_static (type, interface_name, &iface);	\
+}
 
 G_END_DECLS
 

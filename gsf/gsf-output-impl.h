@@ -33,7 +33,7 @@ struct _GsfOutput {
 
 	gsf_off_t   cur_size, cur_offset;
 	char       *name;
-	GsfOutput  *wrapped_by;
+	GObject    *wrapped_by;
 	GsfOutfile *container;
 	GError	   *err;
 	gboolean    is_closed;

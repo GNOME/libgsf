@@ -47,8 +47,8 @@ gboolean      gsf_output_seek      (GsfOutput *output,
 gboolean      gsf_output_write     (GsfOutput *output,
 				    size_t num_bytes, guint8 const *data);
 
-gboolean gsf_output_wrap   (GsfOutput *wrapper, GsfOutput *wrapee);
-gboolean gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee);
+gboolean gsf_output_wrap   (GObject *wrapper, GsfOutput *wrapee);
+gboolean gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee);
 
 GQuark gsf_output_error_id (void);
 

@@ -348,9 +348,8 @@ zip_init_write (GsfOutput *output)
 		return FALSE;
 	}
 
-	if (!gsf_output_wrap (zip->sink, output)) {
+	if (!gsf_output_wrap (G_OBJECT (output), zip->sink))
 		return FALSE;
-	}
 
 	dirent = zip_dirent_new_out (zip);
 	dirent->offset = gsf_output_tell (zip->sink);
@@ -483,7 +482,7 @@ zip_close_stream (GsfOutput *output)
 	}
 	zip->root->writing = FALSE;
 
-	return gsf_output_unwrap (zip->sink, output);
+	return gsf_output_unwrap (G_OBJECT (output), zip->sink);
 }
 
 static gboolean

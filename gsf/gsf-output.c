@@ -344,10 +344,9 @@ gsf_output_set_error (GsfOutput  *output,
 }
 
 static void
-cb_output_wrap_screwup (gpointer wrapee, GObject *wrapper)
+cb_output_unwrap (GsfOutput *wrapee, G_GNUC_UNUSED GObject *wrapper)
 {
-	g_warning ("%p died while still claiming ownership of %p",
-		   wrapper, wrapee);
+	wrapee->wrapped_by = NULL;
 }
 
 /**
@@ -358,7 +357,7 @@ cb_output_wrap_screwup (gpointer wrapee, GObject *wrapper)
  * Returns TRUE if the wrapping succeeded.
  **/
 gboolean
-gsf_output_wrap (GsfOutput *wrapper, GsfOutput *wrapee)
+gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
 {
 	g_return_val_if_fail (wrapper != NULL, FALSE);
 	g_return_val_if_fail (wrapee != NULL, FALSE);
@@ -368,8 +367,8 @@ gsf_output_wrap (GsfOutput *wrapper, GsfOutput *wrapee)
 		return FALSE;
 	}
 
-	/* worry about someone dying with out unwrapping */
-	g_object_weak_ref (G_OBJECT (wrapper), cb_output_wrap_screwup, wrapee);
+	g_object_weak_ref (G_OBJECT (wrapper),
+		(GWeakNotify) cb_output_unwrap, wrapee);
 	wrapee->wrapped_by = wrapper;
 	return TRUE;
 }
@@ -382,13 +381,14 @@ gsf_output_wrap (GsfOutput *wrapper, GsfOutput *wrapee)
  * Returns TRUE if the wrapping succeeded.
  **/
 gboolean
-gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee)
+gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)
 {
 	g_return_val_if_fail (wrapee != NULL, FALSE);
 	g_return_val_if_fail (wrapee->wrapped_by == wrapper, FALSE);
 
 	wrapee->wrapped_by = NULL;
-	g_object_weak_unref (G_OBJECT (wrapper), cb_output_wrap_screwup, wrapee);
+	g_object_weak_unref (G_OBJECT (wrapper),
+		(GWeakNotify) cb_output_unwrap, wrapee);
 	return TRUE;
 }
 

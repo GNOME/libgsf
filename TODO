@@ -1,4 +1,5 @@
 Near:
+    - Check the outputs for proper wrap use.  eg GsfOutputGzip does not
     - rework proposed meta data framework to support improved understanding of
       MS Office
     - Complete MS property set read and write

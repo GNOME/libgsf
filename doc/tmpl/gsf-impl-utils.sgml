@@ -24,6 +24,17 @@ gsf-impl-utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract: 
+@interface_decl: 
+<!-- # Unused Parameters # -->
+@interface_define: 
 @abstract: 
 
 
@@ -36,6 +47,8 @@ gsf-impl-utils
 @prefix: 
 @class_init: 
 @instance_init: 
+@parent: 
+<!-- # Unused Parameters # -->
 @parent_type: 
 
 
@@ -48,6 +61,8 @@ gsf-impl-utils
 @prefix: 
 @class_init: 
 @instance_init: 
+@parent: 
+<!-- # Unused Parameters # -->
 @parent_type: 
 
 

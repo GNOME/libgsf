@@ -458,7 +458,7 @@ recalc_bat_bat :
 		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
 		bb_pad_zero (ole->sink);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
-		return gsf_output_unwrap (ole->sink, output);
+		return gsf_output_unwrap (G_OBJECT (output), ole->sink);
 	}
 	return TRUE;
 }
@@ -481,7 +481,7 @@ gsf_outfile_msole_write (GsfOutput *output,
 				data, num_bytes);
 			return TRUE;
 		}
-		ok = gsf_output_wrap (ole->sink, output);
+		ok = gsf_output_wrap (G_OBJECT (output), ole->sink);
 		if (!ok)
 			return FALSE;
 

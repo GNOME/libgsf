@@ -27,10 +27,13 @@
 #include <stdio.h>
 #include <string.h>
 
+static void base64_init (void);
+
 void
 gsf_init (void)
 {
 	g_type_init ();
+	base64_init ();
 }
 
 void
@@ -330,4 +333,252 @@ gsf_filename_to_utf8 (const char *filename, gboolean quoted)
 	}						
 
 	return res;
+}
+
+/***************************************************************************/
+/* some code taken from evolution/camel/camel-mime-utils.c */
+
+/*
+ *  Copyright (C) 2000 Ximian Inc.
+ *
+ *  Authors: Michael Zucchi <notzed@ximian.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+/* dont touch this file without my permission - Michael */
+static unsigned char camel_mime_base64_rank[256];
+static char *base64_alphabet =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+#define d(x)
+
+static void
+base64_init(void)
+{
+	int i;
+
+	memset(camel_mime_base64_rank, 0xff, sizeof(camel_mime_base64_rank));
+	for (i=0;i<64;i++) {
+		camel_mime_base64_rank[(unsigned int)base64_alphabet[i]] = i;
+	}
+	camel_mime_base64_rank['='] = 0;
+}
+
+/* call this when finished encoding everything, to
+   flush off the last little bit */
+size_t
+base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
+{
+	int c1, c2;
+	unsigned char *outptr = out;
+
+	if (inlen>0)
+		outptr += base64_encode_step(in, inlen, break_lines, outptr, state, save);
+
+	c1 = ((unsigned char *)save)[1];
+	c2 = ((unsigned char *)save)[2];
+	
+	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
+		 (int)((char *)save)[0],
+		 (int)((char *)save)[1],
+		 (int)((char *)save)[2]));
+
+	switch (((char *)save)[0]) {
+	case 2:
+		outptr[2] = base64_alphabet[ ( (c2 &0x0f) << 2 ) ];
+		g_assert(outptr[2] != 0);
+		goto skip;
+	case 1:
+		outptr[2] = '=';
+	skip:
+		outptr[0] = base64_alphabet[ c1 >> 2 ];
+		outptr[1] = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 )];
+		outptr[3] = '=';
+		outptr += 4;
+		break;
+	}
+	if (break_lines)
+		*outptr++ = '\n';
+
+	*save = 0;
+	*state = 0;
+
+	return outptr-out;
+}
+
+/*
+  performs an 'encode step', only encodes blocks of 3 characters to the
+  output at a time, saves left-over state in state and save (initialise to
+  0 on first invocation).
+*/
+size_t
+base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save)
+{
+	register unsigned char *inptr, *outptr;
+
+	if (len<=0)
+		return 0;
+
+	inptr = in;
+	outptr = out;
+
+	d(printf("we have %d chars, and %d saved chars\n", len, ((char *)save)[0]));
+
+	if (len + ((char *)save)[0] > 2) {
+		unsigned char *inend = in+len-2;
+		register int c1, c2, c3;
+		register int already;
+
+		already = *state;
+
+		switch (((char *)save)[0]) {
+		case 1:	c1 = ((unsigned char *)save)[1]; goto skip1;
+		case 2:	c1 = ((unsigned char *)save)[1];
+			c2 = ((unsigned char *)save)[2]; goto skip2;
+		}
+		
+		/* yes, we jump into the loop, no i'm not going to change it, it's beautiful! */
+		while (inptr < inend) {
+			c1 = *inptr++;
+		skip1:
+			c2 = *inptr++;
+		skip2:
+			c3 = *inptr++;
+			*outptr++ = base64_alphabet[ c1 >> 2 ];
+			*outptr++ = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 ) ];
+			*outptr++ = base64_alphabet[ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
+			*outptr++ = base64_alphabet[ c3 & 0x3f ];
+			/* this is a bit ugly ... */
+			if (break_lines && (++already)>=19) {
+				*outptr++='\n';
+				already = 0;
+			}
+		}
+
+		((char *)save)[0] = 0;
+		len = 2-(inptr-inend);
+		*state = already;
+	}
+
+	d(printf("state = %d, len = %d\n",
+		 (int)((char *)save)[0],
+		 len));
+
+	if (len>0) {
+		register char *saveout;
+
+		/* points to the slot for the next char to save */
+		saveout = & (((char *)save)[1]) + ((char *)save)[0];
+
+		/* len can only be 0 1 or 2 */
+		switch(len) {
+		case 2:	*saveout++ = *inptr++;
+		case 1:	*saveout++ = *inptr++;
+		}
+		((char *)save)[0]+=len;
+	}
+
+	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
+		 (int)((char *)save)[0],
+		 (int)((char *)save)[1],
+		 (int)((char *)save)[2]));
+
+	return outptr-out;
+}
+
+
+/**
+ * base64_decode_step: decode a chunk of base64 encoded data
+ * @in: input stream
+ * @len: max length of data to decode
+ * @out: output stream
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been decoded
+ *
+ * Decodes a chunk of base64 encoded data
+ **/
+size_t
+base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save)
+{
+	register unsigned char *inptr, *outptr;
+	unsigned char *inend, c;
+	register unsigned int v;
+	int i;
+
+	inend = in+len;
+	outptr = out;
+
+	/* convert 4 base64 bytes to 3 normal bytes */
+	v=*save;
+	i=*state;
+	inptr = in;
+	while (inptr<inend) {
+		c = camel_mime_base64_rank[*inptr++];
+		if (c != 0xff) {
+			v = (v<<6) | c;
+			i++;
+			if (i==4) {
+				*outptr++ = v>>16;
+				*outptr++ = v>>8;
+				*outptr++ = v;
+				i=0;
+			}
+		}
+	}
+
+	*save = v;
+	*state = i;
+
+	/* quick scan back for '=' on the end somewhere */
+	/* fortunately we can drop 1 output char for each trailing = (upto 2) */
+	i=2;
+	while (inptr>in && i) {
+		inptr--;
+		if (camel_mime_base64_rank[*inptr] != 0xff) {
+			if (*inptr == '=' && outptr>out)
+				outptr--;
+			i--;
+		}
+	}
+
+	/* if i!= 0 then there is a truncation error! */
+	return outptr-out;
+}
+
+char *
+base64_encode_simple (const char *data, size_t len)
+{
+	unsigned char *out;
+	int state = 0, outlen;
+	unsigned int save = 0;
+	
+	out = g_malloc (len * 4 / 3 + 5);
+	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
+				      out, &state, &save);
+	out[outlen] = '\0';
+	return (char *)out;
+}
+
+size_t
+base64_decode_simple (char *data, size_t len)
+{
+	int state = 0;
+	unsigned int save = 0;
+
+	return base64_decode_step ((unsigned char *)data, len,
+				   (unsigned char *)data, &state, &save);
 }
