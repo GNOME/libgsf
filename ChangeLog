@@ -1,7 +1,7 @@
 2004-05-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_le_get_double, gsf_le_set_double): Attempt
-	ARM fix.
+	ARM fix.  Fix various #error messages.
 
 2004-05-15  Jody Goldberg <jody@gnome.org>
 
