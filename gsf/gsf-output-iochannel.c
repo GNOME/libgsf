@@ -114,9 +114,6 @@ gsf_output_iochannel_write (GsfOutput *output,
 	return (status == G_IO_STATUS_NORMAL && total_written == num_bytes);
 }
 
-#define GET_OUTPUT_CLASS(instance) \
-         G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
-
 static void
 gsf_output_iochannel_init (GObject *obj)
 {

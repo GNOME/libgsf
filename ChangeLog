@@ -1,3 +1,8 @@
+2004-07-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-output-iochannel.c (GET_OUTPUT_CLASS): Remove unused macro.
+	* gsf/gsf-structured-blob.c (GET_CLASS): Likewise.
+
 2004-06-15  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_input_dump) : flush the stream when we're just

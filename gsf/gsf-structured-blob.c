@@ -29,8 +29,6 @@
 #include <gsf/gsf-shared-memory.h>
 #include <string.h>
 
-#define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_STRUCTURED_BLOB_TYPE, GsfStructuredBlobClass)
-
 struct _GsfStructuredBlob {
 	GsfInfile base;
 
