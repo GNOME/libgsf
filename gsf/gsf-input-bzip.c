@@ -52,7 +52,6 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	GsfInputMemory  * mem       = NULL;
 	GsfOutputMemory * sink      = NULL;
 	guint8            out_buf [BZ_BUFSIZ];
-	gsf_off_t         avail_out = 0;
 	int               bzerr     = BZ_OK;
 
 	g_return_val_if_fail (source != NULL, NULL);

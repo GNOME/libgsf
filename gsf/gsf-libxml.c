@@ -457,7 +457,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 		tmp = g_hash_table_lookup (symbols, node->parent_id);
 		if (tmp != NULL) {
 			GSList *ptr;
-			GsfXMLInNodeGroup *group;
+			GsfXMLInNodeGroup *group = NULL;
 			GsfXMLInNS const *ns = NULL;
 			
 			ns = (real_node->ns_id < 0) ? NULL

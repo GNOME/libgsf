@@ -1,3 +1,10 @@
+2003-03-20  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-input-bzip.c (gsf_input_memory_new_from_bzip): Warning
+	killer.
+
+	* gsf/gsf-libxml.c (gsf_xml_in_doc_new): Kill warning.
+
 2003-03-09  Jody Goldberg <jody@gnome.org>
 
 	* Relicense from GPL -> LGPL
