@@ -172,12 +172,12 @@ dnl
 test_gnome=true
 AC_ARG_WITH(gnome,
 	[--{with,without}-gnome   Build additional wrappers for GNOME-VFS and BONOBO],
-	if test x$withval = xyes; then
+	if test "x$withval" = xyes; then
 		test_bonobo=true
 	fi
 )
 with_gnome=false
-if  $test_bonobo ; then 
+if  test "x$test_bonobo" = xtrue ; then 
     PKG_CHECK_MODULES(LIBGSF_GNOME,[
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 1.9.16
