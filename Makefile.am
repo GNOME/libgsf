@@ -13,4 +13,5 @@ EXTRA_DIST = 		\
     autogen.sh 		\
     libgsf-1.spec	\
     libgsf-1.spec.in	\
-    libgsf-1.pc.in
+    libgsf-1.pc.in	\
+    README TODO HACKING NEWS BUGS ChangeLog

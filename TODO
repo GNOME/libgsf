@@ -1,0 +1,15 @@
+Immediate:
+    - textline
+    - zip
+    - move OLE_GET macros to utils and renam LE
+
+Near:
+    - MS property set parsing
+
+Longer:
+    - OLE writing
+    - ZIP writing
+
+Future:
+    - move generalized meta data framework in here
+    - move biff utils here from gnumeric
