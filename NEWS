@@ -1,4 +1,4 @@
-libgsf 1.8.3
+libgsf 1.9.0
 
 Dom:
 	* Fix bzip output to flush if last deflate fills buffer
