@@ -36,8 +36,8 @@
 #include <string.h>
 #include <time.h>
 
-/* fc restore me #define NO_DEBUG_OLE_PROPS */
-#undef NO_DEBUG_OLE_PROPS
+#define NO_DEBUG_OLE_PROPS
+/* #undef NO_DEBUG_OLE_PROPS */
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
