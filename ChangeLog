@@ -1,3 +1,7 @@
+2002-08-16  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-metadata-bag.c (gsf_metadata_bag_new): Fix prototype.
+
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Test for orbit-python.

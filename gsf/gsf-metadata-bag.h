@@ -53,7 +53,7 @@ typedef GHFunc GMetaDataBagEnumFunc;
 
 #include <libgsf/gsf-meta-keys.h>
 
-GsfMetaDataBag * gsf_metadata_bag_new ();
+GsfMetaDataBag * gsf_metadata_bag_new (void);
 void             gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GValue * value);
 void             gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const gchar * prop);
 G_CONST_RETURN GValue *         gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const gchar * prop);

@@ -37,7 +37,7 @@ typedef struct {
  * Returns a new metadata property bag
  **/
 GsfMetaDataBag *
-gsf_metadata_bag_new ()
+gsf_metadata_bag_new (void)
 {
     GsfMetaDataBag *meta = g_object_new (GSF_METADATA_BAG_TYPE, NULL);
     return meta;
@@ -54,7 +54,7 @@ void
 gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GValue * value)
 {
     GValue * cpy;
-    
+
     g_return_if_fail (meta != NULL);
     g_return_if_fail (prop != NULL);
     g_return_if_fail (value != NULL);
@@ -62,7 +62,7 @@ gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GVal
     /* make a copy of our input value so that we own it internally */
     cpy = g_new0 (GValue, 1);
     g_value_copy (value, cpy);
-    
+
     if (gsf_metadata_bag_contains_prop (meta, prop))
         g_hash_table_replace (meta->table, prop, cpy);
     else
@@ -123,8 +123,8 @@ void
 gsf_metadata_bag_iterate (GsfMetaDataBag *meta, GsfMetaDataBagEnumFunc func, gpointer user_data)
 {
     g_return_if_fail (meta != NULL);
-    
-    g_hash_table_foreach (meta->table, func, user_data);    
+
+    g_hash_table_foreach (meta->table, func, user_data);
 }
 
 /**
@@ -161,7 +161,7 @@ gsf_metadata_bag_finalize (GObject *obj)
 
     /* will handle destroying values for us since we created out bag using g_hash_table_new_full */
     g_hash_table_destroy (meta->table);
-    
+
     parent_class = g_type_class_peek (G_OBJECT_TYPE);
     if (parent_class && parent_class->finalize)
         parent_class->finalize (obj);
