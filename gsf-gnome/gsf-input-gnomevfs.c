@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-file.c: 
+ * gsf-input-gnomevfs.c: 
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *

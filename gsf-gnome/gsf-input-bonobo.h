@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-bonobo.h: interface for use by the structured file layer to read raw data
+ * gsf-input-bonobo.h:  bonobo based input
  *
  * Copyright (C) 2002 Jon K Hellan (hellan@acm.org)
  *

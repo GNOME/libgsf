@@ -1,8 +1,8 @@
  /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-stdio.c: stdio based input
+ * gsf-input-bonobo.c: bonobo based input
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002 Jon K Hellan (hellan@acm.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

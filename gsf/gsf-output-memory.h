@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-memory.h: interface for used by the ole layer to read raw data
+ * gsf-output-memory.h
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *

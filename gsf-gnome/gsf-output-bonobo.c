@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-bonobo.c: interface for use by the structured file layer to write raw data
+ * gsf-output-bonobo.c: bonobo based output
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *

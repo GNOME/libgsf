@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output.c: interface for used by the ole layer to read raw data
+ * gsf-output.c: interface for storing data
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *

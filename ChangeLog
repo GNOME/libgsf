@@ -1,5 +1,18 @@
 2002-08-26  Jon K Hellan  <hellan@acm.org>
 
+	* gsf-gnome/gsf-input-bonobo.[ch],
+	gsf-gnome/gsf-output-bonobo.[ch],
+	gsf-gnome/gsf-input-gnomevfs.[ch],
+	gsf-gnome/gsf-output-gnomevfs.c, gsf/gsf-infile-msvba.c,
+	gsf/gsf-input-gzip.h, gsf/gsf-input-impl.h,
+	gsf/gsf-input-memory.h, gsf/gsf-msole-impl.h,
+	gsf/gsf-output-impl.h, gsf/gsf-output-memory.h,
+	gsf/gsf-output-stdio.h, gsf/gsf-output.c, gsf/gsf-shared-memory.h,
+	gsf/gsf-zip-impl.h, gsf/gsf.h: Fix file headers - file name was
+	wrong.
+
+2002-08-26  Jon K Hellan  <hellan@acm.org>
+
 	* gsf/gsf-infile-zip.c (struct ZipVDir): Define struct to
 	represent a directory entry in a tree of contained files.
 	(struct ZipInfo): Add vdir. Move dirent_list here from

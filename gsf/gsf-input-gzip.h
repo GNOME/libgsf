@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-text-line.h: a utility wrapper to pull in text, line by line.
+ * gsf-input-gzip.h: wrapper to uncompress gzipped input
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-file.h: interface for used by the ole layer to read raw data
+ * gsf-input-gnomevfs.h
  *
  * Copyright (C) 2002 Dom Lachowicz (cinamod@hotmail.com)
  *

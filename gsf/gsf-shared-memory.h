@@ -1,5 +1,5 @@
 /*
- * gsf-shared-file.h: interface for used by the ole layer to read raw data
+ * gsf-shared-memory.h
  *
  * Copyright (C) 2002 Morten Welinder (terra@diku.dk)
  *
