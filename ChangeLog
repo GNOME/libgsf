@@ -1,3 +1,12 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/Makefile.am : Add gsf-input-textline.[ch]
+	  Add gsf-libxml.[ch]
+
+2002-05-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-stdio.h : fix the name mismatch.
+
 2002-05-28  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-input.c (gsf_input_seek) : doh!

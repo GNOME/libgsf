@@ -150,6 +150,7 @@ gsf_input_eof (GsfInput *input)
  * gsf_input_get_data :
  * @input :
  * @num_bytes :
+ * @optional_buffer : If supplied copy the data into it
  *
  * Read at at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
@@ -159,7 +160,7 @@ gsf_input_eof (GsfInput *input)
  * 	requested.
  **/
 guint8 const *
-gsf_input_read (GsfInput *input, unsigned num_bytes)
+gsf_input_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
 {
 	guint8 const *res;
 
@@ -167,7 +168,7 @@ gsf_input_read (GsfInput *input, unsigned num_bytes)
 
 	if (num_bytes == 0 || (input->cur_offset + num_bytes) > input->size)
 		return NULL;
-	res = GET_CLASS (input)->read (input, num_bytes);
+	res = GET_CLASS (input)->read (input, num_bytes, optional_buffer);
 	if (res == NULL)
 		return NULL;
 

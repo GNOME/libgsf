@@ -55,7 +55,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	GsfInputStdio *input;
 	struct stat st;
 	FILE *file;
-	
+
 	file = fopen (filename, "r");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
 		if (err != NULL)
@@ -76,6 +76,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), (unsigned)st.st_size);
+	gsf_input_set_name (GSF_INPUT (input), filename);
 
 	return GSF_INPUT (input);
 }
@@ -121,7 +122,8 @@ gsf_input_stdio_eof (GsfInput *input)
 }
 
 static guint8 const *
-gsf_input_stdio_read (GsfInput *input, unsigned num_bytes)
+gsf_input_stdio_read (GsfInput *input, unsigned num_bytes,
+		      guint8 *buffer)
 {
 	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
 	size_t res;
@@ -129,18 +131,21 @@ gsf_input_stdio_read (GsfInput *input, unsigned num_bytes)
 	g_return_val_if_fail (stdio != NULL, NULL);
 	g_return_val_if_fail (stdio->file != NULL, NULL);
 
-	if (stdio->buf_size < num_bytes) {
-		stdio->buf_size = num_bytes;
-		if (stdio->buf != NULL)
-			g_free (stdio->buf);
-		stdio->buf = g_malloc (stdio->buf_size);
+	if (buffer == NULL) {
+		if (stdio->buf_size < num_bytes) {
+			stdio->buf_size = num_bytes;
+			if (stdio->buf != NULL)
+				g_free (stdio->buf);
+			stdio->buf = g_malloc (stdio->buf_size);
+		}
+		buffer = stdio->buf;
 	}
 
-	res = fread (stdio->buf, 1, num_bytes, stdio->file);
+	res = fread (buffer, 1, num_bytes, stdio->file);
 	if (res < num_bytes)
 		return NULL;
 
-	return stdio->buf;
+	return buffer;
 }
 
 static gboolean

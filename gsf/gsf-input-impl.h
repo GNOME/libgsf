@@ -41,7 +41,8 @@ typedef struct {
 
 	GsfInput     *(*dup)  (GsfInput *input);
 	gboolean      (*eof)  (GsfInput *input);
-	guint8 const *(*read) (GsfInput *input, unsigned num_bytes);
+	guint8 const *(*read) (GsfInput *input, unsigned num_bytes,
+			       guint8 *optional_buffer);
 	gboolean      (*seek) (GsfInput *input, int offset, GsfOff_t whence);
 } GsfInputClass;
 

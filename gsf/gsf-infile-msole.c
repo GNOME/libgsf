@@ -128,13 +128,15 @@ static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 /**
  * ole_get_block :
- * @ole : the infile
+ * @ole    : the infile
+ * @block  :
+ * @buffer : optionally NULL
  *
  * Read a block of data from the underlying input.
  * Be really anal.
  **/
 static guint8 const *
-ole_get_block (GsfInfileMSOle const *ole, guint32 block)
+ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 {
 	g_return_val_if_fail (block < ole->info->max_block, NULL);
 
@@ -143,7 +145,7 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block)
 		GSF_SEEK_SET) < 0)
 		return NULL;
 
-	return gsf_input_read (ole->input, ole->info->bb.size);
+	return gsf_input_read (ole->input, ole->info->bb.size, buffer);
 }
 
 /**
@@ -208,7 +210,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 	guint8 const *bat, *end;
 
 	for (; metabat < metabat_end; metabat++) {
-		bat = ole_get_block (ole, *metabat);
+		bat = ole_get_block (ole, *metabat, NULL);
 		if (bat == NULL)
 			return NULL;
 		end = bat + ole->info->bb.size;
@@ -294,7 +296,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 
 	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
-	data = ole_get_block (ole, ole->bat.block [block]);
+	data = ole_get_block (ole, ole->bat.block [block], NULL);
 	if (data == NULL)
 		return NULL;
 	data += (DIRENT_SIZE * entry) % ole->info->bb.size;
@@ -454,7 +456,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 	/* check the header */
 	if (gsf_input_seek (ole->input, 0, GSF_SEEK_SET) ||
-	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE)) ||
+	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
@@ -519,7 +521,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 	last = (info->bb.size - BAT_INDEX_SIZE) / BAT_INDEX_SIZE;
 	while (ptr != NULL && num_metabat-- > 0) {
-		tmp = ole_get_block (ole, metabat_block);
+		tmp = ole_get_block (ole, metabat_block, NULL);
 		if (tmp == NULL) {
 			ptr = NULL;
 			break;
@@ -609,7 +611,7 @@ gsf_infile_msole_eof (GsfInput *input)
 }
 
 static guint8 const *
-gsf_infile_msole_read (GsfInput *input, unsigned num_bytes)
+gsf_infile_msole_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
 	guint32 first_block, last_block, raw_block, offset, i;
@@ -640,31 +642,36 @@ gsf_infile_msole_read (GsfInput *input, unsigned num_bytes)
 				return NULL;
 		}
 		ole->cur_block = last_block;
-		return gsf_input_read (ole->input, num_bytes);
+		return gsf_input_read (ole->input, num_bytes, buffer);
 	}
 
 	/* damn, we need to copy it block by block */
-	if (ole->stream.buf_size < num_bytes) {
-		if (ole->stream.buf != NULL)
-			g_free (ole->stream.buf);
-		ole->stream.buf_size = num_bytes;
-		ole->stream.buf = g_malloc (num_bytes);
+	if (buffer == NULL) {
+		if (ole->stream.buf_size < num_bytes) {
+			if (ole->stream.buf != NULL)
+				g_free (ole->stream.buf);
+			ole->stream.buf_size = num_bytes;
+			ole->stream.buf = g_malloc (num_bytes);
+		}
+		buffer = ole->stream.buf;
 	}
 
-	ptr = ole->stream.buf;
+	ptr = buffer;
 	for (i = first_block ; i <= last_block ; i++ , ptr += count, num_bytes -= count) {
 		count = ole->info->bb.size - offset;
 		if (count > num_bytes)
 			count = num_bytes;
-		data = ole_get_block (ole, ole->bat.block [i]);
+		data = ole_get_block (ole, ole->bat.block [i], NULL);
 		if (data == NULL)
 			return NULL;
+
+		/* TODO : this could be optimized to avoid the copy */
 		memcpy (ptr, data + offset, count);
 		offset = 0;
 	}
 	ole->cur_block = BAT_MAGIC_UNUSED;
 
-	return ole->stream.buf;
+	return buffer;
 }
 
 static gboolean
@@ -721,17 +728,16 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 		child->stream.buf_size = info->threshold;
 		child->stream.buf = g_malloc (info->threshold);
 
-		for (i = 0 ; i < child->bat.num_blocks; i++) {
+		for (i = 0 ; i < child->bat.num_blocks; i++)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-					    (int)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
-			    NULL == (data = gsf_input_read (GSF_INPUT (sb_file),
-							    info->sb.size))) {
+				(int)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
+			    (data = gsf_input_read (GSF_INPUT (sb_file),
+				info->sb.size, 
+				child->stream.buf + (i << info->sb.shift))) == NULL) {
+
 				g_object_unref (G_OBJECT (child));
 				return NULL;
 			}
-			memcpy (child->stream.buf + (i << info->sb.shift),
-				data,  info->sb.size);
-		}
 	}
 
 	return GSF_INPUT (child);

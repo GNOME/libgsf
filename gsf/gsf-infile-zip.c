@@ -141,7 +141,7 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 
 	/* Check the header */
 	if (gsf_input_seek (zip->input, 0, GSF_SEEK_SET) ||
-	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE)) ||
+	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, header_signature, sizeof (header_signature))) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
@@ -205,7 +205,7 @@ gsf_infile_zip_eof (GsfInput *input)
 }
 
 static guint8 const *
-gsf_infile_zip_read (GsfInput *input, unsigned num_bytes)
+gsf_infile_zip_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 

@@ -138,7 +138,7 @@ test (int argc, char *argv[])
 			guint8 const *data;
 			unsigned pos = gsf_input_tell (stream);
 
-			while (NULL != (data = gsf_input_read (stream, 4))) {
+			while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
 				gboolean enable_dump = FALSE;
 
 				opcode	= GSF_OLE_GET_GUINT16 (data);
@@ -160,7 +160,7 @@ test (int argc, char *argv[])
 						len, len, pos, pos);
 
 				if (len > 0) {
-					data = gsf_input_read (stream, len);
+					data = gsf_input_read (stream, len, NULL);
 					if (data == NULL)
 						break;
 					if (enable_dump)
