@@ -4,14 +4,11 @@ headers
 #include <Python.h>
 
 #include "pygobject.h"
-#include <orbit-python.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-input-gzip.h>
-#include <gsf/gsf-input-bonobo.h>
-#include <gsf/gsf-input-gnomevfs.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-infile-msvba.h>
@@ -20,8 +17,6 @@ headers
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-msole.h>
-#include <gsf/gsf-output-bonobo.h>
-#include <gsf/gsf-output-gnomevfs.h>
 #include <gsf/gsf-output-stdio.h>
 
 #define GSF_TYPE_INPUT GSF_INPUT_TYPE
@@ -29,8 +24,6 @@ headers
 #define GSF_TYPE_INPUT_MEMORY GSF_INPUT_MEMORY_TYPE
 #define GSF_TYPE_INPUT_TEXTLINE GSF_INPUT_TEXTLINE_TYPE
 #define GSF_TYPE_INPUT_GZIP GSF_INPUT_GZIP_TYPE
-#define GSF_TYPE_INPUT_BONOBO GSF_INPUT_BONOBO_TYPE
-#define GSF_TYPE_INPUT_GNOME_VFS GSF_INPUT_GNOMEVFS_TYPE
 #define GSF_TYPE_INFILE GSF_INFILE_TYPE
 #define GSF_TYPE_INFILE_ZIP GSF_INFILE_ZIP_TYPE
 #define GSF_TYPE_INFILE_MSVBA GSF_INFILE_MSVBA_TYPE
@@ -40,8 +33,6 @@ headers
 #define GSF_TYPE_OUTPUT GSF_OUTPUT_TYPE
 #define GSF_TYPE_OUTFILE GSF_OUTFILE_TYPE
 #define GSF_TYPE_OUTFILE_MS_OLE GSF_OUTFILE_MSOLE_TYPE
-#define GSF_TYPE_OUTPUT_BONOBO GSF_OUTPUT_BONOBO_TYPE
-#define GSF_TYPE_OUTPUT_GNOME_VFS GSF_OUTPUT_GNOMEVFS_TYPE
 #define GSF_TYPE_OUTPUT_MEMORY GSF_OUTPUT_MEMORY_TYPE
 #define GSF_TYPE_OUTPUT_STDIO GSF_OUTPUT_STDIO_TYPE
 %%
@@ -174,34 +165,6 @@ _wrap_gsf_input_textline_ascii_gets(PyGObject *self)
     return Py_None;
 }
 %%
-override gsf_input_bonobo_new kwargs
-static int
-_wrap_gsf_input_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { (char *) "stream", NULL };
-    PyObject *stream;
-    GError *err = NULL;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
-				     (char *) "O:GsfInputBonobo.__init__",
-				     kwlist, &stream))
-        return -1;
-    if (!PyORBit_Object_Check(stream)) {
-        PyErr_SetString(PyExc_TypeError, "stream must be a CORBA.Object");
-        return -1;
-    }
-    self->obj = (GObject *)gsf_input_bonobo_new((CORBA_Object)PyORBit_Object_Get(stream), &err);
-    if (pyg_error_check(&err))
-        return -1;
-
-    if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create GsfInputBonobo object");
-        return -1;
-    }
-    pygobject_register_wrapper((PyObject *)self);
-    return 0;
-}
-%%
 override gsf_output_size noargs
 static PyObject *
 _wrap_gsf_output_size(PyGObject *self)
@@ -262,30 +225,4 @@ _wrap_gsf_output_write(PyGObject *self, PyObject *args, PyObject *kwargs)
         return NULL;
     ret = gsf_output_write(GSF_OUTPUT(self->obj), num_bytes, data);
     return PyInt_FromLong((long) ret);
-}
-%%
-override gsf_output_bonobo_new kwargs
-static int
-_wrap_gsf_output_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "stream", NULL };
-    PyObject *stream;
-    GError *err = NULL;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:GsfOutputBonobo.__init__", kwlist, &stream))
-        return -1;
-    if (!PyORBit_Object_Check(stream)) {
-        PyErr_SetString(PyExc_TypeError, "stream must be a CORBA.Object");
-        return -1;
-    }
-    self->obj = (GObject *)gsf_output_bonobo_new((CORBA_Object)PyORBit_Object_Get(stream), &err);
-    if (pyg_error_check(&err))
-        return -1;
-
-    if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError, "could not create GsfOutputBonobo object");
-        return -1;
-    }
-    pygobject_register_wrapper((PyObject *)self);
-    return 0;
 }

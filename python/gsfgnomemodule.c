@@ -19,27 +19,27 @@
  */
 
 /* 
- * Python bindings for libgsf.
+ * Python bindings for gnome extensions to libgsf.
  */
 
 #include <pygobject.h>
 
-extern PyMethodDef pygsf_functions[];
-extern DL_EXPORT(void) init_gsf (void);
+extern PyMethodDef pygsfgnome_functions[];
+extern DL_EXPORT(void) initgnome (void);
 
 DL_EXPORT(void)
-init_gsf (void)
+initgnome (void)
 {
 	PyObject *m, *d;
 
 	init_pygobject ();
 
-	m = Py_InitModule ((char *) "_gsf", pygsf_functions);
+	m = Py_InitModule ((char *) "gsf.gnome", pygsfgnome_functions);
 	d = PyModule_GetDict (m);
 
-	pygsf_register_classes (d);
+	pygsfgnome_register_classes (d);
 	
 	if (PyErr_Occurred ()) {
-		Py_FatalError ((char *) "can't initialise module gsf");
+		Py_FatalError ((char *) "can't initialise module gsf.gnome");
 	}
 }

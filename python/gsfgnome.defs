@@ -1,0 +1,57 @@
+;; -*- scheme -*-
+;; gsf-input-bonobo.[ch]
+
+(define-object InputBonobo
+  (in-module "Gsf")
+  (parent "GsfInput")
+  (c-name "GsfInputBonobo")
+  (gtype-id "GSF_TYPE_INPUT_BONOBO")
+)
+
+(define-function gsf_input_bonobo_new
+  (c-name "gsf_input_bonobo_new")
+  (is-constructor-of "GsfInputBonobo")
+  (return-type "GsfInput*")
+  (parameters
+    '("Bonobo_Stream-const" "stream")
+    '("GError**" "err")
+  )
+)
+
+;; gsf-input-gnomevfs.[ch]
+
+(define-object InputVFS
+  (in-module "Gsf")
+  (parent "GsfInput")
+  (c-name "GsfInputGnomeVFS")
+  (gtype-id "GSF_TYPE_INPUT_GNOME_VFS")
+)
+
+(define-function gsf_input_gnomevfs_new
+  (c-name "gsf_input_gnomevfs_new")
+  (is-constructor-of "GsfInputGnomevfs")
+  (return-type "GsfInput*")
+  (parameters
+    '("char-const*" "uri")
+    '("GError**" "error")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output-gnomevfs.[ch]
+
+(define-object OutputVFS
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputGnomeVFS")
+  (gtype-id "GSF_TYPE_OUTPUT_GNOME_VFS")
+)
+
+(define-function gsf_output_gnomevfs_new
+  (c-name "gsf_output_gnomevfs_new")
+  (is-constructor-of "GsfOutputGnomevfs")
+  (return-type "GsfOutput*")
+  (parameters
+    '("char-const*" "filename")
+    '("GError**" "err")
+  )
+)

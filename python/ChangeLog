@@ -1,3 +1,20 @@
+2002-08-18  Jon K Hellan  <hellan@acm.org>
+
+	* gfs.defs: Split out bonobo and gnome-vfs dependency into
+	gsf.gnome module.
+
+	* gsfmodule.c: Ditto.
+
+	* gfs.override: Ditto.
+
+	* __init__.py: Added to split into gsf and gsf.gnome modules.
+	
+	* gfsgnome.defs: Ditto.
+
+	* gsfgnomemodule.c: Ditto.
+
+	* gfsgnome.override: Ditto.
+
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
 	* gsf.defs (GsfInput.size, GsfInput.remaining, GsfInput.tell,
