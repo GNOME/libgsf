@@ -81,7 +81,7 @@ test (char *argv[])
 {
 	GsfInput   *input;
 	GsfInfile  *infile;
-	GsfOutput  *output;
+	GsfOutfile *outfile;
 	GError    *err;
 
 	fprintf (stderr, "%s\n", argv [1]);
@@ -106,8 +106,8 @@ test (char *argv[])
 		return 1;
 	}
 
-	output = gsf_outfile_stdio_new (argv[2], &err);
-	if (output == NULL) {
+	outfile = gsf_outfile_stdio_new (argv[2], &err);
+	if (outfile == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
 
@@ -115,7 +115,7 @@ test (char *argv[])
 		g_error_free (err);
 		return 1;
 	}
-	clone (GSF_INPUT (infile), output);
+	clone (GSF_INPUT (infile), GSF_OUTPUT (outfile));
 
 	return 0;
 }

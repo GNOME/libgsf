@@ -79,8 +79,9 @@ clone (GsfInput *input, GsfOutput *output)
 static int
 test (char *argv[])
 {
-	GsfInput   *infile;
-	GsfOutput  *output, *outfile;
+	GsfInfile  *infile;
+	GsfOutfile *outfile;
+	GsfOutput  *output;
 	GError    *err;
 
 	fprintf (stderr, "%s\n", argv [1]);
@@ -107,7 +108,7 @@ test (char *argv[])
 
 	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	clone (infile, outfile);
+	clone (GSF_INPUT (infile), GSF_OUTPUT (outfile));
 
 	return 0;
 }
