@@ -262,7 +262,7 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 #warning Building without BZ2 support
 #endif
 	if (err)
-		*err = g_error_new (gsf_input_error (), 0,
+		*err = g_error_new (gsf_output_error_id (), 0,
 				    "BZ2 support not enabled");
 	return NULL;
 #endif
