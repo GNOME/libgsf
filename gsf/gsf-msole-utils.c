@@ -3,6 +3,7 @@
  * gsf-msole-metadata.c: 
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,6 +26,10 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 #include <stdio.h>
+
+#include <locale.h>
+#include <stdlib.h>
+#include <string.h>
 
 static guint8 const component_guid [] = {
 	0xe0, 0x85, 0x9f, 0xf2, 0xf9, 0x4f, 0x68, 0x10,
@@ -248,7 +253,8 @@ gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 {
 	guint8 buf[8];
 	guint8 const *guid;
-	static guint8 const header[] = {
+	gboolean has_user_defined = FALSE;
+	guint8 header[] = {
 		0xfe, 0xff,	/* byte order */
 		0, 0,		/* no one seems to use version 1 */
 		0x04, 0x0a, 0x02, 0x00,	/* win32 version (xp = a04, nt/2k = 04 ?) */
@@ -256,6 +262,9 @@ gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 		1, 0, 0, 0,				/* 1 section FIXME */
 	};
 
+	/* TODO : add a test to set this */
+	if (has_user_defined)
+		GSF_LE_SET_GUINT32 (header + sizeof (header) - 4, 2);
 	gsf_output_write (out, sizeof (header), header);
 	guid = doc_not_component ? document_guid : component_guid;
 	gsf_output_write (out, 16, guid);
@@ -268,4 +277,134 @@ gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 	gsf_output_write (out, 8, buf);
 
 	return TRUE;
+}
+
+typedef struct
+{
+	char const * const * keys;/*NULL-terminated list*/
+	int value;
+} s_hash_entry;
+
+/* here is a list of languages for which cp1251 is used on Windows*/
+static char const * const cyr_locales[] =
+{
+	"be", "be_BY", "bulgarian", "bg", "bg_BG", "mk", "mk_MK",
+	"russian", "ru", "ru_RU", "ru_UA", "sp", "sp_YU", "sr", "sr_YU",
+	"ukrainian", "uk", "uk_UA", NULL
+};
+
+
+/* here is a list of languages for which cp for cjk is used on Windows*/
+static char const * const jp_locales[] =
+{
+	"japan", "japanese", "ja", "ja_JP", NULL
+};
+
+static char const * const zhs_locales[] =
+{
+	"chinese-s", "zh", "zh_CN", NULL
+};
+
+static char const * const kr_locales[] =
+{
+	"korean", "ko", "ko_KR", NULL
+};
+
+static char const * const zht_locales[] =
+{
+	"chinese-t", "zh_HK", "zh_TW", NULL
+ };
+ 
+static s_hash_entry const win_codepages[]=
+{
+	{ cyr_locales , 1251 },
+	{ jp_locales  , 932 },
+	{ zhs_locales , 936 },
+	{ kr_locales  , 949 },
+	{ zht_locales , 950 },
+	{ NULL, 0 } /*terminator*/
+};
+
+/**
+ * gsf_msole_iconv_win_codepage :
+ *
+ * Our best guess at the applicable windows code page based on an environment
+ * variable or the current locale.
+ **/
+guint
+gsf_msole_iconv_win_codepage (void)
+{
+	char *lang;
+
+	if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
+		char const *locale = setlocale (LC_CTYPE, NULL);
+		if (locale != NULL) {
+			char const *lang_sep = strchr (locale, '.');
+			if (lang_sep)
+				lang = g_strndup (locale, (unsigned)(lang_sep - locale));
+			else
+				lang = g_strdup (locale); /* simplifies exit */
+		}
+	}
+
+	if (lang != NULL) {
+		s_hash_entry const *entry;
+		char const * const *key;
+
+		for (entry = win_codepages; entry->keys; ++entry) {
+			for (key = entry->keys; *key; ++key)
+				if (!g_strcasecmp (*key, lang)) {
+					g_free (lang);
+					return entry->value;
+				}
+		}
+		g_free (lang);
+	}
+	return 1252; /* default ansi */
+}
+
+/**
+ * gsf_msole_iconv_open_for_import :
+ * @codepage :
+ *
+ * Open an iconv converter for single byte encodings @codepage -> utf8.
+ * Attempt to handle the semantics of a specification for multibyte encodings
+ * since this is only supposed to be used for single bytes.
+ **/
+GIConv
+gsf_msole_iconv_open_for_import (guint codepage)
+{
+	GIConv iconv_handle;
+
+	if (codepage != 1200 && codepage != 1201) {
+		char* src_charset = g_strdup_printf ("CP%d", codepage);
+		iconv_handle = g_iconv_open ("UTF-8", src_charset);
+		g_free (src_charset);
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
+		g_warning ("Unknown codepage %d", codepage);
+		return (GIConv)(-1);
+	}
+
+	/* this is 'compressed' unicode.  unicode characters 0000->00FF
+	 * which looks the same as 8859-1.  Little endian vs bigendian has to
+	 * do with this.  There is only 1 byte, and it would certainly not be
+	 * useful to keep the low byte as 0.
+	 */
+	return g_iconv_open ("UTF-8", "ISO-8859-1");
+}
+
+/**
+ * gsf_msole_iconv_open_for_export :
+ *
+ * Open an iconv convert to go from utf8 -> to our best guess at a useful
+ * windows codepage.
+ **/
+GIConv
+gsf_msole_iconv_open_for_export (void)
+{
+	char *dest_charset = g_strdup_printf ("CP%d", gsf_msole_iconv_win_codepage());
+	GIConv iconv_handle = g_iconv_open (dest_charset, "UTF-8");
+	g_free (dest_charset);
+	return iconv_handle;
 }

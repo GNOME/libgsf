@@ -25,6 +25,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 
 void
 gsf_init (void)
@@ -148,4 +149,40 @@ gsf_le_set_double (void *p, double d)
 #else
 #error "Byte order not recognised -- out of luck"
 #endif
+}
+
+/**
+ * gsf_extension_pointer:
+ * @path: A filename or file path.
+ *
+ * Extracts the extension from the end of a filename (the part after the final
+ * '.' in the filename).
+ *
+ * Returns: A pointer to the extension part of the filename, or a
+ * pointer to the end of the string if the filename does not
+ * have an extension.
+ */
+char const *
+gsf_extension_pointer (char const * path)
+{
+	char *s, *t;
+	
+	g_return_val_if_fail (path != NULL, NULL);
+
+	t = strrchr (path, G_DIR_SEPARATOR);
+	s = strrchr ((t != NULL) ? t : path, '.');
+	if (s != NULL)
+		return s + 1;
+	return path + strlen(path);
+}
+
+/**
+ * gsf_iconv_close : A utility wrapper to safely close an iconv handle
+ * @handle :
+ **/
+void
+gsf_iconv_close (GIConv handle)
+{
+	if (handle != NULL && handle != ((GIConv)-1))
+		g_iconv_close (handle);
 }

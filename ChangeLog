@@ -1,3 +1,12 @@
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-metadata.c (gsf_msole_iconv_open_for_export) : moved
+	  from gnumeric.
+	(gsf_msole_iconv_open_for_import) : ditto.
+	(gsf_msole_iconv_win_codepage) : ditto.
+	* gsf/gsf-utils.c (gsf_iconv_close) : ditto.
+	(gsf_extension_pointer) : moved from gnumeric, originally from libgnome.
+
 2002-08-26  Jon K Hellan  <hellan@acm.org>
 
 	* gsf-gnome/gsf-input-bonobo.[ch],

@@ -1,5 +1,11 @@
 libgsf 1.4.0
 
+Jody:
+	* Move some iconv utility routines here from gnumeric.
+
+Jon Kåre:
+	* sync the directory semantics of infile-zip with infile-msole.
+
 ------------------------------------------------------------------------------
 libgsf 1.3.0
 

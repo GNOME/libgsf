@@ -70,6 +70,9 @@ extern int libgsf_major_version;
 extern int libgsf_minor_version;
 extern int libgsf_micro_version;
 
+char const *gsf_extension_pointer (char const * path);
+void	    gsf_iconv_close (GIConv handle);
+
 G_END_DECLS
 
 #endif /* GSF_UTILS_H */

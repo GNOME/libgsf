@@ -30,6 +30,10 @@ gboolean gsf_msole_metadata_read  (GsfInput *in,   GError **err);
 gboolean gsf_msole_metadata_write (GsfOutput *out, gboolean doc_not_component,
 				   GError **err);
 
+guint	gsf_msole_iconv_win_codepage    (void);
+GIConv	gsf_msole_iconv_open_for_import (guint codepage);
+GIConv	gsf_msole_iconv_open_for_export (void);
+
 G_END_DECLS
 
 #endif /* GSF_MSOLE_METADATA_H */
