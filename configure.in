@@ -273,8 +273,8 @@ AC_ARG_WITH(gnome,
 )
 with_gnome=false
 if  test "x$test_gnome" = xtrue ; then 
-    PKG_CHECK_MODULES(LIBGSF_GNOME,[
-    LIBGSF_MODULES
+    PKG_CHECK_MODULES(LIBGSF_GNOME,
+    LIBGSF_MODULES [
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 2.2.0
     gnome-vfs-module-2.0 >= 2.2.0

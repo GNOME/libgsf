@@ -1,3 +1,8 @@
+2005-04-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Fixed the GNOME support check: "LIBGSF_MODULES" needed
+	to be expanded in the PKG_CHECK_MODULES.
+
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-iconv.c: New file.
