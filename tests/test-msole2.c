@@ -44,13 +44,14 @@ ls_R (GsfInput *input)
 		(name != NULL) ? name : "",
 		gsf_input_size (GSF_INPUT (input)));
 
-	if (!is_dir)
-		return;
+	if (is_dir) {
+		puts ("{");
+		for (i = 0 ; i < gsf_infile_num_children (GSF_INFILE (input)) ; i++)
+			ls_R (gsf_infile_child_by_index (GSF_INFILE (input), i));
+		puts ("}");
+	}
 
-	puts ("{");
-	for (i = 0 ; i < gsf_infile_num_children (GSF_INFILE (input)) ; i++)
-		ls_R (gsf_infile_child_by_index (GSF_INFILE (input), i));
-	puts ("}");
+	g_object_unref (G_OBJECT (input));
 }
 
 static int
@@ -61,33 +62,61 @@ test (int argc, char *argv[])
 	GError    *err;
 	int i;
 
-	for (i = 1 ; i < argc ; i++) {
-		puts (argv[i]);
-		input = gsf_input_stdio_new (argv[i], &err);
-		if (input == NULL) {
+	puts (argv [1]);
+	input = gsf_input_stdio_new (argv[1], &err);
+	if (input == NULL) {
 
-			g_return_val_if_fail (err != NULL, 1);
+		g_return_val_if_fail (err != NULL, 1);
 
-			g_warning ("'%s' error: %s\n", argv[i], err->message);
-			g_error_free (err);
-			g_object_unref (G_OBJECT (input));
-			continue;
-		}
-
-		infile = gsf_infile_msole_new (input, &err);
-		if (infile == NULL) {
-
-			g_return_val_if_fail (err != NULL, 1);
-
-			g_warning ("'%s' Not an OLE file: %s\n", argv[i], err->message);
-			g_error_free (err);
-			continue;
-		}
-
-		ls_R (GSF_INPUT (infile));
-		g_object_unref (G_OBJECT (infile));
+		g_warning ("'%s' error: %s\n", argv[1], err->message);
+		g_error_free (err);
 		g_object_unref (G_OBJECT (input));
+		return 1;
 	}
+
+	infile = gsf_infile_msole_new (input, &err);
+	if (infile == NULL) {
+
+		g_return_val_if_fail (err != NULL, 1);
+
+		g_warning ("'%s' Not an OLE file: %s\n", argv[i], err->message);
+		g_error_free (err);
+		return 1;
+	}
+
+	if (argc > 2) {
+		GsfInput *child, *ptr = GSF_INPUT (infile);
+		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
+			fprintf (stderr, "--> '%s'\n", argv [i]);
+			if (IS_GSF_INFILE (ptr) &&
+			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0) {
+				child = gsf_infile_child_by_name (GSF_INFILE (ptr), argv [i]);
+
+				if (child == NULL) {
+					g_warning ("No child named '%s'", argv [i]);
+					child = NULL;
+					break;
+				}
+			} else {
+				g_warning ("stream is not a directory '%s'", argv [i]);
+				child = NULL;
+				break;
+			}
+			g_object_unref (G_OBJECT (ptr));
+		}
+		if (ptr != NULL) {
+			if (IS_GSF_INFILE (ptr) &&
+			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0)
+				ls_R (ptr); /* unrefs infile */
+			else {
+				gsf_input_dump (GSF_INPUT (ptr));
+				g_object_unref (G_OBJECT (ptr));
+			}
+		}
+	} else
+		ls_R (GSF_INPUT (infile)); /* unrefs infile */
+
+	g_object_unref (G_OBJECT (input));
 
 	return 0;
 }
@@ -96,6 +125,11 @@ int
 main (int argc, char *argv[])
 {
 	int res;
+
+	if (argc < 2) {
+		fprintf (stderr, "%s : file stream stream ...\n", argv [0]);
+		return 1;
+	}
 
 	gsf_init ();
 	res = test (argc, argv);

@@ -7,10 +7,10 @@ file COPYING.
    The project aims to provide an efficient extensible i/o abstraction for
 dealing with different structured file formats.
 
-To report Gnumeric bugs, please visit bugzilla.gnome.org.
+To report libgsf bugs, please visit bugzilla.gnome.org.
     This library is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
+    it under the terms of version 2 of the GNU General Public License as
+    published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,8 +42,8 @@ You need:
 Mailing lists
 -------------
 
-   There is NO mailing list used to discuss libgsf specificly.  For now please
-use the gnumeric list. To subscribe send a mail to:
+   There is NO mailing list used to discuss libgsf specificly as yet.  For now
+please use the gnumeric list. To subscribe send a mail to:
 
 	gnumeric-list-request@gnome.org
 And in the body of the message write "subscribe"

@@ -29,7 +29,9 @@ G_BEGIN_DECLS
 void gsf_init (void);
 void gsf_shutdown (void);
 
-void gsf_mem_dump (guint8 const *ptr, int len);
+/* Debugging utilities */
+void gsf_mem_dump   (guint8 const *ptr, int len);
+void gsf_input_dump (GsfInput *input);
 
 /* Some version checking */
 extern int libgsf_major_version;

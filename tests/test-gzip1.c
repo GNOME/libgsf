@@ -32,8 +32,6 @@ test (int argc, char *argv[])
 	GsfInputGZip *gzip;
 	GError       *err;
 	int i;
-	size_t size, count;
-	guint8 const *data;
 
 	for (i = 1 ; i < argc ; i++) {
 		puts (argv[i]);
@@ -57,18 +55,8 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (input));
 			continue;
 		}
+		gsf_input_dump (GSF_INPUT (gzip));
 
-		/* read in small blocks to excercise things */
-		size = gsf_input_size (GSF_INPUT (gzip));
-		while (size > 0) {
-			count = size;
-			if (count > 0x100)
-				count = 0x100;
-			data = gsf_input_read (GSF_INPUT (gzip), count, NULL);
-			g_return_val_if_fail (data != NULL, 1);
-			fwrite (data, 1, count, stdout);
-			size -= count;
-		}
 		g_object_unref (G_OBJECT (gzip));
 		g_object_unref (G_OBJECT (input));
 	}

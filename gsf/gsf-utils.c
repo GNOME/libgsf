@@ -21,6 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-input.h>
 
 #include <stdio.h>
 
@@ -61,5 +62,24 @@ gsf_mem_dump (guint8 const *ptr, int len)
 			g_print ("%c", off<len?(ptr[off]>'!'&&ptr[off]<127?ptr[off]:'.'):'*');
 		}
 		g_print ("\n");
+	}
+}
+
+void
+gsf_input_dump (GsfInput *input)
+{
+	size_t size, count;
+	guint8 const *data;
+
+	/* read in small blocks to excercise things */
+	size = gsf_input_size (GSF_INPUT (input));
+	while (size > 0) {
+		count = size;
+		if (count > 0x100)
+			count = 0x100;
+		data = gsf_input_read (GSF_INPUT (input), count, NULL);
+		g_return_if_fail (data != NULL);
+		fwrite (data, 1, count, stdout);
+		size -= count;
 	}
 }

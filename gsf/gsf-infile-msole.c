@@ -729,6 +729,8 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 				info->sb.size, 
 				child->stream.buf + (i << info->sb.shift))) == NULL) {
 
+				g_warning ("failure reading block %d", i);
+
 				g_object_unref (G_OBJECT (child));
 				return NULL;
 			}

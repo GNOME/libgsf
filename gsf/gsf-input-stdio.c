@@ -111,7 +111,7 @@ gsf_input_stdio_dup (GsfInput *src_input)
 	GsfInputStdio *dst = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 
 	if (src->file != NULL)
-		dst->file = fdopen (fileno (src->file), "r");
+		dst->file = fdopen (dup (fileno (src->file)), "r");
 
 	return GSF_INPUT (dst);
 }
