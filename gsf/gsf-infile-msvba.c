@@ -111,10 +111,12 @@ vba_inflate (GsfInput *input, off_t offset)
 				len = (token & ((1 << shift) - 1)) + 3;
 				distance = token >> shift;
 
-				//read the len of data from the history, wrapping around the
-				//VBA_COMPRESSION_WINDOW boundary if necessary
-				//data read from the history is also copied into the recent
-				//part of the history as well.
+				/*
+				 * read the len of data from the history, wrapping around the
+				 * VBA_COMPRESSION_WINDOW boundary if necessary
+				 * data read from the history is also copied into the recent
+				 * part of the history as well.
+				 */
 				for (i = 0; i < len; i++) {
 					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
 					guint8 c = buffer [srcpos];
