@@ -1,12 +1,17 @@
 2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
 
+	*gsf-meta-keys.h: list of default/builtin keys that we will want to support
+	*gsf-metadata-bag.[ch]: add key creation and manipulation functions, update TODO list
+
+2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
+
 	*gsf-metadata-bag.c: implement (untested)
 
 2002-07-25  Dom Lachowicz <cinamod@hotmail.com>
 
-        * gsf-input-gnomevfs.c: implement (untested)
-        * gsf-output-gnomevfs.c: implement (untested)
-        * gsf-output-memory.c: implement (untested)
+        * gsf-input-gnomevfs.[ch]: implement (untested)
+        * gsf-output-gnomevfs.[ch]: implement (untested)
+        * gsf-output-memory.[ch]: implement (untested)
 
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 

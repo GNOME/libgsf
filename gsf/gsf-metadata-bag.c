@@ -49,7 +49,7 @@ gsf_metadata_bag_new ()
  * @value : the non-null value associated with @prop
  **/
 void
-gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const char * prop, const GValue * value)
+gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GValue * value)
 {
     GValue * cpy;
     
@@ -74,7 +74,7 @@ gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const char * prop, const GValu
  * @prop : the non-null string name of the property
  **/
 void
-gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const char * prop)
+gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const gchar * prop)
 {
     g_return_if_fail (meta != NULL);
 
@@ -89,7 +89,7 @@ gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const char * prop)
  * @prop : the non-null string name of the property.
  **/
 G_CONST_RETURN GValue *
-gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const char * prop)
+gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const gchar * prop)
 {
     g_return_if_fail (meta != NULL, NULL);
 
@@ -103,7 +103,7 @@ gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const char * prop)
  * @prop : the non-null string name of the property
  **/
 gboolean
-gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const char * prop)
+gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const gchar * prop)
 {
     g_return_val_if_fail (meta != NULL, false);
 
@@ -164,3 +164,88 @@ gsf_metadata_bag_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfMetaDataBag, gsf_metadata_bag,
            gsf_metadata_bag_class_init, gsf_metadata_bag_init, G_OBJECT_TYPE)
+
+static gchar *
+gsf_meta_nth_key (const gchar *key, size_t nth)
+{
+    static const gchar delimiter[] = ":";
+    gchar ** tokens = g_strsplit (key, delimiter, 4);
+
+    gchar * mytoken = g_strdup (tokens [nth]);
+    g_strfreev (tokens);
+
+    retrun mytoken;
+}
+
+static gboolean
+gsf_meta_key_validate (const gchar * key)
+{
+    gboolean success = FALSE ;
+
+    g_return_val_if_fail (key != NULL, FALSE);
+
+    success = g_str_has_prefix (key, "urn:");
+
+    /* TODO: better checking for distinct non-empty fields */
+
+    return success;
+}
+
+/**
+ * gsf_meta_key_new
+ * Creates a new meta-data key of the form urn:@vendor:@version:@key. Caller is responsible for g_free'ing the returned value if non-NULL
+ * @vendor : the creator of this key. Could be "DublinCore", "GSF", "Custom", or your own creation. Cannot be null
+ * @version : the version number of this key. Cannot be null
+ * @key : The tag you wish to record (Pages, Creator, ...). Cannot be null
+ **/
+gchar * gsf_meta_key_new (const gchar * vendor, const gchar * version, const gchar * key)
+{
+    g_return_val_if_fail (vendor  != NULL, NULL);
+    g_return_val_if_fail (version != NULL, NULL);
+    g_return_val_if_fail (key     != NULL, NULL);
+
+    return g_strdup_printf ("urn:%s:%s:%s", vendor, version, key);
+}
+
+/**
+ * gsf_meta_custom_key_new
+ * Creates a new custom (user-defined) key. Caller is responsible for g_free'ing the returned value if non-NULL
+ * @key : the tag you wish to record (Pages, Creator, ...). Cannot be null
+ **/
+gchar * gsf_meta_custom_key_new (gchar * key)
+{
+    return gsf_meta_key_new ("Custom", "1.0", key);
+}
+
+/**
+ * gsf_meta_key_vendor
+ * Returns the vendor part of this key, or NULL. If non-NULL, caller is responsible for g_free'ing the returned value
+ * @key : the meta-data key
+ **/
+gchar * gsf_meta_key_vendor (const gchar * key)
+{
+    g_return_val_if_fail (gsf_meta_key_validate (key), NULL);
+    return gsf_meta_nth_key (key, 1);
+}
+
+/**
+ * gsf_meta_key_version
+ * Returns the version part of this key, or NULL. If non-NULL, caller is responsible for g_free'ing the returned value
+ * @key : the meta-data key
+ **/
+gchar * gsf_meta_key_version (const gchar * key)
+{
+    g_return_val_if_fail (gsf_meta_key_validate (key), NULL);
+    return gsf_meta_nth_key (key, 2);
+}
+
+/**
+ * gsf_meta_key_tag
+ * Returns the tag/id part of this key, or NULL. If non-NULL, caller is responsible for g_free'ing the returned value
+ * @key : the meta-data key
+ **/
+gchar * gsf_meta_key_tag (const gchar * key)
+{
+    g_return_val_if_fail (gsf_meta_key_validate (key), NULL);
+    return gsf_meta_nth_key (key, 3);
+}

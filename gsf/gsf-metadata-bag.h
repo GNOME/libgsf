@@ -37,18 +37,34 @@ GQuark gsf_metadata_bag_error (void);
 typedef struct _GsfMetaDataBag GsfMetaDataBag;
 typedef GHFunc GMetaDataBagEnumFunc;
 
-/* TODO 1: create/list the builtin properties that we'll definitely support and their respective types
- * TODO 2: make the GsfInFile and GsfOutFile classes each contain a GsfMetaDataBag
- * TODO 3: make the GsfInFile subclasses actually fill in the metadata bags (OLE2, OpenOffice, ...)
- * TODO 4: make the GsfOutFile subclasses actually write out the metadata bags (OLE2, OpenOffice, ...)
+/*
+ * TODO 1: make the GsfInFile and GsfOutFile classes each contain a GsfMetaDataBag
+ * TODO 2: make the GsfInFile subclasses actually fill in the metadata bags (OLE2, OpenOffice, ...)
+ * TODO 3: make the GsfOutFile subclasses actually write out the metadata bags (OLE2, OpenOffice, ...)
+ *
+ * Proposed schema so that we can have some accessor and compose routines (getvendorname, getversion, gettag):
+ * urn:VendorName:Version:Tag
+ * Proposed default vendor names:
+ * DublinCore (http://dublincore.org)
+ * GSF (ourselves, remaining properties from OLE that don't map cleanly onto DublinCore)
+ * Custom (user-defined namespace)
+ *
  */
 
+#include <libgsf/gsf-meta-keys.h>
+
 GsfMetaDataBag * gsf_metadata_bag_new ();
-void             gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const char * prop, const GValue * value);
-void             gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const char * prop);
-G_CONST_RETURN GValue *         gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const char * prop);
-gboolean         gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const char * prop);
+void             gsf_metadata_bag_set_prop (GsfMetaDataBag * meta, const gchar * prop, const GValue * value);
+void             gsf_metadata_bag_remove_prop (GsfMetaDataBag *meta, const gchar * prop);
+G_CONST_RETURN GValue *         gsf_metadata_bag_get_prop (GsfMetaDataBag * meta, const gchar * prop);
+gboolean         gsf_metadata_bag_contains_prop (GsfMetaDataBag *meta, const gchar * prop);
 void             gsf_metadata_bag_iterate (GsfMetaDataBag *meta, GsfMetaDataBagEnumFunc func, gpointer user_data);
+
+gchar * gsf_meta_key_new (const gchar * vendor, const gchar * version, const gchar * key);
+gchar * gsf_meta_custom_key_new (gchar * key);
+gchar * gsf_meta_key_vendor (const gchar * key);
+gchar * gsf_meta_key_version (const gchar * key);
+gchar * gsf_meta_key_tag (const gchar * key);
 
 G_END_DECLS
 
