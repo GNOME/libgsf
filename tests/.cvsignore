@@ -23,3 +23,6 @@ test-cp
 test-msole-printf
 test-out-gzip
 test-outmem-printf
+test-dump-msole
+test-restore-msole
+test-msvba-zip
