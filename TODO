@@ -1,13 +1,16 @@
 Immediate:
-    - zip import
+    - Test OLE export, finish exporting the XBATs
 
 Near:
+    - ZIP import
     - MS property set parsing
 
 Longer:
-    - OLE writing
-    - ZIP writing
+    - More work on VBA directory parsing so that we can decompress
+      source streams.
+    - ZIP export
 
 Future:
+    - parse vba p-code directly to produce some other language.
     - move generalized meta data framework in here
     - move biff utils here from gnumeric
