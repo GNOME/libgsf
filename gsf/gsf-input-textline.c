@@ -97,6 +97,7 @@ gsf_input_textline_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 
 	dst->source = src->source;
 	g_object_ref (G_OBJECT (dst->source));
+	gsf_input_set_size (GSF_INPUT (dst), gsf_input_size (src_input));
 
 	return GSF_INPUT (dst);
 }
