@@ -217,7 +217,7 @@ gsf_input_tell (GsfInput *input)
 gboolean
 gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
-	int pos = offset;
+	off_t pos = offset;
 
 	g_return_val_if_fail (input != NULL, -1);
 

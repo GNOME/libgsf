@@ -1,3 +1,10 @@
+2002-06-27  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_seek): Attempt
+	implementation.
+
+	* gsf/gsf-input.c (gsf_input_seek): Make pos an off_t.
+
 2002-06-26  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-input-bonobo.c (struct _GsfInputBonobo): Replace stream

@@ -42,6 +42,7 @@ struct _GsfInputGZip {
 
 	guint8   *buf;
 	size_t    buf_size;
+	size_t    seek_skipped;
 };
 
 typedef struct {
@@ -221,10 +222,38 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 static gboolean
 gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
-	(void) input;
-	(void) offset;
-	(void) whence;
-	/* seeking would require read decompressing from the begining */
+	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
+	off_t pos = offset;
+
+	switch (whence) {
+	case GSF_SEEK_SET : break;
+	case GSF_SEEK_CUR : pos += input->cur_offset;	break;
+	case GSF_SEEK_END : pos += input->size;		break;
+	default : return TRUE;
+	}
+
+	/* Note, that pos has already been sanity checked.  */
+	if ((size_t)pos < input->cur_offset) {
+		if (Z_OK != inflateReset (&(gzip->stream)))
+			return TRUE;
+		input->cur_offset = 0;
+	}
+
+	while ((size_t)pos > input->cur_offset) {
+		static gboolean warned = FALSE;
+		size_t readcount = pos - input->cur_offset;
+		char buffer[8192];
+		if (readcount > sizeof (buffer))
+			readcount = sizeof (buffer);
+		if (!gsf_input_read (input, readcount, buffer))
+			return TRUE;
+
+		gzip->seek_skipped += readcount;
+		if (!warned && gzip->seek_skipped >= 1000000) {
+			warned = TRUE;
+			g_warning ("Seeking in gzipped streams is awfully slow.");
+		}		
+	}
 	return FALSE;
 }
 
