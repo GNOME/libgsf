@@ -78,15 +78,12 @@ follow_symlinks (char const *filename, GError **error)
 			case ENOENT: /* No such file.  */
 				return followed_filename;
 
-			default: {
-				char *utf8name = gsf_filename_to_utf8 (followed_filename, FALSE);
-				g_set_error (error, gsf_output_error_id (), errno,
-					     "Could not read symbolic link information "
-					     "for %s", utf8name);
-				g_free (utf8name);
+			default:
+				if (error)
+					*error = g_error_new (gsf_output_error_id (), errno,
+							      g_strerror (errno));
 				g_free (followed_filename);
 				return NULL;
-			}
 			}
 		}
 
@@ -112,8 +109,9 @@ follow_symlinks (char const *filename, GError **error)
 	}
 
 	/* Too many symlinks */
-	g_set_error (error, gsf_output_error_id (), ELOOP,
-		     "The file has too many symbolic links.");
+	if (error)
+		*error = g_error_new (gsf_output_error_id (), ELOOP,
+				      g_strerror (ELOOP));
 
 	return NULL;
 }
@@ -160,12 +158,9 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		/* FIXME: use eaccess if available.  */
 		/* FIXME? Race conditions en masse.  */
 		if (access (real_filename, W_OK) != 0) {
-			if (err != NULL) {
-				char *utf8name = gsf_filename_to_utf8 (real_filename, FALSE);
+			if (err != NULL)
 				*err = g_error_new (gsf_output_error_id (), errno,
-						    "%s: %s", utf8name, g_strerror (errno));
-				g_free (utf8name);
-			}
+						    g_strerror (errno));
 			goto failure;
 		}
 	} else {
@@ -204,12 +199,9 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	umask (saved_umask);
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
-		if (err != NULL) {
-			char *utf8name = gsf_filename_to_utf8 (temp_filename, FALSE);
+		if (err != NULL)
 			*err = g_error_new (gsf_output_error_id (), errno,
-				"%s: %s", utf8name, g_strerror (errno));
-			g_free (utf8name);
-		}
+					    g_strerror (errno));
 		goto failure;
 	}
 
