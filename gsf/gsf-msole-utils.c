@@ -226,6 +226,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	GValue *res;
 	char *str;
 	guint32 len;
+	gsize gslen;
 	gboolean const is_vector = type & VT_VECTOR;
 
 	g_return_val_if_fail (!(type & (unsigned)(~0x1fff)), NULL); /* not valid in a prop set */
@@ -360,9 +361,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
 
+		gslen = 0;
 		str = g_convert_with_iconv (*data + 4,
 			len * section->char_size,
-			section->iconv_handle, &len, NULL, NULL);
+			section->iconv_handle, &gslen, NULL, NULL);
+		len = (guint32)gslen;
 
 		g_value_init (res, G_TYPE_STRING);
 		g_value_set_string (res, str);
@@ -379,7 +382,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
 
 		str = g_convert (*data + 4, len*2,
-				 "UTF-8", "UTF-16LE", &len, NULL, NULL);
+				 "UTF-8", "UTF-16LE", &gslen, NULL, NULL);
+		len = (guint32)gslen;
 
 		g_value_init (res, G_TYPE_STRING);
 		g_value_set_string (res, str);
@@ -483,6 +487,7 @@ msole_prop_read (GsfInput *in,
 	/* dictionary is magic */
 	if (props[i].id == 0) {
 		guint32 len, id, i, n;
+		gsize gslen;
 		char *name;
 		guint8 const *start = data;
 
@@ -500,9 +505,11 @@ msole_prop_read (GsfInput *in,
 
 			g_return_val_if_fail (len < 0x10000, NULL);
 
+			gslen = 0;
 			name = g_convert_with_iconv (data + 8,
 				len * section->char_size,
-				section->iconv_handle, &len, NULL, NULL);
+				section->iconv_handle, &gslen, NULL, NULL);
+			len = (guint32)gslen;
 			data += 8 + len;
 
 			d (printf ("\t%u == %s\n", id, name););

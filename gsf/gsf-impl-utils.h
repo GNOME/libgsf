@@ -60,11 +60,40 @@ prefix ## _get_type (void)						\
 	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
 		       G_TYPE_FLAG_ABSTRACT, {})
 
-#define GSF_INTERFACE(init_func, iface_type) {			\
+#define	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, \
+			       abstract, interface_decl, plugin, type) \
+	if (type == 0) {						\
+		static GTypeInfo const type_info = {			\
+			sizeof (name ## Class),				\
+			(GBaseInitFunc) NULL,				\
+			(GBaseFinalizeFunc) NULL,			\
+			(GClassInitFunc) class_init,			\
+			(GClassFinalizeFunc) NULL,			\
+			NULL,	/* class_data */			\
+			sizeof (name),					\
+			0,	/* n_preallocs */			\
+			(GInstanceInitFunc) instance_init,		\
+			NULL						\
+		};							\
+		type = g_type_module_register_type (plugin, parent_type, #name,	\
+			&type_info, (GTypeFlags) abstract);		\
+		interface_decl						\
+	}
+
+#define	GSF_DYNAMIC_CLASS(name, prefix, class_init, instance_init, parent, plugin, type) \
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
+			       0, {}, plugin, type)
+#define	GSF_DYNAMIC_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent, plugin, type) \
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
+		       G_TYPE_FLAG_ABSTRACT, {}, plugin, type)
+
+#define GSF_INTERFACE_FULL(type, init_func, iface_type) {	\
 	static GInterfaceInfo const iface = {			\
 		(GInterfaceInitFunc) init_func, NULL, NULL };	\
 	g_type_add_interface_static (type, iface_type, &iface);	\
 }
+#define GSF_INTERFACE(init_func, iface_type)			\
+	GSF_INTERFACE_FULL(type, init_func, iface_type)
 
 G_END_DECLS
 

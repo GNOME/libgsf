@@ -1,3 +1,14 @@
+2003-04-09  Jody Goldberg <jody@gnome.org>
+
+	From Xavier Roche <roche@exalead.com>
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : gsize is not always
+	  guinit32.  Fixes sparc-64 problem.
+	* gsf/gsf-infile-msvba.c (vba3_dir_read) : ditto.
+
+2003-04-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-impl-utils.h : Add utils for objects in plugins
+
 2003-03-20  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Better checks for bz2

@@ -19,6 +19,9 @@ Jody:
 Rodrigo:
 	* Added GsfInputIOChannel, a GIOChannel-based input.
 
+Xavier Roche:
+	* Patch some gsize == gunit32 assumptions.
+
 ------------------------------------------------------------------------------
 libgsf 1.7
 
