@@ -1,3 +1,7 @@
+2003-02-20  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-input-bzip.[ch]: Stubs for a BZ2 input I'm working on
+	
 2003-02-18  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input.c (gsf_input_class_init): Install GObject properties
