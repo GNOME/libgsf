@@ -131,6 +131,7 @@ GsfInputGZip *
 gsf_input_gzip_new (GsfInput *source, GError **err)
 {
 	GsfInputGZip *gzip;
+	gsf_off_t  cur_pos;
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
@@ -146,10 +147,16 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 		g_object_unref (G_OBJECT (gzip));
 		return NULL;
 	}
+
+	cur_pos = gsf_input_tell (source);
+
 	if (check_header (gzip)) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"Invalid gzip header");
+		if (gsf_input_seek (source, cur_pos, G_SEEK_SET)) {
+			g_warning ("attempt to restore position failed ??");
+		}
 		g_object_unref (G_OBJECT (gzip));
 		return NULL;
 	}

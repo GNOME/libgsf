@@ -27,7 +27,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-msole-metadata.h>
+#include <gsf/gsf-msole-utils.h>
 
 #include <stdio.h>
 #include <stdlib.h>

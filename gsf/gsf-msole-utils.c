@@ -53,113 +53,176 @@ typedef enum {
 } GsfMSOleMetaDataType;
 
 typedef struct {
-	GsfMSOleMetaDataType type;
-	gsf_off_t	     offset;
-} GsfMSOleMetaDataSection;
-
-typedef struct {
-	guint32		prop_id;
+	guint32		id;
 	gsf_off_t	offset;
 } GsfMSOleMetaDataProp;
 
-#if 0
+typedef struct {
+	GsfMSOleMetaDataType type;
+	gsf_off_t   offset;
+	guint32	    size, num_props;
+	GIConv	    iconv;
+	GHashTable *dict;
+} GsfMSOleMetaDataSection;
+
+static GValue *
+gsf_msole_prop_parse (guint32 type, guint8 const *data)
 {
-	SummaryItem *sit;
-	gboolean     ok;
-	unsigned     i;
+	if (type & 0x6000) /* not valid in a prop set */
+		return NULL;
 
-	for (i = 0 ; i < EXCEL_TO_GNUM_MAPPING_COUNT; i++) {
-		if (excel_to_gnum_mapping[i].ps_id == psid) {
-			MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
-			const gchar *name;
+	if (type & 0x1000) /* as array */
+		return NULL;
+	type &= 0xfff;
+	switch (type) {
+	case 0 : /* VT_EMPTY */
+		puts ("VT_EMPTY");
+		break;
+	case 1 : /* VT_NULL */
+		puts ("VT_NULL");
+		break;
+	case 2 : /* VT_I2 */
+		puts ("VT_I2");
+		break;
+	case 3 : /* VT_I4 */
+		puts ("VT_I4");
+		break;
+	case 4 : /* VT_R4 */
+		puts ("VT_R4");
+		break;
+	case 5 : /* VT_R8 */
+		puts ("VT_R8");
+		break;
+	case 6 : /* VT_CY */
+		puts ("VT_CY");
+		break;
+	case 7 : /* VT_DATE */
+		puts ("VT_DATE");
+		break;
+	case 8 : /* VT_BSTR */
+		puts ("VT_BSTR");
+		break;
+	case 9 : /* VT_DISPATCH */
+		puts ("VT_DISPATCH");
+		break;
+	/* case 10 : VT_ERROR not valid in prop sets */
+	case 11 : /* VT_BOOL */
+		puts ("VT_BOOL");
+		break;
+	case 12 : /* VT_VARIANT */
+		puts ("VT_VARIANT");
+		break;
+	/* case 13 : VT_UNKNOWN not valid in prop sets */
+	/* case 14 : VT_DECIMAL not valid in prop sets */
+	/* case 16 : VT_I1 not valid in prop sets */
+	case 17 : /* VT_UI1 */
+		puts ("VT_UI1");
+		break;
+	case 18 : /* VT_UI2 */
+		puts ("VT_UI2");
+		break;
+	case 19 : /* VT_UI4 */
+		puts ("VT_UI4");
+		break;
+	case 20 : /* VT_I8 */
+		puts ("VT_I8");
+		break;
+	case 21 : /* VT_UI8 */
+		puts ("VT_UI8");
+		break;
+	/* case 22 : VT_INT not valid in prop sets */
+	/* case 23 : VT_UINT not valid in prop sets */
+	/* case 24 : VT_VOID not valid in prop sets */
+	/* case 25 : VT_HRESULT not valid in prop sets */
+	/* case 26 : VT_PTR not valid in prop sets */
+	/* case 27 : VT_SAFEARRAY not valid in prop sets */
+	/* case 28 : VT_CARRAY not valid in prop sets */
+	/* case 29 : VT_USERDEFINED not valid in prop sets */
+	case 30 : /* VT_LPSTR */
+		puts ("VT_LPSTR");
+		break;
+	case 31 : /* VT_LPWSTR */
+		puts ("VT_LPWSTR");
+		break;
+	case 64 : /* VT_FILETIME */
+		puts ("VT_FILETIME");
+		break;
+	case 65 : /* VT_BLOB */
+		puts ("VT_BLOB");
+		break;
+	case 66 : /* VT_STREAM */
+		puts ("VT_STREAM");
+		break;
+	case 67 : /* VT_STORAGE */
+		puts ("VT_STORAGE");
+		break;
+	case 68 : /* VT_STREAMED_OBJECT */
+		puts ("VT_STREAMED_OBJECT");
+		break;
+	case 69 : /* VT_STORED_OBJECT */
+		puts ("VT_STORED_OBJECT");
+		break;
+	case 70 : /* VT_BLOB_OBJECT */
+		puts ("VT_BLOB_OBJECT");
+		break;
+	case 71 : /* VT_CF */
+		puts ("VT_CF");
+		break;
+	case 72 : /* VT_CLSID */
+		puts ("VT_CLSID");
+		break;
+	default :
+		g_warning ("Unknown property type %d (0x%x)", type, type);
+		break;
+	};
 
-			sit = NULL;
-			name = summary_item_name[excel_to_gnum_mapping[i].gnumeric];
-			switch (MS_OLE_SUMMARY_TYPE (p)) {
-
-			case MS_OLE_SUMMARY_TYPE_STRING: {
-				gchar *val = ms_ole_summary_get_string (si, p, &ok);
-				if (ok) {
-					char* ans, *ptr = val;
-					guint32 lp;
-					size_t length = strlen (val);
-					size_t inbytes = length,
-					outbytes = (length + 2) * 8,
-					retlength;
-					char* inbuf = g_new (char, length), *outbufptr;
-					char const * inbufptr = inbuf;
-
-					ans = g_new (char, outbytes + 1);
-					outbufptr = ans;
-					for (lp = 0; lp < length; lp++) {
-						inbuf[lp] = GSF_LE_GET_GUINT8 (ptr);
-						ptr++;
-					}
-
-					excel_iconv (current_summary_iconv,
-					     &inbufptr, &inbytes,
-					     &outbufptr, &outbytes);
-
-					retlength = outbufptr-ans;
-					ans[retlength] = 0;
-					g_free (inbuf);
-					g_free (val);
-
-					sit = summary_item_new_string (name, ans, FALSE);
-				}
-				break;
-			}
-
-			case MS_OLE_SUMMARY_TYPE_BOOLEAN:
-			{
-				gboolean val = ms_ole_summary_get_boolean (si, p, &ok);
-				if (ok)
-					sit = summary_item_new_boolean (name, val);
-				break;
-			}
-
-			case MS_OLE_SUMMARY_TYPE_SHORT:
-			{
-				guint16 val = ms_ole_summary_get_short (si, p, &ok);
-				if (ok)
-					sit = summary_item_new_short (name, val);
-				break;
-			}
-
-			case MS_OLE_SUMMARY_TYPE_LONG:
-			{
-				guint32 val = ms_ole_summary_get_long (si, p, &ok);
-				if (ok)
-					sit = summary_item_new_int (name, val);
-				break;
-			}
-
-			case MS_OLE_SUMMARY_TYPE_TIME:
-			{
-				GTimeVal val = ms_ole_summary_get_time (si, p, &ok);
-				if (ok)
-					sit = summary_item_new_time (name, val);
-				break;
-			}
-
-			default:
-				g_warning ("Unsupported summary type:%#x", p);
-				break;
-			}
-
-			if (sit)
-				summary_info_add (sin, sit);
-		}
-	}
+	return NULL;
 }
-#endif
+
+static GValue *
+gsf_msole_prop_read (GsfInput *in,
+		     GsfMSOleMetaDataSection *section,
+		     GsfMSOleMetaDataProp    *props,
+		     unsigned i)
+{
+	guint32 type;
+	guint8 const *data;
+	unsigned size = ((i+1) >= section->num_props)
+		? section->size : props[i+1].offset;
+
+	g_return_val_if_fail (i < section->num_props, NULL);
+	g_return_val_if_fail (size >= props[i].offset + 4, NULL);
+
+	size -= props[i].offset; /* includes the type id */
+	if (gsf_input_seek (in, section->offset+props[i].offset, G_SEEK_SET) ||
+	    NULL == (data = gsf_input_read (in, size, NULL))) {
+		g_warning ("failed to read prop #%d", i);
+		return NULL;
+	}
+
+	type = GSF_LE_GET_GUINT32 (data);
+
+	printf ("%u) type(%d) %x @ %x %x\n", i, type, props[i].id,
+		(unsigned)props[i].offset, size);
+
+	return gsf_msole_prop_parse (type, data);
+}
+
+static int
+msole_metadata_prop_cmp (gconstpointer a, gconstpointer b)
+{
+	GsfMSOleMetaDataProp const *prop_a = a ;
+	GsfMSOleMetaDataProp const *prop_b = b ;
+
+	return prop_a->offset - prop_b->offset;
+}
 
 gboolean
 gsf_msole_metadata_read (GsfInput *in, GError **err)
 {
 	guint8 const *data = gsf_input_read (in, 28, NULL);
 	guint16 version;
-	guint32 os, num_sections, section_size, num_props;
+	guint32 os, num_sections;
 	unsigned i, j;
 	GsfMSOleMetaDataSection *sections;
 	GsfMSOleMetaDataProp *props;
@@ -224,12 +287,14 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			return FALSE;
 		}
 
-		section_size = GSF_LE_GET_GUINT32 (data); /* includes header */
-		num_props    = GSF_LE_GET_GUINT32 (data + 4);
-		if (num_props <= 0)
+		sections[i].iconv     = (GIConv)-1;
+		sections[i].dict      = NULL;
+		sections[i].size      = GSF_LE_GET_GUINT32 (data); /* includes header */
+		sections[i].num_props = GSF_LE_GET_GUINT32 (data + 4);
+		if (sections[i].num_props <= 0)
 			continue;
-		props = g_new (GsfMSOleMetaDataProp, num_props);
-		for (j = 0; j < num_props; j++) {
+		props = g_new (GsfMSOleMetaDataProp, sections[i].num_props);
+		for (j = 0; j < sections[i].num_props; j++) {
 			if (NULL == (data = gsf_input_read (in, 8, NULL))) {
 				g_free (props);
 				if (err != NULL)
@@ -238,11 +303,31 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 				return FALSE;
 			}
 
-			props [j].prop_id = GSF_LE_GET_GUINT32 (data);
+			props [j].id = GSF_LE_GET_GUINT32 (data);
 			props [j].offset  = GSF_LE_GET_GUINT32 (data + 4);
 		}
 
+		/* order prop info by offset to facilitate bounds checking */
+		qsort (props, sections[i].num_props,
+		       sizeof (GsfMSOleMetaDataProp),
+		       msole_metadata_prop_cmp);
+
+		/* find the codepage if it exists */
+		for (j = 0; j < sections[i].num_props; j++)
+			if (props[j].id == 1) {
+			}
+		/* find the dictionary if it exists */
+		for (j = 0; j < sections[i].num_props; j++)
+			if (props[j].id == 0) {
+			}
+
+		for (j = 0; j < sections[i].num_props; j++)
+			gsf_msole_prop_read (in, sections+i, props, j);
+
 		g_free (props);
+		gsf_iconv_close (sections[i].iconv);
+		if (sections[i].dict != NULL)
+			g_hash_table_destroy (sections[i].dict);
 	}
 	return TRUE;
 }
