@@ -38,13 +38,17 @@ struct _GsfCommandContext {
 	/* errors */
 	gboolean error_occurred;
 	GList *errors;
+
+	gboolean has_warnings;
+	GList *warnings;
 };
 
 struct _GsfCommandContextClass {
 	GObjectClass parent_class;
 
 	/* signals */
-	void (*error_occurred) (GsfCommandContext *cc);
+	void (* error_occurred) (GsfCommandContext *cc);
+	void (* warning) (GsfCommandContext *cc);
 };
 
 GType              gsf_command_context_get_type (void);
@@ -54,6 +58,10 @@ gboolean           gsf_command_context_error_occurred (GsfCommandContext *cc);
 void               gsf_command_context_error_message (GsfCommandContext *cc, const gchar *msg, gint code);
 void               gsf_command_context_push_error (GsfCommandContext *cc, const GError *error);
 GError            *gsf_command_context_pop_error (GsfCommandContext *cc);
+
+gboolean           gsf_command_context_has_warnings (GsfCommandContext *cc);
+void               gsf_command_context_push_warning (GsfCommandContext *cc, const GError *warning);
+GError            *gsf_command_context_pop_warning (GsfCommandContext *cc);
 
 void               gsf_command_context_clear (GsfCommandContext *cc);
 

@@ -1,5 +1,11 @@
 2002-09-14  Rodrigo Moya <rodrigo@gnome-db.org>
 
+	* gsf/gsf-command-context.[ch]: added support for warnings.
+	(gsf_command_context_has_warnings, gsf_command_context_push_warning,
+	 gsf_command_context_pop_warning): new functions.
+
+2002-09-14  Rodrigo Moya <rodrigo@gnome-db.org>
+
 	* gsf/gsf-command-context.[ch]: new class for command contexts,
 	stealing some implementation from GsfIOContext.
 

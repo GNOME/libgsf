@@ -28,6 +28,7 @@ static void gsf_command_context_finalize   (GObject *object);
 
 enum {
 	ERROR_OCCURRED,
+	WARNING,
 	LAST_SIGNAL
 };
 
@@ -51,6 +52,14 @@ gsf_command_context_class_init (GsfCommandContextClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	cmd_context_signals[WARNING] =
+		g_signal_new ("warning",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GsfCommandContextClass, warning),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -58,6 +67,8 @@ gsf_command_context_init (GsfCommandContext *cc, GsfCommandContextClass *klass)
 {
 	cc->errors = NULL;
 	cc->error_occurred = FALSE;
+	cc->warnings = NULL;
+	cc->has_warnings = FALSE;
 }
 
 static void
@@ -180,6 +191,69 @@ gsf_command_context_pop_error (GsfCommandContext *cc)
 }
 
 /**
+ * gsf_command_context_has_warnings
+ * @cc: a #GsfCommandContext object.
+ *
+ * Returns: TRUE if there were warnings, or FALSE if not.
+ */
+gboolean
+gsf_command_context_has_warnings (GsfCommandContext *cc)
+{
+	g_return_val_if_fail (GSF_IS_COMMAND_CONTEXT (cc), FALSE);
+	return cc->has_warnings;
+}
+
+/**
+ * gsf_command_context_push_warning
+ * @cc: a #GsfCommandContext object.
+ * @error: a warning to be added.
+ *
+ * Adds a new warning to the given #GsfCommandContext. The warning is added
+ * to the end of the warning queue, so that it can only be read,
+ * via #gsf_command_context_pop_warning, after all previous warnings have
+ * being read.
+ */
+void
+gsf_command_context_push_warning (GsfCommandContext *cc, const GError *warning)
+{
+	GError *copy;
+
+	g_return_if_fail (GSF_IS_COMMAND_CONTEXT (cc));
+	g_return_if_fail (warning != NULL);
+
+	copy = g_error_copy (warning);
+	cc->warnings = g_list_append (cc->warnings, copy);
+	cc->has_warnings = TRUE;
+
+	g_signal_emit (G_OBJECT (cc), cmd_context_signals[WARNING], 0);
+}
+
+/**
+ * gsf_command_context_pop_warning
+ * @cc: a #GsfCommandContext object.
+ *
+ * Get the next warning in the given #GsfCommandContext object.
+ *
+ * Returns: a GError structure that contains all the information
+ * for the next warning. The caller of this function is responsible
+ * of freeing the returned value, by calling #g_error_free.
+ */
+GError *
+gsf_command_context_pop_warning (GsfCommandContext *cc)
+{
+	GError *error = NULL;
+
+	g_return_val_if_fail (GSF_IS_COMMAND_CONTEXT (cc), NULL);
+
+	if (cc->warnings) {
+		error = (GError *) cc->warnings->data;
+		cc->warnings = g_list_remove (cc->warnings, error);
+	}
+
+	return error;
+}
+
+/**
  * gsf_command_context_clear
  * @cc: a #GsfCommandContext object.
  *
@@ -195,6 +269,10 @@ gsf_command_context_clear (GsfCommandContext *cc)
 	g_list_foreach (cc->errors, (GFunc) g_error_free, NULL);
 	g_list_free (cc->errors);
 	cc->errors = NULL;
-	
 	cc->error_occurred = FALSE;
+
+	g_list_foreach (cc->warnings, (GFunc) g_error_free, NULL);
+	g_list_free (cc->warnings);
+	cc->warnings = NULL;
+	cc->has_warnings = FALSE;
 }
