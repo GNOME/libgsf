@@ -1,0 +1,77 @@
+%define name libgsf-1
+%define version @VERSION@
+%define release 1
+%define prefix /usr
+
+Summary: GNOME Structured File library
+
+Name: %{name}
+Version: %{version}
+Release: %{release}
+Group: System Environment/Libraries
+Copyright: GPL
+
+Source: ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libgsf/libgsf-%{version}.tar.gz
+Buildroot: /var/tmp/%{name}-%{version}-%{release}-root
+URL: http://www.gnumeric.org
+
+Requires: glib >= 2.0.0
+
+%description
+A library for reading and writing structured files (eg MS OLE and Zip)
+
+%package devel
+Summary: Support files necessary to compile applications with libgsf.
+Group: Development/Libraries
+Requires: libgsf-1
+
+%description devel
+Libraries, headers, and support files necessary to compile applications using libgsf.
+
+%prep
+
+%setup
+
+%build
+%ifarch alpha
+  MYARCH_FLAGS="--host=alpha-redhat-linux"
+%endif
+
+if [ ! -f configure ]; then
+CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{prefix}
+else
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix}
+fi
+
+if [ "$SMP" != "" ]; then
+  (make "MAKE=make -k -j $SMP"; exit 0)
+  make
+else
+  make
+fi
+
+%install
+if [ -d $RPM_BUILD_ROOT ]; then rm -r $RPM_BUILD_ROOT; fi
+mkdir -p $RPM_BUILD_ROOT%{prefix}
+make prefix=$RPM_BUILD_ROOT%{prefix} install
+
+%files
+%defattr(-,root,root)
+%doc AUTHORS COPYING README
+%{prefix}/lib/lib*.so.*
+
+%files devel
+%defattr(-,root,root)
+%{prefix}/lib/lib*.so
+%{prefix}/lib/*a
+%{prefix}/lib/*.sh
+%{prefix}/include/libgsf-1/*
+%{prefix}/share/doc/gsf/*
+%{prefix}/lib/pkgconfig/libgsf-1.pc
+
+%clean
+rm -r $RPM_BUILD_ROOT
+
+%changelog
+* Thu May 23 2002 Jody Goldberg <jody@gnome.org>
+- Initial version

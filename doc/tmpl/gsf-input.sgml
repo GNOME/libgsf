@@ -37,15 +37,6 @@ gsf-input
 @o: 
 
 
-<!-- ##### ENUM GsfOff_t ##### -->
-<para>
-
-</para>
-
-@GSF_INPUT_SEEK_SET: 
-@GSF_INPUT_SEEK_CUR: 
-@GSF_INPUT_SEEK_END: 
-
 <!-- ##### FUNCTION gsf_input_get_type ##### -->
 <para>
 
