@@ -339,6 +339,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 	case VT_CY :		 d (puts ("VT_CY"););
 		/* 8-byte two's complement integer (scaled by 10,000) */
+#warning TODO
 		break;
 
 	case VT_DATE :		 d (puts ("VT_DATE"););
@@ -346,6 +347,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
 		 */
+#warning TODO
 		break;
 
 	case VT_BSTR :		 d (puts ("VT_BSTR"););
@@ -354,9 +356,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * ceeded by a DWORD representing the byte count of the number
 		 * of bytes in the string (including the  terminating null).
 		 */
+#warning TODO
 		break;
 
 	case VT_DISPATCH :	 d (puts ("VT_DISPATCH"););
+#warning TODO
 		break;
 
 	case VT_BOOL :		 d (puts ("VT_BOOL"););
@@ -497,6 +501,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * tation of a VT_BLOB is similar to that of a VT_BSTR but does
 		 * not guarantee a null byte at the end of the data.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_STREAM :	 d (puts ("VT_STREAM"););
@@ -506,6 +513,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * in the format of a serialized VT_LPSTR, which names the stream
 		 * containing the data.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_STORAGE :	 d (puts ("VT_STORAGE"););
@@ -515,6 +525,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * in the format of a serialized VT_LPSTR, which names the
 		 * IStorage containing the data.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_STREAMED_OBJECT: d (puts ("VT_STREAMED_OBJECT"););
@@ -523,6 +536,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * serialized object, which is a class ID followed by initiali-
 		 * zation data for the class.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_STORED_OBJECT :	 d (puts ("VT_STORED_OBJECT"););
@@ -530,6 +546,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * Same as VT_STORAGE, but indicates that the designated IStorage
 		 * contains a loadable object.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_BLOB_OBJECT :	 d (puts ("VT_BLOB_OBJECT"););
@@ -541,6 +560,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * which is in the format of a class ID followed by initialization
 		 * data for that class
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_CF :		 d (puts ("VT_CF"););
@@ -552,11 +574,16 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * VTCFREP, followed immediately by an array of bytes as appropriate
 		 * for data in the clipboard format.
 		 */
+#warning TODO
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_CLSID :		 d (puts ("VT_CLSID"););
 		/* A class ID (or other GUID) */
 		*data += 16;
+		g_free (res);
+		res = NULL;
 		break;
 
 	case VT_ERROR :
@@ -583,15 +610,19 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_warning ("Unknown property type %d (0x%x)", type, type);
 		g_free (res);
 		res = NULL;
-	};
+	}
 
-	d ( if (res != NULL && G_IS_VALUE (res)) {
-		char *val = g_strdup_value_contents (res);
-		printf ("%s\n", val);
-		g_free (val);
-	} else
+	if (res != NULL && G_IS_VALUE (res)) {
+		d ( {
+			char *val = g_strdup_value_contents (res);
+			printf ("%s\n", val);
+			g_free (val);
+		});
+	} else {
+#if 0 /* enable after release */
 		puts ("<unparsed>\n");
-	);
+#endif
+	}
 	return res;
 }
 

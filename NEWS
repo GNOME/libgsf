@@ -11,6 +11,7 @@ Jody:
 	* More work on storing OLE2 properties
 	* Add some hooks to the libxml sax wrappers to facilitate extending
 	  specs
+	* An extra wrapper to GsfOutputStdio to handle FILE* directly
 
 Jon Kåre:
 	* make xml string export more convenient by ignoring NULL
