@@ -1,3 +1,10 @@
+libgsf (1.9.1-2) unstable; urgency=high
+
+  * [gsf/gsf-utils.c] Applied patch from CVS to deal with ARM's "mixed-endian"
+    storage of doubles. (Closes: #250249)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 21 May 2004 18:12:13 +0200
+
 libgsf (1.9.1-1) unstable; urgency=medium
 
   * New upstream release.
