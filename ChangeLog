@@ -1,3 +1,10 @@
+2005-03-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_class_init): Install
+	set_property, get_property, and constructor methods.
+	(gsf_output_gzip_constructor): Allow skipping the gzip header.
+	(gsf_output_gzip_close): Allow skipping the tail.
+
 2005-03-24  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (gsf_access): Renamed from

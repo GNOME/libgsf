@@ -30,20 +30,18 @@
 #include <time.h>
 #include <string.h>
 
-#define Z_BUFSIZE 0x100
-
 static GObjectClass *parent_class;
 
 struct _GsfOutputGZip {
 	GsfOutput output;
 
 	GsfOutput *sink; /* compressed data */
+	gboolean container;
 
 	z_stream  stream;
-/* 	guint8 const *gzipped_data; */
 	uLong     crc;     /* crc32 of uncompressed data */
 	size_t    isize;
-	
+
 	guint8   *buf;
 	size_t    buf_size;
 };
@@ -52,25 +50,29 @@ typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputGZipClass;
 
+enum {
+	PROP_0,
+	PROP_CONTAINER,
+	PROP_SINK
+};
+
+
 /* gzip flag byte */
 #define GZIP_ORIGINAL_NAME	0x08 /* the original is stored */
 
 static gboolean
-init_gzip (GsfOutputGZip *gzip, GError **err)
+init_gzip (GsfOutputGZip *gzip)
 {
 	int ret;
-	
+
 	ret = deflateInit2 (&gzip->stream, Z_DEFAULT_COMPRESSION,
 			    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
 			    Z_DEFAULT_STRATEGY);
-	if (ret != Z_OK) {
-		if (err != NULL)
-			*err = g_error_new (gsf_output_error_id (), 0,
-					    "Unable to initialize deflate");
+	if (ret != Z_OK)
 		return FALSE;
-	}
+
 	if (!gzip->buf) {
-		gzip->buf_size = Z_BUFSIZE; 
+		gzip->buf_size = 0x100;
 		gzip->buf = g_new (guint8, gzip->buf_size);
 	}
 	gzip->stream.next_out  = gzip->buf;
@@ -89,7 +91,7 @@ gzip_output_header (GsfOutputGZip *gzip)
 	/* FIXME: What to do about gz extension ... ? */
 	int nlen = 0;  /* name ? strlen (name) : 0; */
 	gboolean ret;
-	
+
 	memset (buf, 0, sizeof buf);
 	memcpy (buf, gzip_signature, 3);
 	if (nlen > 0)
@@ -102,7 +104,7 @@ gzip_output_header (GsfOutputGZip *gzip)
 
 	return ret;
 }
-	
+
 /**
  * gsf_output_gzip_new :
  * @sink : The underlying data source.
@@ -115,25 +117,23 @@ gzip_output_header (GsfOutputGZip *gzip)
 GsfOutput *
 gsf_output_gzip_new (GsfOutput *sink, GError **err)
 {
-	GsfOutputGZip *gzip;
+	GsfOutput *output;
+	const GError *con_err;
 
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
-	gzip = g_object_new (GSF_OUTPUT_GZIP_TYPE, NULL);
-	g_object_ref (G_OBJECT (sink));
-	gzip->sink = sink;
+	output = g_object_new (GSF_OUTPUT_GZIP_TYPE, "sink", sink, NULL);
+	con_err = gsf_output_error (output);
 
-	if (!init_gzip (gzip, err)) {
-		g_object_unref (G_OBJECT (gzip));
+	if (con_err) {
+		if (err)
+			*err = g_error_copy (con_err);
+		gsf_output_close (output);
+		g_object_unref (output);
 		return NULL;
 	}
 
-	if (!gzip_output_header (gzip)) {
-		g_object_unref (G_OBJECT (gzip));
-		return NULL;
-	}
-
-	return GSF_OUTPUT (gzip);
+	return output;
 }
 
 static void
@@ -158,7 +158,7 @@ static gboolean
 gzip_output_block (GsfOutputGZip *gzip)
 {
 	size_t num_bytes = gzip->buf_size - gzip->stream.avail_out;
-	
+
 	if (!gsf_output_write (gzip->sink, num_bytes, gzip->buf)) {
 		return FALSE;
 	}
@@ -203,7 +203,7 @@ gsf_output_gzip_write (GsfOutput *output,
 
 	gzip->stream.next_in  = (unsigned char *) data;
 	gzip->stream.avail_in = num_bytes;
-	
+
 	while (gzip->stream.avail_in > 0) {
 		int zret;
 		if (gzip->stream.avail_out == 0) {
@@ -242,16 +242,20 @@ static gboolean
 gsf_output_gzip_close (GsfOutput *output)
 {
 	GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
-	guint8 buf[8];
 
 	if (!gzip_flush (gzip))
 		return FALSE;
-	
-	/* TODO: CRC, ISIZE */
-	GSF_LE_SET_GUINT32 (buf,     gzip->crc);
-	GSF_LE_SET_GUINT32 (buf + 4, gzip->isize);
 
-	return gsf_output_write (gzip->sink, 8, buf);
+	if (gzip->container) {
+		guint8 buf[8];
+
+		GSF_LE_SET_GUINT32 (buf,     gzip->crc);
+		GSF_LE_SET_GUINT32 (buf + 4, gzip->isize);
+		if (!gsf_output_write (gzip->sink, 8, buf))
+			return FALSE;
+	}
+
+	return TRUE;
 }
 
 static void
@@ -273,14 +277,106 @@ gsf_output_gzip_init (GObject *obj)
 }
 
 static void
+gsf_output_gzip_get_property (GObject     *object,
+			      guint        property_id,
+			      GValue      *value,
+			      GParamSpec  *pspec)
+{
+	GsfOutputGZip *gzip = (GsfOutputGZip *)object;
+
+	switch (property_id) {
+	case PROP_CONTAINER:
+		g_value_set_boolean (value, gzip->container);
+		break;
+	case PROP_SINK:
+		g_value_set_object (value, gzip->sink);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_output_gzip_set_property (GObject      *object,
+			      guint         property_id,
+	       G_GNUC_UNUSED  GValue const *value,
+			      GParamSpec   *pspec)
+{
+	GsfOutputGZip *gzip = (GsfOutputGZip *)object;
+
+	switch (property_id) {
+	case PROP_CONTAINER:
+		gzip->container = g_value_get_boolean (value);
+		break;
+	case PROP_SINK:
+		gzip->sink = g_value_get_object (value);
+		g_object_ref (gzip->sink);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static GObject*
+gsf_output_gzip_constructor (GType                  type,
+			     guint                  n_construct_properties,
+			     GObjectConstructParam *construct_params)
+{
+  GsfOutputGZip *gzip;
+
+  gzip = (GsfOutputGZip *)(parent_class->constructor (type,
+						      n_construct_properties,
+						      construct_params));
+
+  if (!gzip->sink)
+	  gsf_output_set_error (GSF_OUTPUT (gzip),
+				0,
+				"NULL sink");
+  else if (!init_gzip (gzip))
+	  gsf_output_set_error (GSF_OUTPUT (gzip),
+				0,
+				"Failed to initialize zlib structure");
+  else if (gzip->container && !gzip_output_header (gzip))
+	  gsf_output_set_error (GSF_OUTPUT (gzip),
+				0,
+				"Failed to write gzip header");
+
+  return (GObject *)gzip;
+}
+
+static void
 gsf_output_gzip_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
 
-	gobject_class->finalize = gsf_output_gzip_finalize;
-	output_class->Write	= gsf_output_gzip_write;
-	output_class->Seek	= gsf_output_gzip_seek;
-	output_class->Close	= gsf_output_gzip_close;
+	gobject_class->constructor  = gsf_output_gzip_constructor;
+	gobject_class->finalize     = gsf_output_gzip_finalize;
+	gobject_class->set_property = gsf_output_gzip_set_property;
+	gobject_class->get_property = gsf_output_gzip_get_property;
+	output_class->Write	    = gsf_output_gzip_write;
+	output_class->Seek	    = gsf_output_gzip_seek;
+	output_class->Close	    = gsf_output_gzip_close;
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_CONTAINER,
+		 g_param_spec_boolean ("container", "Container",
+				       "Whether to write a gzip container.",
+				       TRUE,
+				       G_PARAM_READABLE |
+				       G_PARAM_WRITABLE |
+				       G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SINK,
+		 g_param_spec_object ("sink", "Sink",
+				      "Where the compressed data is written.",
+				      GSF_OUTPUT_TYPE,
+				      G_PARAM_READABLE |
+				      G_PARAM_WRITABLE |
+				      G_PARAM_CONSTRUCT_ONLY));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
