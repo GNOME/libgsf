@@ -35,6 +35,7 @@ struct _GsfOutput {
 	char       *name;
 	GsfOutput  *wrapped_by;
 	GsfOutfile *container;
+	gboolean    is_closed;
 };
 
 typedef struct {

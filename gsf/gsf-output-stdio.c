@@ -96,7 +96,8 @@ gsf_output_stdio_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfOutput *output = (GsfOutput *)obj;
 
-	gsf_output_stdio_close (output);
+	if (!gsf_output_is_closed (output))
+		gsf_output_close (output);
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 	if (parent_class && parent_class->finalize)

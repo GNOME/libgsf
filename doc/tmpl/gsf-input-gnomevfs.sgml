@@ -14,29 +14,6 @@ gsf-input-gnomevfs
 
 </para>
 
-<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_MS_OLE_INPUT_GNOMEVFS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GsfInputGnomeVFS ##### -->
 <para>
 
@@ -56,8 +33,10 @@ gsf-input-gnomevfs
 
 </para>
 
-@filename: 
+@uri: 
 @error: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@filename: 
 
 

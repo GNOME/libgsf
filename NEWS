@@ -1,5 +1,27 @@
 DO NOT PACKAGE THIS YET
 
+libgsf 1.2.0
+
+Dom:
+	* Read/Write gnome-vfs (untested)
+	* Write to mem buf (untested)
+
+Jody:
+	* Add some safety and utilty to ensure outputs are closed before
+	  finalizing
+	* Add some printf style capabilities for outputs.
+
+Ray:
+	* improve doc generation
+	* Update debian support in preparation for packaging.
+
+Rodrigo:
+	* more work on io_context.
+
+Tambet:
+	* Read zip files
+
+------------------------------------------------------------------------------
 libgsf 1.1.0
 
 Jody:

@@ -1,3 +1,14 @@
+2002-08-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump version
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_finalize) : add a safety
+	  to close the file before finalizing.
+
+	* gsf/gsf-output.c (gsf_output_finalize) : add a warning when
+	  finalizing an unclosed stream.
+	(gsf_output_init) : init the new is_closed flag.
+
 2002-08-02  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* gsf/gsf-io-context.c: removed progress_min and progress_max, since

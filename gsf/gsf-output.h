@@ -38,6 +38,7 @@ GsfOutfile   *gsf_output_container (GsfOutput const *output);
 
 ssize_t	      gsf_output_size      (GsfOutput *output);
 gboolean      gsf_output_close     (GsfOutput *output);
+gboolean      gsf_output_is_closed (GsfOutput const *output);
 int           gsf_output_tell      (GsfOutput *output);
 gboolean      gsf_output_seek      (GsfOutput *output,
 				    off_t offset, GsfOff_t whence);

@@ -70,6 +70,10 @@ gsf_outfile_msole_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
 	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (obj);
+	GsfOutput *output = (GsfOutput *)obj;
+
+	if (!gsf_output_is_closed (output))
+		gsf_output_close (output);
 
 	if (ole->sink != NULL) {
 		g_object_unref (G_OBJECT (ole->sink));

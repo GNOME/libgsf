@@ -29,8 +29,15 @@ static void
 gsf_output_finalize (GObject *obj)
 {
 	GsfOutput *output;
-	
+
 	output = GSF_OUTPUT (obj);
+
+	/* it is too late to close things, we are partially destroyed.
+	 * Keep this as a warning for silly mistakes
+	 */
+	if (!output->is_closed)
+		g_warning ("unrefing an unclosed stream");
+	
 	if (output->name != NULL) {
 		g_free (output->name);
 		output->name = NULL;
@@ -51,6 +58,7 @@ gsf_output_init (GObject *obj)
 	output->name		= NULL;
 	output->container	= NULL;
 	output->wrapped_by	= NULL;
+	output->is_closed	= FALSE;
 }
 
 static void
@@ -103,14 +111,43 @@ gsf_output_size (GsfOutput *output)
 	return output->cur_size;
 }
 
+/**
+ * gsf_output_close :
+ * @output :
+ *
+ * Close a stream.
+ * Returns TRUE if things are successful.
+ **/
 gboolean
 gsf_output_close (GsfOutput *output)
 {
 	g_return_val_if_fail (output != NULL, FALSE);
+	g_return_val_if_fail (!output->is_closed, FALSE);
 
-	return GET_CLASS (output)->Close (output);
+	if (GET_CLASS (output)->Close (output)) {
+		output->is_closed = TRUE;
+		return TRUE;
+	}
+	return FALSE;
 }
 
+/**
+ * gsf_output_is_closed :
+ * @output :
+ *
+ * Returns TRUE if @output has already been closed.
+ **/
+gboolean
+gsf_output_is_closed (GsfOutput const *output)
+{
+}
+
+/**
+ * gsf_output_tell :
+ * @output :
+ *
+ * Returns the current position in the file
+ **/
 int
 gsf_output_tell	(GsfOutput *output)
 {

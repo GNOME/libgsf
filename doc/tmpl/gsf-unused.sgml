@@ -124,6 +124,26 @@
 
 @o: 
 
+<!-- ##### MACRO IS_MS_OLE_INPUT_GNOMEVFS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO MS_OLE_INPUT_GNOMEVFS_TYPE ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### FUNCTION gsf_outfile_add_child ##### -->
 <para>
 
