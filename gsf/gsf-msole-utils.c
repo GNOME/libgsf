@@ -396,7 +396,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		GsfTimestamp ts;
 
 		ft /= 10000000; /* convert to seconds */
-		ft -= 11644473600; /* move to Jan 1 1970 */
+		ft -= 11644473600ULL; /* move to Jan 1 1970 */
 		ts.timet = (time_t)ft;
 		g_value_set_timestamp (res, &ts);
 		*data += 8;
