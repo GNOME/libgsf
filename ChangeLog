@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
 2003-04-29  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf-win32/gsf-input-istream.[ch]: IStream based input. Untested
