@@ -1,3 +1,8 @@
+2003-05-12  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_finalize): Plug
+	truck-sized leak.
+
 2003-05-12  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
