@@ -174,6 +174,8 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_mmapped_new (buf, size);
 	gsf_input_set_size (GSF_INPUT (mem), size);
+	gsf_input_set_name (GSF_INPUT (mem), filename);
+
 	return GSF_INPUT (mem);
 #else
 	(void)filename;
