@@ -1,3 +1,12 @@
+2002-12-03  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_close): Try much harder
+	restoring owner and permissions.  Still not good.
+	(gsf_output_stdio_new): Simplify using g_path_get_dirname.
+	Respect non-writable files!
+	(follow_symlinks): Simplify using g_path_is_absolute and
+	g_path_get_dirname.  Eliminate some race conditions.
+
 2002-11-29  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-output-gzip.c (init_gzip): Return set error if

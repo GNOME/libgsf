@@ -67,69 +67,48 @@ follow_symlinks (char const *filename, GError **error)
 	followed_filename = g_strdup (filename);
 	link_count = 0;
 
-	while (link_count < GSF_MAX_LINK_LEVEL) {
-		struct stat st;
+	while (link_count++ < GSF_MAX_LINK_LEVEL) {
+		char linkname[GSF_MAX_PATH_LEN];
+		int len = readlink (followed_filename, linkname, GSF_MAX_PATH_LEN - 1);
 
-		if (lstat (followed_filename, &st) != 0)
-			/* We could not access the file, so perhaps it does not
-			 * exist.  Return this as a real name so that we can
-			 * attempt to create the file.
-			 */
-			return followed_filename;
+		if (len == -1) {
+			switch (errno) {
+			case EINVAL: /* Not a symlink.  */
+			case ENOSYS: /* Surely not a symlink.  */
+			case ENOENT: /* No such file.  */
+				return followed_filename;
 
-		if (S_ISLNK (st.st_mode)) {
-			gint len;
-			gchar linkname[GSF_MAX_PATH_LEN];
-
-			link_count++;
-
-			len = readlink (followed_filename, linkname, GSF_MAX_PATH_LEN - 1);
-
-			if (len == -1) {
+			default: {
 				char *utf8name = gsf_filename_to_utf8 (followed_filename, FALSE);
 				g_set_error (error, gsf_output_error_id (), errno,
 					     "Could not read symbolic link information "
-					       "for %s", utf8name);
+					     "for %s", utf8name);
 				g_free (utf8name);
 				g_free (followed_filename);
 				return NULL;
 			}
+			}
+		}
 
-			linkname[len] = '\0';
+		linkname[len] = '\0';
 
-			/* If the linkname is not an absolute path name, append
+		if (g_path_is_absolute (linkname)) {
+			g_free (followed_filename);
+			followed_filename = g_strdup (linkname);
+		} else {
+			/*
+			 * If the linkname is not an absolute path name, append
 			 * it to the directory name of the followed filename.  E.g.
 			 * we may have /foo/bar/baz.lnk -> eek.txt, which really
 			 * is /foo/bar/eek.txt.
 			 */
 
-			if (linkname[0] != G_DIR_SEPARATOR)
-			{
-				gchar *slashpos;
-				gchar *tmp;
+			char *dir = g_path_get_dirname (followed_filename);
 
-				slashpos = strrchr (followed_filename, G_DIR_SEPARATOR);
-
-				if (slashpos)
-					*slashpos = '\0';
-				else
-				{
-					tmp = g_strconcat ("./", followed_filename, NULL);
-					g_free (followed_filename);
-					followed_filename = tmp;
-				}
-
-				tmp = g_build_filename (followed_filename, linkname, NULL);
-				g_free (followed_filename);
-				followed_filename = tmp;
-			}
-			else
-			{
-				g_free (followed_filename);
-				followed_filename = g_strdup (linkname);
-			}
-		} else
-			return followed_filename;
+			g_free (followed_filename);
+			followed_filename = g_build_filename (dir, linkname, NULL);
+			g_free (dir);
+		}
 	}
 
 	/* Too many symlinks */
@@ -165,7 +144,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 {
 	GsfOutputStdio *stdio;
 	FILE *file = NULL;
-	char *slashpos, *dirname, *temp_filename = NULL;
+	char *dirname, *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
 	mode_t saved_umask;
@@ -175,17 +154,26 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		return NULL;
 
 	/* Get the directory in which the real filename lives */
-	slashpos = strrchr (real_filename, G_DIR_SEPARATOR);
-	if (slashpos) {
-		dirname = g_strdup (real_filename);
-		dirname[slashpos - real_filename + 1] = '\0';
-	} else
-		dirname = g_strdup (".");
+	dirname = g_path_get_dirname (real_filename);
 
-	/* If there is not an existing file with that name, compute the
-	 * permissions and uid/gid that we will use for the newly-created file.
-	 */
-	if (stat (real_filename, &st) != 0) {
+	if (stat (real_filename, &st) == 0) {
+		/* FIXME: use eaccess if available.  */
+		/* FIXME? Race conditions en masse.  */
+		if (access (real_filename, W_OK) != 0) {
+			if (err != NULL) {
+				char *utf8name = gsf_filename_to_utf8 (real_filename, FALSE);
+				*err = g_error_new (gsf_output_error_id (), errno,
+						    "%s: %s", utf8name, g_strerror (errno));
+				g_free (utf8name);
+			}
+			goto failure;
+		}
+	} else {
+		/*
+		 * File does not exist.  Compute the permissions and uid/gid
+		 * that we will use for the newly-created file.
+		 */
+
 		struct stat dir_st;
 		int result;
 
@@ -210,6 +198,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	 */
 	temp_filename = g_build_filename (dirname, ".gsf-save-XXXXXX", NULL);
 	g_free (dirname);
+	/* Oh, joy.  What about threads?  --MW */
 	saved_umask = umask (0077);
 	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
 	umask (saved_umask);
@@ -285,9 +274,17 @@ gsf_output_stdio_close (GsfOutput *output)
 	} else {
 		/* Restore permissions.  There is not much error checking we
 		 * can do here, I'm afraid.  The final data is saved anyways.
+		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
 		chmod (stdio->real_filename, stdio->st.st_mode);
-		chown (stdio->real_filename, stdio->st.st_uid, stdio->st.st_gid);
+		if (chown (stdio->real_filename,
+			   stdio->st.st_uid,
+			   stdio->st.st_gid)) {
+			/* We cannot set both.  Maybe we can set one.  */
+			chown (stdio->real_filename, -1, stdio->st.st_gid);
+			chown (stdio->real_filename, stdio->st.st_uid, -1);
+		}
+		chmod (stdio->real_filename, stdio->st.st_mode);
 	}
 
 	g_free (backup_filename);
