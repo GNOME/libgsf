@@ -57,6 +57,10 @@ gsf-impl-utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 <!-- # Unused Parameters # -->

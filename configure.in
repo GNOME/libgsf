@@ -201,21 +201,21 @@ dnl Uncomment to enable Python bindings. automake1.5 or later is required.
 dnl
 dnl AM_PATH_PYTHON
 dnl AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
-dnl dnl check for pygtk
+dnl check for pygtk
 dnl PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
 dnl 		  [pygtk_msg="yes"],
 dnl 		  [pygtk_msg="NO.  pygtk problem"])
 dnl AC_SUBST(PYGTK_CFLAGS)
 dnl AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
 dnl if test "x$PYGTK_CODEGEN" = xno; then
-dnl   AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
+dnl    AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
 dnl fi
 
-if test "x$pygtk_msg" = "xyes"; then
-  AM_CONDITIONAL(WITH_PYTHON, true)
-else
+dnl if test "x$pygtk_msg" = "xyes"; then
+dnl   AM_CONDITIONAL(WITH_PYTHON, true)
+dnl else
   AM_CONDITIONAL(WITH_PYTHON, false)
-fi
+dnl fi
 
 have_orbit_python=false
 PKG_CHECK_MODULES(ORBIT_PYTHON,

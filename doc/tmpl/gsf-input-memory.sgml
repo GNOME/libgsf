@@ -54,35 +54,6 @@ gsf-input-memory
 @Returns: 
 
 
-<!-- ##### MACRO GSF_INPUT_MMAP_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_INPUT_MMAP ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### STRUCT GsfInputMMap ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### FUNCTION gsf_input_mmap_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_input_mmap_new ##### -->
 <para>
 

@@ -1,3 +1,16 @@
+<!-- ##### MACRO GSF_INPUT_MMAP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_INPUT_MMAP_TYPE ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_OLE_GET_GUINT16 ##### -->
 <para>
 
@@ -20,6 +33,12 @@
 @p: 
 
 <!-- ##### STRUCT GsfInputGnomeVFS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GsfInputMMap ##### -->
 <para>
 
 </para>
@@ -207,6 +226,13 @@
 @error: 
 @Returns: 
 @filename: 
+
+<!-- ##### FUNCTION gsf_input_mmap_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 <!-- ##### FUNCTION gsf_outfile_add_child ##### -->
 <para>

@@ -1,3 +1,7 @@
+2003-02-07  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* gsf/gsf-input-iochannel.[ch]: new GIOChannel based input.
+
 2003-02-07  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-doc-metadata.[ch]: Clean API a bit to include consts, gsize
