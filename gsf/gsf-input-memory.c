@@ -164,8 +164,8 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		return NULL;
 	}
 	
-	size = st.st_size;
-	if ((ssize_t) size != st.st_size) { /* Check for overflow */
+	size = (size_t) st.st_size;
+	if ((off_t) size != st.st_size) { /* Check for overflow */
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: %s",filename,
