@@ -1,5 +1,10 @@
 2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-input.c (gsf_input_uncompress): Support uncompressing BZ2
+	streams as well, optionally
+	
+2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-output-bzip.c: Restructure things so that it's possible to
 	build without bzip2 support
 	

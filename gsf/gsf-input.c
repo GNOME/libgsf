@@ -25,6 +25,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+#ifdef HAVE_BZIP
+#include <gsf/gsf-input-bzip.h>
+#endif
+
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
 enum {
@@ -507,6 +511,21 @@ gsf_input_uncompress (GsfInput *src)
 			}
 		}
 	}
+
+#ifdef HAVE_BZIP
+	/* Let's try bzip.  */
+	{
+		const guint8 * bzip_sig = "BZh";
+
+		if (memcmp (gzip_sig, data, strlen (bzip_sig)) == 0) {
+			GsfInputMemory *res = gsf_input_memory_new_from_bzip (src, NULL);
+			if (res) {
+				g_object_unref (G_OBJECT (src));
+				return gsf_input_uncompress (GSF_INPUT (res));
+			}
+		}
+	}
+#endif
 
 	/* Other methods go here.  */
 
