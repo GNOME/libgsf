@@ -25,6 +25,7 @@
 #include <gsf/gsf.h>
 #include <glib-object.h>
 #include <sys/types.h>
+#include <gsf/gsf-output.h>
 
 G_BEGIN_DECLS
 
@@ -46,6 +47,8 @@ gsf_off_t     gsf_input_remaining (GsfInput *input);
 gsf_off_t     gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
 				   gsf_off_t offset, GSeekType whence);
+gboolean      gsf_input_copy      (GsfInput *input,
+				   GsfOutput *output);
 
 GsfInput *gsf_input_uncompress (GsfInput *src);
 

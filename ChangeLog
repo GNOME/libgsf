@@ -1,3 +1,10 @@
+2002-12-04  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-input.c (gsf_input_copy): Copies a GsfInput to a GsfOutput. 
+	Will probably be useful for some abiword stuff I'll be doing
+
+	* tests/test-cp.c: New test program exercising gsf_input_copy
+	
 2002-12-04  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-output-stdio.c (follow_symlinks): Fix error return

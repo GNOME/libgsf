@@ -350,6 +350,45 @@ gsf_input_error (void)
 
 /****************************************************************************/
 
+#define GSF_READ_BUFSIZE (1024 * 4)
+
+/**
+ * gsf_input_copy :
+ *
+ * @input : a non-null #GsfInput
+ * @output : a non-null #GsfOutput
+ *
+ * Copy the contents from @input to @output from their respective
+ * current positions. So if you want to be sure to copy *everything*,
+ * make sure to call gsf_input_seek (input, 0, G_SEEK_SET) and
+ * gsf_output_seek (output, 0, G_SEEK_SET) first, if applicable.
+ *
+ * Returns : Success
+ */
+gboolean
+gsf_input_copy (GsfInput *input, GsfOutput *output)
+{
+	gsf_off_t    remaining = 0;
+	size_t       toread    = 0;
+	const char * buffer    = NULL;
+	gboolean     success   = TRUE;
+
+	g_return_val_if_fail (input != NULL, FALSE);
+	g_return_val_if_fail (output != NULL, FALSE);
+
+	while ((remaining = gsf_input_remaining (input)) > 0 && (success == TRUE)) {
+		toread = MIN (remaining, GSF_READ_BUFSIZE);
+		if (NULL == (buffer = gsf_input_read (input, toread, NULL)))
+			success = FALSE;
+		else
+			success = gsf_output_write (output, toread, buffer);
+	}
+
+	return success;
+}
+
+/****************************************************************************/
+
 /**
  * gsf_input_uncompress: maybe uncompress stream.
  *
