@@ -22,17 +22,12 @@
 #define GSF_INPUT_IOCHANNEL_H
 
 #include "gsf-input.h"
+#include <gsf-input-memory.h>
 
 G_BEGIN_DECLS
 
-#define GSF_INPUT_IOCHANNEL_TYPE        (gsf_input_iochannel_get_type ())
-#define GSF_INPUT_IOCHANNEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_IOCHANNEL_TYPE, GsfInputIOChannel))
-#define GSF_IS_INPUT_IOCHANNEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_IOCHANNEL_TYPE))
-
-typedef struct _GsfInputIOChannel GsfInputIOChannel;
-
-GType              gsf_input_iochannel_get_type (void);
-GsfInputIOChannel *gsf_input_iochannel_new      (GIOChannel * channel);
+GsfInputMemory * gsf_input_memory_new_from_iochannel (GIOChannel * channel,
+						      GError ** error);
 
 G_END_DECLS
 
