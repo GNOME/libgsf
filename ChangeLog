@@ -1,3 +1,12 @@
+2002-11-27  Jon K Hellan  <hellan@acm.org>
+
+	* tests/Makefile.am (check_PROGRAMS): Add test-out-gzip.c
+
+	* gsf/gsf-output-gzip.[ch]: New files. Gzip output.
+
+	* gsf/Makefile.am (libgsf_1_la_SOURCES): Add gsf-output-gzip.c.
+	(libgsf_1_include_HEADERS): Add gsf-output-gzip.h.
+
 2002-11-25  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-outmem-printf.c (test): Adjust to new
