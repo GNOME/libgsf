@@ -298,6 +298,18 @@ gsf_input_set_size (GsfInput *input, size_t size)
 /****************************************************************************/
 
 /**
+ * gsf_input_wrap :
+ * @src :
+ *
+ */
+GsfInput *
+gsf_input_wrap (GsfInput *src)
+{
+	return src;
+}
+
+void      gsf_input_unwrap (GsfInput *src);
+/**
  * gsf_input_error :
  *
  * Returns : A utility quark to flag a GError as being an input problem.

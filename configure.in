@@ -139,7 +139,7 @@ AC_ARG_WITH(libxml,
 with_libxml=false
 if  $test_libxml ; then 
     PKG_CHECK_MODULES(LIBXML,[
-    libxml-2.0 >= 2.4.17
+    libxml-2.0 >= 2.4.16
     ],[with_libxml=true])
 else
     AC_MSG_WARN([libxml support disabled, as requested (Use --with-libxml to enable)])

@@ -46,6 +46,9 @@ size_t        gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
 				   off_t offset, GsfOff_t whence);
 
+GsfInput *gsf_input_wrap   (GsfInput *src);
+void      gsf_input_unwrap (GsfInput *src);
+
 GQuark gsf_input_error (void);
 
 G_END_DECLS

@@ -32,7 +32,8 @@ G_BEGIN_DECLS
 
 GType gsf_outfile_get_type (void);
 
-GsfOutput *gsf_outfile_new_child  (GsfOutfile *outfile, char const *name);
+GsfOutput *gsf_outfile_new_child  (GsfOutfile *outfile,
+				   char const *name, gboolean is_dir);
 
 GQuark gsf_outfile_error (void);
 

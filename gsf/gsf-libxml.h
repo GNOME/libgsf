@@ -27,7 +27,9 @@
 
 G_BEGIN_DECLS
 
-xmlParserCtxtPtr gsf_xml_parser_context (GsfInput *source);
+xmlParserCtxtPtr	gsf_xml_parser_context	(GsfInput  *input);
+int			gsf_xmlDocFormatDump	(GsfOutput *output,
+						 xmlDocPtr cur, gboolean format);
 
 G_END_DECLS
 
