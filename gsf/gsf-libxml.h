@@ -48,9 +48,13 @@ typedef struct _GsfXMLInNS	GsfXMLInNS;
 struct _GsfXMLIn {
 	GsfXMLInDoc  const *doc;	/* init before parsing */
 
-	/* look but do not change */
+    /* look but do not change */
 	GsfXMLInNode const *node;	/* current node */
-	GSList	 	*state_stack;
+	GSList	 	   *state_stack;
+
+	GsfXMLInNS   const *default_ns;	/* optionally NULL */
+	GSList	 	   *ns_stack;
+
 	GString		*content;
 	gint		 unknown_depth;	/* handle recursive unknown tags */
 	GHashTable	*ns_prefixes;	/* current ns prefixes */

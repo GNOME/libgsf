@@ -362,10 +362,10 @@ gsf_output_stdio_write (GsfOutput *output,
 }
 
 static gboolean
-gsf_output_stdio_vprintf (GsfOutput *output, char const *format, va_list args)
+gsf_output_stdio_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {
 	GsfOutputStdio *stdio = (GsfOutputStdio *)output;
-	int res = vfprintf (stdio->file, format, args);
+	int res = vfprintf (stdio->file, fmt, args);
 
 	return (res >= 0);
 }

@@ -241,8 +241,7 @@ vba3_dir_read (GsfInfileMSVBA *vba, GError **err)
 	GsfInput *dir;
 	size_t inflated_size;
 	guint8 *inflated;
-	guint8 const *data;
-	unsigned offset, size, name_len, i, j;
+	unsigned offset, name_len, i, j;
 	char *name;
 
 	dir = gsf_infile_child_by_name (vba->source, "dir");

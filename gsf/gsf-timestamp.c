@@ -62,7 +62,8 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 }
 
 int
-gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
+gsf_timestamp_parse (G_GNUC_UNUSED char const *spec,
+		     G_GNUC_UNUSED GsfTimestamp *stamp)
 {
 	return 0;
 }

@@ -524,7 +524,6 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		} while (zip->restlen && zip->stream->avail_out);
 
 		return buffer;
-		break;
 
 	default:
 		break;

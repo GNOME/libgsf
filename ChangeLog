@@ -1,3 +1,15 @@
+2003-01-24  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove -Wunreachable-code it was damn irritating and
+	  mostly wrong.
+
+	* gsf/gsf-msole-utils.c : warning suppression.
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : support default
+	  namespaces.
+	(gsf_xml_in_end_element) : ditto.
+	(gsf_xml_in_start_document) : ditto.
+
 2003-01-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Calculate MAJOR_VERSION_PLUS_MINOR_VERSION.

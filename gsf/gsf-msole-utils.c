@@ -1028,6 +1028,8 @@ gsf_msole_lid_to_codepage (guint lid)
 			
 		case 0x0804:		/* Chinese (PRC) */
 			return 936;
+		default :
+			break;
 		}
 		break;
 	case 0x05:		/* Czech */
@@ -1062,6 +1064,8 @@ gsf_msole_lid_to_codepage (guint lid)
 			return 1361;
 		case 0x0412:		/* Korean */
 			return 949;
+		default :
+			break;
 		}
 		break;
 	case 0x13:		/* Dutch */
@@ -1086,6 +1090,8 @@ gsf_msole_lid_to_codepage (guint lid)
 			return 1251;
 		case 0x081a:		/* Serbian (Latin) */
 			return 1252;
+		default :
+			break;
 		}
 		break;
 	case 0x1b:		/* Slovak */
@@ -1124,6 +1130,8 @@ gsf_msole_lid_to_codepage (guint lid)
 		switch (lid) {
 		case 0x082c:		/* Azeri (Cyrillic) */
 			return 1251;
+		default :
+			break;
 		}
 		break;
 	case 0x2d:		/* Basque */
@@ -1146,6 +1154,8 @@ gsf_msole_lid_to_codepage (guint lid)
 		switch (lid) {
 		case 0x0843:		/* Uzbek (Cyrillic) */
 			return 1251;
+		default :
+			break;
 		}
 		break;
 	case 0x45:		/* Windows 2000: Bengali. This is Unicode only. */
