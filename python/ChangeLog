@@ -1,3 +1,25 @@
+2002-08-05  Jon K Hellan  <hellan@acm.org>
+
+	* gsf.override: (GsfInputBonobo, GsfInputGnomeVFS, GsfIOContext,
+	GsfOutfile, GsfOutfileMSOle, GsfOutputBonobo, GsfOutputGnomeVFS,
+	GsfOutputMemory, GsfOuputStdio): Add.
+	(_wrap_gsf_input_read): Use correct type of gsf_input_size.
+	(_wrap_gsf_input_seek, _wrap_gsf_input_tell,
+	_wrap_gsf_input_memory_new): Kill warning.
+	(_wrap_gsf_input_stdio_new, _wrap_gsf_input_mmap_new,
+	_wrap_gsf_input_textline_utf8_gets,
+	_wrap_gsf_infile_name_by_index, _wrap_gsf_infile_child_by_name):
+	Remove. Improved pygtk-codegen?
+	(_wrap_gsf_input_bonobo_new, _wrap_gsf_output_size) 
+	(_wrap_gsf_output_seek, _wrap_gsf_output_seek) 
+	(_wrap_gsf_output_write, _wrap_gsf_output_bonobo_new): Add.
+
+	* gsf.defs (GsfInput.uncompress, GsfInfileZip.get_ooname,
+	GsfInputBonobo, GsfInputGnomeVFS, GsfIOContext, GsfOutfile,
+	GsfOutfileMSOle, GsfOutputBonobo, GsfOutputGnomeVFS,
+	GsfOutputMemory, GsfOuputStdio): Add.
+	(GsfInput.name): Correct type.
+	
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

@@ -68,6 +68,12 @@
   )
 )
 
+(define-method uncompress
+  (of-object "GsfInput")
+  (c-name "gsf_input_uncompress")
+  (return-type "GsfInput*")
+)
+
 (define-function gsf_input_error
   (c-name "gsf_input_error")
   (return-type "GQuark")
@@ -158,7 +164,7 @@
 (define-method name
   (of-object "GsfInput")
   (c-name "gsf_input_name")
-  (return-type "const-char*")
+  (return-type "char-const*")
 )
 
 (define-method read
@@ -336,3 +342,446 @@
     '("GError**" "err")
   )
 )
+
+(define-method get_ooname
+  (of-object "GsfInfileZip")
+  (c-name "gsf_infile_zip_get_ooname")
+  (return-type "char-const*")
+  (caller-owns-return true)
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-input-bonobo.[ch]
+
+(define-object InputBonobo
+  (in-module "Gsf")
+  (parent "GsfInput")
+  (c-name "GsfInputBonobo")
+  (gtype-id "GSF_TYPE_INPUT_BONOBO")
+)
+
+(define-function gsf_input_bonobo_new
+  (c-name "gsf_input_bonobo_new")
+  (is-constructor-of "GsfInputBonobo")
+  (return-type "GsfInput*")
+  (parameters
+    '("Bonobo_Stream-const" "stream")
+    '("GError**" "err")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-input-gnomevfs.[ch]
+
+(define-object InputGnomeVFS
+  (in-module "Gsf")
+  (parent "GsfInput")
+  (c-name "GsfInputGnomeVFS")
+  (gtype-id "GSF_TYPE_INPUT_GNOME_VFS")
+)
+
+(define-function gsf_input_gnomevfs_new
+  (c-name "gsf_input_gnomevfs_new")
+  (is-constructor-of "GsfInputGnomevfs")
+  (return-type "GsfInput*")
+  (parameters
+    '("char-const*" "uri")
+    '("GError**" "error")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-io-context.[ch]
+
+(define-object IOContext
+  (in-module "Gsf")
+  (parent "GObject")
+  (c-name "GsfIOContext")
+  (gtype-id "GSF_TYPE_IO_CONTEXT")
+)
+
+(define-function gsf_io_context_new
+  (c-name "gsf_io_context_new")
+  (is-constructor-of "GsfIOContext")
+  (return-type "GsfIOContext*")
+)
+
+(define-method error_occurred
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_error_occurred")
+  (return-type "gboolean")
+)
+
+(define-method error_message
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_error_message")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "msg")
+    '("gint" "code")
+  )
+)
+
+(define-method push_error
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_push_error")
+  (return-type "none")
+  (parameters
+    '("const-GError*" "error")
+  )
+)
+
+(define-method pop_error
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_pop_error")
+  (return-type "GError*")
+)
+
+(define-method clear
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_clear")
+  (return-type "none")
+)
+
+(define-method update_progress
+  (of-object "GsfIOContext")
+  (c-name "gsf_io_context_update_progress")
+  (return-type "none")
+  (parameters
+    '("gdouble" "value")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-metadata-bag.[ch]
+
+;; (define-object MetaDataBag
+;;   (in-module "Gsf")
+;;   (parent "GObject")
+;;   (c-name "GsfMetaDataBag")
+;;   (gtype-id "GSF_TYPE_META_DATA_BAG")
+;; )
+
+;; (define-function gsf_metadata_bag_error
+;;   (c-name "gsf_metadata_bag_error")
+;;   (return-type "GQuark")
+;; )
+
+;; (define-function gsf_metadata_bag_new
+;;   (c-name "gsf_metadata_bag_new")
+;;   (is-constructor-of "GsfMetadataBag")
+;;   (return-type "GsfMetaDataBag*")
+;;   (parameters
+;;   )
+;; )
+
+;; (define-method set_prop
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_set_prop")
+;;   (return-type "none")
+;;   (parameters
+;;     '("const-gchar*" "prop")
+;;     '("const-GValue*" "value")
+;;   )
+;; )
+
+;; (define-method remove_prop
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_remove_prop")
+;;   (return-type "none")
+;;   (parameters
+;;     '("const-gchar*" "prop")
+;;   )
+;; )
+
+;; (define-method get_prop
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_get_prop")
+;;   (return-type "const-GValue*")
+;;   (parameters
+;;     '("const-gchar*" "prop")
+;;   )
+;; )
+
+;; (define-method contains_prop
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_contains_prop")
+;;   (return-type "gboolean")
+;;   (parameters
+;;     '("const-gchar*" "prop")
+;;   )
+;; )
+
+;; (define-method iterate
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_iterate")
+;;   (return-type "none")
+;;   (parameters
+;;     '("GsfMetaDataBagEnumFunc" "func")
+;;     '("gpointer" "user_data")
+;;   )
+;; )
+
+;; (define-method cardinality
+;;   (of-object "GsfMetaDataBag")
+;;   (c-name "gsf_metadata_bag_cardinality")
+;;   (return-type "gsize_t")
+;; )
+
+;; (define-function gsf_meta_key_new
+;;   (c-name "gsf_meta_key_new")
+;;   (is-constructor-of "GsfMetaKey")
+;;   (return-type "gchar*")
+;;   (parameters
+;;     '("const-gchar*" "vendor")
+;;     '("const-gchar*" "version")
+;;     '("const-gchar*" "key")
+;;   )
+;; )
+
+;; (define-function gsf_meta_custom_key_new
+;;   (c-name "gsf_meta_custom_key_new")
+;;   (is-constructor-of "GsfMetaCustomKey")
+;;   (return-type "gchar*")
+;;   (parameters
+;;     '("gchar*" "key")
+;;   )
+;; )
+
+;; (define-function gsf_meta_key_vendor
+;;   (c-name "gsf_meta_key_vendor")
+;;   (return-type "gchar*")
+;;   (parameters
+;;     '("const-gchar*" "key")
+;;   )
+;; )
+
+;; (define-function gsf_meta_key_version
+;;   (c-name "gsf_meta_key_version")
+;;   (return-type "gchar*")
+;;   (parameters
+;;     '("const-gchar*" "key")
+;;   )
+;; )
+
+;; (define-function gsf_meta_key_tag
+;;   (c-name "gsf_meta_key_tag")
+;;   (return-type "gchar*")
+;;   (parameters
+;;     '("const-gchar*" "key")
+;;   )
+;; )
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output.[ch], gsf-output-impl.h
+
+(define-object Output
+  (in-module "Gsf")
+  (parent "GObject")
+  (c-name "GsfOutput")
+  (gtype-id "GSF_TYPE_OUTPUT")
+)
+
+(define-method name
+  (of-object "GsfOutput")
+  (c-name "gsf_output_name")
+  (return-type "char-const*")
+)
+
+(define-method container
+  (of-object "GsfOutput")
+  (c-name "gsf_output_container")
+  (return-type "GsfOutfile*")
+)
+
+(define-method size
+  (of-object "GsfOutput")
+  (c-name "gsf_output_size")
+  (return-type "ssize_t")
+)
+
+(define-method close
+  (of-object "GsfOutput")
+  (c-name "gsf_output_close")
+  (return-type "gboolean")
+)
+
+(define-method is_closed
+  (of-object "GsfOutput")
+  (c-name "gsf_output_is_closed")
+  (return-type "gboolean")
+)
+
+(define-method tell
+  (of-object "GsfOutput")
+  (c-name "gsf_output_tell")
+  (return-type "int")
+)
+
+(define-method seek
+  (of-object "GsfOutput")
+  (c-name "gsf_output_seek")
+  (return-type "gboolean")
+  (parameters
+    '("off_t" "offset")
+    '("GsfOff_t" "whence")
+  )
+)
+
+(define-method write
+  (of-object "GsfOutput")
+  (c-name "gsf_output_write")
+  (return-type "gboolean")
+  (parameters
+    '("size_t" "num_bytes")
+    '("guint8-const*" "data")
+  )
+)
+
+(define-method wrap
+  (of-object "GsfOutput")
+  (c-name "gsf_output_wrap")
+  (return-type "gboolean")
+  (parameters
+    '("GsfOutput*" "wrapee")
+  )
+)
+
+(define-method unwrap
+  (of-object "GsfOutput")
+  (c-name "gsf_output_unwrap")
+  (return-type "gboolean")
+  (parameters
+    '("GsfOutput*" "wrapee")
+  )
+)
+
+(define-function gsf_output_error
+  (c-name "gsf_output_error")
+  (return-type "GQuark")
+)
+
+
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-outfile.[ch]
+
+(define-object Outfile
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutfile")
+  (gtype-id "GSF_TYPE_OUTFILE")
+)
+
+(define-method new_child
+  (of-object "GsfOutfile")
+  (c-name "gsf_outfile_new_child")
+  (return-type "GsfOutput*")
+  (parameters
+    '("char-const*" "name")
+    '("gboolean" "is_dir")
+  )
+)
+
+(define-function gsf_outfile_error
+  (c-name "gsf_outfile_error")
+  (return-type "GQuark")
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-outfile-msole.[ch]
+
+(define-object OutfileMSOle
+  (in-module "Gsf")
+  (parent "GsfOutfile")
+  (c-name "GsfOutfileMSOle")
+  (gtype-id "GSF_TYPE_OUTFILE_MS_OLE")
+)
+
+(define-function gsf_outfile_msole_new
+  (c-name "gsf_outfile_msole_new")
+  (is-constructor-of "GsfOutfileMsole")
+  (return-type "GsfOutfile*")
+  (parameters
+    '("GsfOutput*" "sink")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output-bonobo.[ch]
+
+(define-object OutputBonobo
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputBonobo")
+  (gtype-id "GSF_TYPE_OUTPUT_BONOBO")
+)
+
+(define-function gsf_output_bonobo_new
+  (c-name "gsf_output_bonobo_new")
+  (is-constructor-of "GsfOutputBonobo")
+  (return-type "GsfOutput*")
+  (parameters
+    '("Bonobo_Stream-const" "stream")
+    '("GError**" "err")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output-gnomevfs.[ch]
+
+(define-object OutputGnomeVFS
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputGnomeVFS")
+  (gtype-id "GSF_TYPE_OUTPUT_GNOME_VFS")
+)
+
+(define-function gsf_output_gnomevfs_new
+  (c-name "gsf_output_gnomevfs_new")
+  (is-constructor-of "GsfOutputGnomevfs")
+  (return-type "GsfOutput*")
+  (parameters
+    '("char-const*" "filename")
+    '("GError**" "err")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output-memory.[ch]
+
+(define-object OutputMemory
+
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputMemory")
+  (gtype-id "GSF_TYPE_OUTPUT_MEMORY")
+)
+
+(define-function gsf_output_memory_new
+  (c-name "gsf_output_memory_new")
+  (is-constructor-of "GsfOutputMemory")
+  (return-type "GsfOutput*")
+  (parameters
+  )
+)
+
+(define-method get_bytes
+  (of-object "GsfOutputMemory")
+  (c-name "gsf_output_memory_get_bytes")
+  (return-type "none")
+  (parameters
+    '("guint8**" "outbuffer")
+    '("size_t*" "outlength")
+  )
+)
+
+;; From /home/jk/gnome2/libgsf/gsf/gsf-output-stdio.[ch]
+
+(define-object OutputStdio
+  (in-module "Gsf")
+  (parent "GsfOutput")
+  (c-name "GsfOutputStdio")
+  (gtype-id "GSF_TYPE_OUTPUT_STDIO")
+)
+
+(define-function gsf_output_stdio_new
+  (c-name "gsf_output_stdio_new")
+  (is-constructor-of "GsfOutputStdio")
+  (return-type "GsfOutput*")
+  (parameters
+    '("char-const*" "filename")
+    '("GError**" "err")
+  )
+)
+
