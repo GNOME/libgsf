@@ -1,3 +1,8 @@
+2004-11-25  Sven Herzberg  <herzi@gnome-de.org>
+
+	* gsf-gnome/gsf-output-gnomevfs.c: (gsf_output_gnomevfs_new_uri):
+	truncate the output file to length 0 when opening (fix #159442)
+
 2004-11-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_close) : add a hook to

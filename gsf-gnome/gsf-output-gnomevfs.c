@@ -81,6 +81,11 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
 	output->handle = handle;
 
+	/* truncate the file to length 0 so if we overwrite a file smaller than
+	 * it has been before, it would show rests of the old file (Bug:
+	 * 159442) */
+	gnome_vfs_truncate_handle(output->handle, 0);
+
 	return GSF_OUTPUT (output);
 }
 
