@@ -45,6 +45,7 @@ gsf_input_memory_construct (GsfInputMemory *mem,
 	mem->length     = length;
 	mem->needs_free = needs_free;
 	mem->cur_pos    = 0;
+	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
 }
 
@@ -54,19 +55,6 @@ gsf_input_memory_new (guint8 const *buf, int length, gboolean needs_free)
 	return gsf_input_memory_construct (
 			g_object_new (GSF_INPUT_MEMORY_TYPE, NULL),
 			buf, length, needs_free);
-}
-
-static guint8 const *
-gsf_input_memory_read (GsfInput *input, int num_bytes)
-{
-	GsfInputMemory *mem = GSF_INPUT_MEMORY (input);
-	guint8 const *res;
-
-	if (mem->buf == NULL || (mem->cur_pos + num_bytes) >= mem->length)
-		return NULL;
-	res = mem->buf + mem->cur_pos;
-	mem->cur_pos += num_bytes;
-	return res;
 }
 
 static void
@@ -89,6 +77,58 @@ gsf_input_memory_finalize (GObject *obj)
 		parent_class->finalize (obj);
 }
 
+static GsfInput *
+gsf_input_memory_dup (GsfInput *src_input)
+{
+	GsfInputMemory const *src = GSF_INPUT_MEMORY (src_input);
+	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+
+	return GSF_INPUT (dst);
+}
+
+static unsigned
+gsf_input_memory_size (GsfInput *input)
+{
+	GsfInputMemory *memory = GSF_INPUT_MEMORY (input);
+	return 0;
+}
+
+static gboolean
+gsf_input_memory_eof (GsfInput *input)
+{
+	GsfInputMemory *memory = GSF_INPUT_MEMORY (input);
+	return FALSE;
+}
+
+static guint8 const *
+gsf_input_memory_read (GsfInput *input, int num_bytes)
+{
+	GsfInputMemory *mem = GSF_INPUT_MEMORY (input);
+	guint8 const *res;
+
+	if (mem->buf == NULL || (mem->cur_pos + num_bytes) >= mem->length)
+		return NULL;
+	res = mem->buf + mem->cur_pos;
+	mem->cur_pos += num_bytes;
+	return res;
+}
+
+static int
+gsf_input_memory_seek (GsfInput *input, int offset, GsfOff_t whence)
+{
+	GsfInputMemory const *memory = GSF_INPUT_MEMORY (input);
+
+	switch (whence) {
+	case GSF_SEEK_SET :
+		break;
+	case GSF_SEEK_CUR :
+		break;
+	case GSF_SEEK_END :
+	}
+
+	return -1;
+}
+
 static void
 gsf_input_memory_init (GObject *obj)
 {
@@ -105,7 +145,11 @@ gsf_input_memory_class_init (GObjectClass *gobject_class)
 	GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
 	gobject_class->finalize = gsf_input_memory_finalize;
-	input_class->read   = gsf_input_memory_read;
+	input_class->dup	= gsf_input_memory_dup;
+	input_class->size	= gsf_input_memory_size;
+	input_class->eof	= gsf_input_memory_eof;
+	input_class->read	= gsf_input_memory_read;
+	input_class->seek	= gsf_input_memory_seek;
 }
 
 GSF_CLASS (GsfInputMemory, gsf_input_memory,

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-utils.h: 
+ * gsf-outfile.h: interface for creating structured files
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,18 +19,23 @@
  * USA
  */
 
-#ifndef GSF_UTILS_H
-#define GSF_UTILS_H
+#ifndef GSF_OUTFILE_H
+#define GSF_OUTFILE_H
 
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
-void gsf_init (void);
-void gsf_shutdown (void);
+#define GSF_OUTFILE_TYPE        (gsf_outfile_get_type ())
+#define GSF_OUTFILE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_TYPE, GsfOutfile))
+#define IS_GSF_OUTFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_TYPE))
 
-void gsf_mem_dump (guint8 const *ptr, int len);
+GType gsf_outfile_get_type (void);
+
+GsfOutput *gsf_outfile_add_child  (GsfOutfile *outfile, char const *name);
+
+GQuark gsf_outfile_error (void);
 
 G_END_DECLS
 
-#endif /* GSF_UTILS_H */
+#endif /* GSF_OUTFILE_H */

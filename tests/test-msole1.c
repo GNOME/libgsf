@@ -108,7 +108,7 @@ test (int argc, char *argv[])
 	guint32 len;
 
 	for (i = 1 ; i < argc ; i++) {
-		puts (argv[i]);
+		fprintf( stderr, "%s\n",argv[i]);
 		input = gsf_input_stdio_new (argv[i], &err);
 		if (input == NULL) {
 
@@ -135,17 +135,19 @@ test (int argc, char *argv[])
 
 		if (stream != NULL) {
 			guint8 const *data;
+			unsigned pos = gsf_input_tell (stream);
 
 			while (NULL != (data = gsf_input_read (stream, 4))) {
-				len = GSF_GET_GUINT16 (data+2);
-				printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
-					GSF_GET_GUINT16(data), get_biff_opcode_name (GSF_GET_GUINT16(data)),
-					len, len);
+				len = GSF_OLE_GET_GUINT16 (data+2);
+				printf ("Opcode 0x%3x : %15s, length 0x%x (=%d) @ pos = 0x%x (=%d)\n",
+					GSF_OLE_GET_GUINT16(data), get_biff_opcode_name (GSF_OLE_GET_GUINT16(data)),
+					len, len, pos, pos);
 
 				if (len > 0) {
 					data = gsf_input_read (stream, len);
-					gsf_mem_dump (data, len);
+					/* gsf_mem_dump (data, len); */
 				}
+				pos = gsf_input_tell (stream);
 			}
 			g_object_unref (G_OBJECT (stream));
 		}

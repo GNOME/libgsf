@@ -1,3 +1,29 @@
+2002-05-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_read) : only seek if we
+	  need to.
+
+2002-05-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/test-msole1.c (test) : more debug info, and less content spew.
+
+2002-05-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_size) : be more careful about
+	  people who open devices.
+
+2002-05-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : more error handling.
+	(ole_info_get_sb_file) : make things more readable and split this out.
+	(gsf_infile_msole_new_child) : fix reading small blocks.
+
+2002-05-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.h (GSF_OLE_GET_GUINT8) : move here.
+	(GSF_OLE_GET_GUINT16) : ditto.
+	(GSF_OLE_GET_GUINT32) : ditto.
+
 2002-05-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.h : Use the glib type macros instead of defining our

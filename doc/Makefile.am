@@ -43,23 +43,9 @@ extra_files =
 
 # CFLAGS and LDFLAGS for compiling scan program. Only needed
 # if $(DOC_MODULE).types is non-empty.
-GTKDOC_CFLAGS = @STRIP_BEGIN@ 				\
-	@CFLAGS@					\
-	-I$(top_srcdir) 				\
-	-I$(top_builddir) 				\
-	-I$(top_builddir)/gdk				\
-	-DGTK_ENABLE_BROKEN				\
-	@GTK_DEBUG_FLAGS@				\
-	@GTK_DEP_CFLAGS@				\
-@STRIP_END@
+GTKDOC_CFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
-GTKDOC_LIBS = @STRIP_BEGIN@ 						\
-	$(top_builddir)/gsf/libgsf-1.la					\
-@STRIP_END@
-
-GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)
-GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)
-
+GTKDOC_LIBS = $(LIBGSF_LIBS)
 
 ####################################
 # Everything below here is generic #
@@ -73,6 +59,7 @@ GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)
 GPATH = $(srcdir)
 
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
+DOC_DIR=$(datadir)/doc$(TARGET_DIR)
 
 EXTRA_DIST = 				\
 	$(content_files)		\
@@ -99,7 +86,7 @@ all-local: html-build.stamp
 scan-build.stamp: $(HFILE_GLOB)
 	@echo '*** Scanning header files ***'
 	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null ; then \
-	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scangobj $(SCANGOBJ_OPTIONS) --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
+	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scangobj $(SCANGOBJ_OPTIONS) --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
 	else \
 	    cd $(srcdir) ; \
 	    for i in $(SCANOBJ_FILES) ; do \
@@ -156,17 +143,17 @@ maintainer-clean-local: clean
 	cd $(srcdir) && rm -rf sgml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
 install-data-local:
-	$(mkinstalldirs) $(datadir)/doc$(TARGET_DIR)
+	$(mkinstalldirs) $(DOC_DIR)
 	(installfiles=`echo $(srcdir)/html/*`; \
 	if test "$$installfiles" = '$(srcdir)/html/*'; \
 	then echo '-- Nothing to install' ; \
 	else \
 	  for i in $$installfiles; do \
 	    echo '-- Installing '$$i ; \
-	    $(INSTALL_DATA) $$i $(datadir)/doc$(TARGET_DIR); \
+	    $(INSTALL_DATA) $$i $(DOC_DIR); \
 	  done; \
 	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
-	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(datadir)/doc$(TARGET_DIR); \
+	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DOC_DIR); \
 	fi)
 
 #

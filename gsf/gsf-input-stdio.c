@@ -42,6 +42,13 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputStdioClass;
 
+/**
+ * gsf_input_stdio_new :
+ * @filename : in utf8.
+ * @err	     : optionally NULL.
+ *
+ * Returns a new file or NULL.
+ **/
 GsfInput *
 gsf_input_stdio_new (char const *filename, GError **err)
 {
@@ -52,7 +59,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	if (file == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
-				"%s : %s", filename, g_strerror (errno));
+				"%s: %s", filename, g_strerror (errno));
 		return NULL;
 	}
 
@@ -68,7 +75,7 @@ static void
 gsf_input_stdio_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfInputStdio *input = GSF_INPUT_STDIO (obj);
+	GsfInputStdio *input = (GsfInputStdio *)obj;
 
 	if (input->file != NULL) {
 		fclose (input->file);
@@ -88,7 +95,7 @@ gsf_input_stdio_finalize (GObject *obj)
 static GsfInput *
 gsf_input_stdio_dup (GsfInput *src_input)
 {
-	GsfInputStdio const *src = GSF_INPUT_STDIO (src_input);
+	GsfInputStdio const *src = (GsfInputStdio *)src_input;
 	GsfInputStdio *dst = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 
 	if (src->file != NULL)
@@ -100,11 +107,12 @@ gsf_input_stdio_dup (GsfInput *src_input)
 static unsigned
 gsf_input_stdio_size (GsfInput *input)
 {
-	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
+	GsfInputStdio const *stdio = (GsfInputStdio *)input;
 	struct stat st;
 
 	if (stdio->file != NULL &&
-	    fstat (fileno (stdio->file), &st) >= 0)
+	    fstat (fileno (stdio->file), &st) >= 0 &&
+	    S_ISREG (st.st_mode))
 		return st.st_size;
 	return 0;
 }
@@ -158,7 +166,7 @@ gsf_input_stdio_seek (GsfInput *input, int offset, GsfOff_t whence)
 		break;
 	case GSF_SEEK_END :
 		if (0 == fseek (stdio->file, offset, SEEK_END))
-			return gsf_input_size (input) - offset;
+			return gsf_input_size (input) + offset;
 	}
 
 	return -1;
