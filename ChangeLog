@@ -1,3 +1,10 @@
+2005-04-01  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-iconv.c: New file.
+	* gsf/gsf-output-csv.c: New file.
+
+	* gsf/gsf-output.c (gsf_output_dispose): Silently close if needed.
+
 2005-04-01  Stepan Kasal  <kasal@ucw.cz>
 
 	s/INCLUDES/AM_CPPFLAGS/  "automake -Wall" has told me this.

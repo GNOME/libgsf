@@ -317,7 +317,7 @@ gsf_output_gzip_set_sink (GsfOutputGZip *gzip, GsfOutput *sink)
 static void
 gsf_output_gzip_set_property (GObject      *object,
 			      guint         property_id,
-	       G_GNUC_UNUSED  GValue const *value,
+			      GValue const *value,
 			      GParamSpec   *pspec)
 {
 	GsfOutputGZip *gzip = (GsfOutputGZip *)object;

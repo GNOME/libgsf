@@ -84,8 +84,7 @@ gsf_output_dispose (GObject *obj)
 	GsfOutput *output = GSF_OUTPUT (obj);
 
 	if (!output->is_closed) {
-		if (output->err == NULL)
-			g_warning ("disposing of an unclosed stream");
+		/* g_warning ("Disposing of an unclosed stream"); */
 		gsf_output_close (output);
 	}
 
