@@ -1,3 +1,11 @@
+2004-03-08  Michael Meeks  <michael@ximian.com>
+
+	* tests/test-msvba-zip.c: add for compressing/decompressing
+	'dir' (or other pure compressed) streams.
+
+	* gsf/gsf-msole-utils.c (gsf_msole_inflate): move from
+	* gsf/gsf-infile-msvba.c (gsf_vba_inflate): here.
+
 2004-03-01  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-stdio.c :

@@ -30,6 +30,7 @@
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-utils.h>
 
 #include <stdio.h>
@@ -54,85 +55,10 @@ typedef struct {
 #define GSF_INFILE_MSVBA_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBAClass))
 #define GSF_IS_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
 
-#define VBA56_DIRENT_RECORD_COUNT (2 + /* magic */		\
-				   4 + /* version */		\
-				   2 + /* 0x00 0xff */		\
-				  22)  /* unknown */
-#define VBA56_DIRENT_HEADER_SIZE (VBA56_DIRENT_RECORD_COUNT +	\
-				  2 +  /* type1 record count */	\
-				  2)   /* unknown */
-#define VBA_COMPRESSION_WINDOW 4096
-
 static guint8 *
-vba_inflate (GsfInput *input, gsf_off_t offset, int *size)
+gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size)
 {
-	GByteArray *res;
-	unsigned	i, win_pos, pos = 0;
-	unsigned	mask, shift, distance;
-	guint8		flag, buffer [VBA_COMPRESSION_WINDOW];
-	guint8 const   *tmp;
-	guint16		token, len;
-	gboolean	clean = TRUE;
-
-	if (gsf_input_seek (input, offset+3, G_SEEK_SET))
-		return NULL;
-
-	res = g_byte_array_new ();
-
-	/* explaination from libole2/ms-ole-vba.c */
-	/* The first byte is a flag byte.  Each bit in this byte
-	 * determines what the next byte is.  If the bit is zero,
-	 * the next byte is a character.  Otherwise the  next two
-	 * bytes contain the number of characters to copy from the
-	 * umcompresed buffer and where to copy them from (offset,
-	 * length).
-	 */
-	while (NULL != gsf_input_read (input, 1, &flag))
-		for (mask = 1; mask < 0x100 ; mask <<= 1)
-			if (flag & mask) {
-				if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
-					break;
-				win_pos = pos % VBA_COMPRESSION_WINDOW;
-				if (win_pos <= 0x80) {
-					if (win_pos <= 0x20)
-						shift = (win_pos <= 0x10) ? 12 : 11;
-					else
-						shift = (win_pos <= 0x40) ? 10 : 9;
-				} else {
-					if (win_pos <= 0x200)
-						shift = (win_pos <= 0x100) ? 8 : 7;
-					else if (win_pos <= 0x800)
-						shift = (win_pos <= 0x400) ? 6 : 5;
-					else
-						shift = 4;
-				}
-
-				token = GSF_LE_GET_GUINT16 (tmp);
-				len = (token & ((1 << shift) - 1)) + 3;
-				distance = token >> shift;
-				clean = TRUE;
-
-				for (i = 0; i < len; i++) {
-					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
-					guint8 c = buffer [srcpos];
-					buffer [pos++ % VBA_COMPRESSION_WINDOW] = c;
-				}
-			} else {
-				if ((pos != 0) && ((pos % VBA_COMPRESSION_WINDOW) == 0) && clean) {
-					(void) gsf_input_read (input, 2, NULL);
-					clean = FALSE;
-					g_byte_array_append (res, buffer, VBA_COMPRESSION_WINDOW);
-					break;
-				}
-				if (NULL != gsf_input_read (input, 1, buffer + (pos % VBA_COMPRESSION_WINDOW)))
-					pos++;
-				clean = TRUE;
-			}
-
-	if (pos % VBA_COMPRESSION_WINDOW)
-		g_byte_array_append (res, buffer, pos % VBA_COMPRESSION_WINDOW);
-	*size = res->len;
-	return g_byte_array_free (res, FALSE);
+	return gsf_msole_inflate (input, offset + 3, size);
 }
 
 static guint8 const *
@@ -252,9 +178,8 @@ vba3_dir_read (GsfInfileMSVBA *vba, GError **err)
 		return FALSE;
 	}
 
-	inflated = vba_inflate (dir, (gsf_off_t) 0, &inflated_size);
+	inflated = gsf_vba_inflate (dir, (gsf_off_t) 0, &inflated_size);
 	if (inflated != NULL) {
-
 		offset = 0;
 		for (i = 0; i < G_N_ELEMENTS (magic); i++) {
 			/* be very careful reading the name size */
@@ -274,25 +199,27 @@ vba3_dir_read (GsfInfileMSVBA *vba, GError **err)
 				g_free (uni_name);
 			} else /* ascii */
 				name = g_strndup (inflated + offset, (unsigned)name_len);
+			
 
 			offset += name_len;
 			puts (name);
 		}
 #if 0
-#warning figure out this offset
-		size = inflated_size - 0x333;
-		data = inflated + 0x333;
-		printf ("SIZE == 0x%x\n", size);
 		gsf_mem_dump (inflated, inflated_size);
-
-		while (NULL != (data = vba3_dirent_read (data, &size)))
-			;
 #endif
 		g_free (inflated);
 	}
 	g_object_unref (G_OBJECT (dir));
 	return TRUE;
 }
+
+#define VBA56_DIRENT_RECORD_COUNT (2 + /* magic */		\
+				   4 + /* version */		\
+				   2 + /* 0x00 0xff */		\
+				  22)  /* unknown */
+#define VBA56_DIRENT_HEADER_SIZE (VBA56_DIRENT_RECORD_COUNT +	\
+				  2 +  /* type1 record count */	\
+				  2)   /* unknown */
 
 /**
  * vba_init_info :
@@ -332,7 +259,7 @@ vba56_dir_read (GsfInfileMSVBA *vba, GError **err)
 	char *name;
 	GsfInput *dir;
 
-	dir = gsf_infile_child_by_name (vba->source, "_VBA_PROJECT");
+	dir = gsf_infile_child_by_name (vba->source, "dir");
 	if (dir == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,

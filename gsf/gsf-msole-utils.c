@@ -1371,3 +1371,87 @@ gsf_msole_iconv_open_for_export (void)
 {
 	return gsf_msole_iconv_open_codepage_for_export (gsf_msole_iconv_win_codepage ());
 }
+
+#define VBA_COMPRESSION_WINDOW 4096
+
+/**
+ * gsf_msole_inflate:
+ * @input: stream to read from
+ * @offset: offset into it for start byte of compresse stream
+ * @size: pointer to size of returned data
+ * 
+ * Decompresses an LZ compressed stream.
+ * 
+ * Return value: data pointer
+ **/
+guint8 *
+gsf_msole_inflate (GsfInput *input, gsf_off_t offset, int *size)
+{
+	GByteArray *res;
+	unsigned	i, win_pos, pos = 0;
+	unsigned	mask, shift, distance;
+	guint8		flag, buffer [VBA_COMPRESSION_WINDOW];
+	guint8 const   *tmp;
+	guint16		token, len;
+	gboolean	clean = TRUE;
+
+	if (gsf_input_seek (input, offset, G_SEEK_SET))
+		return NULL;
+
+	res = g_byte_array_new ();
+
+	/* explaination from libole2/ms-ole-vba.c */
+	/* The first byte is a flag byte.  Each bit in this byte
+	 * determines what the next byte is.  If the bit is zero,
+	 * the next byte is a character.  Otherwise the  next two
+	 * bytes contain the number of characters to copy from the
+	 * umcompresed buffer and where to copy them from (offset,
+	 * length).
+	 */
+	while (NULL != gsf_input_read (input, 1, &flag))
+		for (mask = 1; mask < 0x100 ; mask <<= 1)
+			if (flag & mask) {
+				if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
+					break;
+				win_pos = pos % VBA_COMPRESSION_WINDOW;
+				if (win_pos <= 0x80) {
+					if (win_pos <= 0x20)
+						shift = (win_pos <= 0x10) ? 12 : 11;
+					else
+						shift = (win_pos <= 0x40) ? 10 : 9;
+				} else {
+					if (win_pos <= 0x200)
+						shift = (win_pos <= 0x100) ? 8 : 7;
+					else if (win_pos <= 0x800)
+						shift = (win_pos <= 0x400) ? 6 : 5;
+					else
+						shift = 4;
+				}
+
+				token = GSF_LE_GET_GUINT16 (tmp);
+				len = (token & ((1 << shift) - 1)) + 3;
+				distance = token >> shift;
+				clean = TRUE;
+
+				for (i = 0; i < len; i++) {
+					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
+					guint8 c = buffer [srcpos];
+					buffer [pos++ % VBA_COMPRESSION_WINDOW] = c;
+				}
+			} else {
+				if ((pos != 0) && ((pos % VBA_COMPRESSION_WINDOW) == 0) && clean) {
+					(void) gsf_input_read (input, 2, NULL);
+					clean = FALSE;
+					g_byte_array_append (res, buffer, VBA_COMPRESSION_WINDOW);
+					break;
+				}
+				if (NULL != gsf_input_read (input, 1, buffer + (pos % VBA_COMPRESSION_WINDOW)))
+					pos++;
+				clean = TRUE;
+			}
+
+	if (pos % VBA_COMPRESSION_WINDOW)
+		g_byte_array_append (res, buffer, pos % VBA_COMPRESSION_WINDOW);
+	*size = res->len;
+	return g_byte_array_free (res, FALSE);
+}
