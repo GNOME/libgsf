@@ -621,9 +621,13 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 	guint8 *out;
 	int state = 0, outlen;
 	unsigned int save = 0;
-	
-	out = g_new (guint8, len * 4 / 3 + 5);
-	outlen = gsf_base64_encode_close (data, len, FALSE, out, &state, &save);
+	gboolean break_lines = TRUE;
+
+	outlen = len * 4 / 3 + 5;
+	if (break_lines) outlen += outlen / 50;
+	out = g_new (guint8, outlen);
+	outlen = gsf_base64_encode_close (data, len, break_lines,
+					  out, &state, &save);
 	out [outlen] = '\0';
 	return out;
 }
