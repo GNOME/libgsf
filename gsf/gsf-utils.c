@@ -107,6 +107,8 @@ gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 		size -= count;
 		offset += count;
 	}
+	if (!dump_as_hex)
+		fflush (stdout);
 }
 
 guint64

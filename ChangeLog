@@ -1,3 +1,8 @@
+2004-06-15  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_input_dump) : flush the stream when we're just
+	  using stdio.
+
 2004-07-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: recheck all PKG_CHECK_MODULES for libgsf for
