@@ -1,3 +1,8 @@
+2004-08-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-bzip.c (gsf_input_memory_new_from_bzip): Kill
+	pointless #warning.
+
 2004-08-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr) : Add some libxml compat
