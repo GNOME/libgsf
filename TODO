@@ -5,8 +5,6 @@ Near:
     - Complete MS property set read and write
     - work on GsfOutput error handling to propagate errors up the stack.
       Maybe something signal based ?
-    - try to support canceling a write (eg we've written 1/2 a tmp file
-      don't overwrite the real file)
     - for the stdio output check that we can actually write to the target file
       on open even though we do not want to write to it until later.
 

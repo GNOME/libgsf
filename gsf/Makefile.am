@@ -48,6 +48,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-output-memory.c	\
 	gsf-output-stdio.c	\
 	gsf-output-gzip.c 	\
+	gsf-output-transaction.c	\
 	\
 	gsf-outfile.c 		\
 	gsf-outfile-impl.h 	\
