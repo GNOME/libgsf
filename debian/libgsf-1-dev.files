@@ -3,4 +3,4 @@ usr/lib/libgsf-*.a
 usr/lib/libgsf-*.la
 usr/lib/libgsf-*.so
 usr/lib/pkgconfig/libgsf-*.pc
-usr/share/doc/libgsf-1-dev/*.html
+usr/share/doc/libgsf/html/*.html

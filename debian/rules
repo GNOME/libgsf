@@ -139,9 +139,12 @@ binary-arch: build install
 	dh_testroot
 	dh_movefiles
 
+	mv debian/libgsf-1-dev/usr/share/doc/libgsf \
+	   debian/libgsf-1-dev/usr/share/doc/libgsf-1-dev
+
 	# Remove files that we don't need in the packages
-	rm -f debian/tmp/usr/share/doc/libgsf-1-dev/index.sgml
-	
+	rm -f debian/tmp/usr/share/doc/libgsf/html/index.sgml
+
 	# Ensure there are no files left over with which we haven't dealt with
 	rmdir `find debian/tmp -type d -depth`
 

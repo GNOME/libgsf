@@ -1,3 +1,8 @@
+2003-01-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* debian/changelog, debian/control, debian/libgsf-1-dev.dirs,
+	debian/libgsf-1-dev.files, debian/rules: Updated.
+
 2002-12-30  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Check if res is a GValue.
