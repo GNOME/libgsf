@@ -53,6 +53,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	GnomeVFSResult    res;
 	GnomeVFSFileType  type;
 	gsf_off_t	  size;
+	gboolean          is_local;
 
 	if (uri == NULL) {
 		g_set_error (error, gsf_input_error (), 0,
@@ -67,6 +68,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	res = gnome_vfs_get_file_info_uri (uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
 	size = (gsf_off_t)info->size ;
 	type = info->type;
+	is_local = GNOME_VFS_FILE_INFO_LOCAL (info);
 	gnome_vfs_file_info_unref (info);
 
 	switch (res) {
@@ -96,6 +98,10 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 			     "Not a regular file");
 		return NULL;
 	}
+
+	/* Make copies of small files.  */
+	if (!is_local && size < (256 << 10))
+		goto make_local_copy;
 
 	res = gnome_vfs_open_uri (&handle, uri,
 				  GNOME_VFS_OPEN_READ | GNOME_VFS_OPEN_RANDOM);

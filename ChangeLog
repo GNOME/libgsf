@@ -1,5 +1,8 @@
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri):
+	Force local copy for small (<256KB) files that are not local.
+
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_new): Add a proxy layer
 	so we don't have to dup files or net connections.
 
