@@ -1,3 +1,23 @@
+2002-06-26  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-input-bonobo.c (struct _GsfInputBonobo): Replace stream
+	attribute with GsfSharedBonoboStream * 'shared'. Add 'pos'
+	attribute.
+	(gib_synch_shared_ptr): New helper function. Seek the shared
+	stream if necessary.
+	(gsf_input_bonobo_new): Probably better to free the exceptions
+	*after* retrieving the exception texts.  Initialize 'shared'.
+	(gsf_input_bonobo_finalize): unref 'shared'.
+	(gsf_input_bonobo_dup): Implement.
+	(gsf_input_bonobo_read): Use shared stream. Use
+	gib_synch_shared_ptr to seek first if necessary.
+	(gsf_input_bonobo_seek): Ditto.
+	(gsf_input_bonobo_init): Initialize 'shared'.
+
+	* gsf/gsf-shared-bonobo-stream.[ch]: new helper class for bonobo
+	stream IO. Lets us dup the streams.
+	* gsf/Makefile.am: added new files.
+
 2002-06-26  Morten Welinder  <terra@diku.dk>
 
 	* configure.in: If needed, define __EXTENSIONS__.

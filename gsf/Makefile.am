@@ -11,8 +11,8 @@ gnomevfs_sources   = gsf-input-gnomevfs.c
 gnomevfs_headers   = gsf-input-gnomevfs.h
 endif
 if WITH_BONOBO
-bonobo_sources   = gsf-input-bonobo.c
-bonobo_headers   = gsf-input-bonobo.h
+bonobo_sources   = gsf-input-bonobo.c gsf-shared-bonobo-stream.c
+bonobo_headers   = gsf-input-bonobo.h gsf-shared-bonobo-stream.h
 endif
 
 libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
@@ -78,4 +78,6 @@ libgsf_1_include_HEADERS = 	\
 # gnomevfs or bonobo support.
 EXTRA_DIST =	gsf-libxml.c		gsf-libxml.h 		\
 		gsf-input-gnomevfs.c	gsf-input-gnomevfs.h    \
-		gsf-input-bonobo.c	gsf-input-bonobo.h
+		gsf-input-bonobo.c	gsf-input-bonobo.h      \
+		gsf-shared-bonobo-stream.c			\
+		gsf-shared-bonobo-stream.h
