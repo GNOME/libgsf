@@ -23,21 +23,47 @@
 #include <gsf/gsf-input-bonobo.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-shared-bonobo-stream.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-exception.h>
 
 /* FIXME: Should make CORBA environment available to caller somehow. */
 struct _GsfInputBonobo {
 	GsfInput input;
-
-	Bonobo_Stream stream;
+	GsfSharedBonoboStream *shared;
 	guint8   *buf;
 	size_t   buf_size;
+	off_t    pos;
 };
 
 typedef struct {
 	GsfInputClass input_class;
 } GsfInputBonoboClass;
+
+static int
+gib_synch_shared_ptr (GsfInputBonobo *binput)
+{
+	CORBA_Environment ev;
+	CORBA_long new_pos;
+
+	if (binput->shared == NULL)
+		return 0;
+	if (binput->pos == (off_t) binput->shared->pos)
+		return 0;
+
+	CORBA_exception_init (&ev);
+	new_pos = (CORBA_long) binput->pos;
+	Bonobo_Stream_seek (binput->shared->stream, new_pos,
+			    Bonobo_Stream_SeekSet, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning (bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		return -1;
+	} else {
+		binput->shared->pos = new_pos;
+		return 0;
+	}
+}
 
 /**
  * gsf_input_bonobo_new :
@@ -65,39 +91,39 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	/* <ICK!> info->size doesn't work */
 	size = Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekEnd, &ev);
 	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 					    "%s: %s",
 					    "Error seeking to get stream size",
 					    bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
 	Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekSet, &ev);
 	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 					    "%s: %s",
 					    "Error seeking to get stream size",
 					    bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
 	/* </ICK!> */
 
 	info = Bonobo_Stream_getInfo (stream, 0, &ev);
 	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 					    "%s: %s",
 					    "Error getting stream info",
 					    bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
 
 	input = g_object_new (GSF_INPUT_BONOBO_TYPE, NULL);
-	input->stream = stream;
+	input->shared = gsf_shared_bonobo_stream_new (stream);
 	input->buf  = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), size);
@@ -114,7 +140,9 @@ gsf_input_bonobo_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfInputBonobo *input = (GsfInputBonobo *)obj;
 
-	input->stream = NULL;
+	if (input->shared)
+		g_object_unref (G_OBJECT (input->shared));
+	input->shared = NULL;
 
 	if (input->buf != NULL) {
 		g_free (input->buf);
@@ -127,12 +155,16 @@ gsf_input_bonobo_finalize (GObject *obj)
 		parent_class->finalize (obj);
 }
 
-/* FIXME: Not implemented. We have to cheat! */
 static GsfInput *
 gsf_input_bonobo_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputBonobo const *src = (GsfInputBonobo *)src_input;
-	GsfInputBonobo *dst = NULL;
+	GsfInputBonobo *dst = g_object_new (GSF_INPUT_BONOBO_TYPE, NULL);
+
+	(void) err;
+
+	dst->shared = src->shared;
+	g_object_ref (G_OBJECT (dst->shared));
 
 	return GSF_INPUT (dst);
 }
@@ -147,7 +179,8 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (binput != NULL, NULL);
-	g_return_val_if_fail (binput->stream != NULL, NULL);
+	g_return_val_if_fail (binput->shared != NULL, NULL);
+	g_return_val_if_fail (binput->shared->stream != NULL, NULL);
 
 	if (buffer == NULL) {
 		if (binput->buf_size < num_bytes) {
@@ -159,8 +192,11 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 		buffer = binput->buf;
 	}
 
+	if (gib_synch_shared_ptr (binput) != 0)
+		return NULL;
+
 	CORBA_exception_init (&ev);
-	Bonobo_Stream_read (binput->stream, (CORBA_long) num_bytes,
+	Bonobo_Stream_read (binput->shared->stream, (CORBA_long) num_bytes,
 			    &bsibuf, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning (bonobo_exception_get_text (&ev));
@@ -182,13 +218,20 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 static gboolean
 gsf_input_bonobo_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
-	GsfInputBonobo const *binput = GSF_INPUT_BONOBO (input);
+	GsfInputBonobo *binput = GSF_INPUT_BONOBO (input);
 	Bonobo_Stream_SeekType bwhence;
+	CORBA_long pos;
 	CORBA_Environment ev;
 
-	if (binput->stream == NULL)
-		return TRUE;
+	g_return_val_if_fail (binput != NULL, TRUE);
+	g_return_val_if_fail (binput->shared != NULL, TRUE);
+	g_return_val_if_fail (binput->shared->stream != NULL, TRUE);
 
+	if (whence == GSF_SEEK_CUR) {
+		if (gib_synch_shared_ptr (binput) != 0)
+			return TRUE;
+	}
+	
 	switch (whence) {
 	case GSF_SEEK_SET :
 		bwhence =  Bonobo_Stream_SeekSet;
@@ -204,11 +247,14 @@ gsf_input_bonobo_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 	}
 	
 	CORBA_exception_init (&ev);
-	Bonobo_Stream_seek (binput->stream, offset, bwhence, &ev);
+	pos = Bonobo_Stream_seek
+		(binput->shared->stream, offset, bwhence, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning (bonobo_exception_get_text (&ev));
 		return TRUE;
 	} else {
+		binput->shared->pos = pos;
+		binput->pos = (off_t) pos;
 		return FALSE;
 	}
 }
@@ -218,7 +264,7 @@ gsf_input_bonobo_init (GObject *obj)
 {
 	GsfInputBonobo *binput = GSF_INPUT_BONOBO (obj);
 
-	binput->stream = NULL;
+	binput->shared = NULL;
 	binput->buf  = NULL;
 	binput->buf_size = 0;
 }
