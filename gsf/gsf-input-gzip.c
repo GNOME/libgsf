@@ -127,6 +127,7 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 	gzip = g_object_new (GSF_INPUT_GZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	gzip->source = source;
+	gzip->seek_skipped = 0;
 
 	if (Z_OK != inflateInit2 (&(gzip->stream), -MAX_WBITS)) {
 		if (err != NULL)
@@ -240,6 +241,7 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 	}
 
 	while ((size_t)pos > input->cur_offset) {
+		/* Global flag -- we don't want one per stream.  */
 		static gboolean warned = FALSE;
 		size_t readcount = pos - input->cur_offset;
 		char buffer[8192];
