@@ -1,0 +1,10 @@
+These are Python bindings for libgsf.
+
+The input bindings are almost complete, but output is missing.
+
+The bindings require gnome-python 1.99.10 or later. There is no
+autoconfiscation for the Python bindings in libgsf/configure.in. This
+will be added soon, but commented out, because we will use macros
+which are only found in automake 1.5 and newer.
+
+ex-1.py is a simple example.
