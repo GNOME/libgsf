@@ -1,3 +1,9 @@
+Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
+
+	* doc/Makefile.am (EXTRA_HFILES): Add ../gsf-gnome/*.h to give
+	gtk-doc a chance to pick up declarations from there.  (Partial fix
+	for bug #132661.
+
 2004-01-20  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : minor portability fix.

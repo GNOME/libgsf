@@ -31,6 +31,8 @@ CFILE_GLOB=$(top_srcdir)/gsf/*.c
 IGNORE_HFILES=			\
 	biff-types.h
 
+EXTRA_HFILES = ../gsf-gnome/*.h
+
 # Images to copy into HTML directory
 HTML_IMAGES =
 
