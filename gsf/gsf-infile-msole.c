@@ -86,15 +86,32 @@ typedef struct {
 #define GSF_INFILE_MSOLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOleClass))
 #define IS_GSF_INFILE_MSOLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSOLE_TYPE))
 
-#define OLE_HEADER_SIZE		0x200	/* always 0x200 no mater what the big block size is */
-#define OLE_HEADER_START_BAT	0x4c
-#define BAT_INDEX_SIZE		4
+#define OLE_HEADER_SIZE		 0x200	/* always 0x200 no mater what the big block size is */
+#define OLE_HEADER_BB_SHIFT      0x1e
+#define OLE_HEADER_SB_SHIFT      0x20
+#define OLE_HEADER_NUM_BAT	 0x2c
+#define OLE_HEADER_DIRENT_START  0x30
+#define OLE_HEADER_THRESHOLD	 0x38
+#define OLE_HEADER_SBAT_START    0x3c
+#define OLE_HEADER_NUM_SBAT      0x40
+#define OLE_HEADER_METABAT_BLOCK 0x44
+#define OLE_HEADER_NUM_METABAT   0x48
+#define OLE_HEADER_START_BAT	 0x4c
+#define BAT_INDEX_SIZE		 4
 
-#define DIRENTRY_SIZE		0x80
-#define DIRENTRY_MAX_NAME_SIZE	0x40
-#define DIRENTRY_TYPE_DIR	1
-#define DIRENTRY_TYPE_FILE	2
-#define DIRENTRY_TYPE_ROOTDIR	5
+#define DIRENT_SIZE		0x80
+#define DIRENT_MAX_NAME_SIZE	0x40
+#define DIRENT_NAME_LEN		0x40
+#define DIRENT_TYPE		0x42
+#define DIRENT_PREV		0x44
+#define DIRENT_NEXT		0x48
+#define DIRENT_CHILD		0x4c
+#define DIRENT_FIRSTBLOCK	0x74
+#define DIRENT_FILE_SIZE	0x78
+
+#define DIRENT_TYPE_DIR		1
+#define DIRENT_TYPE_FILE	2
+#define DIRENT_TYPE_ROOTDIR	5
 #define DIRENT_MAGIC_END	0xffffffff
 
 /* flags in the block allocation list to denote special blocks */
@@ -274,25 +291,25 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	if (entry >= DIRENT_MAGIC_END)
 		return NULL;
 
-	block = OLE_BIG_BLOCK (entry * DIRENTRY_SIZE, ole);
+	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 
 	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
 	data = ole_get_block (ole, ole->bat.block [block]);
 	if (data == NULL)
 		return NULL;
-	data += (DIRENTRY_SIZE * entry) % ole->info->bb.size;
+	data += (DIRENT_SIZE * entry) % ole->info->bb.size;
 
-	type = GSF_OLE_GET_GUINT8 (data + 0x42);
-	if (type != DIRENTRY_TYPE_DIR &&
-	    type != DIRENTRY_TYPE_FILE &&
-	    type != DIRENTRY_TYPE_ROOTDIR) {
+	type = GSF_OLE_GET_GUINT8 (data + DIRENT_TYPE);
+	if (type != DIRENT_TYPE_DIR &&
+	    type != DIRENT_TYPE_FILE &&
+	    type != DIRENT_TYPE_ROOTDIR) {
 		g_warning ("Unknown stream type 0x%x", type);
 		return NULL;
 	}
 
 	/* It looks like directory sizes are sometimes bogus */
-	size = GSF_OLE_GET_GUINT32 (data + 0x78);
-	g_return_val_if_fail (type == DIRENTRY_TYPE_DIR ||
+	size = GSF_OLE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
+	g_return_val_if_fail (type == DIRENT_TYPE_DIR ||
 			      size <= (guint32)ole->input->size, NULL);
 
 	dirent = g_new0 (MSOleDirent, 1);
@@ -300,20 +317,20 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	dirent->size	     = size;
 	/* root dir is always big block */
 	dirent->use_sb	     = parent && (size < ole->info->threshold);
-	dirent->first_block  = (GSF_OLE_GET_GUINT32 (data + 0x74));
-	dirent->is_directory = (type != DIRENTRY_TYPE_FILE);
+	dirent->first_block  = (GSF_OLE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
+	dirent->is_directory = (type != DIRENT_TYPE_FILE);
 	dirent->children     = NULL;
-	prev  = GSF_OLE_GET_GUINT32 (data + 0x44),
-	next  = GSF_OLE_GET_GUINT32 (data + 0x48),
-	child = GSF_OLE_GET_GUINT32 (data + 0x4c);
-	name_len = GSF_OLE_GET_GUINT16 (data + 0x40);
-	if (0 < name_len && name_len <= DIRENTRY_MAX_NAME_SIZE) {
-		gunichar2 uni_name [DIRENTRY_MAX_NAME_SIZE];
+	prev  = GSF_OLE_GET_GUINT32 (data + DIRENT_PREV);
+	next  = GSF_OLE_GET_GUINT32 (data + DIRENT_NEXT);
+	child = GSF_OLE_GET_GUINT32 (data + DIRENT_CHILD);
+	name_len = GSF_OLE_GET_GUINT16 (data + DIRENT_NAME_LEN);
+	if (0 < name_len && name_len <= DIRENT_MAX_NAME_SIZE) {
+		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE];
 		guint8 const *end;
 		int i;
 
 		/* !#%!@$#^
-		 * Sometimes, rarely people store the stream name as ascii
+		 * Sometimes, rarely, people store the stream name as ascii
 		 * rather than utf16.  Do a validation first just in case.
 		 */
 		if (!g_utf8_validate (data, -1, (gchar const **)&end) ||
@@ -445,12 +462,12 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		return TRUE;
 	}
 
-	bb_shift      = GSF_OLE_GET_GUINT16 (header + 0x1e);
-	sb_shift      = GSF_OLE_GET_GUINT16 (header + 0x20);
-	num_bat	      = GSF_OLE_GET_GUINT32 (header + 0x2c);
-	dirent_start  = GSF_OLE_GET_GUINT32 (header + 0x30),
-        metabat_block = GSF_OLE_GET_GUINT32 (header + 0x44);
-	num_metabat   = GSF_OLE_GET_GUINT32 (header + 0x48);
+	bb_shift      = GSF_OLE_GET_GUINT16 (header + OLE_HEADER_BB_SHIFT);
+	sb_shift      = GSF_OLE_GET_GUINT16 (header + OLE_HEADER_SB_SHIFT);
+	num_bat	      = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_BAT);
+	dirent_start  = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_DIRENT_START);
+        metabat_block = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_METABAT_BLOCK);
+	num_metabat   = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_METABAT);
 
 	/* Some sanity checks
 	 * 1) There should always be at least 1 BAT block
@@ -474,9 +491,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->sb.shift	     = sb_shift;
 	info->sb.size	     = 1 << info->sb.shift;
 	info->sb.filter	     = info->sb.size - 1;
-	info->threshold	     = GSF_OLE_GET_GUINT32 (header + 0x38);
-        info->sbat_start     = GSF_OLE_GET_GUINT32 (header + 0x3c);
-        info->num_sbat       = GSF_OLE_GET_GUINT32 (header + 0x40);
+	info->threshold	     = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
+        info->sbat_start     = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
+        info->num_sbat       = GSF_OLE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
 	info->sb_file	     = NULL;
 
