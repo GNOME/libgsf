@@ -1,3 +1,8 @@
+2003-06-21  Jody Goldberg <jody@gnome.org>
+
+	As per ryang@bway.org :
+	* README : s/automake/autoconf/ and add automake details.
+
 2003-06-15  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Remove test for obsolete orbit-python module.
