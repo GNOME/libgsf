@@ -381,8 +381,7 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("raw", "Raw",
 				       "Whether to write compressed data with no header/tailer.",
 				       FALSE,
-				       G_PARAM_READABLE |
-				       G_PARAM_WRITABLE |
+				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
 		(gobject_class,
@@ -390,8 +389,7 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_object ("sink", "Sink",
 				      "Where the compressed data is written.",
 				      GSF_OUTPUT_TYPE,
-				      G_PARAM_READABLE |
-				      G_PARAM_WRITABLE |
+				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 
 	parent_class = g_type_class_peek_parent (gobject_class);

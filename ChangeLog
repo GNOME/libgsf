@@ -1,3 +1,7 @@
+2005-03-28  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Use canonical property names.
+
 2005-03-25  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_close): In case of

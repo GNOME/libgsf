@@ -152,7 +152,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 							     G_PARAM_READABLE));
 	g_object_class_install_property (gobject_class,
 					 PROP_CLOSED,
-					 g_param_spec_boolean ("is_closed", "Is Closed",
+					 g_param_spec_boolean ("is-closed", "Is Closed",
 							       "Whether the Output is Closed",
 							       FALSE,
 							       G_PARAM_READABLE));
