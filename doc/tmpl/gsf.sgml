@@ -47,6 +47,7 @@ gsf
 
 </para>
 
+@parent: 
 
 <!-- ##### ENUM GsfOff_t ##### -->
 <para>

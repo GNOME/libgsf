@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = gnu 1.4
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgsf-1.pc
 
-SUBDIRS = gsf doc
+SUBDIRS = gsf doc tests
 
 #small hack to get distcheck to work
 clean-local:

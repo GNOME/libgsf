@@ -1,6 +1,22 @@
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : move the tests into a standalone dir because they are
+	  getting irritating to build for every single library rebuild.
+
 2002-06-13  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-infile-msvba.c (vba_inflate): Make offset an off_t.
+
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c : initial stub implementation.
+	* gsf/gsf-outfile.c : initial stub implementation.
+	* gsf/gsf-output-stdio.c : initial stub implementation.
+	* gsf/gsf-output.c : initial stub implementation.
+
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msvba.c (vba_inflate) : cleanup.
 
 2002-06-13  Jody Goldberg <jody@gnome.org>
 

@@ -37,16 +37,6 @@ gsf-outfile
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_outfile_add_child ##### -->
-<para>
-
-</para>
-
-@outfile: 
-@name: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_outfile_error ##### -->
 <para>
 

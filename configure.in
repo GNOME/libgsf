@@ -177,6 +177,7 @@ AC_OUTPUT([
 Makefile
 doc/Makefile
 gsf/Makefile
+tests/Makefile
 gsf/version.c
 libgsf-1.pc
 libgsf-1.spec

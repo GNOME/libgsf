@@ -67,30 +67,6 @@ gsf-infile-msole
 @GSF_MSOLE_PROP_APPNAME: 
 @GSF_MSOLE_PROP_SECURITY: 
 
-<!-- ##### MACRO GSF_OLE_GET_GUINT8 ##### -->
-<para>
-
-</para>
-
-@p: 
-
-
-<!-- ##### MACRO GSF_OLE_GET_GUINT16 ##### -->
-<para>
-
-</para>
-
-@p: 
-
-
-<!-- ##### MACRO GSF_OLE_GET_GUINT32 ##### -->
-<para>
-
-</para>
-
-@p: 
-
-
 <!-- ##### FUNCTION gsf_infile_msole_get_type ##### -->
 <para>
 
