@@ -1,3 +1,7 @@
+2002-06-21  Jon K Hellan  <hellan@acm.org>
+
+	* acinclude.m4: Ad it. It provides AM_CHECK_PYTHON_HEADERS.
+
 2002-06-20  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new_child): Add
