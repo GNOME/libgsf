@@ -878,6 +878,15 @@ gsf_xml_out_simple_float_element (GsfXMLOut *xml, char const *id,
 	gsf_xml_out_end_element (xml);
 }
 
+static void
+close_tag_if_neccessary (GsfXMLOut* xml)
+{
+	if (xml->state != GSF_XML_OUT_CONTENT) {
+		xml->state = GSF_XML_OUT_CONTENT;
+		gsf_output_write (xml->output, 1, ">");
+	}
+}
+
 /**
  * gsf_xml_out_add_cstr_unchecked :
  * @xml :
@@ -899,8 +908,7 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
 		return;
 
 	if (id == NULL) {
-		xml->state = GSF_XML_OUT_CONTENT;
-		gsf_output_write (xml->output, 1, ">");
+		close_tag_if_neccessary (xml);
 		gsf_output_write (xml->output, strlen (val_utf8), val_utf8);
 	} else
 		gsf_output_printf (xml->output, " %s=\"%s\"", id, val_utf8);
@@ -929,8 +937,7 @@ gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
 		return;
 
 	if (id == NULL) {
-		xml->state = GSF_XML_OUT_CONTENT;
-		gsf_output_write (xml->output, 1, ">");
+		close_tag_if_neccessary (xml);
 	} else
 		gsf_output_printf (xml->output, " %s=\"", id);
 	while (*cur != '\0') {

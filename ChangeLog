@@ -1,5 +1,11 @@
 2005-03-22  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-libxml.c (close_tag_if_neccessary): New function.
+	(gsf_xml_out_add_cstr_unchecked, gsf_xml_out_add_cstr): Use
+	close_tag_if_neccessary.  Patch from #167166.
+
+2005-03-22  Morten Welinder  <terra@gnome.org>
+
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Conditionalize
 	owner/group stuff on HAVE_CHOWN.  Use file_is_writable.
 	(file_is_writable): New function.
