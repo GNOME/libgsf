@@ -68,14 +68,6 @@ gsf_input_memory_dup (GsfInput *src_input)
 	return GSF_INPUT (dst);
 }
 
-static gboolean
-gsf_input_memory_eof (GsfInput *input)
-{
-	GsfInputMemory *memory = (GsfInputMemory *) (input);
-	/* FIXME?  */
-	return FALSE;
-}
-
 static guint8 const *
 gsf_input_memory_read (GsfInput *input, unsigned num_bytes, guint8 *optional_buffer)
 {
@@ -114,7 +106,6 @@ gsf_input_memory_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize = gsf_input_memory_finalize;
 	input_class->Dup	= gsf_input_memory_dup;
-	input_class->Eof	= gsf_input_memory_eof;
 	input_class->Read	= gsf_input_memory_read;
 	input_class->Seek	= gsf_input_memory_seek;
 }

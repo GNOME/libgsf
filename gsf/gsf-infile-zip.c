@@ -198,12 +198,6 @@ gsf_infile_zip_dup (GsfInput *src_input)
 	return GSF_INPUT (dst);
 }
 
-static gboolean
-gsf_infile_zip_eof (GsfInput *input)
-{
-	return input->cur_offset >= input->size;
-}
-
 static guint8 const *
 gsf_infile_zip_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 {
@@ -287,8 +281,6 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize		= gsf_infile_zip_finalize;
 	input_class->Dup		= gsf_infile_zip_dup;
-	/*input_class->size : default implementation is fine */
-	input_class->Eof		= gsf_infile_zip_eof;
 	input_class->Read		= gsf_infile_zip_read;
 	input_class->Seek		= gsf_infile_zip_seek;
 	infile_class->num_children	= gsf_infile_zip_num_children;

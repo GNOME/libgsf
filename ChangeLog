@@ -1,3 +1,8 @@
+2002-06-04  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_eof) : do this internally.
+	* gsf/gsf-input* : remove the _eof methods.
+
 2002-06-04  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-impl.h (GsfInputClass): Change structure members

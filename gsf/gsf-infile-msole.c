@@ -604,12 +604,6 @@ gsf_infile_msole_dup (GsfInput *src_input)
 	return GSF_INPUT (dst);
 }
 
-static gboolean
-gsf_infile_msole_eof (GsfInput *input)
-{
-	return input->cur_offset >= input->size;
-}
-
 static guint8 const *
 gsf_infile_msole_read (GsfInput *input, unsigned num_bytes, guint8 *buffer)
 {
@@ -815,8 +809,6 @@ gsf_infile_msole_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize		= gsf_infile_msole_finalize;
 	input_class->Dup		= gsf_infile_msole_dup;
-	/*input_class->size : default implementation is fine */
-	input_class->Eof		= gsf_infile_msole_eof;
 	input_class->Read		= gsf_infile_msole_read;
 	input_class->Seek		= gsf_infile_msole_seek;
 	infile_class->num_children	= gsf_infile_msole_num_children;

@@ -114,13 +114,6 @@ gsf_input_stdio_dup (GsfInput *src_input)
 	return GSF_INPUT (dst);
 }
 
-static gboolean
-gsf_input_stdio_eof (GsfInput *input)
-{
-	GsfInputStdio *stdio = GSF_INPUT_STDIO (input);
-	return stdio->file == NULL || feof (stdio->file);
-}
-
 static guint8 const *
 gsf_input_stdio_read (GsfInput *input, unsigned num_bytes,
 		      guint8 *buffer)
@@ -190,7 +183,6 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 
 	gobject_class->finalize = gsf_input_stdio_finalize;
 	input_class->Dup	= gsf_input_stdio_dup;
-	input_class->Eof	= gsf_input_stdio_eof;
 	input_class->Read	= gsf_input_stdio_read;
 	input_class->Seek	= gsf_input_stdio_seek;
 }

@@ -143,7 +143,7 @@ gsf_input_eof (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 
-	return GET_CLASS (input)->Eof (input);
+	return input->cur_offset >= input->size;
 }
 
 /**
