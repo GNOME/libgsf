@@ -1,3 +1,8 @@
+2005-02-02  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output-gnomevfs.c: A bit more robustness and documentation
+	for bug 159442.
+	
 2005-01-16  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-gnomevfs.c: This should fix bug 159442 by truncating 

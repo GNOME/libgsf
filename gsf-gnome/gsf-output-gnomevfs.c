@@ -72,8 +72,9 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	}
 
 	if (gnome_vfs_uri_exists (uri)) {
-
-		/* see bug 159442 - if the file exists, we want to preserve existing pemissions AND truncate the file */
+		/* see bug 159442 - if the file exists, we want to do our best to preserve existing 
+		 * pemissions AND truncate the file. that is, we want to emulate truncate() in case 
+		 * a gnomevfs backend doesn't support it */
 		GnomeVFSFileInfo *info;
 
 		info = gnome_vfs_file_info_new ();
@@ -89,9 +90,18 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	}
 
 	if (perms == -1) {
+		/* we didn't get the permissions, but calling open_uri() with OPEN_WRITE set will create the file for us.
+		 * if the uri_exists(), let's hope that truncate() works. */
 		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);	
 	} else {
+		/* we got the permissions, so let's call create() with the existing permissions instead of open() since 
+		 * create() will truncate the file for us. */
 		res = gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM, FALSE, perms);
+
+		if (res != GNOME_VFS_OK) {
+			/* create() failed. let's see if we can open_uri() instead and hope that truncate works. */
+			res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);
+		}
 	}
 
 	if (res != GNOME_VFS_OK) {
@@ -101,7 +111,8 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	}
 
 	/* truncate the file to length 0 so if we overwrite a file smaller than
-	 * it has been before, it would show rests of the old file (Bug: 159442) */
+	 * it was before, it doesn't show the rest of the old file (Bug: 159442).
+	 * for many gnomevfs backends, this might actually be a noop */
 	gnome_vfs_truncate_handle(handle, 0);
 
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
