@@ -1,3 +1,9 @@
+2002-09-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c :  support unicode property names and values,
+	  including some ugly heuristics to add the documented padding only
+	  when using unicode (? what where they smoking ?)
+
 2002-09-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xmlSAX_prep_dtd) : typo

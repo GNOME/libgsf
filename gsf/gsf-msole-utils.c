@@ -120,12 +120,12 @@ typedef struct {
 	GsfMSOleMetaDataType type;
 	gsf_off_t   offset;
 	guint32	    size, num_props;
-	GIConv	    iconv;
+	GIConv	    iconv_handle;
+	unsigned    char_size;
 	GHashTable *dict;
 } GsfMSOleMetaDataSection;
 
 static GsfMSOleMetaDataPropMap const document_props[] = {
-	{ "CodePage",		1,	VT_UI2 },
 	{ "Category",		2,	VT_LPSTR },
 	{ "PresentationFormat",	3,	VT_LPSTR },
 	{ "NumBytes",		4,	VT_I4 },
@@ -144,7 +144,6 @@ static GsfMSOleMetaDataPropMap const document_props[] = {
 };
 
 static GsfMSOleMetaDataPropMap const component_props[] = {
-	{ "CodePage",		1,	VT_UI2 },
 	{ "Title",		2,	VT_LPSTR },
 	{ "Subject",		3,	VT_LPSTR },
 	{ "Author",		4,	VT_LPSTR },
@@ -163,6 +162,13 @@ static GsfMSOleMetaDataPropMap const component_props[] = {
 	{ "Thumbnail",		17,	VT_CF },
 	{ "AppName",		18,	VT_LPSTR },
 	{ "Security",		19,	VT_I4 }
+};
+
+static GsfMSOleMetaDataPropMap const common_props[] = {
+	{ "Dictionary",		0,	0, /* magic */},
+	{ "CodePage",		1,	VT_UI2 },
+	{ "LOCALE_SYSTEM_DEFAULT",	0x80000000,	VT_UI4},
+	{ "CASE_SENSITIVE",		0x80000003,	VT_UI4},
 };
 
 static char const *
@@ -198,15 +204,26 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 			d (printf (map[i].name););
 			return map[i].name;
 		}
+
+	map = common_props;
+	i = G_N_ELEMENTS (common_props);
+	while (i-- > 0)
+		if (map[i].id == id) {
+			d (printf (map[i].name););
+			return map[i].name;
+		}
+
 	d (printf ("_UNKNOWN_(0x%x %d)", id, id););
 
 	return NULL;
 }
 
 static GValue *
-msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
+msole_prop_parse (GsfMSOleMetaDataSection *section,
+		  guint32 type, guint8 const **data, guint8 const *data_end)
 {
 	GValue *res;
+	char *str;
 	guint32 len;
 	gboolean const is_vector = type & VT_VECTOR;
 
@@ -226,7 +243,7 @@ msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
 		for (i = 0 ; i < n ; i++) {
 			d (printf ("\t[%d] ", i););
-			msole_prop_parse (type, data, data_end);
+			msole_prop_parse (section, type, data, data_end);
 		}
 		return NULL;
 	}
@@ -292,7 +309,7 @@ msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
 		g_free (res);
 		type = GSF_LE_GET_GUINT32 (*data);
 		*data += 4;
-		return msole_prop_parse (type, data, data_end);
+		return msole_prop_parse (section, type, data, data_end);
 
 	case VT_UI1 :		 d (puts ("VT_UI1"););
 		g_return_val_if_fail (*data + 1 <= data_end, NULL);
@@ -330,17 +347,36 @@ msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
 	case VT_LPSTR :		 d (puts ("VT_LPSTR"););
 		/* be anal and safe */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
+
 		len = GSF_LE_GET_GUINT32 (*data);
+
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
+
+		str = g_convert_with_iconv (*data + 4,
+			len * section->char_size,
+			section->iconv_handle, &len, NULL, NULL);
+
 		g_value_init (res, G_TYPE_STRING);
-		g_value_set_string (res, *data + 4);
+		g_value_set_string (res, str);
+		g_free (str);
 		*data += 4 + len;
-#warning TODO : use the codepage
 		break;
 
-	case VT_LPWSTR :	 d (puts ("VT_LPWSTR"););
+	case VT_LPWSTR : d (puts ("VT_LPWSTR"););
+		/* be anal and safe */
+		g_return_val_if_fail (*data + 4 <= data_end, NULL);
+
+		len = GSF_LE_GET_GUINT32 (*data);
+
+		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
+
+		str = g_convert (*data + 4, len*2,
+				 "UTF-8", "UTF-16LE", &len, NULL, NULL);
+
 		g_value_init (res, G_TYPE_STRING);
-#warning TODO : map to utf8
+		g_value_set_string (res, str);
+		g_free (str);
+		*data += 4 + len;
 		break;
 
 	case VT_FILETIME :	 d (puts ("VT_FILETIME"););
@@ -440,6 +476,7 @@ msole_prop_read (GsfInput *in,
 	if (props[i].id == 0) {
 		guint32 len, id, i, n;
 		char *name;
+		guint8 const *start = data;
 
 		g_return_val_if_fail (section->dict == NULL, NULL);
 
@@ -447,6 +484,7 @@ msole_prop_read (GsfInput *in,
 			g_direct_hash, g_direct_equal,
 			NULL, g_free);
 
+		gsf_mem_dump (data-4, size);
 		n = type;
 		for (i = 0 ; i < n ; i++) {
 			id = GSF_LE_GET_GUINT32 (data);
@@ -454,13 +492,22 @@ msole_prop_read (GsfInput *in,
 
 			g_return_val_if_fail (len < 0x10000, NULL);
 
-#warning TODO : map to utf8
-			name = g_strndup (data + 8, len);
+			name = g_convert_with_iconv (data + 8,
+				len * section->char_size,
+				section->iconv_handle, &len, NULL, NULL);
 			data += 8 + len;
 
 			d (printf ("\t%u == %s\n", id, name););
 			g_hash_table_replace (section->dict,
 				GINT_TO_POINTER (id), name);
+
+			/* MS documentation blows goats !
+			 * The docs claim there are padding bytes in the dictionary.
+			 * Their examples show padding bytes.
+			 * In reality non-unicode strings do not see to have padding.
+			 */
+			if (section->char_size != 1 && (data - start) % 4)
+				data += 4 - ((data - start) % 4);
 		}
 
 		return NULL;
@@ -470,7 +517,7 @@ msole_prop_read (GsfInput *in,
 	prop_name = msole_prop_id_to_gsf (section, props[i].id);
 
 	d (printf (" @ %x %x = ", (unsigned)props[i].offset, size););
-	return msole_prop_parse (type, &data, data + size);
+	return msole_prop_parse (section, type, &data, data + size);
 }
 
 static int
@@ -553,7 +600,8 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			return FALSE;
 		}
 
-		sections[i].iconv     = (GIConv)-1;
+		sections[i].iconv_handle = (GIConv)-1;
+		sections[i].char_size    = 1;
 		sections[i].dict      = NULL;
 		sections[i].size      = GSF_LE_GET_GUINT32 (data); /* includes header */
 		sections[i].num_props = GSF_LE_GET_GUINT32 (data + 4);
@@ -578,9 +626,23 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 		       sizeof (GsfMSOleMetaDataProp),
 		       msole_prop_cmp);
 
+		sections[i].iconv_handle = (GIConv)-1;
+		sections[i].char_size = 1;
 		for (j = 0; j < sections[i].num_props; j++) /* first codepage */
 			if (props[j].id == 1) {
+				GValue *v = msole_prop_read (in, sections+i, props, j);
+				if (v != NULL) {
+					int codepage = g_value_get_int (v);
+					sections[i].iconv_handle = gsf_msole_iconv_open_for_import (codepage);
+					if (codepage == 1200 || codepage == 1201)
+						sections[i].char_size = 2;
+					g_value_unset (v);
+					g_free (v) ;
+				}
 			}
+		if (sections[i].iconv_handle == (GIConv)-1)
+			sections[i].iconv_handle = gsf_msole_iconv_open_for_import (1252);
+
 		for (j = 0; j < sections[i].num_props; j++) /* then dictionary */
 			if (props[j].id == 0)
 				msole_prop_read (in, sections+i, props, j);
@@ -588,8 +650,8 @@ gsf_msole_metadata_read (GsfInput *in, GError **err)
 			if (props[j].id > 1)
 				msole_prop_read (in, sections+i, props, j);
 
+		gsf_iconv_close (sections[i].iconv_handle);
 		g_free (props);
-		gsf_iconv_close (sections[i].iconv);
 		if (sections[i].dict != NULL)
 			g_hash_table_destroy (sections[i].dict);
 	}
@@ -745,12 +807,13 @@ gsf_msole_iconv_open_for_import (guint codepage)
 		return (GIConv)(-1);
 	}
 
-	/* this is 'compressed' unicode.  unicode characters 0000->00FF
-	 * which looks the same as 8859-1.  What does Little endian vs
-	 * bigendian have to do with this.  There is only 1 byte, and it would
-	 * certainly not be useful to keep the low byte as 0.
-	 */
-	return g_iconv_open ("UTF-8", "ISO-8859-1");
+	iconv_handle = g_iconv_open ("UTF-8",
+		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
+	if (iconv_handle != (GIConv)(-1))
+		return iconv_handle;
+	g_warning ("Unable to open an iconv handle from %s -> UTF8",
+		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
+	return (GIConv)(-1);
 }
 
 /**

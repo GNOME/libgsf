@@ -9,6 +9,7 @@ Jody:
 	* Borrow the temp file handling from gedit
 	* Add some xml SAX parsing utilities (api is tentative)
 	* Add some structured blob utilites for easy in/out of blob trees
+	* Support unicode property values and names in ole files.
 
 Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.
