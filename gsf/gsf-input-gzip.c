@@ -107,6 +107,8 @@ check_header (GsfInputGZip *input)
 	    NULL == (data = gsf_input_read (input->source, 2, NULL)))
 		return TRUE;
 
+	input->header_size = input->source->cur_offset;
+
 	return FALSE;
 }
 
@@ -145,8 +147,6 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 		g_object_unref (G_OBJECT (gzip));
 		return NULL;
 	}
-
-	gzip->header_size = source->cur_offset;
 
 	return gzip;
 }
@@ -190,12 +190,10 @@ static guint8 const *
 gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
-	size_t n;
-	int zerr;
 
 	if (buffer == NULL) {
 		if (gzip->buf_size < num_bytes) {
-			gzip->buf_size = num_bytes;
+			gzip->buf_size = MAX (num_bytes, 256);
 			if (gzip->buf != NULL)
 				g_free (gzip->buf);
 			gzip->buf = g_malloc (gzip->buf_size);
@@ -206,13 +204,15 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	gzip->stream.next_out = buffer;
 	gzip->stream.avail_out = num_bytes;
 	while (gzip->stream.avail_out != 0) {
+		int zerr;
 		if (gzip->stream.avail_in == 0) {
 			/* the last 8 bytes are the crc and size, but we need 1
 			 * byte to flush the decompresion.
 			 */
-			n = gsf_input_remaining (gzip->source) - 7;
-			if (n > Z_BUFSIZE)
-				n = Z_BUFSIZE;
+			size_t n = gsf_input_remaining (gzip->source);
+			if (n < 8)
+				return NULL;
+			n = MIN (n - 7, Z_BUFSIZE);
 
 			if (NULL == (gzip->gzipped_data = gsf_input_read (gzip->source, n, NULL)))
 				return NULL;
@@ -232,8 +232,11 @@ static gboolean
 gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
 	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
-	off_t pos = offset;
+	/* Global flag -- we don't want one per stream.  */
+	static gboolean warned = FALSE;
+	size_t pos = offset;
 
+	/* Note, that pos has already been sanity checked.  */
 	switch (whence) {
 	case GSF_SEEK_SET : break;
 	case GSF_SEEK_CUR : pos += input->cur_offset;	break;
@@ -241,8 +244,7 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 	default : return TRUE;
 	}
 
-	/* Note, that pos has already been sanity checked.  */
-	if ((size_t)pos < input->cur_offset) {
+	if (pos < input->cur_offset) {
 		if (gsf_input_seek (gzip->source,
 				    (off_t)gzip->header_size,
 				    GSF_SEEK_SET))
@@ -254,22 +256,17 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 		input->cur_offset = 0;
 	}
 
-	while ((size_t)pos > input->cur_offset) {
-		/* Global flag -- we don't want one per stream.  */
-		static gboolean warned = FALSE;
-		size_t readcount = pos - input->cur_offset;
-		char buffer[8192];
-		if (readcount > sizeof (buffer))
-			readcount = sizeof (buffer);
-		if (!gsf_input_read (input, readcount, buffer))
-			return TRUE;
+	if (gsf_input_seek_emulate (input, pos))
+		return TRUE;
 
-		gzip->seek_skipped += readcount;
-		if (!warned && gzip->seek_skipped >= 1000000) {
-			warned = TRUE;
-			g_warning ("Seeking in gzipped streams is awfully slow.");
-		}		
+	gzip->seek_skipped += pos;
+	if (!warned &&
+	    gzip->seek_skipped != pos && /* Don't warn for single seek.  */
+	    gzip->seek_skipped >= 1000000) {
+		warned = TRUE;
+		g_warning ("Seeking in gzipped streams is awfully slow.");
 	}
+
 	return FALSE;
 }
 

@@ -52,6 +52,7 @@ typedef struct {
 gboolean gsf_input_set_name	 (GsfInput *input, char const *name);
 gboolean gsf_input_set_container (GsfInput *input, GsfInfile *container);
 gboolean gsf_input_set_size	 (GsfInput *input, size_t size);
+gboolean gsf_input_seek_emulate  (GsfInput *input, size_t pos);
 
 G_END_DECLS
 

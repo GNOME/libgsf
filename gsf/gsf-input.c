@@ -218,7 +218,7 @@ gsf_input_tell (GsfInput *input)
 gboolean
 gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 {
-	off_t pos = offset;
+	ssize_t pos = offset;
 
 	g_return_val_if_fail (input != NULL, -1);
 
@@ -231,6 +231,14 @@ gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
 	if (pos < 0 || (size_t)pos > input->size)
 		return TRUE;
+
+	/*
+	 * If we go nowhere, just return.  This in particular handles null
+	 * seeks for streams with no seek method.
+	 */
+	if ((size_t)pos == input->cur_offset)
+		return FALSE;
+
 	if (GET_CLASS (input)->Seek (input, offset, whence))
 		return TRUE;
 	input->cur_offset = pos;
@@ -296,6 +304,27 @@ gsf_input_set_size (GsfInput *input, size_t size)
 	return TRUE;
 }
 
+/**
+ * gsf_input_seek_emulate: Emulate forward seeks by reading.
+ * @input :
+ * @pos :
+ *
+ * Returns : TRUE if the emulation worked.
+ */
+gboolean
+gsf_input_seek_emulate (GsfInput *input, size_t pos)
+{
+	if (pos < input->cur_offset)
+		return TRUE;
+
+	while (pos > input->cur_offset) {
+		size_t readcount = MIN (pos - input->cur_offset, 8192);
+		if (!gsf_input_read (input, readcount, NULL))
+			return TRUE;
+	}
+	return FALSE;
+}
+
 /****************************************************************************/
 
 /**
@@ -341,15 +370,21 @@ GsfInput *
 gsf_input_uncompress (GsfInput *src)
 {
 	off_t cur_offset = src->cur_offset;
+	const char *data;
 
-	if (gsf_input_size (src) > 2) {
+	if (gsf_input_seek (src, 0, GSF_SEEK_SET))
+		goto error;
+
+	/* Read header up front, so we avoid extra seeks in tests.  */
+	data = gsf_input_read (src, 4, NULL);
+	if (!data)
+		goto error;
+
+	/* Let's try gzip.  */
+	{
 		const char gzip_sig[2] = { 0x1f, 0x8b };
-		char buffer[2];
 
-		if (!gsf_input_read (src, sizeof (buffer), buffer))
-			goto error;
-
-		if (memcmp (gzip_sig, buffer, sizeof (buffer)) == 0) {
+		if (memcmp (gzip_sig, data, sizeof (gzip_sig)) == 0) {
 			GsfInputGZip *res = gsf_input_gzip_new (src, NULL);
 			if (res) {
 				g_object_unref (G_OBJECT (src));
@@ -357,6 +392,8 @@ gsf_input_uncompress (GsfInput *src)
 			}
 		}
 	}
+
+	/* Other methods go here.  */
 
  error:
 	(void)gsf_input_seek (src, cur_offset, GSF_SEEK_SET);

@@ -1,5 +1,16 @@
 2002-06-27  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-input-gzip.c (check_header): Set header_size here.
+	(gsf_input_gzip_read): When allocating a buffer, allocate at least
+	256 bytes so we don't have to realloc all the time.
+	(gsf_input_gzip_read): Handle truncated streams.
+
+	* gsf/gsf-input.c (gsf_input_seek): Handle seeks that go to same
+	position here.
+	(gsf_input_uncompress): Reorganise a bit.
+
+2002-06-27  Morten Welinder  <terra@diku.dk>
+
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Exit on error.
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Always set error info.

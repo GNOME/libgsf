@@ -377,12 +377,15 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 static void
 ole_dirent_free (MSOleDirent *dirent)
 {
+	GList *tmp;
 	g_return_if_fail (dirent != NULL);
 
 	g_free (dirent->name);
 	g_free (dirent->collation_name);
 
-	g_list_foreach (dirent->children, (GFunc)ole_dirent_free, NULL);
+	for (tmp = dirent->children; tmp; tmp = tmp->next)
+		ole_dirent_free (tmp->data);
+	g_list_free (dirent->children);
 }
 
 /*****************************************************************************/
