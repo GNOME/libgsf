@@ -25,6 +25,9 @@
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
+static gboolean
+gsf_output_vprintf (GsfOutput *output, char const* format, va_list args);
+
 static void
 gsf_output_finalize (GObject *obj)
 {
@@ -66,7 +69,10 @@ gsf_output_init (GObject *obj)
 static void
 gsf_output_class_init (GObjectClass *gobject_class)
 {
+	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
+
 	gobject_class->finalize = gsf_output_finalize;
+	output_class->Vprintf   = gsf_output_vprintf;
 }
 
 GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
@@ -390,4 +396,52 @@ gsf_output_error_id (void)
 	if (!quark)
 		quark = g_quark_from_static_string ("gsf_output_error");
 	return quark;
+}
+
+static gboolean
+gsf_output_vprintf (GsfOutput *output, char const* format, va_list args)
+{
+	static char *buf;
+	static gulong bufsize;
+	gulong reslen;
+
+	if (!buf) {
+		bufsize = 80;
+		buf = g_malloc (bufsize);
+	}
+	reslen = g_vsnprintf (buf, bufsize, format, args);
+	if (reslen >= bufsize) {
+		bufsize = MAX (reslen + 1, bufsize * 2);
+		buf = g_realloc (buf, bufsize);
+		reslen = g_vsnprintf (buf, bufsize, format, args);
+	}
+
+	return gsf_output_write (output, reslen, buf);
+}
+
+gboolean
+gsf_output_printf (GsfOutput *output, char const* format, ...)
+{
+	va_list args;
+	gboolean ret;
+
+	g_return_val_if_fail (output != NULL, FALSE);
+	g_return_val_if_fail (format != NULL, FALSE);
+	g_return_val_if_fail (strlen (format) > 0, FALSE);
+
+	va_start (args, format);
+	ret = GET_CLASS (output)->Vprintf (output, format, args);
+	va_end (args);
+
+	return ret;
+}
+
+/* Like fputs, this assumes that the line already ends with a newline */
+gboolean
+gsf_output_puts (GsfOutput *output, char const* line)
+{
+	int nbytes = strlen (line);
+	gboolean ret;
+
+	return gsf_output_write (output, nbytes, line);
 }

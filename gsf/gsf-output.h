@@ -52,6 +52,10 @@ gboolean gsf_output_unwrap (GsfOutput *wrapper, GsfOutput *wrapee);
 
 GQuark gsf_output_error_id (void);
 
+gboolean gsf_output_printf (GsfOutput *output, char const* format,
+			    ...) G_GNUC_PRINTF (2, 3);
+gboolean gsf_output_puts (GsfOutput *output, char const* line);
+
 G_END_DECLS
 
 #endif /* GSF_OUTPUT_H */

@@ -1,3 +1,19 @@
+2002-11-21  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-output.[ch] (gsf_output_printf): New function. printf
+	for GsfOutput.
+	(gsf_output_puts): New function. fputs for GsfOutput.
+
+	* gsf/gsf-output-impl.h (struct GsfOutputClass): Add Vprintf virtual.
+
+	* gsf/gsf-output.c (gsf_output_class_init): Initialize to default
+	vprintf method.
+	(gsf_output_vprintf): New function: Default vprintf method.
+
+	* tests/test-out-printf.c: New test program. Add.
+
+	* tests/Makefile.am (check_PROGRAMS): Add test-out-printf.
+
 2002-10-28  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_dirent_new) : be more careful about
