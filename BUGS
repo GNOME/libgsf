@@ -1,3 +1,11 @@
+Grave:
+  gsf_input_stdio_new uses filename as stream name.  The stream name
+  needs to be UTF-8.
+
+  we ignore the result of gsf_input_seek several places.
+
+
+
 General
     - Can we buffer things to support sequential access only ?
 
