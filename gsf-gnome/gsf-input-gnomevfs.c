@@ -67,20 +67,9 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		goto make_local_copy;
 
 	info = gnome_vfs_file_info_new ();
-	res = gnome_vfs_get_file_info_uri (uri, info, GNOME_VFS_FILE_INFO_DEFAULT | GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	res = gnome_vfs_get_file_info_uri (uri, info, GNOME_VFS_FILE_INFO_DEFAULT | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	/* follow symlinks manually */
-	while(GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE & info->valid_fields && !strcmp("x-special/symlink", info->mime_type)) {
-		GnomeVFSURI *old_uri = uri;
-
-		g_assert(GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME & info->valid_fields);
-		
-		uri = gnome_vfs_uri_new(info->symlink_name);
-		gnome_vfs_get_file_info_uri(uri, info, GNOME_VFS_FILE_INFO_DEFAULT | GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
-		gnome_vfs_uri_unref(old_uri);
-	}
-
-	size = (gsf_off_t)info->size ;
+	size = (gsf_off_t)info->size;
 	type = info->type;
 	is_local = GNOME_VFS_FILE_INFO_LOCAL (info);
 	gnome_vfs_file_info_unref (info);
