@@ -1,3 +1,12 @@
+2002-09-06  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-input-gzip.c (init_zip): Factored out of gsf_input_gzip_new.
+	(gsf_input_gzip_new): See init_zip.
+	(gsf_input_gzip_dup): Dup source instead of sharing it, and
+	initialize zip context.
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_dup): Call zip_child_init.
+
 2002-09-04  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-infile-zip.c (struct ZipDirent, struct _GsfInfileZip,

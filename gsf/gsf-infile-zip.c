@@ -503,6 +503,15 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 
 	dst->vdir = src->vdir;
 
+	if (dst->vdir->dirent)
+		if (zip_child_init (dst) != FALSE) {
+			g_object_unref (dst);
+			if (err != NULL)
+				*err = g_error_new (gsf_input_error (), 0,
+						    "Something went wrong in zip_child_init.");
+			return NULL;
+		}
+
 	return GSF_INPUT (dst);
 }
 

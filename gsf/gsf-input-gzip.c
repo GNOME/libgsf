@@ -125,6 +125,33 @@ check_header (GsfInputGZip *input)
 	return FALSE;
 }
 
+static gboolean
+init_zip (GsfInputGZip *gzip, GError **err)
+{
+	gsf_off_t cur_pos;
+	
+	if (Z_OK != inflateInit2 (&(gzip->stream), -MAX_WBITS)) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Unable to initialize zlib");
+		return TRUE;
+	}
+
+	cur_pos = gsf_input_tell (gzip->source);
+
+	if (check_header (gzip) != FALSE) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"Invalid gzip header");
+		if (gsf_input_seek (gzip->source, cur_pos, G_SEEK_SET)) {
+			g_warning ("attempt to restore position failed ??");
+		}
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 /**
  * gsf_input_gzip_new :
  * @source : The underlying data source.
@@ -147,23 +174,7 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 	gzip->source = source;
 	gzip->seek_skipped = 0;
 
-	if (Z_OK != inflateInit2 (&(gzip->stream), -MAX_WBITS)) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-				"Unable to initialize zlib");
-		g_object_unref (G_OBJECT (gzip));
-		return NULL;
-	}
-
-	cur_pos = gsf_input_tell (source);
-
-	if (check_header (gzip)) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
-				"Invalid gzip header");
-		if (gsf_input_seek (source, cur_pos, G_SEEK_SET)) {
-			g_warning ("attempt to restore position failed ??");
-		}
+	if (init_zip (gzip, err) != FALSE) {
 		g_object_unref (G_OBJECT (gzip));
 		return NULL;
 	}
@@ -198,10 +209,12 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 	GsfInputGZip const *src = (GsfInputGZip *)src_input;
 	GsfInputGZip *dst = g_object_new (GSF_INPUT_GZIP_TYPE, NULL);
 
-	(void) err;
+	dst->source = gsf_input_dup(src->source, NULL);
 
-	dst->source = src->source;
-	g_object_ref (G_OBJECT (dst->source));
+	if (init_zip (dst, err) != FALSE) {
+		g_object_unref (G_OBJECT (dst));
+		return NULL;
+	}
 
 	return GSF_INPUT (dst);
 }
