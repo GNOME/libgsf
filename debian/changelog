@@ -1,3 +1,14 @@
+libgsf (1.9.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/libgsf-1-dev.install] Follow documentation changes.
+  * [debian/rules] Take advantage of some linker features.
+    Include a /usr/share/gtk-doc/html/gsf symlink to the docs.
+  * [debian/control] Add a dependency on openjade to work around
+    gtk-doc-tools' incomplete dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  6 May 2004 19:47:45 +0200
+
 libgsf (1.8.2-6) unstable; urgency=low
 
   * [doc/Makefile.am] Patch from CVS to fix one of the two jade complaints

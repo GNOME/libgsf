@@ -13,7 +13,14 @@ endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
+
+# Ensure the build aborts when there are still references to undefined
+# symbols.
 LDFLAGS += -Wl,-z,defs
+
+# Make the linker work a bit harder so dynamic loading can be done faster
+LDFLAGS += -Wl,-O1
+
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
@@ -25,14 +32,15 @@ confflags :=	-v
 # FHS locations
 confflags +=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
-		--infodir=\$${prefix}/share/info
+		--infodir=\$${prefix}/share/info \
+		--with-html-dir=\$${prefix}/share/doc/libgsf-1-dev/html
 
 # Compiler, language dialect
 confflags +=	--enable-iso-c \
 		--enable-compile-warnings=maximum
 
 # Features
-confflags +=	--with-gnome --with-bz2
+confflags +=	--with-gnome --with-bz2 --enable-gtk-doc
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 	confflags += --build $(DEB_HOST_GNU_TYPE)
@@ -117,7 +125,6 @@ install: build
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) -C build \
 		DESTDIR=$(CURDIR)/debian/tmp \
-		DOC_DIR=$(CURDIR)/debian/tmp/usr/share/doc/libgsf-1-dev \
 		install
 
 	@if ! test -r $(CURDIR)/debian/tmp/usr/lib/libgsf-gnome-1.so ; then \
@@ -144,17 +151,15 @@ binary-arch: build install
 	dh_testroot
 	dh_install --sourcedir=debian/tmp --list-missing -Xindex.sgml
 
-	mv debian/libgsf-1-dev/usr/share/doc/libgsf \
-	   debian/libgsf-1-dev/usr/share/doc/libgsf-1-dev
-
 #	dh_installdebconf	
 	dh_installdocs
 
 	rm -rvf $(CURDIR)/debian/libgsf-1-dbg/usr/share/doc/libgsf-1-dbg
 	rm -rvf $(CURDIR)/debian/libgsf-gnome-1-dbg/usr/share/doc/libgsf-gnome-1-dbg
 
-	dh_link -plibgsf-1-dbg /usr/share/doc/libgsf-1 /usr/share/doc/libgsf-1-dbg
-	dh_link -plibgsf-gnome-1-dbg /usr/share/doc/libgsf-gnome-1 /usr/share/doc/libgsf-gnome-1-dbg
+	dh_link -plibgsf-1-dbg /usr/share/doc/libgsf-1/ /usr/share/doc/libgsf-1-dbg
+	dh_link -plibgsf-gnome-1-dbg /usr/share/doc/libgsf-gnome-1/ /usr/share/doc/libgsf-gnome-1-dbg
+	dh_link -plibgsf-1-dev /usr/share/doc/libgsf-1-dev/html/ /usr/share/gtk-doc/html/gsf
 
 	dh_installexamples
 	dh_installmenu
