@@ -28,6 +28,7 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-msole-utils.h>
+#include <gsf/gsf-docprop-vector.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -138,8 +139,16 @@ dump_biff_stream (GsfInput *stream)
 static void
 print_property (gpointer name, gpointer value, gpointer user_data)
 {
+	GsfDocPropVector	*vector;
+
+
 	printf ("print_property: name  = %s\n", (char *)name);
 	printf ("                value = %s\n", g_strdup_value_contents((GValue *)value));
+	if (IS_GSF_DOCPROP_VECTOR ((GValue *)value)) {
+		vector = gsf_value_get_docprop_vector ((GValue *)value);
+		printf ("                      = %s\n",
+			gsf_docprop_vector_as_string (vector));
+	}
 }
 
 static int
@@ -180,7 +189,7 @@ test (unsigned argc, char *argv[])
 			g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);
 			g_error_free (err);
 
-			dump_biff_stream (input);
+/* frank			dump_biff_stream (input); */
 
 			g_object_unref (G_OBJECT (input));
 			continue;
@@ -230,7 +239,7 @@ test (unsigned argc, char *argv[])
 			stream = gsf_infile_child_by_name (infile, stream_names[j]);
 			if (stream != NULL) {
 				puts (j < 3 ? "Excel97" : "Excel95");
-				dump_biff_stream (stream);
+/* frank				dump_biff_stream (stream); */
 				g_object_unref (G_OBJECT (stream));
 				break;
 			}

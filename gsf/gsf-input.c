@@ -229,6 +229,21 @@ gsf_input_dup (GsfInput *input, GError **err)
 }
 
 /**
+ * gsf_input_open_sibling :
+ * @input : The input
+ *
+ * Attempts to open a 'sibling' of @input.  The caller is responsible for
+ * managing the resulting object.
+ *
+ * Returns :  the size or -1 on error
+ **/
+GsfInput *
+gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
+{
+	return NULL;
+}
+
+/**
  * gsf_input_size :
  * @input : The input
  *

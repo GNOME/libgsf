@@ -221,6 +221,10 @@ XML and libxml
 @\
 			     deprecated_unused_allow_unknown:
 @\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
 			     deprecated_unused_allow_unknown: 
 @check_ns: 
 @start: 

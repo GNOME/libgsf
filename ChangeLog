@@ -1,3 +1,11 @@
+2005-03-05  Jody Goldberg <jody@gnome.org>
+
+	Patch from Frank Chiulli
+	* gsf/Makefile.am : Add gsf-docprop-vector
+	* gsf/gsf-docprop-vector.{c,h} : new files to add vector support
+	* tests/test-msole1.c (print_property) : support for vectors
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : ditto
+
 2005-02-02  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-gnomevfs.c: A bit more robustness and documentation

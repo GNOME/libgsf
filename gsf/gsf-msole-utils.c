@@ -22,6 +22,7 @@
  */
 
 #include <gsf-config.h>
+#include <gsf/gsf-docprop-vector.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -35,7 +36,8 @@
 #include <string.h>
 #include <time.h>
 
-#define NO_DEBUG_OLE_PROPS
+/* fc restore me #define NO_DEBUG_OLE_PROPS */
+#undef NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
@@ -268,6 +270,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 *  type associated with the vector.
 		 */
 		unsigned i, n;
+		GsfDocPropVector *vector;
 
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 
@@ -276,18 +279,26 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		d (printf (" array with %d elem\n", n);
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
+		
+		vector = gsf_docprop_vector_new ();
+
 		for (i = 0 ; i < n ; i++) {
 			GValue *v;
 			d (printf ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
 			if (v) {
-				/* FIXME: do something with it.  */
-				if (G_IS_VALUE (v))
+				if (G_IS_VALUE (v)) {
+					gsf_docprop_vector_append (vector, v);
 					g_value_unset (v);
+				}
 				g_free (v);
 			}
 		}
-		return NULL;
+
+		res = g_new0 (GValue, 1);
+		g_value_init (res, GSF_DOCPROP_VECTOR_TYPE);
+		gsf_value_set_docprop_vector (res, vector);
+		return res;
 	}
 
 	res = g_new0 (GValue, 1);
@@ -904,6 +915,7 @@ gsf_msole_metadata_read_real (GsfInput *in, GError **err)
 					}
 					g_free (prop->val);
 				}
+				g_free (prop);
 			}
 		if (sections[i].iconv_handle == (GIConv)-1)
 			sections[i].iconv_handle = gsf_msole_iconv_open_for_import (1252);

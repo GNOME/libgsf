@@ -24,6 +24,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\
 	gsf-doc-meta-data.c	\
+	gsf-docprop-vector.c	\
 	gsf-msole-impl.h	\
 	gsf-msole-utils.c	\
 	gsf-timestamp.c		\
@@ -71,6 +72,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-libxml.h		\
 	gsf-impl-utils.h	\
 	gsf-doc-meta-data.h	\
+	gsf-docprop-vector.h	\
 	gsf-msole-utils.h	\
 	gsf-timestamp.h		\
 	\
