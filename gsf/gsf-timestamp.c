@@ -92,7 +92,7 @@ gsf_timestamp_equal (GsfTimestamp const *a, GsfTimestamp const *b)
 }
 
 void
-g_value_set_timestamp (GValue *value, GsfTimestamp const *stamp)
+gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp)
 {
 	g_value_set_boxed (value, stamp);
 }

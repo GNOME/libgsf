@@ -52,7 +52,7 @@ guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
 gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
 					 GsfTimestamp const *b);
 
-void g_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
+void gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
 
 G_END_DECLS
 

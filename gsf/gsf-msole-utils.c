@@ -408,7 +408,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ft -= 11644473600ULL; /* move to Jan 1 1970 */
 #endif
 		ts.timet = (time_t)ft;
-		g_value_set_timestamp (res, &ts);
+		gsf_value_set_timestamp (res, &ts);
 		*data += 8;
 		break;
 	}

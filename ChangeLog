@@ -1,3 +1,8 @@
+2004-08-26  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-timestamp.c (gsf_value_set_timestamp): Renamed from
+	g_value_set_timestamp.
+
 2004-08-25  Stepan Kasal  <kasal@ucw.cz>
 
         * gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Be careful
