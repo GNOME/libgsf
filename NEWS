@@ -1,4 +1,4 @@
-libgsf 1.10.2
+libgsf 1.11.0
 
 Christopher James Lahey:
 	* GObject property support for input/output (for C# bindings)
@@ -9,7 +9,7 @@ Frank Chiulli:
 
 Jody:
 	* More work on storing OLE2 properties
-	* Add soem hooks to the libxml sax wrappers to facilitate extending
+	* Add some hooks to the libxml sax wrappers to facilitate extending
 	  specs
 
 Jon Kåre:
@@ -29,6 +29,9 @@ Morten:
 	  slightly expensive for disk files.)
 	* Doc fixes.
 	* Escape characters 1..31 when used in xml attributes.  [#157850]
+
+Veerapuram Varadhan:
+	* sync the ole2 property names with the existing beagle properties
 
 ------------------------------------------------------------------------------
 libgsf 1.10.1

@@ -105,7 +105,8 @@ libgsf_1_include_HEADERS = 	\
 	gsf-outfile-msole.h	\
 	gsf-outfile-zip.h	\
 	\
-	gsf-structured-blob.h
+	gsf-structured-blob.h   \
+	gsf-meta-names.h
 #	gsf-command-context.h	\
 #	gsf-io-context.h
 

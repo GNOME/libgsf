@@ -45,7 +45,7 @@ GType  gsf_doc_meta_data_get_type (void);
 GQuark gsf_doc_meta_data_error (void);
 
 GsfDocMetaData *gsf_doc_meta_data_new		(void);
-GValue const   *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta,
+GsfDocProp     *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta,
 						 char const	*name);
 void		gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta,
 						 char const	*name,
@@ -55,6 +55,10 @@ void		gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta,
 void		gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta,
 						 GHFunc func, gpointer user_data);
 gsize		gsf_doc_meta_data_size		(GsfDocMetaData const *meta);
+
+GValue const   *gsf_get_prop_val (GsfDocProp const *prop);
+gchar          *gsf_get_prop_val_str (GsfDocProp const *prop);
+
 
 G_END_DECLS
 

@@ -27,6 +27,7 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-timestamp.h>
+#include <gsf/gsf-meta-names.h>
 #include <stdio.h>
 
 #include <locale.h>
@@ -119,7 +120,8 @@ typedef enum {
 } GsfMSOleVariantType;
 
 typedef struct {
-	char const *name;
+	char const *ms_name;
+	char const *gsf_name;
 	guint32	    id;
 	GsfMSOleVariantType prefered_type;
 } GsfMSOleMetaDataPropMap;
@@ -142,59 +144,59 @@ typedef struct {
  * DocumentSummaryInformation properties
  */
 static GsfMSOleMetaDataPropMap const document_props[] = {
-	{ "Category",		2,	VT_LPSTR },
-	{ "PresentationFormat",	3,	VT_LPSTR },
-	{ "NumBytes",		4,	VT_I4 },
-	{ "NumLines",		5,	VT_I4 },
-	{ "NumParagraphs",	6,	VT_I4 },
-	{ "NumSlides",		7,	VT_I4 },
-	{ "NumNotes",		8,	VT_I4 },
-	{ "NumHiddenSlides",	9,	VT_I4 },
-	{ "NumMMClips",		10,	VT_I4 },
-	{ "Scale",		11,	VT_BOOL },
-	{ "HeadingPairs",	12,	VT_VECTOR | VT_VARIANT },
-	{ "DocumentParts",	13,	VT_VECTOR | VT_LPSTR },
-	{ "Manager",		14,	VT_LPSTR },
-	{ "Company",		15,	VT_LPSTR },
-	{ "LinksDirty",		16,	VT_BOOL },
-	{ "DocSumInfo_17",      17,	VT_UNKNOWN },
-	{ "DocSumInfo_18",      18,	VT_UNKNOWN },
-	{ "DocSumInfo_19",      19,	VT_BOOL },
-	{ "DocSumInfo_20",      20,	VT_UNKNOWN },
-	{ "DocSumInfo_21",      21,	VT_UNKNOWN },
-	{ "DocSumInfo_22",      22,	VT_BOOL },
-	{ "DocSumInfo_23",      23,	VT_I4 }
+	{ "Category",		GSF_META_NAME_CATEGORY,            2,	VT_LPSTR },
+	{ "PresentationFormat",	GSF_META_NAME_PRESENTATION_FORMAT, 3,	VT_LPSTR },
+	{ "NumBytes",		GSF_META_NAME_BYTE_COUNT,          4,	VT_I4 },
+	{ "NumLines",		GSF_META_NAME_LINE_COUNT,          5,	VT_I4 },
+	{ "NumParagraphs",	GSF_META_NAME_PARAGRAPH_COUNT,     6,	VT_I4 },
+	{ "NumSlides",		GSF_META_NAME_SLIDE_COUNT,         7,	VT_I4 },
+	{ "NumNotes",		GSF_META_NAME_NOTE_COUNT,          8,	VT_I4 },
+	{ "NumHiddenSlides",	GSF_META_NAME_HIDDEN_SLIDE_COUNT,  9,	VT_I4 },
+	{ "NumMMClips",		GSF_META_NAME_MM_CLIP_COUNT,       10,	VT_I4 },
+	{ "Scale",		GSF_META_NAME_SCALE,               11,	VT_BOOL },
+	{ "HeadingPairs",	GSF_META_NAME_HEADING_PAIRS,       12,	VT_VECTOR | VT_VARIANT },
+	{ "DocumentParts",	GSF_META_NAME_DOCUMENT_PARTS,      13,	VT_VECTOR | VT_LPSTR },
+	{ "Manager",		GSF_META_NAME_MANAGER,             14,	VT_LPSTR },
+	{ "Company",		GSF_META_NAME_COMPANY,             15,	VT_LPSTR },
+	{ "LinksDirty",		GSF_META_NAME_LINKS_DIRTY,         16,	VT_BOOL },
+	{ "DocSumInfo_17",      GSF_META_NAME_USER_DEFINED_1,      17,	VT_UNKNOWN },
+	{ "DocSumInfo_18",      GSF_META_NAME_USER_DEFINED_2,      18,	VT_UNKNOWN },
+	{ "DocSumInfo_19",      GSF_META_NAME_USER_DEFINED_3,      19,	VT_BOOL },
+	{ "DocSumInfo_20",      GSF_META_NAME_USER_DEFINED_4,      20,	VT_UNKNOWN },
+	{ "DocSumInfo_21",      GSF_META_NAME_USER_DEFINED_5,      21,	VT_UNKNOWN },
+	{ "DocSumInfo_22",      GSF_META_NAME_USER_DEFINED_6,      22,	VT_BOOL },
+	{ "DocSumInfo_23",      GSF_META_NAME_USER_DEFINED_7,      23,	VT_I4 }
 };
 
 /*
  * SummaryInformation properties
  */
 static GsfMSOleMetaDataPropMap const component_props[] = {
-	{ "Title",		2,	VT_LPSTR },
-	{ "Subject",		3,	VT_LPSTR },
-	{ "Author",		4,	VT_LPSTR },
-	{ "Keywords",		5,	VT_LPSTR },
-	{ "Comments",		6,	VT_LPSTR },
-	{ "Template",		7,	VT_LPSTR },
-	{ "LastSavedBy",	8,	VT_LPSTR },
-	{ "RevisionNumber",	9,	VT_LPSTR },
-	{ "TotalEditingTime",	10,	VT_FILETIME },
-	{ "LastPrinted",	11,	VT_FILETIME },
-	{ "CreateTime",		12,	VT_FILETIME },
-	{ "LastSavedTime",	13,	VT_FILETIME },
-	{ "NumPages",		14,	VT_I4 },
-	{ "NumWords",		15,	VT_I4 },
-	{ "NumCharacters",	16,	VT_I4 },
-	{ "Thumbnail",		17,	VT_CF },
-	{ "AppName",		18,	VT_LPSTR },
-	{ "Security",		19,	VT_I4 }
+	{ "Title",		GSF_META_NAME_TITLE,		2,	VT_LPSTR },
+	{ "Subject",		GSF_META_NAME_SUBJECT,		3,	VT_LPSTR },
+	{ "Author",		GSF_META_NAME_CREATOR,		4,	VT_LPSTR },
+	{ "Keywords",		GSF_META_NAME_KEYWORDS,		5,	VT_LPSTR },
+	{ "Comments",		GSF_META_NAME_DESCRIPTION,	6,	VT_LPSTR },
+	{ "Template",		GSF_META_NAME_TEMPLATE,		7,	VT_LPSTR },
+	{ "LastSavedBy",	GSF_META_NAME_LAST_SAVED_BY,	8,	VT_LPSTR },
+	{ "RevisionNumber",	GSF_META_NAME_REVISION_COUNT,	9,	VT_LPSTR },
+	{ "TotalEditingTime",	GSF_META_NAME_EDITING_DURATION,	10,	VT_FILETIME },
+	{ "LastPrinted",	GSF_META_NAME_LAST_PRINTED,	11,	VT_FILETIME },
+	{ "CreateTime",		GSF_META_NAME_DATE_CREATED,	12,	VT_FILETIME },
+	{ "LastSavedTime",	GSF_META_NAME_DATE_MODIFIED,	13,	VT_FILETIME },
+	{ "NumPages",		GSF_META_NAME_PAGE_COUNT,	14,	VT_I4 },
+	{ "NumWords",		GSF_META_NAME_WORD_COUNT,	15,	VT_I4 },
+	{ "NumCharacters",	GSF_META_NAME_CHARACTER_COUNT,	16,	VT_I4 },
+	{ "Thumbnail",		GSF_META_NAME_THUMBNAIL,	17,	VT_CF },
+	{ "AppName",		GSF_META_NAME_GENERATOR,	18,	VT_LPSTR },
+	{ "Security",		GSF_META_NAME_SECURITY,		19,	VT_I4 }
 };
 
 static GsfMSOleMetaDataPropMap const common_props[] = {
-	{ "Dictionary",		0,	0, /* magic */},
-	{ "CodePage",		1,	VT_UI2 },
-	{ "LOCALE_SYSTEM_DEFAULT",	0x80000000,	VT_UI4},
-	{ "CASE_SENSITIVE",		0x80000003,	VT_UI4},
+	{ "Dictionary",		  GSF_META_NAME_DICTIONARY,            0,	         0, /* magic */},
+	{ "CodePage",		  GSF_META_NAME_LANGUAGE,              1,	         VT_UI2 },
+	{ "LOCALE_SYSTEM_DEFAULT",GSF_META_NAME_LOCALE_SYSTEM_DEFAULT, 0x80000000,	 VT_UI4},
+	{ "CASE_SENSITIVE",	  GSF_META_NAME_CASE_SENSITIVE,        0x80000003,VT_UI4},
 };
 
 static char const *
@@ -227,16 +229,16 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 	}
 	while (i-- > 0)
 		if (map[i].id == id) {
-			d (printf (map[i].name););
-			return map[i].name;
+			d (printf (map[i].gsf_name););
+			return map[i].gsf_name;
 		}
 
 	map = common_props;
 	i = G_N_ELEMENTS (common_props);
 	while (i-- > 0)
 		if (map[i].id == id) {
-			d (printf (map[i].name););
-			return map[i].name;
+			d (printf (map[i].gsf_name););
+			return map[i].gsf_name;
 		}
 
 	d (printf ("_UNKNOWN_(0x%x %d)", id, id););

@@ -89,21 +89,66 @@ gsf_doc_meta_data_remove_prop (GsfDocMetaData *meta, char const *name)
 	g_hash_table_remove (meta->table, name);
 }
 
+
+/**
+ * gsf_get_prop_val :
+ * @prop : the property
+ *
+ * Returns the value associated with @prop. If @prop is NULL, 
+ * return NULL. If @prop does exist in the collection,
+ * return its associated value.
+ **/
+GValue const*
+gsf_get_prop_val (GsfDocProp const *prop)
+{
+
+	g_return_val_if_fail (prop != NULL, NULL);
+	return (prop->val);
+}
+
+/**
+ * gsf_get_prop_val_str :
+ * @prop : the property
+ *
+ * Returns the value associated with @prop. If @prop is NULL,
+ * return NULL. If @prop does exist in the collection,
+ * return its associated value.
+ **/
+gchar *
+gsf_get_prop_val_str (GsfDocProp const *prop)
+{
+
+	g_return_val_if_fail (prop != NULL, NULL);
+	return (g_strdup_value_contents (prop->val));
+}
+
 /**
  * gsf_doc_meta_data_get_prop :
  * @meta : the collection
  * @name : the non-null string name of the property.
  *
- * Returns the value associate with @name. If @name does not exist in the
- * collection, return NULL. If @name does exist in the collection, return its
- * associated value
+ * Returns the prop associated with @name. If @name does not exist in the
+ * collection, return NULL. If @name does exist in the collection, return 
+ * a GsfDocProp pointer.  Callers are responsible for releasing the result
+ * and its allocated members. ;-)
  **/
-GValue const *
+GsfDocProp *
 gsf_doc_meta_data_get_prop (GsfDocMetaData const *meta, char const *name)
 {
-	g_return_val_if_fail (meta != NULL, NULL);
+	GsfDocProp *prop = NULL;
+	GValue *val = NULL;
 
-	return g_hash_table_lookup (meta->table, name);
+	g_return_val_if_fail (meta != NULL, NULL);
+	val = g_hash_table_lookup (meta->table, name);
+	if (G_IS_VALUE (val)) {
+		prop = g_new (GsfDocProp, 1);
+		prop->val = g_new0 (GValue, 1);
+		g_value_init (prop->val, G_VALUE_TYPE (val)); 
+		g_value_copy (val, prop->val);
+		prop->name = g_strdup (name);
+		prop->linked_to = NULL;
+	}
+	return prop;
 }
 
 /**

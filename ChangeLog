@@ -1,3 +1,14 @@
+2004-11-19  Veerapuram Varadhan <vvaradhan@novell.com>
+
+	* Add gsf/gsf-meta-names.h
+
+	* gsf/gsf-doc-meta-data.[ch] (gsf_get_prop_val,
+	gsf_get_prop_val_str): new
+	(gsf_doc_meta_data_get_prop) : return GsfDocProp instead of
+	GsfDocMetaData.  Caller should release the return value.
+
+	* gsf/Makefile.am : Add gsf-meta-names.h to the list of headers.
+	
 2004-11-16  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : Check the unknown
