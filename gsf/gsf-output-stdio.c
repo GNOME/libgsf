@@ -159,7 +159,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	if (g_stat (real_filename, &st) == 0) {
 		/* FIXME: use eaccess if available.  */
 		/* FIXME? Race conditions en masse.  */
-#warning "we need f_access in gstdio.h for this"
+#warning "we need g_access in gstdio.h for this"
 		if (access (real_filename, W_OK) != 0) {
 			if (err != NULL)
 				*err = g_error_new_literal
@@ -328,7 +328,7 @@ gsf_output_stdio_close (GsfOutput *output)
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
-#warning "We need f_chmod in gstdio.h for this"
+#warning "We need g_chmod in gstdio.h for this"
 		chmod (stdio->real_filename, stdio->st.st_mode);
 #ifdef HAVE_CHOWN
 		if (chown (stdio->real_filename,
