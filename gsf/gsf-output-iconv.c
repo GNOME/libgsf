@@ -301,6 +301,13 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
+	/**
+	 * GsfOutputIconv:fallback:
+	 *
+	 * Either NULL or a string (in the source encoding) to convert and
+	 * output in place of characters that cannot be represented in the
+	 * target encoding.  NULL means use \U1234 format.
+	 */  
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FALLBACK,
