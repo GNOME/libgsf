@@ -1,3 +1,7 @@
+2002-11-23  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-outfile-zip.c (zip_close_root): Free the root_array and unref the child outputs when closing the root directory
+	
 2002-11-22  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Disable creating backup copies of files, open files with "wb" status instead of just "w"

@@ -159,6 +159,7 @@ zip_close_root (GsfOutput *output)
 	gsf_off_t dirpos = gsf_output_tell (zip->sink);
 	GPtrArray *elem = zip->root_order;
 	unsigned i;
+	gboolean result = FALSE;
 
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
@@ -175,7 +176,15 @@ zip_close_root (GsfOutput *output)
 			return FALSE;
 	}		
 
-	return zip_trailer_write (zip, dirpos);
+	result = zip_trailer_write (zip, dirpos);
+
+	/* free the children after zip_trailer_write coz
+	 * it needs the root_array */
+	for (i = 0 ; i < elem->len ; i++)
+		g_object_unref (G_OBJECT (g_ptr_array_index (elem, i)));
+	g_ptr_array_free (elem, TRUE);
+
+	return result;
 }
 
 static int
