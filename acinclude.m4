@@ -5,7 +5,7 @@ dnl dnl a macro to check for ability to create python extensions
 dnl dnl  AM_CHECK_PYTHON_HEADERS([ACTION-IF-POSSIBLE], [ACTION-IF-NOT-POSSIBLE])
 dnl dnl function also defines PYTHON_INCLUDES
 dnl AC_DEFUN([AM_CHECK_PYTHON_HEADERS],
-dnl [AC_REQUIRE([AM_PATH_PYTHON])
+dnl [ac_require([AM_PATH_PYTHON])	# cruft case to avoid autoconf looking at this even though it is commented out
 dnl AC_MSG_CHECKING(for headers required to compile python extensions)
 dnl dnl deduce PYTHON_INCLUDES
 dnl py_prefix=`$PYTHON -c "import sys; print sys.prefix"`
