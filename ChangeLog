@@ -1,3 +1,10 @@
+2002-11-24  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output-memory.c (gsf_output_memory_seek): Implement seek() by implementing a cursor as well as the existing nwritten and capacity fields
+	(gsf_output_memory_write): ditto
+	(gsf_output_memory_vprintf): ditto
+	(gsf_output_memory_init): ditto
+	
 2002-11-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_vprintf) : rename from
