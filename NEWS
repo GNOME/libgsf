@@ -10,6 +10,7 @@ Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.
 	* Support seeking within zip streams.
 	* Make dup work properly for gzip and zip children.
+	* Implement Zip export.
 
 ------------------------------------------------------------------------------
 libgsf 1.3.0

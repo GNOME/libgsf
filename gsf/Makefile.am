@@ -11,6 +11,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-msole-utils.c	\
 	gsf-timestamp.c		\
 	gsf-zip-impl.h		\
+	gsf-zip-utils.c		\
 	\
 	gsf-input.c		\
 	gsf-input-impl.h	\
@@ -32,6 +33,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-outfile.c 		\
 	gsf-outfile-impl.h 	\
 	gsf-outfile-msole.c 	\
+	gsf-outfile-zip.c	\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
@@ -61,4 +63,5 @@ libgsf_1_include_HEADERS = 	\
 	gsf-output-stdio.h	\
 	gsf-outfile.h 		\
 	gsf-outfile-msole.h	\
+	gsf-outfile-zip.h       \
 	gsf-output-memory.h
