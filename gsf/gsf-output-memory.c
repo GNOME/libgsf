@@ -108,7 +108,7 @@ gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t min_capacity)
 			capacity += MAX_STEP;
 	}
 	
-	mem->buffer   = g_realloc (mem->buffer, capacity);
+	mem->buffer   = (guint8 *)g_realloc (mem->buffer, capacity);
 	mem->capacity = capacity;
 	
 	return TRUE;
@@ -124,7 +124,7 @@ gsf_output_memory_write (GsfOutput *output,
 	g_return_val_if_fail (mem != NULL, FALSE);
 	
 	if (!mem->buffer) {
-		mem->buffer   = g_malloc (MIN_BLOCK);
+		mem->buffer   = (guint8 *)g_malloc (MIN_BLOCK);
 		mem->capacity = MIN_BLOCK;
 	}
 	if (num_bytes + output->cur_offset > mem->capacity) {

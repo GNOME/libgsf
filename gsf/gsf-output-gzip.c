@@ -69,7 +69,7 @@ init_gzip (GsfOutputGZip *gzip, GError **err)
 	}
 	if (!gzip->buf) {
 		gzip->buf_size = Z_BUFSIZE; 
-		gzip->buf = g_malloc (gzip->buf_size);
+		gzip->buf = (guint8 *)g_malloc (gzip->buf_size);
 	}
 	gzip->stream.next_out  = gzip->buf;
 	gzip->stream.avail_out = gzip->buf_size;

@@ -135,7 +135,7 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 			stdio->buf_size = num_bytes;
 			if (stdio->buf != NULL)
 				g_free (stdio->buf);
-			stdio->buf = g_malloc (stdio->buf_size);
+			stdio->buf = (guint8 *)g_malloc (stdio->buf_size);
 		}
 		buffer = stdio->buf;
 	}

@@ -589,7 +589,7 @@ gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 	} else {
 		/* start as small block */
 		child->type = MSOLE_SMALL_BLOCK;
-		child->content.small_block.buf = g_malloc0 (OLE_DEFAULT_THRESHOLD);
+		child->content.small_block.buf = (guint8 *)g_malloc0 (OLE_DEFAULT_THRESHOLD);
 	}
 	g_object_ref (G_OBJECT (ole_parent->sink));
 	child->sink   = ole_parent->sink;

@@ -1,5 +1,19 @@
 2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-infile-msole.c
+	* gsf/gsf-infile-zip.c
+	* gsf/gsf-input-gzip.c
+	* gsf/gsf-input-stdio.c
+	* gsf/gsf-input-textline.c
+	* gsf/gsf-outfile-msole.c
+	* gsf/gsf-output-gzip.c
+	* gsf/gsf-output-memory.c
+	* gsf/gsf-utils.c
+	* gsf-gnome/gsf-input-bonobo.c
+	* gsf-gnome/gsf-input-gnomevfs.c: More castings needed
+	
+2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-infile-msole.c: Some castings to help things build using
 	MSVC++
 	* gsf/gsf-msole-utils.c: Ditto

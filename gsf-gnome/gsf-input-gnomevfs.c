@@ -174,7 +174,7 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
             vfs->buf_size = num_bytes;
             if (vfs->buf != NULL)
                 g_free (vfs->buf);
-            vfs->buf = g_malloc (vfs->buf_size);
+            vfs->buf = (guint8 *)g_malloc (vfs->buf_size);
         }
         buffer = vfs->buf;
     }

@@ -228,7 +228,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			gzip->buf_size = MAX (num_bytes, 256);
 			if (gzip->buf != NULL)
 				g_free (gzip->buf);
-			gzip->buf = g_malloc (gzip->buf_size);
+			gzip->buf = (guint8 *)g_malloc (gzip->buf_size);
 		}
 		buffer = gzip->buf;
 	}

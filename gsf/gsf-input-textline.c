@@ -188,7 +188,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 		/* "+1", just in case len==0.  */
 		if (count + len + 1 > textline->buf_size) {
 			textline->buf_size += len;
-			textline->buf = g_realloc (textline->buf,
+			textline->buf = (guint8 *)g_realloc (textline->buf,
 				textline->buf_size + 1);
 		}
 
@@ -265,7 +265,7 @@ gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 		len = ptr - textline->remainder;
 		if ((count + len) > textline->buf_size) {
 			textline->buf_size += len;
-			textline->buf = g_realloc (textline->buf,
+			textline->buf = (guint8 *)g_realloc (textline->buf,
 				textline->buf_size + 1);
 		}
 
