@@ -8,4 +8,18 @@ beginning of the lines from AM_PATH_PYTHON down to the next line of
 asterisks in ../configure.in and running autogen.sh. You need
 automake1.5 or later.
 
+Python 2.2 is required because gnome-python requires this. If you have
+Python 2.2 installed with another name, e.g. /usr/bin/python2.2, you
+can configure gnome-python and libgsf like this (assuming bash):
+
+PYTHON=/usr/bin/python2.2 ./configure
+
+Gnumeric must be configured with the same Python version in order to
+be able to use the Python gsf module. But the binary is specified in a
+different way:
+
+./configure --with-python=python2.2
+
+Sorry about that!
+
 ex-1.py is a simple example.
