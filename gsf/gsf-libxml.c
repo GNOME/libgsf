@@ -30,9 +30,13 @@ static int
 gsf_libxml_read (void *context, char *buffer, int len)
 {
 	gsf_off_t remaining = gsf_input_remaining ((GsfInput *)context);
+	guint8* res;
+
 	if (len > remaining)
 		len = remaining;
-	if (NULL == gsf_input_read ((GsfInput *)context, (size_t)len, buffer))
+	res = (guint8 *) gsf_input_read ((GsfInput *)context,
+					 (size_t)len, buffer);
+	if (res == NULL && len > 0) /* Not an error if len == 0 */
 		return -1;
 	return len;
 }

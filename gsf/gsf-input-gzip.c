@@ -67,14 +67,6 @@ check_header (GsfInputGZip *input)
 	guint8 const *data;
 	unsigned flags, len;
 
-	/* Get the uncompressed size first, so that the seeking is finished */
-	if (gsf_input_seek (input->source, (gsf_off_t) -4, G_SEEK_END) ||
-	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
-		return TRUE;
-	/* FIXME, but how?  The size read here is modulo 2^32.  */
-	gsf_input_set_size (GSF_INPUT (input),
-			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
-
 	/* Check signature */
 	if (gsf_input_seek (input->source, (gsf_off_t) 0, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (input->source, 2 + 1 + 1 + 6, NULL)) ||
@@ -84,6 +76,18 @@ check_header (GsfInputGZip *input)
 	/* verify flags and compression type */
 	flags  = data [3];
 	if (data [2] != Z_DEFLATED || (flags & ~GZIP_HEADER_FLAGS) != 0)
+		return TRUE;
+
+	/* Get the uncompressed size */
+	if (gsf_input_seek (input->source, (gsf_off_t) -4, G_SEEK_END) ||
+	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
+		return TRUE;
+	/* FIXME, but how?  The size read here is modulo 2^32.  */
+	gsf_input_set_size (GSF_INPUT (input),
+			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
+
+	if (gsf_input_seek (input->source, (gsf_off_t) 2 + 1 + 1 + 6,
+			    G_SEEK_SET))
 		return TRUE;
 
 	if (flags & GZIP_EXTRA_FIELD) {
@@ -114,6 +118,9 @@ check_header (GsfInputGZip *input)
 		return TRUE;
 
 	input->header_size = input->source->cur_offset;
+
+	if (gsf_input_remaing (input->source) < 9)
+		return TRUE;	/* No room for payload */
 
 	return FALSE;
 }
