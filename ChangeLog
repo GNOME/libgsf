@@ -1,3 +1,13 @@
+2002-09-04  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-infile-zip.c (struct ZipDirent, struct _GsfInfileZip,
+	zip_dirent_new, zip_dirent_free, zip_update_stream_in,
+	gsf_infile_zip_read, zip_child_init, gsf_infile_zip_seek,
+	gsf_infile_zip_init): Move zlib context to GsfInfile object. It is
+	per opened stream, not per subfile.
+	(gsf_infile_zip_init, gsf_infile_zip_new): Initialize all fields
+	in gsf_infile_zip_init.
+
 2002-09-03  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-input-gzip.c (check_header): Fix typo.

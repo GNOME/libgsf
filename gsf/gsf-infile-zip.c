@@ -55,10 +55,6 @@ typedef struct {
 	size_t                usize;
 	off_t                 offset;
 	off_t                 data_offset;
-
-	guint32               restlen;
-	guint32               crestlen;
-	z_stream              stream;
 } ZipDirent;
 
 typedef struct {
@@ -84,6 +80,10 @@ struct _GsfInfileZip {
 	ZipInfo	  *info;
 
 	ZipVDir   *vdir;
+
+	z_stream  *stream;
+	guint32   restlen;
+	guint32   crestlen;
 	
 	guint8   *buf;
 	size_t    buf_size;
@@ -310,8 +310,6 @@ zip_dirent_new (GsfInfileZip *zip, gsf_off_t *offset)
 	dirent->csize =         csize;
 	dirent->usize =         usize;
 	dirent->offset =        off;
-	dirent->restlen =       usize;
-	dirent->crestlen =      csize;
 
 	*offset += ZIP_DIRENT_SIZE + name_len + extras_len + comment_len;
 
@@ -323,7 +321,6 @@ zip_dirent_free (ZipDirent *dirent)
 {
 	g_return_if_fail (dirent != NULL);
 
-	(void) inflateEnd (&dirent->stream);
 	if (dirent->name != NULL) {
 		g_free (dirent->name);
 		dirent->name = NULL;
@@ -510,26 +507,25 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 }
 
 static gboolean
-zip_update_stream_in (GsfInfileZip const *zip)
+zip_update_stream_in (GsfInfileZip *zip)
 {
-	ZipDirent *dirent;
 	guint32 read_now;
 	guint8 const *data;
-
-	dirent = zip->vdir->dirent;
-
-	if (dirent->crestlen == 0)
+	gsf_off_t pos;
+	
+	if (zip->crestlen == 0)
 		return FALSE;
 
-	read_now = (dirent->crestlen > ZIP_BLOCK_SIZE) ? ZIP_BLOCK_SIZE : dirent->crestlen;
+	read_now = MIN (zip->crestlen, ZIP_BLOCK_SIZE);
 
-	gsf_input_seek (zip->input, (gsf_off_t) (dirent->data_offset + dirent->stream.total_in), G_SEEK_SET);
+	pos = zip->vdir->dirent->data_offset + zip->stream->total_in;
+	gsf_input_seek (zip->input, pos, G_SEEK_SET);
 	if ((data = gsf_input_read (zip->input, read_now, NULL)) == NULL)
 		return FALSE;
 
-	dirent->crestlen -= read_now;
-	dirent->stream.next_in  = (unsigned char *) data;      /* next input byte */
-	dirent->stream.avail_in = read_now;  /* number of bytes available at next_in */
+	zip->crestlen -= read_now;
+	zip->stream->next_in  = (unsigned char *) data;      /* next input byte */
+	zip->stream->avail_in = read_now;  /* number of bytes available at next_in */
 
 	return TRUE;
 }
@@ -538,14 +534,14 @@ static guint8 const *
 gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
-	ZipDirent    *dirent = zip->vdir->dirent;
+	ZipVDir      *vdir = zip->vdir;
 
-	if (dirent->restlen < num_bytes)
+	if (zip->restlen < num_bytes)
 		return NULL;
 
-	switch (dirent->compr_method) {
+	switch (vdir->dirent->compr_method) {
 	case ZIP_STORED:
-		dirent->restlen -= num_bytes;
+		zip->restlen -= num_bytes;
 		return gsf_input_read (input, num_bytes, buffer);
 		break;
 	case ZIP_DEFLATED:
@@ -560,28 +556,28 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			buffer = zip->buf;
 		}
 
-		dirent->stream.avail_out = num_bytes;
-		dirent->stream.next_out = (unsigned char *)buffer;
+		zip->stream->avail_out = num_bytes;
+		zip->stream->next_out = (unsigned char *)buffer;
 
 		do {
 			int err;
 			int startlen;
 
-			if (dirent->crestlen > 0 && dirent->stream.avail_in == 0)
+			if (zip->crestlen > 0 && zip->stream->avail_in == 0)
 				if (!zip_update_stream_in (zip))
 					break;
 
-			startlen = dirent->stream.total_out;
-			err = inflate(&dirent->stream, Z_NO_FLUSH);
+			startlen = zip->stream->total_out;
+			err = inflate(zip->stream, Z_NO_FLUSH);
 
 			if (err == Z_STREAM_END) 
-				dirent->restlen = 0;
+				zip->restlen = 0;
 			else if (err == Z_OK)
-				dirent->restlen -= (dirent->stream.total_out - startlen);
+				zip->restlen -= (zip->stream->total_out - startlen);
 			else
 				break;
 
-		} while (dirent->restlen && dirent->stream.avail_out);
+		} while (zip->restlen && zip->stream->avail_out);
 
 		return buffer;
 		break;
@@ -617,13 +613,16 @@ zip_child_init (GsfInfileZip *child)
 	extras_len = GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_EXTRAS_SIZE);
 
 	dirent->data_offset = dirent->offset + ZIP_FILE_HEADER_SIZE + name_len + extras_len;
-	dirent->restlen  = dirent->usize;
-	dirent->crestlen = dirent->csize;
+	child->restlen  = dirent->usize;
+	child->crestlen = dirent->csize;
 
 	if (dirent->compr_method != ZIP_STORED) {
 		int err;
 
-		err = inflateInit2 (&child->vdir->dirent->stream, -MAX_WBITS);
+		if (!child->stream) {
+			child->stream = g_new0 (z_stream, 1);
+		}
+		err = inflateInit2 (child->stream, -MAX_WBITS);
 		if (err != Z_OK)
 			return TRUE;
 	}
@@ -645,6 +644,12 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	case G_SEEK_CUR : pos += input->cur_offset;	break;
 	case G_SEEK_END : pos += input->size;		break;
 	default : return TRUE;
+	}
+
+	if (zip->stream) {
+		zip->stream->next_in  = NULL;
+		zip->stream->avail_in = 0;
+		zip->stream->total_in = 0;
 	}
 
 	if (zip_child_init (zip) != FALSE)
@@ -757,6 +762,9 @@ gsf_infile_zip_finalize (GObject *obj)
 		zip_info_unref (zip->info);
 		zip->info = NULL;
 	}
+	if (zip->stream)
+		(void) inflateEnd (zip->stream);
+
 	
 	g_free (zip->buf);
 
@@ -772,6 +780,12 @@ gsf_infile_zip_init (GObject *obj)
 	zip->input =   NULL;
 	zip->info  =   NULL;
 	zip->vdir  =   NULL;
+	zip->stream   =  NULL;
+	zip->restlen  = 0;
+	zip->crestlen = 0;
+	zip->buf   =   NULL;
+	zip->buf_size = 0;
+	zip->seek_skipped = 0;
 }
 
 static void
@@ -814,15 +828,12 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	zip->input = source;
-	zip->seek_skipped = 0;
 	gsf_input_set_size (GSF_INPUT (zip), (gsf_off_t) 0);
 
 	if (zip_init_info (zip, err)) {
 		g_object_unref (G_OBJECT (zip));
 		return NULL;
 	}
-	zip->buf		= NULL;
-	zip->buf_size		= 0;
 	zip->vdir               = zip->info->vdir;
 
 	return GSF_INFILE (zip);
