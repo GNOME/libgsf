@@ -73,6 +73,21 @@ typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputStdioClass;
 
+static int
+rename_wrapper (const char *oldfilename, const char *newfilename)
+{
+	int result = rename (oldfilename, newfilename);
+#ifdef G_OS_WIN32
+	if (result) {
+		/* Win32's rename does not unlink the target.  */
+		(void)unlink (newfilename);
+		result = rename (oldfilename, newfilename);
+	}
+#endif
+	return result;
+}
+
+
 #define GSF_MAX_LINK_LEVEL 256
 #ifdef MAXPATHLEN
 #define GSF_MAX_PATH_LEN  MAXPATHLEN
@@ -289,7 +304,7 @@ gsf_output_stdio_close (GsfOutput *output)
 	if (stdio->create_backup_copy) {
 		gint result;
 		backup_filename = g_strconcat (stdio->real_filename, ".bak", NULL);
-		result = rename (stdio->real_filename, backup_filename);
+		result = rename_wrapper (stdio->real_filename, backup_filename);
 		if (result != 0) {
 			char *utf8name = gsf_filename_to_utf8 (backup_filename, TRUE);
 			gsf_output_set_error (output, errno,
@@ -303,10 +318,10 @@ gsf_output_stdio_close (GsfOutput *output)
 	}
 
 	/* Move the temp file to the original file */
-	if (rename (stdio->temp_filename, stdio->real_filename) != 0) {
+	if (rename_wrapper (stdio->temp_filename, stdio->real_filename) != 0) {
 		gint saved_errno = errno;
 		if (backup_filename != NULL &&
-		    rename (backup_filename, stdio->real_filename) != 0)
+		    rename_wrapper (backup_filename, stdio->real_filename) != 0)
 			saved_errno = errno;
 		res = gsf_output_set_error (output, errno, g_strerror (errno));
 	} else {

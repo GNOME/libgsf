@@ -2,6 +2,7 @@ libgsf 1.11.1
 
 Morten:
 	* Fix permissions for new files.  [#159331]
+	* Fix save-to-existing-file on Win32.  [#160108]
 
 ------------------------------------------------------------------------------
 libgsf 1.11.0

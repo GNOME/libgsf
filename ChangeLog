@@ -3,6 +3,8 @@
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Make sure new
 	files end us with as lose permissions as the umask says.
 	[#159331]
+	(rename_wrapper): New function to hide the fact that Win32's
+	rename does not unlink the target file if it exists.  [#160108]
 
 2004-11-28  Jody Goldberg <jody@gnome.org>
 
