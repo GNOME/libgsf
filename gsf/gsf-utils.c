@@ -466,7 +466,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 			*outptr++ = base64_alphabet[ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
 			*outptr++ = base64_alphabet[ c3 & 0x3f ];
 			/* this is a bit ugly ... */
-			if (break_lines && (++already)>=19) {
+			if (break_lines && (++already)>=59) {
 				*outptr++='\n';
 				already = 0;
 			}

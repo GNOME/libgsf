@@ -1,5 +1,9 @@
 2003-01-07  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-libxml.c (gsf_output_xml_add_attr_cstr_safe) : clone over
+	  logic for escaping strings from libxml and revamp it to be more
+	  libgsf-ish.
+
 	* gsf/gsf-utils.c : rename the base64 utilities and clean up the types
 	  and const to match gsf conventions.
 

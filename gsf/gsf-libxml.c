@@ -572,13 +572,60 @@ gsf_output_xml_add_attr_cstr (GsfOutputXML *xml, char const *id,
  * gsf_output_xml_add_attr_cstr_safe :
  * @xml :
  * @id : optionally NULL for content
+ * @val_utf8 : a utf8 encoded string
+ *
+ * dump @val_utf8 to an attribute named @id or as the nodes content escaping
+ * characters as necessary.
  */
 void
 gsf_output_xml_add_attr_cstr_safe (GsfOutputXML *xml, char const *id,
 				   char const *val_utf8)
 {
-#warning TODO
-	gsf_output_xml_add_attr_cstr (xml, id, val_utf8);
+	guint8 const *cur   = val_utf8;
+	guint8 const *start = val_utf8;
+
+	if (id == NULL) {
+		xml->state = GSF_OUTPUT_XML_CONTENT;
+		gsf_output_write (xml->output, 1, ">");
+	} else
+		gsf_output_printf (xml->output, " %s=\"", id);
+	while (*cur != '\0') {
+		if (*cur == '<') {
+			if (cur != start)
+				gsf_output_write (xml->output, cur-start, start);
+			start = ++cur;
+			gsf_output_write (xml->output, 4, "&lt;");
+		} else if (*cur == '>') {
+			if (cur != start)
+				gsf_output_write (xml->output, cur-start, start);
+			start = ++cur;
+			gsf_output_write (xml->output, 4, "&gt;");
+		} else if (*cur == '&') {
+			if (cur != start)
+				gsf_output_write (xml->output, cur-start, start);
+			start = ++cur;
+			gsf_output_write (xml->output, 5, "&amp;");
+		} else if (*cur == '"') {
+			if (cur != start)
+				gsf_output_write (xml->output, cur-start, start);
+			start = ++cur;
+			gsf_output_write (xml->output, 6, "&quot;");
+		} else if (((*cur >= 0x20) && (*cur < 0x80)) ||
+			   (*cur == '\n') || (*cur == '\r') || (*cur == '\t')) {
+			cur++;
+		} else if (*cur >= 0x80) {
+			gsf_output_printf (xml->output, "&#%d;",
+					   g_utf8_get_char (cur));
+			cur = g_utf8_next_char (cur);
+		} else {
+			g_warning ("Unknown char 0x%hhx in string", *cur);
+			cur++;
+		}
+	}
+	if (cur != start)
+		gsf_output_write (xml->output, cur-start, start);
+	if (id != NULL)
+		gsf_output_write (xml->output, 1, "\"");
 }
 
 /**
@@ -666,5 +713,15 @@ void
 gsf_output_xml_add_attr_base64 (GsfOutputXML *xml, char const *id,
 				guint8 const *data, unsigned len)
 {
-#warning TODO
+	/* We could optimize and stream right to the output,
+	 * or even just keep the buffer around
+	 * for now we start simple */
+	guint8 *tmp = gsf_base64_encode_simple (data, len);
+	if (tmp == NULL)
+		return;
+	if (id != NULL)
+		g_warning ("Stream a binary blob into an attribute ??");
+	gsf_output_xml_add_attr_cstr (xml, id, tmp);
+	g_free (tmp);
 }
+
