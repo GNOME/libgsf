@@ -1,3 +1,15 @@
+2004-07-27  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root) : the last
+	  xbat does not require a forwarding link
+
+2004-07-27  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-outfile-msole.c (metabat_size): Nuke; doesn't have to
+	  be an instance variable, it can be local ...
+	(gsf_outfile_msole_close_root): ... here.
+	(gsf_outfile_msole_set_block_shift): Don't set metabat_size.
+
 2004-07-26  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (OLE_DEFAULT_METABAT_SIZE): delete

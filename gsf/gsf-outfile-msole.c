@@ -57,7 +57,6 @@ struct _GsfOutfileMSOle {
 		unsigned shift;
 		unsigned size;
 	} bb, sb;
-	unsigned metabat_size;
 
 	union {
 		struct {
@@ -247,6 +246,7 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 	guint32	bat_start, num_bat, dirent_start, num_dirent_blocks, next, child_index;
 	unsigned i, j, blocks, num_xbat, xbat_pos;
 	gsf_off_t data_size;
+	unsigned metabat_size = ole->bb.size / BAT_INDEX_SIZE - 1;
 	GPtrArray *elem = ole->root->content.dir.root_order;
 
 	/* write small block data */
@@ -391,7 +391,7 @@ recalc_bat_bat :
 	i = 0;
 	if (num_bat > OLE_HEADER_METABAT_SIZE)
 		i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
-			 / ole->metabat_size);
+			 / metabat_size);
 	if (num_xbat != i) {
 		num_xbat = i;
 		goto recalc_bat_bat;
@@ -446,14 +446,14 @@ recalc_bat_bat :
 		for (i = 0 ; i++ < num_xbat ; ) {
 			bat_start += blocks;
 			blocks = num_bat - bat_start;
-			if (blocks > ole->metabat_size)
-				blocks = ole->metabat_size;
+			if (blocks > metabat_size)
+				blocks = metabat_size;
 			for (j = 0 ; j < blocks ; j++) {
 				GSF_LE_SET_GUINT32 (buf, bat_start + j);
 				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 			}
 
-			if (num_xbat != 0) {
+			if (num_xbat != i) {
 				xbat_pos++;
 				GSF_LE_SET_GUINT32 (buf, xbat_pos);
 				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
@@ -598,7 +598,6 @@ gsf_outfile_msole_set_block_shift (GsfOutfileMSOle *ole,
 	ole->bb.size  = (1 << ole->bb.shift);
 	ole->sb.shift = sb_shift;
 	ole->sb.size  = (1 << ole->sb.shift);
-	ole->metabat_size = ole->bb.size / BAT_INDEX_SIZE - 1;
 }
 
 static GsfOutput *
