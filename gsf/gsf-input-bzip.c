@@ -22,7 +22,7 @@
 #include <gsf-config.h>
 #include <gsf-input-bzip.h>
 #include <gsf-output-memory.h>
-#include <strings.h>
+#include <string.h>
 
 #ifdef HAVE_BZ2
 #include <bzlib.h>
