@@ -48,13 +48,11 @@ typedef GsfInputClass GsfInputGnomeVFSClass;
 GsfInput *
 gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 {
-	GsfInputGnomeVFS *input;
 	GnomeVFSHandle	 *handle;
-	GnomeVFSFileInfo  info;
-	GnomeVFSResult    res = 0;
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    res;
+	GnomeVFSFileType  type;
 	gsf_off_t	  size;
-	gchar            *name;
-	gboolean          make_local_copy;
 
 	if (uri == NULL) {
 		g_set_error (error, gsf_input_error (), 0,
@@ -62,69 +60,96 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		return NULL;
 	}
 
-	make_local_copy = !VFS_METHOD_HAS_FUNC (uri->method, seek);
+	if (!VFS_METHOD_HAS_FUNC (uri->method, seek))
+		goto make_local_copy;
 
-	res = gnome_vfs_get_file_info_uri (uri, &info, GNOME_VFS_FILE_INFO_DEFAULT);
-	if (res != GNOME_VFS_OK) {
+	info = gnome_vfs_file_info_new ();
+	res = gnome_vfs_get_file_info_uri (uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
+	size = (gsf_off_t)info->size ;
+	type = info->type;
+	gnome_vfs_file_info_unref (info);
+
+	switch (res) {
+	case GNOME_VFS_ERROR_NOT_SUPPORTED:
+		goto make_local_copy;
+	default:
 		g_set_error (error, gsf_input_error (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
-	}        
-	if (info.type != GNOME_VFS_FILE_TYPE_REGULAR) {
+	case GNOME_VFS_OK: /* Nothing */ ;
+	}
+
+	if (type != GNOME_VFS_FILE_TYPE_REGULAR) {
+#if 0
+		g_print ("uri=%s\n", gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE));
+		g_print ("uri.text=%s\n", uri->text);
+		g_print ("parent=%s\n", uri->parent ? gnome_vfs_uri_to_string (uri->parent, GNOME_VFS_URI_HIDE_NONE) : "(null)");
+		g_print ("method=%s\n", uri->method_string);
+		g_print ("fragment=%s\n", uri->fragment_id ? uri->fragment_id : "(null)");
+#endif
+		if (type == GNOME_VFS_FILE_TYPE_DIRECTORY && uri->parent) {
+			/* Reported for "file:///.../foo.zip#zip:beta.gnumeric" */
+			goto make_local_copy;
+		}
+
 		g_set_error (error, gsf_input_error (), 0,
 			     "Not a regular file");
 		return NULL;
 	}
 
 	res = gnome_vfs_open_uri (&handle, uri,
-				  GNOME_VFS_OPEN_READ |
-				  (make_local_copy ? 0 : GNOME_VFS_OPEN_RANDOM));
+				  GNOME_VFS_OPEN_READ | GNOME_VFS_OPEN_RANDOM);
 	if (res != GNOME_VFS_OK) {
 		g_set_error (error, gsf_input_error (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
 	}
 
-	size = (gsf_off_t) info.size ;
-	input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
-	input->handle = handle;
-	input->uri = gnome_vfs_uri_ref (uri);
-	input->buf  = NULL;
-	input->buf_size = 0;
-	gsf_input_set_size (GSF_INPUT (input), size);
-	name = gnome_vfs_uri_to_string (uri, 0);
+	{
+		char *name;
+		GsfInputGnomeVFS *input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
 
-	if (make_local_copy) {
-		gpointer buffer = g_try_malloc (size ? size : 1);
-		GsfInput *mem = NULL;
+		input->handle = handle;
+		input->uri = gnome_vfs_uri_ref (uri);
+		input->buf  = NULL;
+		input->buf_size = 0;
+		gsf_input_set_size (GSF_INPUT (input), size);
+		name = gnome_vfs_uri_to_string (uri, 0);
+		gsf_input_set_name (GSF_INPUT (input), name);
+		g_free (name);
+		return GSF_INPUT (input);
+	}
 
-		if (buffer == NULL) {
-			g_set_error (error, gsf_input_error (), 0,
-				     "Out of memory");
-		} else {
-			if (!gsf_input_read (GSF_INPUT (input), size, buffer))
-				g_set_error (error, gsf_input_error (), 0,
-					     "Read error while creating local stream.");
-			else {
-				mem = (GsfInput *)gsf_input_memory_new (buffer, size, TRUE);
-				if (mem) {
-					gsf_input_set_name (mem, name);
-					buffer = NULL;
-				} else
-					g_set_error (error, gsf_input_error (), 0,
-						     "Failed to create local memory stream");
-			}
+ make_local_copy:
+	{
+		char *buffer;
+		int file_size;
+		char *uri_text, *name;
+		GsfInput *mem;
+
+		uri_text = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+		res = gnome_vfs_read_entire_file (uri_text, &file_size, &buffer);
+		g_free (uri_text);
+		if (res != GNOME_VFS_OK) {
+			g_set_error (error, gsf_input_error (), (gint)res,
+				     "Read error while creating local copy.");
+			return NULL;
 		}
 
-		g_free (buffer);
-		g_object_unref (input);
+		mem = gsf_input_memory_new (buffer, file_size, TRUE);
+		if (!mem) {
+			g_set_error (error, gsf_input_error (), 0,
+				     "Failed to create local memory stream");
+			g_free (buffer);
+			return NULL;
+		}
+
+		name = gnome_vfs_uri_to_string (uri, 0);
+		gsf_input_set_name (mem, name);
+		g_free (name);
 
 		return mem;
 	}
-
-	gsf_input_set_name (GSF_INPUT (input), name);
-	g_free (name);
-	return GSF_INPUT (input);
 }
 
 /**
