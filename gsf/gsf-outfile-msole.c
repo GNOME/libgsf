@@ -76,7 +76,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 }
 
 static GsfOutput *
-gsf_outfile_msole_new_child (GsfOutfile *outfile, char const *name)
+gsf_outfile_msole_new_child (GsfOutfile *outfile, char const *name,
+			     gboolean is_dir)
 {
 }
 
