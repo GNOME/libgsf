@@ -3,9 +3,3 @@ Makefile
 Makefile.in
 .*.sw*
 ID
-test-input1
-test-msole1
-test-msole2
-test-msvba
-test-zip1
-test-gzip1
