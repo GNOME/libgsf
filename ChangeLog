@@ -1,6 +1,8 @@
 2002-08-16  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-metadata-bag.c (gsf_metadata_bag_new): Fix prototype.
+	* gsf/gsf-output-memory.c (gsf_output_memory_new): Ditto.
+	(gsf_output_memory_write): Fix brown-bag.
 
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 

@@ -38,12 +38,12 @@ typedef struct {
 * Returns a new file or NULL.
 **/
 GsfOutput *
-gsf_output_memory_new ()
+gsf_output_memory_new (void)
 {
     GsfOutputMemory *output = g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);
     output->buffer   = NULL;
     output->nwritten = 0;
-    
+
     return GSF_OUTPUT (output);
 }
 
@@ -95,9 +95,12 @@ gsf_output_memory_write (GsfOutput *output,
 
     g_return_val_if_fail (mem != NULL, FALSE);
 
-    g_realloc (mem->buffer, mem->nwritten + num_bytes);
+    if (num_bytes == 0)
+	    return TRUE;
+
+    mem->buffer = g_realloc (mem->buffer, mem->nwritten + num_bytes);
     memcpy (mem->buffer + mem->nwritten, buffer, num_bytes);
-    
+
     return TRUE;
 }
 
@@ -127,7 +130,8 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * @outbuffer     : optionally NULL, where to store a *non-freeable* pointer to the contents (i.e. get the length and copy it yourself before unref'ing @output).
  * @outlength     : optionally NULL, the returned size of the in-memory contents
  **/
-void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_off_t * outlength)
+void
+gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_off_t * outlength)
 {
     GsfOutputMemory * mem;
 
@@ -136,16 +140,15 @@ void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_o
         *outbuffer = NULL;
     if (outlength != NULL)
         *outlength = 0;
-    
-    g_return_if_fail (output != NULL);    
-    
+
+    g_return_if_fail (output != NULL);
+
     mem = GSF_OUTPUT_MEMORY (output);
     if (outbuffer != NULL)
         *outbuffer = mem->buffer;
     if (outlength != NULL)
-        *outlength = mem->nwritten;    
+        *outlength = mem->nwritten;
 }
 
 GSF_CLASS (GsfOutputMemory, gsf_output_memory,
            gsf_output_memory_class_init, gsf_output_memory_init, GSF_OUTPUT_TYPE)
-
