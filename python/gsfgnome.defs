@@ -29,7 +29,7 @@
 
 (define-function gsf_input_gnomevfs_new
   (c-name "gsf_input_gnomevfs_new")
-  (is-constructor-of "GsfInputGnomevfs")
+  (is-constructor-of "GsfInputGnomeVFS")
   (return-type "GsfInput*")
   (parameters
     '("char-const*" "uri")
