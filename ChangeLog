@@ -1,3 +1,8 @@
+2004-04-27  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-output-bzip.c (gsf_output_bzip_write): If the output
+	buffer turns full on the last deflate, empty the buffer.
+	
 2004-04-24  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_write): If the output

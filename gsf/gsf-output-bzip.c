@@ -122,8 +122,11 @@ bzip_flush (GsfOutputBzip *bzip)
 				return FALSE;
 		}
 	} while (zret == BZ_FINISH_OK);
-	if (zret != BZ_STREAM_END)
+	if (zret != BZ_STREAM_END) {
+		g_warning ("Unexpected error code %d from bzlib during compression.",
+			   zret);
 		return FALSE;
+	}
 	if (!bzip_output_block (bzip))
 		return FALSE;
 
@@ -144,11 +147,23 @@ gsf_output_bzip_write (GsfOutput *output,
 	bzip->stream.avail_in = num_bytes;
 	
 	while (bzip->stream.avail_in > 0) {
+		int zret;
+
 		if (bzip->stream.avail_out == 0) {
 			if (!bzip_output_block (bzip))
 				return FALSE;
 		}
-		if (BZ2_bzCompress (&bzip->stream, BZ_RUN) != BZ_RUN_OK)
+
+		zret = BZ2_bzCompress (&bzip->stream, BZ_RUN);
+		if (zret != BZ_RUN_OK) {
+			g_warning ("Unexpected error code %d from bzlib during compression.",
+				   zret);
+			return FALSE;
+		}
+	}
+
+	if (bzip->stream.avail_out == 0) {
+		if (!bzip_output_block (bzip))
 			return FALSE;
 	}
 
