@@ -17,7 +17,8 @@ Description: Structured File Library - development files for GNOME
  .
  The GNOME Structured File Library library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
- formats.
+ formats. It is actively being developed and its API is still likely to
+ undergo significant changes (in particular, extensions).
  .
  This package supports the use of Bonobo, GNOME's CORBA-based component
  architecture and of GNOME-VFS, the GNOME virtual file-system.
@@ -44,7 +45,8 @@ Description: Structured File Library - development files (basic version)
  .
  The GNOME Structured File Library library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
- formats.
+ formats. It is actively being developed and its API is still likely to
+ undergo significant changes (in particular, extensions).
  .
  This is the basic development package for the GNOME Structured File library.
  It is not GNOME-specific and thus does not depend on GNOME libraries. 
