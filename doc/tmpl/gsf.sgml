@@ -38,8 +38,10 @@ gsf
 </para>
 
 @g_object: 
+@cur_size: 
 @cur_offset: 
 @name: 
+@wrapped_by: 
 @container: 
 
 <!-- ##### STRUCT GsfOutfile ##### -->

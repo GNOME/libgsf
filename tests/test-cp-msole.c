@@ -99,7 +99,7 @@ test (char *argv[])
 	}
 
 	output = gsf_output_stdio_new (argv[2], &err);
-	if (file == NULL) {
+	if (output == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
 
