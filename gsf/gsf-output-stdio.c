@@ -160,14 +160,15 @@ gsf_output_stdio_new (char const *filename, GError **err)
 {
 	GsfOutputStdio *stdio;
 	FILE *file = NULL;
-	char *dirname, *temp_filename = NULL;
+	char *dirname = NULL;
+	char *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
 	mode_t saved_umask;
 	struct stat st;
-	
+
 	if (real_filename == NULL)
-		return NULL;
+		goto failure;
 
 	/* Get the directory in which the real filename lives */
 	dirname = g_path_get_dirname (real_filename);
@@ -210,7 +211,6 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	 * implementations of mkstemp() use permissions 0666 and we want 0600.
 	 */
 	temp_filename = g_build_filename (dirname, ".gsf-save-XXXXXX", NULL);
-	g_free (dirname);
 	/* Oh, joy.  What about threads?  --MW */
 	saved_umask = umask (0077);
 	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
@@ -231,11 +231,14 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	stdio->temp_filename = temp_filename;
 	gsf_output_set_name (GSF_OUTPUT (stdio), filename);
 
+	g_free (dirname);
+
 	return stdio;
 
 failure :
 	g_free (temp_filename);
 	g_free (real_filename);
+	g_free (dirname);
 	return NULL;
 }
 
