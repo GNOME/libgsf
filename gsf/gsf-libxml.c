@@ -402,9 +402,12 @@ static xmlSAXHandler gsfXMLInParser = {
  * gsf_xml_in_doc_new :
  * @doc :
  *
- * link  up the static parent descriptors
+ * Put the nodes in the NULL terminated array starting at @root and the name
+ * spaces in the NULL terminated array starting at @ns together.  Link them up
+ * and prepare the static data structures necessary to validate a doument based
+ * on that description.
  *
- * Returns : TRUE on success
+ * Returns : NULL on error
  **/
 GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
@@ -433,7 +436,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 
 	symbols = g_hash_table_new (g_str_hash, g_str_equal);
 	for (node = root; node->id != NULL ; node++ ) {
-		g_return_val_if_fail (!node->parent_initialized, FALSE);
+		g_return_val_if_fail (!node->parent_initialized, NULL);
 
 		tmp = g_hash_table_lookup (symbols, node->id);
 		if (tmp != NULL) {
@@ -441,7 +444,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			if (node->start != NULL || node->end != NULL ||
 			    node->has_content != FALSE || node->user_data.v_int != 0) {
 				g_warning ("ID '%s' has already been registered", node->id);
-				return FALSE;
+				return NULL;
 			}
 			real_node = tmp;
 		} else {
@@ -473,7 +476,7 @@ gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
 			group->elem = g_slist_prepend (group->elem, real_node);
 		} else if (strcmp (node->id, node->parent_id)) {
 			g_warning ("Parent ID '%s' unknown", node->parent_id);
-			return FALSE;
+			return NULL;
 		}
 		node->parent_initialized = TRUE;
 	}

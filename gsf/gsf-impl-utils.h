@@ -60,10 +60,10 @@ prefix ## _get_type (void)						\
 	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
 		       G_TYPE_FLAG_ABSTRACT, {})
 
-#define GSF_INTERFACE(init_func, interface_name) {			\
-	static GInterfaceInfo const iface = {				\
-		(GInterfaceInitFunc) init_func, NULL, NULL };		\
-	g_type_add_interface_static (type, interface_name, &iface);	\
+#define GSF_INTERFACE(init_func, iface_type) {			\
+	static GInterfaceInfo const iface = {			\
+		(GInterfaceInitFunc) init_func, NULL, NULL };	\
+	g_type_add_interface_static (type, iface_type, &iface);	\
 }
 
 G_END_DECLS

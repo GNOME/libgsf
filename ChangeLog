@@ -1,3 +1,7 @@
+2003-03-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c : More morten  warnings
+
 2003-03-05  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-memory.c (gsf_input_memory_seek): Fix return type.
