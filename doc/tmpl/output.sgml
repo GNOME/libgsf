@@ -188,27 +188,3 @@ Output to unstructured files
 @Returns: 
 
 
-<!-- ##### MACRO GSF_OUTPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GSF_IS_OUTPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### STRUCT GsfOutfileClass ##### -->
-<para>
-
-</para>
-
-@output_class: 
-@new_child: 
-

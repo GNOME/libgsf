@@ -6,6 +6,11 @@ James Cape :
 J.H.M. Dassen (Ray):
 	* Corrected the location where the documentation gets installed.
 
+Morten,Dom:
+	* Avoid polluting global name space with symbols lacking gsf_ prefix.
+	  This only effects implementation utilites shared by the zip in/out
+	  code so hopefully the abi breakage will not hurt too many people.
+
 ------------------------------------------------------------------------------
 libgsf 1.9.0
 

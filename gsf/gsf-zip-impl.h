@@ -107,21 +107,22 @@ typedef struct {
 	gsf_off_t                 offset;
 	gsf_off_t                 data_offset;
 	guint32               dostime;
-} ZipDirent;
+} GsfZipDirent;
 
 typedef struct {
 	char *name;
 	gboolean is_directory;
-	ZipDirent *dirent;
+	GsfZipDirent *dirent;
 	GSList *children;
-} ZipVDir;
+} GsfZipVDir;
 
-ZipDirent* gsf_zip_dirent_new (void);
-void       gsf_zip_dirent_free (ZipDirent *dirent);
+GsfZipDirent *gsf_zip_dirent_new  (void);
+void          gsf_zip_dirent_free (GsfZipDirent *dirent);
 
-ZipVDir* gsf_vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent);
-void     gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent);
-void     gsf_vdir_add_child (ZipVDir *vdir, ZipVDir *child);
+GsfZipVDir *gsf_vdir_new	(char const *name, gboolean is_directory,
+				 GsfZipDirent *dirent);
+void	    gsf_vdir_free	(GsfZipVDir *vdir, gboolean free_dirent);
+void	    gsf_vdir_add_child	(GsfZipVDir *vdir, GsfZipVDir *child);
 
 G_END_DECLS
 

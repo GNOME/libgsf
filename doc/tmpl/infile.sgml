@@ -60,30 +60,3 @@ Infile reading structed files
 @Returns: 
 
 
-<!-- ##### MACRO GSF_INFILE_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GSF_IS_INFILE_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### STRUCT GsfInfileClass ##### -->
-<para>
-
-</para>
-
-@input_class: 
-@num_children: 
-@name_by_index: 
-@child_by_index: 
-@child_by_name: 
-

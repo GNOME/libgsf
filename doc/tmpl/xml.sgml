@@ -171,6 +171,12 @@ XML and libxml
 @\
 			     allow_unknown:
 @\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
+			     allow_unknown:
+@\
 			     allow_unknown: 
 @check_ns: 
 @start: 

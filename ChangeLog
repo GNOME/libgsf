@@ -1,3 +1,8 @@
+2004-05-09  Jody Goldberg <jody@gnome.org>
+
+	* s/ZipDirent/GsfZipDirent
+	* s/ZipVDir/GsfZipVDir
+
 2004-05-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-infile-zip.c: Don't pollute the global namespace

@@ -285,6 +285,13 @@ gsf-utils
 
 @o: 
 
+<!-- ##### MACRO GSF_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
 <!-- ##### MACRO GSF_INFILE_MSOLE ##### -->
 <para>
 
@@ -323,6 +330,13 @@ gsf-utils
 </para>
 
 @o: 
+
+<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
 
 <!-- ##### MACRO GSF_INPUT_MEMORY ##### -->
 <para>
@@ -369,6 +383,34 @@ gsf-utils
 </para>
 
 
+<!-- ##### MACRO GSF_IS_INFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_IS_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_IS_OUTFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_IS_OUTPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
 <!-- ##### MACRO GSF_OLE_GET_GUINT16 ##### -->
 <para>
 
@@ -389,6 +431,46 @@ gsf-utils
 </para>
 
 @p: 
+
+<!-- ##### MACRO GSF_OUTFILE_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### MACRO GSF_OUTPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+<!-- ##### STRUCT GsfInfileClass ##### -->
+<para>
+
+</para>
+
+@input_class: 
+@num_children: 
+@name_by_index: 
+@child_by_index: 
+@child_by_name: 
+
+<!-- ##### STRUCT GsfInputClass ##### -->
+<para>
+
+</para>
+
+@g_object_class: 
+@Dup: 
+@Read: 
+@Seek: 
+@OpenSibling: 
+@_gsf_reserved0: 
+@_gsf_reserved1: 
+@_gsf_reserved2: 
+@_gsf_reserved3: 
 
 <!-- ##### STRUCT GsfInputMMap ##### -->
 <para>
@@ -436,6 +518,33 @@ gsf-utils
 @GSF_SEEK_SET: 
 @GSF_SEEK_CUR: 
 @GSF_SEEK_END: 
+
+<!-- ##### STRUCT GsfOutfileClass ##### -->
+<para>
+
+</para>
+
+@output_class: 
+@new_child: 
+
+<!-- ##### STRUCT GsfOutputClass ##### -->
+<para>
+
+</para>
+
+@g_object_class: 
+@Close: 
+@Seek: 
+@Write: 
+@Vprintf: 
+
+<!-- ##### ENUM GsfZipCompressionMethod ##### -->
+<para>
+
+</para>
+
+@GSF_ZIP_STORED: 
+@GSF_ZIP_DEFLATED: 
 
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
@@ -562,6 +671,30 @@ gsf-utils
 </para>
 
 
+<!-- ##### STRUCT ZipDirent ##### -->
+<para>
+
+</para>
+
+@name: 
+@compr_method: 
+@crc32: 
+@csize: 
+@usize: 
+@offset: 
+@data_offset: 
+@dostime: 
+
+<!-- ##### STRUCT ZipVDir ##### -->
+<para>
+
+</para>
+
+@name: 
+@is_directory: 
+@dirent: 
+@children: 
+
 <!-- ##### FUNCTION gsf_infile_get_type ##### -->
 <para>
 
@@ -621,6 +754,46 @@ gsf-utils
 @Returns: 
 
 <!-- ##### FUNCTION gsf_output_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION vdir_add_child ##### -->
+<para>
+
+</para>
+
+@vdir: 
+@child: 
+
+<!-- ##### FUNCTION vdir_free ##### -->
+<para>
+
+</para>
+
+@vdir: 
+@free_dirent: 
+
+<!-- ##### FUNCTION vdir_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@is_directory: 
+@dirent: 
+@Returns: 
+
+<!-- ##### FUNCTION zip_dirent_free ##### -->
+<para>
+
+</para>
+
+@dirent: 
+
+<!-- ##### FUNCTION zip_dirent_new ##### -->
 <para>
 
 </para>

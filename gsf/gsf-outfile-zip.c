@@ -39,7 +39,7 @@ struct _GsfOutfileZip {
 	GsfOutput     *sink;
 	GsfOutfileZip *root;
 
-	ZipVDir       *vdir;
+	GsfZipVDir    *vdir;
 	GPtrArray     *root_order;	/* only valid for the root */
 
 	z_stream  *stream;
@@ -57,7 +57,6 @@ typedef struct {
 
 #define GSF_OUTFILE_ZIP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTFILE_ZIP_TYPE, GsfOutfileZipClass))
 #define GSF_IS_OUTFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTFILE_ZIP_TYPE))
-
 
 static void
 disconnect_children (GsfOutfileZip *zip)
@@ -121,7 +120,7 @@ gsf_outfile_zip_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 }
 
 static gboolean
-zip_dirent_write (GsfOutput *sink, ZipDirent *dirent)
+zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 {
 	static guint8 const dirent_signature[] =
 		{ 'P', 'K', 0x01, 0x02 };
@@ -287,10 +286,10 @@ zip_time_make (time_t *t)
 	return ztime;
 }
 
-static ZipDirent*
+static GsfZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
-	ZipDirent *dirent;
+	GsfZipDirent *dirent;
 	time_t t = time (NULL);
 	char *name = stream_name_build (zip);
 
@@ -313,7 +312,7 @@ zip_header_write (GsfOutfileZip *zip)
 	static guint8 const header_signature[] =
 		{ 'P', 'K', 0x03, 0x04 };
 	guint8 hbuf[ZIP_HEADER_SIZE];
-	ZipDirent *dirent = zip->vdir->dirent;
+	GsfZipDirent *dirent = zip->vdir->dirent;
 	guint16 flags = 0;
 	char *name = dirent->name;
 	int   nlen = strlen (name);
@@ -340,7 +339,7 @@ static gboolean
 zip_init_write (GsfOutput *output)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);
-	ZipDirent *dirent;
+	GsfZipDirent *dirent;
 	int      ret;
 
 	if (zip->root->writing) {
@@ -385,7 +384,7 @@ static gboolean
 zip_output_block (GsfOutfileZip *zip)
 {
 	size_t num_bytes = zip->buf_size - zip->stream->avail_out;
-	ZipDirent *dirent = zip->vdir->dirent;
+	GsfZipDirent *dirent = zip->vdir->dirent;
 
 	if (!gsf_output_write (zip->sink, num_bytes, zip->buf)) {
 		return FALSE;
@@ -426,7 +425,7 @@ zip_ddesc_write (GsfOutfileZip *zip)
 	static guint8 const ddesc_signature[] =
 		{ 'P', 'K', 0x07, 0x08 };
 	guint8 buf[16];
-	ZipDirent *dirent = zip->vdir->dirent;
+	GsfZipDirent *dirent = zip->vdir->dirent;
 
 	memcpy (buf, ddesc_signature, sizeof ddesc_signature);
 	GSF_LE_SET_GUINT32 (buf + 4, dirent->crc32);
@@ -443,7 +442,7 @@ static gboolean
 zip_header_write_sizes (GsfOutfileZip *zip)
 {
 	guint8 hbuf[ZIP_HEADER_SIZE];
-	ZipDirent *dirent = zip->vdir->dirent;
+	GsfZipDirent *dirent = zip->vdir->dirent;
 	gsf_off_t pos = gsf_output_tell (zip->sink);
 
 	if (!gsf_output_seek (zip->sink, dirent->offset + ZIP_HEADER_CRC,
@@ -509,7 +508,7 @@ gsf_outfile_zip_write (GsfOutput *output,
 		       size_t num_bytes, guint8 const *data)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);
-	ZipDirent *dirent;
+	GsfZipDirent *dirent;
 	int ret;
 
 	g_return_val_if_fail (zip && zip->vdir, FALSE);

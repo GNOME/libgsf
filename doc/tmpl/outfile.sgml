@@ -39,30 +39,3 @@ Outfile writing structed files
 @Returns: 
 
 
-<!-- ##### MACRO GSF_OUTFILE_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GSF_IS_OUTFILE_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### STRUCT GsfOutputClass ##### -->
-<para>
-
-</para>
-
-@g_object_class: 
-@Close: 
-@Seek: 
-@Write: 
-@Vprintf: 
-

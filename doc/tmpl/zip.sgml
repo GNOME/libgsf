@@ -56,7 +56,7 @@ Zip
 @Returns: 
 
 
-<!-- ##### STRUCT ZipDirent ##### -->
+<!-- ##### STRUCT GsfZipDirent ##### -->
 <para>
 
 </para>
@@ -70,7 +70,7 @@ Zip
 @data_offset: 
 @dostime: 
 
-<!-- ##### FUNCTION zip_dirent_new ##### -->
+<!-- ##### FUNCTION gsf_zip_dirent_new ##### -->
 <para>
 
 </para>
@@ -78,7 +78,7 @@ Zip
 @Returns: 
 
 
-<!-- ##### FUNCTION zip_dirent_free ##### -->
+<!-- ##### FUNCTION gsf_zip_dirent_free ##### -->
 <para>
 
 </para>
@@ -86,7 +86,7 @@ Zip
 @dirent: 
 
 
-<!-- ##### STRUCT ZipVDir ##### -->
+<!-- ##### STRUCT GsfZipVDir ##### -->
 <para>
 
 </para>
@@ -96,7 +96,7 @@ Zip
 @dirent: 
 @children: 
 
-<!-- ##### FUNCTION vdir_free ##### -->
+<!-- ##### FUNCTION gsf_vdir_free ##### -->
 <para>
 
 </para>
@@ -105,7 +105,7 @@ Zip
 @free_dirent: 
 
 
-<!-- ##### FUNCTION vdir_new ##### -->
+<!-- ##### FUNCTION gsf_vdir_new ##### -->
 <para>
 
 </para>
@@ -116,7 +116,7 @@ Zip
 @Returns: 
 
 
-<!-- ##### FUNCTION vdir_add_child ##### -->
+<!-- ##### FUNCTION gsf_vdir_add_child ##### -->
 <para>
 
 </para>
@@ -139,13 +139,22 @@ Zip
 
 
 
-<!-- ##### ENUM GsfZipCompressionMethod ##### -->
+<!-- ##### ENUM ZipCompressionMethod ##### -->
 <para>
 
 </para>
 
-@GSF_ZIP_STORED: 
-@GSF_ZIP_DEFLATED: 
+@ZIP_STORED: 
+@ZIP_SHRUNK: 
+@ZIP_REDUCEDx1: 
+@ZIP_REDUCEDx2: 
+@ZIP_REDUCEDx3: 
+@ZIP_REDUCEDx4: 
+@ZIP_IMPLODED: 
+@ZIP_TOKENIZED: 
+@ZIP_DEFLATED: 
+@ZIP_DEFLATED_BETTER: 
+@ZIP_IMPLODED_BETTER: 
 
 <!-- ##### MACRO ZIP_FILE_HEADER_NAME_SIZE ##### -->
 <para>

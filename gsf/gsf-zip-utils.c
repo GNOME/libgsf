@@ -26,14 +26,14 @@
 #include "gsf-zip-impl.h"
 
 /* Doesn't do much, but include for symmetry */
-ZipDirent*
+GsfZipDirent*
 gsf_zip_dirent_new (void)
 {
-	return g_new0 (ZipDirent, 1);
+	return g_new0 (GsfZipDirent, 1);
 }
 
 void
-gsf_zip_dirent_free (ZipDirent *dirent)
+gsf_zip_dirent_free (GsfZipDirent *dirent)
 {
 	g_return_if_fail (dirent != NULL);
 
@@ -44,10 +44,10 @@ gsf_zip_dirent_free (ZipDirent *dirent)
 	g_free (dirent);
 }
 
-ZipVDir *
-gsf_vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
+GsfZipVDir *
+gsf_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 {
-	ZipVDir *vdir = g_new (ZipVDir, 1);
+	GsfZipVDir *vdir = g_new (GsfZipVDir, 1);
 
 	vdir->name = g_strdup (name);
 	vdir->is_directory = is_directory;
@@ -57,7 +57,7 @@ gsf_vdir_new (char const *name, gboolean is_directory, ZipDirent *dirent)
 }
 
 void
-gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent)
+gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 {
 	GSList *l;
 
@@ -65,7 +65,7 @@ gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent)
 		return;
 
 	for (l = vdir->children; l; l = l->next)
-		gsf_vdir_free ((ZipVDir *)l->data, free_dirent);
+		gsf_vdir_free ((GsfZipVDir *)l->data, free_dirent);
 
 	g_slist_free (vdir->children);
 	g_free (vdir->name);
@@ -78,8 +78,8 @@ gsf_vdir_free (ZipVDir *vdir, gboolean free_dirent)
 static gint
 gsf_vdir_compare (gconstpointer ap, gconstpointer bp)
 {
-	ZipVDir *a = (ZipVDir *) ap;
-	ZipVDir *b = (ZipVDir *) bp;
+	GsfZipVDir *a = (GsfZipVDir *) ap;
+	GsfZipVDir *b = (GsfZipVDir *) bp;
 
 	if (!a || !b) {
 		if (!a && !b)
@@ -91,7 +91,7 @@ gsf_vdir_compare (gconstpointer ap, gconstpointer bp)
 }
 
 void
-gsf_vdir_add_child (ZipVDir *vdir, ZipVDir *child)
+gsf_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
 {
 	vdir->children = g_slist_insert_sorted (vdir->children,
 						(gpointer) child,

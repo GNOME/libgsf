@@ -343,18 +343,18 @@ GSF_IS_OUTFILE_ZIP
 gsf_outfile_zip_get_type
 
 <SUBSECTION Implementation>
-ZipDirent
-zip_dirent_new
-zip_dirent_free
+GsfZipDirent
+gsf_zip_dirent_new
+gsf_zip_dirent_free
 
-ZipVDir
-vdir_free
-vdir_new
-vdir_add_child
+GsfZipVDir
+gsf_vdir_free
+gsf_vdir_new
+gsf_vdir_add_child
 
 ZIP_DIRENT_USIZE
 ZIP_DIRENT_OFFSET
-GsfZipCompressionMethod
+ZipCompressionMethod
 ZIP_FILE_HEADER_NAME_SIZE
 ZZIP_IS_STREAMED
 ZIP_FILE_HEADER_EXTRACT

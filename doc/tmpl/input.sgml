@@ -189,34 +189,3 @@ Input from unstructured files
 @Returns: 
 
 
-<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GSF_IS_INPUT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### STRUCT GsfInputClass ##### -->
-<para>
-
-</para>
-
-@g_object_class: 
-@Dup: 
-@Read: 
-@Seek: 
-@OpenSibling: 
-@_gsf_reserved0: 
-@_gsf_reserved1: 
-@_gsf_reserved2: 
-@_gsf_reserved3: 
-
