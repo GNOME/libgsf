@@ -304,7 +304,7 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
  * Return value : the new zip file handler
  **/
 GsfInfile *
-gsf_infile_zip_new (GsfInput *input, GError **err)
+gsf_infile_zip_new (GsfInput *source, GError **err)
 {
 	GsfInfileZip *zip;
 

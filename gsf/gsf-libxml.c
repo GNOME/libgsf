@@ -56,15 +56,15 @@ gsf_xml_parser_context (GsfInput *source)
 
 	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
 
-	gzip = gsf_input_gzip_new (input, NULL);
+	gzip = gsf_input_gzip_new (source, NULL);
 	if (gzip != NULL)
-		input = GSF_INPUT (gzip);
+		source = GSF_INPUT (gzip);
 	else
-		g_object_ref (G_OBJECT (input));
+		g_object_ref (G_OBJECT (source));
 
 	return xmlCreateIOParserCtxt (
 		NULL, NULL,
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close_read,
-		input, XML_CHAR_ENCODING_NONE);
+		source, XML_CHAR_ENCODING_NONE);
 }
