@@ -300,9 +300,9 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		return NULL;
 	}
 
-	/* It looks like directory sizes are sometimes bogus */
+	/* It looks like directory (and root directory) sizes are sometimes bogus */
 	size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
-	g_return_val_if_fail (type == DIRENT_TYPE_DIR ||
+	g_return_val_if_fail (type == DIRENT_TYPE_DIR || type == DIRENT_TYPE_ROOTDIR ||
 			      size <= (guint32)ole->input->size, NULL);
 
 	dirent = g_new0 (MSOleDirent, 1);

@@ -1,5 +1,8 @@
 libgsf 1.9.2
 
+Jody:
+	* Patch to read slightly odd planmaker generated OLE2.
+
 Morten:
 	* Attempt fix for ARM.
 
