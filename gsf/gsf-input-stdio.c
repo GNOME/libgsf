@@ -65,6 +65,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	struct stat st;
 	FILE *file;
 	gsf_off_t size;
+	gchar * filename_utf8;
 
 	file = fopen (filename, "rb");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
@@ -95,7 +96,12 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), size);
-	gsf_input_set_name (GSF_INPUT (input), filename);
+
+	filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	if (filename_utf8) {
+		gsf_input_set_name (GSF_INPUT (input), filename_utf8);
+		g_free(filename_utf8);
+	}
 
 	return GSF_INPUT (input);
 }
