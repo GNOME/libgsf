@@ -6,6 +6,9 @@ Dom:
 Jody:
 	* Fix ms ole export bug that would not clip overly long file names.
 
+Rodrigo:
+	* Added GsfInputIOChannel, a GIOChannel-based input.
+
 ------------------------------------------------------------------------------
 libgsf 1.7
 
