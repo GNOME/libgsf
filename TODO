@@ -9,5 +9,5 @@ Longer:
 
 Future:
     - parse vba p-code directly to produce some other language.
-    - move generalized meta data framework in here
+    - move generalized meta data framework in here (see gsf/gsf-metadata-bag.h)
     - move biff utils here from gnumeric

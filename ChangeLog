@@ -1,3 +1,7 @@
+2002-07-26  Dom Lachowicz <cinamod@hotmail.com>
+
+	*gsf-metadata-bag.c: implement (untested)
+
 2002-07-25  Dom Lachowicz <cinamod@hotmail.com>
 
         * gsf-input-gnomevfs.c: implement (untested)
