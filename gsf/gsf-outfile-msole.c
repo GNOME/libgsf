@@ -41,7 +41,6 @@ typedef enum { MSOLE_DIR, MSOLE_SMALL_BLOCK, MSOLE_BIG_BLOCK } MSOleOutfileType;
 #define OLE_DEFAULT_THRESHOLD	 0x1000
 #define OLE_DEFAULT_BB_SIZE	 (1 << OLE_DEFAULT_BB_SHIFT)
 #define OLE_DEFAULT_SB_SIZE	 (1 << OLE_DEFAULT_SB_SHIFT)
-#define OLE_DEFAULT_METABAT_SIZE ((1 << (OLE_DEFAULT_BB_SHIFT - 2)) - 1)
 
 struct _GsfOutfileMSOle {
 	GsfOutfile parent;
@@ -166,7 +165,7 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 #define ZERO_PAD_BUF_SIZE 4096
 
 /* static objects are zero-initialized as per C/C++ standards */
-static guint8 const zero_buf[ZERO_PAD_BUF_SIZE];
+static guint8 const zero_buf [ZERO_PAD_BUF_SIZE];
 
 /* used by gsf_outfile_msole_close() to pad out to ole->bb.size */
 static void
@@ -238,247 +237,255 @@ ole_cur_block (GsfOutfileMSOle const *ole)
 	return (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) >> ole->bb.shift;
 }
 
+/* write the metadata (dirents, small block, xbats) and close the sink */
 static gboolean
-gsf_outfile_msole_close (GsfOutput *output)
+gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 {
-	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 	GsfOutfile *tmp;
 	guint8  buf [OLE_HEADER_SIZE];
 	guint32	sbat_start, num_sbat, sb_data_start, sb_data_size, sb_data_blocks;
 	guint32	bat_start, num_bat, dirent_start, num_dirent_blocks, next, child_index;
 	unsigned i, j, blocks, num_xbat, xbat_pos;
 	gsf_off_t data_size;
+	GPtrArray *elem = ole->root->content.dir.root_order;
 
-	/* The root dir */
-	if (gsf_output_container (output) == NULL) {
-		GPtrArray *elem = ole->root->content.dir.root_order;
+	/* write small block data */
+	blocks = 0;
+	sb_data_start = ole_cur_block (ole);
+	data_size = gsf_output_tell (ole->sink);
+	for (i = 0 ; i < elem->len ; i++) {
+		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
+		if (child->type == MSOLE_SMALL_BLOCK) {
+			gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
 
-		/* write small block data */
-		blocks = 0;
-		sb_data_start = ole_cur_block (ole);
-		data_size = gsf_output_tell (ole->sink);
-		for (i = 0 ; i < elem->len ; i++) {
-			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-			if (child->type == MSOLE_SMALL_BLOCK) {
-				gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
+			child->blocks = ((size - 1) >> ole->sb.shift) + 1;
+			gsf_output_write (ole->sink, child->blocks << ole->sb.shift,
+				child->content.small_block.buf);
 
-				child->blocks = ((size - 1) >> OLE_DEFAULT_SB_SHIFT) + 1;
-				gsf_output_write (ole->sink, child->blocks << OLE_DEFAULT_SB_SHIFT,
-					child->content.small_block.buf);
-
-				child->first_block = blocks;
-				blocks += child->blocks;
-			}
+			child->first_block = blocks;
+			blocks += child->blocks;
 		}
-		data_size = gsf_output_tell (ole->sink) - data_size;
-		sb_data_size = data_size;
-		if ((gsf_off_t) sb_data_size != data_size) {
-			/* Check for overflow */
-			g_warning ("File too big");
-			return FALSE;
+	}
+	data_size = gsf_output_tell (ole->sink) - data_size;
+	sb_data_size = data_size;
+	if ((gsf_off_t) sb_data_size != data_size) {
+		/* Check for overflow */
+		g_warning ("File too big");
+		return FALSE;
+	}
+	bb_pad_zero (ole);
+	sb_data_blocks = ole_cur_block (ole) - sb_data_start;
+
+	/* write small block BAT (the meta bat is in a file) */
+	sbat_start = ole_cur_block (ole);
+	for (i = 0 ; i < elem->len ; i++) {
+		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
+		if (child->type == MSOLE_SMALL_BLOCK)
+			ole_write_bat (ole->sink,  child->first_block, child->blocks);
+	}
+	ole_pad_bat_unused (ole);
+	num_sbat = ole_cur_block (ole) - sbat_start;
+
+	/* write dirents */
+	dirent_start = ole_cur_block (ole);
+	for (i = 0 ; i < elem->len ; i++) {
+		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
+		glong j, name_len = 0;
+
+		memset (buf, 0, DIRENT_SIZE);
+
+		/* Hard code 'Root Entry' for the root */
+		if (i == 0 || gsf_output_name (GSF_OUTPUT (child)) != NULL) {
+			char const *name = (i == 0)
+				? "Root Entry" : gsf_output_name (GSF_OUTPUT (child));
+			gunichar2 *name_utf16 = g_utf8_to_utf16 (name,
+				-1, NULL, &name_len, NULL);
+			if (name_len >= DIRENT_MAX_NAME_SIZE)
+				name_len = DIRENT_MAX_NAME_SIZE-1;
+
+			/* be wary about endianness */
+			for (j = 0 ; j < name_len ; j++)
+				GSF_LE_SET_GUINT16 (buf + j*2, name_utf16 [j]);
+			g_free (name_utf16);
+			name_len++;
 		}
-		bb_pad_zero (ole);
-		sb_data_blocks = ole_cur_block (ole) - sb_data_start;
+		GSF_LE_SET_GUINT16 (buf + DIRENT_NAME_LEN, name_len*2);
 
-		/* write small block BAT (the meta bat is in a file) */
-		sbat_start = ole_cur_block (ole);
-		for (i = 0 ; i < elem->len ; i++) {
-			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-			if (child->type == MSOLE_SMALL_BLOCK)
-				ole_write_bat (ole->sink,  child->first_block, child->blocks);
-		}
-		ole_pad_bat_unused (ole);
-		num_sbat = ole_cur_block (ole) - sbat_start;
-
-		/* write dirents */
-		dirent_start = ole_cur_block (ole);
-		for (i = 0 ; i < elem->len ; i++) {
-			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-			glong j, name_len = 0;
-
-			memset (buf, 0, DIRENT_SIZE);
-
-			/* Hard code 'Root Entry' for the root */
-			if (i == 0 || gsf_output_name (GSF_OUTPUT (child)) != NULL) {
-				char const *name = (i == 0)
-					? "Root Entry" : gsf_output_name (GSF_OUTPUT (child));
-				gunichar2 *name_utf16 = g_utf8_to_utf16 (name,
-					-1, NULL, &name_len, NULL);
-				if (name_len >= DIRENT_MAX_NAME_SIZE)
-					name_len = DIRENT_MAX_NAME_SIZE-1;
-
-				/* be wary about endianness */
-				for (j = 0 ; j < name_len ; j++)
-					GSF_LE_SET_GUINT16 (buf + j*2, name_utf16 [j]);
-				g_free (name_utf16);
-				name_len++;
-			}
-			GSF_LE_SET_GUINT16 (buf + DIRENT_NAME_LEN, name_len*2);
-
-			if (child->root == child) {
-				GSF_LE_SET_GUINT8  (buf + DIRENT_TYPE,	DIRENT_TYPE_ROOTDIR);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK,
-					(sb_data_size > 0) ? sb_data_start : BAT_MAGIC_END_OF_CHAIN);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, sb_data_size);
-				memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
-			} else if (child->type == MSOLE_DIR) {
-				GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, DIRENT_MAGIC_END);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, 0);
-				/* write the class id */
-				memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
-			} else {
-				GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_FILE);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
-				GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, child->parent.parent.cur_size);
-			}
-			/* make everything black (red == 0) */
-			GSF_LE_SET_GUINT8  (buf + DIRENT_COLOUR, 1);
-
-			tmp = gsf_output_container (GSF_OUTPUT (child));
-			next = DIRENT_MAGIC_END;
-			if (child->root != child && tmp != NULL) {
-				GSList *ptr = GSF_OUTFILE_MSOLE (tmp)->content.dir.children;
-				for (; ptr != NULL ; ptr = ptr->next)
-					if (ptr->data == child) {
-						if (ptr->next != NULL) {
-							GsfOutfileMSOle *sibling = ptr->next->data;
-							next = sibling->child_index;
-						}
-						break;
-					}
-			}
-			/* make linked list rather than tree, only use next */
-			GSF_LE_SET_GUINT32 (buf + DIRENT_PREV, DIRENT_MAGIC_END);
-			GSF_LE_SET_GUINT32 (buf + DIRENT_NEXT, next);
-
-			child_index = DIRENT_MAGIC_END;
-			if (child->type == MSOLE_DIR && child->content.dir.children != NULL) {
-				GsfOutfileMSOle *first = child->content.dir.children->data;
-				child_index = first->child_index;
-			}
-			GSF_LE_SET_GUINT32 (buf + DIRENT_CHILD, child_index);
-
-			gsf_output_write (ole->sink, DIRENT_SIZE, buf);
-		}
-		bb_pad_zero (ole);
-		num_dirent_blocks = ole_cur_block (ole) - dirent_start;
-
-		/* write BAT */
-		bat_start = ole_cur_block (ole);
-		for (i = 0 ; i < elem->len ; i++) {
-			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-			if (child->type == MSOLE_BIG_BLOCK)
-				ole_write_bat (ole->sink, child->first_block, child->blocks);
-		}
-		if (sb_data_blocks > 0)
-			ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
-		if (num_sbat > 0)
-			ole_write_bat (ole->sink, sbat_start, num_sbat);
-		ole_write_bat (ole->sink, dirent_start, num_dirent_blocks);
-
-		/* List the BAT and meta-BAT blocks in the BAT.  Doing this may
-		 * increase the size of the bat and hence the metabat, so be
-		 * prepared to iterate.
-		 */
-		num_bat = 0;
-		num_xbat = 0;
-recalc_bat_bat :
-		i = ((ole->sink->cur_size
-		      + BAT_INDEX_SIZE * (num_bat + num_xbat)
-		      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
-		i -= bat_start;
-		if (num_bat != i) {
-			num_bat = i;
-			goto recalc_bat_bat;
-		}
-		i = 0;
-		if (num_bat > OLE_HEADER_METABAT_SIZE)
-			i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
-				 / ole->metabat_size);
-		if (num_xbat != i) {
-			num_xbat = i;
-			goto recalc_bat_bat;
-		}
-
-		ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
-		ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat);
-		ole_pad_bat_unused (ole);
-
-		if (num_xbat > 0) {
-			xbat_pos = ole_cur_block (ole);
-			blocks = OLE_HEADER_METABAT_SIZE;
+		if (child->root == child) {
+			GSF_LE_SET_GUINT8  (buf + DIRENT_TYPE,	DIRENT_TYPE_ROOTDIR);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK,
+				(sb_data_size > 0) ? sb_data_start : BAT_MAGIC_END_OF_CHAIN);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, sb_data_size);
+			memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
+		} else if (child->type == MSOLE_DIR) {
+			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, DIRENT_MAGIC_END);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, 0);
+			/* write the class id */
+			memcpy(buf + DIRENT_CLSID, child->clsid, sizeof(child->clsid));
 		} else {
-			xbat_pos = BAT_MAGIC_END_OF_CHAIN;
-			blocks = num_bat;
+			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_FILE);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, child->parent.parent.cur_size);
 		}
+		/* make everything black (red == 0) */
+		GSF_LE_SET_GUINT8  (buf + DIRENT_COLOUR, 1);
 
-		/* fix up the header */
-		if (ole->bb.size == 4096) {
-			/* set _cSectDir for 4k sector files */
-			GSF_LE_SET_GUINT32 (buf,   num_dirent_blocks);
-			gsf_output_seek (ole->sink,
-				(gsf_off_t) OLE_HEADER_CSECTDIR, G_SEEK_SET);
-			gsf_output_write (ole->sink, 4, buf);
+		tmp = gsf_output_container (GSF_OUTPUT (child));
+		next = DIRENT_MAGIC_END;
+		if (child->root != child && tmp != NULL) {
+			GSList *ptr = GSF_OUTFILE_MSOLE (tmp)->content.dir.children;
+			for (; ptr != NULL ; ptr = ptr->next)
+				if (ptr->data == child) {
+					if (ptr->next != NULL) {
+						GsfOutfileMSOle *sibling = ptr->next->data;
+						next = sibling->child_index;
+					}
+					break;
+				}
 		}
-		GSF_LE_SET_GUINT32 (buf,   num_bat);
-		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
+		/* make linked list rather than tree, only use next */
+		GSF_LE_SET_GUINT32 (buf + DIRENT_PREV, DIRENT_MAGIC_END);
+		GSF_LE_SET_GUINT32 (buf + DIRENT_NEXT, next);
+
+		child_index = DIRENT_MAGIC_END;
+		if (child->type == MSOLE_DIR && child->content.dir.children != NULL) {
+			GsfOutfileMSOle *first = child->content.dir.children->data;
+			child_index = first->child_index;
+		}
+		GSF_LE_SET_GUINT32 (buf + DIRENT_CHILD, child_index);
+
+		gsf_output_write (ole->sink, DIRENT_SIZE, buf);
+	}
+	bb_pad_zero (ole);
+	num_dirent_blocks = ole_cur_block (ole) - dirent_start;
+
+	/* write BAT */
+	bat_start = ole_cur_block (ole);
+	for (i = 0 ; i < elem->len ; i++) {
+		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
+		if (child->type == MSOLE_BIG_BLOCK)
+			ole_write_bat (ole->sink, child->first_block, child->blocks);
+	}
+	if (sb_data_blocks > 0)
+		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
+	if (num_sbat > 0)
+		ole_write_bat (ole->sink, sbat_start, num_sbat);
+	ole_write_bat (ole->sink, dirent_start, num_dirent_blocks);
+
+	/* List the BAT and meta-BAT blocks in the BAT.  Doing this may
+	 * increase the size of the bat and hence the metabat, so be
+	 * prepared to iterate.
+	 */
+	num_bat = 0;
+	num_xbat = 0;
+recalc_bat_bat :
+	i = ((ole->sink->cur_size
+	      + BAT_INDEX_SIZE * (num_bat + num_xbat)
+	      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
+	i -= bat_start;
+	if (num_bat != i) {
+		num_bat = i;
+		goto recalc_bat_bat;
+	}
+	i = 0;
+	if (num_bat > OLE_HEADER_METABAT_SIZE)
+		i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
+			 / ole->metabat_size);
+	if (num_xbat != i) {
+		num_xbat = i;
+		goto recalc_bat_bat;
+	}
+
+	ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
+	ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat);
+	ole_pad_bat_unused (ole);
+
+	if (num_xbat > 0) {
+		xbat_pos = ole_cur_block (ole);
+		blocks = OLE_HEADER_METABAT_SIZE;
+	} else {
+		xbat_pos = BAT_MAGIC_END_OF_CHAIN;
+		blocks = num_bat;
+	}
+
+	/* fix up the header */
+	if (ole->bb.size == 4096) {
+		/* set _cSectDir for 4k sector files */
+		GSF_LE_SET_GUINT32 (buf,   num_dirent_blocks);
 		gsf_output_seek (ole->sink,
-			(gsf_off_t) OLE_HEADER_NUM_BAT, G_SEEK_SET);
-		gsf_output_write (ole->sink, 8, buf);
+			(gsf_off_t) OLE_HEADER_CSECTDIR, G_SEEK_SET);
+		gsf_output_write (ole->sink, 4, buf);
+	}
+	GSF_LE_SET_GUINT32 (buf,   num_bat);
+	GSF_LE_SET_GUINT32 (buf+4, dirent_start);
+	gsf_output_seek (ole->sink,
+		(gsf_off_t) OLE_HEADER_NUM_BAT, G_SEEK_SET);
+	gsf_output_write (ole->sink, 8, buf);
 
-		GSF_LE_SET_GUINT32 (buf+0x0,
-			(num_sbat > 0) ? sbat_start : BAT_MAGIC_END_OF_CHAIN);
-		GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
-		GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
-		GSF_LE_SET_GUINT32 (buf+0xc, num_xbat);
-		gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
-				 G_SEEK_SET);
-		gsf_output_write (ole->sink, 0x10, buf);
+	GSF_LE_SET_GUINT32 (buf+0x0,
+		(num_sbat > 0) ? sbat_start : BAT_MAGIC_END_OF_CHAIN);
+	GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
+	GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
+	GSF_LE_SET_GUINT32 (buf+0xc, num_xbat);
+	gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
+			 G_SEEK_SET);
+	gsf_output_write (ole->sink, 0x10, buf);
 
-		/* write initial Meta-BAT */
-		for (i = 0 ; i < blocks ; i++) {
-			GSF_LE_SET_GUINT32 (buf, bat_start + i);
-			gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
-		}
+	/* write initial Meta-BAT */
+	for (i = 0 ; i < blocks ; i++) {
+		GSF_LE_SET_GUINT32 (buf, bat_start + i);
+		gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+	}
 
-		/* write extended Meta-BAT */
-		if (blocks < num_bat) {
-			/* Append the meta bats */
-			gsf_output_seek (ole->sink,
-					 (gsf_off_t) 0, G_SEEK_END);
-			for (i = 0 ; i++ < num_xbat ; ) {
-				bat_start += blocks;
-				blocks = num_bat - bat_start;
-				if (blocks > ole->metabat_size)
-					blocks = ole->metabat_size;
-				for (j = 0 ; j < blocks ; j++) {
-					GSF_LE_SET_GUINT32 (buf, bat_start + j);
-					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
-				}
-
-				if (num_xbat != 0) {
-					xbat_pos++;
-					GSF_LE_SET_GUINT32 (buf, xbat_pos);
-					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
-				}
+	/* write extended Meta-BAT */
+	if (blocks < num_bat) {
+		/* Append the meta bats */
+		gsf_output_seek (ole->sink,
+				 (gsf_off_t) 0, G_SEEK_END);
+		for (i = 0 ; i++ < num_xbat ; ) {
+			bat_start += blocks;
+			blocks = num_bat - bat_start;
+			if (blocks > ole->metabat_size)
+				blocks = ole->metabat_size;
+			for (j = 0 ; j < blocks ; j++) {
+				GSF_LE_SET_GUINT32 (buf, bat_start + j);
+				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 			}
-			bb_pad_zero (ole);
+
+			if (num_xbat != 0) {
+				xbat_pos++;
+				GSF_LE_SET_GUINT32 (buf, xbat_pos);
+				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+			}
 		}
+		bb_pad_zero (ole);
+	}
 
-		/* free the children */
-		for (i = 0 ; i < elem->len ; i++)
-			g_object_unref (G_OBJECT (g_ptr_array_index (elem, i)));
-		g_ptr_array_free (elem, TRUE);
-		ole->content.dir.root_order = NULL;
+	/* free the children */
+	for (i = 0 ; i < elem->len ; i++)
+		g_object_unref (G_OBJECT (g_ptr_array_index (elem, i)));
+	g_ptr_array_free (elem, TRUE);
+	ole->content.dir.root_order = NULL;
 
-		return gsf_output_close (ole->sink);
-	} else if (ole->type == MSOLE_BIG_BLOCK) {
+	return gsf_output_close (ole->sink);
+}
+
+static gboolean
+gsf_outfile_msole_close (GsfOutput *output)
+{
+	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
+
+	if (gsf_output_container (output) == NULL)	/* The root dir */
+		return gsf_outfile_msole_close_root (ole);
+
+	if (ole->type == MSOLE_BIG_BLOCK) {
 		gsf_outfile_msole_seek (output, (gsf_off_t) 0, G_SEEK_END);
 		bb_pad_zero (ole);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (G_OBJECT (output), ole->sink);
 	}
+
 	return TRUE;
 }
 
@@ -591,7 +598,7 @@ gsf_outfile_msole_set_block_shift (GsfOutfileMSOle *ole,
 	ole->bb.size  = (1 << ole->bb.shift);
 	ole->sb.shift = sb_shift;
 	ole->sb.size  = (1 << ole->sb.shift);
-	ole->metabat_size = (1 << (ole->bb.shift - 2)) - 1;
+	ole->metabat_size = ole->bb.size / BAT_INDEX_SIZE - 1;
 }
 
 static GsfOutput *

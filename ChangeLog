@@ -1,9 +1,21 @@
+2004-07-26  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (OLE_DEFAULT_METABAT_SIZE): delete
+	(gsf_outfile_msole_close_root) : pull out of
+	(gsf_outfile_msole_close) : here as a cleanup gesture.
+
+	Per : Stepan Kasal  <kasal@ucw.cz>
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_set_block_shift) : Use
+	  BAT_INDEX_SIZE, not hardwired shift of 2.
+	(gsf_outfile_msole_close): Use the current sb.shift, not
+	  OLE_DEFAULT_SB_SHIFT.
+
 2004-07-23  Stepan Kasal  <kasal@ucw.cz>
 
-        Replace various instances of local parent_class variables by
-        a static ones, initialized by class_init.
-        * gsf/gsf-*.c: (20 files touched)
-        * gsf/gsf-output-transaction.c: A general cleanup.
+	Replace various instances of local parent_class variables by
+	a static ones, initialized by class_init.
+	* gsf/gsf-*.c: (20 files touched)
+	* gsf/gsf-output-transaction.c: A general cleanup.
 
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
 
