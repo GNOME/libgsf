@@ -46,6 +46,8 @@ GTKDOC_CFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 
 GTKDOC_LIBS = $(LIBGSF_LIBS)
 
+HTML_DIR ?= .
+
 ####################################
 # Everything below here is generic #
 ####################################
