@@ -1,3 +1,4 @@
+AC_PREREQ(2.52)
 AC_INIT(gsf/gsf.h)
 
 dnl Set release number
