@@ -63,13 +63,13 @@ read_types (const char *fname, GPtrArray **types)
 				bt->opcode=strtol(p+2,0,16);
 				pt = buffer;
 				while (*pt && *pt != '#') pt++;      /* # */
-				while (*pt && !isspace(*pt))
+				while (*pt && !isspace((unsigned char)*pt))
 					pt++;  /* define */
-				while (*pt && isspace(*pt))
+				while (*pt && isspace((unsigned char)*pt))
 					pt++;  /* '   ' */
 				while (*pt && *pt != '_') pt++;     /* BIFF_ */
 				name = *pt?pt+1:pt;
-				while (*pt && !isspace(*pt))
+				while (*pt && !isspace((unsigned char)*pt))
 					pt++;
 				bt->name = g_strndup (name, (unsigned)(pt - name));
 				g_ptr_array_add (*types, bt);

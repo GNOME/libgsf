@@ -1,3 +1,7 @@
+2002-05-28  Morten Welinder  <terra@diku.dk>
+
+	* gsf/test-msole1.c (read_types): Fix isspace usage.
+
 2002-05-27  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c : add some prepoc constants to prep for
