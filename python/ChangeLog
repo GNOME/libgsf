@@ -1,5 +1,15 @@
 2002-08-18  Jon K Hellan  <hellan@acm.org>
 
+	* README-python: Update build procedure description. With todays
+	changes, it's simpler and should actually work.
+
+	* Makefile.am15: Add, so that people who have Automake 1.5 can
+	actually build the thing. See README-python.
+	
+	* .cvsignore: Add gsfgnome.c
+
+2002-08-18  Jon K Hellan  <hellan@acm.org>
+
 	* gfs.defs: Split out bonobo and gnome-vfs dependency into
 	gsf.gnome module.
 

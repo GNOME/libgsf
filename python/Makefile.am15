@@ -1,0 +1,43 @@
+INCLUDES = $(LIBGSF_CFLAGS) $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
+
+pygsfdir = $(pythondir)/gsf
+pygsf_PYTHON = __init__.py
+
+pygsfexecdir = $(pyexecdir)/gsf
+
+CLEANFILES =
+EXTRA_DIST =
+pygsfexec_LTLIBRARIES =
+
+if WITH_LIBGSF_GNOME
+gnomemodule_la = gnomemodule.la
+endif
+pygsfexec_LTLIBRARIES += $(gnomemodule_la)
+
+pygsfexec_LTLIBRARIES += _gsfmodule.la
+
+gnomemodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
+gnomemodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex initgnome
+gnomemodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-gnome-1 -lgsf-1
+gnomemodule_la_SOURCES = gsfgnomemodule.c
+nodist_gnomemodule_la_SOURCES = gsfgnome.c
+CLEANFILES += gsfgnome.c
+EXTRA_DIST += gsfgnome.defs gsfgnome.override  
+gnome.c: gsfgnome.defs gsfnome.override
+
+_gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
+_gsfmodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex init_gsf
+_gsfmodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-gnome-1 -lgsf-1
+_gsfmodule_la_SOURCES = gsfmodule.c
+nodist__gsfmodule_la_SOURCES = gsf.c
+CLEANFILES += gsf.c
+EXTRA_DIST += gsf.defs gsf.override  
+gsf.c: gsf.defs gsf.override
+
+.defs.c:
+	(cd $(srcdir) \
+	 && $(PYGTK_CODEGEN) \
+	    --override $*.override \
+	    --prefix py$* $*.defs) > gen-$*.c \
+	&& cp gen-$*.c $*.c \
+	&& rm -f gen-$*.c

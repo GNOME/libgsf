@@ -1,3 +1,11 @@
+2002-08-18  Jon K Hellan  <hellan@acm.org>
+
+	* acinclude.m4: Change it to just a comment referring to
+	python/README-python.
+
+	* acinclude.m4.am15: Added. A copy of the previous version, but no
+	longer commented out. See python/README-python.
+
 2002-08-17  Jody Goldberg <jody@gnome.org>
 
 	* gsf/Makefile.am : install the xml header
@@ -477,7 +485,7 @@
 
 2002-06-21  Jon K Hellan  <hellan@acm.org>
 
-	* acinclude.m4: Ad it. It provides AM_CHECK_PYTHON_HEADERS.
+	* acinclude.m4: Add it. It provides AM_CHECK_PYTHON_HEADERS.
 
 2002-06-20  Morten Welinder  <terra@diku.dk>
 
