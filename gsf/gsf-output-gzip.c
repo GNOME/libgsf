@@ -183,8 +183,11 @@ gzip_flush (GsfOutputGZip *gzip)
 				return FALSE;
 		}
 	} while (zret == Z_OK);
-	if (zret != Z_STREAM_END)
+	if (zret != Z_STREAM_END) {
+		g_warning ("Unexpected error code %d from zlib during compression.",
+			   zret);
 		return FALSE;
+	}
 	if (!gzip_output_block (gzip))
 		return FALSE;
 
@@ -203,16 +206,27 @@ gsf_output_gzip_write (GsfOutput *output,
 	gzip->stream.avail_in = num_bytes;
 	
 	while (gzip->stream.avail_in > 0) {
+		int zret;
 		if (gzip->stream.avail_out == 0) {
 			if (!gzip_output_block (gzip))
 				return FALSE;
 		}
-		if (deflate (&gzip->stream, Z_NO_FLUSH) != Z_OK)
+
+		zret = deflate (&gzip->stream, Z_NO_FLUSH);
+		if (zret != Z_OK) {
+			g_warning ("Unexpected error code %d from zlib during compression.",
+				   zret);
 			return FALSE;
+		}
 	}
 
 	gzip->crc = crc32 (gzip->crc, data, num_bytes);
 	gzip->isize += num_bytes;
+
+	if (gzip->stream.avail_out == 0) {
+		if (!gzip_output_block (gzip))
+			return FALSE;
+	}
 
 	return TRUE;
 }

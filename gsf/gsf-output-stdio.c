@@ -255,7 +255,8 @@ gsf_output_stdio_close (GsfOutput *output)
 	res = (0 == fclose (stdio->file));
 	stdio->file = NULL;
 	if (!res) {
-		gsf_output_set_error (output, errno, " ");
+		gsf_output_set_error (output, errno,
+				      "Failed to close temporary file.");
 		unlink (stdio->temp_filename);
 		return FALSE;
 	}
