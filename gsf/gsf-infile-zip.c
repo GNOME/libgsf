@@ -143,7 +143,8 @@ zip_find_trailer (GsfInfileZip *zip)
 
 		/* outer loop step */
 		offset -= ZIP_BUF_SIZE / 2;
-		maplen = ZIP_BUF_SIZE;
+		maplen = MIN (filesize - offset, ZIP_BUF_SIZE);
+		trailer_offset = offset + maplen;
 
 		if (filesize - offset > 64 * 1024)
 			return -1;
