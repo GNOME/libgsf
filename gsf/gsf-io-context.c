@@ -18,6 +18,7 @@
  * USA
  */
 
+#include <gsf-config.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-io-context.h>
 
