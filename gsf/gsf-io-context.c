@@ -1,5 +1,5 @@
 /*
- * gsf-io-context.h: IO context class
+ * gsf-io-context.c: IO context class
  *
  * Copyright (C) 2002 Rodrigo Moya (rodrigo@gnome-db.org)
  *
@@ -23,11 +23,7 @@
 #include <gsf/gsf-io-context.h>
 
 struct _GsfIOContext {
-	GObject object;
-
-	/* errors */
-	gboolean error_occurred;
-	GList *errors;
+	GsfCommandContext object;
 
 	/* operation progress */
 	GList *progress_ranges;
@@ -40,7 +36,6 @@ static void gsf_io_context_init       (GsfIOContext *ioc, GsfIOContextClass *kla
 static void gsf_io_context_finalize   (GObject *object);
 
 enum {
-	ERROR_OCCURRED,
 	PROGRESS,
 	LAST_SIGNAL
 };
@@ -57,14 +52,6 @@ gsf_io_context_class_init (GsfIOContextClass *klass)
 	object_class->finalize = gsf_io_context_finalize;
 
 	/* class signals */
-	io_context_signals[ERROR_OCCURRED] =
-		g_signal_new ("error_occurred",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GsfIOContextClass, error_occurred),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
 	io_context_signals[PROGRESS] =
 		g_signal_new ("progress",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -78,9 +65,6 @@ gsf_io_context_class_init (GsfIOContextClass *klass)
 static void
 gsf_io_context_init (GsfIOContext *ioc, GsfIOContextClass *klass)
 {
-	ioc->errors = NULL;
-	ioc->error_occurred = FALSE;
-
 	ioc->progress_ranges = NULL;
 	ioc->last_progress = -1.0;
 	ioc->last_time = 0.0;
@@ -100,7 +84,7 @@ gsf_io_context_finalize (GObject *object)
 }
 
 GSF_CLASS(GsfIOContext, gsf_io_context,
-	  gsf_io_context_class_init, gsf_io_context_init, G_TYPE_OBJECT)
+	  gsf_io_context_class_init, gsf_io_context_init, GSF_COMMAND_CONTEXT_TYPE)
 
 /**
  * gsf_io_context_new
@@ -121,91 +105,6 @@ gsf_io_context_new (void)
 }
 
 /**
- * gsf_io_context_error_occurred
- * @ioc: a #GsfIOContext object.
- *
- * Check whether there's been an error notification in the given
- * #GsfIOContext object or not.
- *
- * Returns: TRUE if there have been errors, FALSE if not.
- */
-gboolean
-gsf_io_context_error_occurred (GsfIOContext *ioc)
-{
-	g_return_val_if_fail (GSF_IS_IO_CONTEXT (ioc), FALSE);
-	return ioc->error_occurred;
-}
-
-/**
- * gsf_io_context_error_message
- * @ioc: a #GsfIOContext object.
- * @msg: a message describing the error that has occured.
- * @code: code for the error (optional).
- *
- * Add a new error to the given #GsfIOContext object.
- */
-void
-gsf_io_context_error_message (GsfIOContext *ioc, const gchar *msg, gint code)
-{
-	GError *error;
-
-	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
-
-	error = g_error_new_literal (g_quark_from_static_string ("GSF"), code, msg);
-	gsf_io_context_push_error (ioc, error);
-}
-
-/**
- * gsf_io_context_push_error
- * @ioc: a #GsfIOContext object.
- * @error: an error to be added.
- *
- * Adds a new GError to the given #GsfIOContext. The error is added
- * to the end of the error queue, so that it can only be read,
- * via #gsf_io_context_pop_error, after all previous errors have
- * being read.
- */
-void
-gsf_io_context_push_error (GsfIOContext *ioc, const GError *error)
-{
-	GError *copy;
-
-	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
-	g_return_if_fail (error != NULL);
-
-	copy = g_error_copy (error);
-	ioc->errors = g_list_append (ioc->errors, copy);
-	ioc->error_occurred = TRUE;
-
-	g_signal_emit (G_OBJECT (ioc), io_context_signals[ERROR_OCCURRED], 0);
-}
-
-/**
- * gsf_io_context_pop_error
- * @ioc: a #GsfIOContext object.
- *
- * Get the next error in the given #GsfIOContext object.
- *
- * Returns: a GError structure that contains all the information
- * for the next error. The caller of this function is responsible
- * of freeing the returned value, by calling #g_error_free.
- */
-GError *
-gsf_io_context_pop_error (GsfIOContext *ioc)
-{
-	GError *error = NULL;
-
-	g_return_val_if_fail (GSF_IS_IO_CONTEXT (ioc), NULL);
-
-	if (ioc->errors) {
-		error = (GError *) ioc->errors->data;
-		ioc->errors = g_list_remove (ioc->errors, error);
-	}
-
-	return error;
-}
-
-/**
  * gsf_io_context_clear
  * @ioc: a #GsfIOContext object.
  *
@@ -218,12 +117,8 @@ gsf_io_context_clear (GsfIOContext *ioc)
 {
 	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
 
-	g_list_foreach (ioc->errors, (GFunc) g_error_free, NULL);
-	g_list_free (ioc->errors);
-	ioc->errors = NULL;
-	
-	ioc->error_occurred = FALSE;
-	
+	gsf_command_context_clear (GSF_COMMAND_CONTEXT (ioc));
+
 	g_list_foreach (ioc->progress_ranges, (GFunc) g_free, NULL);
 	g_list_free (ioc->progress_ranges);
 	ioc->progress_ranges = NULL;

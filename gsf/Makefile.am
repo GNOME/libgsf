@@ -37,6 +37,7 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
+	gsf-command-context.c	\
 	gsf-io-context.c	\
 	gsf-output-memory.c
 
@@ -58,6 +59,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
 	gsf-infile-zip.h	\
+	gsf-command-context.h	\
 	gsf-io-context.h	\
 	gsf-output.h		\
 	gsf-output-stdio.h	\

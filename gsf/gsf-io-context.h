@@ -21,7 +21,7 @@
 #ifndef GSF_IO_CONTEXT_H
 #define GSF_IO_CONTEXT_H
 
-#include <gsf/gsf.h>
+#include <gsf/gsf-command-context.h>
 
 G_BEGIN_DECLS
 
@@ -33,20 +33,14 @@ typedef struct _GsfIOContext      GsfIOContext;
 typedef struct _GsfIOContextClass GsfIOContextClass;
 
 struct _GsfIOContextClass {
-	GObjectClass parent_class;
+	GsfCommandContextClass parent_class;
 
 	/* signals */
-	void (* error_occurred) (GsfIOContext *ioc);	
 	void (* progress) (GsfIOContext *ioc, gdouble percent);
 };
 
 GType         gsf_io_context_get_type (void);
 GsfIOContext *gsf_io_context_new (void);
-
-gboolean      gsf_io_context_error_occurred (GsfIOContext *ioc);
-void          gsf_io_context_error_message (GsfIOContext *ioc, const gchar *msg, gint code);
-void          gsf_io_context_push_error (GsfIOContext *ioc, const GError *error);
-GError       *gsf_io_context_pop_error (GsfIOContext *ioc);
 
 void          gsf_io_context_clear (GsfIOContext *ioc);
 
