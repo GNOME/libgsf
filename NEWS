@@ -1,3 +1,9 @@
+libgsf 1.10.2
+
+Jon Kåre:
+	* make xml string export more convenient by ignoring NULL
+
+------------------------------------------------------------------------------
 libgsf 1.10.1
 
 Jon Kåre:

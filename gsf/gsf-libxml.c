@@ -779,15 +779,15 @@ gsf_xml_out_end_element (GsfXMLOut *xml)
 	xml->indent--;
 	switch (xml->state) {
 	case GSF_XML_OUT_NOCONTENT :
-	gsf_output_write (xml->output, 3, "/>\n");
-	break;
+		gsf_output_write (xml->output, 3, "/>\n");
+		break;
 
 	case GSF_XML_OUT_CHILD :
-	gsf_xml_out_indent (xml);
+		gsf_xml_out_indent (xml);
 	/* fall through */
 	case GSF_XML_OUT_CONTENT :
-	gsf_output_printf (xml->output, "</%s>\n", id);
-	};
+		gsf_output_printf (xml->output, "</%s>\n", id);
+	}
 	xml->state = GSF_XML_OUT_CHILD;
 	return id;
 }
@@ -852,14 +852,17 @@ gsf_xml_out_simple_float_element (GsfXMLOut *xml, char const *id,
  *
  * dump @val_utf8 to an attribute named @id without checking to see if the
  * content needs escaping.  A useful performance enhancement when the
- * application knows that structure of the content well.
+ * application knows that structure of the content well.  If @val_utf8 is NULL
+ * do nothing (no warning, no output)
  **/
 void
 gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
 				char const *val_utf8)
 {
 	g_return_if_fail (xml != NULL);
-	g_return_if_fail (xml->state == GSF_XML_OUT_NOCONTENT);
+
+	if (val_utf8 == NULL)
+		return;
 
 	if (id == NULL) {
 		xml->state = GSF_XML_OUT_CONTENT;
@@ -876,7 +879,8 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
  * @val_utf8 : a utf8 encoded string
  *
  * dump @val_utf8 to an attribute named @id or as the nodes content escaping
- * characters as necessary.
+ * characters as necessary.  If @val_utf8 is NULL do nothing (no warning, no
+ * output)
  **/
 void
 gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
@@ -884,6 +888,11 @@ gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
 {
 	guint8 const *cur   = val_utf8;
 	guint8 const *start = val_utf8;
+
+	g_return_if_fail (xml != NULL);
+
+	if (val_utf8 == NULL)
+		return;
 
 	if (id == NULL) {
 		xml->state = GSF_XML_OUT_CONTENT;

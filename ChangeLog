@@ -1,3 +1,9 @@
+2004-08-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr) : Add some libxml compat
+	  behavior and ignore NULLs
+	(gsf_xml_out_add_cstr_unchecked) : ditto
+
 2004-08-17  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-utils.c (BASE64_LINE_LEN): New constant to determine
