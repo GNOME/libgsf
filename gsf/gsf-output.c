@@ -140,6 +140,8 @@ gsf_output_close (GsfOutput *output)
 gboolean
 gsf_output_is_closed (GsfOutput const *output)
 {
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), TRUE);
+	return output->is_closed;
 }
 
 /**
