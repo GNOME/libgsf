@@ -152,7 +152,7 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
  * @input :
  *
  * A utility routine to read things line by line from the underlying source.
- * Trailing newlines and carriage returns are stipped, and the resultant buffer
+ * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
  * returns the string read, or NULL on eof.
@@ -239,7 +239,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
  * @input :
  *
  * A utility routine to read things line by line from the underlying source.
- * Trailing newlines and carriage returns are stipped, and the resultant buffer
+ * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
  * returns the string read, or NULL on eof.
