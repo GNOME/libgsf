@@ -1,5 +1,9 @@
 2003-01-24  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : be a touch more anal.
+
+2003-01-24  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : remove -Wunreachable-code it was damn irritating and
 	  mostly wrong.
 

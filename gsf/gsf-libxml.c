@@ -178,7 +178,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	GsfXMLInNSInstance *inst;
 	GsfXMLInNodeGroup  *group;
 	GsfXMLInNode	   *node;
-	GsfXMLInNS	   *ns, *new_default_ns = NULL;
+	GsfXMLInNS const   *ns, *default_ns = state->default_ns;
 	xmlChar const **ns_ptr;
 	char const *tmp;
 	int i;
@@ -195,13 +195,14 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		for (ns_ptr = attrs; ns_ptr != NULL && ns_ptr[0] && ns_ptr[1] ; ns_ptr += 2) {
 			if (strncmp (*ns_ptr, "xmlns", 5))
 				continue;
-
+			if (ns_ptr[0][5] != '\0' && ns_ptr[0][5] != ':')
+				continue;
 			for (i = 0; (tmp = ns[i].uri) != NULL ; i++) {
 				if (strcmp (tmp, ns_ptr[1]))
 					continue;
 
 				if (ns_ptr[0][5] == '\0') {
-					new_default_ns = ns + i;
+					default_ns = ns + i;
 					break;
 				}
 
@@ -224,7 +225,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	for (ptr = state->node->groups ; ptr != NULL ; ptr = ptr->next) {
 		group = ptr->data;
 		/* does the namespace match */
-		if (group->ns != NULL && group->ns != state->default_ns) {
+		if (group->ns != NULL && group->ns != default_ns) {
 			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
 			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
 			if (0 != strncmp (name, inst->tag, inst->taglen))
@@ -240,7 +241,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 				state->ns_stack = g_slist_prepend (state->ns_stack,
 								   (gpointer)state->default_ns);
 				state->node = node;
-				state->default_ns = new_default_ns;
+				state->default_ns = default_ns;
 				if (node->start != NULL)
 					node->start (state, attrs);
 				return;
@@ -258,7 +259,9 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 			node = ptr->data;
 			if (node != NULL) {
 #warning if we really want this do we also want namespaces ?
-				g_print (node->name);
+				g_print ("%s", node->name);
+				if (ptr->next != NULL && ptr->next->data != NULL)
+					g_print (" -> ");
 			}
 		}
 	}
