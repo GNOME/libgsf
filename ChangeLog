@@ -1,3 +1,8 @@
+2003-03-04  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-zip-impl.h: s/off_t/gsf_off_t
+	* gsf/gsf-infile-ar.[ch]: AR infile. DOES NOT YET WORK
+	
 2003-02-23  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input.c (gsf_input_copy): remove == TRUE for Morten

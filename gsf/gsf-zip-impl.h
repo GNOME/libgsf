@@ -104,8 +104,8 @@ typedef struct {
 	guint32               crc32;
 	size_t                csize;
 	size_t                usize;
-	off_t                 offset;
-	off_t                 data_offset;
+	gsf_off_t                 offset;
+	gsf_off_t                 data_offset;
 	guint32               dostime;
 } ZipDirent;
 
