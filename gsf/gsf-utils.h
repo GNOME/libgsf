@@ -39,8 +39,10 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT8(p) ((gint8)GSF_LE_GET_GUINT8(p))
 #define GSF_LE_GET_GINT16(p) ((gint16)GSF_LE_GET_GUINT16(p))
 #define GSF_LE_GET_GINT32(p) ((gint32)GSF_LE_GET_GUINT32(p))
+#define GSF_LE_GET_FLOAT(p) (gsf_le_get_float (p))
 #define GSF_LE_GET_DOUBLE(p) (gsf_le_get_double (p))
-double gsf_le_get_double (const void *p);
+float  gsf_le_get_float  (void const *p);
+double gsf_le_get_double (void const *p);
 
 #define GSF_LE_SET_GUINT8(p, dat)			\
 	(*((guint8 *)(p))      = ((dat)        & 0xff))
@@ -55,7 +57,9 @@ double gsf_le_get_double (const void *p);
 #define GSF_LE_SET_GINT8(p,dat) GSF_LE_SET_GUINT8((p),(dat))
 #define GSF_LE_SET_GINT16(p,dat) GSF_LE_SET_GUINT16((p),(dat))
 #define GSF_LE_SET_GINT32(p,dat) GSF_LE_SET_GUINT32((p),(dat))
+#define GSF_LE_SET_FLOAT(p,dat) gsf_le_set_float((p),(dat))
 #define GSF_LE_SET_DOUBLE(p,dat) gsf_le_set_double((p),(dat))
+void gsf_le_set_float  (void *p, float f);
 void gsf_le_set_double (void *p, double d);
 
 void gsf_init (void);

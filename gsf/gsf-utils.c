@@ -85,6 +85,70 @@ gsf_input_dump (GsfInput *input)
 	}
 }
 
+float
+gsf_le_get_float (void const *p)
+{
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	if (sizeof (float) == 4) {
+		float   f;
+		int     i;
+		guint8 *t  = (guint8 *)&f;
+		guint8 *p2 = (guint8 *)p;
+		int     sd = sizeof (f);
+
+		for (i = 0; i < sd; i++)
+			t[i] = p2[sd - 1 - i];
+
+		return f;
+	} else {
+		g_error ("Big endian machine, but weird size of float");
+	}
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
+	if (sizeof (float) == 4) {
+		/*
+		 * On i86, we could access directly, but Alphas require
+		 * aligned access.
+		 */
+		float data;
+		memcpy (&data, p, sizeof (data));
+		return data;
+	} else {
+		g_error ("Little endian machine, but weird size of doubles");
+	}
+#else
+#error "Byte order not recognised -- out of luck"
+#endif
+}
+
+void
+gsf_le_set_float (void *p, float d)
+{
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	if (sizeof (float) == 4) {
+		int     i;
+		guint8 *t  = (guint8 *)&d;
+		guint8 *p2 = (guint8 *)p;
+		int     sd = sizeof (d);
+
+		for (i = 0; i < sd; i++)
+			p2[sd - 1 - i] = t[i];
+	} else {
+		g_error ("Big endian machine, but weird size of doubles");
+	}
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
+	if (sizeof (float) == 4) {
+		/*
+		 * On i86, we could access directly, but Alphas require
+		 * aligned access.
+		 */
+		memcpy (p, &d, sizeof (d));
+	} else {
+		g_error ("Little endian machine, but weird size of doubles");
+	}
+#else
+#error "Byte order not recognised -- out of luck"
+#endif
+}
 
 double
 gsf_le_get_double (const void *p)

@@ -1,3 +1,18 @@
+2002-08-30  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove -Wconversion because it was pissing me off.
+
+2002-08-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : add some basic
+	  implementation.
+	(msole_prop_id_to_gsf) : new.
+
+2002-08-29  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_prop_read) : conditionalize the
+	  debug spew.
+
 2002-08-29  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_prop_parse) : new.
