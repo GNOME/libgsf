@@ -8,7 +8,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\
 	gsf-msole-impl.h	\
-	gsf-msole-metadata.c	\
+	gsf-msole-utils.c	\
 	gsf-timestamp.c		\
 	gsf-zip-impl.h		\
 	\
@@ -45,7 +45,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-libxml.h		\
 	gsf-doc-meta-data.h	\
 	gsf-impl-utils.h	\
-	gsf-msole-metadata.h	\
+	gsf-msole-utils.h	\
 	gsf-timestamp.h		\
 	gsf-input.h		\
 	gsf-input-memory.h 	\

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-msole-metadata.h: read and write OLE metadata streams
+ * gsf-msole-utils.h: various tools for handling MS OLE files
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef GSF_MSOLE_METADATA_H
-#define GSF_MSOLE_METADATA_H
+#ifndef GSF_MSOLE_UTILS_H
+#define GSF_MSOLE_UTILS_H
 
 #include <gsf/gsf.h>
 
@@ -36,4 +36,4 @@ GIConv	gsf_msole_iconv_open_for_export (void);
 
 G_END_DECLS
 
-#endif /* GSF_MSOLE_METADATA_H */
+#endif /* GSF_MSOLE_UTILS_H */

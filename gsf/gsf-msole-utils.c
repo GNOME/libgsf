@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-msole-metadata.c: 
+ * gsf-msole-utils.c: 
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
@@ -21,7 +21,7 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-msole-metadata.h>
+#include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
