@@ -1,3 +1,13 @@
+2003-02-18  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-input.c (gsf_input_class_init): Install GObject properties
+	(gsf_input_get_property): Ditto
+	(gsf_input_set_property): Ditto
+
+	* gsf/gsf-output.c (gsf_output_class_init): Install GObject properties
+	(gsf_output_get_property): Ditto
+	(gsf_output_set_property): Ditto
+	
 2003-02-14  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Emit a warning instead of breaking if VFS and Bonobo

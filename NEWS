@@ -5,6 +5,7 @@ Dom:
 	* IOChannel input work
 	* BZ2 output
 	* Return the derived types from constructor functions
+	* Support GObject properties for the inputs and outputs
 
 Jody:
 	* Fix ms ole export bug that would not clip overly long file names.

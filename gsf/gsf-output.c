@@ -24,10 +24,59 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-#define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
-
 static gboolean
 gsf_output_vprintf (GsfOutput *output, char const* format, va_list args);
+
+#define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
+
+enum {
+	PROP_0,
+	PROP_NAME,
+	PROP_SIZE,
+	PROP_CLOSED,
+	PROP_POS
+};
+
+static void
+gsf_output_set_property (GObject      *object,
+			 guint         property_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
+{
+	switch (property_id)
+		{
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			break;
+		}
+}
+
+static void
+gsf_output_get_property (GObject     *object,
+			 guint        property_id,
+			 GValue      *value,
+			 GParamSpec  *pspec)
+{
+	/* gsf_off_t is typedef'd to gint64 */
+	switch (property_id)
+		{
+		case PROP_NAME:
+			g_value_set_string (value, gsf_output_name (GSF_OUTPUT (object)));
+			break;
+		case PROP_SIZE:
+			g_value_set_int64 (value, gsf_output_size (GSF_OUTPUT (object)));
+			break;
+		case PROP_POS:
+			g_value_set_int64 (value, gsf_output_tell (GSF_OUTPUT (object)));
+			break;
+		case PROP_CLOSED:
+			g_value_set_boolean (value, gsf_output_is_closed (GSF_OUTPUT (object)));
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			break;
+		}
+}
 
 static void
 gsf_output_finalize (GObject *obj)
@@ -75,8 +124,31 @@ gsf_output_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
 
-	gobject_class->finalize = gsf_output_finalize;
-	output_class->Vprintf   = gsf_output_vprintf;
+	gobject_class->finalize     = gsf_output_finalize;
+	gobject_class->set_property = gsf_output_set_property;
+	gobject_class->get_property = gsf_output_get_property;
+	output_class->Vprintf       = gsf_output_vprintf;
+
+	g_object_class_install_property (gobject_class,
+					 PROP_NAME,
+					 g_param_spec_pointer ("name", "Name",
+							       "The Output's Name",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_SIZE,
+					 g_param_spec_pointer ("size", "Size",
+							       "The Output's Size",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_POS,
+					 g_param_spec_pointer ("position", "Position",
+							       "The Output's Current Position",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_CLOSED,
+					 g_param_spec_pointer ("is_closed", "Is Closed",
+							       "Whether the Output is Closed",
+							       G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,

@@ -27,6 +27,59 @@
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
+enum {
+	PROP_0,
+	PROP_NAME,
+	PROP_SIZE,
+	PROP_EOF,
+	PROP_REMAINING,
+	PROP_POS
+};
+
+static void
+gsf_input_set_property (GObject      *object,
+			guint         property_id,
+			const GValue *value,
+			GParamSpec   *pspec)
+{
+	switch (property_id)
+		{
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			break;
+		}
+}
+
+static void
+gsf_input_get_property (GObject     *object,
+			guint        property_id,
+			GValue      *value,
+			GParamSpec  *pspec)
+{
+	/* gsf_off_t is typedef'd to gint64 */
+	switch (property_id)
+		{
+		case PROP_NAME:
+			g_value_set_string (value, gsf_input_name (GSF_INPUT (object)));
+			break;
+		case PROP_SIZE:
+			g_value_set_int64 (value, gsf_input_size (GSF_INPUT (object)));
+			break;
+		case PROP_EOF:
+			g_value_set_boolean (value, gsf_input_eof (GSF_INPUT (object)));
+			break;
+		case PROP_REMAINING:
+			g_value_set_int64 (value, gsf_input_remaining (GSF_INPUT (object)));
+			break;
+		case PROP_POS:
+			g_value_set_int64 (value, gsf_input_tell (GSF_INPUT (object)));
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			break;
+		}
+}
+
 static void
 gsf_input_finalize (GObject *obj)
 {
@@ -61,7 +114,35 @@ gsf_input_init (GObject *obj)
 static void
 gsf_input_class_init (GObjectClass *gobject_class)
 {
-	gobject_class->finalize = gsf_input_finalize;
+	gobject_class->finalize     = gsf_input_finalize;
+	gobject_class->set_property = gsf_input_set_property;
+	gobject_class->get_property = gsf_input_get_property;
+
+	g_object_class_install_property (gobject_class,
+					 PROP_NAME,
+					 g_param_spec_pointer ("name", "Name",
+							       "The Input's Name",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_SIZE,
+					 g_param_spec_pointer ("size", "Size",
+							       "The Input's Size",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_EOF,
+					 g_param_spec_pointer ("eof", "OEF",
+							       "End Of File",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_REMAINING,
+					 g_param_spec_pointer ("remaining", "Remaining",
+							       "Amount of Data Remaining",
+							       G_PARAM_READABLE));
+	g_object_class_install_property (gobject_class,
+					 PROP_POS,
+					 g_param_spec_pointer ("position", "Position",
+							       "The Output's Current Position",
+							       G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
