@@ -601,7 +601,7 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
  * Returns : the new zip file handler
  **/
 GsfOutfile *
-gsf_outfile_zip_new (GsfOutput *sink, GError **err)
+gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 {
 	GsfOutfileZip *zip;
 
@@ -610,7 +610,7 @@ gsf_outfile_zip_new (GsfOutput *sink, GError **err)
 	zip = g_object_new (GSF_OUTFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (sink));
 	zip->sink = sink;
-	
+
 	zip->vdir = vdir_new ("", TRUE, NULL);
 	zip->root_order = g_ptr_array_new ();
 	zip->root = zip;

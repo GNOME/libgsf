@@ -578,6 +578,8 @@ gsf_infile_msole_finalize (GObject *obj)
 	}
 	ols_bat_release (&ole->bat);
 
+	g_free (ole->stream.buf);
+
 	parent_class = g_type_class_peek (GSF_INFILE_TYPE);
 	if (parent_class && parent_class->finalize)
 		parent_class->finalize (obj);

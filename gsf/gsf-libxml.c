@@ -50,7 +50,7 @@ gsf_libxml_write (void *context, char const *buffer, int len)
 }
 
 static int
-gsf_libxml_close (void *context)
+gsf_libxml_close (G_GNUC_UNUSED void *context)
 {
 	return TRUE;
 }

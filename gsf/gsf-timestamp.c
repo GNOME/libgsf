@@ -70,8 +70,12 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
+	time_t t;
 	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
-	return g_strdup (ctime (&stamp->timet));
+
+	/* Use an honest time_t for ctime.  */
+	t = stamp->timet;
+	return g_strdup (ctime (&t));
 }
 
 guint
