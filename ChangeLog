@@ -1,5 +1,10 @@
 2004-08-26  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-shared-memory.c (gsf_shared_memory_finalize): Don't
+	check size overflow here.
+	(gsf_shared_memory_mmapped_new): Check it here.  Return NULL if we
+	don't have mmap.
+
 	* gsf/gsf-timestamp.c (gsf_value_set_timestamp): Renamed from
 	g_value_set_timestamp.
 

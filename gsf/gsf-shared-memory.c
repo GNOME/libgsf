@@ -48,30 +48,32 @@ gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free)
 GsfSharedMemory *
 gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size)
 {
-	GsfSharedMemory *mem = gsf_shared_memory_new (buf, size, FALSE);
-	mem->needs_unmap = TRUE;
-	return mem;
+#ifdef HAVE_MMAP
+	size_t msize = size;
+	if ((gsf_off_t)msize != size) {
+		g_warning ("memory buffer size too large");
+		return NULL;
+	} else {
+		GsfSharedMemory *mem = gsf_shared_memory_new (buf, size, FALSE);
+		mem->needs_unmap = TRUE;
+		return mem;
+	}
+#else
+	return NULL;
+#endif
 }
 
 static void
 gsf_shared_memory_finalize (GObject *obj)
 {
 	GsfSharedMemory *mem = (GsfSharedMemory *) (obj);
-#ifdef HAVE_MMAP
-	size_t msize;
-#endif
 	
 	if (mem->buf != NULL) {
 		if (mem->needs_free)
 			g_free (mem->buf);
 		else if (mem->needs_unmap) {
 #ifdef HAVE_MMAP
-			msize = mem->size;
-			if ((gsf_off_t) msize != mem->size) {
-				/* Check for overflow */
-				g_warning ("memory buffer size too large");
-			}
-			munmap (mem->buf, msize);
+			munmap (mem->buf, mem->size);
 #else
 			g_assert_not_reached ();
 #endif
