@@ -21,6 +21,16 @@
 #ifndef GSF_META_KEYS_H
 #define GSF_META_KEYS_H
 
+/*
+ * Proposed schema so that we can have some accessor and compose routines (getvendorname, getversion, gettag):
+ * urn:VendorName:Version:Tag
+ * Proposed default vendor names:
+ * DublinCore (http://dublincore.org)
+ * GSF (ourselves, remaining properties from OLE that don't map cleanly onto DublinCore)
+ * Custom (user-defined namespace)
+ *
+ */
+
 /**
  * (String) A formal name given to the resource
  **/

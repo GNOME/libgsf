@@ -20,7 +20,7 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-output-gnomevfs.h>
+#include <gsf-gnome/gsf-output-gnomevfs.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 

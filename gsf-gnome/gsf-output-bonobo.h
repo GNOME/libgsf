@@ -22,7 +22,7 @@
 #ifndef GSF_OUTPUT_BONOBO_H
 #define GSF_OUTPUT_BONOBO_H
 
-#include "gsf-output.h"
+#include <gsf/gsf-output.h>
 #include <bonobo/Bonobo.h>
 
 G_BEGIN_DECLS

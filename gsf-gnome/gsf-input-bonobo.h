@@ -22,7 +22,7 @@
 #ifndef GSF_INPUT_BONOBO_H
 #define GSF_INPUT_BONOBO_H
 
-#include "gsf-input.h"
+#include <gsf/gsf-input.h>
 #include <bonobo/Bonobo.h>
 
 G_BEGIN_DECLS

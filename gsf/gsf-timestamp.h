@@ -1,6 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * libgsf.h: 
+ * gsf-timestamp.h: A useful little type for metadata, contains a superset of
+ *		 all the features it would be nice to have.
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *
@@ -19,35 +20,26 @@
  * USA
  */
 
-#ifndef GSF_H
-#define GSF_H
+#ifndef GSF_TIMESTAMP_H
+#define GSF_TIMESTAMP_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GsfInput	GsfInput;
-typedef struct _GsfInfile 	GsfInfile;
+#define GSF_TIMESTAMP_TYPE        (gsf_timestamp_get_type ())
 
-typedef struct _GsfOutput	GsfOutput;
-typedef struct _GsfOutfile 	GsfOutfile;
+GType gsf_timestamp_get_type (void);
 
-typedef struct _GsfMetaDataBag	GsfMetaDataBag;
-typedef struct _GsfTimestamp	GsfTimestamp;
+GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *color);
+void          gsf_timestamp_free	(GsfTimestamp       *color);
+int           gsf_timestamp_parse	(char const *spec, GsfTimestamp *stamp);
+char 	     *gsf_timestamp_as_string	(GsfTimestamp const *stamp);
+guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
+gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
+					 GsfTimestamp const *b);
 
-typedef enum {
-	GSF_SEEK_SET,
-	GSF_SEEK_CUR,
-	GSF_SEEK_END
-} GsfSeekType;
-
-/* FIXME:
- * gsf_off_t is really supposed to be the widest type off_t can be configured
- * to on the platform
- */ 
-typedef gint64 gsf_off_t;
 
 G_END_DECLS
 
-#endif /* GSF_H */
+#endif /* GSF_TIMESTAMP_H */

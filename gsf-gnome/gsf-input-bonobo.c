@@ -20,10 +20,10 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-input-bonobo.h>
+#include <gsf-gnome/gsf-input-bonobo.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-shared-bonobo-stream.h>
+#include <gsf-gnome/gsf-shared-bonobo-stream.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-exception.h>
 #include <string.h>

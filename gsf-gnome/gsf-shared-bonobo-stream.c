@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-shared-bonobo-stream.h: helper class for gsf-input-bonobo
  *
@@ -19,7 +20,7 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-shared-bonobo-stream.h>
+#include <gsf-gnome/gsf-shared-bonobo-stream.h>
 #include <gsf/gsf-impl-utils.h>
 
 typedef struct {

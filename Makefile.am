@@ -1,7 +1,10 @@
 AUTOMAKE_OPTIONS = gnu 1.4
 
 if WITH_LIBGSF_GNOME
-LIBGSF_GNOME_PC=libgsf-gnome-1.pc
+LIBGSF_GNOME_PC = libgsf-gnome-1.pc
+GSF_GNOME_DIR   = gsf-gnome
+else
+GSF_GNOME_DIR   =
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -13,7 +16,7 @@ else
 PYTHON_DIR = 
 endif
 
-SUBDIRS = gsf doc tests $(PYTHON_DIR)
+SUBDIRS = gsf $(GSF_GNOME_DIR) doc tests $(PYTHON_DIR)
 
 #small hack to get distcheck to work
 clean-local:

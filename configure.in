@@ -172,12 +172,12 @@ dnl
 test_gnome=true
 AC_ARG_WITH(gnome,
 	[--{with,without}-gnome   Build additional wrappers for GNOME-VFS and BONOBO],
-	if test "x$withval" = xyes; then
-		test_bonobo=true
+	if test "x$withval" = xno; then
+		test_gnome=false
 	fi
 )
 with_gnome=false
-if  test "x$test_bonobo" = xtrue ; then 
+if  test "x$test_gnome" = xtrue ; then 
     PKG_CHECK_MODULES(LIBGSF_GNOME,[
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 1.9.16
@@ -189,10 +189,6 @@ AC_SUBST(LIBGSF_GNOME_CFLAGS)
 AC_SUBST(LIBGSF_GNOME_LIBS)
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, $with_gnome)
 
-dnl ***********************************************************************************
-
-LIBGSF_CFLAGS="$LIBGSF_CFLAGS $LIBGSF_GNOME_CFLAGS"
-LIBGSF_LIBS="$LIBGSF_LIBS $LIBGSF_GNOME_LIBS"
 AC_SUBST(LIBGSF_CFLAGS)
 AC_SUBST(LIBGSF_LIBS)
 
@@ -200,6 +196,7 @@ AC_OUTPUT([
 Makefile
 doc/Makefile
 gsf/Makefile
+gsf-gnome/Makefile
 tests/Makefile
 python/Makefile
 gsf/version.c
