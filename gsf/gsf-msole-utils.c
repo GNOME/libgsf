@@ -1283,7 +1283,13 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 
 	/* Try aliases.  */
 	if (codepage == 10000) {
+		/* gnu iconv.  */
 		iconv_handle = g_iconv_open (to, "MACROMAN");
+		if (iconv_handle != (GIConv)(-1))
+			return iconv_handle;
+
+		/* glibc.  */
+		iconv_handle = g_iconv_open (to, "MACINTOSH");
 		if (iconv_handle != (GIConv)(-1))
 			return iconv_handle;
 	}
