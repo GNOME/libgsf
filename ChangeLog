@@ -5,6 +5,9 @@
 
 	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new_uri): we
 	require random access.
+
+	* gsf-win32/gsf-input-win32.c: fix seek's return value in the win32 
+	IStream input.
 	
 2004-04-28  Jody Goldberg <jody@gnome.org>
 

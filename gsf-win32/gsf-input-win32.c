@@ -169,7 +169,7 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 		    hr = IStream_Read (istm->stream, (buffer + total_read), (ULONG)(num_bytes - total_read), &nread);
 
 		    if (SUCCEEDED (hr)) {
-				total_read += nread;
+			    total_read += nread;
 			    if ((size_t) total_read == num_bytes) {
 				    return buffer;
 			    }
@@ -204,7 +204,9 @@ gsf_input_istream_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		return TRUE;
 	}
 
-	return (SUCCEEDED (IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)));
+	if(SUCCEEDED (IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
+		return FALSE;
+	return TRUE;
 }
 
 static void
