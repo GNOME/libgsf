@@ -458,7 +458,6 @@ gsf_input_gzip_constructor (GType                  type,
 	  gzip->err = g_error_new (gsf_input_error (), 0,
 				   "Uncompressed size not set");
   } else if (init_zip (gzip, &gzip->err) != FALSE) {
-	  g_print ("Init error: %s\n", gzip->err->message);
 	  /* Nothing more.  */
   }
 
