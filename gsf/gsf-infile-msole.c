@@ -339,7 +339,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		 * Sometimes, rarely, people store the stream name as ascii
 		 * rather than utf16.  Do a validation first just in case.
 		 */
-		if (!g_utf8_validate (data, -1, (gchar const **)&end) ||
+		if (!g_utf8_validate ((gchar *)data, -1, (gchar const **)&end) ||
 		    (end - data + 1) != name_len) {
 			/* be wary about endianness */
 			for (i = 0 ; i < name_len ; i += 2)
@@ -347,7 +347,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 
 			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 		} else
-			dirent->name = g_strndup (data, (end - data + 1));
+			dirent->name = g_strndup ((gchar *)data, (gsize)(end - data + 1));
 	} else
 		dirent->name = g_strdup ("");
 	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);

@@ -2,4 +2,6 @@ libgsf1 (1.0.0-1) unstable; urgency=low
 
   * UNRELEASED.
 
+  * Initial Debian packaging. (Closes: #149355)
+
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 23 May 2002 17:25:56 +0200

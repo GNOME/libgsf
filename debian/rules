@@ -44,6 +44,8 @@ config-stamp:
 		--infodir=\$${prefix}/share/info \
 		--enable-iso-c \
 		--enable-compile-warnings=maximum \
+		--with-libxml \
+		--without-gnomevfs \
 		-v
 
 	touch config-stamp

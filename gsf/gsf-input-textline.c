@@ -177,7 +177,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 	textline->remainder = ptr;
 	textline->remainder_size = n - i;
 
-	return textline->buf;
+	return (char *)textline->buf;
 }
 
 guint8 *

@@ -56,12 +56,12 @@ read_types (const char *fname, GPtrArray **types)
 	}
 	while (!feof(file)) {
 		unsigned char *p;
-		fgets (buffer, sizeof (buffer)-1, file);
+		fgets ((char *)buffer, sizeof (buffer)-1, file);
 		for (p=buffer;*p;p++)
 			if (*p=='0' && *(p+1)=='x') {
 				GENERIC_TYPE *bt = g_new (GENERIC_TYPE,1);
 				unsigned char *name, *pt;
-				bt->opcode=strtol(p+2,0,16);
+				bt->opcode=strtol((char *)p+2,0,16);
 				pt = buffer;
 				while (*pt && *pt != '#') pt++;      /* # */
 				while (*pt && !isspace(*pt))
@@ -72,7 +72,7 @@ read_types (const char *fname, GPtrArray **types)
 				name = *pt?pt+1:pt;
 				while (*pt && !isspace((unsigned char)*pt))
 					pt++;
-				bt->name = g_strndup (name, (unsigned)(pt - name));
+				bt->name = g_strndup ((gchar *)name, (unsigned)(pt - name));
 				g_ptr_array_add (*types, bt);
 				break;
 			}

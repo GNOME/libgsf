@@ -1,3 +1,14 @@
+2002-06-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/test-msole1.c (read_types): Casts to suppress signedness
+	  warnings.
+	* gsf/gsf-input-memory.c (gsf_input_memory_read): Changed src type to
+	  guchar.
+	* gsf/gsf-input-textline.c (gsf_input_textline_ascii_gets): Cast
+	  return value.
+	* gsf/gsf-infile-msole.c (ole_dirent_new): Signedness fixes.
+	* debian/*: updated; include pkgconfig file.
+
 2002-06-09  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msvba.c : new.

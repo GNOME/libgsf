@@ -72,7 +72,7 @@ static guint8 const *
 gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	GsfInputMemory *mem = (GsfInputMemory *) (input);
-	const char *src = mem->shared->buf;
+	const guchar *src = mem->shared->buf;
 
 	if (src == NULL)
 		return NULL;

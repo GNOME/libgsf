@@ -1,0 +1,7 @@
+files
+libgsf1
+libgsf1-dev
+tmp
+*.pre*.debhelper
+*.post*.debhelper
+*.substvars
