@@ -749,7 +749,7 @@ static GsfLanguageMapping const gsf_msole_language_ids[] = {
 	{ "-none-", 0x0400 }, /* none */
 	{ "af_ZA",  0x0436 }, /* Afrikaans */
 	{ "am",     0x045e }, /* Amharic */
-	{ "al_AL",  0x041c }, /* Albanian */
+	{ "sq_AL",  0x041c }, /* Albanian */
 	{ "ar_SA",  0x0401 }, /* Arabic (Saudi) */
 	{ "ar_IQ",  0x0801 }, /* Arabic (Iraq) */
 	{ "ar_EG",  0x0c01 }, /* Arabic (Egypt) */		
