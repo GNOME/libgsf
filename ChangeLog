@@ -1,5 +1,10 @@
 2002-06-13  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-input-textline.c (gsf_input_textline_ascii_gets) : implement.
+	(gsf_input_textline_utf8_gets) : pretend to implement.
+
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
 	* Makefile.am : move the tests into a standalone dir because they are
 	  getting irritating to build for every single library rebuild.
 

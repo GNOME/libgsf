@@ -9,6 +9,7 @@ Jody:
 	* Read textlines
 	* stdio wrapper
 	* some test programs to dump ole streams and file structure
+	* Uncompress vba streams
 
 Morten:
 	* mmap/buffer wrapper

@@ -31,9 +31,11 @@ struct _GsfInputTextline {
 	guint8 const	*remainder;
 	unsigned	 remainder_size;
 	unsigned	 max_line_size;
-	guint8		*buf;
+
+	unsigned char	*buf;
 	unsigned	 buf_size;
-	int		 current_line;
+
+	/* int		 current_line; */
 };
 
 typedef struct {
@@ -78,8 +80,8 @@ gsf_input_textline_finalize (GObject *obj)
 	if (input->buf != NULL) {
 		g_free (input->buf);
 		input->buf  = NULL;
-		input->buf_size = 0;
 	}
+	input->buf_size = 0;
 
 	parent_class = g_type_class_peek (GSF_INPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -152,50 +154,156 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
  *
  * returns the string read, or NULL on eof.
  **/
-char *
+unsigned char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 {
-	unsigned n, i;
-	guint8 const *ptr;
+	guint8 const *ptr ,*end;
+	unsigned len, count = 0;
 
 	g_return_val_if_fail (textline != NULL, NULL);
 
-	if (textline->remainder == NULL ||
-	    textline->remainder_size == 0) {
-		n = gsf_input_remaining (textline->source);
-		if (n > textline->max_line_size)
-			n = textline->max_line_size;
+	while (1) {
+		if (textline->remainder == NULL ||
+		    textline->remainder_size == 0) {
+			len = gsf_input_remaining (textline->source);
+			if (len > textline->max_line_size)
+				len = textline->max_line_size;
 
-		textline->remainder = gsf_input_read (textline->source, n, NULL);
-		if (textline->remainder == NULL)
-			return NULL;
+			textline->remainder = gsf_input_read (textline->source, len, NULL);
+			if (textline->remainder == NULL)
+				return NULL;
+			textline->remainder_size = len;
+		}
+
+		ptr = textline->remainder;
+		end = ptr + textline->remainder_size;
+		for (; ptr < end ; ptr++)
+			if (*ptr == '\n' || *ptr == '\r')
+				break;
+
+		/* copy the remains into the buffer, grow it if necessary */
+		len = ptr - textline->remainder;
+		if ((count + len) > textline->buf_size) {
+			textline->buf_size += len;
+			textline->buf = g_realloc (textline->buf,
+				textline->buf_size + 1);
+		}
+
+		g_return_val_if_fail (textline->buf != NULL, NULL);
+
+		memcpy (textline->buf + count, textline->remainder, len);
+		count += len;
+
+		if (ptr < end) {
+			unsigned char last = ptr [0];
+
+			/* eat the trailing new line */
+			ptr++;
+			if (ptr >= end) {
+				/* be extra careful, the newline is at the bound */
+				if (gsf_input_remaining (textline->source) > 0) {
+					ptr = gsf_input_read (textline->source, 1, NULL);
+					if (ptr == NULL)
+						return NULL;
+					textline->remainder = ptr;
+					textline->remainder_size = 1;
+					end = ptr + 1;
+				} else
+					ptr = end = NULL;
+			}
+			if (ptr != NULL &&
+			    ((last == '\n' && *ptr == '\r') ||
+			     (last == '\r' && *ptr == '\n')))
+				ptr++;
+			break;
+		} else if (gsf_input_remaining (textline->source) <= 0) {
+			ptr = end = NULL;
+			break;
+		} else
+			textline->remainder = NULL;
+
 	}
 
-	for (ptr = textline->remainder; i < n; ptr++)
-		if (*ptr == '\n' || *ptr == '\r')
-			break;
 	textline->remainder = ptr;
-	textline->remainder_size = n - i;
+	textline->remainder_size = end - ptr;
 
-	return (char *)textline->buf;
+	textline->buf [count] = '\0';
+	return textline->buf;
 }
 
 guint8 *
 gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 {
-	unsigned n, i;
-	guint8 const *ptr;
+	guint8 const *ptr ,*end;
+	unsigned len, count = 0;
 
 	g_return_val_if_fail (textline != NULL, NULL);
 
-	if (textline->remainder == NULL ||
-	    textline->remainder_size == 0) {
-		n = gsf_input_remaining (textline->source);
-		if (n > textline->max_line_size)
-			n = textline->max_line_size;
+	while (1) {
+		if (textline->remainder == NULL ||
+		    textline->remainder_size == 0) {
+			len = gsf_input_remaining (textline->source);
+			if (len > textline->max_line_size)
+				len = textline->max_line_size;
 
-		textline->remainder = gsf_input_read (textline->source, n, NULL);
-		if (textline->remainder == NULL)
-			return NULL;
+			textline->remainder = gsf_input_read (textline->source, len, NULL);
+			if (textline->remainder == NULL)
+				return NULL;
+			textline->remainder_size = len;
+		}
+
+		ptr = textline->remainder;
+		end = ptr + textline->remainder_size;
+		for (; ptr < end ; ptr = g_utf8_next_char (ptr))
+			if (*ptr == '\n' || *ptr == '\r')
+				break;
+
+		/* copy the remains into the buffer, grow it if necessary */
+		len = ptr - textline->remainder;
+		if ((count + len) > textline->buf_size) {
+			textline->buf_size += len;
+			textline->buf = g_realloc (textline->buf,
+				textline->buf_size + 1);
+		}
+
+		g_return_val_if_fail (textline->buf != NULL, NULL);
+
+		memcpy (textline->buf + count, textline->remainder, len);
+		count += len;
+
+		if (ptr < end) {
+			unsigned char last = ptr [0];
+
+			/* eat the trailing new line */
+			ptr++;
+			if (ptr >= end) {
+				/* be extra careful, the newline is at the bound */
+				if (gsf_input_remaining (textline->source) > 0) {
+					ptr = gsf_input_read (textline->source, 1, NULL);
+					if (ptr == NULL)
+						return NULL;
+					textline->remainder = ptr;
+					textline->remainder_size = 1;
+					end = ptr + 1;
+				} else
+					ptr = end = NULL;
+			}
+			if (ptr != NULL &&
+			    ((last == '\n' && *ptr == '\r') ||
+			     (last == '\r' && *ptr == '\n')))
+				ptr++;
+			break;
+		} else if (gsf_input_remaining (textline->source) <= 0) {
+			ptr = end = NULL;
+			break;
+		} else
+			textline->remainder = NULL;
+
 	}
+
+	textline->remainder = ptr;
+	textline->remainder_size = end - ptr;
+
+	textline->buf [count] = '\0';
+	return textline->buf;
 }

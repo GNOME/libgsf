@@ -65,7 +65,7 @@ test (int argc, char *argv[])
 
 		g_return_val_if_fail (err != NULL, 1);
 
-		g_warning ("'%s' error: %s\n", argv[1], err->message);
+		g_warning ("'%s' error: %s", argv[1], err->message);
 		g_error_free (err);
 		g_object_unref (G_OBJECT (input));
 		return 1;
@@ -76,7 +76,7 @@ test (int argc, char *argv[])
 
 		g_return_val_if_fail (err != NULL, 1);
 
-		g_warning ("'%s' Not an OLE file: %s\n", argv[i], err->message);
+		g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);
 		g_error_free (err);
 		return 1;
 	}
