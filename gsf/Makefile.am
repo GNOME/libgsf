@@ -29,6 +29,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-output.c 		\
 	gsf-output-impl.h	\
 	gsf-output-stdio.c	\
+	gsf-output-memory.c	\
 	\
 	gsf-outfile.c 		\
 	gsf-outfile-impl.h 	\
@@ -37,9 +38,9 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
+	gsf-structured-blob.c	\
 	gsf-command-context.c	\
-	gsf-io-context.c	\
-	gsf-output-memory.c
+	gsf-io-context.c
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
@@ -50,20 +51,26 @@ libgsf_1_include_HEADERS = 	\
 	gsf-impl-utils.h	\
 	gsf-msole-utils.h	\
 	gsf-timestamp.h		\
+	\
 	gsf-input.h		\
 	gsf-input-memory.h 	\
 	gsf-input-stdio.h 	\
 	gsf-input-textline.h 	\
 	gsf-input-gzip.h 	\
+	\
 	gsf-infile.h 		\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
 	gsf-infile-zip.h	\
-	gsf-command-context.h	\
-	gsf-io-context.h	\
+	\
 	gsf-output.h		\
 	gsf-output-stdio.h	\
+	gsf-output-memory.h	\
+	\
 	gsf-outfile.h 		\
 	gsf-outfile-msole.h	\
 	gsf-outfile-zip.h       \
-	gsf-output-memory.h
+	\
+	gsf-structured-blob.h	\
+	gsf-command-context.h	\
+	gsf-io-context.h

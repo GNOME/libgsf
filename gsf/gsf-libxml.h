@@ -31,6 +31,51 @@ xmlParserCtxtPtr	gsf_xml_parser_context	(GsfInput  *input);
 int			gsf_xmlDocFormatDump	(GsfOutput *output,
 						 xmlDocPtr cur, gboolean format);
 
+/* SAX Utils */
+typedef struct _GsfXmlSAXState	GsfXmlSAXState;
+typedef struct _GsfXmlSAXNode	GsfXmlSAXNode;
+
+struct _GsfXmlSAXState {
+/* private */
+	GsfXmlSAXNode	*node;
+	GSList	 	*state_stack;
+	GString		*content;
+	gint		 unknown_depth;	/* handle recursive unknown tags */
+
+/* public */
+	GsfXmlSAXNode	*root;
+};
+
+struct _GsfXmlSAXNode {
+	char const *id;
+	char const *name;
+	union {
+		char const *id;
+		GsfXmlSAXNode *node;
+	} parent;
+	gboolean parent_initialized;
+	GsfXmlSAXNode *next_sibling;
+	GsfXmlSAXNode *first_child;
+
+	gboolean	has_content;
+
+	void (*start) (GsfXmlSAXState *state, xmlChar const **attrs);
+	void (*end)   (GsfXmlSAXState *state);
+
+	union {
+		int	    v_int;
+		gboolean    v_bool;
+		gpointer    v_blob;
+		char const *v_str;
+	} user_data;
+};
+
+#define GSF_XML_SAX_NODE(parent_id, id, name, has_content, start, end, user)	\
+{ #id, name, { #parent_id }, FALSE, NULL, NULL, has_content, start, end, { user } }
+
+gboolean gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node);
+gboolean gsf_xmlSAX_parse    (GsfInput *input, GsfXmlSAXState *doc);
+
 G_END_DECLS
 
 #endif /* GSF_LIBXML_H */

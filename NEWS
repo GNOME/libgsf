@@ -7,6 +7,8 @@ Jody:
 	* Replace test-cat-zip with test-msole2
 	* Add error handling mechanism to GsfOutput
 	* Borrow the temp file handling from gedit
+	* Add some xml SAX parsing utilities (api is tentative)
+	* Add some structured blob utilites for easy in/out of blob trees
 
 Jon Kåre:
 	* sync the directory semantics of infile-zip with infile-msole.

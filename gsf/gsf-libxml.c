@@ -149,3 +149,209 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, gboolean format)
 	ret = xmlOutputBufferClose (buf);
 	return ret;
 }
+
+/***************************************************************************/
+
+static void
+xml_sax_start_element (GsfXmlSAXState *state, xmlChar const *name, xmlChar const **attrs)
+{
+	GsfXmlSAXNode *ptr;
+
+	for (ptr = state->node->first_child ; ptr != NULL ; ptr = ptr->next_sibling)
+		if (!strcmp (name, ptr->name)) {
+			state->state_stack = g_slist_prepend (state->state_stack, state->node);
+			state->node = ptr;
+			if (ptr->start != NULL)
+				ptr->start (state, attrs);
+			return;
+		}
+
+	if (state->unknown_depth++)
+		return;
+	g_warning ("Unexpected element '%s' in state %s.", name, state->node->name);
+}
+
+static void
+xml_sax_end_element (GsfXmlSAXState *state, const xmlChar *name)
+{
+	if (state->unknown_depth > 0) {
+		state->unknown_depth--;
+		return;
+	}
+
+	g_return_if_fail (state->state_stack != NULL);
+	g_return_if_fail (!strcmp (name, state->node->name));
+
+	if (state->node->end)
+		state->node->end (state);
+	if (state->node->has_content)
+		g_string_truncate (state->content, 0);
+
+	/* pop the state stack */
+	state->node = state->state_stack->data;
+	state->state_stack = g_slist_remove (state->state_stack, state->node);
+}
+
+static void
+xml_sax_characters (GsfXmlSAXState *state, const xmlChar *chars, int len)
+{
+	if (state->node->has_content)
+		g_string_append_len (state->content, chars, len);
+}
+
+static xmlEntityPtr
+xml_sax_get_entity (GsfXmlSAXState *state, const xmlChar *name)
+{
+	(void)state;
+	return xmlGetPredefinedEntity (name);
+}
+
+static void
+xml_sax_start_document (GsfXmlSAXState *state)
+{
+	state->node = state->root;
+	state->unknown_depth = 0;
+	state->state_stack = NULL;
+}
+
+static void
+xml_sax_end_document (GsfXmlSAXState *state)
+{
+	g_string_free (state->content, TRUE);
+	state->content = NULL;
+
+	g_return_if_fail (state->node == state->root);
+	g_return_if_fail (state->unknown_depth == 0);
+}
+
+static void
+xml_sax_warning (GsfXmlSAXState *state, const char *msg, ...)
+{
+	va_list args;
+
+	(void)state;
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_WARNING, msg, args);
+	va_end (args);
+}
+
+static void
+xml_sax_error (GsfXmlSAXState *state, const char *msg, ...)
+{
+	va_list args;
+
+	(void)state;
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_CRITICAL, msg, args);
+	va_end (args);
+}
+
+static void
+xml_sax_fatal_error (GsfXmlSAXState *state, const char *msg, ...)
+{
+	va_list args;
+
+	(void)state;
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_ERROR, msg, args);
+	va_end (args);
+}
+
+static xmlSAXHandler xmlSaxSAXParser = {
+	0, /* internalSubset */
+	0, /* isStandalone */
+	0, /* hasInternalSubset */
+	0, /* hasExternalSubset */
+	0, /* resolveEntity */
+	(getEntitySAXFunc)xml_sax_get_entity, /* getEntity */
+	0, /* entityDecl */
+	0, /* notationDecl */
+	0, /* attributeDecl */
+	0, /* elementDecl */
+	0, /* unparsedEntityDecl */
+	0, /* setDocumentLocator */
+	(startDocumentSAXFunc)xml_sax_start_document, /* startDocument */
+	(endDocumentSAXFunc)xml_sax_end_document, /* endDocument */
+	(startElementSAXFunc)xml_sax_start_element, /* startElement */
+	(endElementSAXFunc)xml_sax_end_element, /* endElement */
+	0, /* reference */
+	(charactersSAXFunc)xml_sax_characters, /* characters */
+	0, /* ignorableWhitespace */
+	0, /* processingInstruction */
+	0, /* comment */
+	(warningSAXFunc)xml_sax_warning, /* warning */
+	(errorSAXFunc)xml_sax_error, /* error */
+	(fatalErrorSAXFunc)xml_sax_fatal_error, /* fatalError */
+	0, /* getParameterEntity */
+	0, /* cdataBlock */
+	0, /* externalSubset */
+	0
+};
+
+/**
+ * gsf_xmlSAX_prep_dtd :
+ * @node :
+ *
+ * link  up the static parent descriptors
+ *
+ * Returns : TRUE on success
+ **/
+gboolean
+gsf_xmlSAX_prep_dtd (GsfXmlSAXNode *node)
+{
+	GHashTable *symbols;
+
+	if (node->parent_initialized)
+		return TRUE;
+
+	symbols = g_hash_table_new (g_str_hash, g_str_equal);
+	for (; node->id != NULL ; node++ ) {
+		g_return_val_if_fail (!node->parent_initialized, FALSE);
+		g_return_val_if_fail (g_hash_table_lookup (symbols, node->id) != NULL, FALSE);
+
+		/* be anal, the macro probably initialized this, but do it just in case */
+		node->first_child = NULL;
+		node->next_sibling = NULL;
+
+		if (strcmp ("START", node->parent.id)) {
+			node->parent.node = g_hash_table_lookup (symbols, node->parent.id);
+
+			g_return_val_if_fail (node->parent.node != NULL, FALSE);
+
+			node->next_sibling = node->parent.node->first_child;
+		} else
+			node->parent.node = NULL;
+
+		node->parent_initialized = TRUE;
+		g_hash_table_insert (symbols, (gpointer)node->id, node);
+	}
+
+	g_hash_table_destroy (symbols);
+
+	return TRUE;
+}
+
+gboolean
+gsf_xmlSAX_parse (GsfInput *input, GsfXmlSAXState *doc)
+{
+	xmlParserCtxt *ctxt;
+	gboolean res;
+	gboolean valid_dtd = gsf_xmlSAX_prep_dtd (doc->root);
+
+	g_return_val_if_fail (valid_dtd, FALSE);
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+
+	ctxt = gsf_xml_parser_context (input);
+
+	g_return_val_if_fail (ctxt != NULL, FALSE);
+
+	ctxt->userData = doc;
+	doc->content = g_string_sized_new (128);
+	ctxt->sax = &xmlSaxSAXParser;
+	xmlParseDocument (ctxt);
+	ctxt->sax = NULL;
+	res = ctxt->wellFormed;
+	xmlFreeParserCtxt (ctxt);
+
+	return res;
+}

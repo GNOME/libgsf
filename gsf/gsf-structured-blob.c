@@ -1,0 +1,282 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * gsf-structured_blob.c : Utility storage to blob in/out a tree of data
+ *
+ * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+#include <gsf-config.h>
+#include <gsf/gsf-structured-blob.h>
+#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-infile-impl.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-outfile.h>
+#include <gsf/gsf-output.h>
+#include <gsf/gsf-shared-memory.h>
+
+#define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_STRUCTURED_BLOB_TYPE, GsfStructuredBlobClass)
+
+struct _GsfStructuredBlob {
+	GsfInfile base;
+
+	GsfSharedMemory *data;
+	GPtrArray *children;
+}; 
+typedef struct {
+	GsfInfileClass base;
+} GsfStructuredBlobClass;
+
+static void
+blob_finalize (GObject *obj)
+{
+	unsigned i;
+	GObjectClass *parent_class;
+	GsfStructuredBlob *blob = GSF_STRUCTURED_BLOB (obj);
+
+	if (blob->data != NULL) {
+		g_object_unref (G_OBJECT (blob->data));
+		blob->data = NULL;
+	}
+
+	if (blob->children != NULL) {
+		for (i = 0; i < blob->children->len ; i++)
+			g_object_unref (g_ptr_array_index (blob->children, i));
+		g_ptr_array_free (blob->children, TRUE);
+		blob->children = NULL;
+	}
+
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	if (parent_class && parent_class->finalize)
+		parent_class->finalize (obj);
+}
+
+static GsfInput *
+blob_dup (GsfInput *input, GError **err)
+{
+	GsfStructuredBlob const *src = (GsfStructuredBlob *) input;
+	GsfStructuredBlob *dst = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
+
+	(void)err;
+
+	if (src->data != NULL) {
+		dst->data = src->data;
+		g_object_ref (G_OBJECT (dst->data));
+	}
+	if (src->children != NULL) {
+		unsigned i;
+		gpointer child;
+
+		dst->children = g_ptr_array_new ();
+		for (i = 0; i < src->children->len ; i++) {
+			child = g_ptr_array_index (src->children, i);
+			g_ptr_array_add (dst->children, child);
+			g_object_ref (child);
+		}
+	}
+
+	return GSF_INPUT (dst);
+}
+
+static guint8 const *
+blob_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
+{
+	GsfStructuredBlob *blob = (GsfStructuredBlob *) input;
+	guchar const *src = blob->data->buf;
+
+	if (src == NULL)
+		return NULL;
+	if (optional_buffer) {
+		memcpy (optional_buffer, src + input->cur_offset, num_bytes);
+		return optional_buffer;
+	} else
+		return src + input->cur_offset;
+}
+
+static gboolean
+blob_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
+{
+	(void)input;
+	(void)offset;
+	(void)whence;
+	return FALSE;
+}
+
+static int
+blob_num_children (GsfInfile *infile)
+{
+	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
+
+	if (blob->children != NULL)
+		return blob->children->len;
+	return -1;
+}
+
+static char const *
+blob_name_by_index (GsfInfile *infile, int i)
+{
+	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
+	if (blob->children != NULL) {
+		g_return_val_if_fail (i < 0 || (unsigned)i >= blob->children->len, NULL);
+		return gsf_input_name (g_ptr_array_index (blob->children, i));
+	}
+	return NULL;
+}
+
+static GsfInput   *
+blob_child_by_index (GsfInfile *infile, int i)
+{
+	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
+	if (blob->children != NULL) {
+		g_return_val_if_fail (i < 0 || (unsigned)i >= blob->children->len, NULL);
+		return gsf_input_dup (g_ptr_array_index (blob->children, i), NULL);
+	}
+	return NULL;
+}
+
+static GsfInput   *
+blob_child_by_name (GsfInfile *infile, char const *name)
+{
+	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
+	if (blob->children != NULL) {
+		unsigned i;
+		GsfInput *child;
+
+		for (i = 0 ; i < blob->children->len ;) {
+			child = g_ptr_array_index (blob->children, i);
+			if (!strcmp (gsf_input_name (child), name))
+				return gsf_input_dup (child, NULL);
+		}
+	}
+	return NULL;
+}
+
+static void
+gsf_structured_blob_init (GObject *obj)
+{
+	GsfStructuredBlob *blob = GSF_STRUCTURED_BLOB (obj);
+
+	blob->data = NULL;
+	blob->children = NULL;
+}
+
+static void
+gsf_structured_blob_class_init (GObjectClass *gobject_class)
+{
+	GsfInputClass  *input_class  = GSF_INPUT_CLASS (gobject_class);
+	GsfInfileClass *infile_class = GSF_INFILE_CLASS (gobject_class);
+
+	gobject_class->finalize		= blob_finalize;
+	input_class->Dup		= blob_dup;
+	input_class->Read		= blob_read;
+	input_class->Seek		= blob_seek;
+	infile_class->num_children	= blob_num_children;
+	infile_class->name_by_index	= blob_name_by_index;
+	infile_class->child_by_index	= blob_child_by_index;
+	infile_class->child_by_name	= blob_child_by_name;
+}
+
+GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,
+	   gsf_structured_blob_class_init, gsf_structured_blob_init,
+	   GSF_INFILE_TYPE)
+
+/**
+ * gsf_structured_blob_read :
+ * @input : An input (potentially a GsfInfile) holding the blob
+ *
+ * Returns a freshly created tree of blobs
+ **/
+GsfStructuredBlob *
+gsf_structured_blob_read (GsfInput *input)
+{
+	GsfStructuredBlob *blob;
+	gsf_off_t content_size;
+	int i = 0;
+
+	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
+
+	blob = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
+	if (GSF_IS_INFILE (input))
+		i = gsf_infile_num_children (GSF_INFILE (input));
+
+	if (i > 0) {
+		GsfInput	  *child;
+		GsfStructuredBlob *child_blob;
+
+		blob->children = g_ptr_array_new ();
+		while (i-- > 0) {
+			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
+			child_blob = gsf_structured_blob_read (input);
+			g_object_unref (G_OBJECT (child));
+
+			g_ptr_array_add (blob->children, child_blob);
+			gsf_input_set_container (GSF_INPUT (child_blob),
+						 GSF_INFILE (input));
+		}
+	}
+
+	content_size = gsf_input_remaining (input);
+	if (content_size > 0) {
+		guint8 *buf = g_malloc (content_size);
+		gsf_input_read (input, content_size, buf);
+		blob->data = gsf_shared_memory_new (buf, content_size, TRUE);
+	}
+
+	gsf_input_set_name (GSF_INPUT (blob), gsf_input_name (input));
+
+	return blob;
+}
+
+/**
+ * gsf_structured_blob_write :
+ * @blob :
+ * @output :
+ *
+ * Dumps a structured blob onto the @output.  Will fail if the output is not an
+ * Outfile and blob has multiple streams.
+ *
+ * Returns : TRUE on success.
+ **/
+gboolean
+gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutput *output)
+{
+	g_return_val_if_fail (GSF_IS_STRUCTURED_BLOB (blob), FALSE);
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
+
+	if (blob->children != NULL && blob->children->len > 0) {
+		GsfOutput	  *child;
+		GsfStructuredBlob *child_blob;
+		unsigned i;
+
+		g_return_val_if_fail (GSF_IS_OUTFILE (output), FALSE);
+
+		for (i = 0 ; i < blob->children->len ; i++) {
+			child_blob = g_ptr_array_index (blob->children, i);
+			child = gsf_outfile_new_child  (GSF_OUTFILE (output),
+				gsf_input_name (GSF_INPUT (child_blob)),
+				child_blob->children != NULL);
+			if (!gsf_structured_blob_write (child_blob, child))
+				return FALSE;
+			gsf_output_close (child);
+			g_object_unref (G_OBJECT (child));
+		}
+	}
+
+	if (blob->data != NULL)
+		gsf_output_write (output, blob->data->size, blob->data->buf);
+
+	return TRUE;
+}
