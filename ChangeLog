@@ -1,3 +1,18 @@
+2002-05-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in:
+	  Actually use warning flags from GNOME_COMPILE_WARNINGS, so
+	  "--enable-warnings=maximum" and "--with-iso-c" are honoured.
+	  Test whether defining _BSD_SOURCE is needed for caddr_t.
+	  (e.g. on Debian with -ansi for gcc3.0 and 3.1)
+	  Test whether defining _POSIX_SOURCE is needed for fdopen().
+	  Enable a lot more warnings.
+	* debian/rules: minor tweaks.
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_seek) : more error checking.
+
 2002-05-25  Jody Goldberg <jody@gnome.org>
 
 	* gsf/test-msole1.c (test) : dump head of odd records.

@@ -19,5 +19,6 @@ libgsf-1.spec
 libgsf-1.pc
 build
 build-stamp
+config-stamp
 ID
 .*.sw*

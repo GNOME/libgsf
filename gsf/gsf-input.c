@@ -212,6 +212,8 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 	default : return TRUE;
 	}
 
+	if (pos < 0 || pos > input->size)
+		return TRUE;
 	if (GET_CLASS (input)->seek (input, offset, whence))
 		return TRUE;
 	input->cur_offset = pos;

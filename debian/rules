@@ -31,7 +31,8 @@ version=`ls gsf/.libs/libgsf*.so.* | \
 major=`ls gsf/.libs/libgsf*.so.* | \
  awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
 
-config-stamp: configure.in
+configure: config-stamp
+config-stamp:
 	dh_testdir
 
 	rm -rf build && mkdir build
@@ -42,6 +43,7 @@ config-stamp: configure.in
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info \
 		--enable-iso-c \
+		--enable-compile-warnings=maximum \
 		-v
 
 	touch config-stamp
@@ -121,4 +123,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+.PHONY: configure build clean binary-indep binary-arch binary install 

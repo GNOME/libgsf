@@ -47,8 +47,9 @@ AC_SUBST(LIBGSF_CFLAGS)
 
 ## this should come after `AC_PROG_CC'
 GNOME_COMPILE_WARNINGS
+CFLAGS="$CFLAGS $WARN_CFLAGS"
 if test "$GCC" = "yes"; then
-	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
+	for option in -Wno-system-headers -W -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wmissing-format-attribute -Wredundant-decls -Wnested-externs -Wunreachable-code -Winline; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -64,6 +65,24 @@ if test "$GCC" = "yes"; then
 	done
 	unset option
 fi
+
+AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
+AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
+if test $need_bsd = yes ; then
+	CFLAGS="$CFLAGS -D_BSD_SOURCE"
+fi
+AC_MSG_RESULT($need_bsd)
+
+AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
+saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -Werror"
+AC_TRY_COMPILE([#include <stdio.h>], [FILE *f = fdopen(1, "r")], need_posix=no, need_posix=yes)
+CFLAGS="$saved_CFLAGS"
+if test $need_posix = yes ; then
+	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
+fi
+AC_MSG_RESULT($need_posix)
+
 
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h)
 AC_FUNC_MMAP
