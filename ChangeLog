@@ -1,3 +1,12 @@
+2004-07-29  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_new_full): One more sanity
+	  check, bb.size has to be at least DIRENT_SIZE.
+	(gsf_outfile_msole_close_root): For non-root dirs, don't set
+	  FIRSTBLOCK to DIRENT_MAGIC_END, it is BAT_MAGIC_END_OF_CHAIN; though
+	  both are -1.  Explanation: BAT_MAGIC_END_OF_CHAIN is of type ``block
+	  number'' while DIRENT_MAGIC_END is of type ``dirent number''.
+
 2004-08-20  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump

@@ -310,7 +310,7 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 			memcpy (buf + DIRENT_CLSID, child->clsid, sizeof (child->clsid));
 		} else if (child->type == MSOLE_DIR) {
 			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
-			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, DIRENT_MAGIC_END);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, BAT_MAGIC_END_OF_CHAIN);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, 0);
 			/* write the class id */
 			memcpy (buf + DIRENT_CLSID, child->clsid, sizeof (child->clsid));
@@ -718,6 +718,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink,
 	if (ole->bb.size != bb_size ||
 	    ole->sb.size != sb_size ||
 	    bb_size <= sb_size ||
+	    bb_size < DIRENT_SIZE ||
 	    sb_size < 8 ||
 	    ZERO_PAD_BUF_SIZE < ole->bb.size) {
 		if (ZERO_PAD_BUF_SIZE < ole->bb.size)
