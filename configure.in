@@ -67,12 +67,17 @@ if test "$GCC" = "yes"; then
 	unset option
 fi
 
-AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
-saved_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Werror"
-AC_TRY_COMPILE([#include <stdio.h>], [FILE *f; f = fdopen(1, "r")], need_posix=no, need_posix=yes)
-CFLAGS="$saved_CFLAGS"
+AC_MSG_CHECKING([whether to -D_POSIX_SOURCE for the fdopen prototype])
+need_posix=no
+echo '#include <stdio.h>' > conftest.h
+if ! $CPP $CFLAGS conftest.h | grep -q '\<fdopen\>' ; then
+	if $CPP $CFLAGS -D_POSIX_SOURCE conftest.h | grep -q '\<fdopen\>' ; then
+		need_posix=yes
+	fi
+fi
 AC_MSG_RESULT($need_posix)
+rm -f conftest.h
+
 if test $need_posix = yes ; then
 	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
 
