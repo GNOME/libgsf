@@ -37,7 +37,7 @@ clone (GsfInfile *in, GsfOutfile *out)
 	GsfInput *input = GSF_INPUT (in);
 	GsfOutput *output = GSF_OUTPUT (out);
 	guint8 const *data;
-	size_t len;
+	gsf_off_t len;
 	int i;
 
 	if (gsf_input_size (input) > 0) {
