@@ -416,7 +416,7 @@ gsf_input_uncompress (GsfInput *src)
 
 	/* Let's try gzip.  */
 	{
-		const char gzip_sig[2] = { 0x1f, 0x8b };
+		const unsigned char gzip_sig[2] = { 0x1f, 0x8b };
 
 		if (memcmp (gzip_sig, data, sizeof (gzip_sig)) == 0) {
 			GsfInputGZip *res = gsf_input_gzip_new (src, NULL);
