@@ -26,6 +26,8 @@
 #ifdef HAVE_MMAP
 #include <sys/types.h>
 #include <sys/mman.h>
+#elif defined(G_OS_WIN32)
+#include <windows.h>
 #endif
 
 typedef struct {
@@ -48,7 +50,7 @@ gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free)
 GsfSharedMemory *
 gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size)
 {
-#ifdef HAVE_MMAP
+#if defined(HAVE_MMAP) || defined(G_OS_WIN32)
 	size_t msize = size;
 	if ((gsf_off_t)msize != size) {
 		g_warning ("memory buffer size too large");
@@ -74,6 +76,8 @@ gsf_shared_memory_finalize (GObject *obj)
 		else if (mem->needs_unmap) {
 #ifdef HAVE_MMAP
 			munmap (mem->buf, mem->size);
+#elif defined(G_OS_WIN32)
+			UnmapViewOfFile (mem->buf);
 #else
 			g_assert_not_reached ();
 #endif

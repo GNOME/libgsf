@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-memory.c: 
+ * gsf-input-memory.c:
  *
  * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -28,11 +28,27 @@
 #include <gsf/gsf-shared-memory.h>
 
 #ifdef HAVE_MMAP
+
 #if defined(FREEBSD) || defined(__FreeBSD__)
 /* We must keep the file open while pages are mapped.  */
 /* http://www.freebsd.org/cgi/query-pr.cgi?pr=48291 */
 #define HAVE_BROKEN_MMAP
-#endif
+#endif /* defined(FREEBSD) || defined(__FreeBSD__) */
+
+#elif defined(G_OS_WIN32)
+
+#include <windows.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <io.h>
+#include <fcntl.h>
+
+#define MAP_FAILED NULL
+#endif /* HAVE_MMAP */
+
+#ifndef O_BINARY
+#define O_BINARY 0
 #endif
 
 static GObjectClass *parent_class;
@@ -72,7 +88,7 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
  */
 GsfInput *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
-{	
+{
 	GsfInputMemory *mem = NULL;
 	guint8 * cpy = g_try_malloc (length * sizeof (guint8));
 	if (cpy == NULL)
@@ -182,14 +198,15 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 
 #ifndef PROT_READ
 #define PROT_READ 0x1
-#endif
+#endif /* PROT_READ */
 
 #if !defined(MAP_FAILED) || defined(__osf__)
 /* Someone needs their head examined - BSD ? */
 #	define MAP_FAILED ((void *)-1)
-#endif
-#endif
-     
+#endif /* !defined(MAP_FAILED) || defined(__osf__) */
+
+#endif /* HAVE_MMAP */
+
 /**
  * gsf_input_mmap_new:
  * @filename: The file on disk that you want to mmap
@@ -200,14 +217,14 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 GsfInput *
 gsf_input_mmap_new (char const *filename, GError **err)
 {
-#ifdef HAVE_MMAP
+#if defined(HAVE_MMAP) || defined(G_OS_WIN32)
 	GsfInputMemory *mem;
 	guint8 *buf = NULL;
 	struct stat st;
 	int fd;
 	size_t size;
 
-	fd = open (filename, O_RDONLY);
+	fd = open (filename, O_RDONLY | O_BINARY);
 	if (fd < 0 || fstat (fd, &st) < 0) {
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
@@ -229,7 +246,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		close (fd);
 		return NULL;
 	}
-	
+
 	size = (size_t) st.st_size;
 	if ((off_t) size != st.st_size) { /* Check for overflow */
 		if (err != NULL) {
@@ -242,7 +259,17 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		close (fd);
 		return NULL;
 	}
+
+#ifdef G_OS_WIN32
+	{
+		HANDLE handle = CreateFileMapping ((HANDLE)_get_osfhandle (fd), NULL, PAGE_READONLY, 0, 0, NULL);
+		buf = MapViewOfFile (handle, FILE_MAP_READ, 0, 0, 0);
+		CloseHandle (handle);
+	}
+#else
 	buf = mmap (NULL, size, PROT_READ, MAP_SHARED, fd, (off_t) 0);
+#endif
+
 	if (buf == MAP_FAILED) {
 		if (err != NULL) {
 			char *utf8name = gsf_filename_to_utf8 (filename, FALSE);
