@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf.h>
 #include <sys/types.h>
+#include <string.h>
 #include "gsf-zip-impl.h"
 
 /* Doesn't do much, but include for symmetry */

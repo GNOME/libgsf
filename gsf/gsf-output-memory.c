@@ -22,6 +22,7 @@
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 #define MIN_BLOCK 512
 #define MAX_STEP  MIN_BLOCK * 128

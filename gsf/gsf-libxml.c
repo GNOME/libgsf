@@ -28,6 +28,7 @@
 #include <gsf/gsf-utils.h>
 
 #include <math.h>
+#include <string.h>
 
 /* Note: libxml erroneously declares the length argument as int.  */
 static int

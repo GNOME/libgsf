@@ -1,5 +1,11 @@
 2003-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
+	* gsf/gsf-libxml.c, gsf/gsf-output-memory.c, gsf/gsf-output.c,
+	gsf/gsf-structured-blob.c, gsf/gsf-zip-utils.c: #include <string.h> for
+	strcmp(), strlen() and memcpy().
+
+2003-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
 	* configure.in: Redirect grep output to /dev/null instead of using -q
 	which Morten pointed out doesn't work on Solaris.
 
