@@ -22,28 +22,43 @@
 #include <gsf-config.h>
 #include <gsf/gsf-timestamp.h>
 #include <string.h>
+#include <time.h>
+
+static void
+timestamp_to_string (GValue const *src_value, GValue *dest_value)
+{
+	char *str = gsf_timestamp_as_string (g_value_get_boxed (src_value));
+	g_value_set_string (dest_value, str);
+	g_free (str);
+}
 
 GType
 gsf_timestamp_get_type (void)
 {
 	static GType our_type = 0;
 
-	if (our_type == 0)
+	if (our_type == 0) {
 		our_type = g_boxed_type_register_static ("GsfTimestamp",
 					(GBoxedCopyFunc)gsf_timestamp_copy,
 					(GBoxedFreeFunc)gsf_timestamp_free);
+		g_value_register_transform_func	(our_type, G_TYPE_STRING,
+			&timestamp_to_string);
+	}
 	return our_type;
 }
 
 GsfTimestamp *
 gsf_timestamp_copy (GsfTimestamp const *stamp)
 {
-	return NULL;
+	GsfTimestamp *res = g_new0 (GsfTimestamp, 1);
+	res->timet = stamp->timet;
+	return res;
 }
 
 void
 gsf_timestamp_free (GsfTimestamp *stamp)
 {
+	g_free (stamp);
 }
 
 int
@@ -55,17 +70,24 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
-	return NULL;
+	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
+	return g_strdup (ctime (&stamp->timet));
 }
 
 guint
 gsf_timestamp_hash (GsfTimestamp const *stamp)
 {
-	return 0;
+	return stamp->timet;
 }
 
 gboolean
 gsf_timestamp_equal (GsfTimestamp const *a, GsfTimestamp const *b)
 {
-	return FALSE;
+	return a->timet == b->timet;
+}
+
+void
+g_value_set_timestamp (GValue *value, GsfTimestamp const *stamp)
+{
+	g_value_set_boxed (value, stamp);
 }

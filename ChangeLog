@@ -1,3 +1,8 @@
+2002-08-31  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-timestamp.c : dummy up a quick implementation.
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : support FILETIME.
+
 2002-08-30  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : remove -Wconversion because it was pissing me off.

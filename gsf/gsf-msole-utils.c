@@ -25,11 +25,13 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-timestamp.h>
 #include <stdio.h>
 
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
@@ -196,7 +198,7 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
 			d (printf (map[i].name););
 			return map[i].name;
 		}
-	printf ("_UNKNOWN_(0x%x %d)", id, id);
+	d (printf ("_UNKNOWN_(0x%x %d)", id, id););
 
 	return NULL;
 }
@@ -220,8 +222,8 @@ msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
 		n = GSF_LE_GET_GUINT32 (*data);
 		*data += 4;
 
-		d (printf (" array with %d elem\n", n););
-		gsf_mem_dump (*data, (unsigned)(data_end - *data));
+		d (printf (" array with %d elem\n", n);
+		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
 		for (i = 0 ; i < n ; i++) {
 			d (printf ("\t[%d] ", i););
 			msole_prop_parse (type, data, data_end);
@@ -333,14 +335,29 @@ msole_prop_parse (guint32 type, guint8 const **data, guint8 const *data_end)
 		g_value_init (res, G_TYPE_STRING);
 		g_value_set_string (res, *data + 4);
 		*data += 4 + len;
+#warning TODO : use the codepage
 		break;
 
 	case VT_LPWSTR :	 d (puts ("VT_LPWSTR"););
 		g_value_init (res, G_TYPE_STRING);
+#warning TODO : map to utf8
 		break;
 
 	case VT_FILETIME :	 d (puts ("VT_FILETIME"););
+		g_return_val_if_fail (*data + 8 <= data_end, NULL);
+		g_value_init (res, GSF_TIMESTAMP_TYPE);
+	{
+		/* ft * 100ns since Jan 1 1601 */
+		guint64 ft = GSF_LE_GET_GUINT64 (*data);
+		GsfTimestamp ts;
+
+		ft /= 10000000; /* convert to seconds */
+		ft -= 11644473600; /* move to Jan 1 1970 */
+		ts.timet = (time_t)ft;
+		g_value_set_timestamp (res, &ts);
+		*data += 8;
 		break;
+	}
 	case VT_BLOB :		 d (puts ("VT_BLOB"););
 		break;
 	case VT_STREAM :	 d (puts ("VT_STREAM"););
@@ -436,6 +453,7 @@ msole_prop_read (GsfInput *in,
 
 			g_return_val_if_fail (len < 0x10000, NULL);
 
+#warning TODO : map to utf8
 			name = g_strndup (data + 8, len);
 			data += 8 + len;
 

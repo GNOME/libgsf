@@ -36,13 +36,15 @@ G_BEGIN_DECLS
 		  (((guint8 const *)(p))[1] << 8)  |	\
 		  (((guint8 const *)(p))[2] << 16) |	\
 		  (((guint8 const *)(p))[3] << 24))
+#define GSF_LE_GET_GUINT64(p) (gsf_le_get_guint64 (p))
 #define GSF_LE_GET_GINT8(p) ((gint8)GSF_LE_GET_GUINT8(p))
 #define GSF_LE_GET_GINT16(p) ((gint16)GSF_LE_GET_GUINT16(p))
 #define GSF_LE_GET_GINT32(p) ((gint32)GSF_LE_GET_GUINT32(p))
 #define GSF_LE_GET_FLOAT(p) (gsf_le_get_float (p))
 #define GSF_LE_GET_DOUBLE(p) (gsf_le_get_double (p))
-float  gsf_le_get_float  (void const *p);
-double gsf_le_get_double (void const *p);
+guint64 gsf_le_get_guint64 (void const *p);
+float   gsf_le_get_float   (void const *p);
+double  gsf_le_get_double  (void const *p);
 
 #define GSF_LE_SET_GUINT8(p, dat)			\
 	(*((guint8 *)(p))      = ((dat)        & 0xff))

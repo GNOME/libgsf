@@ -85,6 +85,41 @@ gsf_input_dump (GsfInput *input)
 	}
 }
 
+guint64
+gsf_le_get_guint64 (void const *p)
+{
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	if (sizeof (guint64) == 8) {
+		guint64 li;
+		int     i;
+		guint8 *t  = (guint8 *)&li;
+		guint8 *p2 = (guint8 *)p;
+		int     sd = sizeof (li);
+
+		for (i = 0; i < sd; i++)
+			t[i] = p2[sd - 1 - i];
+
+		return li;
+	} else {
+		g_error ("Big endian machine, but weird size of float");
+	}
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
+	if (sizeof (guint64) == 8) {
+		/*
+		 * On i86, we could access directly, but Alphas require
+		 * aligned access.
+		 */
+		guint64 data;
+		memcpy (&data, p, sizeof (data));
+		return data;
+	} else {
+		g_error ("Little endian machine, but weird size of doubles");
+	}
+#else
+#error "Byte order not recognised -- out of luck"
+#endif
+}
+
 float
 gsf_le_get_float (void const *p)
 {
