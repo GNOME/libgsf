@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-win32.h: 
+ * gsf-input-win32.c: 
  *
- * Copyright (C) 2003 Dom Lachowicz <cinamod@hotmail.com>
+ * Copyright (C) 2003-2004 Dom Lachowicz <cinamod@hotmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -45,6 +45,12 @@ hresult_to_gerror (HRESULT hr, GError ** err)
 				    "HRESULT != S_OK");
 }
 
+static char *
+lpwstr_to_utf8(LPWSTR str)
+{
+	return g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
+}
+
 /**
  * gsf_input_istream_new :
  * @stream   : IStream stream
@@ -77,6 +83,8 @@ gsf_input_istream_new (IStream * stream, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 
+	input->stream->Ref ();
+
 	name = lpwstr_to_utf8 (statbuf.pwcsName);
 
 	gsf_input_set_size (GSF_INPUT (input), (gsf_off_t) statbuf.cbSize);
@@ -93,8 +101,7 @@ gsf_input_istream_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GsfInputIStream *input = (GsfInputIStream *)obj;
 
-	if (input->stream)
-		input->stream->Release (input->stream);
+	input->stream->Release (input->stream);
 	input->stream = NULL;
 
 	if (input->buf != NULL) {
@@ -116,6 +123,9 @@ gsf_input_istream_dup (GsfInput *src_input, GError **err)
 	HRESULT hr;
 	IStream * clone;
 
+	g_return_val_if_fail(src_input != NULL, NULL);
+	g_return_val_if_fail(src->stream != NULL, NULL);
+
 	if (SUCCEEDED(hr = src->stream->Clone(src->stream, &clone))) {
 		dst = g_object_new (GSF_INPUT_ISTREAM_TYPE, NULL);
 		dst->stream = clone;
@@ -133,7 +143,7 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 {
 	GsfInputIStream *istm = GSF_INPUT_ISTREAM (input);
 	HRESULT hr;
-	ULONG nread;
+	ULONG nread, total_read = 0;
 
 	g_return_val_if_fail (istm != NULL, NULL);
 	g_return_val_if_fail (istm->stream != NULL, NULL);
@@ -148,16 +158,17 @@ gsf_input_istream_read (GsfInput *input, size_t num_bytes,
 		buffer = istm->buf;
 	}
 
-	hr = istm->stream->Read (istm->stream, buffer, (ULONG)num_bytes, &nread);
-	if (SUCCEEDED (hr)) {
-		if ((size_t) num_read == num_bytes) {
-			return buffer;
-		} else {
-			g_warning ("Only read %d bytes, asked for %d",
-				   num_read, num_bytes);
-			return NULL;
-		}	
-	}
+	while(1)
+	    {
+		    hr = istm->stream->Read (istm->stream, (buffer + total_read), (ULONG)(num_bytes - total_read), &nread);
+
+		    if (SUCCEEDED (hr)) {
+			    if ((size_t) total_read == num_bytes) {
+				    return buffer;
+			    }
+		    } else
+			    break;
+	    }
 
 	g_warning ("FAILED (hr)\n");
 	return NULL;

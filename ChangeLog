@@ -1,4 +1,9 @@
-2003-12-09: Dom Lachowicz <cinamod@hotmail.com>
+2004-01-18  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-msole-utils.c: Country code for Albania is sq_AL not al_AL
+	* gsf-win32/*.c: Some work on the IStream input and output
+	
+2003-12-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/*.c: Documentation
 	
@@ -26,7 +31,7 @@
 
 2003-10-09  Jody Goldberg <jody@gnome.org>
 
-	* libgsf-gnome-1.spec.in : An old patche from Joseph Frazee
+	* libgsf-gnome-1.spec.in : An old patch from Joseph Frazee
 
 2003-09-29  Jody Goldberg <jody@gnome.org>
 

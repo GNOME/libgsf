@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-win32.h: 
+ * gsf-output-win32.c: 
  *
- * Copyright (C) 2003 Dom Lachowicz <cinamod@hotmail.com>
+ * Copyright (C) 2003-2004 Dom Lachowicz <cinamod@hotmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -59,6 +59,7 @@ gsf_output_istream_new (IStream * stream)
 
 	output = g_object_new (GSF_OUTPUT_ISTREAM_TYPE, NULL);
 	output->stream = stream;
+	output->stream->Ref ();
 
 	return output;
 }
@@ -98,18 +99,25 @@ gsf_output_istream_write (GsfOutput *output,
 {
 	GsfOutputIStream *istm = GSF_OUTPUT_ISTREAM (output);
 	HRESULT hr;
-	ULONG nwritten;
+	ULONG nwritten, total_written = 0;
 
 	g_return_val_if_fail (istm != NULL, FALSE);
 	g_return_val_if_fail (istm->stream != NULL, FALSE);
 
-	hr = istm->stream->Write(istm->stream, buffer, (ULONG)num_bytes, &nwritten);
-	if (SUCCEEDED(hr)) {
-		return (nwritten == num_bytes);
-	} else {
-		g_warning ("Write failed\n");
-		return FALSE;
+	while(1) {
+		hr = istm->stream->Write(istm->stream, (buffer + total_written), (ULONG)(num_bytes - total_written), &nwritten);
+		
+		if (SUCCEEDED(hr)) {
+			total_written += nwritten;
+			if (total_written == num_bytes)
+				return TRUE;
+		} else {
+			g_warning ("Write failed\n");
+			return FALSE;
+		}	
 	}
+	
+	return TRUE;
 }
 
 static gboolean
@@ -118,8 +126,8 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	GsfOutputIStream *istm = GSF_OUTPUT_ISTREAM (output);
 	DWORD dwhence;
 
-	g_return_val_if_fail (istm != NULL, TRUE);
-	g_return_val_if_fail (istm->stream != NULL, TRUE);
+	g_return_val_if_fail (istm != NULL, gsf_output_set_error(output, 0, "missing handle"));
+	g_return_val_if_fail (istm->stream != NULL, gsf_output_set_error(output, 0, "missing handle"));
 	
 	switch (whence) {
 	case G_SEEK_SET :
@@ -132,10 +140,13 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 		dwhence = STREAM_SEEK_END;
 		break;
 	default:
-		return TRUE;
+		break; /* checked in parent wrapper */
 	}
 	
-	return (SUCCEEDED(istm->stream->Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)));
+	if (SUCCEEDED(istm->stream->Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
+		return TRUE;
+
+	return gsf_output_set_error(output, 0, "seek failed");
 }
 
 static void
