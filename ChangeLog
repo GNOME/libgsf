@@ -1,3 +1,12 @@
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : jump to 1.9.0 for api change.
+
+	* gsf/gsf-libxml.c :  Initialize sax handler correctly to make sure
+	  they work with libxml2 2.6.0.
+	(gsf_xml_parser_context) : take a sax handler and user data so taht we
+	  can initialize it on creation.
+
 2003-09-21  Tor Lillqvist  <tml@iki.fi>
 
 	* libgsf-zip.in: New file.

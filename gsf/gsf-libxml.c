@@ -73,7 +73,7 @@ gsf_libxml_close (void *context)
  * Returns : A parser context or NULL
  **/
 xmlParserCtxtPtr
-gsf_xml_parser_context (GsfInput *input)
+gsf_xml_parser_context (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
 {
 	GsfInputGZip *gzip;
 
@@ -86,7 +86,7 @@ gsf_xml_parser_context (GsfInput *input)
 		g_object_ref (G_OBJECT (input));
 
 	return xmlCreateIOParserCtxt (
-		NULL, NULL,
+		sax, user,
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
@@ -396,6 +396,10 @@ static xmlSAXHandler gsfXMLInParser = {
 	0, /* cdataBlock */
 	0, /* externalSubset */
 	0
+#if LIBXML_VERSION >= 20600
+	,
+	NULL, NULL, NULL
+#endif
 };
 
 /**
@@ -536,15 +540,12 @@ gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
 	g_return_val_if_fail (state != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
-	ctxt = gsf_xml_parser_context (input);
+	ctxt = gsf_xml_parser_context (input, &gsfXMLInParser, state);
 
 	g_return_val_if_fail (ctxt != NULL, FALSE);
 
-	ctxt->userData = state;
 	state->content = g_string_sized_new (128);
-	ctxt->sax = &gsfXMLInParser;
 	xmlParseDocument (ctxt);
-	ctxt->sax = NULL;
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);
 

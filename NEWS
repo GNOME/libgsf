@@ -1,3 +1,12 @@
+libgsf 1.9.0
+
+Jody:
+	* minor api change to handle upcoming libxml2 2.6.0
+
+Tor Lillqvist:
+	* packaging tools for win32.
+	*
+------------------------------------------------------------------------------
 libgsf 1.8.2
 
 Jody:

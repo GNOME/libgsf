@@ -30,7 +30,8 @@ G_BEGIN_DECLS
 
 /****************************************************************************/
 /* GSF wrappers for libxml2 */
-xmlParserCtxt *gsf_xml_parser_context (GsfInput   *input);
+xmlParserCtxt *gsf_xml_parser_context (GsfInput   *input,
+				       xmlSAXHandlerPtr sax, gpointer user);
 int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
 				       xmlDoc	  *cur,
 				       char const *encoding,
