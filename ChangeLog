@@ -1,3 +1,8 @@
+2002-06-26  Jon K Hellan  <hellan@acm.org>
+
+	* gsf/gsf-input-bonobo.c: Include bonobo-persist-stream.h
+	(gsf_input_bonobo_read): Silence warning.
+
 2002-06-25  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: New flag --with-bonobo

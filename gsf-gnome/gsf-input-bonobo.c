@@ -23,6 +23,7 @@
 #include <gsf/gsf-input-bonobo.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
+#include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-exception.h>
 
 /* FIXME: Should make CORBA environment available to caller somehow. */
@@ -172,7 +173,7 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 	if ((size_t) num_read == num_bytes) {
 		return buffer;
 	} else {
-		g_warning ("Only read %ld bytes, asked for %ld",
+		g_warning ("Only read %d bytes, asked for %d",
 			   num_read, num_bytes);
 		return NULL;
 	}
