@@ -47,7 +47,12 @@ gsf_libxml_close_read (void * context)
  * gsf_xml_parser_context :
  * @source :
  *
+ * Create a libxml2 pull style parser context wrapper around a gsf input.
+ * This signature will probably change to supply a SAX structure.
+ *
  * NOTE : adds a reference to @source
+ *
+ * Returns : A parser context or NULL
  **/
 xmlParserCtxtPtr
 gsf_xml_parser_context (GsfInput *source)

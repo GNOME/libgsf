@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-gsf-outfile
+gsf-input-gzip
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -16,22 +16,14 @@ gsf-outfile
 </para>
 
 
-<!-- ##### MACRO GSF_OUTFILE_TYPE ##### -->
+<!-- ##### MACRO GSF_INPUT_GZIP_TYPE ##### -->
 <para>
 
 </para>
 
 
 
-<!-- ##### MACRO GSF_OUTFILE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GSF_OUTFILE ##### -->
+<!-- ##### MACRO GSF_INPUT_GZIP ##### -->
 <para>
 
 </para>
@@ -39,7 +31,21 @@ gsf-outfile
 @o: 
 
 
-<!-- ##### FUNCTION gsf_outfile_get_type ##### -->
+<!-- ##### MACRO IS_GSF_INPUT_GZIP ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputGZip ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_gzip_get_type ##### -->
 <para>
 
 </para>
@@ -47,21 +53,13 @@ gsf-outfile
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_outfile_add_child ##### -->
+<!-- ##### FUNCTION gsf_input_gzip_new ##### -->
 <para>
 
 </para>
 
-@outfile: 
-@name: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_outfile_error ##### -->
-<para>
-
-</para>
-
+@source: 
+@err: 
 @Returns: 
 
 

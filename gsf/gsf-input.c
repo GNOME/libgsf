@@ -209,7 +209,7 @@ gsf_input_tell (GsfInput *input)
  * gsf_input_seek :
  * @input :
  * @offset :
- * @whence
+ * @whence :
  *
  * Returns TRUE on error.
  **/
@@ -237,10 +237,12 @@ gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
 /**
  * gsf_input_set_name :
- * @inpue :
+ * @input :
  * @name :
  *
  * protected.
+ *
+ * Returns : TRUE if the assignment was ok.
  **/
 gboolean
 gsf_input_set_name (GsfInput *input, char const *name)
@@ -261,6 +263,7 @@ gsf_input_set_name (GsfInput *input, char const *name)
  * @input :
  * @container :
  *
+ * Returns : TRUE if the assignment was ok.
  */
 gboolean
 gsf_input_set_container (GsfInput *input, GsfInfile *container)
@@ -275,6 +278,13 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 	return TRUE;
 }
 
+/**
+ * gsf_input_set_size :
+ * @input :
+ * @size :
+ *
+ * Returns : TRUE if the assignment was ok.
+ */
 gboolean
 gsf_input_set_size (GsfInput *input, size_t size)
 {
@@ -286,6 +296,11 @@ gsf_input_set_size (GsfInput *input, size_t size)
 
 /****************************************************************************/
 
+/**
+ * gsf_input_error :
+ *
+ * Returns : A utility quark to flag a GError as being an input problem.
+ */
 GQuark 
 gsf_input_error (void)
 {

@@ -59,7 +59,7 @@ typedef enum {
 	GSF_MSOLE_PROP_CHARCOUNT	= 0x40010,
 	GSF_MSOLE_PROP_THUMBNAIL	= 0x50011,
 	GSF_MSOLE_PROP_APPNAME		= 0x10012,
-	GSF_MSOLE_PROP_SECURITY		= 0x40013,
+	GSF_MSOLE_PROP_SECURITY		= 0x40013
 } GsfMSOleProperty;
 
 /* Do this the ugly way so that we don't have to worry about alignment */

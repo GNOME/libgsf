@@ -225,7 +225,11 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 
 /**
  * gsf_ole_get_guint32s :
- * copy some some raw data into an array of guint32.
+ * @dst :
+ * @src :
+ * @num_bytes :
+ *
+ * Copy some some raw data into an array of guint32.
  **/
 static void
 gsf_ole_get_guint32s (guint32 *dst, guint8 const *src, int num_bytes)
@@ -831,7 +835,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
  * Opens the root directory of an MS OLE file.
  * NOTE : adds a reference to @source
  *
- * Return value : the new ole file handler
+ * Returns : the new ole file handler
  **/
 GsfInfile *
 gsf_infile_msole_new (GsfInput *source, GError **err)

@@ -1,0 +1,55 @@
+<!-- ##### SECTION Title ##### -->
+gsf-impl-utils
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_CLASS_FULL ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@class_init: 
+@instance_init: 
+@parent_type: 
+@abstract: 
+
+
+<!-- ##### MACRO GSF_CLASS ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@class_init: 
+@instance_init: 
+@parent_type: 
+
+
+<!-- ##### MACRO GSF_CLASS_ABSTRACT ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@class_init: 
+@instance_init: 
+@parent_type: 
+
+

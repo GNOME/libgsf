@@ -301,7 +301,7 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
  * Opens the root directory of a Zip file.
  * NOTE : adds a reference to @source
  *
- * Return value : the new zip file handler
+ * Returns : the new zip file handler
  **/
 GsfInfile *
 gsf_infile_zip_new (GsfInput *source, GError **err)

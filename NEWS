@@ -8,6 +8,7 @@ Jody:
 	* Read gzip
 	* Read textlines
 	* stdio wrapper
+	* some test programs to dump ole streams and file structure
 
 Morten:
 	* mmap/buffer wrapper

@@ -1,0 +1,82 @@
+<!-- ##### SECTION Title ##### -->
+gsf-input-textline
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INPUT_TEXTLINE_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_INPUT_TEXTLINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT_TEXTLINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfInputTextline ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_textline_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_textline_new ##### -->
+<para>
+
+</para>
+
+@source: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_textline_ascii_gets ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_textline_utf8_gets ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+

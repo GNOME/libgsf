@@ -1,0 +1,81 @@
+<!-- ##### SECTION Title ##### -->
+gsf-shared-memory
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_SHARED_MEMORY_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_SHARED_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GSF_SHARED_MEMORY ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### STRUCT GsfSharedMemory ##### -->
+<para>
+
+</para>
+
+@g_object: 
+@buf: 
+@size: 
+@needs_free: 
+@needs_unmap: 
+
+<!-- ##### FUNCTION gsf_shared_memory_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_shared_memory_new ##### -->
+<para>
+
+</para>
+
+@buf: 
+@size: 
+@needs_free: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_shared_memory_mmapped_new ##### -->
+<para>
+
+</para>
+
+@buf: 
+@size: 
+@Returns: 
+
+

@@ -12,7 +12,7 @@ DOC_MAIN_SGML_FILE=gsf-docs.sgml
 DOC_SOURCE_DIR=../gsf
 
 # Extra options to pass to gtkdoc-scangobj
-SCANGOBJ_OPTIONS=--type-init-func="gtk_type_init(0)" 
+SCANGOBJ_OPTIONS=--type-init-func="g_type_init ()" 
 
 # Extra options to supply to gtkdoc-scan
 SCAN_OPTIONS=
@@ -29,8 +29,7 @@ CFILE_GLOB=$(top_srcdir)/gsf/*.c
 
 # Header files to ignore when scanning
 IGNORE_HFILES=			\
-	biff-types.h 		\
-	gsf.h 
+	biff-types.h
 
 # Images to copy into HTML directory
 HTML_IMAGES =

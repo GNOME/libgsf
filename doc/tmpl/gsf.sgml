@@ -1,0 +1,61 @@
+<!-- ##### SECTION Title ##### -->
+gsf
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GsfInput ##### -->
+<para>
+
+</para>
+
+@g_object: 
+@size: 
+@cur_offset: 
+@name: 
+@container: 
+
+<!-- ##### STRUCT GsfInfile ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### STRUCT GsfOutput ##### -->
+<para>
+
+</para>
+
+@g_object: 
+@cur_offset: 
+@name: 
+@container: 
+
+<!-- ##### STRUCT GsfOutfile ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM GsfOff_t ##### -->
+<para>
+
+</para>
+
+@GSF_SEEK_SET: 
+@GSF_SEEK_CUR: 
+@GSF_SEEK_END: 
+

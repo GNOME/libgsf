@@ -43,7 +43,6 @@ typedef struct {
 /**
  * gsf_input_textline_new :
  * @source : in some combination of ascii and utf8
- * @err	   : optionally NULL.
  *
  * NOTE : adds a reference to @source
  *

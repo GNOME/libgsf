@@ -1,0 +1,64 @@
+<!-- ##### SECTION Title ##### -->
+GsfInput
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO IS_GSF_INPUT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### FUNCTION gsf_input_set_name ##### -->
+<para>
+
+</para>
+
+@input: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_container ##### -->
+<para>
+
+</para>
+
+@input: 
+@container: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_size ##### -->
+<para>
+
+</para>
+
+@input: 
+@size: 
+@Returns: 
+
+

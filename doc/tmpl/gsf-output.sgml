@@ -9,10 +9,12 @@ gsf-output
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### MACRO GSF_OUTPUT_TYPE ##### -->
 <para>
@@ -42,6 +44,46 @@ gsf-output
 
 </para>
 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_close ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_tell ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_seek ##### -->
+<para>
+
+</para>
+
+@output: 
+@offset: 
+@whence: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_write ##### -->
+<para>
+
+</para>
+
+@output: 
+@data: 
+@num_bytes: 
 @Returns: 
 
 

@@ -9,10 +9,12 @@ gsf-infile-zip
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### STRUCT GsfInfileZip ##### -->
 <para>
@@ -56,7 +58,7 @@ gsf-infile-zip
 
 </para>
 
-@input: 
+@source: 
 @err: 
 @Returns: 
 

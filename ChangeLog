@@ -1,5 +1,10 @@
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
+	* doc/Makefile.am : fix the type init function for gtk-doc.
+	* gsf/* : fix docs a bit.
+
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-utils.c (gsf_input_dump) : new utility split out of.
 	* gsf/test-gzip1.c (test) : here.
 
