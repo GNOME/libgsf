@@ -40,7 +40,6 @@ libgsf_1_la_SOURCES =		\
 	gsf-infile.c 		\
 	gsf-infile-stdio.c	\
 	gsf-infile-msole.c 	\
-	gsf-infile-msvba.c 	\
 	gsf-infile-zip.c	\
 	\
 	gsf-output.c 		\
@@ -85,7 +84,6 @@ libgsf_1_include_HEADERS = 	\
 	gsf-infile-impl.h 	\
 	gsf-infile-stdio.h	\
 	gsf-infile-msole.h 	\
-	gsf-infile-msvba.h 	\
 	gsf-infile-zip.h	\
 	\
 	gsf-output.h		\

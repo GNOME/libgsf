@@ -8,6 +8,7 @@ James Cape :
 
 Jody :
 	* Support DOCTYPE in the simplified xml generator
+	* More gtk-doc cleanup
 
 Morten, Dom:
 	* Avoid polluting global name space with symbols lacking gsf_ prefix.

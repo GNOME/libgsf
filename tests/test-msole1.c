@@ -125,9 +125,9 @@ dump_biff_stream (GsfInput *stream)
 		}
 
 		if (enable_dump)
-			printf ("Opcode 0x%3hx : %15s, length 0x%hx (=%hd) @ pos = 0x%x (=%d)\n",
+			printf ("Opcode 0x%3hx : %15s, length 0x%hx (=%hd)\n",
 				opcode, get_biff_opcode_name (opcode),
-				len, len, pos, pos);
+				len, len);
 
 		if (len > 0) {
 			data = gsf_input_read (stream, len, NULL);
@@ -212,6 +212,7 @@ test (unsigned argc, char *argv[])
 		for (j = 0 ; j < G_N_ELEMENTS (stream_names) ; j++) {
 			stream = gsf_infile_child_by_name (infile, stream_names[j]);
 			if (stream != NULL) {
+				puts (j < 3 ? "Excel97" : "Excel95");
 				dump_biff_stream (stream);
 				g_object_unref (G_OBJECT (stream));
 				break;
