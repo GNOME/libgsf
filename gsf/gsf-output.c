@@ -345,8 +345,8 @@ gsf_output_error (GsfOutput const *output)
  * @output :
  * @name :
  *
- * <protected> This is a utility routine that should only be used by derived
- * outputs.</protected>
+ * <note>This is a utility routine that should only be used by derived
+ * outputs.</note>
  *
  * Returns : TRUE if the assignment was ok.
  **/
@@ -369,8 +369,8 @@ gsf_output_set_name (GsfOutput *output, char const *name)
  * @output :
  * @container :
  *
- * <protected> This is a utility routine that should only be used by derived
- * outputs.</protected>
+ * <note>This is a utility routine that should only be used by derived
+ * outputs.</note>
  *
  * Returns : TRUE if the assignment was ok.
  **/
@@ -394,8 +394,8 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
  * @format :
  * @Varargs :
  *
- * <protected> This is a utility routine that should only be used by derived
- * outputs.</protected>
+ * <note>This is a utility routine that should only be used by derived
+ * outputs.</note>
  *
  * Returns Always returns FALSE to facilitate its use.
  **/

@@ -20,20 +20,19 @@ gsf_input_sibling
 <SUBSECTION Convenience>
 gsf_input_copy
 gsf_input_uncompress
-<SUBSECTION Standard>
-GSF_INPUT_TYPE
-GSF_INPUT
-GSF_IS_INPUT
-gsf_input_get_type
 <SUBSECTION Implementation>
 gsf_input_set_name
 gsf_input_set_container
 gsf_input_set_size
 gsf_input_seek_emulate
-<SUBSECTION StandardImplementation>
+<SUBSECTION Standard>
+GSF_INPUT_TYPE
+GSF_INPUT
+GSF_IS_INPUT
 GSF_INPUT_CLASS
 GSF_IS_INPUT_CLASS
 GsfInputClass
+gsf_input_get_type
 </SECTION>
 
 <SECTION>
@@ -63,11 +62,10 @@ gsf_output_set_container
 GSF_OUTPUT_TYPE
 GSF_OUTPUT
 GSF_IS_OUTPUT
-gsf_output_get_type
-<SUBSECTION StandardImplementation>
 GSF_OUTPUT_CLASS
 GSF_IS_OUTPUT_CLASS
 GsfOutfileClass
+gsf_output_get_type
 </SECTION>
 
 <SECTION>
@@ -82,11 +80,10 @@ gsf_infile_child_by_vname
 GSF_INFILE_TYPE
 GSF_INFILE
 GSF_IS_INFILE
-gsf_infile_get_type
-<SUBSECTION StandardImplementation>
 GSF_INFILE_CLASS
 GSF_IS_INFILE_CLASS
 GsfInfileClass
+gsf_infile_get_type
 </SECTION>
 
 <SECTION>
@@ -99,11 +96,10 @@ gsf_outfile_error
 GSF_OUTFILE_TYPE
 GSF_OUTFILE
 GSF_IS_OUTFILE
-gsf_outfile_get_type
-<SUBSECTION StandardImplementation>
 GSF_OUTFILE_CLASS
 GSF_IS_OUTFILE_CLASS
 GsfOutputClass
+gsf_outfile_get_type
 </SECTION>
 
 <SECTION>

@@ -1,3 +1,8 @@
+2004-05-07  James M. Cape <jcape@ignore-your.tv>
+
+	* doc/gsf-sections.txt: Hide type macros.
+	* gsf/gsf-output.c: s/<protected>/<note>/.
+
 2004-05-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=141899
