@@ -1266,6 +1266,7 @@ GIConv
 gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 {
 	GIConv iconv_handle;
+	const char *from;
 
 	g_return_val_if_fail (to != NULL, (GIConv)(-1));
 
@@ -1279,12 +1280,12 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, guint codepage)
 		return (GIConv)(-1);
 	}
 
-	iconv_handle = g_iconv_open (to,
-		(codepage == 1200) ? "UTF-16LE" : "UTF-16BE");
+	from = (codepage == 1200) ? "UTF-16LE" : "UTF-16BE";
+	iconv_handle = g_iconv_open (to, from);
 	if (iconv_handle != (GIConv)(-1))
 		return iconv_handle;
 	g_warning ("Unable to open an iconv handle from %s -> %s",
-		   (codepage == 1200) ? "UTF-16LE" : "UTF-16BE", to);
+		   from, to);
 	return (GIConv)(-1);
 }
 
