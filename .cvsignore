@@ -17,6 +17,10 @@ gsf-config.h
 gsf-config
 libgsf-1.spec
 libgsf-1.pc
+depcomp
+install-sh
+missing
+mkinstalldirs
 build
 build-stamp
 config-stamp
