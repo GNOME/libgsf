@@ -454,7 +454,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 	/* Some sanity checks
 	 * 1) There should always be at least 1 BAT block
-	 * 2) It makes no sense to have a black larger than 2^31 for now.
+	 * 2) It makes no sense to have a block larger than 2^31 for now.
 	 *    Maybe relax this later, but not much.
 	 */
 	if (6 > bb_shift || bb_shift >= 31 || sb_shift > bb_shift) {

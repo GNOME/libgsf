@@ -1,3 +1,8 @@
+2002-07-15  Morten Welinder  <terra@diku.dk>
+
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Plug file
+	descriptor leaks.
+
 2002-07-09  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-input.c (gsf_input_dup) : avoid leak if derived dup has

@@ -152,6 +152,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: %s", filename, g_strerror (errno));
+		if (fd >= 0) close (fd);
 		return NULL;
 	}
 
@@ -159,6 +160,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: Is not a regular file", filename);
+		close (fd);
 		return NULL;
 	}
 	
