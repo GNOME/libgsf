@@ -36,24 +36,12 @@
 #include <sys/stat.h>
 
 #ifdef G_OS_WIN32
-
 #include <wchar.h>
 #include <direct.h>
 #include <glib/gwin32.h>
-
-#ifndef S_IRUSR
-#define S_IRUSR 04
-#define S_IWUSR 02
-typedef int mode_t;
-#endif
-
-#define S_IRGRP S_IRUSR
-#define S_IROTH S_IRUSR
-
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
-
 #endif /* G_OS_WIN32 */
 
 #ifndef W_OK
@@ -167,9 +155,16 @@ follow_symlinks (char const *filename, GError **error)
 		return followed_filename;
 
 	/* Too many symlinks */
-	if (error != NULL)
-		*error = g_error_new_literal (gsf_output_error_id (), ELOOP,
-					      g_strerror (ELOOP));
+	if (error != NULL) {
+#ifdef ELOOP
+		int err = ELOOP;
+#else
+		/* We have links, but not ELOOP.  Very strange.  */
+		int err = EINVAL;
+#endif
+		*error = g_error_new_literal (gsf_output_error_id (), err,
+					      g_strerror (err));
+	}
 	g_free (followed_filename);
 	return NULL;
 }
@@ -190,7 +185,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	char *temp_filename = NULL;
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
-	mode_t saved_umask;
+	unsigned int saved_umask;
 	struct stat st;
 	gboolean fixup_mode = FALSE;
 

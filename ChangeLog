@@ -1,5 +1,7 @@
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-stdio.c (follow_symlinks): Handle lack of ELOOP.
+
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): g_open has a
 	mandatory mode arg that open does not.
 
