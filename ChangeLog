@@ -1,3 +1,7 @@
+2002-06-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile.c (gsf_infile_child_by_name) : typo.
+
 2002-06-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/test-msole1.c (read_types): Casts to suppress signedness

@@ -120,7 +120,7 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 
 		infile = tmp = GSF_INFILE (child);
 	}
-	va_end (args);
+	va_end (ap);
 
 	return child;
 }
