@@ -31,6 +31,7 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-input.c		\
 	gsf-input-memory.c 	\
+	gsf-input-proxy.c 	\
 	gsf-input-stdio.c 	\
 	gsf-input-textline.c 	\
 	gsf-input-gzip.c 	\
@@ -72,8 +73,9 @@ libgsf_1_include_HEADERS = 	\
 	gsf-timestamp.h		\
 	\
 	gsf-input.h		\
-	gsf-input-impl.h		\
+	gsf-input-impl.h	\
 	gsf-input-memory.h 	\
+	gsf-input-proxy.h 	\
 	gsf-input-stdio.h 	\
 	gsf-input-textline.h 	\
 	gsf-input-gzip.h 	\

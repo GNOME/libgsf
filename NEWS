@@ -11,6 +11,7 @@ Morten:
 	* Fix a pile of crashes having to do with failed dups.
 	* Fix crashes having to do with NULL input->name.
 	* Work around gnome-vfs bug #152844.
+	* Create input proxy object.
 
 ------------------------------------------------------------------------------
 libgsf 1.10.1
