@@ -920,6 +920,15 @@ gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
 				gsf_output_write (xml->output, cur-start, start);
 			start = ++cur;
 			gsf_output_write (xml->output, 6, "&quot;");
+		} else if (*cur < 0x20 && id != NULL) {
+			guint8 buf[8];
+			sprintf (buf, "&#%d;", *cur);
+
+			if (cur != start)
+				gsf_output_write (xml->output, cur-start, start);
+			start = ++cur;
+
+			gsf_output_write (xml->output, strlen (buf), buf);
 		} else if (((*cur >= 0x20) && (*cur != 0x7f)) ||
 			   (*cur == '\n') || (*cur == '\r') || (*cur == '\t')) {
 			cur++;

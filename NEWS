@@ -26,6 +26,7 @@ Morten:
 	  like crazy.  (Dup-ing is expensive for network connections and
 	  slightly expensive for disk files.)
 	* Doc fixes.
+	* Escape characters 1..31 when used in xml attributes.  [#157850]
 
 ------------------------------------------------------------------------------
 libgsf 1.10.1
