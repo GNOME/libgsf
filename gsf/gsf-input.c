@@ -312,7 +312,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	gsf_off_t pos = offset;
 
-	g_return_val_if_fail (input != NULL, -1);
+	g_return_val_if_fail (input != NULL, TRUE);
 
 	switch (whence) {
 	case G_SEEK_SET : break;

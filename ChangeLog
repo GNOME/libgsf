@@ -1,5 +1,11 @@
 2003-03-05  Morten Welinder  <terra@diku.dk>
 
+	* gsf/gsf-input-memory.c (gsf_input_memory_seek): Fix return type.
+
+	* gsf/gsf-input.c (gsf_input_seek): Fix failure return.
+
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
 	* gsf/gsf-infile.c (gsf_infile_num_children): Fix failure return
 	value.
 	(gsf_infile_name_by_index): Ditto.

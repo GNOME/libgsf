@@ -102,7 +102,7 @@ gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffe
 		return src + input->cur_offset;
 }
 
-static int
+static gboolean
 gsf_input_memory_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	(void)input;
