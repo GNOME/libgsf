@@ -1,5 +1,9 @@
 2002-08-05  Jody Goldberg <jody@gnome.org>
 
+	* tests/test-msole1.c (test) : why did I add that limitation ?
+
+2002-08-05  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-output.c (gsf_output_is_closed) : forgot to implement.
 
 2002-08-02  Jody Goldberg <jody@gnome.org>

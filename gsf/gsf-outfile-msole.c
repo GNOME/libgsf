@@ -400,6 +400,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 		g_ptr_array_free (elem, TRUE);
 		ole->content.dir.root_order = NULL;
 
+		return gsf_output_close (ole->sink);
 	} else if (ole->type == MSOLE_BIG_BLOCK) {
 		gsf_outfile_msole_seek (output, 0, GSF_SEEK_END);
 		bb_pad_zero (ole->sink);
