@@ -557,7 +557,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 			}
 			last = num_bat;
 		} else if (num_metabat > 0) {
-			metabat_block = GSF_LE_GET_GUINT32 (metabat + last);
+			metabat_block = metabat[last];
 			num_bat -= last;
 		}
 

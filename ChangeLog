@@ -1,3 +1,12 @@
+2003-10-29  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : The anal check should
+	  take the prevailing char width also as noted by Xavier Roche.
+
+	* gsf/gsf-infile-msole.c (ole_init_info) : Doh!  do not double convert
+	  to native endianness.  Fixes error reading files > 13.6 Meg on sparc
+	  and alpha as noted by Xavier Roche.
+
 2003-10-21  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c : Make the codepage arguments int to allow

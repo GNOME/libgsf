@@ -359,7 +359,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		len = GSF_LE_GET_GUINT32 (*data);
 
-		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
+		g_return_val_if_fail (len < 0x10000, NULL);
+		g_return_val_if_fail (*data + 4 + len*section->char_size <= data_end, NULL);
 
 		gslen = 0;
 		str = g_convert_with_iconv (*data + 4,
@@ -379,6 +380,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		len = GSF_LE_GET_GUINT32 (*data);
 
+		g_return_val_if_fail (len < 0x10000, NULL);
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
 
 		str = g_convert (*data + 4, len*2,

@@ -3,6 +3,8 @@ libgsf 1.8.3
 Jody Goldberg:
 	* If the file is not an OLE2 file do not change the filepos.
 	* Handle broken ole files that specify codepage as signed short
+	* Fix reading ole files > 13.6 Meg on sparc/alpha (from Xavier Roche)
+	* Tune validation test for LPSTR properties to handle char width > 1
 
 Joseph Frazee:
 	* patch the spec file.
