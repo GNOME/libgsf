@@ -1,3 +1,7 @@
+2002-09-14  Jon K Hellan  <hellan@acm.org>
+
+	* tests/Makefile.am: Add test-cp-zip.c
+
 2002-09-13  Jon K Hellan  <hellan@acm.org>
 
 	* tests/test-cp-zip.c: Add a test program for zip export.
