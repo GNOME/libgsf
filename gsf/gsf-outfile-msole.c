@@ -165,11 +165,9 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 /* static objects are zero-initialized as per C/C++ standards */
 static guint8 const zero_buf [ZERO_PAD_BUF_SIZE];
 
-/**
- * Calculate the block of the current offset in the file.  A useful idiom is to
+/* Calculate the block of the current offset in the file.  A useful idiom is to
  * pad_zero to move to the start of the next block, then get the block number.
- * This avoid fence post type problems with partial blocks.
- **/
+ * This avoid fence post type problems with partial blocks. */
 static inline guint32
 ole_cur_block (GsfOutfileMSOle const *ole)
 {
@@ -193,10 +191,8 @@ ole_pad_zero (GsfOutfileMSOle *ole)
 		gsf_output_write (ole->sink, len, zero_buf);
 }
 
-/**
- * Utility routine to generate a BAT for a file known to be sequential
- * and continuous.
- **/
+/* Utility routine to generate a BAT for a file known to be sequential and
+ * continuous. */
 static void
 ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
