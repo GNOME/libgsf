@@ -128,7 +128,6 @@ gsf_output_gzip_new (GsfOutput *sink, GError **err)
 	if (con_err) {
 		if (err)
 			*err = g_error_copy (con_err);
-		gsf_output_close (output);
 		g_object_unref (output);
 		return NULL;
 	}
@@ -241,18 +240,20 @@ gsf_output_gzip_seek (G_GNUC_UNUSED GsfOutput *output,
 static gboolean
 gsf_output_gzip_close (GsfOutput *output)
 {
-	GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
+	if (!gsf_output_error (output)) {
+		GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
 
-	if (!gzip_flush (gzip))
-		return FALSE;
-
-	if (gzip->container) {
-		guint8 buf[8];
-
-		GSF_LE_SET_GUINT32 (buf,     gzip->crc);
-		GSF_LE_SET_GUINT32 (buf + 4, gzip->isize);
-		if (!gsf_output_write (gzip->sink, 8, buf))
+		if (!gzip_flush (gzip))
 			return FALSE;
+
+		if (gzip->container) {
+			guint8 buf[8];
+
+			GSF_LE_SET_GUINT32 (buf,     gzip->crc);
+			GSF_LE_SET_GUINT32 (buf + 4, gzip->isize);
+			if (!gsf_output_write (gzip->sink, 8, buf))
+				return FALSE;
+		}
 	}
 
 	return TRUE;
@@ -298,6 +299,16 @@ gsf_output_gzip_get_property (GObject     *object,
 }
 
 static void
+gsf_output_gzip_set_sink (GsfOutputGZip *gzip, GsfOutput *sink)
+{
+	if (sink)
+		g_object_ref (GSF_OUTPUT (sink));
+	if (gzip->sink)
+		g_object_unref (gzip->sink);
+	gzip->sink = sink;
+}
+
+static void
 gsf_output_gzip_set_property (GObject      *object,
 			      guint         property_id,
 	       G_GNUC_UNUSED  GValue const *value,
@@ -310,8 +321,7 @@ gsf_output_gzip_set_property (GObject      *object,
 		gzip->container = g_value_get_boolean (value);
 		break;
 	case PROP_SINK:
-		gzip->sink = g_value_get_object (value);
-		g_object_ref (gzip->sink);
+		gsf_output_gzip_set_sink (gzip, g_value_get_object (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

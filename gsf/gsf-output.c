@@ -79,30 +79,29 @@ gsf_output_get_property (GObject     *object,
 }
 
 static void
-gsf_output_finalize (GObject *obj)
+gsf_output_dispose (GObject *obj)
 {
-	GsfOutput *output;
+	GsfOutput *output = GSF_OUTPUT (obj);
 
-	output = GSF_OUTPUT (obj);
-
-	/* it is too late to close things, we are partially destroyed.
-	 * Keep this as a warning for silly mistakes
-	 */
-	if (!output->is_closed)
-		g_warning ("unrefing an unclosed stream");
+	if (!output->is_closed) {
+		if (output->err == NULL)
+			g_warning ("disposing of an unclosed stream");
+		gsf_output_close (output);
+	}
 
 	g_free (output->name);
 	output->name = NULL;
 	g_free (output->printf_buf);
 	output->printf_buf = NULL;
 
+	g_clear_error (&output->err);
+
 	if (output->container != NULL) {
 		g_object_unref (G_OBJECT (output->container));
 		output->container = NULL;
 	}
-	g_clear_error (&output->err);
 
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void
@@ -126,7 +125,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
 
-	gobject_class->finalize     = gsf_output_finalize;
+	gobject_class->dispose      = gsf_output_dispose;
 	gobject_class->set_property = gsf_output_set_property;
 	gobject_class->get_property = gsf_output_get_property;
 	output_class->Vprintf       = gsf_output_real_vprintf;

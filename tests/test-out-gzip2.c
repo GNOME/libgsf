@@ -52,7 +52,6 @@ test (int argc, char *argv[])
 			      NULL);
 	if (gsf_output_error (gzout)) {
 		g_warning ("'%s' error: %s", "gzip output", gsf_output_error (gzout)->message);
-		gsf_output_close (gzout);
 		g_object_unref (gzout);
 		return 1;
 	}

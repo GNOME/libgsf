@@ -1,5 +1,20 @@
 2005-03-25  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_set_property): Handle
+	NULL sink better.
+	(gsf_output_gzip_new): Don't bother closing the output on error.
+
+	* gsf/gsf-output.c (gsf_output_dispose): Renamed from _finalize.
+	Don't complain when a stream with an error is not closed -- just
+	silently close it.
+	(gsf_output_class_init): Hook up for _dispose instead of
+	_finalize.
+
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_close): Do nothing for a
+	stream with an error.
+
+2005-03-25  Morten Welinder  <terra@gnome.org>
+
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_class_init): Install
 	set_property, get_property, and constructor methods.
 	(gsf_output_gzip_constructor): Allow skipping the gzip header.
