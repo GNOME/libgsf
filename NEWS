@@ -8,6 +8,14 @@ Ivan:
 
 Morten:
 	* Attempt to get non-ASCII filenames right on Win32.  [#171145]
+	* Add "raw" properties to GsfInputGzip and GsfOutputGzip to
+	  allow header/trailer-less files.  Also allow g_object_new
+	  construction of these classes.
+	* Add "uncompressed_size" property to GsfInputGzip allowing to
+	  decompress files larger than 4GB.
+	* Propagate errors from GsfOutputGzip's sink to itself.
+	* Fix GsfOutputStdio to avoid killing the target file when we
+	  get an error.
 
 ------------------------------------------------------------------------------
 libgsf 1.11.1
