@@ -1,5 +1,10 @@
 2003-05-13  Dom Lachowicz <cinamod@hotmail.com>
 
+	* COPYING.LIB: update the the version of the LGPL license we're 
+	actually licensed under
+	
+2003-05-13  Dom Lachowicz <cinamod@hotmail.com>
+
 	* libgsf-1.spec.in: Updates from Rui
 	
 2003-05-12  Morten Welinder  <terra@gnome.org>
