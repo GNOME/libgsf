@@ -156,7 +156,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
 	/* Get the directory in which the real filename lives */
 	dirname = g_path_get_dirname (real_filename);
 
-	if (f_stat (real_filename, &st) == 0) {
+	if (g_stat (real_filename, &st) == 0) {
 		/* FIXME: use eaccess if available.  */
 		/* FIXME? Race conditions en masse.  */
 #warning "we need f_access in gstdio.h for this"
@@ -295,7 +295,7 @@ gsf_output_stdio_close (GsfOutput *output)
 	if (!res) {
 		gsf_output_set_error (output, errno,
 				      "Failed to close temporary file.");
-		f_unlink (stdio->temp_filename);
+		g_unlink (stdio->temp_filename);
 		return FALSE;
 	}
 
@@ -311,7 +311,7 @@ gsf_output_stdio_close (GsfOutput *output)
 					      utf8name);
 			g_free (utf8name);
 			g_free (backup_filename);
-			f_unlink (stdio->temp_filename);
+			g_unlink (stdio->temp_filename);
 			return FALSE;
 		}
 	}
