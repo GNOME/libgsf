@@ -823,21 +823,24 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 
 /**
  * gsf_infile_msole_new :
- * @input :
+ * @source :
  * @err   :
  *
  * Opens the root directory of an MS OLE file.
- * NOTE : Absorbs a reference to the input
+ * NOTE : adds a reference to @source
  *
  * Return value : the new ole file handler
  **/
 GsfInfile *
-gsf_infile_msole_new (GsfInput *input, GError **err)
+gsf_infile_msole_new (GsfInput *source, GError **err)
 {
 	GsfInfileMSOle *ole;
 
+	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+
 	ole = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	ole->input = input; /* absorb reference */
+	g_object_ref (G_OBJECT (source));
+	ole->input = source;
 	gsf_input_set_size (GSF_INPUT (ole), 0);
 
 	if (ole_init_info (ole, err)) {

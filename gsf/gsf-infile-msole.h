@@ -75,7 +75,7 @@ typedef enum {
 
 GType gsf_infile_msole_get_type (void);
 
-GsfInfile *gsf_infile_msole_new (GsfInput *input, GError **err);
+GsfInfile *gsf_infile_msole_new (GsfInput *source, GError **err);
 
 G_END_DECLS
 

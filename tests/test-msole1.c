@@ -111,45 +111,14 @@ test (int argc, char *argv[])
 	gboolean use_memory = FALSE;
 
 	for (i = 1 ; i < argc ; i++) {
-		if (strcmp (argv[i], "--memory") == 0) {
-			use_memory = TRUE;
-			continue;
-		}
-
 		fprintf( stderr, "%s\n",argv[i]);
 
-		if (use_memory) {
-			size_t size;
-			void *infile_data;
-			const void *src;
-
-			/* Use gsf to read file into memory, :-)  */
-			GsfInput *tmpinput = gsf_input_stdio_new (argv[i], &err);
-			if (tmpinput == NULL) {
-				g_return_val_if_fail (err != NULL, 1);
-				g_warning ("'%s' error: %s\n", argv[i], err->message);
-				g_error_free (err);
-				continue;
-			}
-
-			size = gsf_input_size (tmpinput);
-			src = gsf_input_read (tmpinput, size, NULL);
-			if (!src) {
-				g_warning ("'%s' error: Ugh\n", argv[i]);
-				g_object_unref (G_OBJECT (tmpinput));
-				continue;
-			}
-			infile_data = g_malloc (size);
-			memcpy (infile_data, src, size);
-			input = gsf_input_memory_new (infile_data, size, TRUE);
-		} else {
-			input = gsf_input_stdio_new (argv[i], &err);
-			if (input == NULL) {
-				g_return_val_if_fail (err != NULL, 1);
-				g_warning ("'%s' error: %s\n", argv[i], err->message);
-				g_error_free (err);
-				continue;
-			}
+		input = gsf_input_mmap_new (argv[i], &err);
+		if (input == NULL) {
+			g_return_val_if_fail (err != NULL, 1);
+			g_warning ("'%s' error: %s\n", argv[i], err->message);
+			g_error_free (err);
+			continue;
 		}
 
 		infile = gsf_infile_msole_new (input, &err);
@@ -159,6 +128,7 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' Not an OLE file: %s\n", argv[i], err->message);
 			g_error_free (err);
+			g_object_unref (G_OBJECT (input));
 			continue;
 		}
 
@@ -203,6 +173,7 @@ test (int argc, char *argv[])
 			g_object_unref (G_OBJECT (stream));
 		}
 		g_object_unref (G_OBJECT (infile));
+		g_object_unref (G_OBJECT (input));
 	}
 
 	return 0;

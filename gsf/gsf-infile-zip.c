@@ -295,11 +295,11 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
 
 /**
  * gsf_infile_zip_new :
- * @input :
+ * @source :
  * @err   :
  *
  * Opens the root directory of a Zip file.
- * NOTE : Absorbs a reference to the input
+ * NOTE : adds a reference to @source
  *
  * Return value : the new zip file handler
  **/
@@ -308,8 +308,11 @@ gsf_infile_zip_new (GsfInput *input, GError **err)
 {
 	GsfInfileZip *zip;
 
+	g_return_val_if_fail (IS_GSF_INPUT (source), NULL);
+
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
-	zip->input = input; /* absorb reference */
+	g_object_ref (G_OBJECT (source));
+	zip->input = source;
 	gsf_input_set_size (GSF_INPUT (zip), 0);
 
 	if (zip_init_info (zip, err)) {

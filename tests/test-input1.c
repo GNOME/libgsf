@@ -43,7 +43,8 @@ test (int argc, char *argv[])
 		g_warning ("error: %s\n", err->message);
 		g_error_free (err);
 		return 1;
-	}
+	} else
+		g_object_unref (G_OBJECT (input));
 
 	return 0;
 }

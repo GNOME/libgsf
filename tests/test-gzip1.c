@@ -54,6 +54,7 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' Not a GZip file: %s\n", argv[i], err->message);
 			g_error_free (err);
+			g_object_unref (G_OBJECT (input));
 			continue;
 		}
 
@@ -69,6 +70,7 @@ test (int argc, char *argv[])
 			size -= count;
 		}
 		g_object_unref (G_OBJECT (gzip));
+		g_object_unref (G_OBJECT (input));
 	}
 
 	return 0;

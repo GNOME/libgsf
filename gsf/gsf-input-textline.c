@@ -45,7 +45,7 @@ typedef struct {
  * @source : in some combination of ascii and utf8
  * @err	   : optionally NULL.
  *
- * Absorb a reference to @source.
+ * NOTE : adds a reference to @source
  *
  * Returns a new file or NULL.
  **/
@@ -57,6 +57,7 @@ gsf_input_textline_new (GsfInput *source)
 	g_return_val_if_fail (source != NULL, NULL);
 
 	input = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
+	g_object_ref (G_OBJECT (source));
 	input->source = source;
 	input->buf  = NULL;
 	input->buf_size = 0;

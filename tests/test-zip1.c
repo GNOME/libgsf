@@ -64,6 +64,7 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' error: %s\n", argv[i], err->message);
 			g_error_free (err);
+			g_object_unref (G_OBJECT (input));
 			continue;
 		}
 
@@ -79,6 +80,7 @@ test (int argc, char *argv[])
 
 		ls_R (GSF_INPUT (infile));
 		g_object_unref (G_OBJECT (infile));
+		g_object_unref (G_OBJECT (input));
 	}
 
 	return 0;

@@ -1,5 +1,14 @@
 2002-06-06  Jody Goldberg <jody@gnome.org>
 
+	* gsf/*.c : change the convention for wrappers.  They all add their
+	       own references to the source rather than absorbing the ref that
+	       was passed in.
+
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add zlib.
+	* libgsf-1.pc.in (Cflags) : ditto.
+
 	* gsf/gsf-input-gzip.c : wrapper to uncompress things.
 
 	* gsf/gsf-libxml.c : some convenience routines for dealing with libxml.

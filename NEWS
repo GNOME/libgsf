@@ -1,1 +1,16 @@
 DO NOT PACKAGE THIS YET
+
+libgsf 0.0.0
+
+Jody:
+	* Initial pass at an api
+	* Read OLE
+	* Read gzip
+	* Read textlines
+	* stdio wrapper
+
+Morten:
+	* mmap/buffer wrapper
+
+Jon Kåre:
+	* Some configure cleanup
