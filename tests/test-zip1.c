@@ -64,7 +64,6 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' error: %s", argv[i], err->message);
 			g_error_free (err);
-			g_object_unref (G_OBJECT (input));
 			continue;
 		}
 

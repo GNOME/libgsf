@@ -83,7 +83,6 @@ test (char *argv[])
 
 		g_warning ("'%s' error: %s", argv[1], err->message);
 		g_error_free (err);
-		g_object_unref (G_OBJECT (input));
 		return 1;
 	}
 
