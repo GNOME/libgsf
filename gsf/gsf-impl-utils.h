@@ -43,6 +43,7 @@ prefix ## _get_type (void)						\
 			sizeof (name),					\
 			0,	/* n_preallocs */			\
 			(GInstanceInitFunc) instance_init,		\
+			NULL						\
 		};							\
 		type = g_type_register_static (parent_type, #name,	\
 			&object_info, (GTypeFlags) abstract);		\

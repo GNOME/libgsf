@@ -174,8 +174,15 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		return NULL;
 	}
 
+	if (!S_ISREG (st.st_mode)) {
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"%s: Is not a regular file", filename);
+		return NULL;
+	}
+
 	buf = mmap (0, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
-	if ((caddr_t)buf == (caddr_t)MAP_FAILED) {
+	if (buf == MAP_FAILED) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error (), 0,
 				"%s: %s", filename, g_strerror (errno));
@@ -187,7 +194,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	m_map->fd = fd;
 
 	return gsf_input_memory_construct (GSF_INPUT_MEMORY (m_map),
-		buf, st.st_size, FALSE);
+		buf, (unsigned)st.st_size, FALSE);
 }
 
 static void
@@ -199,7 +206,7 @@ gsf_input_mmap_finalize (GObject *obj)
 
 	if (m_map->fd >= 0) {
 		GsfInputMemory *mem = GSF_INPUT_MEMORY (obj);
-		munmap ((char *)mem->buf, input->size);
+		munmap ((void *)mem->buf, input->size);
 		mem->buf = NULL;
 		m_map->fd = -1;
 	}

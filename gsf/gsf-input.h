@@ -39,7 +39,7 @@ GsfInput     *gsf_input_dup	  (GsfInput *input);
 int	      gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *file);
 guint8 const *gsf_input_read	  (GsfInput *input, unsigned num_bytes);
-int           gsf_input_tell	  (GsfInput *input);
+unsigned      gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,
 				   int offset, GsfOff_t whence);
 

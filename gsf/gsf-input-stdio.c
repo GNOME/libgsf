@@ -75,7 +75,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	input->file = file;
 	input->buf  = NULL;
 	input->buf_size = 0;
-	gsf_input_set_size (GSF_INPUT (input), st.st_size);
+	gsf_input_set_size (GSF_INPUT (input), (unsigned)st.st_size);
 
 	return GSF_INPUT (input);
 }

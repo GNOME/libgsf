@@ -43,7 +43,7 @@ static void
 read_types (const char *fname, GPtrArray **types)
 {
 	FILE *file = fopen(fname, "r");
-	char buffer[1024];
+	unsigned char buffer[1024];
 	*types = g_ptr_array_new ();
 	if (!file) {
 		char *newname = g_strconcat ("../", fname, NULL);
@@ -54,8 +54,8 @@ read_types (const char *fname, GPtrArray **types)
 		return;
 	}
 	while (!feof(file)) {
-		char *p;
-		fgets(buffer,1023,file);
+		unsigned char *p;
+		fgets (buffer, sizeof (buffer)-1, file);
 		for (p=buffer;*p;p++)
 			if (*p=='0' && *(p+1)=='x') {
 				GENERIC_TYPE *bt = g_new (GENERIC_TYPE,1);
@@ -63,15 +63,15 @@ read_types (const char *fname, GPtrArray **types)
 				bt->opcode=strtol(p+2,0,16);
 				pt = buffer;
 				while (*pt && *pt != '#') pt++;      /* # */
-				while (*pt && !isspace((unsigned char)*pt))
-				  pt++;  /* define */
-				while (*pt && isspace((unsigned char)*pt))
-				  pt++;  /* '   ' */
+				while (*pt && !isspace(*pt))
+					pt++;  /* define */
+				while (*pt && isspace(*pt))
+					pt++;  /* '   ' */
 				while (*pt && *pt != '_') pt++;     /* BIFF_ */
 				name = *pt?pt+1:pt;
-				while (*pt && !isspace((unsigned char)*pt))
-				  pt++;
-				bt->name=g_strndup(name, (pt-name));
+				while (*pt && !isspace(*pt))
+					pt++;
+				bt->name = g_strndup (name, (unsigned)(pt - name));
 				g_ptr_array_add (*types, bt);
 				break;
 			}
@@ -79,8 +79,8 @@ read_types (const char *fname, GPtrArray **types)
 	fclose (file);
 }
 
-static const char*
-get_biff_opcode_name (guint16 opcode)
+static char const *
+get_biff_opcode_name (unsigned opcode)
 {
 	int lp;
 	if (!biff_types)
@@ -106,7 +106,7 @@ test (int argc, char *argv[])
 	GsfInfile *infile;
 	GError    *err;
 	int i;
-	guint32 len;
+	guint16 len, opcode;
 
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
@@ -136,7 +136,6 @@ test (int argc, char *argv[])
 
 		if (stream != NULL) {
 			guint8 const *data;
-			guint16 opcode;
 			unsigned pos = gsf_input_tell (stream);
 
 			while (NULL != (data = gsf_input_read (stream, 4))) {
@@ -156,7 +155,7 @@ test (int argc, char *argv[])
 				}
 
 				if (enable_dump)
-					printf ("Opcode 0x%3x : %15s, length 0x%x (=%d) @ pos = 0x%x (=%d)\n",
+					printf ("Opcode 0x%3hx : %15s, length 0x%hx (=%hd) @ pos = 0x%x (=%d)\n",
 						opcode, get_biff_opcode_name (opcode),
 						len, len, pos, pos);
 
@@ -165,7 +164,7 @@ test (int argc, char *argv[])
 					if (data == NULL)
 						break;
 					if (enable_dump)
-						gsf_mem_dump (data, MIN (len,255));
+						gsf_mem_dump (data, MIN (len, 255));
 				}
 				pos = gsf_input_tell (stream);
 			}

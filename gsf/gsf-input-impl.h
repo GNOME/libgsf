@@ -51,7 +51,7 @@ typedef struct {
 /* protected */
 gboolean gsf_input_set_name	 (GsfInput *input, char const *name);
 gboolean gsf_input_set_container (GsfInput *input, GsfInfile *container);
-gboolean gsf_input_set_size	 (GsfInput *input, int size);
+gboolean gsf_input_set_size	 (GsfInput *input, unsigned size);
 
 G_END_DECLS
 

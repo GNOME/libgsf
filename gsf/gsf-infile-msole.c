@@ -40,7 +40,7 @@ typedef struct {
 	char	 *name;
 	char	 *collation_name;
 	int	  index;
-	int	  size;
+	unsigned  size;
 	gboolean  use_sb;
 	guint32   first_block;
 	gboolean  is_directory;
@@ -117,12 +117,12 @@ static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
  * Be really anal.
  **/
 static guint8 const *
-ole_get_block (GsfInfileMSOle *ole, guint32 block)
+ole_get_block (GsfInfileMSOle const *ole, guint32 block)
 {
 	g_return_val_if_fail (block < ole->info->max_block, NULL);
 
 	if (gsf_input_seek (ole->input,
-		OLE_HEADER_SIZE + (block << ole->info->bb.shift),
+		(int)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
 		GSF_SEEK_SET) < 0)
 		return NULL;
 
@@ -143,7 +143,7 @@ ole_get_block (GsfInfileMSOle *ole, guint32 block)
  * Retrurns TRUE on error.
  */
 static gboolean
-ole_make_bat (MSOleBAT const *metabat, guint32 size_guess, guint32 block,
+ole_make_bat (MSOleBAT const *metabat, unsigned size_guess, guint32 block,
 	      MSOleBAT *res)
 {
 	/* NOTE : Only use size as a suggestion, some times it is wrong */
@@ -191,7 +191,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 	guint8 const *bat, *end;
 
 	for (; metabat < metabat_end; metabat++) {
-		bat = ole_get_block (ole, GSF_OLE_GET_GUINT32 (metabat));
+		bat = ole_get_block (ole, *metabat);
 		if (bat == NULL)
 			return NULL;
 		end = bat + ole->info->bb.size;
@@ -202,6 +202,17 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 		}
 	}
 	return bats;
+}
+
+/**
+ * gsf_ole_get_guint32s :
+ * copy some some raw data into an array of guint32.
+ **/
+static void
+gsf_ole_get_guint32s (guint32 *dst, guint8 const *src, int num_bytes)
+{
+	for (; (num_bytes -= BAT_INDEX_SIZE) >= 0 ; src += BAT_INDEX_SIZE)
+		*dst++ = GSF_OLE_GET_GUINT32 (src);
 }
 
 static GsfInput *
@@ -313,12 +324,12 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 
 			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 		} else
-			dirent->name = g_strndup (data, end-data+1);
+			dirent->name = g_strndup (data, (unsigned)(end-data+1));
 	} else
 		dirent->name = g_strdup ("");
 	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);
 
-#if 1
+#if 0
 	printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
 		dirent->is_directory ? 'd' : ' ',
 		dirent->name, dirent->size, dirent->first_block);
@@ -419,7 +430,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	static guint8 const signature[] =
 		{ 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1 };
 	guint8 const *header, *tmp;
-	guint32 *metabat;
+	guint32 *metabat = NULL;
 	MSOleInfo *info;
 	guint32 bb_shift, sb_shift, num_bat, num_metabat, last, dirent_start;
 	guint32 metabat_block, *ptr;
@@ -476,8 +487,8 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 		metabat = g_alloca (MAX (info->bb.size, OLE_HEADER_SIZE));
 
-		/* Read Block allocation references in the header */
-		memcpy (metabat, header + OLE_HEADER_START_BAT,
+		/* Reading the elements invalidates this memory, make copy */
+		gsf_ole_get_guint32s (metabat, header + OLE_HEADER_START_BAT,
 			OLE_HEADER_SIZE - OLE_HEADER_START_BAT);
 		last = num_bat;
 		if (last > (OLE_HEADER_SIZE - OLE_HEADER_START_BAT)/BAT_INDEX_SIZE)
@@ -496,7 +507,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 			ptr = NULL;
 			break;
 		}
-		memcpy (metabat, tmp, info->bb.size);
+
+		/* Reading the elements invalidates this memory, make copy */
+		gsf_ole_get_guint32s (metabat, tmp, (int)info->bb.size);
 
 		if (num_metabat == 0) {
 			if (last < num_bat) {
@@ -605,7 +618,7 @@ gsf_infile_msole_read (GsfInput *input, unsigned num_bytes)
 		/* optimization don't see if we don't need to */
 		if (ole->cur_block != first_block) {
 			if (gsf_input_seek (ole->input,
-				OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset,
+				(int)(OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
 				GSF_SEEK_SET) < 0)
 				return NULL;
 		}
@@ -652,7 +665,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 	MSOleInfo *info;
 	MSOleBAT const *metabat;
 	GsfInput *sb_file = NULL;
-	int size_guess;
+	unsigned size_guess;
 
 	child = ole_dup (parent);
 	child->dirent = dirent;
@@ -693,7 +706,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 
 		for (i = 0 ; i < child->bat.num_blocks; i++) {
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-					    (child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
+					    (int)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
 			    NULL == (data = gsf_input_read (GSF_INPUT (sb_file),
 							    info->sb.size))) {
 				g_object_unref (G_OBJECT (child));

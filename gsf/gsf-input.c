@@ -44,7 +44,7 @@ gsf_input_init (GObject *obj)
 {
 	GsfInput *input = GSF_INPUT (obj);
 
-	input->size = -1;
+	input->size = 0;
 	input->cur_offset = 0;
 	input->name = NULL;
 	input->container = NULL;
@@ -110,7 +110,7 @@ gsf_input_dup (GsfInput *src)
 		dst->container = src->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, src->cur_offset, GSF_SEEK_SET);
+		gsf_input_seek (dst, (int)src->cur_offset, GSF_SEEK_SET);
 	}
 	return dst;
 }
@@ -182,7 +182,7 @@ gsf_input_read (GsfInput *input, unsigned num_bytes)
  *
  * Returns the current offset in the file.
  **/
-int
+unsigned
 gsf_input_tell (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, 0);
@@ -212,7 +212,7 @@ gsf_input_seek (GsfInput *input, int offset, GsfOff_t whence)
 	default : return TRUE;
 	}
 
-	if (pos < 0 || pos > input->size)
+	if (pos < 0 || pos > (int)input->size)
 		return TRUE;
 	if (GET_CLASS (input)->seek (input, offset, whence))
 		return TRUE;
@@ -261,7 +261,7 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 }
 
 gboolean
-gsf_input_set_size (GsfInput *input, int size)
+gsf_input_set_size (GsfInput *input, unsigned size)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 

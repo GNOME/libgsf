@@ -1,3 +1,29 @@
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/test-msole1.c (get_biff_opcode_name) : suppress warning.
+
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new) : ensure it is a regular
+	  file.
+
+	* configure.in : remove -Wundef to shut it up about glib.
+	  remove -Wcast-qual because we sometimes need to explicitly cast away
+	  const.  C does not have const_cast<>().
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL) : suppress warning.
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : disable debug spew.
+	(ole_init_info) : suppress bogus compile warning.
+	  Use gsf_ole_get_guint32s to convert the data to normal endianness.
+	(gsf_ole_get_guint32s) : new.
+	(ole_info_read_metabat) : assume the metabat is already uses native
+	  byte ordering.
+
+	* gsf/gsf-input.c (gsf_input_seek) : suppress warning.
+	(gsf_input_dup) : ditto.
+	(gsf_input_init) : ditto.
+
 2002-05-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in:
