@@ -1,0 +1,67 @@
+This document will describe the spreadsheet gsf.xls.
+
+This spreadsheet was creating using Excel 2002, SP2, running on Windows 2000
+Professional.
+
+The facts:
+	Worksheets:		1 (One)
+
+Cell A1 contains '1'.
+
+Properties:
+    Summary:
+	Title:			One
+	Subject:		libgsf test
+	Author:			Frank J. Chiulli, Jr.
+	Manager:		P. H. Boss
+	Company:		The Boeing Company
+
+	Category:		Test Case
+	Keywords:		hosts, libgsf, spreadsheet
+	Comments:		This is a small test case.
+				Hopefully libgsf will handle it successfully.
+				We will see.
+
+	Hyperlink base:		<empty>
+
+--------------------------------------------------------------------------------
+
+     Document contents:
+	Worksheets
+		One
+
+--------------------------------------------------------------------------------
+
+     Custom:
+	Checked by		Dorothy					Text
+	Client			A Small Co.				Text
+	Date completed		1 Oct 2003				Text
+	Department		N650					Text
+	Destination		Hawaii					Text
+	Disposition		Up-in-the-air				Text
+	Division		AIS					Text
+	Document number		00H0567					Text
+	Editor			vi					Text
+	Forward to		Nobody					Text
+	Group			Hug					Text
+	Language		Foreign					Text
+	Mailstop		H011-A123				Text
+	Matter			Anti					Text
+	Office			1D92					Text
+	Owner			Everyone				Text
+	Project			libgsf					Text
+	Publisher		Free Speech				Text
+	Purpose			Reinvent the wheel			Text
+	Received from		Fleetwood Mac				Text
+	Recorded by		Blind Monk				Text
+	Recorded date		Four score and seven years ago		Text
+	Reference		None					Text
+	Source			A higher authority			Text
+	Status			Lost but not forgotten			Text
+	Telephone number	Unlisted				Text
+	Typist			Slow Joe				Text
+
+	Birthday		10/28/1948				Date
+	LOC			123456					Number
+	Was it good		Yes					Yes or no
+	Title			3					Number
