@@ -21,15 +21,14 @@
  */
 
 #include <gsf-config.h>
+
+#ifdef HAVE_BZIP
+
+#include <bzlib.h>
 #include <gsf/gsf-output-bzip.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
-
-#include <bzlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <string.h>
 
 #define BZ_BUFSIZE 0x100
 
@@ -57,7 +56,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 	if (ret != BZ_OK) {
 		if (err != NULL)
 			*err = g_error_new (gsf_output_error_id (), 0,
-					    "Unable to initialize compress");
+					    "Unable to initialize BZ2 library");
 		return FALSE;
 	}
 	if (!bzip->buf) {
@@ -68,34 +67,6 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 	bzip->stream.avail_out = bzip->buf_size;
 
 	return TRUE;
-}
-
-/**
- * gsf_output_bzip_new :
- * @sink : The underlying data source.
- * @err	   : optionally NULL.
- *
- * Adds a reference to @sink.
- *
- * Returns a new file or NULL.
- **/
-GsfOutputBzip *
-gsf_output_bzip_new (GsfOutput *sink, GError **err)
-{
-	GsfOutputBzip *bzip;
-
-	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
-
-	bzip = g_object_new (GSF_OUTPUT_BZIP_TYPE, NULL);
-	g_object_ref (G_OBJECT (sink));
-	bzip->sink = sink;
-
-	if (!init_bzip (bzip, err)) {
-		g_object_unref (G_OBJECT (bzip));
-		return NULL;
-	}
-
-	return bzip;
 }
 
 static void
@@ -137,13 +108,13 @@ bzip_flush (GsfOutputBzip *bzip)
 
 	do {
 		zret = BZ2_bzCompress (&bzip->stream, BZ_FINISH);
-		if (zret == BZ_OK) {
-			/*  In this case BZ_OK means more buffer space
+		if (zret == BZ_FINISH_OK) {
+			/*  In this case BZ_FINISH_OK means more buffer space
 			    needed  */
 			if (!bzip_output_block (bzip))
 				return FALSE;
 		}
-	} while (zret == BZ_OK);
+	} while (zret == BZ_FINISH_OK);
 	if (zret != BZ_STREAM_END)
 		return FALSE;
 	if (!bzip_output_block (bzip))
@@ -168,7 +139,7 @@ gsf_output_bzip_write (GsfOutput *output,
 			if (!bzip_output_block (bzip))
 				return FALSE;
 		}
-		if (BZ2_bzCompress (&bzip->stream, BZ_RUN) != BZ_OK)
+		if (BZ2_bzCompress (&bzip->stream, BZ_RUN) != BZ_RUN_OK)
 			return FALSE;
 	}
 
@@ -227,3 +198,40 @@ gsf_output_bzip_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 	   gsf_output_bzip_class_init, gsf_output_bzip_init, GSF_OUTPUT_TYPE)
 
+#endif /* HAVE_BZIP */
+
+/**
+ * gsf_output_bzip_new :
+ * @sink : The underlying data source.
+ * @err	   : optionally NULL.
+ *
+ * Adds a reference to @sink.
+ *
+ * Returns a new file or NULL.
+ **/
+GsfOutputBzip *
+gsf_output_bzip_new (GsfOutput *sink, GError **err)
+{
+#ifdef HAVE_BZIP
+	GsfOutputBzip *bzip;
+
+	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
+
+	bzip = g_object_new (GSF_OUTPUT_BZIP_TYPE, NULL);
+	g_object_ref (G_OBJECT (sink));
+	bzip->sink = sink;
+
+	if (!init_bzip (bzip, err)) {
+		g_object_unref (G_OBJECT (bzip));
+		return NULL;
+	}
+
+	return bzip;
+#else
+#warning Building without BZ2 support
+	if (err)
+		*err = g_error_new (gsf_input_error (), 0,
+				    "BZ2 support not enabled");
+	return NULL;
+#endif
+}

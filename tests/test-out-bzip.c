@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * test-input1.c:
+ * test-out-bzip.c:
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *               2003 Dom Lachowicz (cinamod@hotmail.com)

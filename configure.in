@@ -225,6 +225,28 @@ AC_SUBST(ORBIT_PYTHON_CFLAGS)
 
 dnl ***********************************************************************************
 
+dnl bz2
+dnl
+BZ2_LIBS=
+test_bz2=true
+AC_ARG_WITH(bz2,
+	[--{with,without}-bz2   Build additional wrappers for BZ2],
+	if test "x$withval" = xno; then
+		test_bz2=false
+	fi
+)
+
+with_bz2=false
+if test "x$test_bz2" = xtrue ; then
+   AC_CHECK_LIB(bz2, BZ2_bzCompressInit, [BZ2_LIBS="-lbz2" LIBGSF_CFLAGS="$LIBGSF_CFLAGS -DHAVE_BZIP" LIBGSF_LIBS="$LIBGSF_LIBS -lbz2"])
+else
+   AC_MSG_WARN([BZ2 support disabled, as requested (Use --with-bz2 to enable)])
+fi
+
+AC_SUBST(BZ2_LIBS)
+
+dnl ***********************************************************************************
+
 dnl gnome
 dnl
 test_gnome=true

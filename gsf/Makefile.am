@@ -49,6 +49,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-output-memory.c	\
 	gsf-output-stdio.c	\
 	gsf-output-gzip.c 	\
+	gsf-output-bzip.c	\
 	\
 	gsf-outfile.c 		\
 	gsf-outfile-impl.h 	\
@@ -89,6 +90,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-output-memory.h	\
 	gsf-output-stdio.h	\
 	gsf-output-gzip.h 	\
+	gsf-output-bzip.h	\
 	\
 	gsf-outfile.h 		\
 	gsf-outfile-msole.h	\
