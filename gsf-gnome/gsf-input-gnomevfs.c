@@ -2,7 +2,7 @@
 /*
  * gsf-input-gnomevfs.c: 
  *
- * Copyright (C) 2002-2003 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2004 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -24,7 +24,9 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 
+#if 0
 #include <libgnomevfs/gnome-vfs-method.h>
+#endif
 
 struct _GsfInputGnomeVFS {
 	GsfInput input;
@@ -76,9 +78,11 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		return NULL;
 	}
 
+#if 0
 	if (!VFS_METHOD_HAS_FUNC (uri->method, tell) ||
 	    !VFS_METHOD_HAS_FUNC (uri->method, seek)) {
 	}
+#endif
 
 	size = (gsf_off_t) info.size ;
 	input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);

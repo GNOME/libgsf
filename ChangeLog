@@ -1,3 +1,11 @@
+2004-05-01  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : Don't
+	require gnome-vfs-method.h
+
+	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new_uri): we
+	require random access.
+	
 2004-04-28  Jody Goldberg <jody@gnome.org>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : we
