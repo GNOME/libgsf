@@ -155,7 +155,9 @@ test (unsigned argc, char *argv[])
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
 
-		input = gsf_input_mmap_new (argv[i], &err);
+		input = gsf_input_mmap_new (argv[i], NULL);
+		if (input == NULL)	/* Only report error if stdio fails too */
+			input = gsf_input_stdio_new (argv[i], &err);
 		if (input == NULL) {
 			g_return_val_if_fail (err != NULL, 1);
 			g_warning ("'%s' error: %s", argv[i], err->message);

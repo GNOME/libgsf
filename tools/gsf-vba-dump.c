@@ -37,7 +37,9 @@ test (int argc, char *argv[])
 	int i;
 
 	for (i = 1 ; i < argc ; i++) {
-		input = gsf_input_mmap_new (argv[i], &err);
+		input = gsf_input_mmap_new (argv[i], NULL);
+		if (input == NULL)	/* Only report error if stdio fails too */
+			input = gsf_input_stdio_new (argv[i], &err);
 		if (input != NULL) {
 			GsfInfile *infile = gsf_infile_msole_new (input, &err);
 			if (infile != NULL) {
