@@ -29,25 +29,44 @@
 
 #ifdef HAVE_BZ2
 #include <bzlib.h>
+#define BZ_BUFSIZE 1024
 #endif
-
-#define BZ_BUFSIZE 0x100
 
 struct _GsfOutputBzip {
-	GsfOutput output;
-
-	GsfOutput *sink; /* compressed data */
+	GsfOutput  output;
 
 #ifdef HAVE_BZ2
+	GsfOutput *sink; /* compressed data */
 	bz_stream  stream;
+	guint8    *buf;
+	size_t     buf_size;
 #endif
-	guint8   *buf;
-	size_t    buf_size;
 };
 
 typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputBzipClass;
+
+static void
+gsf_output_bzip_finalize (GObject *obj)
+{
+	GObjectClass *parent_class;
+
+#ifdef HAVE_BZ2
+	GsfOutputBzip *bzip = (GsfOutputBzip *)obj;
+
+	if (bzip->sink != NULL) {
+		g_object_unref (G_OBJECT (bzip->sink));
+		bzip->sink = NULL;
+	}
+
+	g_free (bzip->buf);
+#endif
+
+	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
+	if (parent_class && parent_class->finalize)
+		parent_class->finalize (obj);
+}
 
 #ifdef HAVE_BZ2
 static gboolean
@@ -72,27 +91,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 
 	return TRUE;
 }
-#endif
 
-static void
-gsf_output_bzip_finalize (GObject *obj)
-{
-	GObjectClass *parent_class;
-	GsfOutputBzip *bzip = (GsfOutputBzip *)obj;
-
-	if (bzip->sink != NULL) {
-		g_object_unref (G_OBJECT (bzip->sink));
-		bzip->sink = NULL;
-	}
-
-	g_free (bzip->buf);
-
-	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
-}
-
-#ifdef HAVE_BZ2
 static gboolean
 bzip_output_block (GsfOutputBzip *bzip)
 {
@@ -161,7 +160,7 @@ static gboolean
 gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
 		      G_GNUC_UNUSED gsf_off_t offset,
 		      G_GNUC_UNUSED GSeekType whence)
-{
+{	
 	return FALSE;
 }
 
@@ -184,6 +183,7 @@ gsf_output_bzip_close (GsfOutput *output)
 static void
 gsf_output_bzip_init (GObject *obj)
 {
+#ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (obj);
 
 	bzip->sink = NULL;
@@ -195,6 +195,7 @@ gsf_output_bzip_init (GObject *obj)
 	bzip->stream.avail_in	= bzip->stream.avail_out = 0;
 	bzip->buf		= NULL;
 	bzip->buf_size		= 0;
+#endif
 }
 
 static void

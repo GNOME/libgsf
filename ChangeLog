@@ -1,5 +1,10 @@
 2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
 
+	* gsf/gsf-output-bzip.c: Restructure things so that it's possible to
+	build without bzip2 support
+	
+2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
+
 	* gsf/gsf-input-textline.c: Replace g_realloc with g_renew
 	* gsf/gsf-output-memory.c: Ditto
 	
