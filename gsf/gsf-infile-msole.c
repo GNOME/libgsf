@@ -306,7 +306,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		 * rather than utf16.  Do a validation first just in case.
 		 */
 		if (!g_utf8_validate (data, -1, (gchar const **)&end) ||
-		    (end - data) != name_len) {
+		    (end - data + 1) != name_len) {
 			/* be wary about endianness */
 			for (i = 0 ; i < name_len ; i += 2)
 				uni_name [i/2] = GSF_OLE_GET_GUINT16 (data + i);
@@ -318,7 +318,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		dirent->name = g_strdup ("");
 	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);
 
-#if 0
+#if 1
 	printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
 		dirent->is_directory ? 'd' : ' ',
 		dirent->name, dirent->size, dirent->first_block);

@@ -1,5 +1,10 @@
 2002-05-25  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-infile-msole.c (ole_dirent_new) : fix off by 1 error in
+	  handling broken ascii stream names.
+
+2002-05-25  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-infile-msole.c (ole_init_info) : libole2 knew about a smidge
 	  more of the ole header, use the sbat counter.
 

@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef LIBGSF_H
-#define LIBGSF_H
+#ifndef GSF_H
+#define GSF_H
 
 #include <glib.h>
 #include <glib-object.h>
@@ -39,14 +39,6 @@ typedef enum {
 	GSF_SEEK_END
 } GsfOff_t;
 
-/* Some version checking */
-extern int libgsf_major_version;
-extern int libgsf_minor_version;
-extern int libgsf_micro_version;
-
-void gsf_init (void);
-void gsf_shutdown (void);
-
 G_END_DECLS
 
-#endif /* LIBGSF_H */
+#endif /* GSF_H */

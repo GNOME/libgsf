@@ -31,6 +31,11 @@ void gsf_shutdown (void);
 
 void gsf_mem_dump (guint8 const *ptr, int len);
 
+/* Some version checking */
+extern int libgsf_major_version;
+extern int libgsf_minor_version;
+extern int libgsf_micro_version;
+
 G_END_DECLS
 
 #endif /* GSF_UTILS_H */
