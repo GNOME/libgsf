@@ -1,3 +1,7 @@
+2002-09-15  Jon K Hellan  <hellan@acm.org>
+
+	* tests/test-zip2.c: Add.
+
 2002-09-14  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* gsf/gsf-command-context.[ch]: added support for warnings.
