@@ -15,6 +15,7 @@ Dom:
 	
 Jody:
 	* Fix ms ole export bug that would not clip overly long file names.
+	* Fix ms ole import bug with potentially invalid names
 
 Rodrigo:
 	* Added GsfInputIOChannel, a GIOChannel-based input.

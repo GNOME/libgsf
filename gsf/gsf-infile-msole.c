@@ -310,7 +310,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
 	dirent->name = NULL;
 	if (0 < name_len && name_len <= DIRENT_MAX_NAME_SIZE) {
-		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE];
+		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE+1];
 		guint8 const *end;
 		int i;
 
@@ -323,6 +323,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 			/* be wary about endianness */
 			for (i = 0 ; i < name_len ; i += 2)
 				uni_name [i/2] = GSF_LE_GET_GUINT16 (data + i);
+			uni_name [i/2] = 0;
 
 			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
 		} else
