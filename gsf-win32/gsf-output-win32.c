@@ -24,6 +24,7 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <objidl.h>
 
 struct _GsfOutputIStream {
 	GsfOutput output;
@@ -33,6 +34,15 @@ struct _GsfOutputIStream {
 typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputIStreamClass;
+
+#define NEED_ISTREAM_MACROS
+
+#ifdef NEED_ISTREAM_MACROS
+#define IStream_AddRef(This) (This)->lpVtbl->AddRef(This)
+#define IStream_Write(This,pv,cb,pcbRead) (This)->lpVtbl->Read(This,pv,cb,pcbRead)
+#define IStream_Release(This) (This)->lpVtbl->Release(This)
+#define IStream_Seek(This,dlibMove,dwOrigin,plibNewPosition) (This)->lpVtbl->Seek(This,dlibMove,dwOrigin,plibNewPosition)
+#endif
 
 /* declared in gsf-input-win32.c */
 extern void hresult_to_gerror (HRESULT hr, GError ** err);
@@ -54,7 +64,7 @@ gsf_output_istream_new (IStream * stream)
 	output->stream = stream;
 	IStream_AddRef (output->stream);
 
-	return output;
+	return GSF_OUTPUT(output);
 }
 
 static gboolean
@@ -117,7 +127,7 @@ static gboolean
 gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
 	GsfOutputIStream *istm = GSF_OUTPUT_ISTREAM (output);
-	DWORD dwhence;
+	DWORD dwhence = STREAM_SEEK_SET;
 
 	g_return_val_if_fail (istm != NULL, gsf_output_set_error(output, 0, "missing handle"));
 	g_return_val_if_fail (istm->stream != NULL, gsf_output_set_error(output, 0, "missing handle"));

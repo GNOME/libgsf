@@ -36,6 +36,17 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputIStreamClass;
 
+#define NEED_ISTREAM_MACROS
+
+#ifdef NEED_ISTREAM_MACROS
+#define IStream_AddRef(This) (This)->lpVtbl->AddRef(This)
+#define IStream_Clone(This,ppstm) (This)->lpVtbl->Clone(This,ppstm)
+#define IStream_Read(This,pv,cb,pcbRead) (This)->lpVtbl->Read(This,pv,cb,pcbRead)
+#define IStream_Release(This) (This)->lpVtbl->Release(This)
+#define IStream_Seek(This,dlibMove,dwOrigin,plibNewPosition) (This)->lpVtbl->Seek(This,dlibMove,dwOrigin,plibNewPosition)
+#define IStream_Stat(This,pstatstg,grfStatFlag)	(This)->lpVtbl->Stat(This,pstatstg,grfStatFlag)
+#endif
+
 static void
 hresult_to_gerror (HRESULT hr, GError ** err)
 {
@@ -74,7 +85,7 @@ gsf_input_istream_new (IStream * stream, GError **err)
 		return NULL;
 	}
 
-	if (FAILED (hr = IStream_Stat (stream, &statbuf))) {
+	if (FAILED (hr = IStream_Stat (stream, &statbuf, STATFLAG_DEFAULT))) {
 		hresult_to_gerror (hr, err);
 		return NULL;
 	}
@@ -98,7 +109,7 @@ gsf_input_istream_new (IStream * stream, GError **err)
 		g_free (name);
 	}
 
-	return input;
+	return GSF_INPUT(input);
 }
 
 static void
