@@ -1,3 +1,8 @@
+2003-04-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): FREEBSD have broken
+	mmap -- we must keep the file descriptor around.
+
 2003-04-09  Jody Goldberg <jody@gnome.org>
 
 	From Xavier Roche <roche@exalead.com>
