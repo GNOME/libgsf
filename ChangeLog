@@ -1,3 +1,8 @@
+2002-07-09  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_dup) : avoid leak if derived dup has
+	  already assigned a name.
+
 2002-07-08  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-cp-msole.c (test) : simplify.

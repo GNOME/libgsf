@@ -107,7 +107,8 @@ gsf_input_dup (GsfInput *src, GError **err)
 	dst = GET_CLASS (src)->Dup (src, err);
 	if (dst != NULL) {
 		dst->size = src->size;
-		dst->name = (src->name != NULL) ? g_strdup (src->name) : NULL;
+		if (src->name != NULL)
+			gsf_input_set_name (dst, src->name);
 		dst->container = src->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
