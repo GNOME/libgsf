@@ -241,6 +241,8 @@ decode_dir (GsfInput *input)
 		int i;
 		guint16 op;
 		guint32 length;
+		gboolean ascii = FALSE;
+		gboolean unicode = FALSE;
 
 		err |= !gsf_input_read (input, 6, data);
 
@@ -250,17 +252,47 @@ decode_dir (GsfInput *input)
 		/* Special nasties / up-stream bugs */
 		switch (op) {
 		case 0x34:
+			fprintf (stderr, "** Odd opcode **\n"); /* 13th in stream ? */
 			length -= 4;
+			break;
+		case 0x4:
+		case 0x16:
+		case 0x19:
+		case 0x1a:
+			ascii = TRUE;
+			break;
+		case 0x32:
+		case 0x3e:
+		case 0x47:
+			unicode = TRUE;
 			break;
 		default:
 			break;
 		}
 
-		fprintf (stderr, "Op 0x%x, length %d: '", op, length);
-		for (i = 0 ; i < length; i++) {
-			guint8 ug;
-			err |= !gsf_input_read (input, 1, &ug);
-			fprintf (stderr, "%c", byte_to_char (ug));
+		fprintf (stderr, "0x%.6x Op 0x%.2x, length %3d: '",
+			(int)gsf_input_tell (input), op, length);
+
+		if (ascii || unicode) {
+			int advance = ascii ? 1 : 2;
+			/* quick and dirty for now */
+			for (i = 0 ; i < length; i += advance) {
+				guint8 ug;
+				err |= !gsf_input_read (input, advance, &ug);
+				fprintf (stderr, "%c", ug);
+			}
+			fprintf (stderr, "' - '%s", ascii ? "Ascii" : "Unicode");
+		} else {
+			GString *chars = g_string_new ("");
+
+			for (i = 0 ; i < length; i++) {
+				guint8 ug;
+				err |= !gsf_input_read (input, 1, &ug);
+				fprintf (stderr, "%.2x ", ug);
+				g_string_append_printf (chars, "%c", byte_to_char (ug));
+			}
+			fprintf (stderr, "' - '%s", chars->str);
+			g_string_free (chars, TRUE);
 		}
 		fprintf (stderr, "'\n");
 	}
