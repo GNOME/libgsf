@@ -1,3 +1,7 @@
+2002-08-17  Jody Goldberg <jody@gnome.org>
+
+	* gsf/Makefile.am : install the xml header
+
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* libgsf-gnome-1.pc.in (Cflags): Fix Libs line.

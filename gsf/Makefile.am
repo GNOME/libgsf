@@ -12,7 +12,6 @@ libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
 	gsf-libxml.c		\
-	gsf-libxml.h		\
 	gsf-msole-impl.h	\
 	gsf-zip-impl.h		\
 	\
@@ -46,6 +45,7 @@ libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
 	gsf.h			\
 	gsf-utils.h		\
+	gsf-libxml.h		\
 	gsf-impl-utils.h	\
 	gsf-input.h		\
 	gsf-input-memory.h 	\

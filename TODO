@@ -1,11 +1,10 @@
 Near:
-    - ZIP import
     - MS property set parsing
+    - ZIP export
 
 Longer:
     - More work on VBA directory parsing so that we can decompress
       source streams.
-    - ZIP export
 
 Future:
     - parse vba p-code directly to produce some other language.
