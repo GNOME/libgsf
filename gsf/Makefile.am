@@ -21,7 +21,6 @@ libgsf_1_la_SOURCES =		\
 	$(gnomevfs_sources)	\
 	$(bonobo_sources)	\
 	gsf-utils.c		\
-	gsf-impl-utils.h	\
 	gsf-msole-impl.h	\
 	\
 	gsf-input.c		\
@@ -59,6 +58,7 @@ libgsf_1_include_HEADERS = 	\
 	$(bonobo_headers)	\
 	gsf.h			\
 	gsf-utils.h		\
+	gsf-impl-utils.h	\
 	gsf-input.h		\
 	gsf-input-memory.h 	\
 	gsf-input-stdio.h 	\

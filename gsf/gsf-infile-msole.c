@@ -491,8 +491,8 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		gsf_ole_get_guint32s (metabat, header + OLE_HEADER_START_BAT,
 			OLE_HEADER_SIZE - OLE_HEADER_START_BAT);
 		last = num_bat;
-		if (last > (OLE_HEADER_SIZE - OLE_HEADER_START_BAT)/BAT_INDEX_SIZE)
-			last = (OLE_HEADER_SIZE - OLE_HEADER_START_BAT)/BAT_INDEX_SIZE;
+		if (last > OLE_HEADER_METABAT_SIZE)
+			last = OLE_HEADER_METABAT_SIZE;
 
 		ptr = ole_info_read_metabat (ole, info->bb.bat.block,
 			info->bb.bat.num_blocks, metabat, metabat + last);

@@ -1,3 +1,17 @@
+2002-07-08  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (ole_name_cmp) : new.
+	(gsf_outfile_msole_new_child) : order the names correctly.
+	(gsf_outfile_msole_close) : write meta bats.
+
+	* gsf/gsf-msole-impl.h : add OLE_HEADER_METABAT_SIZE.
+	* gsf/gsf-infile-msole.c (ole_init_info) : use it here.
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : and here.
+
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* gsf/Makefile.am : Make gsf-impl-utils.h public
+
 2002-07-06  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-impl.h : pull in more information.  We may not need it

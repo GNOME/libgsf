@@ -217,7 +217,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 	guint8  buf [OLE_HEADER_SIZE];
 	guint32	sbat_start, num_sbat, sb_data_start, sb_data_size, sb_data_blocks;
 	guint32	bat_start, num_bat, dirent_start, num_dirent_blocks, next, child_index;
-	unsigned i, blocks;
+	unsigned i, j, blocks, xbats, xbat_pos;
 
 	/* The root dir */
 	if (gsf_output_container (output) == NULL) {
@@ -349,31 +349,54 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 		GSF_LE_SET_GUINT32 (buf+0x0, sbat_start);
 		GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
-		if (num_bat > ((OLE_HEADER_SIZE-OLE_HEADER_START_BAT) / BAT_INDEX_SIZE)) {
-			unsigned rem = num_bat - ((OLE_HEADER_SIZE-OLE_HEADER_START_BAT) / BAT_INDEX_SIZE);
-			unsigned xbats = rem / (1 << (OLE_DEFAULT_BB_SHIFT - 2)) - 1;
+		if (num_bat > OLE_HEADER_METABAT_SIZE) {
+			unsigned rem = num_bat - OLE_HEADER_METABAT_SIZE;
 
-			if ((xbats * (rem / (1 << (OLE_DEFAULT_BB_SHIFT - 2)) - 1)) != rem)
+			xbats = rem / OLE_DEFAULT_METABAT_SIZE;
+			if ((xbats * OLE_DEFAULT_METABAT_SIZE) != rem)
 				xbats++;
 
 			/* 1st xbat is immediately after bat */
-			GSF_LE_SET_GUINT32 (buf+0x8, bat_start + num_bat);
-			GSF_LE_SET_GUINT32 (buf+0xc, xbats);
+			xbat_pos = bat_start + num_bat;
+			blocks = OLE_HEADER_METABAT_SIZE;
 		} else {
-			GSF_LE_SET_GUINT32 (buf+0x8, BAT_MAGIC_END_OF_CHAIN);
-			GSF_LE_SET_GUINT32 (buf+0xc, 0);
+			xbat_pos = BAT_MAGIC_END_OF_CHAIN;
+			blocks = num_bat;
+			xbats = 0;
 		}
+		GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
+		GSF_LE_SET_GUINT32 (buf+0xc, xbats);
 		gsf_output_seek (ole->sink, OLE_HEADER_SBAT_START, GSF_SEEK_SET);
 		gsf_output_write (ole->sink, 0x10, buf);
 
 		/* write initial Meta-BAT */
-		for (i = 0 ; i < num_bat ; i++) {
+		for (i = 0 ; i < blocks ; i++) {
 			GSF_LE_SET_GUINT32 (buf, bat_start + i);
 			gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
 		}
 
 		/* write extended Meta-BAT */
-#warning TODO
+		if (blocks < num_bat) {
+			/* Append the meta bats */
+			gsf_output_seek (ole->sink, 0, GSF_SEEK_END);
+			for (i = 0 ; i++ < xbats ; ) {
+				bat_start += blocks;
+				blocks = num_bat - bat_start;
+				if (blocks > OLE_DEFAULT_METABAT_SIZE)
+					blocks = OLE_DEFAULT_METABAT_SIZE;
+				for (j = 0 ; j < blocks ; j++) {
+					GSF_LE_SET_GUINT32 (buf, bat_start + j);
+					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+				}
+
+				if (xbats != 0) {
+					xbat_pos++;
+					GSF_LE_SET_GUINT32 (buf, xbat_pos);
+					gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+				}
+			}
+			bb_pad_zero (ole->sink);
+		}
 
 		/* free the children */
 		for (i = 0 ; i < elem->len ; i++)
@@ -436,6 +459,28 @@ ole_register_child (GsfOutfileMSOle *root, GsfOutfileMSOle *child)
 	g_ptr_array_add (root->content.dir.root_order, child);
 }
 
+static gint
+ole_name_cmp (GsfOutfileMSOle const *a, GsfOutfileMSOle const *b)
+{
+	/* According to the docs length is more important than lexical order */
+	char const *a_name = gsf_output_name ((GsfOutput const *)a);
+	char const *b_name = gsf_output_name ((GsfOutput const *)b);
+
+	/* be anal */
+	if (a_name == NULL)
+		return (b_name == NULL) ? 0 : -1;
+	else if (b_name == NULL)
+		return 1;
+	else {
+		unsigned a_len = g_utf8_strlen (a_name, -1);
+		unsigned b_len = g_utf8_strlen (b_name, -1);
+
+		if (a_len != b_len)
+			return a_len - b_len;
+		return g_utf8_collate (a_name, b_name);
+	}
+}
+
 static GsfOutput *
 gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 			     gboolean is_dir)
@@ -461,8 +506,9 @@ gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 
-	ole_parent->content.dir.children =
-		g_slist_append (ole_parent->content.dir.children, child);
+	ole_parent->content.dir.children = g_slist_insert_sorted (
+		ole_parent->content.dir.children, child,
+		(GCompareFunc)ole_name_cmp);
 	ole_register_child (ole_parent->root, child);
 
 	return GSF_OUTPUT (child);

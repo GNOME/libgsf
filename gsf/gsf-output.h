@@ -33,8 +33,8 @@ G_BEGIN_DECLS
 
 GType gsf_output_get_type (void);
 
-char const   *gsf_output_name	   (GsfOutput *output);
-GsfOutfile   *gsf_output_container (GsfOutput *output);
+char const   *gsf_output_name	   (GsfOutput const *output);
+GsfOutfile   *gsf_output_container (GsfOutput const *output);
 
 ssize_t	      gsf_output_size      (GsfOutput *output);
 gboolean      gsf_output_close     (GsfOutput *output);

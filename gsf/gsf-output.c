@@ -70,7 +70,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
  * Returns @output's name in utf8 form, DO NOT FREE THIS STRING
  **/
 char const *
-gsf_output_name (GsfOutput *output)
+gsf_output_name (GsfOutput const *output)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), NULL);
 	return output->name;
@@ -84,7 +84,7 @@ gsf_output_name (GsfOutput *output)
  * Potentially NULL
  **/
 GsfOutfile *
-gsf_output_container (GsfOutput *output)
+gsf_output_container (GsfOutput const *output)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), NULL);
 	return output->container;
