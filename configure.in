@@ -238,8 +238,30 @@ AC_ARG_WITH(bz2,
 
 with_bz2=false
 if test "x$test_bz2" = xtrue ; then
-   AC_CHECK_LIB(bz2, BZ2_bzCompressInit, \
-	[AC_DEFINE(HAVE_BZ2, 1, [Is bzip2 available and enabled]) BZ2_LIBS="-lbz2"])
+   AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, 
+		bz2_ok=yes,
+		bz2_ok=no
+		AC_MSG_WARN(*** BZ2 support disabled (BZ2 library not found) ***))
+
+   if test "$bz2_ok" = yes; then
+      AC_MSG_CHECKING([for bzlib.h])
+      AC_TRY_CPP(
+	[#include <stdio.h>
+	#undef PACKAGE
+	#undef VERSION
+	#undef HAVE_STDLIB_H
+	#include <bzlib.h>],
+        bz2_ok=yes,
+        bz2_ok=no)
+      AC_MSG_RESULT($bz2_ok)
+   fi
+
+   if test "$bz2_ok" = yes; then
+	AC_DEFINE(HAVE_BZ2, 1, [Is bzip2 available and enabled])
+	BZ2_LIBS="-lbz2"
+   else
+	AC_MSG_WARN(*** BZ2 support disabled (BZ2 header not found) ***)
+   fi
 else
    AC_MSG_WARN([BZ2 support disabled, as requested (Use --with-bz2 to enable)])
 fi
