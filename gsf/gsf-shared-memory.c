@@ -31,7 +31,7 @@ typedef struct {
 } GsfSharedMemoryClass;
 
 GsfSharedMemory *
-gsf_shared_memory_new (void *buf, size_t size, gboolean needs_free)
+gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free)
 {
 	GsfSharedMemory *mem = g_object_new (GSF_SHARED_MEMORY_TYPE, NULL);
 	mem->buf = buf;
@@ -42,7 +42,7 @@ gsf_shared_memory_new (void *buf, size_t size, gboolean needs_free)
 }
 
 GsfSharedMemory *
-gsf_shared_memory_mmapped_new (void *buf, size_t size)
+gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size)
 {
 	GsfSharedMemory *mem = gsf_shared_memory_new (buf, size, FALSE);
 	mem->needs_unmap = TRUE;
@@ -53,13 +53,18 @@ static void
 gsf_shared_memory_finalize (GObject *obj)
 {
 	GsfSharedMemory *mem = (GsfSharedMemory *) (obj);
-
+	size_t msize;
+	
 	if (mem->buf != NULL) {
 		if (mem->needs_free)
 			g_free (mem->buf);
 		else if (mem->needs_unmap) {
 #ifdef HAVE_MMAP
-			munmap (mem->buf, mem->size);
+			msize = mem->size;
+			if (msize != mem->size) { /* Check for overflow */
+				g_warning ("memory buffer size too large");
+			}
+			munmap (mem->buf, msize);
 #else
 			g_assert_not_reached ();
 #endif

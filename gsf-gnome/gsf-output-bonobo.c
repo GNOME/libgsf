@@ -66,7 +66,8 @@ gsf_output_bonobo_close (GsfOutput *output)
 }
 
 static gboolean
-gsf_output_bonobo_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
+			GsfSeekType whence)
 {
     GsfOutputBonobo *boutput = GSF_OUTPUT_BONOBO (output);
     Bonobo_Stream_SeekType bwhence;

@@ -108,7 +108,7 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 	g_return_val_if_fail (block < ole->info->max_block, NULL);
 
 	if (gsf_input_seek (ole->input,
-		(off_t)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
+		(gsf_off_t)(OLE_HEADER_SIZE + (block << ole->info->bb.shift)),
 		GSF_SEEK_SET) < 0)
 		return NULL;
 
@@ -436,7 +436,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint32 metabat_block, *ptr;
 
 	/* check the header */
-	if (gsf_input_seek (ole->input, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (ole->input, (gsf_off_t) 0, GSF_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
@@ -633,7 +633,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		/* optimization don't see if we don't need to */
 		if (ole->cur_block != first_block) {
 			if (gsf_input_seek (ole->input,
-				(off_t)(OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
+				(gsf_off_t)(OLE_HEADER_SIZE + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
 				GSF_SEEK_SET) < 0)
 				return NULL;
 		}
@@ -671,7 +671,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_msole_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_infile_msole_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
 
@@ -693,7 +693,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 
 	child = ole_dup (parent);
 	child->dirent = dirent;
-	gsf_input_set_size (GSF_INPUT (child), dirent->size);
+	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->size);
 
 	/* The root dirent defines the small block file */
 	if (dirent->index != 0) {
@@ -730,7 +730,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent, MSOleDirent *dirent)
 
 		for (i = 0 ; i < child->bat.num_blocks; i++)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-				(off_t)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
+				(gsf_off_t)(child->bat.block [i] << info->sb.shift), GSF_SEEK_SET) < 0 ||
 			    (data = gsf_input_read (GSF_INPUT (sb_file),
 				info->sb.size, 
 				child->stream.buf + (i << info->sb.shift))) == NULL) {
@@ -849,7 +849,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 	ole = g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	ole->input = source;
-	gsf_input_set_size (GSF_INPUT (ole), 0);
+	gsf_input_set_size (GSF_INPUT (ole), (gsf_off_t) 0);
 
 	if (ole_init_info (ole, err)) {
 		g_object_unref (G_OBJECT (ole));

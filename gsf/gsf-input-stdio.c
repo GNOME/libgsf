@@ -55,7 +55,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	GsfInputStdio *input;
 	struct stat st;
 	FILE *file;
-	size_t size;
+	gsf_off_t size;
 
 	file = fopen (filename, "r");
 	if (file == NULL || fstat (fileno (file), &st) < 0) {
@@ -141,24 +141,30 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_stdio_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_stdio_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInputStdio const *stdio = GSF_INPUT_STDIO (input);
+	off_t foffset;
 
 	if (stdio->file == NULL)
 		return TRUE;
 
+	foffset = offset;
+	if (foffset != offset) { /* Check for overflow */
+		g_warning ("offset too large for fseek");
+		return TRUE;
+	}
 	switch (whence) {
 	case GSF_SEEK_SET :
-		if (0 == fseek (stdio->file, offset, SEEK_SET))
+		if (0 == fseek (stdio->file, foffset, SEEK_SET))
 			return FALSE;
 		break;
 	case GSF_SEEK_CUR :
-		if (0 == fseek (stdio->file, offset, SEEK_CUR))
+		if (0 == fseek (stdio->file, foffset, SEEK_CUR))
 			return FALSE;
 		break;
 	case GSF_SEEK_END :
-		if (0 == fseek (stdio->file, offset, SEEK_END))
+		if (0 == fseek (stdio->file, foffset, SEEK_END))
 			return FALSE;
 	}
 

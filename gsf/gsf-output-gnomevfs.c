@@ -51,14 +51,14 @@ gsf_output_gnomevfs_new (char const *filename, GError **err)
     GnomeVFSResult res;
     
     if (filename == NULL) {
-        g_set_error (error, gsf_output_error(), 0,
+        g_set_error (err, gsf_output_error(), 0,
                      "Filename/URI cannot be NULL");
         return NULL;
     } else
-       res = gnome_vfs_open (handle, filename, GNOME_VFS_OPEN_WRITE);
+       res = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_WRITE);
 
     if (res != GNOME_VFS_OK) {
-        g_set_error (error, gsf_output_error (), res,
+        g_set_error (err, gsf_output_error (), (gint) res,
                      gnome_vfs_result_to_string (res));
         return NULL;
     }
@@ -97,7 +97,8 @@ gsf_output_gnomevfs_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_output_gnomevfs_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
+			  GsfSeekType whence)
 {
     GsfOutputGnomeVFS const *vfs = GSF_OUTPUT_GNOMEVFS (output);
 
@@ -106,15 +107,21 @@ gsf_output_gnomevfs_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
 
     switch (whence) {
         case GSF_SEEK_SET :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_START, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_START,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
         case GSF_SEEK_CUR :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_CURRENT, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_CURRENT,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
         case GSF_SEEK_END :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_END, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_END,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
     }
@@ -134,9 +141,10 @@ gsf_output_gnomevfs_write (GsfOutput *output,
     g_return_val_if_fail (vfs != NULL, FALSE);
     g_return_val_if_fail (vfs->handle != NULL, FALSE);
 
-    res = gnome_vfs_write (vfs->handle, (gconstpointer)buffer, num_bytes, &nwritten);
+    res = gnome_vfs_write (vfs->handle, (gconstpointer)buffer,
+			   (GnomeVFSFileSize) num_bytes, &nwritten);
     if (GNOME_VFS_OK != res)
-        return false;
+        return FALSE;
     return nwritten == num_bytes;
 }
 

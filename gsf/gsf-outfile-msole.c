@@ -108,7 +108,8 @@ gsf_outfile_msole_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_outfile_msole_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
+			GsfSeekType whence)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 
@@ -135,7 +136,7 @@ gsf_outfile_msole_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
 
 	case MSOLE_BIG_BLOCK:
 		return gsf_output_seek (ole->sink,
-			(off_t)(ole->content.big_block.start_offset + offset),
+			(gsf_off_t)(ole->content.big_block.start_offset + offset),
 			GSF_SEEK_SET);
 
 	default :
@@ -222,6 +223,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 	guint32	sbat_start, num_sbat, sb_data_start, sb_data_size, sb_data_blocks;
 	guint32	bat_start, num_bat, dirent_start, num_dirent_blocks, next, child_index;
 	unsigned i, j, blocks, xbats, xbat_pos;
+	gsf_off_t data_size;
 
 	/* The root dir */
 	if (gsf_output_container (output) == NULL) {
@@ -230,11 +232,11 @@ gsf_outfile_msole_close (GsfOutput *output)
 		/* write small block data */
 		blocks = 0;
 		sb_data_start = ole_cur_block (ole);
-		sb_data_size = gsf_output_tell (ole->sink);
+		data_size = gsf_output_tell (ole->sink);
 		for (i = 0 ; i < elem->len ; i++) {
 			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 			if (child->type == MSOLE_SMALL_BLOCK) {
-				size_t size = gsf_output_size (GSF_OUTPUT (child));
+				gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
 
 				child->blocks = size >> OLE_DEFAULT_SB_SHIFT;
 				if ((child->blocks << OLE_DEFAULT_SB_SHIFT) != size)
@@ -246,7 +248,12 @@ gsf_outfile_msole_close (GsfOutput *output)
 				blocks += child->blocks;
 			}
 		}
-		sb_data_size = gsf_output_tell (ole->sink) - sb_data_size;
+		data_size = gsf_output_tell (ole->sink) - data_size;
+		sb_data_size = data_size;
+		if (sb_data_size != data_size) { /* Check for overflow */
+			g_warning ("File too big");
+			return FALSE;
+		}
 		bb_pad_zero (ole->sink);
 		sb_data_blocks = ole_cur_block (ole) - sb_data_start;
 
@@ -340,7 +347,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 		/* fix up the header */
 		GSF_LE_SET_GUINT32 (buf,   num_bat);
 		GSF_LE_SET_GUINT32 (buf+4, dirent_start);
-		gsf_output_seek (ole->sink, OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
+		gsf_output_seek (ole->sink,
+				 (gsf_off_t) OLE_HEADER_NUM_BAT, GSF_SEEK_SET);
 		gsf_output_write (ole->sink, 8, buf);
 
 		GSF_LE_SET_GUINT32 (buf+0x0, sbat_start);
@@ -362,7 +370,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 		}
 		GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
 		GSF_LE_SET_GUINT32 (buf+0xc, xbats);
-		gsf_output_seek (ole->sink, OLE_HEADER_SBAT_START, GSF_SEEK_SET);
+		gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
+				 GSF_SEEK_SET);
 		gsf_output_write (ole->sink, 0x10, buf);
 
 		/* write initial Meta-BAT */
@@ -374,7 +383,8 @@ gsf_outfile_msole_close (GsfOutput *output)
 		/* write extended Meta-BAT */
 		if (blocks < num_bat) {
 			/* Append the meta bats */
-			gsf_output_seek (ole->sink, 0, GSF_SEEK_END);
+			gsf_output_seek (ole->sink,
+					 (gsf_off_t) 0, GSF_SEEK_END);
 			for (i = 0 ; i++ < xbats ; ) {
 				bat_start += blocks;
 				blocks = num_bat - bat_start;
@@ -402,7 +412,7 @@ gsf_outfile_msole_close (GsfOutput *output)
 
 		return gsf_output_close (ole->sink);
 	} else if (ole->type == MSOLE_BIG_BLOCK) {
-		gsf_outfile_msole_seek (output, 0, GSF_SEEK_END);
+		gsf_outfile_msole_seek (output, (gsf_off_t) 0, GSF_SEEK_END);
 		bb_pad_zero (ole->sink);
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
 		return gsf_output_unwrap (ole->sink, output);
@@ -415,11 +425,13 @@ gsf_outfile_msole_write (GsfOutput *output,
 			 size_t num_bytes, guint8 const *data)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
+	size_t wsize;
 
 	g_return_val_if_fail (ole->type != MSOLE_DIR, FALSE);
 	if (ole->type == MSOLE_SMALL_BLOCK) {
 		gboolean ok;
 		guint8 *buf;
+		gsf_off_t start_offset;
 
 		if ((output->cur_offset + num_bytes) < OLE_DEFAULT_THRESHOLD) {
 			memcpy (ole->content.small_block.buf + output->cur_offset,
@@ -432,10 +444,22 @@ gsf_outfile_msole_write (GsfOutput *output,
 
 		buf = ole->content.small_block.buf;
 		ole->content.small_block.buf = NULL;
-		ole->content.big_block.start_offset = gsf_output_tell (ole->sink);
+		start_offset = gsf_output_tell (ole->sink);
+		ole->content.big_block.start_offset = start_offset;
+		if (ole->content.big_block.start_offset != start_offset) {
+			/* Check for overflow */
+			g_warning ("File too big");
+			return FALSE;
+		}
+		
 		ole->first_block = ole_cur_block (ole);
 		ole->type = MSOLE_BIG_BLOCK;
-		gsf_output_write (ole->sink, output->cur_size, buf);
+		wsize = output->cur_size;
+		if (wsize != output->cur_size) { /* Check for overflow */
+			g_warning ("File too big");
+			return FALSE;
+		}
+		gsf_output_write (ole->sink, wsize, buf);
 		g_free (buf);
 	}
 

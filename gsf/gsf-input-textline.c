@@ -64,7 +64,7 @@ gsf_input_textline_new (GsfInput *source)
 	input->source = source;
 	input->buf  = NULL;
 	input->buf_size = 0;
-	gsf_input_set_size (GSF_INPUT (source), (unsigned)gsf_input_size (source));
+	gsf_input_set_size (GSF_INPUT (source), gsf_input_size (source));
 
 	return input;
 }
@@ -112,7 +112,7 @@ gsf_input_textline_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_textline_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_textline_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
 	textline->remainder = NULL;
@@ -160,6 +160,7 @@ unsigned char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 {
 	guint8 const *ptr ,*end;
+	gsf_off_t remain;
 	unsigned len, count = 0;
 
 	g_return_val_if_fail (textline != NULL, NULL);
@@ -167,9 +168,8 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 	while (1) {
 		if (textline->remainder == NULL ||
 		    textline->remainder_size == 0) {
-			len = gsf_input_remaining (textline->source);
-			if (len > textline->max_line_size)
-				len = textline->max_line_size;
+			remain = gsf_input_remaining (textline->source);
+			len = MIN (remain, textline->max_line_size);
 
 			textline->remainder = gsf_input_read (textline->source, len, NULL);
 			if (textline->remainder == NULL)
@@ -237,6 +237,7 @@ guint8 *
 gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 {
 	guint8 const *ptr ,*end;
+	gsf_off_t remain;
 	unsigned len, count = 0;
 
 	g_return_val_if_fail (textline != NULL, NULL);
@@ -244,9 +245,8 @@ gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 	while (1) {
 		if (textline->remainder == NULL ||
 		    textline->remainder_size == 0) {
-			len = gsf_input_remaining (textline->source);
-			if (len > textline->max_line_size)
-				len = textline->max_line_size;
+			remain = gsf_input_remaining (textline->source);
+			len = MIN (remain, textline->max_line_size);
 
 			textline->remainder = gsf_input_read (textline->source, len, NULL);
 			if (textline->remainder == NULL)

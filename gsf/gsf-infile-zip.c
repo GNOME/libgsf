@@ -85,13 +85,13 @@ typedef struct {
 #define GSF_INFILE_ZIP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_ZIP_TYPE, GsfInfileZipClass))
 #define GSF_IS_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
 
-static off_t
+static gsf_off_t
 zip_find_trailer (GsfInfileZip *zip)
 {
 	static guint8 const trailer_signature[] =
 		{ 'P', 'K', 0x05, 0x06 };
-	off_t offset, trailer_offset;
-	size_t filesize, maplen;
+	gsf_off_t offset, trailer_offset, filesize;
+	size_t maplen;
 	guint8 const *data;
 
 	filesize = gsf_input_size (zip->input);
@@ -99,7 +99,12 @@ zip_find_trailer (GsfInfileZip *zip)
 		return -1;
 
 	trailer_offset = filesize;
-	maplen = filesize & (ZIP_BUF_SIZE - 1);
+	maplen = filesize;
+	if (maplen != filesize) { /* Check for overflow */
+		g_warning ("File too large");
+		return -1;
+	}
+	maplen &= (ZIP_BUF_SIZE - 1);
 	if (maplen == 0)
 		maplen = ZIP_BUF_SIZE;
 	offset = filesize - maplen; /* offset is now BUFSIZ aligned */
@@ -145,7 +150,7 @@ zip_find_trailer (GsfInfileZip *zip)
 }
 
 static ZipDirent *
-zip_dirent_new (GsfInfileZip *zip, off_t *offset)
+zip_dirent_new (GsfInfileZip *zip, gsf_off_t *offset)
 {
 	static guint8 const dirent_signature[] =
 		{ 'P', 'K', 0x01, 0x02 };
@@ -268,10 +273,10 @@ zip_init_info (GsfInfileZip *zip, GError **err)
 	guint16 entries, i;
 	guint32 dir_pos;
 	ZipInfo *info;
-	off_t offset;
+	gsf_off_t offset;
 
 	/* Check the header */
-	if (gsf_input_seek (zip->input, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (zip->input, (gsf_off_t) 0, GSF_SEEK_SET) ||
 	    NULL == (header = gsf_input_read (zip->input, ZIP_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, header_signature, sizeof (header_signature))) {
 		g_set_error (err, gsf_input_error (), 0, "No Zip signature");
@@ -348,7 +353,7 @@ zip_update_stream_in (GsfInfileZip const *zip)
 
 	read_now = (dirent->crestlen > ZIP_BLOCK_SIZE) ? ZIP_BLOCK_SIZE : dirent->crestlen;
 
-	gsf_input_seek (zip->input, (off_t) (dirent->data_offset + dirent->stream.total_in), GSF_SEEK_SET);
+	gsf_input_seek (zip->input, (gsf_off_t) (dirent->data_offset + dirent->stream.total_in), GSF_SEEK_SET);
 	if ((data = gsf_input_read (zip->input, read_now, NULL)) == NULL)
 		return FALSE;
 
@@ -417,7 +422,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_zip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
 
@@ -444,7 +449,7 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
 
 	child = zip_dup (parent);
 
-	gsf_input_set_size (GSF_INPUT (child), dirent->usize);
+	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->usize);
 	gsf_input_set_name (GSF_INPUT (child), dirent->name);
 	gsf_input_set_container (GSF_INPUT (child), GSF_INFILE (parent));
 
@@ -454,7 +459,8 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, ZipDirent *dirent)
 	 * should test tons of other info, but trust that those are correct
 	 **/
 
-	if (gsf_input_seek (child->input, dirent->offset, GSF_SEEK_SET) ||
+	if (gsf_input_seek (child->input, (gsf_off_t) dirent->offset,
+			    GSF_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
 		g_object_unref (child);
@@ -604,7 +610,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	zip->input = source;
-	gsf_input_set_size (GSF_INPUT (zip), 0);
+	gsf_input_set_size (GSF_INPUT (zip), (gsf_off_t) 0);
 
 	if (zip_init_info (zip, err)) {
 		g_object_unref (G_OBJECT (zip));

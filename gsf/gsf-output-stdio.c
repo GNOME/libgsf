@@ -106,24 +106,30 @@ gsf_output_stdio_finalize (GObject *obj)
 
 
 static gboolean
-gsf_output_stdio_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfOutputStdio const *stdio = GSF_OUTPUT_STDIO (output);
+	off_t foffset;
 
 	if (stdio->file == NULL)
 		return TRUE;
 
+	foffset = offset;
+	if (foffset != offset) { /* Check for overflow */
+		g_warning ("offset too large for fseek");
+		return TRUE;
+	}
 	switch (whence) {
 	case GSF_SEEK_SET :
-		if (0 == fseek (stdio->file, offset, SEEK_SET))
+		if (0 == fseek (stdio->file, foffset, SEEK_SET))
 			return FALSE;
 		break;
 	case GSF_SEEK_CUR :
-		if (0 == fseek (stdio->file, offset, SEEK_CUR))
+		if (0 == fseek (stdio->file, foffset, SEEK_CUR))
 			return FALSE;
 		break;
 	case GSF_SEEK_END :
-		if (0 == fseek (stdio->file, offset, SEEK_END))
+		if (0 == fseek (stdio->file, foffset, SEEK_END))
 			return FALSE;
 	}
 

@@ -34,7 +34,7 @@ typedef struct {
 } GsfInputMemoryClass;
 
 GsfInput *
-gsf_input_memory_new (guint8 const *buf, size_t length, gboolean needs_free)
+gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
@@ -86,7 +86,7 @@ gsf_input_memory_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffe
 }
 
 static int
-gsf_input_memory_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_memory_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	(void)input;
 	(void)offset;
@@ -165,6 +165,14 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	}
 	
 	size = st.st_size;
+	if ((ssize_t) size != st.st_size) { /* Check for overflow */
+		if (err != NULL)
+			*err = g_error_new (gsf_input_error (), 0,
+				"%s: %s",
+				"File too large to be memory mapped");
+		close (fd);
+		return NULL;
+	}
 	buf = mmap (0, size, PROT_READ, MAP_SHARED, fd, 0);
 	if (buf == MAP_FAILED) {
 		if (err != NULL)
@@ -176,8 +184,8 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	close (fd);
 
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-	mem->shared = gsf_shared_memory_mmapped_new (buf, size);
-	gsf_input_set_size (GSF_INPUT (mem), size);
+	mem->shared = gsf_shared_memory_mmapped_new (buf, (gsf_off_t) size);
+	gsf_input_set_size (GSF_INPUT (mem), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (mem), filename);
 
 	return GSF_INPUT (mem);

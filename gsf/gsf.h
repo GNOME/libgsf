@@ -37,7 +37,13 @@ typedef enum {
 	GSF_SEEK_SET,
 	GSF_SEEK_CUR,
 	GSF_SEEK_END
-} GsfOff_t;
+} GsfSeekType;
+
+/* FIXME:
+ * gsf_off_t is really supposed to be the widest type off_t can be configured
+ * to on the platform
+ */ 
+typedef gint64 gsf_off_t;
 
 G_END_DECLS
 

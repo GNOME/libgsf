@@ -104,7 +104,7 @@ gsf_output_container (GsfOutput const *output)
  *
  * Returns the size of the output, or -1 if it does not have a size.
  **/
-ssize_t
+gsf_off_t
 gsf_output_size (GsfOutput *output)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), -1);
@@ -150,7 +150,7 @@ gsf_output_is_closed (GsfOutput const *output)
  *
  * Returns the current position in the file
  **/
-int
+gsf_off_t
 gsf_output_tell	(GsfOutput *output)
 {
 	g_return_val_if_fail (output != NULL, 0);
@@ -167,9 +167,9 @@ gsf_output_tell	(GsfOutput *output)
  * Returns TRUE on error.
  **/
 gboolean
-gsf_output_seek	(GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GsfSeekType whence)
 {
-	ssize_t pos = offset;
+	gsf_off_t pos = offset;
 
 	g_return_val_if_fail (output != NULL, -1);
 
@@ -186,7 +186,7 @@ gsf_output_seek	(GsfOutput *output, off_t offset, GsfOff_t whence)
 	/* If we go nowhere, just return.  This in particular handles null
 	 * seeks for streams with no seek method.
 	 */
-	if ((size_t)pos == output->cur_offset)
+	if (pos == output->cur_offset)
 		return FALSE;
 
 	if (GET_CLASS (output)->Seek (output, offset, whence))
@@ -220,7 +220,7 @@ gsf_output_write (GsfOutput *output,
 		return TRUE;
 	if (GET_CLASS (output)->Write (output, num_bytes, data)) {
 		output->cur_offset += num_bytes;
-		if (output->cur_size < (size_t)output->cur_offset)
+		if (output->cur_size < output->cur_offset)
 			output->cur_size = output->cur_offset;
 		return TRUE;
 	}

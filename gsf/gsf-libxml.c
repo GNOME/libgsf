@@ -29,7 +29,7 @@
 static int
 gsf_libxml_read (void *context, char *buffer, int len)
 {
-	int remaining = gsf_input_remaining ((GsfInput *)context);
+	gsf_off_t remaining = gsf_input_remaining ((GsfInput *)context);
 	if (len > remaining)
 		len = remaining;
 	if (NULL == gsf_input_read ((GsfInput *)context, (size_t)len, buffer))

@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+ /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-input-stdio.c: stdio based input
  *
@@ -33,7 +33,7 @@ struct _GsfInputBonobo {
 	GsfSharedBonoboStream *shared;
 	guint8   *buf;
 	size_t   buf_size;
-	off_t    pos;
+	gsf_off_t pos;
 };
 
 typedef struct {
@@ -48,7 +48,7 @@ gib_synch_shared_ptr (GsfInputBonobo *binput)
 
 	if (binput->shared == NULL)
 		return 0;
-	if (binput->pos == (off_t) binput->shared->pos)
+	if (binput->pos == (gsf_off_t) binput->shared->pos)
 		return 0;
 
 	CORBA_exception_init (&ev);
@@ -78,7 +78,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	GsfInputBonobo *input;
 	Bonobo_StorageInfo   *info;
 	CORBA_Environment ev;
-	size_t size;
+	CORBA_long size;
 
 	if (stream == NULL) {
 		if (err != NULL)
@@ -126,7 +126,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	input->shared = gsf_shared_bonobo_stream_new (stream);
 	input->buf  = NULL;
 	input->buf_size = 0;
-	gsf_input_set_size (GSF_INPUT (input), size);
+	gsf_input_set_size (GSF_INPUT (input), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (input), info->name);
 
 	CORBA_free (info);
@@ -216,11 +216,11 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_bonobo_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInputBonobo *binput = GSF_INPUT_BONOBO (input);
 	Bonobo_Stream_SeekType bwhence;
-	CORBA_long pos;
+	CORBA_long pos, coffset;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (binput != NULL, TRUE);
@@ -246,15 +246,21 @@ gsf_input_bonobo_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 		return TRUE;
 	}
 	
+
+	coffset = offset;
+	if (coffset != offset) { /* Check for overflow */
+		g_warning ("offset too large for Bonobo_Stream_seek");
+		return TRUE;
+	}
 	CORBA_exception_init (&ev);
 	pos = Bonobo_Stream_seek
-		(binput->shared->stream, offset, bwhence, &ev);
+		(binput->shared->stream, coffset, bwhence, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning (bonobo_exception_get_text (&ev));
 		return TRUE;
 	} else {
 		binput->shared->pos = pos;
-		binput->pos = (off_t) pos;
+		binput->pos = (gsf_off_t) pos;
 		return FALSE;
 	}
 }

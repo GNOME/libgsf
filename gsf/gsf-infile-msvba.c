@@ -64,7 +64,7 @@ typedef struct {
 #define VBA_COMPRESSION_WINDOW 4096
 
 static guint8 *
-vba_inflate (GsfInput *input, off_t offset, int *size)
+vba_inflate (GsfInput *input, gsf_off_t offset, int *size)
 {
 	GByteArray *res;
 	unsigned	i, win_pos, pos = 0;
@@ -253,7 +253,7 @@ vba3_dir_read (GsfInfileMSVBA *vba, GError **err)
 		return FALSE;
 	}
 
-	inflated = vba_inflate (dir, 0, &inflated_size);
+	inflated = vba_inflate (dir, (gsf_off_t) 0, &inflated_size);
 	if (inflated != NULL) {
 
 		offset = 0;
@@ -341,7 +341,7 @@ vba56_dir_read (GsfInfileMSVBA *vba, GError **err)
 		return FALSE;
 	}
 
-	if (gsf_input_seek (dir, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (dir, (gsf_off_t) 0, GSF_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (dir, VBA56_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature))) {
 		if (err != NULL)
@@ -451,7 +451,7 @@ gsf_infile_msvba_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_infile_msvba_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_infile_msvba_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	/* no data at this level */
 	(void)input; (void)offset; (void)whence;
@@ -554,7 +554,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 	vba = g_object_new (GSF_INFILE_MSVBA_TYPE, NULL);
 	g_object_ref (G_OBJECT (source));
 	vba->source = source;
-	gsf_input_set_size (GSF_INPUT (vba), 0);
+	gsf_input_set_size (GSF_INPUT (vba), (gsf_off_t) 0);
 
 	/* find the name offset pairs */
 	if (vba56_dir_read (vba, err) || vba3_dir_read (vba, err))

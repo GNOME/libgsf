@@ -51,18 +51,18 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
         GsfInputGnomeVFS *input;
 	GnomeVFSHandle *handle;
         GnomeVFSFileInfo info;
-        size_t size;
+        gsf_off_t size;
 	GnomeVFSResult res = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 	
 	if (res != GNOME_VFS_OK) {
-		g_set_error (error, gsf_input_error (), res,
+		g_set_error (error, gsf_input_error (), (gint) res,
 			gnome_vfs_result_to_string (res));
 		return NULL;
 	}
 
         res = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
         if (res != GNOME_VFS_OK) {
-            g_set_error (error, gsf_input_error (), res,
+            g_set_error (error, gsf_input_error (), (gint) res,
                          gnome_vfs_result_to_string (res));
             return NULL;
         }        
@@ -74,7 +74,7 @@ gsf_input_gnomevfs_new (char const *uri, GError **error)
             return NULL;
         }
 
-        size = (size_t) info.size ;
+        size = (gsf_off_t) info.size ;
         input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
         input->handle = handle;
         input->buf  = NULL;
@@ -135,7 +135,8 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
         buffer = vfs->buf;
     }
 
-    res = gnome_vfs_read (vfs->handle, (gpointer)buffer, num_bytes, &nread);
+    res = gnome_vfs_read (vfs->handle, (gpointer)buffer,
+			  (GnomeVFSFileSize) num_bytes, &nread);
 
     if (res != GNOME_VFS_OK)
         return NULL;
@@ -147,7 +148,7 @@ gsf_input_gnomevfs_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_gnomevfs_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_gnomevfs_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
     GsfInputGnomeVFS const *vfs = GSF_INPUT_GNOMEVFS (input);
     
@@ -156,15 +157,21 @@ gsf_input_gnomevfs_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
     switch (whence) {
         case GSF_SEEK_SET :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_START, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_START,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
         case GSF_SEEK_CUR :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_CURRENT, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_CURRENT,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
         case GSF_SEEK_END :
-            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle, GNOME_VFS_SEEK_END, offset))
+            if (GNOME_VFS_OK != gnome_vfs_seek (vfs->handle,
+						GNOME_VFS_SEEK_END,
+						(GnomeVFSFileOffset) offset))
                 return FALSE;
             break;
     }

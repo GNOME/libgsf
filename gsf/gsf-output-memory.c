@@ -76,7 +76,8 @@ gsf_output_memory_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_output_memory_seek (GsfOutput *output, off_t offset, GsfOff_t whence)
+gsf_output_memory_seek (GsfOutput *output, gsf_off_t offset,
+			GsfSeekType whence)
 {
     (void)output;
     (void)offset;
@@ -126,7 +127,7 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * @outbuffer     : optionally NULL, where to store a *non-freeable* pointer to the contents (i.e. get the length and copy it yourself before unref'ing @output).
  * @outlength     : optionally NULL, the returned size of the in-memory contents
  **/
-void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, size_t * outlength)
+void gsf_output_memory_get_bytes (GsfOutput * output, guint8 ** outbuffer, gsf_off_t * outlength)
 {
     GsfOutputMemory * mem;
 

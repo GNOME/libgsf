@@ -34,15 +34,15 @@ typedef struct _GsfSharedMemory GsfSharedMemory;
 struct _GsfSharedMemory {
 	GObject g_object;
 	void *buf;
-	size_t size;
+	gsf_off_t size;
 
 	gboolean needs_free;
 	gboolean needs_unmap;
 };
 
 GType gsf_shared_memory_get_type (void);
-GsfSharedMemory *gsf_shared_memory_new (void *buf, size_t size, gboolean needs_free);
-GsfSharedMemory *gsf_shared_memory_mmapped_new (void *buf, size_t size);
+GsfSharedMemory *gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free);
+GsfSharedMemory *gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size);
 
 G_END_DECLS
 

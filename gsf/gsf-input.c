@@ -112,7 +112,7 @@ gsf_input_dup (GsfInput *src, GError **err)
 		dst->container = src->container;
 		if (dst->container != NULL)
 			g_object_ref (G_OBJECT (dst->container));
-		gsf_input_seek (dst, (off_t)src->cur_offset, GSF_SEEK_SET);
+		gsf_input_seek (dst, (gsf_off_t)src->cur_offset, GSF_SEEK_SET);
 	}
 	return dst;
 }
@@ -125,7 +125,7 @@ gsf_input_dup (GsfInput *src, GError **err)
  *
  * Returns :  the size or -1 on error
  **/
-ssize_t
+gsf_off_t
 gsf_input_size (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, -1);
@@ -185,7 +185,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
  *
  * Returns the number of bytes left in the file.
  **/
-size_t
+gsf_off_t
 gsf_input_remaining (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, 0);
@@ -199,7 +199,7 @@ gsf_input_remaining (GsfInput *input)
  *
  * Returns the current offset in the file.
  **/
-size_t
+gsf_off_t
 gsf_input_tell (GsfInput *input)
 {
 	g_return_val_if_fail (input != NULL, 0);
@@ -216,9 +216,9 @@ gsf_input_tell (GsfInput *input)
  * Returns TRUE on error.
  **/
 gboolean
-gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
-	ssize_t pos = offset;
+	gsf_off_t pos = offset;
 
 	g_return_val_if_fail (input != NULL, -1);
 
@@ -229,14 +229,14 @@ gsf_input_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 	default : return TRUE;
 	}
 
-	if (pos < 0 || (size_t)pos > input->size)
+	if (pos < 0 || pos > input->size)
 		return TRUE;
 
 	/*
 	 * If we go nowhere, just return.  This in particular handles null
 	 * seeks for streams with no seek method.
 	 */
-	if ((size_t)pos == input->cur_offset)
+	if (pos == input->cur_offset)
 		return FALSE;
 
 	if (GET_CLASS (input)->Seek (input, offset, whence))
@@ -296,7 +296,7 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
  * Returns : TRUE if the assignment was ok.
  */
 gboolean
-gsf_input_set_size (GsfInput *input, size_t size)
+gsf_input_set_size (GsfInput *input, gsf_off_t size)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 
@@ -312,7 +312,7 @@ gsf_input_set_size (GsfInput *input, size_t size)
  * Returns : TRUE if the emulation worked.
  */
 gboolean
-gsf_input_seek_emulate (GsfInput *input, size_t pos)
+gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 {
 	if (pos < input->cur_offset)
 		return TRUE;
@@ -357,10 +357,10 @@ gsf_input_error (void)
 GsfInput *
 gsf_input_uncompress (GsfInput *src)
 {
-	off_t cur_offset = src->cur_offset;
+	gsf_off_t cur_offset = src->cur_offset;
 	const char *data;
 
-	if (gsf_input_seek (src, 0, GSF_SEEK_SET))
+	if (gsf_input_seek (src, (gsf_off_t) 0, GSF_SEEK_SET))
 		goto error;
 
 	/* Read header up front, so we avoid extra seeks in tests.  */

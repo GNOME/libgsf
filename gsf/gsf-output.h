@@ -36,12 +36,12 @@ GType gsf_output_get_type (void);
 char const   *gsf_output_name	   (GsfOutput const *output);
 GsfOutfile   *gsf_output_container (GsfOutput const *output);
 
-ssize_t	      gsf_output_size      (GsfOutput *output);
+gsf_off_t     gsf_output_size      (GsfOutput *output);
 gboolean      gsf_output_close     (GsfOutput *output);
 gboolean      gsf_output_is_closed (GsfOutput const *output);
-int           gsf_output_tell      (GsfOutput *output);
+gsf_off_t     gsf_output_tell      (GsfOutput *output);
 gboolean      gsf_output_seek      (GsfOutput *output,
-				    off_t offset, GsfOff_t whence);
+				    gsf_off_t offset, GsfSeekType whence);
 gboolean      gsf_output_write     (GsfOutput *output,
 				    size_t num_bytes, guint8 const *data);
 

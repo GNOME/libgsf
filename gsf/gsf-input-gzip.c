@@ -44,7 +44,7 @@ struct _GsfInputGZip {
 	size_t    buf_size;
 
 	size_t    header_size;
-	size_t    seek_skipped;
+	gsf_off_t seek_skipped;
 };
 
 typedef struct {
@@ -68,13 +68,14 @@ check_header (GsfInputGZip *input)
 	unsigned flags, len;
 
 	/* Get the uncompressed size first, so that the seeking is finished */
-	if (gsf_input_seek (input->source, -4, GSF_SEEK_END) ||
+	if (gsf_input_seek (input->source, (gsf_off_t) -4, GSF_SEEK_END) ||
 	    NULL == (data = gsf_input_read (input->source, 4, NULL)))
 		return TRUE;
-	gsf_input_set_size (GSF_INPUT (input), (size_t) GSF_LE_GET_GUINT32 (data));
+	gsf_input_set_size (GSF_INPUT (input),
+			    (gsf_off_t) GSF_LE_GET_GUINT32 (data));
 
 	/* Check signature */
-	if (gsf_input_seek (input->source, 0, GSF_SEEK_SET) ||
+	if (gsf_input_seek (input->source, (gsf_off_t) 0, GSF_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (input->source, 2 + 1 + 1 + 6, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature)))
 		return TRUE;
@@ -209,10 +210,11 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			/* the last 8 bytes are the crc and size, but we need 1
 			 * byte to flush the decompresion.
 			 */
-			size_t n = gsf_input_remaining (gzip->source);
-			if (n < 8)
+			gsf_off_t remain = gsf_input_remaining (gzip->source);
+			size_t n;
+			if (remain < 8)
 				return NULL;
-			n = MIN (n - 7, Z_BUFSIZE);
+			n = MIN (remain - 7, Z_BUFSIZE);
 
 			if (NULL == (gzip->gzipped_data = gsf_input_read (gzip->source, n, NULL)))
 				return NULL;
@@ -229,12 +231,12 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
+gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GsfSeekType whence)
 {
 	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
 	/* Global flag -- we don't want one per stream.  */
 	static gboolean warned = FALSE;
-	size_t pos = offset;
+	gsf_off_t pos = offset;
 
 	/* Note, that pos has already been sanity checked.  */
 	switch (whence) {
@@ -246,7 +248,7 @@ gsf_input_gzip_seek (GsfInput *input, off_t offset, GsfOff_t whence)
 
 	if (pos < input->cur_offset) {
 		if (gsf_input_seek (gzip->source,
-				    (off_t)gzip->header_size,
+				    (gsf_off_t)gzip->header_size,
 				    GSF_SEEK_SET))
 			return TRUE;
 		gzip->crc = crc32 (0L, Z_NULL, 0);

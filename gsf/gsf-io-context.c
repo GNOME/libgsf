@@ -100,7 +100,7 @@ gsf_io_context_finalize (GObject *object)
 }
 
 GSF_CLASS(GsfIOContext, gsf_io_context,
-	  gsf_io_context_class_init, gsf_io_context_init, GSF_IO_CONTEXT_TYPE)
+	  gsf_io_context_class_init, gsf_io_context_init, G_TYPE_OBJECT)
 
 /**
  * gsf_io_context_new
