@@ -16,6 +16,7 @@ Morten:
 	* Propagate errors from GsfOutputGzip's sink to itself.
 	* Fix GsfOutputStdio to avoid killing the target file when we
 	  get an error.
+	* Add new GsfOutputCsv and GsfOutputIconv.
 
 ------------------------------------------------------------------------------
 libgsf 1.11.1
