@@ -1,5 +1,10 @@
 2005-04-09  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-outfile.h : remove G_GNUC_NULL_TERMINATED for now.
+	  we do not want to require glib-2.7
+
+2005-04-09  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-outfile-impl.h (new_child) : change the signature to pass in
 	  var_args.  Changed all callers.
 
