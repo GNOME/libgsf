@@ -6,6 +6,12 @@ Herzi:
 Ivan:
 	* Fix codepage problem.  [#162841]
 
+Jody:
+	* Support GObject properties in GsfOutfile::new_child
+
+Manuel Mausz:
+	* OLE2 property export.
+
 Morten:
 	* Attempt to get non-ASCII filenames right on Win32.  [#171145]
 	* Add "raw" properties to GsfInputGzip and GsfOutputGzip to
