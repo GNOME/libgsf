@@ -14,6 +14,9 @@ XML and libxml
 
 </para>
 
+<!-- ##### SECTION Stability_Level ##### -->
+
+
 <!-- ##### MACRO GSF_XML_IN_NS ##### -->
 <para>
 
@@ -174,6 +177,28 @@ XML and libxml
 			     allow_unknown:
 @\
 			     allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
 @\
 			     deprecated_unused_allow_unknown:
 @\

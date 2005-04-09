@@ -442,7 +442,7 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	input = gsf_input_dup (src->input, err);
 	if (input == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "Failed to duplicate input stream");
 		return NULL;
 	}
@@ -482,7 +482,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	    NULL == (header = gsf_input_read (ole->input, OLE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"No OLE2 signature");
 		return TRUE;
 	}
@@ -501,7 +501,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	 */
 	if (6 > bb_shift || bb_shift >= 31 || sb_shift > bb_shift) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Unreasonable block sizes");
 		return TRUE;
 	}
@@ -576,7 +576,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 	if (ptr == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Inconsistent block allocation table");
 		return TRUE;
 	}
@@ -584,7 +584,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	/* Read the directory's bat, we do not know the size */
 	if (ole_make_bat (&info->bb.bat, 0, dirent_start, &ole->bat)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Problems making block allocation table");
 		return TRUE;
 	}
@@ -593,7 +593,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	ole->dirent = info->root_dir = ole_dirent_new (ole, 0, NULL);
 	if (ole->dirent == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Problems reading directory");
 		return TRUE;
 	}
@@ -762,7 +762,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 		sb_file = ole_info_get_sb_file (parent);
 		if (!sb_file) {
 			if (err != NULL)
-				*err = g_error_new (gsf_input_error (), 0,
+				*err = g_error_new (gsf_input_error_id (), 0,
 						    "Failed to access child");
 			g_object_unref (G_OBJECT (child));
 			return NULL;

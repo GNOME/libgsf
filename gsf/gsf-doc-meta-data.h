@@ -56,9 +56,9 @@ void		gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta,
 						 GHFunc func, gpointer user_data);
 gsize		gsf_doc_meta_data_size		(GsfDocMetaData const *meta);
 
-GValue const   *gsf_get_prop_val (GsfDocProp const *prop);
-gchar          *gsf_get_prop_val_str (GsfDocProp const *prop);
-
+GValue const   *gsf_get_prop_val	  (GsfDocProp const *prop);
+gchar          *gsf_get_prop_val_as_str   (GsfDocProp const *prop);
+void		gsf_get_prop_val_from_str (GsfDocProp const *prop);
 
 G_END_DECLS
 

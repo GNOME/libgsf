@@ -23,16 +23,16 @@
 #include <gsf/gsf-docprop-vector.h>
 #include <stdio.h>
 
-struct _GsfDocPropVectorClass {
-	GObjectClass  parent_class;
-};
-
 struct _GsfDocPropVector {
-	GObject      parent;      /* this MUST be the first member */
+	GObject      parent;
 
 	GValueArray *gva;
 };
+typedef GObjectClass  GsfDocPropVectorClass;
 
+#define GSF_DOCPROP_VECTOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GSF_DOCPROP_VECTOR_TYPE, GsfDocPropVectorClass))
+#define GSF_DOCPROP_VECTOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GSF_DOCPROP_VECTOR_TYPE, GsfDocPropVectorClass))
+#define IS_GSF_DOCPROP_VECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GSF_DOCPROP_VECTOR_TYPE))
 
 /*
  * Local function prototypes.
@@ -81,6 +81,13 @@ static const GTypeInfo type_info =
 							   type */
 };
 
+
+GValueArray *
+gsf_value_get_docprop_varray (GValue const *value)
+{
+	GsfDocPropVector *v = gsf_value_get_docprop_vector (value);
+	return v->gva;
+}
 
 /**
  * gsf_docprop_value_get_vector

@@ -89,7 +89,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	if (!S_ISREG (st.st_mode)) {
 		if (err) {
 			char *utf8name = g_filename_display_name (filename);
-			g_set_error (err, gsf_input_error (), 0,
+			g_set_error (err, gsf_input_error_id (), 0,
 				     "%s: not a regular file",
 				     utf8name);
 			g_free (utf8name);

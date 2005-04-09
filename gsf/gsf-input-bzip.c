@@ -43,7 +43,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 {
 #ifndef HAVE_BZ2
 	if (err)
-		*err = g_error_new (gsf_input_error (), 0,
+		*err = g_error_new (gsf_input_error_id (), 0,
 				    "BZ2 support not enabled");
 	return NULL;
 #else
@@ -58,7 +58,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	memset (&bzstm, 0, sizeof (bzstm));
 	if (BZ_OK != BZ2_bzDecompressInit (&bzstm, 0, 0)) {
 		if (err)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "BZ2 decompress init failed");
 		return NULL;
 	}
@@ -77,7 +77,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 		bzerr = BZ2_bzDecompress (&bzstm);
 		if (bzerr != BZ_OK && bzerr != BZ_STREAM_END) {
 			if (err)
-				*err = g_error_new (gsf_input_error (), 0,
+				*err = g_error_new (gsf_input_error_id (), 0,
 						    "BZ2 decompress failed");
 			BZ2_bzDecompressEnd (&bzstm);
 			gsf_output_close (sink);
@@ -94,7 +94,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	
 	if (BZ_OK != BZ2_bzDecompressEnd (&bzstm)) {
 		if (err)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "BZ2 decompress end failed");
 		g_object_unref (G_OBJECT (sink));
 		return NULL;

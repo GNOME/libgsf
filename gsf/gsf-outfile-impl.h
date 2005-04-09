@@ -35,7 +35,9 @@ struct _GsfOutfile {
 typedef struct {
 	GsfOutputClass output_class;
 	GsfOutput   *(*new_child) (GsfOutfile *outfile,
-				   char const *name, gboolean is_dir);
+				   char const *name, gboolean is_dir,
+				   char const *first_property_name,
+				   va_list args);
 } GsfOutfileClass;
 
 #define GSF_OUTFILE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTFILE_TYPE, GsfOutfileClass))

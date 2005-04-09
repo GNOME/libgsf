@@ -37,9 +37,34 @@ GsfOutput *
 gsf_outfile_new_child (GsfOutfile *outfile,
 		       char const *name, gboolean is_dir)
 {
+	return gsf_outfile_new_child_full (outfile, name, is_dir, NULL);
+}
+
+/**
+ * gsf_outfile_new_child_full :
+ * @outfile : A #GsfOutfile
+ * @name : The name of the new child to create
+ * @is_dir : TRUE to create a directory, FALSE to create a plain file
+ *
+ * Returns a newly created child
+ **/
+GsfOutput *
+gsf_outfile_new_child_full (GsfOutfile *outfile,
+			    char const *name, gboolean is_dir,
+			    char const *first_property_name,
+			    ...)
+{
+	GsfOutput *res;
+	va_list    args;
+
 	g_return_val_if_fail (outfile != NULL, NULL);
 
-	return GET_CLASS (outfile)->new_child (outfile, name, is_dir);
+	va_start (args, first_property_name);
+	res = GET_CLASS (outfile)->new_child (outfile, name, is_dir,
+					      first_property_name, args);
+	va_end (args);
+
+	return res;
 }
 
 GSF_CLASS_ABSTRACT (GsfOutfile, gsf_outfile, NULL, NULL, GSF_OUTPUT_TYPE)

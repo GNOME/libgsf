@@ -1,3 +1,27 @@
+2005-04-09  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-impl.h (new_child) : change the signature to pass in
+	  var_args.  Changed all callers.
+
+	* gsf/gsf-outfile.c (gsf_outfile_new_child_full) : new.
+	(gsf_outfile_new_child) : convert into a wrapper to
+	  gsf_outfile_new_child_full.
+	* gsf/gsf-input.c (gsf_input_error_id) : renamed from gsf_input_error
+	  and a deprecated wrapper with the old name.
+	* gsf/gsf-docprop-vector.c (gsf_value_get_docprop_varray) : new.
+	* gsf/gsf-infile-msvba.c (vba_project_read) : add a few new
+	  signatures.
+
+2005-04-09  Jody Goldberg <jody@gnome.org>
+
+	From Manuel Mausz <Manuel.Mausz@fabasoft.com>
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : initial
+	  implementation.
+
+2005-04-07  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the library version to indicate api change
+
 2005-04-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (LIBGSF_MODULES): This macro was replaced by...

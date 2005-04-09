@@ -10,6 +10,7 @@ test-cp-zip
 test-dump-msole
 test-gzip1
 test-gzip2
+test-out-gzip
 test-input1
 test-ls-zip
 test-msole-printf

@@ -50,13 +50,15 @@ gsf_outfile_stdio_finalize (GObject *obj)
 }
 
 static GsfOutput *
-gsf_outfile_stdio_new_child (GsfOutfile *parent, char const *name,
-			     gboolean is_dir)
+gsf_outfile_stdio_new_child (GsfOutfile *parent,
+			     char const *name, gboolean is_dir,
+			     char const *first_property_name, va_list args)
 {
 	GsfOutfileStdio *ofs = GSF_OUTFILE_STDIO (parent);
 	GsfOutput *child;
 	char *path = g_build_filename (ofs->root, name, NULL);
 
+#warning FIX : allow args
 	if (is_dir)
 		child = (GsfOutput *)gsf_outfile_stdio_new (path, NULL);
 	else

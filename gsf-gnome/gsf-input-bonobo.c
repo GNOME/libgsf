@@ -83,7 +83,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 
 	if (stream == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"stream is NULL");
 		return NULL;
 	}
@@ -93,7 +93,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	size = Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekEnd, &ev);
 	if (BONOBO_EX (&ev)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: %s",
 					    "Error seeking to get stream size",
 					    bonobo_exception_get_text (&ev));
@@ -103,7 +103,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekSet, &ev);
 	if (BONOBO_EX (&ev)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: %s",
 					    "Error seeking to get stream size",
 					    bonobo_exception_get_text (&ev));
@@ -115,7 +115,7 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	info = Bonobo_Stream_getInfo (stream, 0, &ev);
 	if (BONOBO_EX (&ev)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: %s",
 					    "Error getting stream info",
 					    bonobo_exception_get_text (&ev));

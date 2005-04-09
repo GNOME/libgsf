@@ -898,6 +898,13 @@ gsf
 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_input_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 <!-- ##### FUNCTION gsf_input_get_type ##### -->
 <para>
 
@@ -940,6 +947,13 @@ gsf
 
 @outfile: 
 @name: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_outfile_error ##### -->
+<para>
+
+</para>
+
 @Returns: 
 
 <!-- ##### FUNCTION gsf_output_error ##### -->

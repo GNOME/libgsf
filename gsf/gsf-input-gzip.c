@@ -153,7 +153,7 @@ init_zip (GsfInputGZip *gzip, GError **err)
 
 	if (Z_OK != inflateInit2 (&(gzip->stream), -MAX_WBITS)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Unable to initialize zlib");
 		return TRUE;
 	}
@@ -161,14 +161,14 @@ init_zip (GsfInputGZip *gzip, GError **err)
 	cur_pos = gsf_input_tell (gzip->source);
 	if (gsf_input_seek (gzip->source, 0, G_SEEK_SET)) {
 		if (err)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "Failed to rewind source");
 		return TRUE;
 	}
 
 	if (check_header (gzip) != FALSE) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Invalid gzip header");
 		if (gsf_input_seek (gzip->source, cur_pos, G_SEEK_SET)) {
 			g_warning ("attempt to restore position failed ??");
@@ -295,7 +295,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 				if (!gzip->gzipped_data) {
 					g_clear_error (&gzip->err);
 					gzip->err = g_error_new
-						(gsf_input_error (), 0,
+						(gsf_input_error_id (), 0,
 						 "Failed to read from source");
 					return NULL;
 				}
@@ -451,11 +451,11 @@ gsf_input_gzip_constructor (GType                  type,
 
   if (!gzip->source) {
 	  g_clear_error (&gzip->err);
-	  gzip->err = g_error_new (gsf_input_error (), 0,
+	  gzip->err = g_error_new (gsf_input_error_id (), 0,
 				   "NULL source");
   } else if (gzip->raw && gzip->uncompressed_size < 0) {
 	  g_clear_error (&gzip->err);
-	  gzip->err = g_error_new (gsf_input_error (), 0,
+	  gzip->err = g_error_new (gsf_input_error_id (), 0,
 				   "Uncompressed size not set");
   } else if (init_zip (gzip, &gzip->err) != FALSE) {
 	  /* Nothing more.  */

@@ -230,7 +230,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL) {
 			int save_errno = errno;
 			char *utf8name = g_filename_display_name (filename);
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: %s",
 					    utf8name, g_strerror (save_errno));
 			g_free (utf8name);
@@ -242,7 +242,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	if (!S_ISREG (st.st_mode)) {
 		if (err != NULL) {
 			char *utf8name = g_filename_display_name (filename);
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: Is not a regular file",
 					    utf8name);
 			g_free (utf8name);
@@ -255,7 +255,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	if ((off_t) size != st.st_size) { /* Check for overflow */
 		if (err != NULL) {
 			char *utf8name = g_filename_display_name (filename);
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: File too large to be memory mapped",
 					    utf8name);
 			g_free (utf8name);
@@ -278,7 +278,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL) {
 			int save_errno = errno;
 			char *utf8name = g_filename_display_name (filename);
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "%s: %s",
 					    utf8name, g_strerror (save_errno));
 			g_free (utf8name);
@@ -302,7 +302,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 #else
 	(void)filename;
 	if (err != NULL)
-		*err = g_error_new (gsf_input_error (), 0,
+		*err = g_error_new (gsf_input_error_id (), 0,
 				    "mmap not supported");
 	return NULL;
 #endif

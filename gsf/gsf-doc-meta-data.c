@@ -107,7 +107,7 @@ gsf_get_prop_val (GsfDocProp const *prop)
 }
 
 /**
- * gsf_get_prop_val_str :
+ * gsf_get_prop_val_as_str :
  * @prop : the property
  *
  * Returns the value associated with @prop. If @prop is NULL,
@@ -115,11 +115,15 @@ gsf_get_prop_val (GsfDocProp const *prop)
  * return its associated value.
  **/
 gchar *
-gsf_get_prop_val_str (GsfDocProp const *prop)
+gsf_get_prop_val_as_str (GsfDocProp const *prop)
 {
-
 	g_return_val_if_fail (prop != NULL, NULL);
 	return (g_strdup_value_contents (prop->val));
+}
+
+void
+gsf_get_prop_val_from_str (GsfDocProp const *prop)
+{
 }
 
 /**

@@ -14,6 +14,9 @@ Input from unstructured files
 
 </para>
 
+<!-- ##### SECTION Stability_Level ##### -->
+
+
 <!-- ##### STRUCT GsfInput ##### -->
 <para>
 
@@ -111,7 +114,7 @@ Input from unstructured files
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_input_error ##### -->
+<!-- ##### FUNCTION gsf_input_error_id ##### -->
 <para>
 
 </para>

@@ -256,7 +256,7 @@ fail_stream :
 
 	if (failed) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0, msg);
+			*err = g_error_new (gsf_input_error_id (), 0, msg);
 		return FALSE;
 	}
 	return TRUE;
@@ -292,15 +292,20 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 		int const vba_version;
 		gboolean const is_mac;
 	} const  versions [] = {
-		{ { 0x5e, 0x00, 0x00, 0x01 }, "Office 97",		5, FALSE },
-		{ { 0x5f, 0x00, 0x00, 0x01 }, "Office 97 SR1",		5, FALSE },
-		{ { 0x65, 0x00, 0x00, 0x01 }, "Office 2000 alpha?",	6, FALSE },
-		{ { 0x6b, 0x00, 0x00, 0x01 }, "Office 2000 beta?",	6, FALSE },
-		{ { 0x6d, 0x00, 0x00, 0x01 }, "Office 2000",		6, FALSE },
-		{ { 0x70, 0x00, 0x00, 0x01 }, "Office XP beta 1/2",	6, FALSE },
-		{ { 0x73, 0x00, 0x00, 0x01 }, "Office XP",		6, FALSE },
-		{ { 0x60, 0x00, 0x00, 0x0e }, "MacOffice 98",		5, TRUE },
-		{ { 0x62, 0x00, 0x00, 0x0e }, "MacOffice 2001",		5, TRUE }
+		{ { 0x5e, 0x00, 0x00, 0x01 }, "Office 97",              5, FALSE},
+		{ { 0x5f, 0x00, 0x00, 0x01 }, "Office 97 SR1",          5, FALSE },
+		{ { 0x65, 0x00, 0x00, 0x01 }, "Office 2000 alpha?",     6, FALSE },
+		{ { 0x6b, 0x00, 0x00, 0x01 }, "Office 2000 beta?",      6, FALSE },
+		{ { 0x6d, 0x00, 0x00, 0x01 }, "Office 2000",            6, FALSE },
+		{ { 0x6f, 0x00, 0x00, 0x01 }, "Office 2000",            6, FALSE },
+		{ { 0x70, 0x00, 0x00, 0x01 }, "Office XP beta 1/2",     6, FALSE },
+		{ { 0x73, 0x00, 0x00, 0x01 }, "Office XP",              6, FALSE },
+		{ { 0x76, 0x00, 0x00, 0x01 }, "Office 2003",            6, FALSE },
+		{ { 0x79, 0x00, 0x00, 0x01 }, "Office 2003",            6, FALSE },
+		{ { 0x60, 0x00, 0x00, 0x0e }, "MacOffice 98",           5, TRUE },
+		{ { 0x62, 0x00, 0x00, 0x0e }, "MacOffice 2001",         5, TRUE },
+		{ { 0x63, 0x00, 0x00, 0x0e }, "MacOffice X",		6, TRUE },
+		{ { 0x64, 0x00, 0x00, 0x0e }, "MacOffice 2004",         6, TRUE },
 	};
 
 	guint8 const *data;
@@ -312,7 +317,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 	dir = gsf_infile_child_by_name (vba->source, "dir");
 	if (dir == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Can't find the VBA directory stream.");
 		return FALSE;
 	}
@@ -321,7 +326,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 	    NULL == (data = gsf_input_read (dir, VBA56_DIRENT_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, signature, sizeof (signature))) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"No VBA signature");
 		return FALSE;
 	}
@@ -332,7 +337,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 
 	if (i >= G_N_ELEMENTS (versions)) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 				"Unknown VBA version signature 0x%x%x%x%x",
 				data[2], data[3], data[4], data[5]);
 		return FALSE;
@@ -428,7 +433,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 		return GSF_INFILE (vba);
 
 	if (err != NULL && *err == NULL)
-		*err = g_error_new (gsf_input_error (), 0,
+		*err = g_error_new (gsf_input_error_id (), 0,
 				"Unable to parse VBA header");
 
 	g_object_unref (G_OBJECT (vba));

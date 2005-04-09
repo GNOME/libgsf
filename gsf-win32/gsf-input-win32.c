@@ -79,7 +79,7 @@ hresult_to_gerror (HRESULT hr, GError ** err)
 		msg = gsf_win32_hresult_to_utf8 (hr);
 
 		if (msg) {
-			*err = g_error_new (gsf_input_error (), 0, msg);
+			*err = g_error_new (gsf_input_error_id (), 0, msg);
 			g_free (msg);
 		}
 	}
@@ -110,7 +110,7 @@ gsf_input_istream_new (IStream * stream, GError **err)
 
 	if (stream == NULL) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "stream is NULL");
 		return NULL;
 	}

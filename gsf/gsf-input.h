@@ -53,7 +53,11 @@ gboolean      gsf_input_seek	  (GsfInput *input,
 gboolean  gsf_input_copy       (GsfInput *input, GsfOutput *output);
 GsfInput *gsf_input_uncompress (GsfInput *src);
 
+GQuark gsf_input_error_id (void);
+#ifndef GSF_DISABLE_DEPRECATED
+/* deprecated in 1.12.0, use gsf_input_error_id */
 GQuark gsf_input_error (void);
+#endif /* GSF_DISABLE_DEPRECATED */
 
 G_END_DECLS
 

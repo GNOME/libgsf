@@ -9,7 +9,7 @@ gsf_input_eof
 gsf_input_remaining
 gsf_input_tell
 gsf_input_seek
-gsf_input_error
+gsf_input_error_id
 gsf_input_sibling
 
 <SUBSECTION Convenience>

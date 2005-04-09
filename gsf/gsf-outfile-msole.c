@@ -597,8 +597,9 @@ gsf_outfile_msole_set_block_shift (GsfOutfileMSOle *ole,
 }
 
 static GsfOutput *
-gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
-			     gboolean is_dir)
+gsf_outfile_msole_new_child (GsfOutfile *parent,
+			     char const *name, gboolean is_dir,
+			     char const *first_property_name, va_list args)
 {
 	GsfOutfileMSOle *ole_parent = (GsfOutfileMSOle *)parent;
 	GsfOutfileMSOle *child;
@@ -606,7 +607,8 @@ gsf_outfile_msole_new_child (GsfOutfile *parent, char const *name,
 	g_return_val_if_fail (ole_parent != NULL, NULL);
 	g_return_val_if_fail (ole_parent->type == MSOLE_DIR, NULL);
 
-	child = g_object_new (GSF_OUTFILE_MSOLE_TYPE, NULL);
+	child = (GsfOutfileMSOle *)g_object_new_valist (
+		GSF_OUTFILE_MSOLE_TYPE, first_property_name, args);
 	if (is_dir) {
 		child->type = MSOLE_DIR;
 		child->content.dir.children = NULL;

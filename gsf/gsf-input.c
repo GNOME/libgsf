@@ -211,14 +211,14 @@ gsf_input_dup (GsfInput *input, GError **err)
 	if (dst != NULL) {
 		if (dst->size != input->size) {
 			if (err != NULL)
-				*err = g_error_new (gsf_input_error (), 0,
+				*err = g_error_new (gsf_input_error_id (), 0,
 						    "Duplicate size mismatch");
 			g_object_unref (dst);
 			return NULL;
 		}
 		if (gsf_input_seek (dst, input->cur_offset, G_SEEK_SET)) {
 			if (err != NULL)
-				*err = g_error_new (gsf_input_error (), 0,
+				*err = g_error_new (gsf_input_error_id (), 0,
 						    "Seek failed");
 			g_object_unref (dst);
 			return NULL;
@@ -480,17 +480,29 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 /****************************************************************************/
 
 /**
+ * gsf_input_error_id :
+ *
+ * Returns : A utility quark to flag a GError as being an input problem.
+ */
+GQuark 
+gsf_input_error_id (void)
+{
+	static GQuark quark;
+	if (!quark)
+		quark = g_quark_from_static_string ("gsf_input_error_id");
+	return quark;
+}
+
+/**
  * gsf_input_error :
  *
+ * Deprecated in 1.12.0
  * Returns : A utility quark to flag a GError as being an input problem.
  */
 GQuark 
 gsf_input_error (void)
 {
-	static GQuark quark;
-	if (!quark)
-		quark = g_quark_from_static_string ("gsf_input_error");
-	return quark;
+	return gsf_input_error_id ();
 }
 
 /****************************************************************************/

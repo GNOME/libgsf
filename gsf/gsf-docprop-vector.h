@@ -27,25 +27,19 @@
 
 G_BEGIN_DECLS
 
-#define GSF_DOCPROP_VECTOR_TYPE            (gsf_docprop_vector_get_type ())
-#define GSF_DOCPROP_VECTOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GSF_DOCPROP_VECTOR, GsfDocPropVector))
-#define GSF_DOCPROP_VECTOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GSF_DOCPROP_VECTOR_TYPE, GsfDocPropVectorClass))
-#define GSF_DOCPROP_VECTOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GSF_DOCPROP_VECTOR_TYPE, GsfDocPropVectorClass))
-#define IS_GSF_DOCPROP_VECTOR(obj)         (G_TYPE_CHECK_VALUE_TYPE((obj), GSF_DOCPROP_VECTOR_TYPE))
-#define IS_GSF_DOCPROP_VECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GSF_DOCPROP_VECTOR_TYPE))
+#define GSF_DOCPROP_VECTOR_TYPE	 (gsf_docprop_vector_get_type ())
+#define GSF_DOCPROP_VECTOR(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), GSF_DOCPROP_VECTOR, GsfDocPropVector))
+#define IS_GSF_DOCPROP_VECTOR(o) (G_TYPE_CHECK_VALUE_TYPE((o), GSF_DOCPROP_VECTOR_TYPE))
 
-
-
-typedef struct _GsfDocPropVectorClass GsfDocPropVectorClass;
 typedef struct _GsfDocPropVector      GsfDocPropVector;
 
-
-void		  gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value);
-gchar		 *gsf_docprop_vector_as_string (GsfDocPropVector *vector);
-GType		  gsf_docprop_vector_get_type (void);
-GsfDocPropVector *gsf_docprop_vector_new (void);
-GsfDocPropVector *gsf_value_get_docprop_vector (GValue const *value);
-void		  gsf_value_set_docprop_vector (GValue *value, GsfDocPropVector const *vector);
+void		  gsf_docprop_vector_append	(GsfDocPropVector *vector, GValue *value);
+gchar		 *gsf_docprop_vector_as_string	(GsfDocPropVector *vector);
+GType		  gsf_docprop_vector_get_type	(void);
+GsfDocPropVector *gsf_docprop_vector_new	(void);
+void		  gsf_value_set_docprop_vector	(GValue *value, GsfDocPropVector const *vector);
+GsfDocPropVector *gsf_value_get_docprop_vector	(GValue const *value);
+GValueArray	 *gsf_value_get_docprop_varray	(GValue const *value);
 
 G_END_DECLS
 

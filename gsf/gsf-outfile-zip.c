@@ -553,8 +553,9 @@ root_register_child (GsfOutfileZip *root, GsfOutfileZip *child)
 }
 
 static GsfOutput *
-gsf_outfile_zip_new_child (GsfOutfile *parent, char const *name,
-			   gboolean is_dir)
+gsf_outfile_zip_new_child (GsfOutfile *parent,
+			   char const *name, gboolean is_dir,
+			   char const *first_property_name, va_list args)
 {
 	GsfOutfileZip *zip_parent = (GsfOutfileZip *)parent;
 	GsfOutfileZip *child;
@@ -563,7 +564,8 @@ gsf_outfile_zip_new_child (GsfOutfile *parent, char const *name,
 	g_return_val_if_fail (zip_parent->vdir, NULL);
 	g_return_val_if_fail (zip_parent->vdir->is_directory, NULL);
 
-	child = g_object_new (GSF_OUTFILE_ZIP_TYPE, NULL);
+	child = (GsfOutfileZip *)g_object_new_valist (
+		GSF_OUTFILE_ZIP_TYPE, first_property_name, args);
 	child->vdir = gsf_vdir_new (name, is_dir, NULL);
 	g_object_ref (G_OBJECT (zip_parent->sink));
 	child->sink = zip_parent->sink;

@@ -58,7 +58,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	gboolean          is_local;
 
 	if (uri == NULL) {
-		g_set_error (error, gsf_input_error (), 0,
+		g_set_error (error, gsf_input_error_id (), 0,
 			     "Filename/URI cannot be NULL");
 		return NULL;
 	}
@@ -78,7 +78,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	case GNOME_VFS_ERROR_NOT_SUPPORTED:
 		goto make_local_copy;
 	default:
-		g_set_error (error, gsf_input_error (), (gint) res,
+		g_set_error (error, gsf_input_error_id (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
 	case GNOME_VFS_OK: /* Nothing */ ;
@@ -97,7 +97,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 			goto make_local_copy;
 		}
 
-		g_set_error (error, gsf_input_error (), 0,
+		g_set_error (error, gsf_input_error_id (), 0,
 			     "Not a regular file");
 		return NULL;
 	}
@@ -109,7 +109,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	res = gnome_vfs_open_uri (&handle, uri,
 				  GNOME_VFS_OPEN_READ | GNOME_VFS_OPEN_RANDOM);
 	if (res != GNOME_VFS_OK) {
-		g_set_error (error, gsf_input_error (), (gint) res,
+		g_set_error (error, gsf_input_error_id (), (gint) res,
 			     gnome_vfs_result_to_string (res));
 		return NULL;
 	}
@@ -140,14 +140,14 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 		res = gnome_vfs_read_entire_file (uri_text, &file_size, &buffer);
 		g_free (uri_text);
 		if (res != GNOME_VFS_OK) {
-			g_set_error (error, gsf_input_error (), (gint)res,
+			g_set_error (error, gsf_input_error_id (), (gint)res,
 				     "Read error while creating local copy.");
 			return NULL;
 		}
 
 		mem = gsf_input_memory_new (buffer, file_size, TRUE);
 		if (!mem) {
-			g_set_error (error, gsf_input_error (), 0,
+			g_set_error (error, gsf_input_error_id (), 0,
 				     "Failed to create local memory stream");
 			g_free (buffer);
 			return NULL;
@@ -173,7 +173,7 @@ gsf_input_gnomevfs_new (char const *text_uri, GError **error)
 {
 	GnomeVFSURI *uri = gnome_vfs_uri_new (text_uri);
 	if (!uri) {
-		g_set_error (error, gsf_input_error (), 0,
+		g_set_error (error, gsf_input_error_id (), 0,
 			     "Invalid URI");
 		return NULL;
 	} else {

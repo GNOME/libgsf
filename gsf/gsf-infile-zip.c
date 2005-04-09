@@ -301,7 +301,7 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 	offset = zip_find_trailer (zip);
 	if (offset < 0) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 			     "No Zip trailer");
 		return TRUE;
 	}
@@ -309,7 +309,7 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 	if (gsf_input_seek (zip->input, offset, G_SEEK_SET) ||
 	    NULL == (trailer = gsf_input_read (zip->input, ZIP_TRAILER_SIZE, NULL))) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error (), 0,
+			*err = g_error_new (gsf_input_error_id (), 0,
 					    "Error reading Zip signature");
 		return TRUE;
 	}
@@ -332,7 +332,7 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 		if (d == NULL) {
 			if (err != NULL)
 				*err = g_error_new
-					(gsf_input_error (), 0,
+					(gsf_input_error_id (), 0,
 					 "Error reading zip dirent");
 			return TRUE;
 		}
@@ -398,7 +398,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
 		if (errmsg != NULL)
-			*errmsg = g_error_new (gsf_input_error (), 0,
+			*errmsg = g_error_new (gsf_input_error_id (), 0,
 					    "Unable to read zip header.");
 		return TRUE;
 	}
@@ -419,7 +419,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 		err = inflateInit2 (child->stream, -MAX_WBITS);
 		if (err != Z_OK) {
 			if (errmsg != NULL)
-				*errmsg = g_error_new (gsf_input_error (), 0,
+				*errmsg = g_error_new (gsf_input_error_id (), 0,
 					"problem uncompressing stream");
 			return TRUE;
 		}
