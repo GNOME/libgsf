@@ -1736,7 +1736,7 @@ static GsfLanguageMapping const gsf_msole_language_ids[] = {
 	{ "mo",     0x0450 }, /* Mongolian */
 	{ "ne_NP",  0x0461 }, /* Napali (Nepal) */
 	{ "ne_IN",  0x0861 }, /* Nepali (India) */
-	{ "nb_NO",  0x0414 }, /* Norwegian (Bokmai) */
+	{ "nb_NO",  0x0414 }, /* Norwegian (Bokmaal) */
 	{ "nn_NO",  0x0814 }, /* Norwegian (Nynorsk) */
 	{ "or",     0x0448 }, /* Oriya or_ */
 	{ "om",     0x0472 }, /* Oromo (Afan, Galla) */
