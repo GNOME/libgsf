@@ -1372,6 +1372,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 	guint32 i;
 	GsfMSOleMetaDataProp_real *props_codepage = NULL;
 	GsfDocProp		  *prop_codepage = NULL;
+	GsfMSOleMetaDataProp_real *props = NULL;
 
 	/*
 	 * check and save codepage into props_codepage
@@ -1393,7 +1394,6 @@ gsf_msole_metadata_write (GsfOutput *out,
 	}
 
 	/* get number of properties and allocate struct */
-	GsfMSOleMetaDataProp_real *props = NULL;
 	if (success) {
 		props_count = gsf_doc_meta_data_size (meta_data);
 		if (prop_codepage != NULL)
