@@ -1370,9 +1370,10 @@ gsf_msole_metadata_write (GsfOutput *out,
 	guint8 buf[8];
 	guint8 const *guid;
 	guint32 i;
-	GsfMSOleMetaDataProp_real *props_codepage = NULL;
 	GsfDocProp		  *prop_codepage = NULL;
+	GsfMSOleMetaDataProp_real *props_codepage = NULL;
 	GsfMSOleMetaDataProp_real *props = NULL;
+	AddPropsStruct		  *props_struct = NULL;
 
 	/*
 	 * check and save codepage into props_codepage
@@ -1402,7 +1403,6 @@ gsf_msole_metadata_write (GsfOutput *out,
 	}
 
 	/* insert ids and offsets into props[] (only for id !=0, 1, >0xFFFFFFFF) */
-	AddPropsStruct *props_struct = NULL;
 	if (success) {
 		props_struct = g_new (AddPropsStruct, 1);
 		props_struct->props = props;

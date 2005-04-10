@@ -195,7 +195,7 @@ ar_info_unref (ArInfo *info)
 	if (info->ref_count-- != 1)
 		return;
 
-	vdir_free (info->vdir, FALSE);
+	ar_vdir_free (info->vdir, FALSE);
 	for (p = info->dirent_list; p != NULL; p = p->next)
 		ar_dirent_free ((ArDirent *) p->data);
 
@@ -277,33 +277,16 @@ ar_dup (GsfInfileAr const *src)
 
 /***************************************************************/
 
-/* ASCII Decimal to Integer */
-static gint
-ar_dec_to_int(const gchar *dec)
+static gboolean
+ar_validate_magic (GsfInput *fp)
 {
-	gint i;
-	sscanf(dec, "%d", &i);
-	return i;
+	char magic [AR_MAGIC_LEN];
+	return (gsf_input_read (fp, sizeof magic, magic) != NULL &&
+		0 == strncmp (magic, AR_MAGIC, AR_MAGIC_LEN));
 }
 
 static ArStatus
-ar_validate_magic(GsfInput *fp)
-{
-	char magic[AR_MAGIC_LEN];
-
-	if (gsf_input_remaining (fp) <= AR_MAGIC)
-		return AR_EOF;
-
-	gsf_input_read (fp, AR_MAGIC, magic);
-
-	if (strncmp (magic, AR_MAGIC, AR_MAGIC_LEN))
-		return AR_FAILURE;
-
-	return AR_SUCCESS;
-}
-
-static ArStatus
-ar_read_header(GsfInput *fp, ArHeader *header)
+ar_read_header (GsfInput *fp, ArHeader *header)
 {
 	size_t len;
 
