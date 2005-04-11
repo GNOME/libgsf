@@ -43,8 +43,7 @@ typedef struct {
 GsfDocMetaData *
 gsf_doc_meta_data_new (void)
 {
-	GsfDocMetaData *meta = g_object_new (GSF_DOC_META_DATA_TYPE, NULL);
-	return meta;
+	return g_object_new (GSF_DOC_META_DATA_TYPE, NULL);
 }
 
 /**

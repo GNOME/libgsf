@@ -35,12 +35,14 @@
 #include <ctype.h>
 
 #define BIFF_TYPES_FILE    "biff-types.h"
+/*#define DUMP_CONTENT	1*/
 
 typedef struct {
 	guint16 opcode;
 	char *name;
 } GENERIC_TYPE;
 
+#ifdef DUMP_CONTENT
 static GPtrArray *biff_types   = NULL;
 static void
 read_types (const char *fname, GPtrArray **types)
@@ -135,19 +137,19 @@ dump_biff_stream (GsfInput *stream)
 		pos = gsf_input_tell (stream);
 	}
 }
+#endif /* DUMP_CONTENT */
 
 static void
-print_property (gpointer name, gpointer value, gpointer user_data)
+cb_print_property (char const *name, GValue const *value)
 {
 	GsfDocPropVector	*vector;
 
-
-	printf ("print_property: name  = %s\n", (char *)name);
-	printf ("                value = %s\n", g_strdup_value_contents((GValue *)value));
+	printf ("print_property: name  = %s\n", name);
+	printf ("                value = %s\n", g_strdup_value_contents (value));
 	if (IS_GSF_DOCPROP_VECTOR ((GValue *)value)) {
-		vector = gsf_value_get_docprop_vector ((GValue *)value);
-		printf ("                      = %s\n",
-			gsf_docprop_vector_as_string (vector));
+		vector = gsf_value_get_docprop_vector (value);
+		printf ("\t\t= %s\n",
+		gsf_docprop_vector_as_string (vector));
 	}
 }
 
@@ -163,7 +165,6 @@ test (unsigned argc, char *argv[])
 	GsfInfile *infile;
 	GError    *err = NULL;
 	unsigned i, j;
-	GsfDocMetaData *meta_data;
 
 	for (i = 1 ; i < argc ; i++) {
 		fprintf( stderr, "%s\n",argv[i]);
@@ -189,7 +190,9 @@ test (unsigned argc, char *argv[])
 			g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);
 			g_error_free (err);
 
-/* frank			dump_biff_stream (input); */
+#ifdef DUMP_CONTENT
+			dump_biff_stream (input);
+#endif
 
 			g_object_unref (G_OBJECT (input));
 			continue;
@@ -208,30 +211,37 @@ test (unsigned argc, char *argv[])
 
 		stream = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 		if (stream != NULL) {
-			puts ( "SummaryInfo");
-			meta_data = gsf_msole_metadata_read_real (stream, &err);
-			if (err != NULL)
-				g_warning ("'%s' error: %s", argv[i], err->message);
-			else {
-				gsf_doc_meta_data_foreach (meta_data, print_property, NULL);
-				g_object_unref (meta_data);
-			}
+			GsfDocMetaData *meta_data = gsf_doc_meta_data_new ();
 
+			puts ( "SummaryInfo");
+			err = gsf_msole_metadata_read (stream, meta_data);
+			if (err != NULL) {
+				g_warning ("'%s' error: %s", argv[i], err->message);
+				g_error_free (err);
+				err = NULL;
+			} else
+				gsf_doc_meta_data_foreach (meta_data,
+					(GHFunc) cb_print_property, NULL);
+
+			g_object_unref (meta_data);
 			g_object_unref (G_OBJECT (stream));
-			
 		}
 
 		stream = gsf_infile_child_by_name (infile, "\05DocumentSummaryInformation");
 		if (stream != NULL) {
+			GsfDocMetaData *meta_data = gsf_doc_meta_data_new ();
+
 			puts ( "DocSummaryInfo");
-			meta_data = gsf_msole_metadata_read_real (stream, &err);
-			if (err != NULL)
+			err = gsf_msole_metadata_read (stream, meta_data);
+			if (err != NULL) {
 				g_warning ("'%s' error: %s", argv[i], err->message);
-			else {
-				gsf_doc_meta_data_foreach (meta_data, print_property, NULL);
-				g_object_unref (meta_data);
-			}
-			
+				g_error_free (err);
+				err = NULL;
+			} else
+				gsf_doc_meta_data_foreach (meta_data,
+					(GHFunc) cb_print_property, NULL);
+
+			g_object_unref (meta_data);
 			g_object_unref (G_OBJECT (stream));
 		}
 
