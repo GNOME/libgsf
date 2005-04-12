@@ -1,3 +1,8 @@
+2005-04-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Small changes in the pygtk check, though it's
+	  currently not in use.
+
 2005-04-11  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-msole1.c: Make the test program work.
