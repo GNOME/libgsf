@@ -9,7 +9,7 @@
 
 2005-04-10  Jody Goldberg <jody@gnome.org>
 
-	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : replace insescent
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : replace incessant
 	  if (success) with a 'goto err' and prune more non-C89 var decls
 
 2005-04-09  Jody Goldberg <jody@gnome.org>
