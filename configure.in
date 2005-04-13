@@ -209,25 +209,26 @@ CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
-pygtk_msg=no
-
-dnl Uncomment to enable Python bindings.
-ifelse([
-AM_PATH_PYTHON
-AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+dnl
+dnl Uncomment to enable Python bindings. automake1.5 or later is required.
+dnl
+dnl AM_PATH_PYTHON
+dnl AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
 dnl check for pygtk
-PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
-			 [pygtk_msg="yes"
-			  AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
-			  if test "x$PYGTK_CODEGEN" = xno; then
-				AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
-			  fi
-			 ],
-			 [pygtk_msg="NO.  pygtk problem"])
+dnl PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
+dnl 		  [pygtk_msg="yes"],
+dnl 		  [pygtk_msg="NO.  pygtk problem"])
+dnl AC_SUBST(PYGTK_CFLAGS)
+dnl AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
+dnl if test "x$PYGTK_CODEGEN" = xno; then
+dnl    AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
+dnl fi
 
-])
-
-AM_CONDITIONAL(WITH_PYTHON, test "$pygtk_msg" = yes)
+dnl if test "x$pygtk_msg" = "xyes"; then
+dnl   AM_CONDITIONAL(WITH_PYTHON, true)
+dnl else
+  AM_CONDITIONAL(WITH_PYTHON, false)
+dnl fi
 
 dnl ***********************************************************************************
 

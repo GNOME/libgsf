@@ -1,3 +1,7 @@
+2005-04-12  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: revert last change.
+
 2005-04-12  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Small changes in the pygtk check, though it's
