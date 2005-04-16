@@ -30,7 +30,7 @@
 static gboolean
 test_write_once (GsfOutput *output)
 {
-	const char *str = "The cat sat on the mat. 2 cats sat on the mat. The quick brown fox is afraid of the cats.\n";
+	char const *str = "The cat sat on the mat. 2 cats sat on the mat. The quick brown fox is afraid of the cats.\n";
 
 	return gsf_output_write (output, strlen (str), str);
 }

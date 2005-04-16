@@ -45,7 +45,7 @@ typedef struct {
 #ifdef DUMP_CONTENT
 static GPtrArray *biff_types   = NULL;
 static void
-read_types (const char *fname, GPtrArray **types)
+read_types (char const *fname, GPtrArray **types)
 {
 	FILE *file = fopen(fname, "r");
 	unsigned char buffer[1024];
@@ -55,7 +55,7 @@ read_types (const char *fname, GPtrArray **types)
 		file = fopen (newname, "r");
 	}
 	if (!file) {
-		printf ("Can't find vital file '%s'\n", fname);
+		g_printerr ("Can't find vital file '%s'\n", fname);
 		return;
 	}
 	while (!feof(file)) {
@@ -140,16 +140,31 @@ dump_biff_stream (GsfInput *stream)
 #endif /* DUMP_CONTENT */
 
 static void
-cb_print_property (char const *name, GValue const *value)
+cb_print_property (char const *name, GsfDocProp const *prop)
 {
-	GsfDocPropVector	*vector;
+	GValue const *val = gsf_get_prop_get_val  (prop);
+	char *tmp;
 
-	printf ("print_property: name  = %s\n", name);
-	printf ("                value = %s\n", g_strdup_value_contents (value));
-	if (IS_GSF_DOCPROP_VECTOR ((GValue *)value)) {
-		vector = gsf_value_get_docprop_vector (value);
-		printf ("\t\t= %s\n",
-		gsf_docprop_vector_as_string (vector));
+	if (gsf_get_prop_get_link (prop) != NULL)
+		g_print ("prop '%s' LINKED TO  -> '%s'\n",
+			 name, gsf_get_prop_get_link (prop));
+	else
+		g_print ("prop '%s'\n", name);
+
+	if (IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
+		GValueArray *va = gsf_value_get_docprop_varray (val);
+		unsigned i;
+
+		for (i = 0 ; i < va->n_values; i++) {
+			tmp = g_strdup_value_contents (
+				g_value_array_get_nth (va, i));
+			g_print ("\t[%u] = %s\n", i, tmp);
+			g_free (tmp);
+		}
+	} else {
+		tmp = g_strdup_value_contents (val);
+		printf ("\t= %s\n", tmp);
+		g_free (tmp);
 	}
 }
 

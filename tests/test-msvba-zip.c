@@ -317,8 +317,8 @@ int
 main (int argc, char *argv[])
 {
 	int i;
-	const char *src = NULL;
-	const char *dest = NULL;
+	char const *src = NULL;
+	char const *dest = NULL;
 	GsfInput *input;
 	GsfOutput *output;
 	GError   *error = NULL;

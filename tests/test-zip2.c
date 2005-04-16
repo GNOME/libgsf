@@ -29,7 +29,7 @@
 #include <string.h>
 
 static void
-dump_child (GsfInfile *infile, const char * childname)
+dump_child (GsfInfile *infile, char const *childname)
 {
 	GsfInput *child = gsf_infile_child_by_name (infile, childname);
 	GsfInputTextline *textinput;
