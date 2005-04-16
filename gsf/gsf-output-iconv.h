@@ -36,7 +36,7 @@ typedef struct {
 typedef struct _GsfOutputIconv GsfOutputIconv;
 
 GType	   gsf_output_iconv_get_type (void);
-GsfOutput *gsf_output_iconv_new      (GsfOutput *sink, const char *dst, const char *src);
+GsfOutput *gsf_output_iconv_new      (GsfOutput *sink, char const *dst, char const *src);
 
 G_END_DECLS
 

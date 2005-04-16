@@ -78,11 +78,11 @@ gsf_output_csv_close (GsfOutput *output)
 }
 
 gboolean
-gsf_output_csv_write_field (GsfOutputCsv *csv, const char *field, size_t len)
+gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 {
 	gboolean quote;
 	gboolean ok;
-	const char *end;
+	char const *end;
 
 	g_return_val_if_fail (GSF_IS_OUTPUT_CSV (csv), FALSE);
 	g_return_val_if_fail (field != NULL, FALSE);
@@ -106,7 +106,7 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, const char *field, size_t len)
 		quote = TRUE;
 		break;
 	case GSF_OUTPUT_CSV_QUOTING_MODE_AUTO: {
-		const char *p = field;
+		char const *p = field;
 		quote = FALSE;
 		while (p < end) {
 			gunichar c = g_utf8_get_char (p);

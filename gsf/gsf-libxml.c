@@ -126,7 +126,7 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 }
 
 int
-gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, const char * encoding,
+gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, char const *encoding,
 		      gboolean format)
 {
 	xmlOutputBufferPtr buf;
@@ -373,7 +373,7 @@ gsf_xml_in_end_document (GsfXMLIn *state)
 }
 
 static void
-gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
 {
 	va_list args;
 
@@ -383,7 +383,7 @@ gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
 }
 
 static void
-gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
 {
 	va_list args;
 
@@ -393,7 +393,7 @@ gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
 }
 
 static void
-gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLIn *state, const char *msg, ...)
+gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
 {
 	va_list args;
 

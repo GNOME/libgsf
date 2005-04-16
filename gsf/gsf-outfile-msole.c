@@ -683,22 +683,21 @@ compute_shift (unsigned value)
 
 /**
  * gsf_outfile_msole_new_full :
- * @sink : a #GsfOutput to hold the OLE2 file
- * @bb_size : size of large blocks
- * @sb_size : size of small blocks
+ * @sink : a #GsfOutput to hold the OLE2 file.
+ * @bb_size : size of large blocks.
+ * @sb_size : size of small blocks.
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
  * NOTE : adds a reference to @sink
  *
- * Returns : the new ole file handler
+ * Returns the new ole file handler
  **/
 GsfOutfile *
-gsf_outfile_msole_new_full (GsfOutput *sink,
-			    unsigned bb_size, unsigned sb_size)
+gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 {
-	static guint8 default_header [] = {
+	static guint8 const default_header [] = {
 /* 0x00 */	0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1,
 /* 0x08 */	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 /* 0x18 */	0x3e, 0x00, 0x03, 0x00, 0xfe, 0xff, 0x09, 0x00,
@@ -767,7 +766,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink,
  *
  * NOTE : adds a reference to @sink
  *
- * Returns : the new ole file handler
+ * Returns the new ole file handler
  **/
 GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)

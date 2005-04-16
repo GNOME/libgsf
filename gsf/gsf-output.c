@@ -378,7 +378,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 
 /**
  * gsf_output_set_name_from_filename :
- * @input : the output stream
+ * @output : the output stream
  * @filename : the (fs-sys encoded) filename
  *
  * <note>This is a utility routine that should only be used by derived

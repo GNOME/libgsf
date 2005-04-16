@@ -61,7 +61,7 @@ enum {
  * Returns a new GsfOutput object or NULL.
  **/
 GsfOutput *
-gsf_output_iconv_new (GsfOutput *sink, const char *dst, const char *src)
+gsf_output_iconv_new (GsfOutput *sink, char const *dst, char const *src)
 {
 	GError *error = NULL;
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);

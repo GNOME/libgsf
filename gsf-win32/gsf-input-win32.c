@@ -61,7 +61,7 @@ gsf_win32_hresult_to_utf8 (HRESULT hr)
 	FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM, NULL, hr,
 					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&pMsgBuf, 0, NULL);
 
-	utf8_msg = g_locale_to_utf8 ((const char *)pMsgBuf, -1, NULL, NULL, NULL);
+	utf8_msg = g_locale_to_utf8 ((char const *)pMsgBuf, -1, NULL, NULL, NULL);
 	if (utf8_msg == NULL)
 		utf8_msg = g_strdup ("!SUCCEEDED (hr)");
 

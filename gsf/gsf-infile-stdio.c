@@ -181,7 +181,7 @@ gsf_infile_stdio_new (char const *root, GError **err)
 {
 	GsfInfileStdio *ifs;
 	GDir *dir;
-	const char *child;
+	char const *child;
 
 	dir = g_dir_open (root, 0, err);
 	if (dir == NULL)

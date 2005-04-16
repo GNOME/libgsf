@@ -232,7 +232,7 @@ ar_vdir_child_by_index (ArVDir *vdir, int target)
 static void
 ar_vdir_insert (ArVDir *vdir, char const * name, ArDirent *dirent)
 {
-	const char *p;
+	char const *p;
 	char *dirname;
 	ArVDir *child;
 	

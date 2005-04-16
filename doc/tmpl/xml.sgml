@@ -253,6 +253,32 @@ XML and libxml
 @\
 			     deprecated_unused_allow_unknown:
 @\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
 			     deprecated_unused_allow_unknown: 
 @check_ns: 
 @start: 
@@ -289,6 +315,17 @@ XML and libxml
 @check_children_for_ns: 
 @start: 
 @end: 
+
+<!-- ##### USER_FUNCTION GsfXMLInUnknownFunc ##### -->
+<para>
+
+</para>
+
+@state: 
+@elem: 
+@attrs: 
+@Returns: 
+
 
 <!-- ##### FUNCTION gsf_xml_parser_context ##### -->
 <para>
@@ -331,6 +368,35 @@ XML and libxml
 @state: 
 @input: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gsf_xml_in_check_ns ##### -->
+<para>
+
+</para>
+
+@state: 
+@str: 
+@ns_id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_xml_in_doc_extend ##### -->
+<para>
+
+</para>
+
+@doc: 
+@nodes: 
+
+
+<!-- ##### FUNCTION gsf_xml_in_doc_set_unknown_handler ##### -->
+<para>
+
+</para>
+
+@doc: 
+@handler: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_new ##### -->

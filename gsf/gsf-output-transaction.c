@@ -129,7 +129,7 @@ gsf_output_transaction_abort (GsfOutputTransaction * output)
  * Returns : The new transaction output object
  */
 GsfOutput *
-gsf_output_transaction_new_named (GsfOutput *wrapped, const char * name)
+gsf_output_transaction_new_named (GsfOutput *wrapped, char const *name)
 {
 	GsfOutputTransaction * trans = NULL;
 

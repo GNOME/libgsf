@@ -57,7 +57,7 @@ typedef struct {
 #define GSF_IS_OUTPUT_CSV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_CSV_TYPE))
 GType gsf_output_csv_get_type (void);
 gboolean gsf_output_csv_write_field (GsfOutputCsv *csv,
-				     const char *field,
+				     char const *field,
 				     size_t len);
 gboolean gsf_output_csv_write_eol (GsfOutputCsv *csv);
 

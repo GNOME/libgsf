@@ -96,7 +96,7 @@ vdir_child_by_index (GsfZipVDir *vdir, int target)
 static void
 vdir_insert (GsfZipVDir *vdir, char const * name, GsfZipDirent *dirent)
 {
-	const char *p;
+	char const *p;
 	char *dirname;
 	GsfZipVDir *child;
 	

@@ -1,3 +1,26 @@
+2005-04-16  Jody Goldberg <jody@gnome.org>
+
+	* tests/test-msole1.c : update for the new ms-ole property import api
+
+	* gsf/gsf-msole-utils.c : disable debug spew
+	(msole_prop_id_to_gsf) : flag links
+	(msole_prop_read) : store the property directly.
+	(msole_prop_store) : delete.
+
+2005-04-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-docprop-vector.c (gsf_value_get_docprop_varray) : Add some
+	  safety.
+
+2005-04-16  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-doc-meta-data.[ch] : Major interface changes to make the
+	  hash like behavior perfectly clear, and to support links.
+
+2005-04-16  Jody Goldberg <jody@gnome.org>
+
+	* doc/gsf-sections.txt :  update
+
 2005-04-12  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: revert last change.

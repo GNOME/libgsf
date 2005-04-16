@@ -37,8 +37,8 @@
 #include <string.h>
 #include <time.h>
 
-#define NO_DEBUG_OLE_PROPS
-/* #undef NO_DEBUG_OLE_PROPS */
+/* #define NO_DEBUG_OLE_PROPS */
+#undef NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
@@ -223,14 +223,16 @@ static GsfMSOleMetaDataPropMap const common_props[] = {
 static GHashTable *name_to_prop_hash = NULL;
 
 static char const *
-msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id)
+msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *linked)
 {
 	char const *res = NULL;
 	GsfMSOleMetaDataPropMap const *map = NULL;
 	unsigned i = 0;
 
+	*linked = FALSE;
 	if (section->dict != NULL) {
 		if (id & 0x1000000) {
+			*linked = TRUE;
 			id &= ~0x1000000;
 			d (printf ("LINKED "););
 		}
@@ -681,28 +683,29 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	return res;
 }
 
-static GsfDocProp *
+static gboolean
 msole_prop_read (GsfInput *in,
 		 GsfMSOleMetaDataSection *section,
 		 GsfMSOleMetaDataProp    *props,
-		 unsigned i)
+		 unsigned		  i,
+		 GsfDocMetaData		 *accum)
 {
 	guint32 type;
 	guint8 const *data;
-	/* TODO : why size-4 ? I must be missing something */
+	/* FIXME : why size-4 ? I must be missing something */
 	gsf_off_t size = ((i+1) >= section->num_props)
 		? section->size-4 : props[i+1].offset;
-	GsfDocProp	*prop = NULL;
+	char   *name;
+	GValue *val;
 
-	g_return_val_if_fail (i < section->num_props, NULL);
-	g_return_val_if_fail (size >= props[i].offset + 4, NULL);
+	g_return_val_if_fail (i < section->num_props, FALSE);
+	g_return_val_if_fail (size >= props[i].offset + 4, FALSE);
 
-	prop = g_new (GsfDocProp, 1);
 	size -= props[i].offset; /* includes the type id */
 	if (gsf_input_seek (in, section->offset+props[i].offset, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (in, size, NULL))) {
 		g_warning ("failed to read prop #%d", i);
-		return NULL;
+		return FALSE;
 	}
 
 	type = GSF_LE_GET_GUINT32 (data);
@@ -715,19 +718,19 @@ msole_prop_read (GsfInput *in,
 		char *name;
 		guint8 const *start = data;
 
-		g_return_val_if_fail (section->dict == NULL, NULL);
+		g_return_val_if_fail (section->dict == NULL, FALSE);
 
 		section->dict = g_hash_table_new_full (
 			g_direct_hash, g_direct_equal,
 			NULL, g_free);
 
-		d (gsf_mem_dump (data-4, size););
+		d ({ g_print ("Dictionary = \n"); gsf_mem_dump (data-4, size); });
 		n = type;
 		for (i = 0 ; i < n ; i++) {
 			id = GSF_LE_GET_GUINT32 (data);
 			len = GSF_LE_GET_GUINT32 (data + 4);
 
-			g_return_val_if_fail (len < 0x10000, NULL);
+			g_return_val_if_fail (len < 0x10000, FALSE);
 
 			gslen = 0;
 			name = g_convert_with_iconv (data + 8,
@@ -748,17 +751,41 @@ msole_prop_read (GsfInput *in,
 			if (section->char_size != 1 && (data - start) % 4)
 				data += 4 - ((data - start) % 4);
 		}
+	} else {
+		gboolean linked;
+		d (printf ("%u) ", i););
+		name = g_strdup (msole_prop_id_to_gsf (section, props[i].id, &linked));
+		d (printf (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
+		val = msole_prop_parse (section, type, &data, data + size);
 
-		return NULL;
+		if (NULL != name && NULL != val) {
+			if (linked) {
+				GsfDocProp *prop = gsf_doc_meta_data_lookup (accum, name);
+				if (NULL == prop) {
+					g_warning ("linking property '%s' before it\'s value is specified",
+						   (name ? name : "<null>"));
+				} else if (!G_VALUE_HOLDS_STRING (val)) {
+					g_warning ("linking property '%s' before it\'s value is specified",
+						   (name ? name : "<null>"));
+				} else
+					gsf_get_prop_set_link (prop,
+						g_value_dup_string (val));
+			} else {
+				gsf_doc_meta_data_insert (accum, name, val);
+				val = NULL;
+				name = NULL;
+			}
+		}
+
+		if (NULL != val) {
+			if (G_IS_VALUE (val))
+				g_value_unset (val);
+			g_free (val);
+		}
+		g_free (name);
 	}
 
-	d (printf ("%u) ", i););
-	prop->name = msole_prop_id_to_gsf (section, props[i].id);
-
-	d (printf (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
-	prop->val = msole_prop_parse (section, type, &data, data + size);
-
-	return prop;
+	return TRUE;
 }
 
 static int
@@ -767,18 +794,6 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 	GsfMSOleMetaDataProp const *prop_a = a ;
 	GsfMSOleMetaDataProp const *prop_b = b ;
 	return prop_a->offset - prop_b->offset;
-}
-
-static void
-msole_prop_store (GsfDocMetaData *ret_object, GsfDocProp *prop)
-{
-	if (NULL != prop && NULL != prop->val) {
-		gsf_doc_meta_data_set_prop (ret_object,
-			prop->name, prop->val);
-		if (G_IS_VALUE (prop->val))
-			g_value_unset (prop->val);
-		g_free (prop->val);
-	}
 }
 
 /**
@@ -917,25 +932,19 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		sections[i].char_size = 1;
 		for (j = 0; j < sections[i].num_props; j++) /* first codepage */
 			if (props[j].id == 1) {
-				prop = msole_prop_read (in, sections+i, props, j);
-				if (NULL != prop && NULL != prop->val) {
-					gsf_doc_meta_data_set_prop (accum,
-						prop->name, prop->val);
-
-					if (G_IS_VALUE (prop->val)) {
-						if (G_VALUE_HOLDS_INT (prop->val)) {
-							int codepage = g_value_get_int (prop->val);
-							sections[i].iconv_handle =
-								gsf_msole_iconv_open_for_import (codepage);
-							if (codepage == 1200 || codepage == 1201)
-								sections[i].char_size = 2;
-						}
-						g_value_unset (prop->val);
+				msole_prop_read (in, sections+i, props, j, accum);
+				if (NULL != (prop = gsf_doc_meta_data_lookup (accum, GSF_META_NAME_LANGUAGE))) {
+					GValue const *val = gsf_get_prop_get_val (prop);
+					if (NULL != val && G_VALUE_HOLDS_INT (val)) {
+						int codepage = g_value_get_int (val);
+						sections[i].iconv_handle =
+							gsf_msole_iconv_open_for_import (codepage);
+						if (codepage == 1200 || codepage == 1201)
+							sections[i].char_size = 2;
 					}
-					g_free (prop->val);
 				}
-				g_free (prop);
 			}
+
 		if (sections[i].iconv_handle == (GIConv)-1)
 			sections[i].iconv_handle = gsf_msole_iconv_open_for_import (1252);
 
@@ -946,14 +955,12 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		 */
 		for (j = 0; j < sections[i].num_props; j++) /* then dictionary */
 			if (props[j].id == 0)
-				msole_prop_store (accum,
-					msole_prop_read (in, sections+i, props, j));
+				msole_prop_read (in, sections+i, props, j, accum);
 
 		/* Process all the properties */
 		for (j = 0; j < sections[i].num_props; j++) /* the rest */
 			if (props[j].id > 1)
-				msole_prop_store (accum,
-					msole_prop_read (in, sections+i, props, j));
+				msole_prop_read (in, sections+i, props, j, accum);
 
 		gsf_iconv_close (sections[i].iconv_handle);
 		g_free (props);
@@ -1372,32 +1379,30 @@ gsf_msole_metadata_write (GsfOutput *out,
 	guint8 buf[8];
 	guint8 const *guid;
 	guint32 i;
-	GsfDocProp		  *prop_codepage = NULL;
+	int	codepage = 1200;
+	GsfDocProp		  *prop;
 	GsfMSOleMetaDataProp_real *props_codepage = NULL;
 	GsfMSOleMetaDataProp_real *props = NULL;
 	AddPropsStruct		  *props_struct = NULL;
 
-	/*
-	 * check and save codepage into props_codepage
-	 * do this first cause of the encoding
-	 */
-	prop_codepage = gsf_doc_meta_data_get_prop (meta_data, GSF_META_NAME_LANGUAGE);
-	if (prop_codepage != NULL) {
-		if (prop_codepage->val->g_type != G_TYPE_INT) {
+	props_count = gsf_doc_meta_data_size (meta_data);
+
+	/* check and save codepage into props_codepage first to get the ncoding
+	 * or future strings */
+	if (NULL != (prop = gsf_doc_meta_data_lookup (meta_data, GSF_META_NAME_LANGUAGE))) {
+		GValue const *val = gsf_get_prop_get_val (prop);
+		if (NULL == val || !G_VALUE_HOLDS_INT (val)) {
 			g_warning ("value of property with name=%s is not an valid codepage",
 				   GSF_META_NAME_LANGUAGE);
 			goto err;
-		} else {
-			props_codepage = g_new (GsfMSOleMetaDataProp_real, 1);
-			props_codepage->id = 1; /* see common_props for GSF_META_NAME_LANGUAGE */
-			props_codepage->offset = 0;
 		}
+		codepage = g_value_get_int (val);
+		props_codepage = g_new (GsfMSOleMetaDataProp_real, 1);
+		props_codepage->id = 1; /* see common_props for GSF_META_NAME_LANGUAGE */
+		props_codepage->offset = 0;
+		props_count--; /* do not count the codepage */
 	}
 
-	/* get number of properties and allocate struct */
-	props_count = gsf_doc_meta_data_size (meta_data);
-	if (prop_codepage != NULL)
-		props_count--;
 	props = g_new (GsfMSOleMetaDataProp_real, props_count);
 
 	/* insert ids and offsets into props[] (only for id !=0, 1, >0xFFFFFFFF) */
@@ -1453,7 +1458,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 	byte_count = props_struct->offset;
 
 	section_props_count = props_struct->count;
-	if (prop_codepage != NULL)
+	if (props_codepage != NULL)
 		section_props_count++;
 
 	index_offset = 8; /* section header itself */
@@ -1476,7 +1481,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 		goto err;
 
 	/* write codepage index */
-	if (prop_codepage != NULL) {
+	if (props_codepage != NULL) {
 		props_codepage->offset = index_offset;
 		GSF_LE_SET_GUINT32 (buf+0, props_codepage->id);
 		GSF_LE_SET_GUINT32 (buf+4, props_codepage->offset);
@@ -1496,9 +1501,9 @@ gsf_msole_metadata_write (GsfOutput *out,
 	/* write codepage
 	 * TODO: write codepage support!
 	 */
-	if (prop_codepage != NULL) {
+	if (props_codepage != NULL) {
 		GSF_LE_SET_GUINT32 (buf+0, VT_I2);
-		GSF_LE_SET_GUINT32 (buf+4, g_value_get_int(prop_codepage->val));
+		GSF_LE_SET_GUINT32 (buf+4, codepage);
 		if (!gsf_output_write (out, 8, buf))
 			goto err;
 	}
@@ -1530,7 +1535,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 		section_props_count = props_struct->dict_count;
 		section_props_count++; /* dictionary */
 		index_offset = 8; /* section header itself */
-		if (prop_codepage != NULL)
+		if (props_codepage != NULL)
 			section_props_count++;
 		index_offset += (section_props_count * (sizeof(guint32) /* property id */ + sizeof(guint32) /* property offset */));
 		GSF_LE_SET_GUINT32 (buf+0, byte_count + index_offset); /* byte count */
@@ -1547,7 +1552,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 		index_offset += dict_size; /* sizeof dictionary */
 
 		/* write codepage index */
-		if (prop_codepage != NULL) {
+		if (props_codepage != NULL) {
 			props_codepage->offset = index_offset;
 			GSF_LE_SET_GUINT32 (buf+0, props_codepage->id);
 			GSF_LE_SET_GUINT32 (buf+4, props_codepage->offset);
@@ -1591,9 +1596,9 @@ gsf_msole_metadata_write (GsfOutput *out,
 		/* write codepage
 		 * TODO: write codepage support!
 		 */
-		if (prop_codepage != NULL) {
+		if (props_codepage != NULL) {
 			GSF_LE_SET_GUINT32 (buf+0, VT_I2);
-			GSF_LE_SET_GUINT32 (buf+4, g_value_get_int(prop_codepage->val));
+			GSF_LE_SET_GUINT32 (buf+4, codepage);
 			if (!gsf_output_write (out, 8, buf))
 				goto err;
 		}
@@ -1608,9 +1613,6 @@ gsf_msole_metadata_write (GsfOutput *out,
 	success = TRUE;
 err:
 	/* free some stuff */
-	if (prop_codepage != NULL)
-		g_free (prop_codepage);
-
 	if (props_codepage != NULL)
 		g_free (props_codepage);
 
@@ -1835,13 +1837,14 @@ gsf_msole_lid_for_language (char const *lang)
 }
 
 /**
- * gsf_msole_language_for_lid
+ * gsf_msole_language_for_lid :
+ * @lid :
  *
  * Returns the xx_YY style string (can be just xx or xxx) for the given LID.
  * Return value must not be freed. If the LID is not found, is set to 0x0400,
  * or is set to 0x0000, will return "-none-"
  **/
-G_CONST_RETURN char *
+char const *
 gsf_msole_language_for_lid (guint lid)
 {
 	guint i = 0 ;

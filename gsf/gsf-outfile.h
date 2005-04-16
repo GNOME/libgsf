@@ -37,7 +37,7 @@ GsfOutput *gsf_outfile_new_child      (GsfOutfile *outfile,
 GsfOutput *gsf_outfile_new_child_full (GsfOutfile *outfile,
 				       char const *name, gboolean is_dir,
 				       char const *first_property_name,
-				       ...) /* G_GNUC_NULL_TERMINATED */;
+					   ...);
 
 G_END_DECLS
 

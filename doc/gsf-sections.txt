@@ -2,16 +2,23 @@
 <TITLE>Input from unstructured files</TITLE>
 <FILE>input</FILE>
 GsfInput
+gsf_input_read
+gsf_input_tell
+gsf_input_seek
 gsf_input_container
 gsf_input_dup
 gsf_input_size
 gsf_input_eof
 gsf_input_remaining
-gsf_input_tell
-gsf_input_seek
 gsf_input_error_id
 gsf_input_sibling
+gsf_input_error
+gsf_input_name
+gsf_input_set_name_from_filename
 
+GsfInputProxy
+gsf_input_proxy_new
+gsf_input_proxy_new_section
 <SUBSECTION Convenience>
 gsf_input_copy
 gsf_input_uncompress
@@ -28,6 +35,11 @@ GSF_INPUT_CLASS
 GSF_IS_INPUT_CLASS
 GsfInputClass
 gsf_input_get_type
+
+GSF_INPUT_PROXY
+GSF_INPUT_PROXY_TYPE
+GSF_IS_INPUT_PROXY
+gsf_input_proxy_get_type
 </SECTION>
 
 <SECTION>
@@ -42,10 +54,14 @@ gsf_output_seek
 gsf_output_write
 gsf_output_puts
 gsf_output_printf
+gsf_output_vprintf
 
-gsf_output_is_closed
+gsf_output_name
+gsf_output_set_name_from_filename
 gsf_output_error_id
 gsf_output_set_error
+gsf_output_error
+gsf_output_is_closed
 
 gsf_output_wrap
 gsf_output_unwrap
@@ -71,6 +87,7 @@ gsf_infile_num_children
 gsf_infile_child_by_index
 gsf_infile_child_by_name
 gsf_infile_child_by_vname
+gsf_infile_name_by_index
 <SUBSECTION Standard>
 GSF_INFILE_TYPE
 GSF_INFILE
@@ -86,7 +103,7 @@ gsf_infile_get_type
 <FILE>outfile</FILE>
 GsfOutfile
 gsf_outfile_new_child
-gsf_outfile_error
+gsf_outfile_new_child_full
 <SUBSECTION Standard>
 GSF_OUTFILE_TYPE
 GSF_OUTFILE
@@ -240,6 +257,7 @@ gsf_infile_msole_get_class_id
 
 GsfOutfileMSOle
 gsf_outfile_msole_new
+gsf_outfile_msole_new_full
 gsf_outfile_msole_set_class_id
 
 gsf_msole_metadata_read
@@ -254,6 +272,7 @@ gsf_msole_codepage_to_lid
 gsf_msole_lid_to_codepage
 gsf_msole_lid_to_codepage_str
 gsf_msole_lid_for_language
+gsf_msole_language_for_lid
 gsf_msole_inflate
 <SUBSECTION Standard>
 GSF_INFILE_MSOLE_TYPE
@@ -272,6 +291,7 @@ OLE_HEADER_METABAT_SIZE
 OLE_HEADER_DIRENT_START
 OLE_HEADER_NUM_SBAT
 OLE_HEADER_BB_SHIFT
+OLE_HEADER_CSECTDIR
 OLE_HEADER_NUM_BAT
 OLE_HEADER_THRESHOLD
 OLE_HEADER_METABAT_BLOCK
@@ -457,10 +477,14 @@ GsfXMLInNS
 GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
 GsfXMLInNode
+GsfXMLInUnknownFunc
 gsf_xml_parser_context
 gsf_xml_in_doc_new
 gsf_xml_in_namecmp
 gsf_xml_in_parse
+gsf_xml_in_check_ns
+gsf_xml_in_doc_extend
+gsf_xml_in_doc_set_unknown_handler
 
 gsf_xml_out_new
 gsf_xml_out_set_doc_type
@@ -517,6 +541,7 @@ GSF_DYNAMIC_CLASS_FULL
 GSF_DYNAMIC_CLASS_ABSTRACT
 GSF_INTERFACE
 GSF_INTERFACE_FULL
+GSF_PARAM_STATIC
 <SUBSECTION Debugging>
 gsf_mem_dump
 gsf_input_dump
@@ -526,6 +551,7 @@ gsf_off_t
 
 gsf_filename_to_utf8
 gsf_iconv_close
+gsf_extension_pointer
 <SUBSECTION Types>
 gsf_base64_encode_simple
 gsf_base64_encode_close
@@ -539,10 +565,11 @@ GSF_LE_GET_GUINT8
 GSF_LE_GET_GINT32
 GSF_LE_GET_GUINT16
 GSF_LE_GET_GUINT32
-GSF_LE_GET_FLOAT
-GSF_LE_GET_DOUBLE
+GSF_LE_GET_GINT64
 gsf_le_get_guint64
+GSF_LE_GET_FLOAT
 gsf_le_get_float
+GSF_LE_GET_DOUBLE
 gsf_le_get_double
 GSF_LE_SET_GUINT8
 GSF_LE_SET_GUINT16
@@ -550,36 +577,53 @@ GSF_LE_SET_GUINT32
 GSF_LE_SET_GINT8
 GSF_LE_SET_GINT16
 GSF_LE_SET_GINT32
+GSF_LE_SET_GINT64
+GSF_LE_SET_GUINT64
 GSF_LE_SET_FLOAT
 GSF_LE_SET_DOUBLE
 gsf_le_set_float
 gsf_le_set_double
 
 <SUBSECTION TimeStamps>
+GsfTimestamp
+gsf_timestamp_new
+gsf_timestamp_new_now
 gsf_timestamp_copy
 gsf_timestamp_free
-gsf_timestamp_new_now
-gsf_timestamp_get_type
 gsf_timestamp_as_string
 gsf_timestamp_parse
 gsf_timestamp_hash
 gsf_timestamp_equal
+gsf_value_set_timestamp
+<SUBSECTION Standard>
 GSF_TIMESTAMP_TYPE
-GsfTimestamp
-gsf_timestamp_new
-g_value_set_timestamp
+gsf_timestamp_get_type
 </SECTION>
 
 <SECTION>
 <FILE>metadata</FILE>
 GsfDocMetaData
-GsfDocProp
 gsf_doc_meta_data_new
+gsf_doc_meta_data_lookup
+gsf_doc_meta_data_insert
+gsf_doc_meta_data_remove
 gsf_doc_meta_data_foreach
 gsf_doc_meta_data_size
-gsf_doc_meta_data_error
-gsf_doc_meta_data_remove_prop
-gsf_doc_meta_data_set_prop
+
+GsfDocProp
+gsf_get_prop_get_name
+gsf_get_prop_get_val
+gsf_get_prop_set_val
+gsf_get_prop_get_link
+gsf_get_prop_set_link
+
+GsfDocPropVector
+gsf_docprop_vector_new
+gsf_docprop_vector_append
+gsf_docprop_vector_as_string
+gsf_value_get_docprop_varray
+gsf_value_get_docprop_vector
+gsf_value_set_docprop_vector
 
 <SUBSECTION Keys>
 GSF_META_NAME_TITLE                 
@@ -634,6 +678,12 @@ GSF_META_NAME_CASE_SENSITIVE
 <SUBSECTION Standard>
 GSF_DOC_META_DATA_TYPE
 GSF_DOC_META_DATA
-GSF_IS_DOC_META_DATA
+IS_GSF_DOC_META_DATA
 gsf_doc_meta_data_get_type
+
+GSF_DOCPROP_VECTOR
+GSF_DOCPROP_VECTOR_TYPE
+IS_GSF_DOCPROP_VECTOR
+gsf_docprop_vector_get_type
+
 </SECTION>

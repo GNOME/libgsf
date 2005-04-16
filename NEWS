@@ -8,6 +8,8 @@ Ivan:
 
 Jody:
 	* Support GObject properties in GsfOutfile::new_child
+	* Cleanup the OLE2 property import
+	* Re-org the GsfDocMetadata interface
 
 Manuel Mausz:
 	* OLE2 property export.

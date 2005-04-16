@@ -86,7 +86,7 @@ GValueArray *
 gsf_value_get_docprop_varray (GValue const *value)
 {
 	GsfDocPropVector *v = gsf_value_get_docprop_vector (value);
-	return v->gva;
+	return v ? v->gva : NULL;
 }
 
 /**

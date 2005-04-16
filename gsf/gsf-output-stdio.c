@@ -64,7 +64,7 @@ typedef struct {
 } GsfOutputStdioClass;
 
 static int
-rename_wrapper (const char *oldfilename, const char *newfilename)
+rename_wrapper (char const *oldfilename, char const *newfilename)
 {
 	int result = g_rename (oldfilename, newfilename);
 #ifdef G_OS_WIN32
@@ -79,7 +79,7 @@ rename_wrapper (const char *oldfilename, const char *newfilename)
 
 /* g_access would be nice here.  */
 static gboolean
-gsf_access (const char *filename, int what)
+gsf_access (char const *filename, int what)
 {
 #ifdef G_OS_WIN32
 	int retval;

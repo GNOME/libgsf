@@ -605,6 +605,12 @@ gsf
 
 @k: 
 
+<!-- ##### MACRO GSF_TIMESTAMP_TYPE ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_XML_OUT ##### -->
 <para>
 
@@ -888,6 +894,33 @@ gsf
 @value: 
 @stamp: 
 
+<!-- ##### FUNCTION gsf_doc_meta_data_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_doc_meta_data_remove_prop ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
+@prop: 
+
+<!-- ##### FUNCTION gsf_doc_meta_data_set_prop ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
+@value: 
+@prop_name: 
+@prop: 
+
 <!-- ##### FUNCTION gsf_infile_get_type ##### -->
 <para>
 
@@ -896,13 +929,6 @@ gsf
 @Returns: 
 
 <!-- ##### FUNCTION gsf_infile_zip_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION gsf_input_error ##### -->
 <para>
 
 </para>
@@ -960,7 +986,7 @@ gsf
 
 @Returns: 
 
-<!-- ##### FUNCTION gsf_output_error ##### -->
+<!-- ##### FUNCTION gsf_timestamp_get_type ##### -->
 <para>
 
 </para>

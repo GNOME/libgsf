@@ -39,7 +39,7 @@ typedef struct _GsfOutfileMSOle GsfOutfileMSOle;
 GType	    gsf_outfile_msole_get_type (void);
 GsfOutfile *gsf_outfile_msole_new	   (GsfOutput *sink);
 GsfOutfile *gsf_outfile_msole_new_full	   (GsfOutput *sink,
-					    unsigned bb_size, unsigned sb_size);
+					    guint bb_size, guint sb_size);
 gboolean    gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole,
 					    guint8 const *clsid);
 

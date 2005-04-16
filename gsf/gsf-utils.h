@@ -86,18 +86,18 @@ void gsf_input_dump (GsfInput *input, gboolean dump_as_hex);
 guint8 *gsf_base64_encode_simple (guint8 const *data, size_t len);
 size_t  gsf_base64_encode_close  (guint8 const *in, size_t inlen,
 				  gboolean break_lines, guint8 *out,
-				  int *state, unsigned int *save);
+				  int *state, guint *save);
 size_t  gsf_base64_encode_step   (guint8 const *in, size_t len,
 				  gboolean break_lines, guint8 *out,
-				  int *state, unsigned int *save);
+				  int *state, guint *save);
 
 size_t  gsf_base64_decode_simple (guint8 *data, size_t len);
 size_t  gsf_base64_decode_step   (guint8 const *in, size_t len,
-				  guint8 *out, int *state, unsigned *save);
+				  guint8 *out, int *state, guint *save);
 
 
 /* For putting filenames into error messages.  */
-char *gsf_filename_to_utf8 (const char *filename, gboolean quoted);
+char *gsf_filename_to_utf8 (char const *filename, gboolean quoted);
 
 /* Some version checking */
 extern int libgsf_major_version;

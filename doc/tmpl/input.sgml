@@ -45,6 +45,37 @@ Input from unstructured files
 
 </para>
 
+<!-- ##### FUNCTION gsf_input_read ##### -->
+<para>
+
+</para>
+
+@input: 
+@num_bytes: 
+@optional_buffer: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_tell ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_seek ##### -->
+<para>
+
+</para>
+
+@input: 
+@offset: 
+@whence: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_input_container ##### -->
 <para>
 
@@ -91,26 +122,6 @@ Input from unstructured files
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_input_tell ##### -->
-<para>
-
-</para>
-
-@input: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_input_seek ##### -->
-<para>
-
-</para>
-
-@input: 
-@offset: 
-@whence: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_input_error_id ##### -->
 <para>
 
@@ -127,6 +138,59 @@ Input from unstructured files
 @input: 
 @name: 
 @err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_name ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_set_name_from_filename ##### -->
+<para>
+
+</para>
+
+@input: 
+@filename: 
+@Returns: 
+
+
+<!-- ##### STRUCT GsfInputProxy ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_input_proxy_new ##### -->
+<para>
+
+</para>
+
+@source: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_proxy_new_section ##### -->
+<para>
+
+</para>
+
+@source: 
+@offset: 
+@size: 
 @Returns: 
 
 

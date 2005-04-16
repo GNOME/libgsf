@@ -55,6 +55,20 @@ MS OLE2
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_outfile_msole_new_full ##### -->
+<para>
+
+</para>
+
+@sink: 
+@bb_size: 
+@sb_size: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@Param2: 
+@Param3: 
+
+
 <!-- ##### FUNCTION gsf_outfile_msole_set_class_id ##### -->
 <para>
 
@@ -180,6 +194,15 @@ MS OLE2
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_msole_language_for_lid ##### -->
+<para>
+
+</para>
+
+@lid: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_msole_inflate ##### -->
 <para>
 
@@ -226,6 +249,13 @@ MS OLE2
 
 
 <!-- ##### MACRO OLE_HEADER_BB_SHIFT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO OLE_HEADER_CSECTDIR ##### -->
 <para>
 
 </para>

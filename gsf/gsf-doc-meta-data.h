@@ -28,37 +28,27 @@
 
 G_BEGIN_DECLS
 
-/* THIS IS A WORK IN PROGRESS
- * API will change when we start using it */
-
-struct _GsfDocProp {
-	char const *name;
-	GValue *val;
-	char const *linked_to; /* optionally NULL */
-};
-
-#define GSF_DOC_META_DATA_TYPE        (gsf_doc_meta_data_get_type ())
-#define GSF_DOC_META_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_DOC_META_DATA_TYPE, GsfDocMetaData))
-#define GSF_IS_DOC_META_DATA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_DOC_META_DATA_TYPE))
+#define GSF_DOC_META_DATA_TYPE  (gsf_doc_meta_data_get_type ())
+#define GSF_DOC_META_DATA(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_DOC_META_DATA_TYPE, GsfDocMetaData))
+#define IS_GSF_DOC_META_DATA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_DOC_META_DATA_TYPE))
 
 GType  gsf_doc_meta_data_get_type (void);
-GQuark gsf_doc_meta_data_error (void);
+GsfDocMetaData *gsf_doc_meta_data_new	  (void);
+GsfDocProp     *gsf_doc_meta_data_lookup  (GsfDocMetaData const *meta,
+					   char const *name);
+void		gsf_doc_meta_data_insert  (GsfDocMetaData *meta,
+					   char *name, GValue *value);
+void		gsf_doc_meta_data_remove  (GsfDocMetaData *meta,
+					   char const *name);
+void		gsf_doc_meta_data_foreach (GsfDocMetaData const *meta,
+					   GHFunc func, gpointer user_data);
+gsize		gsf_doc_meta_data_size	  (GsfDocMetaData const *meta);
 
-GsfDocMetaData *gsf_doc_meta_data_new		(void);
-GsfDocProp     *gsf_doc_meta_data_get_prop	(GsfDocMetaData const *meta,
-						 char const	*name);
-void		gsf_doc_meta_data_set_prop	(GsfDocMetaData *meta,
-						 char const	*name,
-						 GValue const	*value);
-void		gsf_doc_meta_data_remove_prop	(GsfDocMetaData *meta,
-						 char const	*name);
-void		gsf_doc_meta_data_foreach	(GsfDocMetaData const *meta,
-						 GHFunc func, gpointer user_data);
-gsize		gsf_doc_meta_data_size		(GsfDocMetaData const *meta);
-
-GValue const   *gsf_get_prop_val	  (GsfDocProp const *prop);
-gchar          *gsf_get_prop_val_as_str   (GsfDocProp const *prop);
-void		gsf_get_prop_val_from_str (GsfDocProp const *prop);
+char const   *gsf_get_prop_get_name (GsfDocProp const *prop);
+GValue const *gsf_get_prop_get_val  (GsfDocProp const *prop);
+void	      gsf_get_prop_set_val  (GsfDocProp *prop, GValue *val);
+char const   *gsf_get_prop_get_link (GsfDocProp const *prop);
+void	      gsf_get_prop_set_link (GsfDocProp *prop, char *link);
 
 G_END_DECLS
 

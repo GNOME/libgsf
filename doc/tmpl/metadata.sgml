@@ -20,21 +20,41 @@ metadata
 </para>
 
 
-<!-- ##### STRUCT GsfDocProp ##### -->
-<para>
-
-</para>
-
-@name: 
-@val: 
-@linked_to: 
-
 <!-- ##### FUNCTION gsf_doc_meta_data_new ##### -->
 <para>
 
 </para>
 
 @Returns: 
+
+
+<!-- ##### FUNCTION gsf_doc_meta_data_lookup ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_doc_meta_data_insert ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
+@value: 
+
+
+<!-- ##### FUNCTION gsf_doc_meta_data_remove ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
 
 
 <!-- ##### FUNCTION gsf_doc_meta_data_foreach ##### -->
@@ -56,7 +76,64 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_doc_meta_data_error ##### -->
+<!-- ##### STRUCT GsfDocProp ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_get_prop_get_name ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_get_prop_get_val ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_get_prop_set_val ##### -->
+<para>
+
+</para>
+
+@prop: 
+@val: 
+
+
+<!-- ##### FUNCTION gsf_get_prop_get_link ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_get_prop_set_link ##### -->
+<para>
+
+</para>
+
+@prop: 
+@link: 
+
+
+<!-- ##### STRUCT GsfDocPropVector ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_docprop_vector_new ##### -->
 <para>
 
 </para>
@@ -64,28 +141,49 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_doc_meta_data_remove_prop ##### -->
+<!-- ##### FUNCTION gsf_docprop_vector_append ##### -->
 <para>
 
 </para>
 
-@meta: 
-@name: 
-<!-- # Unused Parameters # -->
-@prop: 
-
-
-<!-- ##### FUNCTION gsf_doc_meta_data_set_prop ##### -->
-<para>
-
-</para>
-
-@meta: 
-@name: 
+@vector: 
 @value: 
-<!-- # Unused Parameters # -->
-@prop_name: 
-@prop: 
+
+
+<!-- ##### FUNCTION gsf_docprop_vector_as_string ##### -->
+<para>
+
+</para>
+
+@vector: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_value_get_docprop_varray ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_value_get_docprop_vector ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_value_set_docprop_vector ##### -->
+<para>
+
+</para>
+
+@value: 
+@vector: 
 
 
 <!-- ##### MACRO GSF_META_NAME_TITLE ##### -->

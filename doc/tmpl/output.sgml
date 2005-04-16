@@ -119,12 +119,33 @@ Output to unstructured files
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_output_is_closed ##### -->
+<!-- ##### FUNCTION gsf_output_vprintf ##### -->
 <para>
 
 </para>
 
 @output: 
+@format: 
+@args: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_name ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_set_name_from_filename ##### -->
+<para>
+
+</para>
+
+@output: 
+@filename: 
 @Returns: 
 
 
@@ -145,6 +166,24 @@ Output to unstructured files
 @code: 
 @format: 
 @Varargs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_error ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_is_closed ##### -->
+<para>
+
+</para>
+
+@output: 
 @Returns: 
 
 

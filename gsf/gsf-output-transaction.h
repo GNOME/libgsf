@@ -34,7 +34,7 @@ typedef struct _GsfOutputTransactionClass GsfOutputTransactionClass;
 GType      gsf_output_transaction_get_type (void);
 
 GsfOutput *gsf_output_transaction_new       (GsfOutput *wrapped);
-GsfOutput *gsf_output_transaction_new_named (GsfOutput *wrapped, const char * my_name);
+GsfOutput *gsf_output_transaction_new_named (GsfOutput *wrapped, char const *my_name);
 
 gboolean   gsf_output_transaction_commit (GsfOutputTransaction * me);
 void       gsf_output_transaction_abort  (GsfOutputTransaction * me);

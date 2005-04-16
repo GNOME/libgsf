@@ -64,7 +64,7 @@ gsf_shutdown (void)
 }
 
 static void
-gsf_mem_dump_full (guint8 const *ptr, size_t len, unsigned offset)
+gsf_mem_dump_full (guint8 const *ptr, size_t len, guint offset)
 {
 	size_t i, j, off;
 
@@ -234,7 +234,7 @@ gsf_le_get_double (void const *p)
 #if G_FLOAT_BYTE_ORDER == G_ARMFLOAT_ENDIAN
 	double data;
 	memcpy ((char *)&data + 4, p, 4);
-	memcpy ((char *)&data, (const char *)p + 4, 4);
+	memcpy ((char *)&data, (char const *)p + 4, 4);
 	return data;
 #elif G_FLOAT_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
@@ -272,7 +272,7 @@ void
 gsf_le_set_double (void *p, double d)
 {
 #if G_FLOAT_BYTE_ORDER == G_ARMFLOAT_ENDIAN
-	memcpy (p, (const char *)&d + 4, 4);
+	memcpy (p, (char const *)&d + 4, 4);
 	memcpy ((char *)p + 4, &d, 4);
 #elif G_FLOAT_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
@@ -315,7 +315,7 @@ gsf_le_set_double (void *p, double d)
 char const *
 gsf_extension_pointer (char const *path)
 {
-	const char *s, *end;
+	char const *s, *end;
 	
 	g_return_val_if_fail (path != NULL, NULL);
 
@@ -555,7 +555,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
  **/
 size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
-			int *state, unsigned int *save)
+			int *state, guint *save)
 {
 	register guint8 const *inptr;
 	register guint8 *outptr, c;

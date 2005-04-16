@@ -219,6 +219,32 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -410,6 +436,32 @@ utils
 @\
 			       abstract:
 @\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
 			       abstract: 
 @interface_decl: 
 @plugin: 
@@ -447,6 +499,13 @@ utils
 @type: 
 @init_func: 
 @iface_type: 
+
+
+<!-- ##### MACRO GSF_PARAM_STATIC ##### -->
+<para>
+
+</para>
+
 
 
 <!-- ##### FUNCTION gsf_mem_dump ##### -->
@@ -496,6 +555,15 @@ utils
 </para>
 
 @handle: 
+
+
+<!-- ##### FUNCTION gsf_extension_pointer ##### -->
+<para>
+
+</para>
+
+@path: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gsf_base64_encode_simple ##### -->
@@ -615,15 +683,7 @@ utils
 @p: 
 
 
-<!-- ##### MACRO GSF_LE_GET_FLOAT ##### -->
-<para>
-
-</para>
-
-@p: 
-
-
-<!-- ##### MACRO GSF_LE_GET_DOUBLE ##### -->
+<!-- ##### MACRO GSF_LE_GET_GINT64 ##### -->
 <para>
 
 </para>
@@ -640,6 +700,14 @@ utils
 @Returns: 
 
 
+<!-- ##### MACRO GSF_LE_GET_FLOAT ##### -->
+<para>
+
+</para>
+
+@p: 
+
+
 <!-- ##### FUNCTION gsf_le_get_float ##### -->
 <para>
 
@@ -647,6 +715,14 @@ utils
 
 @p: 
 @Returns: 
+
+
+<!-- ##### MACRO GSF_LE_GET_DOUBLE ##### -->
+<para>
+
+</para>
+
+@p: 
 
 
 <!-- ##### FUNCTION gsf_le_get_double ##### -->
@@ -712,6 +788,24 @@ utils
 @dat: 
 
 
+<!-- ##### MACRO GSF_LE_SET_GINT64 ##### -->
+<para>
+
+</para>
+
+@p: 
+@dat: 
+
+
+<!-- ##### MACRO GSF_LE_SET_GUINT64 ##### -->
+<para>
+
+</para>
+
+@p: 
+@dat: 
+
+
 <!-- ##### MACRO GSF_LE_SET_FLOAT ##### -->
 <para>
 
@@ -748,6 +842,35 @@ utils
 @d: 
 
 
+<!-- ##### STRUCT GsfTimestamp ##### -->
+<para>
+
+</para>
+
+@date: 
+@seconds: 
+@time_zone: 
+@timet: 
+
+<!-- ##### FUNCTION gsf_timestamp_new ##### -->
+<para>
+
+</para>
+
+@date: 
+@seconds: 
+@tz: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_timestamp_new_now ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_timestamp_copy ##### -->
 <para>
 
@@ -763,22 +886,6 @@ utils
 </para>
 
 @stamp: 
-
-
-<!-- ##### FUNCTION gsf_timestamp_new_now ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_timestamp_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
 
 
 <!-- ##### FUNCTION gsf_timestamp_as_string ##### -->
@@ -819,31 +926,12 @@ utils
 @Returns: 
 
 
-<!-- ##### MACRO GSF_TIMESTAMP_TYPE ##### -->
+<!-- ##### FUNCTION gsf_value_set_timestamp ##### -->
 <para>
 
 </para>
 
-
-
-<!-- ##### STRUCT GsfTimestamp ##### -->
-<para>
-
-</para>
-
-@date: 
-@seconds: 
-@time_zone: 
-@timet: 
-
-<!-- ##### FUNCTION gsf_timestamp_new ##### -->
-<para>
-
-</para>
-
-@date: 
-@seconds: 
-@tz: 
-@Returns: 
+@value: 
+@stamp: 
 
 

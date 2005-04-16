@@ -45,6 +45,7 @@ gsf_outfile_new_child (GsfOutfile *outfile,
  * @outfile : A #GsfOutfile
  * @name : The name of the new child to create
  * @is_dir : TRUE to create a directory, FALSE to create a plain file
+ * @first_property_name :
  *
  * Returns a newly created child
  **/
