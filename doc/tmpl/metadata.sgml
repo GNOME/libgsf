@@ -14,6 +14,9 @@ metadata
 
 </para>
 
+<!-- ##### SECTION Stability_Level ##### -->
+
+
 <!-- ##### STRUCT GsfDocMetaData ##### -->
 <para>
 
@@ -82,7 +85,7 @@ metadata
 </para>
 
 
-<!-- ##### FUNCTION gsf_get_prop_get_name ##### -->
+<!-- ##### FUNCTION gsf_doc_prop_get_name ##### -->
 <para>
 
 </para>
@@ -91,7 +94,7 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_get_prop_get_val ##### -->
+<!-- ##### FUNCTION gsf_doc_prop_get_val ##### -->
 <para>
 
 </para>
@@ -100,7 +103,7 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_get_prop_set_val ##### -->
+<!-- ##### FUNCTION gsf_doc_prop_set_val ##### -->
 <para>
 
 </para>
@@ -109,7 +112,7 @@ metadata
 @val: 
 
 
-<!-- ##### FUNCTION gsf_get_prop_get_link ##### -->
+<!-- ##### FUNCTION gsf_doc_prop_get_link ##### -->
 <para>
 
 </para>
@@ -118,7 +121,7 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_get_prop_set_link ##### -->
+<!-- ##### FUNCTION gsf_doc_prop_set_link ##### -->
 <para>
 
 </para>

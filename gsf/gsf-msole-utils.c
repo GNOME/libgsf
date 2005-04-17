@@ -768,7 +768,7 @@ msole_prop_read (GsfInput *in,
 					g_warning ("linking property '%s' before it\'s value is specified",
 						   (name ? name : "<null>"));
 				} else
-					gsf_get_prop_set_link (prop,
+					gsf_doc_prop_set_link (prop,
 						g_value_dup_string (val));
 			} else {
 				gsf_doc_meta_data_insert (accum, name, val);
@@ -934,7 +934,7 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 			if (props[j].id == 1) {
 				msole_prop_read (in, sections+i, props, j, accum);
 				if (NULL != (prop = gsf_doc_meta_data_lookup (accum, GSF_META_NAME_LANGUAGE))) {
-					GValue const *val = gsf_get_prop_get_val (prop);
+					GValue const *val = gsf_doc_prop_get_val (prop);
 					if (NULL != val && G_VALUE_HOLDS_INT (val)) {
 						int codepage = g_value_get_int (val);
 						sections[i].iconv_handle =
@@ -1390,7 +1390,7 @@ gsf_msole_metadata_write (GsfOutput *out,
 	/* check and save codepage into props_codepage first to get the ncoding
 	 * or future strings */
 	if (NULL != (prop = gsf_doc_meta_data_lookup (meta_data, GSF_META_NAME_LANGUAGE))) {
-		GValue const *val = gsf_get_prop_get_val (prop);
+		GValue const *val = gsf_doc_prop_get_val (prop);
 		if (NULL == val || !G_VALUE_HOLDS_INT (val)) {
 			g_warning ("value of property with name=%s is not an valid codepage",
 				   GSF_META_NAME_LANGUAGE);

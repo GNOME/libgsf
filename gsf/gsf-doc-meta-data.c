@@ -172,33 +172,33 @@ gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 /**********************************************************************/
 
 /**
- * gsf_get_prop_get_name :
+ * gsf_doc_prop_get_name :
  * @prop : #GsfDocProp
  *
  * Returns the name of the property, the caller should not modify the result.
  **/
 char const *
-gsf_get_prop_get_name (GsfDocProp const *prop)
+gsf_doc_prop_get_name (GsfDocProp const *prop)
 {
 	g_return_val_if_fail (prop != NULL, NULL);
 	return prop->name;
 }
 
 /**
- * gsf_get_prop_get_val :
+ * gsf_doc_prop_get_val :
  * @prop : the property
  *
  * Returns the value of the property, the caller should not modify the result.
  **/
 GValue const *
-gsf_get_prop_get_val (GsfDocProp const *prop)
+gsf_doc_prop_get_val (GsfDocProp const *prop)
 {
 	g_return_val_if_fail (prop != NULL, NULL);
 	return prop->val;
 }
 
 void
-gsf_get_prop_set_val (GsfDocProp *prop, GValue *val)
+gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 {
 	g_return_if_fail (prop != NULL);
 
@@ -210,19 +210,19 @@ gsf_get_prop_set_val (GsfDocProp *prop, GValue *val)
 }
 
 char const *
-gsf_get_prop_get_link (GsfDocProp const *prop)
+gsf_doc_prop_get_link (GsfDocProp const *prop)
 {
 	g_return_val_if_fail (prop != NULL, NULL);
 	return prop->linked_to;
 }
 
 /**
- * gsf_get_prop_set_link :
+ * gsf_doc_prop_set_link :
  * @prop : #GsfDocProp
  * @link :
  **/
 void
-gsf_get_prop_set_link (GsfDocProp *prop, char *link)
+gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 {
 	g_return_if_fail (prop != NULL);
 	if (link != prop->linked_to) {

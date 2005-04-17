@@ -611,11 +611,11 @@ gsf_doc_meta_data_foreach
 gsf_doc_meta_data_size
 
 GsfDocProp
-gsf_get_prop_get_name
-gsf_get_prop_get_val
-gsf_get_prop_set_val
-gsf_get_prop_get_link
-gsf_get_prop_set_link
+gsf_doc_prop_get_name
+gsf_doc_prop_get_val
+gsf_doc_prop_set_val
+gsf_doc_prop_get_link
+gsf_doc_prop_set_link
 
 GsfDocPropVector
 gsf_docprop_vector_new

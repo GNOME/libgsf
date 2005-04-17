@@ -44,11 +44,11 @@ void		gsf_doc_meta_data_foreach (GsfDocMetaData const *meta,
 					   GHFunc func, gpointer user_data);
 gsize		gsf_doc_meta_data_size	  (GsfDocMetaData const *meta);
 
-char const   *gsf_get_prop_get_name (GsfDocProp const *prop);
-GValue const *gsf_get_prop_get_val  (GsfDocProp const *prop);
-void	      gsf_get_prop_set_val  (GsfDocProp *prop, GValue *val);
-char const   *gsf_get_prop_get_link (GsfDocProp const *prop);
-void	      gsf_get_prop_set_link (GsfDocProp *prop, char *link);
+char const   *gsf_doc_prop_get_name (GsfDocProp const *prop);
+GValue const *gsf_doc_prop_get_val  (GsfDocProp const *prop);
+void	      gsf_doc_prop_set_val  (GsfDocProp *prop, GValue *val);
+char const   *gsf_doc_prop_get_link (GsfDocProp const *prop);
+void	      gsf_doc_prop_set_link (GsfDocProp *prop, char *link);
 
 G_END_DECLS
 

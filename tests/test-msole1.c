@@ -142,12 +142,12 @@ dump_biff_stream (GsfInput *stream)
 static void
 cb_print_property (char const *name, GsfDocProp const *prop)
 {
-	GValue const *val = gsf_get_prop_get_val  (prop);
+	GValue const *val = gsf_doc_prop_get_val  (prop);
 	char *tmp;
 
-	if (gsf_get_prop_get_link (prop) != NULL)
+	if (gsf_doc_prop_get_link (prop) != NULL)
 		g_print ("prop '%s' LINKED TO  -> '%s'\n",
-			 name, gsf_get_prop_get_link (prop));
+			 name, gsf_doc_prop_get_link (prop));
 	else
 		g_print ("prop '%s'\n", name);
 

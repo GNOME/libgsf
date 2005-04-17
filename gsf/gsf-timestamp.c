@@ -76,6 +76,7 @@ gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 
 	/* Use an honest time_t for ctime.  */
 	t = stamp->timet;
+#warning ctime is not thread safe, use ctime_r if available
 	return g_strdup (ctime (&t));
 }
 

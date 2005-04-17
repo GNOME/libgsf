@@ -14,6 +14,9 @@ utils
 
 </para>
 
+<!-- ##### SECTION Stability_Level ##### -->
+
+
 <!-- ##### FUNCTION gsf_init ##### -->
 <para>
 
@@ -245,6 +248,10 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -285,6 +292,10 @@ utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\

@@ -258,6 +258,10 @@ gsf-input
 GsfOutput
 
 
+<!-- ##### SECTION ./tmpl/gsf-unused.sgml:Stability_Level ##### -->
+
+
+
 <!-- ##### SECTION ./tmpl/gsf-utils.sgml:Long_Description ##### -->
 <para>
 
@@ -841,10 +845,6 @@ gsf
 </para>
 
 
-<!-- ##### SECTION Stability_Level ##### -->
-
-
-
 <!-- ##### ENUM ZipCompressionMethod ##### -->
 <para>
 
@@ -920,6 +920,46 @@ gsf
 @value: 
 @prop_name: 
 @prop: 
+
+<!-- ##### FUNCTION gsf_get_prop_get_link ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_get_prop_get_name ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_get_prop_get_val ##### -->
+<para>
+
+</para>
+
+@prop: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_get_prop_set_link ##### -->
+<para>
+
+</para>
+
+@prop: 
+@link: 
+
+<!-- ##### FUNCTION gsf_get_prop_set_val ##### -->
+<para>
+
+</para>
+
+@prop: 
+@val: 
 
 <!-- ##### FUNCTION gsf_infile_get_type ##### -->
 <para>
