@@ -1,4 +1,4 @@
-libgsf 1.11.2
+libgsf 1.12.0
 
 Herzi:
 	* Allow multiple calls to gsf_xml_out_add_cstr.  [#167166]
