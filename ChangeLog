@@ -1,3 +1,7 @@
+2005-04-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Use m4 macros for version numbering.
+
 2005-04-16  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-msole1.c : update for the new ms-ole property import api

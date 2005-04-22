@@ -2,35 +2,43 @@
 dnl We require Automake 1.7.1, which requires Autoconf 2.54.
 AC_PREREQ(2.54)
 
-AC_INIT(gsf/gsf.h)
+m4_define([libgsf_version_major], [1])
+m4_define([libgsf_version_minor], [12])
+m4_define([libgsf_version_micro], [0])
+m4_define([libgsf_version_extra], [])
+m4_define([libgsf_full_version],
+    [libgsf_version_major.libgsf_version_minor.libgsf_version_micro[]libgsf_version_extra])
 
+AC_INIT(libgsf, [libgsf_full_version],
+	[http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf])
+AC_CONFIG_SRCDIR(gsf/gsf.h)
+
+AC_SUBST(LIBGSF_MAJOR_VERSION, libgsf_version_major)
+AC_SUBST(LIBGSF_MINOR_VERSION, libgsf_version_minor)
+AC_SUBST(LIBGSF_MICRO_VERSION, libgsf_version_micro)
+
+dnl Version info for libraries = CURRENT:REVISION:AGE
+AC_SUBST(VERSION_INFO,
+m4_eval(libgsf_version_major + libgsf_version_minor)[]dnl
+:libgsf_version_micro:libgsf_version_minor)
+
+dnl FIXME: the above formula and the following explanation are wrong:  --kasal
+dnl
 dnl Set release number
 dnl This is derived from "Versioning" chapter of info libtool documentation.
-PACKAGE=libgsf
 dnl     4a) Increment when removing or changing interfaces.
-LIBGSF_MAJOR_VERSION=1
+dnl LIBGSF_MAJOR_VERSION=1
 dnl     4a) 5) Increment when adding interfaces.
 dnl     6) Set to zero when removing or changing interfaces.
-LIBGSF_MINOR_VERSION=12
+dnl LIBGSF_MINOR_VERSION=12
 dnl     3) Increment when interfaces not changed at all,
 dnl               only bug fixes or internal changes made.
 dnl     4b) Set to zero when adding, removing or changing interfaces.
-LIBGSF_MICRO_VERSION=0
-dnl
-dnl     Set this too
-MAJOR_VERSION_PLUS_MINOR_VERSION=`expr $LIBGSF_MAJOR_VERSION + $LIBGSF_MINOR_VERSION`
-dnl
-VERSION=$LIBGSF_MAJOR_VERSION.$LIBGSF_MINOR_VERSION.$LIBGSF_MICRO_VERSION
-dnl Version info for libraries = CURRENT:REVISION:AGE
-VERSION_INFO=$MAJOR_VERSION_PLUS_MINOR_VERSION:$LIBGSF_MICRO_VERSION:$LIBGSF_MINOR_VERSION
-AC_SUBST(VERSION_INFO)
-AC_SUBST(LIBGSF_MAJOR_VERSION)
-AC_SUBST(LIBGSF_MINOR_VERSION)
-AC_SUBST(LIBGSF_MICRO_VERSION)
+dnl LIBGSF_MICRO_VERSION=0
 
-dnl Start automake
-AM_CONFIG_HEADER(gsf-config.h)
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_INIT_AUTOMAKE(dist-bzip2)
+
+AC_CONFIG_HEADERS(gsf-config.h)
 AM_MAINTAINER_MODE
 
 dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
@@ -209,12 +217,13 @@ CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
-dnl
+pygtk_msg=no
+
 dnl Uncomment to enable Python bindings. automake1.5 or later is required.
 dnl
 dnl AM_PATH_PYTHON
 dnl AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
-dnl check for pygtk
+dnl # check for pygtk
 dnl PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
 dnl 		  [pygtk_msg="yes"],
 dnl 		  [pygtk_msg="NO.  pygtk problem"])
@@ -224,11 +233,7 @@ dnl if test "x$PYGTK_CODEGEN" = xno; then
 dnl    AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
 dnl fi
 
-dnl if test "x$pygtk_msg" = "xyes"; then
-dnl   AM_CONDITIONAL(WITH_PYTHON, true)
-dnl else
-  AM_CONDITIONAL(WITH_PYTHON, false)
-dnl fi
+AM_CONDITIONAL(WITH_PYTHON, [test "$pygtk_msg" = yes])
 
 dnl ***********************************************************************************
 
@@ -301,7 +306,7 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 gsf/Makefile
@@ -318,5 +323,6 @@ libgsf-win32-1.pc
 libgsf-zip
 doc/version.xml
 ])
+AC_OUTPUT
 
 AC_MSG_RESULT([Configured $PACKAGE $VERSION])
