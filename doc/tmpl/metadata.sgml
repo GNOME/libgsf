@@ -60,6 +60,25 @@ metadata
 @name: 
 
 
+<!-- ##### FUNCTION gsf_doc_meta_data_steal ##### -->
+<para>
+
+</para>
+
+@meta: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_doc_meta_data_store ##### -->
+<para>
+
+</para>
+
+@meta: 
+@prop: 
+
+
 <!-- ##### FUNCTION gsf_doc_meta_data_foreach ##### -->
 <para>
 
@@ -83,6 +102,23 @@ metadata
 <para>
 
 </para>
+
+
+<!-- ##### FUNCTION gsf_doc_prop_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_doc_prop_free ##### -->
+<para>
+
+</para>
+
+@prop: 
 
 
 <!-- ##### FUNCTION gsf_doc_prop_get_name ##### -->

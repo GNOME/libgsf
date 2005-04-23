@@ -607,10 +607,14 @@ gsf_doc_meta_data_new
 gsf_doc_meta_data_lookup
 gsf_doc_meta_data_insert
 gsf_doc_meta_data_remove
+gsf_doc_meta_data_steal
+gsf_doc_meta_data_store
 gsf_doc_meta_data_foreach
 gsf_doc_meta_data_size
 
 GsfDocProp
+gsf_doc_prop_new
+gsf_doc_prop_free
 gsf_doc_prop_get_name
 gsf_doc_prop_get_val
 gsf_doc_prop_set_val

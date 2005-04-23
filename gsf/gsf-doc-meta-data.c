@@ -37,15 +37,6 @@ struct _GsfDocProp {
 };
 
 static GObjectClass *parent_class;
-static void
-cb_gsf_doc_meta_data_prop_free (GsfDocProp *prop)
-{
-	g_free (prop->linked_to);
-	g_value_unset (prop->val);
-	g_free (prop->val);
-	g_free (prop->name);
-	g_free (prop);
-}
 
 static void
 gsf_doc_meta_data_finalize (GObject *obj)
@@ -59,7 +50,7 @@ gsf_doc_meta_data_init (GObject *obj)
 {
 	GsfDocMetaData *meta = GSF_DOC_META_DATA (obj);
 	meta->table = g_hash_table_new_full (g_str_hash, g_str_equal,
-		NULL, (GDestroyNotify) cb_gsf_doc_meta_data_prop_free);
+		NULL, (GDestroyNotify) gsf_doc_prop_free);
 }
 
 static void
@@ -142,6 +133,39 @@ gsf_doc_meta_data_remove (GsfDocMetaData *meta, char const *name)
 }
 
 /**
+ * gsf_doc_meta_data_store :
+ * @meta : #GsfDocMetaData
+ * @name : 
+ *
+ **/
+GsfDocProp *
+gsf_doc_meta_data_steal (GsfDocMetaData *meta, char const *name)
+{
+	GsfDocProp *prop;
+	g_return_val_if_fail (IS_GSF_DOC_META_DATA (meta), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+	prop = g_hash_table_lookup (meta->table, name);
+	if (NULL != prop)
+		g_hash_table_steal (meta->table, name);
+	return prop;
+}
+
+/**
+ * gsf_doc_meta_data_store :
+ * @meta : #GsfDocMetaData
+ * @prop : #GsfDocProp
+ *
+ **/
+void
+gsf_doc_meta_data_store (GsfDocMetaData *meta, GsfDocProp *prop)
+{
+	g_return_if_fail (IS_GSF_DOC_META_DATA (meta));
+	g_return_if_fail (prop != NULL);
+	g_return_if_fail (prop != g_hash_table_lookup (meta->table, prop->name));
+	g_hash_table_replace (meta->table, prop->name, prop);
+}
+
+/**
  * gsf_doc_meta_data_foreach :
  * @meta : the collection
  * @func : the function called once for each element in the collection
@@ -172,6 +196,48 @@ gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 /**********************************************************************/
 
 /**
+ * gsf_doc_prop_new :
+ * @name :
+ *
+ * Returns a new #GsfDocProp which the caller is responsible for freeing.
+ * Takes ownership of @name.
+ **/
+GsfDocProp *
+gsf_doc_prop_new  (char *name)
+{
+	GsfDocProp *prop;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	prop = g_new (GsfDocProp, 1);
+	prop->name = name;
+	prop->val  = NULL;
+	prop->linked_to = NULL;
+
+	return prop;
+}
+
+/**
+ * gsf_doc_prop_free :
+ * @prop : #GsfDocProp
+ *
+ * If @prop is non NULL free the memory assosociated with it
+ **/
+void
+gsf_doc_prop_free (GsfDocProp *prop)
+{
+	if (NULL != prop) {
+		g_free (prop->linked_to);
+		if (prop->val) {
+			g_value_unset (prop->val);
+			g_free (prop->val);
+		}
+		g_free (prop->name);
+		g_free (prop);
+	}
+}
+
+/**
  * gsf_doc_prop_get_name :
  * @prop : #GsfDocProp
  *
@@ -197,6 +263,13 @@ gsf_doc_prop_get_val (GsfDocProp const *prop)
 	return prop->val;
 }
 
+/**
+ * gsf_doc_prop_set_val :
+ * @prop : #GsfDocProp
+ * @val  : #GValue
+ *
+ * Assigns @val to @prop, and unsets and frees the current value.
+ **/
 void
 gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 {
@@ -209,6 +282,32 @@ gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 	}
 }
 
+/**
+ * gsf_doc_prop_swap_val :
+ * @prop : #GsfDocProp
+ * @val  : #GValue
+ *
+ * Returns the current value of @prop, and replaces it with @val
+ * 	Caller is responsible for unsetting and freeing the result.
+ **/
+GValue *
+gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
+{
+	GValue *old_val;
+	g_return_val_if_fail (prop != NULL, NULL);
+
+	old_val = prop->val;
+	prop->val = val;
+	return old_val;
+}
+
+/**
+ * gsf_doc_prop_get_link :
+ * @prop : #GsfDocProp
+ *
+ * Returns the current link descriptor of @prop.  The result should not be
+ * 	freed or modified.
+ **/
 char const *
 gsf_doc_prop_get_link (GsfDocProp const *prop)
 {

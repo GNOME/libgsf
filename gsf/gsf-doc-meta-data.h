@@ -2,7 +2,7 @@
 /*
  * gsf-doc-meta-data.h: get, set, remove custom meta properties associated with documents
  *
- * Copyright (C) 2002-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2005 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -40,13 +40,20 @@ void		gsf_doc_meta_data_insert  (GsfDocMetaData *meta,
 					   char *name, GValue *value);
 void		gsf_doc_meta_data_remove  (GsfDocMetaData *meta,
 					   char const *name);
+GsfDocProp     *gsf_doc_meta_data_steal   (GsfDocMetaData *meta,
+					   char const *name);
+void		gsf_doc_meta_data_store   (GsfDocMetaData *meta,
+					   GsfDocProp     *prop);
 void		gsf_doc_meta_data_foreach (GsfDocMetaData const *meta,
 					   GHFunc func, gpointer user_data);
 gsize		gsf_doc_meta_data_size	  (GsfDocMetaData const *meta);
 
+GsfDocProp   *gsf_doc_prop_new	    (char *name);
+void	      gsf_doc_prop_free	    (GsfDocProp *prop);
 char const   *gsf_doc_prop_get_name (GsfDocProp const *prop);
 GValue const *gsf_doc_prop_get_val  (GsfDocProp const *prop);
 void	      gsf_doc_prop_set_val  (GsfDocProp *prop, GValue *val);
+GValue 	     *gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val);
 char const   *gsf_doc_prop_get_link (GsfDocProp const *prop);
 void	      gsf_doc_prop_set_link (GsfDocProp *prop, char *link);
 
