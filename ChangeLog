@@ -1,3 +1,11 @@
+2005-04-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-doc-meta-data.h (gsf_doc_prop_new) : new
+	(gsf_doc_prop_free) : new
+	(gsf_doc_prop_swap_val) : new
+
+	* gsf/gsf-msole-utils.c : disable the debug spew
+
 2005-04-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Use m4 macros for version numbering.
