@@ -25,6 +25,8 @@ Morten:
 	* Fix GsfOutputStdio to avoid killing the target file when we
 	  get an error.
 	* Add new GsfOutputCsv and GsfOutputIconv.
+	* Fix GsfOutfileZip's handling of compression levels.
+	* Allow getting the compression level when reading zip files.
 
 ------------------------------------------------------------------------------
 libgsf 1.11.1
