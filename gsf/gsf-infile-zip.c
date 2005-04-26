@@ -33,6 +33,11 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:zip"
 
+enum {
+	PROP_0,
+	PROP_COMPRESSION_LEVEL
+};
+
 static GObjectClass *parent_class;
 
 typedef struct {
@@ -696,12 +701,36 @@ gsf_infile_zip_init (GObject *obj)
 }
 
 static void
+gsf_infile_zip_get_property (GObject     *object,
+			     guint        property_id,
+			     GValue      *value,
+			     GParamSpec  *pspec)
+{
+	GsfInfileZip *zip = (GsfInfileZip *)object;
+
+	switch (property_id) {
+	case PROP_COMPRESSION_LEVEL:
+		g_value_set_int (value,
+				 zip->vdir->dirent
+				 ? zip->vdir->dirent->compr_method
+				 : 0);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
 gsf_infile_zip_class_init (GObjectClass *gobject_class)
 {
 	GsfInputClass  *input_class  = GSF_INPUT_CLASS (gobject_class);
 	GsfInfileClass *infile_class = GSF_INFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_infile_zip_finalize;
+	gobject_class->get_property     = gsf_infile_zip_get_property;
+
 	input_class->Dup		= gsf_infile_zip_dup;
 	input_class->Read		= gsf_infile_zip_read;
 	input_class->Seek		= gsf_infile_zip_seek;
@@ -711,6 +740,17 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 	infile_class->child_by_name	= gsf_infile_zip_child_by_name;
 
 	parent_class = g_type_class_peek_parent (gobject_class);
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_COMPRESSION_LEVEL,
+		 g_param_spec_int ("compression-level",
+				   "Compression Level",
+				   "The level of compression used, zero meaning none.",
+				   0, 9,
+				   0,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READABLE));
 }
 
 GSF_CLASS (GsfInfileZip, gsf_infile_zip,
@@ -743,7 +783,7 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 		g_object_unref (G_OBJECT (zip));
 		return NULL;
 	}
-	zip->vdir               = zip->info->vdir;
+	zip->vdir = zip->info->vdir;
 
 	return GSF_INFILE (zip);
 }
