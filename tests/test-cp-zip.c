@@ -36,12 +36,11 @@ clone (GsfInfile *in, GsfOutfile *out)
 {
 	GsfInput *input = GSF_INPUT (in);
 	GsfOutput *output = GSF_OUTPUT (out);
-	guint8 const *data;
-	size_t len;
-	int i;
 
 	if (gsf_input_size (input) > 0) {
+		size_t len;
 		while ((len = gsf_input_remaining (input)) > 0) {
+			guint8 const *data;
 			/* copy in odd sized chunks to exercise system */
 			if (len > 314)
 				len = 314;
@@ -54,12 +53,29 @@ clone (GsfInfile *in, GsfOutfile *out)
 				return;
 			}
 		}
-	} else for (i = 0 ; i < gsf_infile_num_children (in) ; i++) {
-		input = gsf_infile_child_by_index (in, i);
-		output = gsf_outfile_new_child  (out,
-			gsf_infile_name_by_index  (in, i),
-			gsf_infile_num_children (GSF_INFILE (input)) >= 0);
-		clone (GSF_INFILE (input), GSF_OUTFILE (output));
+	} else {
+		int i, n = gsf_infile_num_children (in);
+		for (i = 0 ; i < n; i++) {
+			const char *name;
+			int level;
+			gboolean is_dir;
+
+			input = gsf_infile_child_by_index (in, i);
+			name = gsf_infile_name_by_index (in, i);
+			is_dir = gsf_infile_num_children (GSF_INFILE (input)) >= 0;
+
+			g_object_get (G_OBJECT (input), "compression-level", &level, NULL);
+			g_print ("%s: size=%ld, level=%d, %s\n",
+				 name ? name : "?",
+				 (long)gsf_input_size (input),
+				 level,
+				 is_dir ? "directory" : "file");
+
+			output = gsf_outfile_new_child_full  (out, name, is_dir,
+							      "compression-level", level,
+							      NULL);
+			clone (GSF_INFILE (input), GSF_OUTFILE (output));
+		}
 	}
 	gsf_output_close (GSF_OUTPUT (out));
 	g_object_unref (G_OBJECT (out));

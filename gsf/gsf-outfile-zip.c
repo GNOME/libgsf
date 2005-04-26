@@ -33,6 +33,11 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:zip"
 
+enum {
+	PROP_0,
+	PROP_COMPRESSION_LEVEL
+};
+
 static GObjectClass *parent_class;
 
 struct _GsfOutfileZip {
@@ -593,6 +598,53 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->buf_size = 0;
 }
 
+static void
+gsf_outfile_zip_get_property (GObject     *object,
+			      guint        property_id,
+			      GValue      *value,
+			      GParamSpec  *pspec)
+{
+	GsfOutfileZip *zip = (GsfOutfileZip *)object;
+
+	switch (property_id) {
+	case PROP_COMPRESSION_LEVEL:
+		g_value_set_int (value,
+				 zip->vdir->dirent
+				 ? zip->vdir->dirent->compr_method
+				 : 0);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_outfile_zip_set_property (GObject      *object,
+			      guint         property_id,
+			      GValue const *value,
+			      GParamSpec   *pspec)
+{
+	GsfOutfileZip *zip = (GsfOutfileZip *)object;
+
+	switch (property_id) {
+	case PROP_COMPRESSION_LEVEL: {
+		int level = g_value_get_int (value);
+		switch (level) {
+		case GSF_ZIP_STORED:
+		case GSF_ZIP_DEFLATED:
+			zip->compression_method = level;
+			break;
+		default:
+			g_warning ("Unsupported compression level %d", level);
+		}
+		break;
+	}
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gsf_outfile_zip_class_init (GObjectClass *gobject_class)
@@ -601,12 +653,27 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_outfile_zip_finalize;
+	gobject_class->get_property     = gsf_outfile_zip_get_property;
+	gobject_class->set_property     = gsf_outfile_zip_set_property;
+
 	input_class->Write		= gsf_outfile_zip_write;
 	input_class->Seek		= gsf_outfile_zip_seek;
 	input_class->Close		= gsf_outfile_zip_close;
 	outfile_class->new_child	= gsf_outfile_zip_new_child;
 
 	parent_class = g_type_class_peek_parent (gobject_class);
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_COMPRESSION_LEVEL,
+		 g_param_spec_int ("compression-level",
+				   "Compression Level",
+				   "The level of compression used, zero meaning none.",
+				   0, 10,
+				   GSF_ZIP_DEFLATED,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE |
+				   G_PARAM_CONSTRUCT_ONLY));
 }
 
 GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
@@ -651,18 +718,5 @@ gboolean
 gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
 					GsfZipCompressionMethod method)
 {
-	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (zip), FALSE);
-
-	if (zip->writing || (zip->vdir && zip->vdir->is_directory))
-		return FALSE;
-
-	switch (method) {
-	case GSF_ZIP_STORED:
-	case GSF_ZIP_DEFLATED:
-		zip->compression_method = method;
-		return TRUE;
-		break;
-	default:
-		return FALSE;
-	}
+	return TRUE;
 }

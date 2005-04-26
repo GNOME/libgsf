@@ -49,6 +49,8 @@ typedef struct _GsfOutfileZip GsfOutfileZip;
 
 GType	    gsf_outfile_zip_get_type	(void);
 GsfOutfile *gsf_outfile_zip_new		(GsfOutput *sink, GError **err);
+
+/* Deprecated.  Has no effect.  */
 gboolean    gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
 						    GsfZipCompressionMethod method);
 

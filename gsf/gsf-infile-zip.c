@@ -77,10 +77,9 @@ static GsfZipVDir *
 vdir_child_by_name (GsfZipVDir *vdir, char const *name)
 {
 	GSList *l;
-	GsfZipVDir *child;
-	
+
 	for (l = vdir->children; l; l = l->next) {
-		child = (GsfZipVDir *) l->data;
+		GsfZipVDir *child = (GsfZipVDir *) l->data;
 		if (strcmp (child->name, name) == 0)
 			return child;
 	}
@@ -90,12 +89,7 @@ vdir_child_by_name (GsfZipVDir *vdir, char const *name)
 static GsfZipVDir *
 vdir_child_by_index (GsfZipVDir *vdir, int target)
 {
-	GSList *l;
-	
-	for (l = vdir->children; l; l = l->next)
-		if (target-- <= 0)
-			return (GsfZipVDir *) l->data;
-	return NULL;
+	return g_slist_nth_data (vdir->children, target);
 }
 
 static void
@@ -689,13 +683,13 @@ static void
 gsf_infile_zip_init (GObject *obj)
 {
 	GsfInfileZip *zip = (GsfInfileZip *)obj;
-	zip->input =   NULL;
-	zip->info  =   NULL;
-	zip->vdir  =   NULL;
-	zip->stream   =  NULL;
-	zip->restlen  = 0;
+	zip->input = NULL;
+	zip->info = NULL;
+	zip->vdir = NULL;
+	zip->stream = NULL;
+	zip->restlen = 0;
 	zip->crestlen = 0;
-	zip->buf   =   NULL;
+	zip->buf = NULL;
 	zip->buf_size = 0;
 	zip->seek_skipped = 0;
 }
@@ -747,7 +741,7 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_int ("compression-level",
 				   "Compression Level",
 				   "The level of compression used, zero meaning none.",
-				   0, 9,
+				   0, 10,
 				   0,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READABLE));

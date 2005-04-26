@@ -1,6 +1,19 @@
 2005-04-26  Morten Welinder  <terra@gnome.org>
 
+	* tests/test-cp-zip.c (clone): Be a bit verbose.  Make the copy
+	use the compression levels of the source.
+
+	* gsf/gsf-outfile-zip.c: Add construct-only compression-level
+	property.
+	(gsf_outfile_zip_set_compression_method): Make this an empty stub
+	and deprecate.
+
+	* gsf/gsf-zip-utils.c (gsf_vdir_add_child): Do not sort because
+	doing so breaks copying of OOo files.
+
 	* gsf/gsf-infile-zip.c: Add readable compression-level property.
+	(vdir_child_by_index): simplify.  (This is really use
+	g_slist_nth_data, modulo pointer types.)
 
 2005-04-23  Jody Goldberg <jody@gnome.org>
 

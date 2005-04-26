@@ -73,27 +73,13 @@ gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 	g_free (vdir);
 }
 
-/* Comparison doesn't have to be UTF-8 safe, as long as it is consistent */
-static gint
-gsf_vdir_compare (gconstpointer ap, gconstpointer bp)
-{
-	GsfZipVDir *a = (GsfZipVDir *) ap;
-	GsfZipVDir *b = (GsfZipVDir *) bp;
-
-	if (!a || !b) {
-		if (!a && !b)
-			return 0;
-		else
-			return a ? -1 : 1;
-	}
-	return strcmp (a->name, b->name);
-}
-
 void
 gsf_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
 {
-	vdir->children = g_slist_insert_sorted (vdir->children,
-						(gpointer) child,
-						gsf_vdir_compare);
+	GSList *tail = g_slist_append (NULL, child);
+	if (vdir->children)
+		vdir->last_child->next = tail;
+	else
+		vdir->children = tail;
+	vdir->last_child = tail;
 }
-

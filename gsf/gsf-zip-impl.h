@@ -87,21 +87,21 @@ G_BEGIN_DECLS
 #define ZZIP_IS_STREAMED(p)    (((*(unsigned char*)p)>>3)&1)
 
 typedef struct {	
-	char                 *name;
+	char                    *name;
 	GsfZipCompressionMethod  compr_method;
-	guint32               crc32;
-	size_t                csize;
-	size_t                usize;
-	gsf_off_t                 offset;
-	gsf_off_t                 data_offset;
-	guint32               dostime;
+	guint32                  crc32;
+	size_t                   csize;
+	size_t                   usize;
+	gsf_off_t                offset;
+	gsf_off_t                data_offset;
+	guint32                  dostime;
 } GsfZipDirent;
 
 typedef struct {
 	char *name;
 	gboolean is_directory;
 	GsfZipDirent *dirent;
-	GSList *children;
+	GSList *children, *last_child;
 } GsfZipVDir;
 
 GsfZipDirent *gsf_zip_dirent_new  (void);
