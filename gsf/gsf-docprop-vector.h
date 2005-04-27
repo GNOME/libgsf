@@ -29,17 +29,17 @@ G_BEGIN_DECLS
 
 #define GSF_DOCPROP_VECTOR_TYPE	 (gsf_docprop_vector_get_type ())
 #define GSF_DOCPROP_VECTOR(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), GSF_DOCPROP_VECTOR, GsfDocPropVector))
-#define IS_GSF_DOCPROP_VECTOR(o) (G_TYPE_CHECK_VALUE_TYPE((o), GSF_DOCPROP_VECTOR_TYPE))
+#define IS_GSF_DOCPROP_VECTOR(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GSF_DOCPROP_VECTOR_TYPE))
 
 typedef struct _GsfDocPropVector      GsfDocPropVector;
+GType		      gsf_docprop_vector_get_type  (void);
+GsfDocPropVector *gsf_docprop_vector_new	   (void);
+void		      gsf_docprop_vector_append	   (GsfDocPropVector *vector, GValue *value);
+gchar		     *gsf_docprop_vector_as_string (GsfDocPropVector *vector);
 
-void		  gsf_docprop_vector_append	(GsfDocPropVector *vector, GValue *value);
-gchar		 *gsf_docprop_vector_as_string	(GsfDocPropVector *vector);
-GType		  gsf_docprop_vector_get_type	(void);
-GsfDocPropVector *gsf_docprop_vector_new	(void);
-void		  gsf_value_set_docprop_vector	(GValue *value, GsfDocPropVector const *vector);
+#define VAL_IS_GSF_DOCPROP_VECTOR(v) (G_TYPE_CHECK_VALUE_TYPE((v), GSF_DOCPROP_VECTOR_TYPE))
 GsfDocPropVector *gsf_value_get_docprop_vector	(GValue const *value);
-GValueArray	 *gsf_value_get_docprop_varray	(GValue const *value);
+GValueArray		 *gsf_value_get_docprop_varray	(GValue const *value);
 
 G_END_DECLS
 

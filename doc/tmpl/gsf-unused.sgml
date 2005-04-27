@@ -1037,6 +1037,14 @@ gsf
 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_value_set_docprop_vector ##### -->
+<para>
+
+</para>
+
+@value: 
+@vector: 
+
 <!-- ##### FUNCTION gsf_xml_out_get_type ##### -->
 <para>
 

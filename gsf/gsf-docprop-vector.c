@@ -37,50 +37,12 @@ typedef GObjectClass  GsfDocPropVectorClass;
 /*
  * Local function prototypes.
  */
-static void     gsf_docprop_vector_class_init (GsfDocPropVectorClass *klass);
 static void     gsf_docprop_vector_init (GsfDocPropVector *vector);
-static void     gsf_docprop_vector_value_dup (const GValue *src_value,
+static void     gsf_docprop_vector_value_dup (GValue const *src_value,
 					      GValue *dest_value);
 static void     gsf_docprop_vector_value_free (GValue *value);
 static void     gsf_docprop_vector_value_init (GValue *value);
-static gpointer gsf_docprop_vector_value_peek_pointer (const GValue *value);
-
-static GObjectClass *parent_class = NULL;
-
-/*
- * GTypeValueTable
- */
-static const GTypeValueTable value_info =
-{
-	&gsf_docprop_vector_value_init,		/* value initialization function */
-	&gsf_docprop_vector_value_free,		/* value free function */
-	&gsf_docprop_vector_value_dup,		/* value copy function */
-	&gsf_docprop_vector_value_peek_pointer,	/* value peek function */
-	NULL,					/* collect format */
-	NULL,					/* collect value function */
-	NULL,					/* lcopy format */
-	NULL					/* lcopy value function */
-};
-
-/*
- * GTypeInfo
- */
-static const GTypeInfo type_info =
-{
-	sizeof (GsfDocPropVectorClass),			/* Class size */
-	(GBaseInitFunc) NULL,				/* Base initialization function */
-	(GBaseFinalizeFunc) NULL,			/* Base finalization function */
-	(GClassInitFunc) gsf_docprop_vector_class_init,	/* Class initialization function */
-	(GClassFinalizeFunc) NULL,			/* Class finalization function */
-	NULL,						/* Class data */
-	sizeof (GsfDocPropVector),			/* Instance size */
-	0,						/* Number of pre-allocated instances */
-	(GInstanceInitFunc) gsf_docprop_vector_init,	/* Location of the instance initialization function */
-	&value_info					/* A GTypeValueTable function table for
-							   generic handling of GValues of this
-							   type */
-};
-
+static gpointer gsf_docprop_vector_value_peek_pointer (GValue const *value);
 
 GValueArray *
 gsf_value_get_docprop_varray (GValue const *value)
@@ -94,38 +56,16 @@ gsf_value_get_docprop_varray (GValue const *value)
  * @value: A GValue of type #GsfDocPropVector.
  *
  * This function returns a pointer to the GsfDocPropVector structure in @value.
+ * No additional references are created.
  *
  * Returns: A pointer to the #GsfDocPropVector structure in @value
  **/
 GsfDocPropVector *
 gsf_value_get_docprop_vector (GValue const *value)
 {
-	GsfDocPropVector	*vector;
-
-	g_return_val_if_fail (value != NULL, NULL);
-	g_return_val_if_fail (value->data[0].v_pointer != NULL, NULL);
+	g_return_val_if_fail (VAL_IS_GSF_DOCPROP_VECTOR (value), NULL);
 	
-	vector = (GsfDocPropVector *)value->data[0].v_pointer;
-	
-	return vector;
-}
-
-/**
- * gsf_value_set_docprop_vector
- * @value: The GValue to be set
- * @vector: The #GsfDocPropVector to use
- *
- * This function stores @vector in @value.
- **/
-void
-gsf_value_set_docprop_vector (GValue *value, GsfDocPropVector const *vector)
-{
-	if (value->data[0].v_pointer != NULL) {
-		gsf_docprop_vector_value_free (value->data[0].v_pointer);
-		g_free (value->data[0].v_pointer);
-	}
-
-	value->data[0].v_pointer = (gpointer) vector;
+	return (GsfDocPropVector *) g_value_get_object (value);
 }
 
 /**
@@ -139,10 +79,10 @@ void
 gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
 {
 	g_return_if_fail (vector != NULL);
+	g_return_if_fail (value != NULL);
 
-	if (G_IS_VALUE (value)) {
+	if (G_IS_VALUE (value))
 		vector->gva = g_value_array_append (vector->gva, value);
-	}
 }
 
 /**
@@ -150,6 +90,7 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
  * @vector: The #GsfDocPropVector from which GValues will be extracted.
  *
  * This function returns a string which represents all the GValues in @vector.
+ * The caller is responsible for freeing the result.
  *
  * Returns: a string of comma-separated values
  **/
@@ -181,38 +122,41 @@ gsf_docprop_vector_as_string (GsfDocPropVector *vector)
 	return rstring;
 }
 
-/**
- * gsf_docprop_vector_class_init
- * @klass: Class to be initialized
- *
- * This function is used both to fill in virtual functions in the class or
- * default vtable, and to do type-specific setup such as registering signals and
- * object properties.  It is the callback for the type system, called once when
- * our new class is created.
- **/
-static void
-gsf_docprop_vector_class_init (GsfDocPropVectorClass *klass)
-{
-	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-	object_class = (GObjectClass*) klass;
-}
-
-/**
- * gsf_docprop_vector_get_type
- *
- * This function returns the GType of the #GsfDocPropVector type.
- *
- * Returns: The GType of the #GsfDocPropVector type.
- **/
 GType
 gsf_docprop_vector_get_type (void)
 {
+	static GTypeValueTable const value_info = {
+		&gsf_docprop_vector_value_init,		/* value initialization function */
+		&gsf_docprop_vector_value_free,		/* value free function */
+		&gsf_docprop_vector_value_dup,		/* value copy function */
+		&gsf_docprop_vector_value_peek_pointer,	/* value peek function */
+		NULL,					/* collect format */
+		NULL,					/* collect value function */
+		NULL,					/* lcopy format */
+		NULL					/* lcopy value function */
+	};
+
+	/*
+	 * GTypeInfo
+	 * Do this manually so that we can specify a value_info field.
+	 */
+	static GTypeInfo const type_info = {
+		sizeof (GsfDocPropVectorClass),			/* Class size */
+		(GBaseInitFunc) NULL,				/* Base initialization function */
+		(GBaseFinalizeFunc) NULL,			/* Base finalization function */
+		(GClassInitFunc) NULL,				/* Class initialization function */
+		(GClassFinalizeFunc) NULL,			/* Class finalization function */
+		NULL,						/* Class data */
+		sizeof (GsfDocPropVector),			/* Instance size */
+		0,						/* Number of pre-allocated instances */
+		(GInstanceInitFunc) gsf_docprop_vector_init,	/* Location of the instance initialization function */
+		&value_info					/* A GTypeValueTable function table for
+								   generic handling of GValues of this
+								   type */
+	};
 	static GType my_type = 0;
 
 	if (my_type == 0) {
-
 		my_type = g_type_register_static (
 				G_TYPE_OBJECT,			/* Parent type */
 				"GsfDocPropVector",		/* Type name */
@@ -223,16 +167,9 @@ gsf_docprop_vector_get_type (void)
 	return my_type;
 }
 
-/**
- * gsf_docprop_vector_init
- * @vector: The vector to be initialized
- *
- * This function is the instance initialization function.  This function
- * initializes all instance members and allocates any resources required
- * by it.
- **/
 static void
-gsf_docprop_vector_init (GsfDocPropVector *vector) {
+gsf_docprop_vector_init (GsfDocPropVector *vector)
+{
 	vector->gva = g_value_array_new (0);
 }
 
@@ -246,11 +183,7 @@ gsf_docprop_vector_init (GsfDocPropVector *vector) {
 GsfDocPropVector*
 gsf_docprop_vector_new (void)
 {
-	GsfDocPropVector *new;
-
-	new = (GsfDocPropVector *) g_object_new (GSF_DOCPROP_VECTOR_TYPE, NULL);
-
-	return new;
+	return g_object_new (GSF_DOCPROP_VECTOR_TYPE, NULL);
 }
 
 /**
@@ -288,16 +221,9 @@ gsf_docprop_vector_value_dup (const GValue *src_value, GValue *dest_value)
 static void
 gsf_docprop_vector_value_free (GValue *value)
 {
-	GsfDocPropVector	*gv;
-
-	if (value->data[0].v_pointer != NULL) {
-		if (IS_GSF_DOCPROP_VECTOR (value)) { 
-			gv = (GsfDocPropVector *)(value->data[0].v_pointer);
-			if (gv->gva != NULL) {
-				g_value_array_free (gv->gva);
-			}
-		}
-	}
+	GValueArray *gva = gsf_value_get_docprop_varray (value);
+	if (gva != NULL)
+		g_value_array_free (gva);
 }
 
 /**

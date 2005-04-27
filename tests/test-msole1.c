@@ -151,7 +151,7 @@ cb_print_property (char const *name, GsfDocProp const *prop)
 	else
 		g_print ("prop '%s'\n", name);
 
-	if (IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
+	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
 		GValueArray *va = gsf_value_get_docprop_varray (val);
 		unsigned i;
 

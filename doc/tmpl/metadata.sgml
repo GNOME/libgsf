@@ -213,15 +213,6 @@ metadata
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_value_set_docprop_vector ##### -->
-<para>
-
-</para>
-
-@value: 
-@vector: 
-
-
 <!-- ##### MACRO GSF_META_NAME_TITLE ##### -->
 <para>
 

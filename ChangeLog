@@ -15,6 +15,26 @@
 	(vdir_child_by_index): simplify.  (This is really use
 	g_slist_nth_data, modulo pointer types.)
 
+2005-04-26  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (cb_measure_props) : handle custom props for
+	  ints and uints.
+
+2005-04-26  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_gsf_name_to_prop) : fix my silliness
+	(check_variant) : new.
+	(cb_measure_props) : renamed from add_props.  Signature changed to
+	  match the new foreach semantics.  Some initial work on handling
+	  variant vectors vs single type vectors.  Removed nasty kludge for
+	  DocumentParts and HeadingPairs.
+
+	* gsf/gsf-docprop-vector.c (gsf_value_get_docprop_vector) : Use
+	  g_value_get_object and clarify the docs.
+	(gsf_value_set_docprop_vector) : delete
+	(VAL_IS_GSF_DOCPROP_VECTOR) : new.
+	(IS_GSF_DOCPROP_VECTOR) : adjust to use the std GObject semantics
+
 2005-04-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-doc-meta-data.h (gsf_doc_prop_new) : new

@@ -160,25 +160,13 @@
 #define GSF_META_NAME_LINKS_DIRTY           "gsf:links-dirty"
 
 /* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_1        "gsf:user-defined-1"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_2        "gsf:user-defined-2"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_3        "gsf:user-defined-3"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_4        "gsf:user-defined-4"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_5        "gsf:user-defined-5"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_6        "gsf:user-defined-6"
-
-/* (Unknown) User-defined names */
-#define GSF_META_NAME_USER_DEFINED_7        "gsf:user-defined-7"
+#define GSF_META_NAME_MSOLE_UNKNOWN_17		"msole:unknown-doc-17"
+#define GSF_META_NAME_MSOLE_UNKNOWN_18		"msole:unknown-doc-18"
+#define GSF_META_NAME_MSOLE_UNKNOWN_19		"msole:unknown-doc-19"	/* bool */
+#define GSF_META_NAME_MSOLE_UNKNOWN_20		"msole:unknown-doc-20"
+#define GSF_META_NAME_MSOLE_UNKNOWN_21		"msole:unknown-doc-21"
+#define GSF_META_NAME_MSOLE_UNKNOWN_22		"msole:unknown-doc-22"	/* bool */
+#define GSF_META_NAME_MSOLE_UNKNOWN_23		"msole:unknown-doc-23"	/* i4 */
 
 /* (None) Reserved name (PID) for Dictionary */
 #define GSF_META_NAME_DICTIONARY            "gsf:dictionary"
@@ -186,7 +174,7 @@
 /* (Unsigned Integer) Identifier representing the default 
  * system locale.
  */
-#define GSF_META_NAME_LOCALE_SYSTEM_DEFAULT "gsf:default-locale"
+#define GSF_META_NAME_LOCALE_SYSTEM_DEFAULT	"gsf:default-locale"
 
 /* (Unsigned Integer) Identifier representing the case-sensitiveness */
 #define GSF_META_NAME_CASE_SENSITIVE        "gsf:case-sensitivity"
