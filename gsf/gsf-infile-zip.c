@@ -26,6 +26,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-zip-impl.h>
+#include <gsf/gsf-input-proxy.h>
 
 #include <string.h>
 #include <zlib.h>
@@ -35,7 +36,9 @@
 
 enum {
 	PROP_0,
-	PROP_COMPRESSION_LEVEL
+	PROP_SOURCE,
+	PROP_COMPRESSION_LEVEL,
+	PROP_INTERNAL_PARENT,
 };
 
 static GObjectClass *parent_class;
@@ -52,7 +55,7 @@ typedef struct {
 struct _GsfInfileZip {
 	GsfInfile parent;
 
-	GsfInput  *input;
+	GsfInput  *source;
 	ZipInfo	  *info;
 
 	GsfZipVDir   *vdir;
@@ -64,6 +67,9 @@ struct _GsfInfileZip {
 	guint8   *buf;
 	size_t    buf_size;
 	gsf_off_t seek_skipped;
+
+	GError *err;
+	GsfInfileZip *dup_parent;
 };
 
 typedef struct {
@@ -127,7 +133,7 @@ zip_find_trailer (GsfInfileZip *zip)
 	gsf_off_t maplen;
 	guint8 const *data;
 
-	filesize = gsf_input_size (zip->input);
+	filesize = gsf_input_size (zip->source);
 	if (filesize < ZIP_TRAILER_SIZE)
 		return -1;
 
@@ -140,10 +146,10 @@ zip_find_trailer (GsfInfileZip *zip)
 	while (TRUE) {
 		guchar *p, *s;
 
-		if (gsf_input_seek (zip->input, offset, G_SEEK_SET))
+		if (gsf_input_seek (zip->source, offset, G_SEEK_SET))
 			return -1;
 
-		if ((data = gsf_input_read (zip->input, maplen, NULL)) == NULL)
+		if ((data = gsf_input_read (zip->source, maplen, NULL)) == NULL)
 			return -1;
 
 		p = (guchar *) data;
@@ -190,8 +196,8 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	gchar *name;
 
 	/* Read data and check the header */
-	if (gsf_input_seek (zip->input, *offset, G_SEEK_SET) ||
-	    NULL == (data = gsf_input_read (zip->input, ZIP_DIRENT_SIZE, NULL)) ||
+	if (gsf_input_seek (zip->source, *offset, G_SEEK_SET) ||
+	    NULL == (data = gsf_input_read (zip->source, ZIP_DIRENT_SIZE, NULL)) ||
 	    0 != memcmp (data, dirent_signature, sizeof (dirent_signature))) {
 		return NULL;
 	}
@@ -206,7 +212,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	usize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_USIZE);
 	off =           GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_OFFSET);
 
-	if ((data = gsf_input_read (zip->input, name_len, NULL)) == NULL)
+	if ((data = gsf_input_read (zip->source, name_len, NULL)) == NULL)
 		return NULL;
 
 	name = g_new (gchar, (gulong) (name_len + 1));
@@ -262,17 +268,19 @@ static GsfInfileZip *
 zip_dup (GsfInfileZip const *src, GError **err)
 {
 	GsfInfileZip *dst;
-	GsfInput *input;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	input = gsf_input_dup (src->input, err);
-	if (input == NULL)
-		return NULL;
+	dst = g_object_new (GSF_INFILE_ZIP_TYPE,
+			    "internal-parent", src,
+			    NULL);
 
-	dst = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
-	dst->input = input;
-	dst->info  = zip_info_ref (src->info);
+	if (dst->err) {
+		if (err)
+			*err = g_error_copy (dst->err);
+		g_object_unref (dst);
+		return NULL;
+	}
 
 	return dst;
 }
@@ -280,15 +288,14 @@ zip_dup (GsfInfileZip const *src, GError **err)
 /**
  * zip_read_dirents:
  * @zip :
- * @err : optionally NULL
  *
  * Read zip headers and do some sanity checking
  * along the way.
  *
- * Return value: TRUE on error setting @err if it is supplied.
+ * Return value: TRUE on error setting zip->err.
  **/
 static gboolean
-zip_read_dirents (GsfInfileZip *zip, GError **err)
+zip_read_dirents (GsfInfileZip *zip)
 {
 	guint8 const *trailer;
 	guint16 entries, i;
@@ -299,17 +306,15 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 	/* Find and check the trailing header */
 	offset = zip_find_trailer (zip);
 	if (offset < 0) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0,
-			     "No Zip trailer");
+		zip->err = g_error_new (gsf_input_error_id (), 0,
+					"No Zip trailer");
 		return TRUE;
 	}
 
-	if (gsf_input_seek (zip->input, offset, G_SEEK_SET) ||
-	    NULL == (trailer = gsf_input_read (zip->input, ZIP_TRAILER_SIZE, NULL))) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0,
-					    "Error reading Zip signature");
+	if (gsf_input_seek (zip->source, offset, G_SEEK_SET) ||
+	    NULL == (trailer = gsf_input_read (zip->source, ZIP_TRAILER_SIZE, NULL))) {
+		zip->err = g_error_new (gsf_input_error_id (), 0,
+					"Error reading Zip signature");
 		return TRUE;
 	}
 
@@ -329,10 +334,8 @@ zip_read_dirents (GsfInfileZip *zip, GError **err)
 
 		d = zip_dirent_new_in (zip, &offset);
 		if (d == NULL) {
-			if (err != NULL)
-				*err = g_error_new
-					(gsf_input_error_id (), 0,
-					 "Error reading zip dirent");
+			zip->err = g_error_new (gsf_input_error_id (), 0,
+						"Error reading zip dirent");
 			return TRUE;
 		}
 
@@ -359,19 +362,18 @@ zip_build_vdirs (GsfInfileZip *zip)
 /**
  * zip_init_info :
  * @zip :
- * @err : optionally NULL
  *
  * Read zip headers and do some sanity checking
  * along the way.
  *
- * Return value: TRUE on error setting @err if it is supplied.
+ * Return value: TRUE on error setting zip->err.
  **/
 static gboolean
-zip_init_info (GsfInfileZip *zip, GError **err)
+zip_init_info (GsfInfileZip *zip)
 {
 	gboolean ret;
 	
-	ret = zip_read_dirents (zip, err);
+	ret = zip_read_dirents (zip);
 	if (ret != FALSE)
 		return ret;
 	zip_build_vdirs (zip);
@@ -393,12 +395,12 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	 * should test tons of other info, but trust that those are correct
 	 **/
 
-	if (gsf_input_seek (child->input, (gsf_off_t) dirent->offset, G_SEEK_SET) ||
-	    NULL == (data = gsf_input_read (child->input, ZIP_FILE_HEADER_SIZE, NULL)) ||
+	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET) ||
+	    NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)) ||
 	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
 		if (errmsg != NULL)
 			*errmsg = g_error_new (gsf_input_error_id (), 0,
-					    "Unable to read zip header.");
+					       "Unable to read zip header.");
 		return TRUE;
 	}
 
@@ -419,7 +421,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 		if (err != Z_OK) {
 			if (errmsg != NULL)
 				*errmsg = g_error_new (gsf_input_error_id (), 0,
-					"problem uncompressing stream");
+						       "problem uncompressing stream");
 			return TRUE;
 		}
 	}
@@ -461,9 +463,9 @@ zip_update_stream_in (GsfInfileZip *zip)
 	read_now = MIN (zip->crestlen, ZIP_BLOCK_SIZE);
 
 	pos = zip->vdir->dirent->data_offset + zip->stream->total_in;
-	if (gsf_input_seek (zip->input, pos, G_SEEK_SET))
+	if (gsf_input_seek (zip->source, pos, G_SEEK_SET))
 		return FALSE;
-	if ((data = gsf_input_read (zip->input, read_now, NULL)) == NULL)
+	if ((data = gsf_input_read (zip->source, read_now, NULL)) == NULL)
 		return FALSE;
 
 	zip->crestlen -= read_now;
@@ -487,12 +489,11 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	case GSF_ZIP_STORED:
 		zip->restlen -= num_bytes;
 		pos = zip->vdir->dirent->data_offset + input->cur_offset;
-		if (gsf_input_seek (zip->input, pos, G_SEEK_SET))
+		if (gsf_input_seek (zip->source, pos, G_SEEK_SET))
 			return NULL;
-		return gsf_input_read (zip->input, num_bytes, buffer);
+		return gsf_input_read (zip->source, num_bytes, buffer);
 
 	case GSF_ZIP_DEFLATED:
-
 		if (buffer == NULL) {
 			if (zip->buf_size < num_bytes) {
 				zip->buf_size = MAX (num_bytes, 256);
@@ -662,28 +663,54 @@ gsf_infile_zip_finalize (GObject *obj)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (obj);
 
-	if (zip->input != NULL) {
-		g_object_unref (G_OBJECT (zip->input));
-		zip->input = NULL;
+	if (zip->source != NULL) {
+		g_object_unref (G_OBJECT (zip->source));
+		zip->source = NULL;
 	}
 	if (zip->info != NULL) {
 		zip_info_unref (zip->info);
 		zip->info = NULL;
 	}
+
 	if (zip->stream)
 		(void) inflateEnd (zip->stream);
 	g_free (zip->stream);
-	
 	g_free (zip->buf);
+
+	g_clear_error (&zip->err);
 
 	parent_class->finalize (obj);
 }
+
+static GObject*
+gsf_infile_zip_constructor (GType                  type,
+			    guint                  n_construct_properties,
+			    GObjectConstructParam *construct_params)
+{
+	GsfInfileZip *zip;
+
+	zip = (GsfInfileZip *)(parent_class->constructor (type,
+							  n_construct_properties,
+							  construct_params));
+	if (zip->dup_parent) {
+		/* Special call from zip_dup.  */
+		zip->source = gsf_input_dup (zip->dup_parent->source, &zip->err);
+		zip->info = zip_info_ref (zip->dup_parent->info);
+		zip->dup_parent = NULL;
+	} else {
+		if (!zip_init_info (zip))
+			zip->vdir = zip->info->vdir;
+	}
+
+	return (GObject *)zip;
+}
+
 
 static void
 gsf_infile_zip_init (GObject *obj)
 {
 	GsfInfileZip *zip = (GsfInfileZip *)obj;
-	zip->input = NULL;
+	zip->source = NULL;
 	zip->info = NULL;
 	zip->vdir = NULL;
 	zip->stream = NULL;
@@ -692,6 +719,7 @@ gsf_infile_zip_init (GObject *obj)
 	zip->buf = NULL;
 	zip->buf_size = 0;
 	zip->seek_skipped = 0;
+	zip->err = NULL;
 }
 
 static void
@@ -703,11 +731,45 @@ gsf_infile_zip_get_property (GObject     *object,
 	GsfInfileZip *zip = (GsfInfileZip *)object;
 
 	switch (property_id) {
+	case PROP_SOURCE:
+		g_value_set_object (value, zip->source);
+		break;
 	case PROP_COMPRESSION_LEVEL:
 		g_value_set_int (value,
 				 zip->vdir->dirent
 				 ? zip->vdir->dirent->compr_method
 				 : 0);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_infile_zip_set_source (GsfInfileZip *zip, GsfInput *src)
+{
+	if (src)
+		src = gsf_input_proxy_new (src);
+	if (zip->source)
+		g_object_unref (zip->source);
+	zip->source = src;
+}
+
+static void
+gsf_infile_zip_set_property (GObject      *object,
+			     guint         property_id,
+			     GValue const *value,
+			     GParamSpec   *pspec)
+{
+	GsfInfileZip *zip = (GsfInfileZip *)object;
+
+	switch (property_id) {
+	case PROP_SOURCE:
+		gsf_infile_zip_set_source (zip, g_value_get_object (value));
+		break;
+	case PROP_INTERNAL_PARENT:
+		zip->dup_parent = g_value_get_object (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -722,8 +784,10 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 	GsfInputClass  *input_class  = GSF_INPUT_CLASS (gobject_class);
 	GsfInfileClass *infile_class = GSF_INFILE_CLASS (gobject_class);
 
+	gobject_class->constructor      = gsf_infile_zip_constructor;
 	gobject_class->finalize		= gsf_infile_zip_finalize;
 	gobject_class->get_property     = gsf_infile_zip_get_property;
+	gobject_class->set_property     = gsf_infile_zip_set_property;
 
 	input_class->Dup		= gsf_infile_zip_dup;
 	input_class->Read		= gsf_infile_zip_read;
@@ -737,6 +801,16 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property
 		(gobject_class,
+		 PROP_SOURCE,
+		 g_param_spec_object ("source",
+				      "Source",
+				      "The archive being interpreted.",
+				      GSF_INPUT_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
 		 PROP_COMPRESSION_LEVEL,
 		 g_param_spec_int ("compression-level",
 				   "Compression Level",
@@ -745,6 +819,16 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				   0,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READABLE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_INTERNAL_PARENT,
+		 g_param_spec_object ("internal-parent",
+				      NULL,
+				      NULL, /* Internal use only.  */
+				      GSF_INFILE_ZIP_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_WRITABLE |
+				      G_PARAM_CONSTRUCT_ONLY));
 }
 
 GSF_CLASS (GsfInfileZip, gsf_infile_zip,
@@ -768,16 +852,15 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
-	zip = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
-	g_object_ref (G_OBJECT (source));
-	zip->input = source;
-	gsf_input_set_size (GSF_INPUT (zip), 0);
-
-	if (zip_init_info (zip, err)) {
-		g_object_unref (G_OBJECT (zip));
+	zip = g_object_new (GSF_INFILE_ZIP_TYPE,
+			    "source", source,
+			    NULL);
+	if (zip->err) {
+		if (err)
+			*err = g_error_copy (zip->err);
+		g_object_unref (zip);
 		return NULL;
 	}
-	zip->vdir = zip->info->vdir;
 
 	return GSF_INFILE (zip);
 }

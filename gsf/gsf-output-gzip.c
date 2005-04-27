@@ -340,26 +340,26 @@ gsf_output_gzip_constructor (GType                  type,
 			     guint                  n_construct_properties,
 			     GObjectConstructParam *construct_params)
 {
-  GsfOutputGZip *gzip;
+	GsfOutputGZip *gzip;
 
-  gzip = (GsfOutputGZip *)(parent_class->constructor (type,
-						      n_construct_properties,
-						      construct_params));
+	gzip = (GsfOutputGZip *)(parent_class->constructor (type,
+							    n_construct_properties,
+							    construct_params));
 
-  if (!gzip->sink)
-	  gsf_output_set_error (GSF_OUTPUT (gzip),
-				0,
-				"NULL sink");
-  else if (!init_gzip (gzip))
-	  gsf_output_set_error (GSF_OUTPUT (gzip),
-				0,
-				"Failed to initialize zlib structure");
-  else if (!gzip->raw && !gzip_output_header (gzip))
-	  gsf_output_set_error (GSF_OUTPUT (gzip),
-				0,
-				"Failed to write gzip header");
+	if (!gzip->sink)
+		gsf_output_set_error (GSF_OUTPUT (gzip),
+				      0,
+				      "NULL sink");
+	else if (!init_gzip (gzip))
+		gsf_output_set_error (GSF_OUTPUT (gzip),
+				      0,
+				      "Failed to initialize zlib structure");
+	else if (!gzip->raw && !gzip_output_header (gzip))
+		gsf_output_set_error (GSF_OUTPUT (gzip),
+				      0,
+				      "Failed to write gzip header");
 
-  return (GObject *)gzip;
+	return (GObject *)gzip;
 }
 
 static void

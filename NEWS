@@ -28,6 +28,8 @@ Morten:
 	* Add new GsfOutputCsv and GsfOutputIconv.
 	* Fix GsfOutfileZip's handling of compression levels.
 	* Allow getting the compression level when reading zip files.
+	* Improve zip file performance.  (No longer reopens the underlying
+	  file for each member you read.)
 
 ------------------------------------------------------------------------------
 libgsf 1.11.1
