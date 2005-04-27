@@ -57,6 +57,7 @@ clone (GsfInfile *in, GsfOutfile *out)
 		int i, n = gsf_infile_num_children (in);
 		for (i = 0 ; i < n; i++) {
 			const char *name;
+			char *display_name;
 			int level;
 			gboolean is_dir;
 
@@ -65,8 +66,10 @@ clone (GsfInfile *in, GsfOutfile *out)
 			is_dir = gsf_infile_num_children (GSF_INFILE (input)) >= 0;
 
 			g_object_get (G_OBJECT (input), "compression-level", &level, NULL);
+
+			display_name = name ? g_filename_display_name (name) : NULL;
 			g_print ("%s: size=%ld, level=%d, %s\n",
-				 name ? name : "?",
+				 display_name ? display_name : "?",
 				 (long)gsf_input_size (input),
 				 level,
 				 is_dir ? "directory" : "file");
