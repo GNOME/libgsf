@@ -20,6 +20,11 @@ Zip
 </para>
 
 
+<!-- ##### ARG GsfInfileZip:compression-level ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION gsf_infile_zip_new ##### -->
 <para>
 
@@ -35,6 +40,11 @@ Zip
 
 </para>
 
+
+<!-- ##### ARG GsfOutfileZip:compression-level ##### -->
+<para>
+
+</para>
 
 <!-- ##### FUNCTION gsf_outfile_zip_new ##### -->
 <para>
@@ -95,6 +105,7 @@ Zip
 @is_directory: 
 @dirent: 
 @children: 
+@last_child: 
 
 <!-- ##### FUNCTION gsf_vdir_free ##### -->
 <para>

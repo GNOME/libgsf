@@ -38,8 +38,8 @@
 #include <stdio.h>
 #include <time.h>
 
-/* #define NO_DEBUG_OLE_PROPS */
-#undef NO_DEBUG_OLE_PROPS
+#define NO_DEBUG_OLE_PROPS
+/* #undef NO_DEBUG_OLE_PROPS */
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
@@ -1008,12 +1008,14 @@ cb_measure_props (char const *name, GsfDocProp const *prop,
 
 	/* allocate predefined ids or add it to the dictionary */
 	if (NULL != map) {
-		state.doc_not_component
+		if (state->doc_not_component) {
+#warning Need to figure out if prop is at doc or component level so that we can filter
+		}
 		props->dict_name = NULL;
 		props->id = map->id;
 		state->count++;
 		offset = state->offset;
-	} else if (state.doc_not_component)
+	} else if (state->doc_not_component)
 		/* keep user props in the component */
 		return;
 	else {
