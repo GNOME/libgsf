@@ -1,5 +1,17 @@
 2005-04-27  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-utils.c (gsf_property_settings_collect,
+	gsf_property_settings_collect_valist, gsf_property_settings_free):
+	New functions.
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_new): Move guts into
+	gsf_outfile_zip_constructor.
+	(gsf_outfile_zip_constructor): New function.
+	(gsf_outfile_zip_class_init): Link in gsf_outfile_zip_constructor.
+	Add entry-name and sink properties.  In the process separate
+	filenames from gsf_output_name which is UTF-8 encoded.
+	(stream_name_write_to_buf): Greatly simplify using GString.
+
 	* gsf/gsf-infile-zip.c: New property "source".  Install a proxy
 	layer between the zip file and the source so we don't dup
 	GsfInputStdio or GsfInputGnomeVFS objects (which is expensive and

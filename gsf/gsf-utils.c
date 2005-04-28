@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
+#include <gobject/gvaluecollector.h>
 
 #include <ctype.h>
 #include <stdio.h>
@@ -627,4 +628,100 @@ gsf_base64_decode_simple (guint8 *data, size_t len)
 	int state = 0;
 	unsigned int save = 0;
 	return gsf_base64_decode_step (data, len, data, &state, &save);
+}
+
+
+/* Largely a copy of g_object_new_valist.  */
+/**
+ * gsf_property_settings_collect_valist: collect property setting from a va_list.
+ * @object_type: the GType for which the properties are being set.
+ * @p_n_params: a pointer to the number of properties collected.  (Used for
+ *   both input and output.)
+ * @p_params: a pointer to the GParameter array that holds the properties.
+ *   (Used for both input and output.  This may point to a NULL pointer if
+ *   there are no properties collected yet.)
+ * @first_property_name: the name of the first property being set, or NULL.
+ * @var_args: a va_list holding the remainder of the property names and
+ *   values, terminated by a NULL.
+ *
+ * This function builds a GParameter array suitable for g_object_newv.
+ **/
+void
+gsf_property_settings_collect_valist (GType object_type,
+				      GParameter **p_params,
+				      size_t *p_n_params,
+				      const gchar *first_property_name,
+				      va_list var_args)
+{
+  GObjectClass *class;
+  GParameter *params = *p_params;
+  const gchar *name;
+  size_t n_params = *p_n_params;
+  size_t n_alloced_params = n_params;  /* We might have more.  */
+
+  g_return_if_fail (G_TYPE_IS_OBJECT (object_type));
+
+  class = g_type_class_ref (object_type);
+
+  name = first_property_name;
+  while (name)
+    {
+      gchar *error = NULL;
+      GParamSpec *pspec = g_object_class_find_property (class, name);
+      if (!pspec)
+	{
+	  g_warning ("%s: object class `%s' has no property named `%s'",
+		     G_STRFUNC,
+		     g_type_name (object_type),
+		     name);
+	  break;
+	}
+
+      if (n_params >= n_alloced_params)
+	{
+	  n_alloced_params += 16;
+	  params = g_renew (GParameter, params, n_alloced_params);
+	}
+      params[n_params].name = name;
+      params[n_params].value.g_type = 0;
+      g_value_init (&params[n_params].value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+      G_VALUE_COLLECT (&params[n_params].value, var_args, 0, &error);
+      if (error)
+	{
+	  g_warning ("%s: %s", G_STRFUNC, error);
+	  g_free (error);
+          g_value_unset (&params[n_params].value);
+	  break;
+	}
+      n_params++;
+      name = va_arg (var_args, gchar*);
+    }
+
+  g_type_class_unref (class);
+
+  *p_params = params;
+  *p_n_params = n_params;
+}
+
+/* This is a vararg version of gsf_property_settings_collect_valist.  */
+void
+gsf_property_settings_collect (GType object_type,
+			       GParameter **p_params,
+			       size_t *p_n_params,
+			       const gchar *first_property_name,
+			       ...)
+{
+  va_list var_args;
+  va_start (var_args, first_property_name);
+  gsf_property_settings_collect_valist (object_type, p_params, p_n_params, first_property_name, var_args);
+  va_end (var_args);
+}
+
+void
+gsf_property_settings_free (GParameter *params,
+			    size_t n_params)
+{
+	while (n_params--)
+		g_value_unset (&params[n_params].value);
+	g_free (params);
 }

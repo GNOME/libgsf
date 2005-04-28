@@ -23,6 +23,7 @@
 #define GSF_UTILS_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -106,6 +107,20 @@ extern int libgsf_micro_version;
 
 char const *gsf_extension_pointer (char const * path);
 void	    gsf_iconv_close (GIConv handle);
+
+void        gsf_property_settings_collect_valist (GType object_type,
+						  GParameter **p_params,
+						  size_t *p_n_params,
+						  const gchar *first_property_name,
+						  va_list var_args);
+void        gsf_property_settings_collect (GType object_type,
+					   GParameter **p_params,
+					   size_t *p_n_params,
+					   const gchar *first_property_name,
+					   ...);
+void        gsf_property_settings_free (GParameter *params,
+					size_t n_params);
+
 
 G_END_DECLS
 

@@ -67,12 +67,15 @@ clone (GsfInfile *in, GsfOutfile *out)
 
 			g_object_get (G_OBJECT (input), "compression-level", &level, NULL);
 
-			display_name = name ? g_filename_display_name (name) : NULL;
+			display_name = name
+				? g_filename_display_name (name)
+				: NULL;
 			g_print ("%s: size=%ld, level=%d, %s\n",
 				 display_name ? display_name : "?",
 				 (long)gsf_input_size (input),
 				 level,
 				 is_dir ? "directory" : "file");
+			g_free (display_name);
 
 			output = gsf_outfile_new_child_full  (out, name, is_dir,
 							      "compression-level", level,

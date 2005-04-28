@@ -30,6 +30,8 @@ Morten:
 	* Allow getting the compression level when reading zip files.
 	* Improve zip file performance.  (No longer reopens the underlying
 	  file for each member you read.)
+	* Clean up zip output for zip files with non-ASCII members.
+	* Make it possible to use g_object_new to create zip io objects.
 
 ------------------------------------------------------------------------------
 libgsf 1.11.1

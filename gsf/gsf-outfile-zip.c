@@ -35,6 +35,8 @@
 
 enum {
 	PROP_0,
+	PROP_SINK,
+	PROP_ENTRY_NAME,
 	PROP_COMPRESSION_LEVEL
 };
 
@@ -45,6 +47,8 @@ struct _GsfOutfileZip {
 
 	GsfOutput     *sink;
 	GsfOutfileZip *root;
+
+	char *entry_name;
 
 	GsfZipVDir    *vdir;
 	GPtrArray     *root_order;	/* only valid for the root */
@@ -77,9 +81,9 @@ disconnect_children (GsfOutfileZip *zip)
 		GsfOutfileZip *child =
 			g_ptr_array_index (zip->root_order, i);
 		if (child)
-			g_object_unref (G_OBJECT (child));
+			g_object_unref (child);
 	}
-	g_ptr_array_free (zip->root_order, FALSE);
+	g_ptr_array_free (zip->root_order, TRUE);
 	zip->root_order = NULL;
 }
 
@@ -88,19 +92,15 @@ gsf_outfile_zip_finalize (GObject *obj)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (obj);
 
-	GsfOutput *output = (GsfOutput *)obj;
-
-	if (!gsf_output_is_closed (output)) {
-		gsf_output_close (output);
-
-		/* If the closing failed, we might have stuff here.  */
-		disconnect_children (zip);
-	}
+	/* If the closing failed, we might have stuff here.  */
+	disconnect_children (zip);
 
 	if (zip->sink != NULL) {
-		g_object_unref (G_OBJECT (zip->sink));
+		g_object_unref (zip->sink);
 		zip->sink = NULL;
 	}
+
+	g_free (zip->entry_name);
 
 	if (zip->stream)
 		(void) deflateEnd (zip->stream);
@@ -111,6 +111,29 @@ gsf_outfile_zip_finalize (GObject *obj)
 		gsf_vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
 
 	parent_class->finalize (obj);
+}
+
+static GObject *
+gsf_outfile_zip_constructor (GType                  type,
+			     guint                  n_construct_properties,
+			     GObjectConstructParam *construct_params)
+{
+	GsfOutfileZip *zip =(GsfOutfileZip *)
+		(parent_class->constructor (type,
+					    n_construct_properties,
+					    construct_params));
+
+	if (!zip->entry_name) {
+		zip->vdir = gsf_vdir_new ("", TRUE, NULL);
+		zip->root_order = g_ptr_array_new ();
+		zip->root = zip;
+
+		/* The names are the same */
+		gsf_output_set_name (GSF_OUTPUT (zip), gsf_output_name (zip->sink));
+		gsf_output_set_container (GSF_OUTPUT (zip), NULL);
+	}
+
+	return (GObject *)zip;
 }
 
 static gboolean
@@ -206,77 +229,40 @@ zip_close_root (GsfOutput *output)
 	return zip_trailer_write (zip, entries, dirpos);
 }
 
-static int
-stream_name_len (GsfOutfileZip *zip)
-{
-	GsfOutput  *output;
-	GsfOutfile *container;
-	char const *name;
-	int len = 0;
-	int cnlen;
-
-	if (zip == zip->root)
-		return 0;
-
-	output = GSF_OUTPUT (zip);
-	container = gsf_output_container (output);
-	name = gsf_output_name (output);
-	len = name ? strlen (name) : 0;
-
-	if (container) {
-		cnlen = stream_name_len (GSF_OUTFILE_ZIP (container));
-		if (cnlen > 0)
-			len += 1 + cnlen;
-	}
-
-	return len;
-}
-
 static void
-stream_name_write_to_buf (GsfOutfileZip *zip, char *buf, int buflen)
+stream_name_write_to_buf (GsfOutfileZip *zip, GString *res)
 {
-	GsfOutput  *output;
+	GsfOutput  *output = GSF_OUTPUT (zip);
 	GsfOutfile *container;
-	char const *name;
-	int len = 0;
 
 	if (zip == zip->root)
 		return;
 
-	output = GSF_OUTPUT (zip);
 	container = gsf_output_container (output);
-	name = gsf_output_name (output);
-
 	if (container) {
-		stream_name_write_to_buf (GSF_OUTFILE_ZIP (container),
-					  buf, buflen);
-		len = strlen (buf);
-		if (len > 0) {
+		stream_name_write_to_buf (GSF_OUTFILE_ZIP (container), res);
+		if (res->len) {
 			/* Forward slash is specified by the format.  */
-			buf[len++] = '/';
-			buf[len]   = '\0';
+			g_string_append_c (res, '/');
 		}
 	}
-	if (name)
-		strncpy (buf + len, name, buflen - len);
+
+	if (zip->entry_name)
+		g_string_append (res, zip->entry_name);
 }
 
 static char *
 stream_name_build (GsfOutfileZip *zip)
 {
-	int namelen = stream_name_len (zip);
-	char *name = g_new (char, namelen + 1);
-
-	name[0] = '\0';
-	stream_name_write_to_buf (zip, name, namelen + 1);
-
-	return name;
+	GString *str = g_string_sized_new (80);
+	stream_name_write_to_buf (zip, str);
+	return g_string_free (str, FALSE);
 }
 
 static guint32
-zip_time_make (time_t *t)
+zip_time_make (time_t t)
 {
-	struct tm *localnow = localtime(t);
+	struct tm *localnow = localtime (&t);
 	guint32 ztime;
 
 	ztime = (localnow->tm_year - 80) & 0x7f;
@@ -292,20 +278,10 @@ zip_time_make (time_t *t)
 static GsfZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
-	GsfZipDirent *dirent;
-	time_t t = time (NULL);
-	char *name = stream_name_build (zip);
-
-	if (!name)
-		return NULL;
-
-	dirent = gsf_zip_dirent_new ();
-	if (!dirent)
-		return NULL;
-
-	dirent->name = name;
+	GsfZipDirent *dirent = gsf_zip_dirent_new ();
+	dirent->name = stream_name_build (zip);
 	dirent->compr_method = zip->compression_method;
-	dirent->dostime = zip_time_make(&t);
+	dirent->dostime = zip_time_make (time (NULL));
 	return dirent;
 }
 
@@ -552,9 +528,19 @@ root_register_child (GsfOutfileZip *root, GsfOutfileZip *child)
 {
 	child->root = root;
 	if (!child->vdir->is_directory) {
-		g_object_ref (G_OBJECT (child));
+		g_object_ref (child);
 		g_ptr_array_add (root->root_order, child);
 	}
+}
+
+static void
+gsf_outfile_zip_set_sink (GsfOutfileZip *zip, GsfOutput *sink)
+{
+	if (sink)
+		g_object_ref (sink);
+	if (zip->sink)
+		g_object_unref (zip->sink);
+	zip->sink = sink;
 }
 
 static GsfOutput *
@@ -564,17 +550,36 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 {
 	GsfOutfileZip *zip_parent = (GsfOutfileZip *)parent;
 	GsfOutfileZip *child;
+	size_t n_params = 0;
+	GParameter *params = NULL;
+	char *display_name;
 
 	g_return_val_if_fail (zip_parent != NULL, NULL);
 	g_return_val_if_fail (zip_parent->vdir, NULL);
 	g_return_val_if_fail (zip_parent->vdir->is_directory, NULL);
+	g_return_val_if_fail (name && *name, NULL);
 
-	child = (GsfOutfileZip *)g_object_new_valist (
-		GSF_OUTFILE_ZIP_TYPE, first_property_name, args);
+	gsf_property_settings_collect (GSF_OUTFILE_ZIP_TYPE,
+				       &params, &n_params,
+				       "sink", zip_parent->sink,
+				       "entry-name", name,
+				       NULL);
+	gsf_property_settings_collect_valist (GSF_OUTFILE_ZIP_TYPE,
+					      &params, &n_params,
+					      first_property_name,
+					      args);
+	child = (GsfOutfileZip *)g_object_newv (GSF_OUTFILE_ZIP_TYPE,
+						n_params,
+						params);
+	gsf_property_settings_free (params, n_params);
+
 	child->vdir = gsf_vdir_new (name, is_dir, NULL);
-	g_object_ref (G_OBJECT (zip_parent->sink));
-	child->sink = zip_parent->sink;
-	gsf_output_set_name (GSF_OUTPUT (child), name);
+
+	/* FIXME: It isn't clear what encoding name is in.  */
+	display_name = g_filename_display_name (name);
+	gsf_output_set_name (GSF_OUTPUT (child), display_name);
+	g_free (display_name);
+
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 	gsf_vdir_add_child (zip_parent->vdir, child->vdir);
 	root_register_child (zip_parent->root, child);
@@ -587,14 +592,15 @@ gsf_outfile_zip_init (GObject *obj)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (obj);
 
-	zip->sink    = NULL;
+	zip->sink = NULL;
 	zip->root = NULL;
-	zip->vdir    = NULL;
+	zip->entry_name = NULL;
+	zip->vdir = NULL;
 	zip->root_order = NULL;
-	zip->stream  = NULL;
+	zip->stream = NULL;
 	zip->compression_method = GSF_ZIP_DEFLATED;
 	zip->writing = FALSE;
-	zip->buf     = NULL;
+	zip->buf = NULL;
 	zip->buf_size = 0;
 }
 
@@ -607,6 +613,12 @@ gsf_outfile_zip_get_property (GObject     *object,
 	GsfOutfileZip *zip = (GsfOutfileZip *)object;
 
 	switch (property_id) {
+	case PROP_SINK:
+		g_value_set_object (value, zip->sink);
+		break;
+	case PROP_ENTRY_NAME:
+		g_value_set_string (value, zip->entry_name);
+		break;
 	case PROP_COMPRESSION_LEVEL:
 		g_value_set_int (value,
 				 zip->vdir->dirent
@@ -628,6 +640,12 @@ gsf_outfile_zip_set_property (GObject      *object,
 	GsfOutfileZip *zip = (GsfOutfileZip *)object;
 
 	switch (property_id) {
+	case PROP_SINK:
+		gsf_outfile_zip_set_sink (zip, g_value_get_object (value));
+		break;
+	case PROP_ENTRY_NAME:
+		zip->entry_name = g_strdup (g_value_get_string (value));
+		break;
 	case PROP_COMPRESSION_LEVEL: {
 		int level = g_value_get_int (value);
 		switch (level) {
@@ -652,6 +670,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	GsfOutputClass  *input_class  = GSF_OUTPUT_CLASS (gobject_class);
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
+	gobject_class->constructor      = gsf_outfile_zip_constructor;
 	gobject_class->finalize		= gsf_outfile_zip_finalize;
 	gobject_class->get_property     = gsf_outfile_zip_get_property;
 	gobject_class->set_property     = gsf_outfile_zip_set_property;
@@ -663,6 +682,24 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SINK,
+		 g_param_spec_object ("sink", "Sink",
+				      "Where the archive is written.",
+				      GSF_OUTPUT_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_ENTRY_NAME,
+		 g_param_spec_string ("entry-name", "Entry Name",
+				      "The filename of this member in the archive without path.",
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_COMPRESSION_LEVEL,
@@ -695,23 +732,11 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 GsfOutfile *
 gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 {
-	GsfOutfileZip *zip;
-
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
-	zip = g_object_new (GSF_OUTFILE_ZIP_TYPE, NULL);
-	g_object_ref (G_OBJECT (sink));
-	zip->sink = sink;
-
-	zip->vdir = gsf_vdir_new ("", TRUE, NULL);
-	zip->root_order = g_ptr_array_new ();
-	zip->root = zip;
-
-	/* The names are the same */
-	gsf_output_set_name (GSF_OUTPUT (zip), gsf_output_name (sink));
-	gsf_output_set_container (GSF_OUTPUT (zip), NULL);
-
-	return GSF_OUTFILE (zip);
+	return (GsfOutfile *)g_object_new (GSF_OUTFILE_ZIP_TYPE,
+					   "sink", sink,
+					   NULL);
 }
 
 gboolean
