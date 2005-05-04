@@ -14,6 +14,9 @@ Zip
 
 </para>
 
+<!-- ##### SECTION Stability_Level ##### -->
+
+
 <!-- ##### STRUCT GsfInfileZip ##### -->
 <para>
 
@@ -21,6 +24,16 @@ Zip
 
 
 <!-- ##### ARG GsfInfileZip:compression-level ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfInfileZip:internal-parent ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfInfileZip:source ##### -->
 <para>
 
 </para>
@@ -42,6 +55,16 @@ Zip
 
 
 <!-- ##### ARG GsfOutfileZip:compression-level ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutfileZip:entry-name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutfileZip:sink ##### -->
 <para>
 
 </para>

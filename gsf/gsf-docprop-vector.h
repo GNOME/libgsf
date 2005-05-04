@@ -39,7 +39,7 @@ gchar		     *gsf_docprop_vector_as_string (GsfDocPropVector *vector);
 
 #define VAL_IS_GSF_DOCPROP_VECTOR(v) (G_TYPE_CHECK_VALUE_TYPE((v), GSF_DOCPROP_VECTOR_TYPE))
 GsfDocPropVector *gsf_value_get_docprop_vector	(GValue const *value);
-GValueArray		 *gsf_value_get_docprop_varray	(GValue const *value);
+GValueArray	 *gsf_value_get_docprop_varray	(GValue const *value);
 
 G_END_DECLS
 

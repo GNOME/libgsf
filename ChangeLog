@@ -1,3 +1,20 @@
+2005-05-03  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : complete rewrite.
+	  Just write the properties then seek back to fill in the offsets
+	  rather than measuring then writing.
+	(cb_count_props) : new. collect builtin vs user defined props
+	 from the hash.
+	(msole_metadata_write_section) : new. write the props and collect the
+	  offsets and ids.  Handle linked props, vectors and variant vectors.
+	(msole_metadata_write_prop) : Adds padding to the simple types.
+	(gvalue_to_msole_vt) : map from a GValue to a variant type.  Be smart
+	  about handling boxed types, and check vectors to see if they are
+	  fixed type vs variant.  Use the table of builtin types if possible
+	  to deal with ambiguities.
+	(cb_write_dict) : new.
+	(msole_vtname) : new util to get debug name.
+
 2005-04-27  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_property_settings_collect,

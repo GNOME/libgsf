@@ -5,7 +5,6 @@
  * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2002-2005 Dom Lachowicz (cinamod@hotmail.com)
  * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
- * property write support (C) 2005 by Fabalabs Software GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -38,8 +37,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#define NO_DEBUG_OLE_PROPS
-/* #undef NO_DEBUG_OLE_PROPS */
+/* #define NO_DEBUG_OLE_PROPS */
+#undef NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
@@ -74,9 +73,10 @@ static guint8 const user_guid [] = {
 };
 
 typedef enum {
-	GSF_MSOLE_META_DATA_COMPONENT,
-	GSF_MSOLE_META_DATA_DOCUMENT,
-	GSF_MSOLE_META_DATA_USER
+	COMMON_PROP,	/* in either summary or docsummary */
+	COMPONENT_PROP, /* SummaryInformation properties */
+	DOC_PROP,	/* DocumentSummaryInformation properties */
+	USER_PROP
 } GsfMSOleMetaDataType;
 
 typedef enum {
@@ -124,21 +124,16 @@ typedef enum {
 } GsfMSOleVariantType;
 
 typedef struct {
-	char const *ms_name;
-	char const *gsf_name;
-	guint32	    id;
-	GsfMSOleVariantType prefered_type;
+	char const		*ms_name;
+	GsfMSOleMetaDataType	 section;
+	char const		*gsf_name;
+	guint32			 id;
+	GsfMSOleVariantType	 prefered_type;
 } GsfMSOleMetaDataPropMap;
 
 typedef struct {
-	/* User for read and write */
 	guint32		id;
 	gsf_off_t	offset;
-
-	/* only for write */
-	GValue const	*value;
-	char const	*dict_name;
-	GsfMSOleVariantType type;
 } GsfMSOleMetaDataProp;
 
 typedef struct {
@@ -150,77 +145,75 @@ typedef struct {
 	GHashTable *dict;
 } GsfMSOleMetaDataSection;
 
-typedef struct {
-	GsfMSOleMetaDataProp *props;
-	guint32		udef_props;
-	guint32		it;
-	guint32		count;
-	guint32		dict_count;
-	gsf_off_t	offset;
-	gsf_off_t	dict_offset;
-	gboolean	doc_not_component;
-} WritePropState;
-
-/*
- * DocumentSummaryInformation properties
- */
-static GsfMSOleMetaDataPropMap const document_props[] = {
-	{ "Category",		GSF_META_NAME_CATEGORY,            2,	VT_LPSTR },
-	{ "PresentationFormat",	GSF_META_NAME_PRESENTATION_FORMAT, 3,	VT_LPSTR },
-	{ "NumBytes",		GSF_META_NAME_BYTE_COUNT,          4,	VT_I4 },
-	{ "NumLines",		GSF_META_NAME_LINE_COUNT,          5,	VT_I4 },
-	{ "NumParagraphs",	GSF_META_NAME_PARAGRAPH_COUNT,     6,	VT_I4 },
-	{ "NumSlides",		GSF_META_NAME_SLIDE_COUNT,         7,	VT_I4 },
-	{ "NumNotes",		GSF_META_NAME_NOTE_COUNT,          8,	VT_I4 },
-	{ "NumHiddenSlides",	GSF_META_NAME_HIDDEN_SLIDE_COUNT,  9,	VT_I4 },
-	{ "NumMMClips",		GSF_META_NAME_MM_CLIP_COUNT,       10,	VT_I4 },
-	{ "Scale",		GSF_META_NAME_SCALE,               11,	VT_BOOL },
-	{ "HeadingPairs",	GSF_META_NAME_HEADING_PAIRS,       12,	VT_VECTOR | VT_VARIANT },
-	{ "DocumentParts",	GSF_META_NAME_DOCUMENT_PARTS,      13,	VT_VECTOR | VT_LPSTR },
-	{ "Manager",		GSF_META_NAME_MANAGER,             14,	VT_LPSTR },
-	{ "Company",		GSF_META_NAME_COMPANY,             15,	VT_LPSTR },
-	{ "LinksDirty",		GSF_META_NAME_LINKS_DIRTY,         16,	VT_BOOL },
-	{ "DocSumInfo_17",      GSF_META_NAME_MSOLE_UNKNOWN_17,    17,	VT_UNKNOWN },
-	{ "DocSumInfo_18",      GSF_META_NAME_MSOLE_UNKNOWN_18,    18,	VT_UNKNOWN },
-	{ "DocSumInfo_19",      GSF_META_NAME_MSOLE_UNKNOWN_19,    19,	VT_BOOL },
-	{ "DocSumInfo_20",      GSF_META_NAME_MSOLE_UNKNOWN_20,    20,	VT_UNKNOWN },
-	{ "DocSumInfo_21",      GSF_META_NAME_MSOLE_UNKNOWN_21,    21,	VT_UNKNOWN },
-	{ "DocSumInfo_22",      GSF_META_NAME_MSOLE_UNKNOWN_22,    22,	VT_BOOL },
-	{ "DocSumInfo_23",      GSF_META_NAME_MSOLE_UNKNOWN_23,    23,	VT_I4 }
-};
-
-/*
- * SummaryInformation properties
- */
-static GsfMSOleMetaDataPropMap const component_props[] = {
-	{ "Title",		GSF_META_NAME_TITLE,		2,	VT_LPSTR },
-	{ "Subject",		GSF_META_NAME_SUBJECT,		3,	VT_LPSTR },
-	{ "Author",		GSF_META_NAME_CREATOR,		4,	VT_LPSTR },
-	{ "Keywords",		GSF_META_NAME_KEYWORDS,		5,	VT_LPSTR },
-	{ "Comments",		GSF_META_NAME_DESCRIPTION,	6,	VT_LPSTR },
-	{ "Template",		GSF_META_NAME_TEMPLATE,		7,	VT_LPSTR },
-	{ "LastSavedBy",	GSF_META_NAME_LAST_SAVED_BY,	8,	VT_LPSTR },
-	{ "RevisionNumber",	GSF_META_NAME_REVISION_COUNT,	9,	VT_LPSTR },
-	{ "TotalEditingTime",	GSF_META_NAME_EDITING_DURATION,	10,	VT_FILETIME },
-	{ "LastPrinted",	GSF_META_NAME_LAST_PRINTED,	11,	VT_FILETIME },
-	{ "CreateTime",		GSF_META_NAME_DATE_CREATED,	12,	VT_FILETIME },
-	{ "LastSavedTime",	GSF_META_NAME_DATE_MODIFIED,	13,	VT_FILETIME },
-	{ "NumPages",		GSF_META_NAME_PAGE_COUNT,	14,	VT_I4 },
-	{ "NumWords",		GSF_META_NAME_WORD_COUNT,	15,	VT_I4 },
-	{ "NumCharacters",	GSF_META_NAME_CHARACTER_COUNT,	16,	VT_I4 },
-	{ "Thumbnail",		GSF_META_NAME_THUMBNAIL,	17,	VT_CF },
-	{ "AppName",		GSF_META_NAME_GENERATOR,	18,	VT_LPSTR },
-	{ "Security",		GSF_META_NAME_SECURITY,		19,	VT_I4 }
-};
-
-static GsfMSOleMetaDataPropMap const common_props[] = {
-	{ "Dictionary",		  GSF_META_NAME_DICTIONARY,            0,	   0, /* magic */},
-	{ "CodePage",		  GSF_META_NAME_LANGUAGE,              1,	   VT_I2 },
-	{ "LOCALE_SYSTEM_DEFAULT",GSF_META_NAME_LOCALE_SYSTEM_DEFAULT, 0x80000000, VT_UI4},
-	{ "CASE_SENSITIVE",	  GSF_META_NAME_CASE_SENSITIVE,        0x80000003, VT_UI4},
+static GsfMSOleMetaDataPropMap const builtin_props [] = {
+	{ "Dictionary",		  COMMON_PROP,	GSF_META_NAME_DICTIONARY,            0,	   0, /* magic */},
+	{ "CodePage",		  COMMON_PROP,	GSF_META_NAME_LANGUAGE,              1,	   VT_I2 },
+	{ "LOCALE_SYSTEM_DEFAULT",COMMON_PROP,	GSF_META_NAME_LOCALE_SYSTEM_DEFAULT, 0x80000000, VT_UI4},
+	{ "CASE_SENSITIVE",	  COMMON_PROP,	GSF_META_NAME_CASE_SENSITIVE,        0x80000003, VT_UI4},
+	{ "Category",		DOC_PROP,	GSF_META_NAME_CATEGORY,             2,	VT_LPSTR },
+	{ "PresentationFormat",	DOC_PROP,	GSF_META_NAME_PRESENTATION_FORMAT,  3,	VT_LPSTR },
+	{ "NumBytes",		DOC_PROP,	GSF_META_NAME_BYTE_COUNT,           4,	VT_I4 },
+	{ "NumLines",		DOC_PROP,	GSF_META_NAME_LINE_COUNT,           5,	VT_I4 },
+	{ "NumParagraphs",	DOC_PROP,	GSF_META_NAME_PARAGRAPH_COUNT,      6,	VT_I4 },
+	{ "NumSlides",		DOC_PROP,	GSF_META_NAME_SLIDE_COUNT,          7,	VT_I4 },
+	{ "NumNotes",		DOC_PROP,	GSF_META_NAME_NOTE_COUNT,           8,	VT_I4 },
+	{ "NumHiddenSlides",	DOC_PROP,	GSF_META_NAME_HIDDEN_SLIDE_COUNT,   9,	VT_I4 },
+	{ "NumMMClips",		DOC_PROP,	GSF_META_NAME_MM_CLIP_COUNT,       10,	VT_I4 },
+	{ "Scale",		DOC_PROP,	GSF_META_NAME_SCALE,               11,	VT_BOOL },
+	{ "HeadingPairs",	DOC_PROP,	GSF_META_NAME_HEADING_PAIRS,       12,	VT_VECTOR | VT_VARIANT },
+	{ "DocumentParts",	DOC_PROP,	GSF_META_NAME_DOCUMENT_PARTS,      13,	VT_VECTOR | VT_LPSTR },
+	{ "Manager",		DOC_PROP,	GSF_META_NAME_MANAGER,             14,	VT_LPSTR },
+	{ "Company",		DOC_PROP,	GSF_META_NAME_COMPANY,             15,	VT_LPSTR },
+	{ "LinksDirty",		DOC_PROP,	GSF_META_NAME_LINKS_DIRTY,         16,	VT_BOOL },
+	{ "DocSumInfo_17",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_17,    17,	VT_UNKNOWN },
+	{ "DocSumInfo_18",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_18,    18,	VT_UNKNOWN },
+	{ "DocSumInfo_19",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_19,    19,	VT_BOOL },
+	{ "DocSumInfo_20",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_20,    20,	VT_UNKNOWN },
+	{ "DocSumInfo_21",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_21,    21,	VT_UNKNOWN },
+	{ "DocSumInfo_22",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_22,    22,	VT_BOOL },
+	{ "DocSumInfo_23",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_23,    23,	VT_I4 },
+	{ "Title",		COMPONENT_PROP, GSF_META_NAME_TITLE,		    2,	VT_LPSTR },
+	{ "Subject",		COMPONENT_PROP, GSF_META_NAME_SUBJECT,		    3,	VT_LPSTR },
+	{ "Author",		COMPONENT_PROP, GSF_META_NAME_CREATOR,		    4,	VT_LPSTR },
+	{ "Keywords",		COMPONENT_PROP, GSF_META_NAME_KEYWORDS,		    5,	VT_LPSTR },
+	{ "Comments",		COMPONENT_PROP, GSF_META_NAME_DESCRIPTION,	    6,	VT_LPSTR },
+	{ "Template",		COMPONENT_PROP, GSF_META_NAME_TEMPLATE,		    7,	VT_LPSTR },
+	{ "LastSavedBy",	COMPONENT_PROP, GSF_META_NAME_LAST_SAVED_BY,	    8,	VT_LPSTR },
+	{ "RevisionNumber",	COMPONENT_PROP, GSF_META_NAME_REVISION_COUNT,	    9,	VT_LPSTR },
+	{ "TotalEditingTime",	COMPONENT_PROP, GSF_META_NAME_EDITING_DURATION,	   10,	VT_FILETIME },
+	{ "LastPrinted",	COMPONENT_PROP, GSF_META_NAME_LAST_PRINTED,	   11,	VT_FILETIME },
+	{ "CreateTime",		COMPONENT_PROP, GSF_META_NAME_DATE_CREATED,	   12,	VT_FILETIME },
+	{ "LastSavedTime",	COMPONENT_PROP, GSF_META_NAME_DATE_MODIFIED,	   13,	VT_FILETIME },
+	{ "NumPages",		COMPONENT_PROP, GSF_META_NAME_PAGE_COUNT,	   14,	VT_I4 },
+	{ "NumWords",		COMPONENT_PROP, GSF_META_NAME_WORD_COUNT,	   15,	VT_I4 },
+	{ "NumCharacters",	COMPONENT_PROP, GSF_META_NAME_CHARACTER_COUNT,	   16,	VT_I4 },
+	{ "Thumbnail",		COMPONENT_PROP, GSF_META_NAME_THUMBNAIL,	   17,	VT_CF },
+	{ "AppName",		COMPONENT_PROP, GSF_META_NAME_GENERATOR,	   18,	VT_LPSTR },
+	{ "Security",		COMPONENT_PROP, GSF_META_NAME_SECURITY,		   19,	VT_I4 }
 };
 
 static GHashTable *name_to_prop_hash = NULL;
+
+static char const *
+msole_vt_name (GsfMSOleVariantType type)
+{
+	static char const *names[] = {
+		"VT_EMPTY",	"VT_NULL",	"VT_I2",	"VT_I4",
+		"VT_R4",	"VT_R8",	"VT_CY",	"VT_DATE",
+		"VT_BSTR",	"VT_DISPATCH",	"VT_ERROR",	"VT_BOOL",
+		"VT_VARIANT",	"VT_UNKNOWN",	"VT_DECIMAL",	"VT_I1",
+		"VT_UI1",	"VT_UI2",	"VT_UI4",	"VT_I8",
+		"VT_UI8",	"VT_INT",	"VT_UINT",	"VT_VOID",
+		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",
+		"VT_USERDEFINED", "VT_LPSTR",	"VT_LPWSTR",	"VT_FILETIME",
+		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
+		"VT_STORED_OBJECT", "VT_BLOB_OBJECT", "VT_CF",	"VT_CLSID"
+	};
+	g_return_val_if_fail (type >= VT_EMPTY, "_UNKNOWN_");
+	type &= ~VT_VECTOR;
+	g_return_val_if_fail (type <= VT_CLSID, "_UNKNOWN_");
+	return names[type];
+}
 
 static char const *
 msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *linked)
@@ -234,39 +227,27 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *li
 		if (id & 0x1000000) {
 			*linked = TRUE;
 			id &= ~0x1000000;
-			d (printf ("LINKED "););
+			d (g_print ("LINKED "););
 		}
 
 		res = g_hash_table_lookup (section->dict, GINT_TO_POINTER (id));
 
 		if (res != NULL) {
-			d (printf (res););
+			d (g_print (res););
 			return res;
 		}
 	}
 
-	if (section->type == GSF_MSOLE_META_DATA_COMPONENT) {
-		map = component_props;
-		i = G_N_ELEMENTS (component_props);
-	} else if (section->type == GSF_MSOLE_META_DATA_DOCUMENT) {
-		map = document_props;
-		i = G_N_ELEMENTS (document_props);
-	}
+	map = builtin_props ;
+	i = G_N_ELEMENTS (builtin_props);
 	while (i-- > 0)
-		if (map[i].id == id) {
-			d (printf (map[i].gsf_name););
+		if (map[i].id == id &&
+		    (map[i].section == COMMON_PROP || map[i].section == section->type)) {
+			d (g_print (map[i].gsf_name););
 			return map[i].gsf_name;
 		}
 
-	map = common_props;
-	i = G_N_ELEMENTS (common_props);
-	while (i-- > 0)
-		if (map[i].id == id) {
-			d (printf (map[i].gsf_name););
-			return map[i].gsf_name;
-		}
-
-	d (printf ("_UNKNOWN_(0x%x %d)", id, id););
+	d (g_print ("_UNKNOWN_(0x%x %d)", id, id););
 
 	return NULL;
 }
@@ -276,22 +257,11 @@ msole_gsf_name_to_prop (char const *name)
 {
 	if (NULL == name_to_prop_hash) {
 		int i;
-		GsfMSOleMetaDataPropMap const *map;
-
 		name_to_prop_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-		map = component_props;
-		for (i = G_N_ELEMENTS (component_props); i-- > 0; )
+		for (i = G_N_ELEMENTS (builtin_props); i-- > 0; )
 			g_hash_table_replace (name_to_prop_hash,
-				(gpointer) map[i].gsf_name, (gpointer) (map+i));
-		map = document_props;
-		for (i = G_N_ELEMENTS (document_props); i-- > 0; )
-			g_hash_table_replace (name_to_prop_hash,
-				(gpointer) map[i].gsf_name, (gpointer) (map+i));
-		map = common_props;
-		for (i = G_N_ELEMENTS (common_props); i-- > 0; )
-			g_hash_table_replace (name_to_prop_hash,
-				(gpointer) map[i].gsf_name, (gpointer) (map+i));
+				(gpointer) builtin_props[i].gsf_name,
+				(gpointer) (builtin_props+i));
 	}
 
 	return g_hash_table_lookup (name_to_prop_hash, (gpointer)name);
@@ -326,14 +296,14 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		n = GSF_LE_GET_GUINT32 (*data);
 		*data += 4;
 
-		d (printf (" array with %d elem\n", n);
+		d (g_print (" array with %d elem\n", n);
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
 		
 		vector = gsf_docprop_vector_new ();
 
 		for (i = 0 ; i < n ; i++) {
 			GValue *v;
-			d (printf ("\t[%d] ", i););
+			d (g_print ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
 			if (v) {
 				if (G_IS_VALUE (v)) {
@@ -352,8 +322,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	}
 
 	res = g_new0 (GValue, 1);
+	d (g_print ("%s\n", msole_vt_name (type)););
 	switch (type) {
-	case VT_EMPTY :		 d (puts ("VT_EMPTY"););
+	case VT_EMPTY :
 		/*
 		 * A property with a type indicator of VT_EMPTY has no data
 		 * associated with it; that is, the size of the value is zero.
@@ -361,12 +332,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* value::unset == empty */
 		break;
 
-	case VT_NULL :		 d (puts ("VT_NULL"););
+	case VT_NULL :
 		/* This is like a pointer to NULL */
 		/* value::unset == null too :-) do we need to distinguish ? */
 		break;
 
-	case VT_I2 :		 d (puts ("VT_I2"););
+	case VT_I2 :
 		/* 2-byte signed integer */
 		g_return_val_if_fail (*data + 2 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT);
@@ -374,7 +345,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 2;
 		break;
 
-	case VT_I4 :		 d (puts ("VT_I4"););
+	case VT_I4 :
 		/* 4-byte signed integer */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT);
@@ -382,7 +353,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 4;
 		break;
 
-	case VT_R4 :		 d (puts ("VT_R4"););
+	case VT_R4 :
 		/* 32-bit IEEE floating-point value */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_FLOAT);
@@ -390,7 +361,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 4;
 		break;
 
-	case VT_R8 :		 d (puts ("VT_R8"););
+	case VT_R8 :
 		/* 64-bit IEEE floating-point value */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_DOUBLE);
@@ -398,12 +369,15 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 8;
 		break;
 
-	case VT_CY :		 d (puts ("VT_CY"););
+	case VT_CY :
 		/* 8-byte two's complement integer (scaled by 10,000) */
-#warning TODO
+		/* CHEAT : just store as an int64 for now */
+		g_return_val_if_fail (*data + 8 <= data_end, NULL);
+		g_value_init (res, G_TYPE_INT64);
+		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
 		break;
 
-	case VT_DATE :		 d (puts ("VT_DATE"););
+	case VT_DATE :
 		/* 
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
@@ -411,7 +385,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 #warning TODO
 		break;
 
-	case VT_BSTR :		 d (puts ("VT_BSTR"););
+	case VT_BSTR :
 		/*
 		 * Pointer to null-terminated Unicode string; the string is pre-
 		 * ceeded by a DWORD representing the byte count of the number
@@ -420,11 +394,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 #warning TODO
 		break;
 
-	case VT_DISPATCH :	 d (puts ("VT_DISPATCH"););
+	case VT_DISPATCH :
 #warning TODO
 		break;
 
-	case VT_BOOL :		 d (puts ("VT_BOOL"););
+	case VT_BOOL :
 		/* A boolean (WORD) value containg 0 (false) or -1 (true). */
 		g_return_val_if_fail (*data + 1 <= data_end, NULL);
 		g_value_init (res, G_TYPE_BOOLEAN);
@@ -432,7 +406,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 1;
 		break;
 
-	case VT_VARIANT :	 d (printf ("VT_VARIANT containing a "););
+	case VT_VARIANT :	 d (g_print ("\tcontaining a "););
 		/*
 		 * A type indicator (a DWORD) followed by the corresponding
 		 *  value.  VT_VARIANT is only used in conjunction with
@@ -443,7 +417,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 4;
 		return msole_prop_parse (section, type, data, data_end);
 
-	case VT_UI1 :		 d (puts ("VT_UI1"););
+	case VT_UI1 :
 		/* 1-byte unsigned integer */
 		g_return_val_if_fail (*data + 1 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UCHAR);
@@ -451,7 +425,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 1;
 		break;
 
-	case VT_UI2 :		 d (puts ("VT_UI2"););
+	case VT_UI2 :
 		/* 2-byte unsigned integer */
 		g_return_val_if_fail (*data + 2 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT);
@@ -459,29 +433,31 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 2;
 		break;
 
-	case VT_UI4 :		 d (puts ("VT_UI4"););
+	case VT_UI4 :
 		/* 4-type unsigned integer */
 		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT);
+		g_value_set_uint (res, GSF_LE_GET_GUINT32 (*data));
 		*data += 4;
-		d (printf ("%u\n", GSF_LE_GET_GUINT32 (*data)););
 		break;
 
-	case VT_I8 :		 d (puts ("VT_I8"););
+	case VT_I8 :		 d (g_print ("VT_I8\n"););
 		/* 8-byte signed integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT64);
+		g_value_set_uint (res, GSF_LE_GET_GINT64 (*data));
 		*data += 8;
 		break;
 
-	case VT_UI8 :		 d (puts ("VT_UI8"););
+	case VT_UI8 :
 		/* 8-byte unsigned integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT64);
+		g_value_set_uint (res, GSF_LE_GET_GUINT64 (*data));
 		*data += 8;
 		break;
 
-	case VT_LPSTR :		 d (puts ("VT_LPSTR"););
+	case VT_LPSTR :
 		/* 
 		 * This is the representation of many strings.  It is stored in
 		 * the same representation as VT_BSTR.  Note that the serialized
@@ -508,7 +484,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 4 + len;
 		break;
 
-	case VT_LPWSTR : d (puts ("VT_LPWSTR"););
+	case VT_LPWSTR :
 		/*
 		 * A counted and null-terminated Unicode string; a DWORD character
 		 * count (where the count includes the terminating null) followed
@@ -533,10 +509,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		*data += 4 + len;
 		break;
 
-	case VT_FILETIME :	 d (puts ("VT_FILETIME"););
+	case VT_FILETIME :
 		/* 64-bit FILETIME structure, as defined by Win32. */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
-		g_value_init (res, GSF_TIMESTAMP_TYPE);
 	{
 		/* ft * 100ns since Jan 1 1601 */
 		guint64 ft = GSF_LE_GET_GUINT64 (*data);
@@ -549,11 +524,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ft -= 11644473600ULL; /* move to Jan 1 1970 */
 #endif
 		ts.timet = (time_t)ft;
+		g_value_init (res, GSF_TIMESTAMP_TYPE);
 		gsf_value_set_timestamp (res, &ts);
 		*data += 8;
 		break;
 	}
-	case VT_BLOB :		 d (puts ("VT_BLOB"););
+	case VT_BLOB :
 		/*
 		 * A DWORD count of bytes, followed by that many bytes of data.
 		 * The byte count does not include the four bytes for the length
@@ -567,7 +543,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STREAM :	 d (puts ("VT_STREAM"););
+	case VT_STREAM :
 		/*
 		 * Indicates the value is stored in a stream that is sibling to
 		 * the CONTENTS stream.  Following this type indicator is data
@@ -579,7 +555,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STORAGE :	 d (puts ("VT_STORAGE"););
+	case VT_STORAGE :
 		/*
 		 * Indicates the value is stored in an IStorage that is sibling
 		 * to the CONTENTS stream.  Following this type indicator is data
@@ -591,7 +567,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STREAMED_OBJECT: d (puts ("VT_STREAMED_OBJECT"););
+	case VT_STREAMED_OBJECT:
 		/*
 		 * Same as VT_STREAM, but indicates that the stream contains a
 		 * serialized object, which is a class ID followed by initiali-
@@ -602,7 +578,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STORED_OBJECT :	 d (puts ("VT_STORED_OBJECT"););
+	case VT_STORED_OBJECT :
 		/*
 		 * Same as VT_STORAGE, but indicates that the designated IStorage
 		 * contains a loadable object.
@@ -612,7 +588,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_BLOB_OBJECT :	 d (puts ("VT_BLOB_OBJECT"););
+	case VT_BLOB_OBJECT :
 		/*
 		 * Contains a serialized object in the same representation as
 		 * would appear in a VT_STREAMED_OBJECT.  That is, following the
@@ -626,7 +602,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_CF :		 d (puts ("VT_CF"););
+	case VT_CF :
 		/*
 		 * a BLOB containing a clipboard format identifier followed by
 		 * the data in that format.  That is, following the VT_CF tag is
@@ -640,7 +616,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_CLSID :		 d (puts ("VT_CLSID"););
+	case VT_CLSID :
 		/* A class ID (or other GUID) */
 		*data += 16;
 		g_free (res);
@@ -661,8 +637,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	case VT_SAFEARRAY :
 	case VT_CARRAY :
 	case VT_USERDEFINED :
-		g_warning ("type %d (0x%x) is not permitted in property sets",
-			   type, type);
+		g_warning ("type %s (0x%x) is not permitted in property sets",
+			   msole_vt_name (type), type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -676,12 +652,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	if (res != NULL && G_IS_VALUE (res)) {
 		d ( {
 			char *val = g_strdup_value_contents (res);
-			printf ("%s\n", val);
+			g_print ("%s\n", val);
 			g_free (val);
 		});
 	} else {
-#if 0 /* enable after release */
-		puts ("<unparsed>\n");
+#if 2 /* enable after release */
+		g_print ("<unparsed>\n");
 #endif
 	}
 	return res;
@@ -743,7 +719,7 @@ msole_prop_read (GsfInput *in,
 			len = (guint32)gslen;
 			data += 8 + len;
 
-			d (printf ("\t%u == %s\n", id, name););
+			d (g_print ("\t%u == %s\n", id, name););
 			g_hash_table_replace (section->dict,
 				GINT_TO_POINTER (id), name);
 
@@ -757,9 +733,11 @@ msole_prop_read (GsfInput *in,
 		}
 	} else {
 		gboolean linked;
-		d (printf ("%u) ", i););
+		d (g_print ("===> %u) ", i);
+		   gsf_mem_dump (data-4, size););
+
 		name = g_strdup (msole_prop_id_to_gsf (section, props[i].id, &linked));
-		d (printf (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
+		d (g_print (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
 		val = msole_prop_parse (section, type, &data, data + size);
 
 		if (NULL != name && NULL != val) {
@@ -825,6 +803,9 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		return g_error_new (gsf_input_error_id (), 0,
 			"Unable to read MS property stream header");
 
+	d ({g_print ("===================================\n"
+		   "header class id ==\n");
+	   gsf_mem_dump (data, 28);});
 	/*
 	 * Validate the Property Set Header.
 	 * Format (bytes) :
@@ -847,9 +828,6 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 	    || num_sections > 100) /* arbitrary sanity check */
 		return g_error_new (gsf_input_error_id (), 0,
 			"Invalid MS property stream header");
-	d ({printf ("===================================\n"
-		   "header class id ==\n");
-	   gsf_mem_dump (data+8, 16);});
 
 	/* extract the section info */
 	/*
@@ -868,21 +846,18 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 			return g_error_new (gsf_input_error_id (), 0,
 				"Unable to read MS property stream header");
 		if (!memcmp (data, component_guid, sizeof (component_guid)))
-			sections [i].type = GSF_MSOLE_META_DATA_COMPONENT;
+			sections [i].type = COMPONENT_PROP;
 		else if (!memcmp (data, document_guid, sizeof (document_guid)))
-			sections [i].type = GSF_MSOLE_META_DATA_DOCUMENT;
+			sections [i].type = DOC_PROP;
 		else if (!memcmp (data, user_guid, sizeof (user_guid)))
-			sections [i].type = GSF_MSOLE_META_DATA_USER;
+			sections [i].type = USER_PROP;
 		else {
-			sections [i].type = GSF_MSOLE_META_DATA_USER;
+			sections [i].type = USER_PROP;
 			g_warning ("Unknown property section type, treating it as USER");
 			gsf_mem_dump (data, 16);
 		}
 
 		sections [i].offset = GSF_LE_GET_GUINT32 (data + 16);
-		d (printf ("===> section #%d : type %d at offset 0x%x\n",
-			   i, (int)sections [i].type,
-			   (guint32)sections [i].offset););
 	}
 
 	/*
@@ -901,6 +876,11 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 			return g_error_new (gsf_input_error_id (), 0,
 				"Invalid MS property section");
 
+		d (g_print ("=============================================\n"
+			   "===> section #%d : type %d at offset 0x%x\n",
+			   i, (int)sections [i].type,
+			   (guint32)sections [i].offset););
+
 		sections[i].iconv_handle = (GIConv)-1;
 		sections[i].char_size    = 1;
 		sections[i].dict      = NULL;
@@ -916,6 +896,7 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		 *   04 - 07	offset	The distance from the start of the section to the
 		 *			start of the Property Type/Value pair.
 		 */
+		d (g_print ("Offsets\n"););
 		props = g_new (GsfMSOleMetaDataProp, sections[i].num_props);
 		for (j = 0; j < sections[i].num_props; j++) {
 			if (NULL == (data = gsf_input_read (in, 8, NULL))) {
@@ -926,6 +907,8 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 
 			props [j].id = GSF_LE_GET_GUINT32 (data);
 			props [j].offset  = GSF_LE_GET_GUINT32 (data + 4);
+			d (g_print ("%d) ID=%d, offset=0x%x\n", j,
+				    props [j].id, (unsigned)props [j].offset););
 		}
 
 		/* order prop info by offset to facilitate bounds checking */
@@ -979,380 +962,315 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 	return NULL;
 }
 
-static gboolean
-check_variant (GsfMSOleMetaDataProp *prop, GType t)
+/****************************************************************************/
+
+typedef struct {
+	GsfOutput  *out;
+	gboolean    doc_not_component;
+
+	GHashTable *dict;
+	struct {
+		unsigned count;	 /* includes 2nd prop for links */
+		GSList  *props;
+	} builtin, user;
+
+	unsigned codepage;
+} WritePropState;
+
+static GsfMSOleVariantType
+gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 {
-	gboolean is_variant = prop->type != 0 && prop->type != t;
-	prop->type = t;
-	return is_variant;
+	g_return_val_if_fail (value != NULL, VT_EMPTY);
+
+	switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value))) {
+	case G_TYPE_BOOLEAN:	return VT_BOOL;
+	case G_TYPE_UCHAR:	return VT_UI1;
+	case G_TYPE_FLOAT:	return VT_R4;
+	case G_TYPE_DOUBLE:	return VT_R8;
+	case G_TYPE_STRING: 	return VT_LPSTR;
+	case G_TYPE_INT:
+		return (NULL != map && map->prefered_type == VT_I2)
+			? VT_I2 : VT_I4;
+	case G_TYPE_UINT:
+		return (NULL != map && map->prefered_type == VT_UI2)
+			? VT_UI2 : VT_UI4;
+	case G_TYPE_BOXED:
+		if (VAL_IS_GSF_TIMESTAMP (value))
+			return VT_FILETIME;
+		return VT_UNKNOWN;
+	case G_TYPE_OBJECT:
+		if (VAL_IS_GSF_DOCPROP_VECTOR (value)) {
+			GValueArray *vector = gsf_value_get_docprop_varray (value);
+			unsigned i, n;
+			GsfMSOleVariantType type, tmp;
+
+			if (vector == NULL)
+				return VT_UNKNOWN;
+
+			if (map != NULL) {
+				type = map->prefered_type & (~VT_VECTOR);
+				if (type == VT_VARIANT)
+					return VT_VECTOR | VT_VARIANT;
+			} else
+				type = VT_UNKNOWN;
+			n = vector->n_values;
+			for (i = 0; i < n; i++) {
+				tmp = gvalue_to_msole_vt (
+					g_value_array_get_nth (vector, i), NULL);
+				if (type == VT_UNKNOWN)
+					type = tmp;
+				else if (type != tmp)
+					return VT_VECTOR | VT_VARIANT;
+			}
+			return VT_VECTOR | type;
+		}
+		break;
+	}
+	return VT_UNKNOWN;
+}
+
+/* Returns TRUE on success */
+static gboolean
+msole_metadata_write_prop (WritePropState *state,
+			   char const *name,
+			   GValue const *value,
+			   gboolean suppress_type)
+{
+	static guint8 const zero[1] = { '\0' };
+	GsfMSOleMetaDataPropMap const *map =
+		(name != NULL) ? msole_gsf_name_to_prop (name) : NULL;
+	GsfMSOleVariantType type;
+	guint8 buf[8];
+
+	g_return_val_if_fail (value != NULL, FALSE);
+
+	type = gvalue_to_msole_vt (value, map);
+	if (!suppress_type) {
+		GSF_LE_SET_GUINT32 (buf, type);
+		gsf_output_write (state->out, 4, buf);
+	}
+	if (NULL != map && map->prefered_type != type) {
+		g_print ("Exporting property '%s' with type 0x%x rather than the usual 0x%x\n",
+			 map->gsf_name, type, map->prefered_type);
+	}
+
+	if (type & VT_VECTOR) {
+		GValueArray *vector = gsf_value_get_docprop_varray (value);
+		unsigned i, n = vector->n_values;
+		gboolean res;
+
+		GSF_LE_SET_GINT32 (buf, n);
+		res = gsf_output_write (state->out, 4, buf);
+		for (i = 0; i < n; i++)
+			res &= msole_metadata_write_prop (state, NULL,
+				g_value_array_get_nth (vector, i),
+				type != (VT_VECTOR | VT_VARIANT));
+		return res;
+	}
+
+	switch (type) {
+	case VT_BOOL:
+		if (g_value_get_boolean (value))
+			GSF_LE_SET_GINT32 (buf, 0xffffffff);
+		else
+			GSF_LE_SET_GINT32 (buf, 0);
+		return gsf_output_write (state->out, 4, buf);
+	case VT_UI1:
+		GSF_LE_SET_GUINT32 (buf, g_value_get_uchar (value));
+		return gsf_output_write (state->out, 4, buf);
+	case VT_I2:
+		GSF_LE_SET_GINT16 (buf, g_value_get_int (value));
+		GSF_LE_SET_GUINT16 (buf+2, 0);
+		return gsf_output_write (state->out, 4, buf);
+	case VT_I4:
+		GSF_LE_SET_GINT32 (buf, g_value_get_int (value));
+		return gsf_output_write (state->out, 4, buf);
+	case VT_UI2:
+	case VT_UI4:
+		GSF_LE_SET_GUINT32 (buf, g_value_get_uint (value));
+		return gsf_output_write (state->out, 4, buf);
+	case VT_R4:
+		GSF_LE_SET_FLOAT (buf, g_value_get_float (value));
+		return gsf_output_write (state->out, 4, buf);
+	case VT_R8:
+		GSF_LE_SET_FLOAT (buf, g_value_get_double (value));
+		return gsf_output_write (state->out, 8, buf);
+
+	case VT_LPSTR : {
+#warning TODO : use iconv from codepage
+		char const *txt = g_value_get_string (value);
+		unsigned len = strlen (txt);
+		GSF_LE_SET_GUINT32 (buf, len+1);
+		return  gsf_output_write (state->out, 4, buf) &&
+			gsf_output_write (state->out, len, txt) &&
+			gsf_output_write (state->out, 1, zero);
+	}
+
+	case VT_FILETIME : {
+		GsfTimestamp const *ts = g_value_get_boxed (value);
+		guint64 timet_value = ts->timet;
+
+#ifdef _MSC_VER
+		timet_value += 11644473600i64;
+#else
+		timet_value += 11644473600ULL;
+#endif
+		timet_value *= 10000000;
+
+		GSF_LE_SET_GUINT64 (buf+4, timet_value);
+
+		return gsf_output_write (state->out, 12, buf);
+	}
+
+	default:
+		break;
+	}
+
+	g_warning ("Ignoring property '%s', how do we export a property of type '%s'",
+		name ? name : "<unnamed>",
+		g_type_name (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value))));
+	return FALSE;
 }
 
 static void
-cb_measure_props (char const *name, GsfDocProp const *prop,
-		  WritePropState *state)
+cb_write_dict (char const *name, gpointer id, WritePropState *state)
 {
-	gboolean  error = FALSE;
-	guint	  i, vector_num_values = 1;
-	gsf_off_t offset;
-	guint32   it = state->it;
-	gboolean		       vec_is_variant = FALSE;
-	GValue const		      *value;
-	GValue	 		      *tmp = NULL;
-	GValueArray		      *vector = NULL;
-	GsfMSOleMetaDataProp	      *props = state->props + it;
-	GsfMSOleMetaDataPropMap const *map = msole_gsf_name_to_prop (name);
-
-	/* Do not write codepage or dictionary */
-	if (map != NULL && (map->id == 0 || map->id == 1))
-		return;
-
-	/* allocate predefined ids or add it to the dictionary */
-	if (NULL != map) {
-		if (state->doc_not_component) {
-#warning Need to figure out if prop is at doc or component level so that we can filter
-		}
-		props->dict_name = NULL;
-		props->id = map->id;
-		state->count++;
-		offset = state->offset;
-	} else if (state->doc_not_component)
-		/* keep user props in the component */
-		return;
-	else {
-		props->dict_name = name;
-		props->id = state->dict_count + state->udef_props;
-		state->dict_count++;
-		offset = state->dict_offset;
-		d (printf("user defined named '%s' assigned id = %d\n", name, props->id););
-	}
-	props->value = value = gsf_doc_prop_get_val (prop);
-	it++;
-
-	/* calculate offset */
-	props->offset = offset;
-	props->type = 0;
-
-	if (VAL_IS_GSF_DOCPROP_VECTOR (value)) {
-		vector = gsf_value_get_docprop_varray (value);
-		vector_num_values = vector->n_values;
-	}
-
-	for (i = 0; i < vector_num_values; i++) {
-		if (vector != NULL)
-			value = g_value_array_get_nth (vector, i);
-
-		switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value))) {
-		case G_TYPE_BOOLEAN:
-			vec_is_variant |= check_variant (props, VT_BOOL);
-			offset += 1;
-			offset += 3; /* 3x \0 */
-			break;
-
-		case G_TYPE_UCHAR:
-			vec_is_variant |= check_variant (props, VT_UI1);
-			offset += 1;
-			break;
-
-		case G_TYPE_INT:
-			if (NULL != map && map->prefered_type == VT_I2) {
-				vec_is_variant |= check_variant (props, VT_I2);
-				offset += 2;
-			} else {
-				vec_is_variant |= check_variant (props, VT_I4);
-				offset += 4;
-			}
-			break;
-
-		case G_TYPE_UINT:
-			if (NULL != map && map->prefered_type == VT_UI2) {
-				vec_is_variant |= check_variant (props, VT_UI2);
-				offset += 2;
-			} else {
-				vec_is_variant |= check_variant (props, VT_UI4);
-				offset += 4;
-			}
-			break;
-
-		case G_TYPE_FLOAT:
-			vec_is_variant |= check_variant (props, VT_R4);
-			offset += 4;
-			break;
-
-		case G_TYPE_DOUBLE:
-			vec_is_variant |= check_variant (props, VT_R8);
-			offset += 8;
-			break;
-
-		case G_TYPE_STRING:
-			vec_is_variant |= check_variant (props, VT_LPSTR);
-			offset += 4; /* length of string */
-			offset += strlen ((char *)g_value_get_string (value)) + 1; /* \0 */
-			break;
-
-		case G_TYPE_BOXED:
-			vec_is_variant |= check_variant (props, VT_FILETIME);
-			offset += 8;
-			break;
-
-		case G_TYPE_POINTER:
-			if (NULL != map) {
-				tmp = (GValue *)g_value_get_pointer(value);
-				vec_is_variant |= check_variant (props, map->prefered_type);
-				offset += g_value_get_uint (&tmp[0]) - 1 /* \0 */ - 4 /* type definition */;
-			} else {
-				g_warning ("Ignoring property '%s', how should we save a generic pointer",
-					   name);
-				error = TRUE;
-			}
-			break;
-
-		default:
-			g_warning ("Ignoring property '%s' with unknown type '%s'",
-				name, g_type_name (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value))));
-			error = TRUE;
-			break;
-		}
-	}
-
-	if (error) {
-		/* if error occured, count backwards */
-		if (props->id >= state->udef_props)
-			state->dict_count--;
-		else
-			state->count--;
-		it--;
-	} else {
-		offset += sizeof (guint32); /* sizeof type definition */
-		if (vector != NULL) {
-			offset += sizeof (guint32); /* sizeof count */
-			if (vec_is_variant) {
-				offset += sizeof(guint32) * vector_num_values; /* type definition of variant */
-				props->type = VT_VECTOR | VT_VARIANT;
-			} else
-				props->type |= VT_VECTOR;
-		}
-
-		/* save offset in struct */
-		if (props->id >= state->udef_props)
-			state->dict_offset = offset;
-		else
-			state->offset = offset;
-	}
-
-	/* set iterator in struct */
-	state->it = it;
+	static guint8 const zero[1] = { '\0' };
+	guint8	  buf [4];
+	unsigned  len = strlen (name) + 1;
+	GSF_LE_SET_GUINT32 (buf, GPOINTER_TO_UINT (id));
+	GSF_LE_SET_GUINT32 (buf+4, len+1);
+	gsf_output_write (state->out, 8, buf);
+	gsf_output_write (state->out, len, name);
+	gsf_output_write (state->out, 1, zero);
 }
 
 static gboolean
-gsf_msole_metadata_write_prop (GsfOutput *out, GsfMSOleMetaDataProp *prop)
+msole_metadata_write_section (WritePropState *state, gboolean user)
 {
-	gboolean success = TRUE;
-	GsfTimestamp const *timestamp = NULL;
-	GValueArray	   *vector = NULL;
-	guint32 vector_num;
-	GsfMSOleMetaDataProp *vector_prop = NULL;
-	guint64 timet_value = 0;
-	guint32 length = 0;
-	guint8 buf[8];
-	GValue *tmp;
-	guint32 i;
+	char const *name;
+	guint8	  buf [8];
+	GSList   *ptr   = user ? state->user.props : state->builtin.props;
+	unsigned  count = user ? state->user.count : state->builtin.count;
+	gsf_off_t len, base  = gsf_output_tell (state->out);
+	GsfMSOleMetaDataProp *offsets;
+	GsfMSOleMetaDataPropMap const *map;
+	GsfDocProp const *prop;
+	gpointer tmp;
+	unsigned i;
+	GValue	 scratch = { 0 };
 
+	if (user && state->dict == NULL)
+		return TRUE;
 
-	GSF_LE_SET_GUINT32 (buf+0, prop->type);
-	if (!gsf_output_write (out, 4, buf))
-		success = FALSE;
+	/* Skip past the size and id/offset pairs */
+	if (!gsf_output_seek (state->out,
+			     4 /* length */ +
+			     4 /* count */ +
+			     8 * count /* id/offset pairs */,
+			     G_SEEK_END))
+		return FALSE;
 
-	if (success) {
-		switch (prop->type) {
-		case VT_BOOL:
-			/* 0=false, -1=true */
-			if (g_value_get_boolean (prop->value) == TRUE)
-				GSF_LE_SET_GINT8 (buf+0, -1);
-			else
-				GSF_LE_SET_GINT8 (buf+0, 0);
-			buf[1] = 0;
-			buf[2] = 0;
-			buf[3] = 0;
-			if (!gsf_output_write (out, 4, buf))
-				success = FALSE;
-			break;
+	g_value_init (&scratch, G_TYPE_STRING);
+	offsets = g_alloca (sizeof (GsfMSOleMetaDataProp) * count);
 
-		case VT_UI1:
-			GSF_LE_SET_GUINT8 (buf+0, g_value_get_uchar (prop->value));
-			if (!gsf_output_write (out, 1, buf))
-				success = FALSE;
-			break;
+	/* 0) codepage */
+	offsets[0].id = 1;
+	offsets[0].offset = gsf_output_tell (state->out);
+	GSF_LE_SET_GUINT32 (buf, VT_I2);
+	GSF_LE_SET_GUINT32 (buf+4, state->codepage);
+	gsf_output_write (state->out, 8, buf);
 
-		case VT_I2:
-			GSF_LE_SET_GINT16(buf+0, g_value_get_int (prop->value));
-			if (!gsf_output_write (out, 2, buf))
-				success = FALSE;
-			break;
+	/* 1) dictionary */
+	if (user) {
+		offsets[1].id = 0;
+		offsets[1].offset = gsf_output_tell (state->out);
+		GSF_LE_SET_GUINT32 (buf, g_hash_table_size (state->dict));
+		gsf_output_write (state->out, 4, buf);
+		g_hash_table_foreach (state->dict,
+			(GHFunc) cb_write_dict, state);
+		i = 2;
+	} else
+		i = 1;
 
-		case VT_I4:
-			GSF_LE_SET_GINT32 (buf+0, g_value_get_int (prop->value));
-			if (!gsf_output_write (out, 4, buf))
-				success = FALSE;
-			break;
-
-		case VT_UI2:
-			GSF_LE_SET_GUINT16 (buf+0, g_value_get_uint (prop->value));
-			if (!gsf_output_write (out, 2, buf))
-				success = FALSE;
-			break;
-
-		case VT_UI4:
-			GSF_LE_SET_GUINT16 (buf+0, g_value_get_uint (prop->value));
-			if (!gsf_output_write (out, 4, buf))
-				success = FALSE;
-			break;
-
-		case VT_R4:
-			GSF_LE_SET_FLOAT (buf+0, g_value_get_float (prop->value));
-			if (!gsf_output_write (out, 4, buf))
-				success = FALSE;
-			break;
-
-		case VT_R8:
-			GSF_LE_SET_DOUBLE (buf+0, g_value_get_double (prop->value));
-			if (!gsf_output_write (out, 8, buf))
-				success = FALSE;
-			break;
-
-		case VT_LPSTR:
-			/* write the length of the string */
-			length = strlen ((char *)g_value_get_string (prop->value));
-			GSF_LE_SET_GINT32 (buf+0, length + 1 /* \0 */);
-			if (!gsf_output_write (out, 4, buf))
-				success = FALSE;
-
-			/* write the string */
-			if (!gsf_output_write (out, length, (char *)g_value_get_string (prop->value)))
-				success = FALSE;
-
-			/* append an \0 */
-			buf[0] = 0;
-			if (!gsf_output_write (out, 1, buf))
-				success = FALSE;
-			break;
-
-		case VT_FILETIME:
-			timestamp = (GsfTimestamp const *)g_value_get_boxed (prop->value);
-			timet_value = (time_t)timestamp->timet;
-
-#ifdef _MSC_VER
-			timet_value += 11644473600i64;
-#else
-			timet_value += 11644473600ULL;
-#endif
-			timet_value *= 10000000;
-
-			GSF_LE_SET_GUINT64 (buf+0, timet_value);
-			if (!gsf_output_write (out, 8, buf))
-				success = FALSE;
-			break;
-
-		case VT_VECTOR | VT_VARIANT:
-			vector = gsf_value_get_docprop_varray (prop->value);
-			if (NULL == vector) {
-				success = FALSE;
-				break;
+	/* 2) props */
+	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {
+		prop = ptr->data;
+		name = gsf_doc_prop_get_name (prop);
+		if (user) {
+			tmp = g_hash_table_lookup (state->dict, name);
+			offsets[i].id = GPOINTER_TO_INT (tmp);
+			if (offsets[i].id < 2) {
+				g_warning ("Invalid ID (%d) for custom name '%s'", offsets[i].id, name);
+				continue;
 			}
-			vector_num = vector->n_values;
-
-			GSF_LE_SET_GUINT32 (buf+0, vector_num);
-			if (!gsf_output_write (out, 4, buf))
-			      success = FALSE;
-
-			for (i = 0; i < vector_num; i++) {
-				tmp = g_value_array_get_nth (vector, i);
-				vector_prop = g_new (GsfMSOleMetaDataProp, 1);
-				vector_prop->value = tmp;
-
-				switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (tmp))) {
-				case G_TYPE_BOOLEAN:
-					vector_prop->type = VT_BOOL;
-					break;
-
-				case G_TYPE_UCHAR:
-					vector_prop->type = VT_UI1;
-					break;
-
-				case G_TYPE_INT:
-					vector_prop->type = prop->type;
-					if (vector_prop->type == VT_UNKNOWN)
-					      vector_prop->type = VT_I4;
-					break;
-
-				case G_TYPE_UINT:
-					vector_prop->type = prop->type;
-					if (vector_prop->type == VT_UNKNOWN)
-					      vector_prop->type = VT_UI4;
-					break;
-
-				case G_TYPE_FLOAT:
-					vector_prop->type = VT_R4;
-					break;
-
-				case G_TYPE_DOUBLE:
-					vector_prop->type = VT_R8;
-					break;
-
-				case G_TYPE_STRING:
-					vector_prop->type = VT_LPSTR;
-					break;
-
-				case G_TYPE_BOXED:
-					vector_prop->type = VT_FILETIME;
-					break;
-
-				default:
-					vector_prop->type = VT_NULL;
-				}
-
-				gsf_msole_metadata_write_prop (out, vector_prop);
-				if (vector_prop != NULL)
-				      g_free (vector_prop);
+		} else {
+			map = msole_gsf_name_to_prop (name);
+			if (map == NULL) {
+				g_warning ("Missing map for builting property '%s'", name);
+				continue;
 			}
+			offsets[i].id = map->id;
+		}
 
-			break;
-
-		case VT_VECTOR | VT_LPSTR:
-			/* NOTE: don't write the type here */
-			vector = gsf_value_get_docprop_varray (prop->value);
-			vector_num = vector->n_values;
-
-			GSF_LE_SET_GUINT32 (buf+0, vector_num);
-			if (!gsf_output_write (out, 4, buf))
-			      success = FALSE;
-
-			for (i=0; i<vector_num; i++) {
-				tmp = g_value_array_get_nth (vector, i);
-
-				/* write the length of the string */
-				length = strlen ((char *)g_value_get_string (tmp));
-				GSF_LE_SET_GINT32 (buf+0, length + 1 /* \0 */);
-				if (!gsf_output_write (out, 4, buf))
-					success = FALSE;
-
-				/* write the string */
-				if (!gsf_output_write (out, length, (char *)g_value_get_string (tmp)))
-					success = FALSE;
-
-				/* append an \0 */
-				buf[0] = 0;
-				if (!gsf_output_write (out, 1, buf))
-					success = FALSE;
-			}
-			break;
-
-		default:
-			g_warning ("Can't write datatype. unknown");
-			break;
+		offsets[i].offset = gsf_output_tell (state->out);
+		msole_metadata_write_prop (state, name,
+			gsf_doc_prop_get_val  (prop), FALSE);
+		if (gsf_doc_prop_get_link (prop)) {
+			i++;
+			offsets[i].id     = offsets[i-1].id | 0x1000000;
+			offsets[i].offset = gsf_output_tell (state->out);
+			g_value_set_static_string (&scratch, 
+				gsf_doc_prop_get_link (prop));
+			msole_metadata_write_prop (state, NULL, &scratch, FALSE);
 		}
 	}
 
-	return success;
+	len = gsf_output_tell (state->out) - base;
+	gsf_output_seek (state->out, base, G_SEEK_SET);
+	GSF_LE_SET_GUINT32 (buf, len);
+	GSF_LE_SET_GUINT32 (buf+4, count);
+	gsf_output_write (state->out, 8, buf);
+	for (i = 0 ; i < count ; i++) {
+		GSF_LE_SET_GUINT32 (buf, offsets[i].id);
+		GSF_LE_SET_GUINT32 (buf+4, offsets[i].offset - base);
+		gsf_output_write (state->out, 8, buf);
+	}
+
+	return gsf_output_seek (state->out, 0, G_SEEK_END);
+}
+
+static void
+cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
+{
+	GsfMSOleMetaDataPropMap const *map = msole_gsf_name_to_prop (name);
+
+	/* allocate predefined ids or add it to the dictionary */
+	if (map != NULL) {
+		if (map->id == 0) return; /* dictionary is handled elsewhere */
+		if (map->section == (state->doc_not_component ? COMPONENT_PROP : DOC_PROP))
+			return;
+		if (map->id == 1) { /*codepage */
+			GValue const *val = gsf_doc_prop_get_val (prop);
+			if (NULL != val && G_VALUE_HOLDS_INT (val))
+				state->codepage = g_value_get_int (val);
+			return;
+		}
+
+		d (g_print ("%d) Adding builtin %s'\n",
+			    state->builtin.count, map->gsf_name););
+		state->builtin.count += gsf_doc_prop_get_link (prop) ? 2 : 1;
+		state->builtin.props = g_slist_prepend (state->builtin.props, prop);
+	} else if (state->doc_not_component) { /* keep user props in the document */
+		d (g_print("user defined named '%s' assigned id = %d\n",
+			   name, state->user.count););
+		if (NULL == state->dict)
+			state->dict = g_hash_table_new (g_str_hash, g_str_equal);
+		g_hash_table_insert (state->dict,
+			(gpointer) name, GINT_TO_POINTER (state->user.count));
+		state->user.count += gsf_doc_prop_get_link (prop) ? 2 : 1;
+		state->user.props = g_slist_prepend (state->user.props, prop);
+	}
 }
 
 /**
@@ -1361,9 +1279,9 @@ gsf_msole_metadata_write_prop (GsfOutput *out, GsfMSOleMetaDataProp *prop)
  * @meta_data : #GsfDocMetaData
  * @doc_not_component : a kludge to differentiate DocumentSummary from Summary
  *
- * Returns GError which the caller must free on error.
+ * Returns TRUE on success;
  **/
-GError *
+gboolean
 gsf_msole_metadata_write (GsfOutput *out,
 			  GsfDocMetaData const *meta_data,
 			  gboolean doc_not_component)
@@ -1376,234 +1294,62 @@ gsf_msole_metadata_write (GsfOutput *out,
 		0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, /* clasid = 0 */
 	};
 
-	gboolean success = FALSE;
-	gsf_off_t offset = 0;
+	gboolean	success = FALSE;
+	guint8		buf [4];
+	WritePropState	state;
 
-	guint32 num_sections;
-	guint32 byte_count = 0;		/* count of bytes in a section */
-	guint32 props_count = 0;	/* count of properties global */
-	guint32 section_props_count = 0; /* count of properties in a section */
-	guint32 length = 0;
-	guint32 dict_size = 0;
-	gsf_off_t index_offset = 0;
-	guint32 udef_props = 30;   /* id start of user defined ids
-	                              must be higher than the id of the last defined property */
-	guint8 buf[8];
-	guint8 const *guid;
-	guint32 i;
-	int	codepage = 1200;
-	GsfDocProp	     *prop;
-	WritePropState	      state;
-
-	props_count = gsf_doc_meta_data_size (meta_data);
-
-	/* check and save codepage into props_codepage first to get the encoding
-	 * or future strings */
-	if (NULL != (prop = gsf_doc_meta_data_lookup (meta_data, GSF_META_NAME_LANGUAGE))) {
-		GValue const *val = gsf_doc_prop_get_val (prop);
-		if (NULL == val || !G_VALUE_HOLDS_INT (val)) {
-			g_warning ("value of property with name=%s is not an valid codepage",
-				   GSF_META_NAME_LANGUAGE);
-			goto err;
-		}
-		codepage = g_value_get_int (val);
-		props_count--; /* do not count the codepage */
-	}
-
-	/* insert ids and offsets into props[] (only for id !=0, 1, >0xFFFFFFFF) */
-	state.props = g_new (GsfMSOleMetaDataProp, props_count);
-	state.udef_props = udef_props;
-	state.it = 0;
-	state.count = 0;
-	state.dict_count = 0;
-	state.offset = state.dict_offset = 8;
+	state.codepage		= 1252;
+	state.out		= out;
+	state.dict		= NULL;
+	state.builtin.count     = 1; /* codepage */
+	state.user.count	= 2; /* codepage and dictionary */
+	state.builtin.props     = state.user.props = NULL;
 	state.doc_not_component = doc_not_component;
+	d (g_print ("================================\nFinding props\n"););
 	gsf_doc_meta_data_foreach (meta_data,
-		(GHFunc) cb_measure_props, &state);
+		(GHFunc) cb_count_props, &state);
+	d (g_print ("Done\n"
+		    "================================\n"););
 
-	/* write static header */
-	if (!gsf_output_write (out, sizeof (header), header))
+	/* Write stream header */
+	GSF_LE_SET_GUINT32 (buf, (state.dict != NULL) ? 2 : 1);
+	if (!gsf_output_write (out, sizeof (header), header) ||
+	    !gsf_output_write (out, 4, buf))
 		goto err;
-	offset += sizeof (header);
 
-	num_sections = (state.dict_count > 0) ? 2 : 1;
-	GSF_LE_SET_GUINT32 (buf, num_sections);
-	if (!gsf_output_write (out, 4, buf))
+	/* Write section header(s) */
+	GSF_LE_SET_GUINT32 (buf, (state.dict != NULL) ? 0x44 : 0x30);
+	if (!gsf_output_write (out, 16,
+		doc_not_component ? document_guid : component_guid) ||
+	    !gsf_output_write (out, 4, buf))
 		goto err;
-	offset += 4;
-
-	/* write unqiue format id  (see msdn) */
-	guid = doc_not_component ? document_guid : component_guid;
-	if (!gsf_output_write (out, 16, guid))
-		goto err;
-	offset += 16;
-
-	/* write offset */
-	/* we need to write the user_guid if we have a dictionary,
-	 * so we add the size to the offset */
-	if (state.dict_count > 0) {
-		offset += sizeof (user_guid);
-		offset += 4;
-	}
-
-	GSF_LE_SET_GUINT32 (buf, offset + 4 /* size of offset itself */);
-	if (!gsf_output_write (out, 4, buf))
-		goto err;
-	offset += 4;
-
-	/* calc section header */
-	byte_count = state.offset;
-
-	section_props_count = state.count;
-	if (codepage != 0)
-		section_props_count++;
-
-	index_offset = 8; /* section header itself */
-	index_offset += (section_props_count * (sizeof (guint32) /* property id */ + sizeof(guint32) /* property offset */));
-
-	/* write user_guid if dictionary exist */
-	if (state.dict_count > 0) {
-		if (!gsf_output_write (out, sizeof (user_guid), user_guid))
-			goto err;
-
-		GSF_LE_SET_GUINT32 (buf+0, byte_count + index_offset + offset);
-		if (!gsf_output_write (out, 4, buf))
+	if (state.dict != NULL) {
+		GSF_LE_SET_GUINT32 (buf, 0);
+		if (!gsf_output_write (out, sizeof (user_guid), user_guid) ||
+		    !gsf_output_write (out, 4, buf)) /* bogus position, fix it later */
 			goto err;
 	}
 
-	/*  write secion header */
-	GSF_LE_SET_GUINT32 (buf+0, byte_count + index_offset); /* byte count */
-	GSF_LE_SET_GUINT32 (buf+4, section_props_count);       /* properties count */
-	if (!gsf_output_write (out, 8, buf))
+	/* Write section(s) */
+	if (!msole_metadata_write_section (&state, FALSE))
 		goto err;
-
-	/* write codepage index */
-	if (codepage != 0) {
-		GSF_LE_SET_GUINT32 (buf+0, 1);	/* GSF_META_NAME_LANGUAGE */
-		GSF_LE_SET_GUINT32 (buf+4, index_offset);
-		if (!gsf_output_write (out, 8, buf))
+	if (state.dict != NULL) {
+		gsf_off_t base  = gsf_output_tell (state.out);
+		GSF_LE_SET_GUINT32 (buf, base);
+		if (!gsf_output_seek (state.out, 0x40, G_SEEK_SET) ||
+		    !gsf_output_write (out, 4, buf) ||
+		    !gsf_output_seek (state.out, 0, G_SEEK_END) ||
+		    !msole_metadata_write_section (&state, TRUE))
 			goto err;
-	}
-
-	/* write property index */
-	for (i = 0; i < props_count; i++)
-		if (state.props[i].dict_name == NULL) {
-			GSF_LE_SET_GUINT32 (buf+0, state.props[i].id);
-			GSF_LE_SET_GUINT32 (buf+4, state.props[i].offset + index_offset);
-			if (!gsf_output_write (out, 8, buf))
-				goto err;
-		}
-
-	/* write codepage
-	 * TODO: write codepage support!
-	 */
-	GSF_LE_SET_GUINT32 (buf+0, VT_I2);
-	GSF_LE_SET_GUINT32 (buf+4, codepage);
-	if (!gsf_output_write (out, 8, buf))
-		goto err;
-
-	/* write properties */
-	for (i=0; i < props_count; i++)
-		if (state.props[i].dict_name == NULL &&
-		    !gsf_msole_metadata_write_prop (out, state.props + i))
-			goto err;
-
-
-	/*
-	 * Write 2. Section
-	 */
-	if (num_sections >= 2) {
-		/* calculate sizeof dictionary */
-		dict_size = 4;
-		for (i = 0; i < props_count; i++) {
-			if (state.props[i].dict_name != NULL) {
-				dict_size += 4; /* property id */
-				dict_size += 4; /* lengt of string */
-				dict_size += strlen (state.props[i].dict_name) + 1; /* \0 */
-			}
-		}
-
-		/* write section header */
-		byte_count = state.dict_offset;
-		byte_count += dict_size;
-		section_props_count = state.dict_count;
-		section_props_count++; /* dictionary */
-		index_offset = 8; /* section header itself */
-		if (codepage != 0)
-			section_props_count++;
-		index_offset += (section_props_count * (sizeof (guint32) /* property id */ + sizeof(guint32) /* property offset */));
-		GSF_LE_SET_GUINT32 (buf+0, byte_count + index_offset); /* byte count */
-		GSF_LE_SET_GUINT32 (buf+4, section_props_count);  /* properties count */
-		if (!gsf_output_write (out, 8, buf))
-			goto err;
-
-		/* write dictionary index */
-		GSF_LE_SET_GUINT32 (buf+0, 0);
-		GSF_LE_SET_GUINT32 (buf+4, index_offset);
-		if (!gsf_output_write (out, 8, buf))
-			goto err;
-
-		index_offset += dict_size; /* sizeof dictionary */
-
-		/* write codepage index */
-		if (codepage != 0) {
-			GSF_LE_SET_GUINT32 (buf+0, 1);
-			GSF_LE_SET_GUINT32 (buf+4, index_offset);
-			if (!gsf_output_write (out, 8, buf))
-				goto err;
-		}
-
-		/* write property index */
-		for (i=0; i < props_count; i++)
-			if (state.props[i].dict_name != NULL) {
-				GSF_LE_SET_GUINT32 (buf+0, state.props[i].id - udef_props + 2);
-				GSF_LE_SET_GUINT32 (buf+4, state.props[i].offset + index_offset);
-				if (!gsf_output_write (out, 8, buf))
-					goto err;
-			}
-
-		/* write dictionary */
-		GSF_LE_SET_GUINT32 (buf+0, state.dict_count);
-		if (!gsf_output_write (out, 4, buf))
-			goto err;
-		for (i = 0; i < props_count; i++) {
-			if (state.props[i].dict_name != NULL) {
-				length = strlen (state.props[i].dict_name);
-				GSF_LE_SET_GUINT32 (buf+0, state.props[i].id - udef_props + 2);
-				GSF_LE_SET_GUINT32 (buf+4, length + 1 /* \0 */);
-				if (!gsf_output_write (out, 8, buf))
-					goto err;
-
-				/* write the string */
-				if (!gsf_output_write (out, length, state.props[i].dict_name))
-					goto err;
-
-				/* append an \0 */
-				buf[0] = 0;
-				if (!gsf_output_write (out, 1, buf))
-					goto err;
-			}
-		}
-
-		/* write codepage
-		 * TODO: write codepage support!
-		 */
-		GSF_LE_SET_GUINT32 (buf+0, VT_I2);
-		GSF_LE_SET_GUINT32 (buf+4, codepage);
-		if (!gsf_output_write (out, 8, buf))
-				goto err;
-
-		/* write properties */
-		for (i = 0; i < props_count; i++)
-			if (state.props[i].dict_name != NULL &&
-			    !gsf_msole_metadata_write_prop(out, state.props + i))
-				goto err;
 	}
 
 	success = TRUE;
-err:
-
-	return success ? NULL : g_error_copy (gsf_output_error (out));
+err :
+	g_slist_free (state.builtin.props);
+	g_slist_free (state.user.props);
+	if (state.dict != NULL)
+		g_hash_table_destroy (state.dict);
+	return success;
 }
 
 static struct {

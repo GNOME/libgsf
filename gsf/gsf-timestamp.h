@@ -28,7 +28,8 @@
 
 G_BEGIN_DECLS
 
-#define GSF_TIMESTAMP_TYPE        (gsf_timestamp_get_type ())
+#define GSF_TIMESTAMP_TYPE      (gsf_timestamp_get_type ())
+#define VAL_IS_GSF_TIMESTAMP(v) (G_TYPE_CHECK_VALUE_TYPE((v), GSF_TIMESTAMP_TYPE))
 
 struct _GsfTimestamp {
 	GDate	  date;			/* In local timezone */

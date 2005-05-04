@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 
 GError	   *gsf_msole_metadata_read	  (GsfInput *in,
 					   GsfDocMetaData *accum);
-GError	   *gsf_msole_metadata_write	  (GsfOutput *out,
+gboolean    gsf_msole_metadata_write	  (GsfOutput *out,
 					   GsfDocMetaData const *meta_data,
 					   gboolean doc_not_component);
 
