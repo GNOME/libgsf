@@ -14,9 +14,6 @@ Reading and Writing from local files and directories
 
 </para>
 
-<!-- ##### SECTION Stability_Level ##### -->
-
-
 <!-- ##### STRUCT GsfInputStdio ##### -->
 <para>
 
@@ -46,6 +43,17 @@ Reading and Writing from local files and directories
 
 @filename: 
 @err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_stdio_new_FILE ##### -->
+<para>
+
+</para>
+
+@filename: 
+@file: 
+@keep_open: 
 @Returns: 
 
 

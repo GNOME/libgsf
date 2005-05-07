@@ -121,6 +121,7 @@ GsfInputStdio
 gsf_input_stdio_new
 GsfOutputStdio
 gsf_output_stdio_new
+gsf_output_stdio_new_FILE
 GsfOutfileStdio
 gsf_outfile_stdio_new
 GsfInfileStdio
@@ -241,6 +242,29 @@ GsfInputTextline
 gsf_input_textline_new
 gsf_input_textline_ascii_gets
 gsf_input_textline_utf8_gets
+
+GSF_IS_OUTPUT_ICONV
+GSF_OUTPUT_ICONV
+GSF_OUTPUT_ICONV_TYPE
+GsfOutputIconv
+GsfOutputIconvClass
+GsfOutputIconv
+gsf_output_iconv_get_type
+gsf_output_iconv_new
+
+GSF_IS_OUTPUT_CSV
+GSF_OUTPUT_CSV
+GSF_OUTPUT_CSV_QUOTING_MODE_TYPE
+GSF_OUTPUT_CSV_TYPE
+GsfOutputCsv
+GsfOutputCsvClass
+GsfOutputCsvQuotingMode
+GsfOutputCsv
+gsf_output_csv_get_type
+gsf_output_csv_quoting_mode_get_type
+gsf_output_csv_write_eol
+gsf_output_csv_write_field
+
 <SUBSECTION Standard>
 GSF_INPUT_TEXTLINE_TYPE
 GSF_INPUT_TEXTLINE
@@ -595,9 +619,16 @@ gsf_timestamp_parse
 gsf_timestamp_hash
 gsf_timestamp_equal
 gsf_value_set_timestamp
+VAL_IS_GSF_TIMESTAMP
 <SUBSECTION Standard>
 GSF_TIMESTAMP_TYPE
 gsf_timestamp_get_type
+
+<SUBSECTION GObject>
+gsf_doc_prop_swap_val
+gsf_property_settings_collect
+gsf_property_settings_collect_valist
+gsf_property_settings_free
 </SECTION>
 
 <SECTION>

@@ -14,9 +14,6 @@ Text
 
 </para>
 
-<!-- ##### SECTION Stability_Level ##### -->
-
-
 <!-- ##### STRUCT GsfInputTextline ##### -->
 <para>
 
@@ -47,6 +44,185 @@ Text
 </para>
 
 @input: 
+@Returns: 
+
+
+<!-- ##### MACRO GSF_IS_OUTPUT_ICONV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GSF_OUTPUT_ICONV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GSF_OUTPUT_ICONV_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT GsfOutputIconv ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GsfOutputIconvClass ##### -->
+<para>
+
+</para>
+
+@output_class: 
+
+<!-- ##### STRUCT GsfOutputIconv ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gsf_output_iconv_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_iconv_new ##### -->
+<para>
+
+</para>
+
+@sink: 
+@dst: 
+@src: 
+@Returns: 
+
+
+<!-- ##### MACRO GSF_IS_OUTPUT_CSV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GSF_OUTPUT_CSV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GSF_OUTPUT_CSV_QUOTING_MODE_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_OUTPUT_CSV_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT GsfOutputCsv ##### -->
+<para>
+
+</para>
+
+@output: 
+@sink: 
+@quote: 
+@quote_len: 
+@quoting_mode: 
+@quoting_triggers: 
+@eol: 
+@eol_len: 
+@separator: 
+@separator_len: 
+@fields_on_line: 
+@buf: 
+
+<!-- ##### STRUCT GsfOutputCsvClass ##### -->
+<para>
+
+</para>
+
+@output_class: 
+
+<!-- ##### ENUM GsfOutputCsvQuotingMode ##### -->
+<para>
+
+</para>
+
+@GSF_OUTPUT_CSV_QUOTING_MODE_NEVER: 
+@GSF_OUTPUT_CSV_QUOTING_MODE_AUTO: 
+@GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS: 
+
+<!-- ##### STRUCT GsfOutputCsv ##### -->
+<para>
+
+</para>
+
+@output: 
+@sink: 
+@quote: 
+@quote_len: 
+@quoting_mode: 
+@quoting_triggers: 
+@eol: 
+@eol_len: 
+@separator: 
+@separator_len: 
+@fields_on_line: 
+@buf: 
+
+<!-- ##### FUNCTION gsf_output_csv_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_csv_quoting_mode_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_csv_write_eol ##### -->
+<para>
+
+</para>
+
+@csv: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_csv_write_field ##### -->
+<para>
+
+</para>
+
+@csv: 
+@field: 
+@len: 
 @Returns: 
 
 

@@ -14,9 +14,6 @@ utils
 
 </para>
 
-<!-- ##### SECTION Stability_Level ##### -->
-
-
 <!-- ##### FUNCTION gsf_init ##### -->
 <para>
 
@@ -272,6 +269,10 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -312,6 +313,10 @@ utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\
@@ -984,5 +989,56 @@ utils
 
 @value: 
 @stamp: 
+
+
+<!-- ##### MACRO VAL_IS_GSF_TIMESTAMP ##### -->
+<para>
+
+</para>
+
+@v: 
+
+
+<!-- ##### FUNCTION gsf_doc_prop_swap_val ##### -->
+<para>
+
+</para>
+
+@prop: 
+@val: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_property_settings_collect ##### -->
+<para>
+
+</para>
+
+@object_type: 
+@p_params: 
+@p_n_params: 
+@first_property_name: 
+@Varargs: 
+
+
+<!-- ##### FUNCTION gsf_property_settings_collect_valist ##### -->
+<para>
+
+</para>
+
+@object_type: 
+@p_params: 
+@p_n_params: 
+@first_property_name: 
+@var_args: 
+
+
+<!-- ##### FUNCTION gsf_property_settings_free ##### -->
+<para>
+
+</para>
+
+@params: 
+@n_params: 
 
 
