@@ -1,3 +1,17 @@
+2005-05-08  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : Do not check for a
+	  namespace we have not seen yet.  Fixes crash when reading OOo 2.0
+	  with the dtd from 1.0
+
+2005-05-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_check_ns) : Add some safety.
+
+2005-05-04  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_vt_name) : handle sparse entries.
+
 2005-05-03  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_metadata_write) : complete rewrite.

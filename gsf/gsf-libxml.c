@@ -230,9 +230,15 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 					inst->tag    = g_strconcat (ns_ptr[0] + 6, ":", NULL);
 					inst->taglen = strlen (inst->tag);
 					inst->ref_count = 1;
+					g_hash_table_insert (state->ns_prefixes, inst->tag, inst);
+
 					if (ns[i].ns_id >= state->ns_by_id->len)
 						g_ptr_array_set_size  (state->ns_by_id, ns[i].ns_id+1);
-					g_ptr_array_index (state->ns_by_id, ns[i].ns_id) = inst;
+					if (g_ptr_array_index (state->ns_by_id, ns[i].ns_id)) {
+						g_warning ("Damn.  Someone just declared the same namespace '%s' with a different prefix '%s'",
+							   ns[i].uri, inst->tag);
+					} else
+						g_ptr_array_index (state->ns_by_id, ns[i].ns_id) = inst;
 				} else
 					inst->ref_count++;
 				break;
@@ -247,7 +253,7 @@ lookup_child :
 		if (group->ns != NULL && group->ns != default_ns) {
 			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
 			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
-			if (0 != strncmp (name, inst->tag, inst->taglen))
+			if (inst == NULL || 0 != strncmp (name, inst->tag, inst->taglen))
 				continue;
 			tmp = name + inst->taglen;
 		} else {
@@ -353,7 +359,7 @@ gsf_xml_in_start_document (GsfXMLIn *state)
 	state->default_ns  = NULL;
 	state->ns_by_id    = g_ptr_array_new ();
 	state->ns_prefixes = g_hash_table_new_full (g_str_hash, g_str_equal,
-		g_free, g_free);
+		NULL, g_free);
 }
 
 static void
@@ -642,8 +648,11 @@ gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
 char const *
 gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned int ns_id)
 {
-	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
-
+	GsfXMLInNSInstance *inst;
+	if (state->ns_by_id->len <= ns_id)
+		return NULL;
+	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
+		return NULL;
 	if (strncmp (str, inst->tag, inst->taglen))
 		return NULL;
 	return str + inst->taglen;
@@ -662,8 +671,11 @@ gboolean
 gsf_xml_in_namecmp (GsfXMLIn const *state, char const *str,
 		    unsigned int ns_id, char const *name)
 {
-	GsfXMLInNSInstance *inst = g_ptr_array_index (state->ns_by_id, ns_id);
-
+	GsfXMLInNSInstance *inst;
+	if (state->ns_by_id->len <= ns_id)
+		return FALSE;
+	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
+		return FALSE;
 	if (strncmp (str, inst->tag, inst->taglen))
 		return FALSE;
 	return 0 == strcmp (name, str + inst->taglen);

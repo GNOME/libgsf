@@ -37,8 +37,7 @@
 #include <stdio.h>
 #include <time.h>
 
-/* #define NO_DEBUG_OLE_PROPS */
-#undef NO_DEBUG_OLE_PROPS
+#define NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
 #else
@@ -95,6 +94,7 @@ typedef enum {
 	VT_VARIANT	   = 12,
 	VT_UNKNOWN	   = 13,
 	VT_DECIMAL	   = 14,
+
 	VT_I1		   = 16,
 	VT_UI1		   = 17,
 	VT_UI2		   = 18,
@@ -111,6 +111,7 @@ typedef enum {
 	VT_USERDEFINED	   = 29,
 	VT_LPSTR	   = 30,
 	VT_LPWSTR	   = 31,
+
 	VT_FILETIME	   = 64,
 	VT_BLOB		   = 65,
 	VT_STREAM	   = 66,
@@ -198,21 +199,26 @@ static char const *
 msole_vt_name (GsfMSOleVariantType type)
 {
 	static char const *names[] = {
-		"VT_EMPTY",	"VT_NULL",	"VT_I2",	"VT_I4",
-		"VT_R4",	"VT_R8",	"VT_CY",	"VT_DATE",
-		"VT_BSTR",	"VT_DISPATCH",	"VT_ERROR",	"VT_BOOL",
-		"VT_VARIANT",	"VT_UNKNOWN",	"VT_DECIMAL",	"VT_I1",
-		"VT_UI1",	"VT_UI2",	"VT_UI4",	"VT_I8",
-		"VT_UI8",	"VT_INT",	"VT_UINT",	"VT_VOID",
-		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",
-		"VT_USERDEFINED", "VT_LPSTR",	"VT_LPWSTR",	"VT_FILETIME",
+		"VT_EMPTY",	"VT_NULL",	"VT_I2",	"VT_I4",	"VT_R4",
+		"VT_R8",	"VT_CY",	"VT_DATE",	"VT_BSTR",	"VT_DISPATCH",
+		"VT_ERROR",	"VT_BOOL",	"VT_VARIANT",	"VT_UNKNOWN",	"VT_DECIMAL",
+		NULL,		"VT_I1",	"VT_UI1",	"VT_UI2",	"VT_UI4",
+		"VT_I8",	"VT_UI8",	"VT_INT",	"VT_UINT",	"VT_VOID",
+		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",	"VT_USERDEFINED",
+		"VT_LPSTR",	"VT_LPWSTR",
+	};	
+	static char const *names2[] = {
+		"VT_FILETIME",
 		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
 		"VT_STORED_OBJECT", "VT_BLOB_OBJECT", "VT_CF",	"VT_CLSID"
 	};
 	g_return_val_if_fail (type >= VT_EMPTY, "_UNKNOWN_");
 	type &= ~VT_VECTOR;
+	if (type <= VT_LPWSTR)
+		return names[type];
+	g_return_val_if_fail (type >= VT_FILETIME, "_UNKNOWN_");
 	g_return_val_if_fail (type <= VT_CLSID, "_UNKNOWN_");
-	return names[type];
+	return names2[type-VT_FILETIME];
 }
 
 static char const *
@@ -656,9 +662,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 			g_free (val);
 		});
 	} else {
-#if 2 /* enable after release */
-		g_print ("<unparsed>\n");
-#endif
+		char const *type_name = msole_vt_name (type);
+		if (type_name) {
+			g_print ("A '%s' property could not be parsed\n", type_name);
+		} else {
+			g_print ("A %d property could not be parsed\n", type);
+		}
 	}
 	return res;
 }

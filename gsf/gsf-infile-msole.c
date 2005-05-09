@@ -19,6 +19,10 @@
  * USA
  */
 
+/* Lots of useful information in
+ *   http://www.aafassociation.org/html/specs/aafcontainerspec-v1.0.1.pdf
+ */
+
 #include <gsf-config.h>
 #include <gsf/gsf-infile-impl.h>
 #include <gsf/gsf-infile-msole.h>
