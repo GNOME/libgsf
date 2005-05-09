@@ -1,5 +1,11 @@
 2005-05-08  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-outfile-msole.c (ole_bytes_left_in_block) : As per Stuart
+	  Cunningham from the AAF group the header is always bb.size.
+	(gsf_outfile_msole_new_full) : ditto.  pad the header with zeros.
+
+2005-05-08  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : Do not check for a
 	  namespace we have not seen yet.  Fixes crash when reading OOo 2.0
 	  with the dtd from 1.0

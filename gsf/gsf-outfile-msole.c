@@ -177,7 +177,8 @@ ole_cur_block (GsfOutfileMSOle const *ole)
 static inline unsigned
 ole_bytes_left_in_block (GsfOutfileMSOle *ole)
 {
-	unsigned r = (gsf_output_tell (ole->sink) - OLE_HEADER_SIZE) % ole->bb.size;
+	/* blocks are multiples of bb.size (the header is padded out to bb.size) */
+	unsigned r = gsf_output_tell (ole->sink) % ole->bb.size;
 	return (r != 0) ? (ole->bb.size - r) : 0;
 }
 
@@ -751,8 +752,8 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 	gsf_output_write (sink, OLE_HEADER_SIZE, buf);
 	g_free (buf);
 
-	/* FIXME : Do we need to pad the header out to bb_size for other block
-	 * sizes ? if so do we pad with 0 or something else ? */
+	/* header must be padded out to bb.size with zeros */
+	ole_pad_zero(ole);
 
 	return GSF_OUTFILE (ole);
 }
