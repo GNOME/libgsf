@@ -2,6 +2,8 @@
 
 	* configure.in: Enable a number of additional warnings (when available)
 	for which the current code base is already virtually clean.
+	Ensure at link time that the shared objects, contain complete
+	dependency information for all symbols they use from elsewhere.
 
 2005-05-10  Jody Goldberg <jody@gnome.org>
 

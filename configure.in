@@ -306,6 +306,8 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
+LDFLAGS="-no-undefined $LDFLAGS"
+
 AC_CONFIG_FILES([
 Makefile
 doc/Makefile
