@@ -35,7 +35,7 @@
 #include <ctype.h>
 
 #define BIFF_TYPES_FILE    "biff-types.h"
-/*#define DUMP_CONTENT	1*/
+#define DUMP_CONTENT	1
 
 typedef struct {
 	guint16 opcode;
@@ -264,7 +264,9 @@ test (unsigned argc, char *argv[])
 			stream = gsf_infile_child_by_name (infile, stream_names[j]);
 			if (stream != NULL) {
 				puts (j < 3 ? "Excel97" : "Excel95");
-/* frank				dump_biff_stream (stream); */
+#ifdef DUMP_CONTENT
+				dump_biff_stream (stream);
+#endif
 				g_object_unref (G_OBJECT (stream));
 				break;
 			}
