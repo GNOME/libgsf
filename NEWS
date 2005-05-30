@@ -1,5 +1,8 @@
 libgsf 1.12.1
 
+Jody:
+	* Patch a leak in vector properties from OLE2.
+
 --------------------------------------------------------------------------
 libgsf 1.12.0
 

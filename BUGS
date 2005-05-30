@@ -17,3 +17,7 @@ gsf-output-stdio.c:
    likely take ownership.
 
 6. Race conditions (inter-process and inter-thread) all over.
+
+OLE2
+    Properties
+	- in/out support for blobs and storages

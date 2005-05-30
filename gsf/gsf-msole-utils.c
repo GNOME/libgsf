@@ -321,7 +321,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		}
 
 		res = g_new0 (GValue, 1);
-		g_value_init (res, GSF_DOCPROP_VECTOR_TYPE);
+		g_value_init (res, G_TYPE_OBJECT);
 		g_value_set_object (res, vector);
 		g_object_unref (vector);
 		return res;
@@ -1167,7 +1167,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 	GsfDocProp const *prop;
 	gpointer tmp;
 	unsigned i;
-	GValue	 scratch = { 0 };
+	GValue	 scratch;
 
 	if (user && state->dict == NULL)
 		return TRUE;
@@ -1180,7 +1180,9 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 			     G_SEEK_END))
 		return FALSE;
 
+	memset (&scratch,  0, sizeof (GValue));
 	g_value_init (&scratch, G_TYPE_STRING);
+
 	offsets = g_alloca (sizeof (GsfMSOleMetaDataProp) * count);
 
 	/* 0) codepage */

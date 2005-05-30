@@ -34,15 +34,7 @@ typedef GObjectClass  GsfDocPropVectorClass;
 #define GSF_DOCPROP_VECTOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GSF_DOCPROP_VECTOR_TYPE, GsfDocPropVectorClass))
 #define IS_GSF_DOCPROP_VECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GSF_DOCPROP_VECTOR_TYPE))
 
-/*
- * Local function prototypes.
- */
-static void     gsf_docprop_vector_init (GsfDocPropVector *vector);
-static void     gsf_docprop_vector_value_dup (GValue const *src_value,
-					      GValue *dest_value);
-static void     gsf_docprop_vector_value_free (GValue *value);
-static void     gsf_docprop_vector_value_init (GValue *value);
-static gpointer gsf_docprop_vector_value_peek_pointer (GValue const *value);
+static GObjectClass *parent_class;
 
 GValueArray *
 gsf_value_get_docprop_varray (GValue const *value)
@@ -122,6 +114,65 @@ gsf_docprop_vector_as_string (GsfDocPropVector *vector)
 	return rstring;
 }
 
+static void
+gsf_docprop_vector_finalize (GObject *obj)
+{
+	GsfDocPropVector *vector = (GsfDocPropVector *) obj;
+	if (vector->gva != NULL) {
+		g_value_array_free (vector->gva);
+		vector->gva = NULL;
+	}
+	parent_class->finalize (obj);
+}
+
+static void
+gsf_docprop_vector_class_init (GObjectClass *gobject_class)
+{
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	gobject_class->finalize = gsf_docprop_vector_finalize;
+}
+
+static void
+gsf_docprop_vector_init (GsfDocPropVector *vector)
+{
+	vector->gva = g_value_array_new (0);
+}
+
+static void
+gsf_docprop_vector_value_init (GValue *value)
+{
+	value->data[0].v_pointer = gsf_docprop_vector_new ();
+}
+
+static void
+gsf_docprop_vector_value_free (GValue *value)
+{
+	GValueArray *gva = gsf_value_get_docprop_varray (value);
+	if (gva != NULL)
+		g_value_array_free (gva);
+}
+
+static void
+gsf_docprop_vector_value_dup (GValue const *src_value, GValue *dest_value)
+{
+	GsfDocPropVector	*vector;
+	GsfDocPropVector	*new_vector;
+
+	vector = (GsfDocPropVector *)src_value->data[0].v_pointer;
+
+	new_vector = gsf_docprop_vector_new ();
+	dest_value->data[0].v_pointer = new_vector;
+
+	g_value_array_free (new_vector->gva);
+	new_vector->gva = g_value_array_copy (vector->gva);
+}
+
+static gpointer
+gsf_docprop_vector_value_peek_pointer (GValue const *value)
+{
+	return value->data[0].v_pointer;
+}
+
 GType
 gsf_docprop_vector_get_type (void)
 {
@@ -144,7 +195,7 @@ gsf_docprop_vector_get_type (void)
 		sizeof (GsfDocPropVectorClass),			/* Class size */
 		(GBaseInitFunc) NULL,				/* Base initialization function */
 		(GBaseFinalizeFunc) NULL,			/* Base finalization function */
-		(GClassInitFunc) NULL,				/* Class initialization function */
+		(GClassInitFunc) gsf_docprop_vector_class_init,	/* Class initialization function */
 		(GClassFinalizeFunc) NULL,			/* Class finalization function */
 		NULL,						/* Class data */
 		sizeof (GsfDocPropVector),			/* Instance size */
@@ -167,12 +218,6 @@ gsf_docprop_vector_get_type (void)
 	return my_type;
 }
 
-static void
-gsf_docprop_vector_init (GsfDocPropVector *vector)
-{
-	vector->gva = g_value_array_new (0);
-}
-
 /**
  * gsf_docprop_vector_new
  *
@@ -186,70 +231,3 @@ gsf_docprop_vector_new (void)
 	return g_object_new (GSF_DOCPROP_VECTOR_TYPE, NULL);
 }
 
-/**
- * gsf_docprop_vector_value_dup
- * @src_value:  A properly setup GValue of same or derived type.
- * @dest_value: A GValue with zero-filled data sectione 
- *
- * The purpose of this function is to duplicate/copy the contents of @src_value into
- * @dest_value in a way, that even after src_value has been freed, the contents
- * of @dest_value remain valid.
- **/
-static void
-gsf_docprop_vector_value_dup (const GValue *src_value, GValue *dest_value)
-{
-	GsfDocPropVector	*vector;
-	GsfDocPropVector	*new_vector;
-
-	vector = (GsfDocPropVector *)src_value->data[0].v_pointer;
-
-	new_vector = gsf_docprop_vector_new ();
-	dest_value->data[0].v_pointer = new_vector;
-
-	g_value_array_free (new_vector->gva);
-	new_vector->gva = g_value_array_copy (vector->gva);
-}
-
-/**
- * gsf_docprop_vector_value_free
- * @value: The GValue to be free'd.
- *
- * This function frees any old contents that might be left in the data array of
- * the passed in @value.  No resources may remain allocated through the GValue
- * contents after this function returns.
- **/
-static void
-gsf_docprop_vector_value_free (GValue *value)
-{
-	GValueArray *gva = gsf_value_get_docprop_varray (value);
-	if (gva != NULL)
-		g_value_array_free (gva);
-}
-
-/**
- * gsf_docprop_vector_value_init
- * @value: The GValue to be initialized
- * 
- * Initialize @value's contents by poking values directly into the @value->data
- * array.
- **/
-static void
-gsf_docprop_vector_value_init (GValue *value)
-{
-	value->data[0].v_pointer = gsf_docprop_vector_new ();
-}
-
-/**
- * gsf_docprop_vector_value_peek_pointer
- * @value: A valid GsfDocPropVector GValue 
- *
- * If the value contents fit into a pointer, such as objects or strings,
- * return this pointer, so the caller can peek at the current contents.
- *
- * Returns: a gpointer to the GsfDocPropVector structure
- **/
-static gpointer
-gsf_docprop_vector_value_peek_pointer (const GValue *value)
-{
-	return value->data[0].v_pointer;
-}

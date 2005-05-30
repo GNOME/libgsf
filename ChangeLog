@@ -1,3 +1,14 @@
+2005-05-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_metadata_write_section) : warning
+	  suppression.
+	(msole_prop_parse) : it seems GValue needs to be a G_OBJECT in order
+	  for it to be unrefed.
+
+2005-05-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-docprop-vector.c (gsf_docprop_vector_finalize) : patch leak.
+
 2005-05-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (CFLAGS): Don't use -Wcrazy.
