@@ -1,3 +1,7 @@
+2005-05-31  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_parse) : add some protection.
+
 2005-05-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_section) : warning

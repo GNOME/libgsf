@@ -620,6 +620,7 @@ gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
 	gboolean res;
 
 	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_val_if_fail (state->doc != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 	ctxt = gsf_xml_parser_context_full (input, &gsfXMLInParser, state);
