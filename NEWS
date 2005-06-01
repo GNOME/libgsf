@@ -2,6 +2,7 @@ libgsf 1.12.1
 
 Jody:
 	* Patch a leak in vector properties from OLE2.
+	* Be more delicate handling truncated gzip files.
 
 --------------------------------------------------------------------------
 libgsf 1.12.0

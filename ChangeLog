@@ -1,5 +1,14 @@
 2005-05-31  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_read) : get upset when an input
+	  file is truncated.
+	(check_header) : Add a heuristic to warn about files with > 1000:1
+	  compression ratios.  It is crude but likely to catch the worst
+	  truncated files were we're using data rather than a trailer by
+	  accident.
+
+2005-05-31  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-libxml.c (gsf_xml_in_parse) : add some protection.
 
 2005-05-30  Jody Goldberg <jody@gnome.org>
