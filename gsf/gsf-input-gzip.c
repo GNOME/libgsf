@@ -41,6 +41,7 @@ struct _GsfInputGZip {
 	gboolean raw; /* No header and no trailer.  */
 	GError *err;
 	gsf_off_t uncompressed_size;
+	gboolean stop_byte_added;
 
 	z_stream  stream;
 	guint8 const *gzipped_data;
@@ -102,8 +103,8 @@ check_header (GsfInputGZip *input)
 			/* FIXME, but how?  The size read here is modulo 2^32.  */
 			input->uncompressed_size = GSF_LE_GET_GUINT32 (data);
 
-			if (input->uncompressed_size > 1000 * gsf_input_size (input->source)) {
-				g_warning ("Suspiciously well compressed file with > 1000:1 ratio.\n"
+			if (input->uncompressed_size / 1000 > gsf_input_size (input->source)) {
+				g_warning ("Suspiciously well compressed file with better than 1000:1 ratio.\n"
 					   "It is probably truncated or corrupt");
 			}
 		}
@@ -288,11 +289,17 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		if (gzip->stream.avail_in == 0) {
 			gsf_off_t remain = gsf_input_remaining (gzip->source);
 			if (remain <= gzip->trailer_size) {
-				g_clear_error (&gzip->err);
-				gzip->err = g_error_new
-					(gsf_input_error_id (), 0,
-					 "truncated source");
-				return NULL;
+				if (remain < gzip->trailer_size || gzip->stop_byte_added) {
+					g_clear_error (&gzip->err);
+					gzip->err = g_error_new
+						(gsf_input_error_id (), 0,
+						 "truncated source");
+					return NULL;
+				}
+				/* zlib requires an extra byte.  */
+				gzip->stream.avail_in = 1;
+				gzip->gzipped_data = "";
+				gzip->stop_byte_added = TRUE;
 			} else {
 				size_t n = MIN (remain - gzip->trailer_size,
 						Z_BUFSIZE);

@@ -1,3 +1,9 @@
+2005-06-01  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-gzip.c (gsf_input_gzip_read): Only trigger the
+	truncated-file check after we have added a single NUL byte.
+	(check_header): Avoid overflows.
+
 2005-05-31  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-input-gzip.c (gsf_input_gzip_read) : get upset when an input
