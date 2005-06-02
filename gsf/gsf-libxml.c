@@ -1054,24 +1054,24 @@ gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
  * @xml :
  * @id  : optionally NULL for content
  * @val : the value
- * @precision : the number of decimal points to display
+ * @precision : the number of significant digits to use, -1 meaning "enough".
  *
  * dump float value @val to an attribute named @id or as the nodes
- * content with precision @precision.
+ * content with precision @precision.  The number will be formattted
+ * according to the "C" locale.
  **/
 void
 gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
 		       double val, int precision)
 {
-	char buf [101 + DBL_DIG];
+	char format_str[4 * sizeof (int) + 10];
+	char buf[G_ASCII_DTOSTR_BUF_SIZE + DBL_DIG];
 
 	if (precision < 0 || precision > DBL_DIG)
 		precision = DBL_DIG;
 
-	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
-		snprintf (buf, sizeof buf-1, "%.*g", precision, val);
-	else
-		snprintf (buf, sizeof buf-1, "%f", val);
+	sprintf (format_str, "%%.%dg", precision);
+	g_ascii_formatd (buf, sizeof (buf), format_str, val);
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 

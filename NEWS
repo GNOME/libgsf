@@ -4,6 +4,9 @@ Jody:
 	* Patch a leak in vector properties from OLE2.
 	* Be more delicate handling truncated gzip files.
 
+Morten:
+	* Fix gsf_xml_out_add_float to always use "." as separator.
+
 --------------------------------------------------------------------------
 libgsf 1.12.0
 
