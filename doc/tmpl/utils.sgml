@@ -278,6 +278,20 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -294,18 +308,23 @@ utils
 @parent: 
 
 
-<!-- ##### MACRO GSF_DYNAMIC_CLASS ##### -->
+<!-- ##### MACRO GSF_INTERFACE ##### -->
 <para>
 
 </para>
 
-@name: 
-@prefix: 
-@class_init: 
-@instance_init: 
-@parent: 
-@plugin: 
+@init_func: 
+@iface_type: 
+
+
+<!-- ##### MACRO GSF_INTERFACE_FULL ##### -->
+<para>
+
+</para>
+
 @type: 
+@init_func: 
+@iface_type: 
 
 
 <!-- ##### MACRO GSF_DYNAMIC_CLASS_FULL ##### -->
@@ -525,8 +544,24 @@ utils
 @\
 			       abstract:
 @\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
 			       abstract: 
 @interface_decl: 
+<!-- # Unused Parameters # -->
+@module: 
 @plugin: 
 @type: 
 
@@ -541,20 +576,23 @@ utils
 @class_init: 
 @instance_init: 
 @parent: 
+<!-- # Unused Parameters # -->
+@module: 
 @plugin: 
 @type: 
 
 
-<!-- ##### MACRO GSF_INTERFACE ##### -->
+<!-- ##### MACRO GSF_DYNAMIC_INTERFACE ##### -->
 <para>
 
 </para>
 
 @init_func: 
 @iface_type: 
+@module: 
 
 
-<!-- ##### MACRO GSF_INTERFACE_FULL ##### -->
+<!-- ##### MACRO GSF_DYNAMIC_INTERFACE_FULL ##### -->
 <para>
 
 </para>
@@ -562,6 +600,7 @@ utils
 @type: 
 @init_func: 
 @iface_type: 
+@module: 
 
 
 <!-- ##### MACRO GSF_PARAM_STATIC ##### -->

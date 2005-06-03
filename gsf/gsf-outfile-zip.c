@@ -739,9 +739,10 @@ gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
 					   NULL);
 }
 
+/* deprecated has no effect */
 gboolean
-gsf_outfile_zip_set_compression_method (GsfOutfileZip *zip,
-					GsfZipCompressionMethod method)
+gsf_outfile_zip_set_compression_method (G_GNUC_UNUSED GsfOutfileZip *zip,
+					G_GNUC_UNUSED GsfZipCompressionMethod method)
 {
 	return TRUE;
 }

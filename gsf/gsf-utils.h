@@ -78,6 +78,8 @@ void gsf_le_set_double (void *p, double d);
 
 void gsf_init (void);
 void gsf_shutdown (void);
+void gsf_init_dynamic	  (GTypeModule *module);
+void gsf_shutdown_dynamic (GTypeModule *module);
 
 /* Debugging utilities */
  void gsf_mem_dump   (guint8 const *ptr, size_t len);

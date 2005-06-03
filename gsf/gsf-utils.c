@@ -64,6 +64,16 @@ gsf_shutdown (void)
 {
 }
 
+void
+gsf_init_dynamic (GTypeModule *module)
+{
+}
+
+void
+gsf_shutdown_dynamic (GTypeModule *module)
+{
+}
+
 static void
 gsf_mem_dump_full (guint8 const *ptr, size_t len, guint offset)
 {

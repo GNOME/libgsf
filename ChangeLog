@@ -1,3 +1,15 @@
+2005-06-03  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.h (gsf_init_dynamic) : new hook.  Unimplemented yet.
+
+	* gsf/gsf-impl-utils.h (prefix) : use a cleaner pattern for the
+	  dynamic type/interface declarations.
+
+2005-06-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_vt_name) : suppress warning
+	(msole_prop_parse) : assign the right type.
+
 2005-06-02  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-outfile-zip.c (zip_flush): Check for Z_BUF_ERROR case.

@@ -237,15 +237,21 @@ gsf_input_dup (GsfInput *input, GError **err)
  * gsf_input_open_sibling :
  * @input : The input
  *
+ * NOT CURRENTLY IMPLEMENTED
+ *
  * Attempts to open a 'sibling' of @input.  The caller is responsible for
  * managing the resulting object.
+ *
+ * NOT CURRENTLY IMPLEMENTED
  *
  * Returns :  the size or -1 on error
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
 {
-	return NULL;
+	g_return_val_if_fail (GET_CLASS (input)->OpenSibling, NULL);
+
+	return GET_CLASS (input)->OpenSibling (input, name, err);
 }
 
 /**

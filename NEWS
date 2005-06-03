@@ -1,8 +1,12 @@
 libgsf 1.12.1
 
+Dom:
+	* Better handling of error conditions when creating a zip.
+
 Jody:
 	* Patch a leak in vector properties from OLE2.
 	* Be more delicate handling truncated gzip files.
+	* Improve utility macros for dynamic type creation (incompatible).
 
 Morten:
 	* Fix gsf_xml_out_add_float to always use "." as separator.

@@ -115,7 +115,7 @@ gsf_input_proxy_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_proxy_dup (GsfInput *src_input, GError **err)
+gsf_input_proxy_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
 	return gsf_input_proxy_new (src_input);
 }

@@ -212,7 +212,7 @@ msole_vt_name (GsfMSOleVariantType type)
 		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
 		"VT_STORED_OBJECT", "VT_BLOB_OBJECT", "VT_CF",	"VT_CLSID"
 	};
-	g_return_val_if_fail (type >= VT_EMPTY, "_UNKNOWN_");
+
 	type &= ~VT_VECTOR;
 	if (type <= VT_LPWSTR)
 		return names[type];
@@ -321,7 +321,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		}
 
 		res = g_new0 (GValue, 1);
-		g_value_init (res, G_TYPE_OBJECT);
+		g_value_init (res, GSF_DOCPROP_VECTOR_TYPE);
 		g_value_set_object (res, vector);
 		g_object_unref (vector);
 		return res;

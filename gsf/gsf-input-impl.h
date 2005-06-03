@@ -44,7 +44,8 @@ typedef struct {
 			       guint8 *optional_buffer);
 	gboolean      (*Seek) (GsfInput *input, gsf_off_t offset,
 			       GSeekType whence);
-	GsfInput     *(*OpenSibling)  (GsfInput *input, char const *path, GError **err);
+	GsfInput     *(*OpenSibling)  (GsfInput const *input,
+				       char const *path, GError **err);
 
 	/* Padding for future expansion */
 	void (*_gsf_reserved0) (void);

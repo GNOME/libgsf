@@ -302,6 +302,19 @@ gsf-utils
 gsf
 
 
+<!-- ##### MACRO GSF_DYNAMIC_CLASS ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@class_init: 
+@instance_init: 
+@parent: 
+@plugin: 
+@type: 
+
 <!-- ##### MACRO GSF_INFILE ##### -->
 <para>
 
