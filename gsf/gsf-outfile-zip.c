@@ -382,13 +382,13 @@ zip_flush (GsfOutfileZip *zip)
 
 	do {
 		zret = deflate (zip->stream, Z_FINISH);
-		if (zret == Z_OK) {
-			/*  In this case Z_OK means more buffer space
-			    needed  */
+		if (zret == Z_OK || (zret == Z_BUF_ERROR && zip->stream->avail_out == 0)) {
+			/*  In this case Z_OK or Z_BUF_ERROR means more buffer 
+			    space is needed  */
 			if (!zip_output_block (zip))
 				return FALSE;
 		}
-	} while (zret == Z_OK);
+	} while (zret == Z_OK || zret == Z_BUF_ERROR);
 	if (zret != Z_STREAM_END)
 		return FALSE;
 	if (!zip_output_block (zip))

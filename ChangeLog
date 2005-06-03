@@ -1,3 +1,8 @@
+2005-06-02  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-outfile-zip.c (zip_flush): Check for Z_BUF_ERROR case.
+	This is the cause of AbiWord bug #7652
+	
 2005-06-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_float): Use "C" locale
