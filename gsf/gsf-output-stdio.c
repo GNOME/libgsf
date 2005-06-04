@@ -520,6 +520,9 @@ gsf_output_stdio_write (GsfOutput *output,
 	return TRUE;
 }
 
+static gsf_off_t gsf_output_stdio_vprintf (GsfOutput *output,
+	char const *fmt, va_list args) G_GNUC_PRINTF (2, 0);
+
 static gsf_off_t
 gsf_output_stdio_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {

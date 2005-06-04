@@ -1,3 +1,13 @@
+2005-06-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-output.h (gsf_output_vprintf): Add the function attribute
+	  G_GNUC_PRINTF (2, 0).  Add the same to various static *vprintf
+	  funtions in other files.
+	* gsf/gsf-output-csv.c (gsf_output_cvs_close): The parameter is
+	  unused, mark it as such.
+
+	* .cvsignore: Add gtk-doc.make.
+
 2005-06-03  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.h (gsf_init_dynamic) : new hook.  Unimplemented yet.

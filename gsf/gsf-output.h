@@ -88,7 +88,7 @@ GQuark gsf_output_error_id (void);
 gboolean gsf_output_printf (GsfOutput *output, char const *format,
 			    ...) G_GNUC_PRINTF (2, 3);
 gsf_off_t gsf_output_vprintf (GsfOutput *output, char const *format,
-			      va_list args);
+			      va_list args) G_GNUC_PRINTF (2, 0);
 gboolean gsf_output_puts (GsfOutput *output, char const *line);
 
 G_END_DECLS

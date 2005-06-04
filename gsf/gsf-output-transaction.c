@@ -230,6 +230,9 @@ gsf_output_trans_write (GsfOutput *output,
 }
 
 /* vprintf function. emits "updated" or "aborted" */
+static gsf_off_t gsf_output_trans_vprintf (GsfOutput *output,
+	char const *format, va_list args) G_GNUC_PRINTF (2, 0);
+
 static gsf_off_t
 gsf_output_trans_vprintf (GsfOutput *output, char const *format, va_list args)
 {

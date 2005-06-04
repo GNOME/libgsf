@@ -72,7 +72,7 @@ gsf_output_csv_seek (GsfOutput *output,
 }
 
 static gboolean
-gsf_output_csv_close (GsfOutput *output)
+gsf_output_csv_close (G_GNUC_UNUSED GsfOutput *output)
 {
 	return TRUE;
 }

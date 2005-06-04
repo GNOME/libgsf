@@ -1,4 +1,6 @@
 Makefile.in
+Makefile
+gtk-doc.make
 aclocal.m4
 autom4te.cache
 configure
@@ -11,7 +13,6 @@ ltmain.sh
 libtool
 config.status
 stamp-h
-Makefile
 stamp-*
 gsf-config.h.in
 gsf-config.h

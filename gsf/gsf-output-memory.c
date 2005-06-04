@@ -128,6 +128,9 @@ gsf_output_memory_write (GsfOutput *output,
 	return TRUE;
 }
 
+static gsf_off_t gsf_output_memory_vprintf (GsfOutput *output,
+	char const *format, va_list args) G_GNUC_PRINTF (2, 0);
+
 static gsf_off_t
 gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 {

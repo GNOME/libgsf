@@ -24,8 +24,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-static gsf_off_t
-gsf_output_real_vprintf (GsfOutput *output, char const* format, va_list args);
+static gsf_off_t gsf_output_real_vprintf (GsfOutput *output,
+	char const* format, va_list args) G_GNUC_PRINTF (2, 0);
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
