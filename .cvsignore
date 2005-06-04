@@ -12,11 +12,9 @@ ltconfig
 ltmain.sh
 libtool
 config.status
-stamp-h
-stamp-*
+stamp-h*
 gsf-config.h.in
 gsf-config.h
-gsf-config
 libgsf-1.spec
 libgsf-1.pc
 libgsf-gnome-1.spec

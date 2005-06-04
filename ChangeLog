@@ -6,7 +6,8 @@
 	* gsf/gsf-output-csv.c (gsf_output_cvs_close): The parameter is
 	  unused, mark it as such.
 
-	* .cvsignore: Add gtk-doc.make.
+	* .cvsignore: Add gtk-doc.make; remove gsf-config; replace stamp-h
+	and stamp-* by stamp-h*.
 
 2005-06-03  Jody Goldberg <jody@gnome.org>
 
