@@ -227,21 +227,23 @@ gsf_output_stdio_new (char const *filename, GError **err)
 		 * that we will use for the newly-created file.
 		 */
 
-		struct stat dir_st;
-
 		memset (&st, 0, sizeof (st));
 
 		/* Use default permissions */
 		st.st_mode = 0666;  fixup_mode = TRUE;
 #ifdef HAVE_CHOWN
-		st.st_uid = getuid ();
+		{
+			struct stat dir_st;
 
-		if (g_stat (dirname, &dir_st) == 0 &&
-		    S_ISDIR (st.st_mode) &&
-		    (dir_st.st_mode & S_ISGID))
-			st.st_gid = dir_st.st_gid;
-		else
-			st.st_gid = getgid ();
+			st.st_uid = getuid ();
+
+			if (g_stat (dirname, &dir_st) == 0 &&
+			    S_ISDIR (dir_st.st_mode) &&
+			    (dir_st.st_mode & S_ISGID))
+				st.st_gid = dir_st.st_gid;
+			else
+				st.st_gid = getgid ();
+		}
 #endif
 	}
 

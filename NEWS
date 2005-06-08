@@ -10,6 +10,7 @@ Jody:
 
 Morten:
 	* Fix gsf_xml_out_add_float to always use "." as separator.
+	* Fix problem with creating new files in g+s directories.
 
 --------------------------------------------------------------------------
 libgsf 1.12.0
