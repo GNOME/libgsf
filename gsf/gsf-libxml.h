@@ -166,8 +166,8 @@ void gsf_xml_out_add_color		(GsfXMLOut *xml, char const *id,
 					 unsigned int r, unsigned int g, unsigned int b);
 void gsf_xml_out_add_base64		(GsfXMLOut *xml, char const *id,
 					 guint8 const *data, unsigned int len);
-
-/* TODO : something for enums ? */
+void gsf_xml_out_add_enum               (GsfXMLOut *xml, char const *id,
+					 GType etype, gint val);
 
 G_END_DECLS
 

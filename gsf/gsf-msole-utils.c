@@ -467,7 +467,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* 
 		 * This is the representation of many strings.  It is stored in
 		 * the same representation as VT_BSTR.  Note that the serialized
-		 * representation of VP_LPSTR has a preceding byte count, wheras
+		 * representation of VP_LPSTR has a preceding byte count, whereas
 		 * the in-memory representation does not.
 		 */
 		/* be anal and safe */

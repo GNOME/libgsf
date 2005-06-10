@@ -1094,6 +1094,19 @@ gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
+void
+gsf_xml_out_add_enum (GsfXMLOut *xml, char const *id, GType etype, gint val)
+{
+	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumValue *ev = g_enum_get_value (eclass, val);
+
+	if (ev)
+		gsf_xml_out_add_cstr_unchecked (xml, id, ev->value_name);
+	else
+		g_warning ("Invalid value %d for type %s",
+			   val, g_type_name (etype));
+}
+
 /**
  * gsf_xml_out_add_base64 :
  * @xml :
