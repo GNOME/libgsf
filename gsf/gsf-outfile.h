@@ -38,6 +38,10 @@ GsfOutput *gsf_outfile_new_child_full (GsfOutfile *outfile,
 				       char const *name, gboolean is_dir,
 				       char const *first_property_name,
 					   ...);
+GsfOutput *gsf_outfile_new_child_varg (GsfOutfile *outfile,
+				       char const *name, gboolean is_dir,
+				       char const *first_property_name,
+				       va_list args);
 
 G_END_DECLS
 

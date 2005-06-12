@@ -115,7 +115,7 @@ prefix ## _register_type (GTypeModule *module)				\
 	type = prefix ## _type = g_type_module_register_type (module,	\
 		parent_type, #name, &type_info, (GTypeFlags) abstract);	\
 	interface_decl							\
-}									\
+}
 
 #define	GSF_DYNAMIC_CLASS(name, prefix, class_init, instance_init, parent)	\
 	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent,	\

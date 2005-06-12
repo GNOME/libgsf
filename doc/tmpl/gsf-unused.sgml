@@ -302,19 +302,6 @@ gsf-utils
 gsf
 
 
-<!-- ##### MACRO GSF_DYNAMIC_CLASS ##### -->
-<para>
-
-</para>
-
-@name: 
-@prefix: 
-@class_init: 
-@instance_init: 
-@parent: 
-@plugin: 
-@type: 
-
 <!-- ##### MACRO GSF_INFILE ##### -->
 <para>
 
@@ -447,6 +434,20 @@ gsf
 </para>
 
 @k: 
+
+<!-- ##### MACRO GSF_IS_OUTPUT_CSV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_IS_OUTPUT_ICONV ##### -->
+<para>
+
+</para>
+
+@o: 
 
 <!-- ##### MACRO GSF_IS_XML_OUT ##### -->
 <para>
@@ -664,6 +665,38 @@ gsf
 
 @k: 
 
+<!-- ##### MACRO GSF_OUTPUT_CSV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_OUTPUT_CSV_QUOTING_MODE_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_OUTPUT_CSV_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GSF_OUTPUT_ICONV ##### -->
+<para>
+
+</para>
+
+@o: 
+
+<!-- ##### MACRO GSF_OUTPUT_ICONV_TYPE ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_TIMESTAMP_TYPE ##### -->
 <para>
 
@@ -774,6 +807,20 @@ gsf
 @Seek: 
 @Write: 
 @Vprintf: 
+
+<!-- ##### STRUCT GsfOutputCsvClass ##### -->
+<para>
+
+</para>
+
+@output_class: 
+
+<!-- ##### STRUCT GsfOutputIconvClass ##### -->
+<para>
+
+</para>
+
+@output_class: 
 
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
@@ -1075,6 +1122,27 @@ gsf
 @Returns: 
 
 <!-- ##### FUNCTION gsf_outfile_error ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_output_csv_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_output_csv_quoting_mode_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_output_iconv_get_type ##### -->
 <para>
 
 </para>

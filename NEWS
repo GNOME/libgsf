@@ -7,6 +7,7 @@ Jody:
 	* Patch a leak in vector properties from OLE2.
 	* Be more delicate handling truncated gzip files.
 	* Improve utility macros for dynamic type creation (incompatible).
+	* Make constructors for output_stdio outfile_stdio more flexible
 
 Morten:
 	* Fix gsf_xml_out_add_float to always use "." as separator.

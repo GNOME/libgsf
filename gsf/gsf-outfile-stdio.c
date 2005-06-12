@@ -52,7 +52,8 @@ gsf_outfile_stdio_finalize (GObject *obj)
 static GsfOutput *
 gsf_outfile_stdio_new_child (GsfOutfile *parent,
 			     char const *name, gboolean is_dir,
-			     char const *first_property_name, va_list args)
+			     G_GNUC_UNUSED char const *first_property_name,
+			     G_GNUC_UNUSED va_list args)
 {
 	GsfOutfileStdio *ofs = GSF_OUTFILE_STDIO (parent);
 	GsfOutput *child;
@@ -110,7 +111,9 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
  * Returns a new outfile or NULL.
  **/
 GsfOutfile *
-gsf_outfile_stdio_new (char const *root, GError **err)
+gsf_outfile_stdio_new_valist (char const *root, GError **err,
+			      char const *first_property_name,
+			      va_list     var_args)
 {
 	GsfOutfileStdio *ofs;
 
@@ -126,9 +129,38 @@ gsf_outfile_stdio_new (char const *root, GError **err)
 		return NULL;
 	}
 
-	ofs = g_object_new (gsf_outfile_stdio_get_type (), NULL);
+	ofs = (GsfOutfileStdio *) g_object_new_valist (GSF_OUTFILE_STDIO_TYPE,
+		first_property_name, var_args);
 	ofs->root = g_strdup (root);
 	gsf_output_set_name_from_filename (GSF_OUTPUT (ofs), root);
 
 	return GSF_OUTFILE (ofs);
+}
+
+GsfOutfile *
+gsf_outfile_stdio_new_full (char const *root, GError **err,
+			    const gchar    *first_property_name,
+			    ...)
+{
+	GsfOutfile *res;
+	va_list var_args;
+	
+	va_start (var_args, first_property_name);
+	res = gsf_outfile_stdio_new_valist (root, err, first_property_name, var_args);
+	va_end (var_args);
+
+	return res;
+}
+
+/**
+ * gsf_outfile_stdio_new :
+ * @root : root directory in utf8.
+ * @err	 : optionally NULL.
+ *
+ * Returns a new outfile or NULL.
+ **/
+GsfOutfile *
+gsf_outfile_stdio_new (char const *root, GError **err)
+{
+	return gsf_outfile_stdio_new_full (root, err, NULL);
 }

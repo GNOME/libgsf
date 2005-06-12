@@ -62,11 +62,22 @@ gsf_outfile_new_child_full (GsfOutfile *outfile,
 	g_return_val_if_fail (outfile != NULL, NULL);
 
 	va_start (args, first_property_name);
-	res = GET_CLASS (outfile)->new_child (outfile, name, is_dir,
-					      first_property_name, args);
+	res = gsf_outfile_new_child_varg (outfile, name, is_dir,
+					  first_property_name, args);
 	va_end (args);
 
 	return res;
+}
+
+GsfOutput *
+gsf_outfile_new_child_varg (GsfOutfile *outfile,
+			    char const *name, gboolean is_dir,
+			    char const *first_property_name,
+			    va_list args)
+{
+	g_return_val_if_fail (outfile != NULL, NULL);
+	return GET_CLASS (outfile)->new_child (outfile, name, is_dir,
+					       first_property_name, args);
 }
 
 GSF_CLASS_ABSTRACT (GsfOutfile, gsf_outfile, NULL, NULL, GSF_OUTPUT_TYPE)

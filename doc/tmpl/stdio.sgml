@@ -49,6 +49,30 @@ Reading and Writing from local files and directories
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_output_stdio_new_full ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@first_property_name: 
+@Varargs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_stdio_new_valist ##### -->
+<para>
+
+</para>
+
+@filename: 
+@err: 
+@first_property_name: 
+@var_args: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_output_stdio_new_FILE ##### -->
 <para>
 
@@ -73,6 +97,30 @@ Reading and Writing from local files and directories
 
 @root: 
 @err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_outfile_stdio_new_full ##### -->
+<para>
+
+</para>
+
+@root: 
+@err: 
+@first_property_name: 
+@Varargs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_outfile_stdio_new_valist ##### -->
+<para>
+
+</para>
+
+@root: 
+@err: 
+@first_property_name: 
+@var_args: 
 @Returns: 
 
 

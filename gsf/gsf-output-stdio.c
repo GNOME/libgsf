@@ -2,7 +2,7 @@
 /*
  * gsf-output-stdio.c: stdio based output
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -166,161 +166,6 @@ follow_symlinks (char const *filename, GError **error)
 	}
 	g_free (followed_filename);
 	return NULL;
-}
-
-/**
- * gsf_output_stdio_new :
- * @filename : in utf8.
- * @err	     : optionally NULL.
- *
- * Returns a new file or NULL.
- **/
-GsfOutput *
-gsf_output_stdio_new (char const *filename, GError **err)
-{
-	GsfOutputStdio *stdio;
-	FILE *file = NULL;
-	char *dirname = NULL;
-	char *temp_filename = NULL;
-	char *real_filename = follow_symlinks (filename, err);
-	int fd;
-	mode_t saved_umask;
-	struct stat st;
-	gboolean fixup_mode = FALSE;
-
-	if (real_filename == NULL)
-		goto failure;
-
-	/* Get the directory in which the real filename lives */
-	dirname = g_path_get_dirname (real_filename);
-
-	if (g_stat (real_filename, &st) == 0) {
-		if (!S_ISREG (st.st_mode)) {
-			if (err != NULL) {
-				char *dname = g_filename_display_name
-					(real_filename);
-				*err = g_error_new (gsf_output_error_id (), 0,
-						    "%s: Is not a regular file",
-						    dname);
-				g_free (dname);
-			}
-			goto failure;
-		}
-
-		/* FIXME? Race conditions en masse.  */
-		if (gsf_access (real_filename, W_OK) == -1) {
-			if (err != NULL) {
-				int save_errno = errno;
-				char *dname = g_filename_display_name
-					(real_filename);
-				*err = g_error_new
-					(gsf_output_error_id (), errno,
-					 "%s: %s",
-					 dname, g_strerror (save_errno));
-				g_free (dname);
-			}
-			goto failure;
-		}
-	} else {
-		/*
-		 * File does not exist.  Compute the permissions and uid/gid
-		 * that we will use for the newly-created file.
-		 */
-
-		memset (&st, 0, sizeof (st));
-
-		/* Use default permissions */
-		st.st_mode = 0666;  fixup_mode = TRUE;
-#ifdef HAVE_CHOWN
-		{
-			struct stat dir_st;
-
-			st.st_uid = getuid ();
-
-			if (g_stat (dirname, &dir_st) == 0 &&
-			    S_ISDIR (dir_st.st_mode) &&
-			    (dir_st.st_mode & S_ISGID))
-				st.st_gid = dir_st.st_gid;
-			else
-				st.st_gid = getgid ();
-		}
-#endif
-	}
-
-	/* Save to a temporary file.  We set the umask because some (buggy)
-	 * implementations of mkstemp() use permissions 0666 and we want 0600.
-	 */
-	temp_filename = g_build_filename (dirname, ".gsf-save-XXXXXX", NULL);
-	/* Oh, joy.  What about threads?  --MW */
-	saved_umask = umask (0077);
-	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
-	umask (saved_umask);
-
-	if (fixup_mode)
-		st.st_mode &= ~saved_umask;
-
-	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
-		if (err != NULL) {
-			int save_errno = errno;
-			char *dname = g_filename_display_name
-				(temp_filename);
-			*err = g_error_new
-				(gsf_output_error_id (), errno,
-				 "%s: %s",
-				 dname, g_strerror (save_errno));
-			g_free (dname);
-		}
-		goto failure;
-	}
-
-	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
-	stdio->file = file;
-	stdio->st = st;
-	stdio->create_backup_copy = FALSE;
-	stdio->real_filename = real_filename;
-	stdio->temp_filename = temp_filename;
-
-	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
-
-	g_free (dirname);
-
-	return GSF_OUTPUT (stdio);
-
- failure:
-	g_free (temp_filename);
-	g_free (real_filename);
-	g_free (dirname);
-	return NULL;
-}
-
-/**
- * gsf_output_stdio_new_FILE :
- * @filename  : The filename corresponding to @file.
- * @file      : an existing stdio FILE *
- * @keep_open : Should @file be closed when the wrapper is closed
- *
- * Assumes ownership of @file.  If @keep_open is true, ownership reverts
- * to caller when the Gsfobject is closed.
- *
- * Returns a new GsfOutput wrapper for @file.  Warning: the result will be
- * seekable only if @file is seekable.  If it is seekable, the resulting
- * GsfOutput object will seek relative to @file's beginning, not its
- * current location at the time the GsfOutput object is created.
- **/
-GsfOutput *
-gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
-{
-	GsfOutputStdio *stdio;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-	g_return_val_if_fail (file != NULL, NULL);
-
-	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
-	stdio->file = file;
-	stdio->keep_open = keep_open;
-	stdio->real_filename = stdio->temp_filename = NULL;
-	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
-	return GSF_OUTPUT (stdio);
 }
 
 static gboolean
@@ -557,3 +402,190 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
 	   gsf_output_stdio_class_init, gsf_output_stdio_init, GSF_OUTPUT_TYPE)
+
+GsfOutput *
+gsf_output_stdio_new_valist (char const *filename, GError **err,
+			     char const *first_property_name,
+			     va_list     var_args)
+{
+	GsfOutputStdio *stdio;
+	FILE *file = NULL;
+	char *dirname = NULL;
+	char *temp_filename = NULL;
+	char *real_filename = follow_symlinks (filename, err);
+	int fd;
+	mode_t saved_umask;
+	struct stat st;
+	gboolean fixup_mode = FALSE;
+
+	if (real_filename == NULL)
+		goto failure;
+
+	/* Get the directory in which the real filename lives */
+	dirname = g_path_get_dirname (real_filename);
+
+	if (g_stat (real_filename, &st) == 0) {
+		if (!S_ISREG (st.st_mode)) {
+			if (err != NULL) {
+				char *dname = g_filename_display_name
+					(real_filename);
+				*err = g_error_new (gsf_output_error_id (), 0,
+						    "%s: Is not a regular file",
+						    dname);
+				g_free (dname);
+			}
+			goto failure;
+		}
+
+		/* FIXME? Race conditions en masse.  */
+		if (gsf_access (real_filename, W_OK) == -1) {
+			if (err != NULL) {
+				int save_errno = errno;
+				char *dname = g_filename_display_name
+					(real_filename);
+				*err = g_error_new
+					(gsf_output_error_id (), errno,
+					 "%s: %s",
+					 dname, g_strerror (save_errno));
+				g_free (dname);
+			}
+			goto failure;
+		}
+	} else {
+		/*
+		 * File does not exist.  Compute the permissions and uid/gid
+		 * that we will use for the newly-created file.
+		 */
+
+		memset (&st, 0, sizeof (st));
+
+		/* Use default permissions */
+		st.st_mode = 0666;  fixup_mode = TRUE;
+#ifdef HAVE_CHOWN
+		{
+			struct stat dir_st;
+
+			st.st_uid = getuid ();
+
+			if (g_stat (dirname, &dir_st) == 0 &&
+			    S_ISDIR (dir_st.st_mode) &&
+			    (dir_st.st_mode & S_ISGID))
+				st.st_gid = dir_st.st_gid;
+			else
+				st.st_gid = getgid ();
+		}
+#endif
+	}
+
+	/* Save to a temporary file.  We set the umask because some (buggy)
+	 * implementations of mkstemp() use permissions 0666 and we want 0600.
+	 */
+	temp_filename = g_build_filename (dirname, ".gsf-save-XXXXXX", NULL);
+	/* Oh, joy.  What about threads?  --MW */
+	saved_umask = umask (0077);
+	fd = g_mkstemp (temp_filename); /* this modifies temp_filename to the used name */
+	umask (saved_umask);
+
+	if (fixup_mode)
+		st.st_mode &= ~saved_umask;
+
+	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
+		if (err != NULL) {
+			int save_errno = errno;
+			char *dname = g_filename_display_name
+				(temp_filename);
+			*err = g_error_new
+				(gsf_output_error_id (), errno,
+				 "%s: %s",
+				 dname, g_strerror (save_errno));
+			g_free (dname);
+		}
+		goto failure;
+	}
+
+	stdio = (GsfOutputStdio *)g_object_new_valist (GSF_OUTPUT_STDIO_TYPE,
+		first_property_name, var_args);
+	stdio->file = file;
+	stdio->st = st;
+	stdio->create_backup_copy = FALSE;
+	stdio->real_filename = real_filename;
+	stdio->temp_filename = temp_filename;
+
+	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
+
+	g_free (dirname);
+
+	return GSF_OUTPUT (stdio);
+
+ failure:
+	g_free (temp_filename);
+	g_free (real_filename);
+	g_free (dirname);
+	return NULL;
+}
+
+/**
+ * gsf_output_stdio_new_full :
+ * @filename : in utf8.
+ * @err	     : optionally NULL.
+ * @first_property_name : NULL terminated list of properties
+ * @Varargs : 
+ *
+ * Returns a new file or NULL.
+ **/
+GsfOutput *
+gsf_output_stdio_new_full (char const *filename, GError **err,
+			   char const *first_property_name, ...)
+{
+	GsfOutput *res;
+	va_list var_args;
+	
+	va_start (var_args, first_property_name);
+	res = gsf_output_stdio_new_valist (filename, err, first_property_name, var_args);
+	va_end (var_args);
+
+	return res;
+}
+
+/**
+ * gsf_output_stdio_new :
+ * @filename : in utf8.
+ * @err	     : optionally NULL.
+ *
+ * Returns a new file or NULL.
+ **/
+GsfOutput *
+gsf_output_stdio_new (char const *filename, GError **err)
+{
+	return gsf_output_stdio_new_full (filename, err, NULL);
+}
+
+/**
+ * gsf_output_stdio_new_FILE :
+ * @filename  : The filename corresponding to @file.
+ * @file      : an existing stdio FILE *
+ * @keep_open : Should @file be closed when the wrapper is closed
+ *
+ * Assumes ownership of @file.  If @keep_open is true, ownership reverts
+ * to caller when the Gsfobject is closed.
+ *
+ * Returns a new GsfOutput wrapper for @file.  Warning: the result will be
+ * seekable only if @file is seekable.  If it is seekable, the resulting
+ * GsfOutput object will seek relative to @file's beginning, not its
+ * current location at the time the GsfOutput object is created.
+ **/
+GsfOutput *
+gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
+{
+	GsfOutputStdio *stdio;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+	g_return_val_if_fail (file != NULL, NULL);
+
+	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
+	stdio->file = file;
+	stdio->keep_open = keep_open;
+	stdio->real_filename = stdio->temp_filename = NULL;
+	gsf_output_set_name_from_filename (GSF_OUTPUT (stdio), filename);
+	return GSF_OUTPUT (stdio);
+}

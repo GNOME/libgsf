@@ -33,10 +33,16 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputStdio GsfOutputStdio;
 
-GType      gsf_output_stdio_get_type (void);
-GsfOutput *gsf_output_stdio_new      (char const *filename, GError **err);
-GsfOutput *gsf_output_stdio_new_FILE (char const *filename, FILE *file,
-				      gboolean keep_open);
+GType      gsf_output_stdio_get_type   (void);
+GsfOutput *gsf_output_stdio_new        (char const *filename, GError **err);
+GsfOutput *gsf_output_stdio_new_full   (char const *filename, GError **err,
+					char const *first_property_name,
+					...); /* G_GNUC_NULL_TERMINATED */
+GsfOutput *gsf_output_stdio_new_valist (char const *filename, GError **err,
+					char const *first_property_name,
+					va_list     var_args);
+GsfOutput *gsf_output_stdio_new_FILE   (char const *filename, FILE *file,
+				        gboolean keep_open);
 
 G_END_DECLS
 

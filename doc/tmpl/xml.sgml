@@ -330,6 +330,30 @@ XML and libxml
 @\
 			     deprecated_unused_allow_unknown:
 @\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
+			     deprecated_unused_allow_unknown:
+@\
 			     deprecated_unused_allow_unknown: 
 @check_ns: 
 @start: 
@@ -547,6 +571,17 @@ XML and libxml
 @id: 
 @val: 
 @precision: 
+
+
+<!-- ##### FUNCTION gsf_xml_out_add_enum ##### -->
+<para>
+
+</para>
+
+@xml: 
+@id: 
+@etype: 
+@val: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_add_color ##### -->

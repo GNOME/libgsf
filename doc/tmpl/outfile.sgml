@@ -47,3 +47,16 @@ Outfile writing structed files
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_outfile_new_child_varg ##### -->
+<para>
+
+</para>
+
+@outfile: 
+@name: 
+@is_dir: 
+@first_property_name: 
+@args: 
+@Returns: 
+
+

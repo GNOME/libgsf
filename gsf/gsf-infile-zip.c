@@ -823,8 +823,8 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_INTERNAL_PARENT,
 		 g_param_spec_object ("internal-parent",
-				      NULL,
-				      NULL, /* Internal use only.  */
+				      "",
+				      "Internal use only",
 				      GSF_INFILE_ZIP_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_WRITABLE |

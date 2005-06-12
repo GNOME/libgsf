@@ -31,6 +31,22 @@ utils
 
 
 
+<!-- ##### FUNCTION gsf_init_dynamic ##### -->
+<para>
+
+</para>
+
+@module: 
+
+
+<!-- ##### FUNCTION gsf_shutdown_dynamic ##### -->
+<para>
+
+</para>
+
+@module: 
+
+
 <!-- ##### VARIABLE libgsf_major_version ##### -->
 <para>
 
@@ -292,6 +308,30 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -327,6 +367,21 @@ utils
 @iface_type: 
 
 
+<!-- ##### MACRO GSF_DYNAMIC_CLASS ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@class_init: 
+@instance_init: 
+@parent: 
+<!-- # Unused Parameters # -->
+@plugin: 
+@type: 
+
+
 <!-- ##### MACRO GSF_DYNAMIC_CLASS_FULL ##### -->
 <para>
 
@@ -337,6 +392,30 @@ utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\

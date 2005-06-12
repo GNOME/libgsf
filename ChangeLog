@@ -1,3 +1,19 @@
+2005-06-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.12.1
+
+2005-06-12  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_DYNAMIC_CLASS_FULL) : remove useless
+	  trailing backslash that was confusing gtk-doc
+
+	* gsf/gsf-output-stdio.c (gsf_output_stdio_new_valist) : new.
+	(gsf_output_stdio_new_full) Use it here.
+	(gsf_output_stdio_new) : And use that here.
+	* gsf/gsf-outfile-stdio.c (gsf_output_stdio_new_valist) : new.
+	(gsf_outfile_stdio_new_full) Use it here.
+	(gsf_outfile_stdio_new) : And use that here.
+
 2005-06-10  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_enum): New function.
