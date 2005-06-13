@@ -1643,7 +1643,7 @@ gsf_msole_codepage_to_lid (int codepage)
  *
  * Returns our best guess at the codepage for the given language id
  **/
-guint
+int
 gsf_msole_lid_to_codepage (guint lid)
 {
 	if (lid == 0x0FFF) /* Macintosh Hack */
@@ -1863,7 +1863,7 @@ gsf_msole_lid_to_codepage_str (guint lid)
  * Returns our best guess at the applicable windows code page based on an
  * 	environment variable or the current locale.
  **/
-guint
+int
 gsf_msole_iconv_win_codepage (void)
 {
 	char *lang;
@@ -1888,7 +1888,7 @@ gsf_msole_iconv_win_codepage (void)
 }
 
 static GSList *
-gsf_msole_iconv_get_codepage_string_list (guint codepage)
+gsf_msole_iconv_get_codepage_string_list (int codepage)
 {
 	GSList *cp_list = NULL;
 
@@ -1904,6 +1904,7 @@ gsf_msole_iconv_get_codepage_string_list (guint codepage)
 			cp_list = g_slist_prepend (cp_list, g_strdup ("MACROMAN"));
 			cp_list = g_slist_prepend (cp_list, g_strdup ("MACINTOSH"));
 			break;
+		case -535:
 		case 65001:
 			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-8"));
 			break;
@@ -1940,7 +1941,7 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
 	g_slist_free (codepage_list);
 
 	if (iconv_handle == (GIConv)(-1))
-		g_warning ("Unable to open an iconv handle from codepage %u -> %s",
+		g_warning ("Unable to open an iconv handle from codepage %d -> %s",
 			   codepage, to);
 	return iconv_handle;
 }
@@ -1968,7 +1969,7 @@ gsf_msole_iconv_open_for_import (int codepage)
  * 	windows codepage.
  **/
 GIConv
-gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
+gsf_msole_iconv_open_codepages_for_export (int codepage_to, char const *from)
 {
 	GIConv iconv_handle = (GIConv)(-1);
 	gchar *codepage_str;
@@ -1999,7 +2000,7 @@ gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from)
  * 	windows codepage.
  **/
 GIConv
-gsf_msole_iconv_open_codepage_for_export (guint codepage_to)
+gsf_msole_iconv_open_codepage_for_export (int codepage_to)
 {
 	return gsf_msole_iconv_open_codepages_for_export (codepage_to, "UTF-8");
 }

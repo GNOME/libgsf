@@ -35,17 +35,17 @@ gboolean    gsf_msole_metadata_write	  (GsfOutput *out,
 
 guint	    gsf_msole_lid_for_language	  (char const *lang);
 guint	    gsf_msole_codepage_to_lid	  (int codepage);
-guint	    gsf_msole_lid_to_codepage	  (guint lid);
+int	    gsf_msole_lid_to_codepage	  (guint lid);
 gchar	   *gsf_msole_lid_to_codepage_str (guint lid);
 char const *gsf_msole_language_for_lid	  (guint lid);
 
-guint	    gsf_msole_iconv_win_codepage    (void) ;
+int	    gsf_msole_iconv_win_codepage    (void) ;
 GIConv	    gsf_msole_iconv_open_for_import (int codepage) ;
 GIConv	    gsf_msole_iconv_open_for_export (void) ;
 
 GIConv	    gsf_msole_iconv_open_codepage_for_import  (char const *to, int codepage);
-GIConv	    gsf_msole_iconv_open_codepages_for_export (guint codepage_to, char const *from);
-GIConv	    gsf_msole_iconv_open_codepage_for_export  (guint codepage_to);
+GIConv	    gsf_msole_iconv_open_codepages_for_export (int codepage_to, char const *from);
+GIConv	    gsf_msole_iconv_open_codepage_for_export  (int codepage_to);
 
 GByteArray *gsf_msole_inflate (GsfInput *input, gsf_off_t offset);
 

@@ -8,6 +8,16 @@
 
 2005-06-12  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-msole-utils.c (gsf_msole_lid_to_codepage) : codepages are
+	  signed.
+	(gsf_msole_iconv_win_codepage) : ditto.
+	(gsf_msole_iconv_open_codepages_for_export) : ditto.
+	(gsf_msole_iconv_open_codepage_for_export) : ditto.
+	(gsf_msole_iconv_get_codepage_string_list) : ditto.
+	  -535(uint16) == 65001
+
+2005-06-12  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-impl-utils.h (GSF_DYNAMIC_CLASS_FULL) : remove useless
 	  trailing backslash that was confusing gtk-doc
 
