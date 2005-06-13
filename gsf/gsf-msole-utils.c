@@ -451,7 +451,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* 8-byte signed integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT64);
-		g_value_set_uint (res, GSF_LE_GET_GINT64 (*data));
+		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
 		*data += 8;
 		break;
 
@@ -459,7 +459,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* 8-byte unsigned integer */
 		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_UINT64);
-		g_value_set_uint (res, GSF_LE_GET_GUINT64 (*data));
+		g_value_set_uint64 (res, GSF_LE_GET_GUINT64 (*data));
 		*data += 8;
 		break;
 
@@ -782,9 +782,15 @@ msole_prop_read (GsfInput *in,
 static int
 msole_prop_cmp (gconstpointer a, gconstpointer b)
 {
-	GsfMSOleMetaDataProp const *prop_a = a ;
-	GsfMSOleMetaDataProp const *prop_b = b ;
-	return prop_a->offset - prop_b->offset;
+	GsfMSOleMetaDataProp const *prop_a = a;
+	GsfMSOleMetaDataProp const *prop_b = b;
+
+	if (prop_a->offset < prop_b->offset)
+		return -1;
+	else if (prop_a->offset > prop_b->offset)
+		return +1;
+	else
+		return 0;
 }
 
 /**
