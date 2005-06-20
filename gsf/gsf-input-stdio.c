@@ -34,10 +34,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifdef _MSC_VER
-#define S_ISREG(x) ((x) & _S_IFREG)
-#endif
-
 static GObjectClass *parent_class;
 
 struct _GsfInputStdio {

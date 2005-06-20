@@ -300,9 +300,7 @@ lookup_child :
 		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
 			node = ptr->data;
 			if (node != NULL) {
-#ifdef __GNUC__
-#warning if we really want this do we also want namespaces ?
-#endif
+/* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
 				g_print ("%s", node_name (node));
 				if (ptr->next != NULL && ptr->next->data != NULL)
 					g_print (" -> ");

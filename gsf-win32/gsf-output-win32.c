@@ -164,7 +164,7 @@ gsf_output_istream_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 		break; /* checked in parent wrapper */
 	}
 
-	hr = IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL);
+	hr = IStream_Seek (istm->stream, *(LARGE_INTEGER *) &offset, dwhence, NULL);
 
 	if (SUCCEEDED (hr))
 		return TRUE;

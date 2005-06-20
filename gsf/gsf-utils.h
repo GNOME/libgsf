@@ -54,19 +54,19 @@ double  gsf_le_get_double  (void const *p);
 	((*((guint8 *)(p) + 0) = ((dat)        & 0xff)),\
 	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff))
 #define GSF_LE_SET_GUINT32(p, dat)				\
-	((*((guint8 *)(p) + 0) = ((dat))       & 0xff),	\
-	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff),	\
-	 (*((guint8 *)(p) + 2) = ((dat) >> 16) & 0xff),	\
-	 (*((guint8 *)(p) + 3) = ((dat) >> 24) & 0xff))
+	((*((guint8 *)(p) + 0) = (guchar) ((dat))       & 0xff),	\
+	 (*((guint8 *)(p) + 1) = (guchar) ((dat) >>  8) & 0xff),	\
+	 (*((guint8 *)(p) + 2) = (guchar) ((dat) >> 16) & 0xff),	\
+	 (*((guint8 *)(p) + 3) = (guchar) ((dat) >> 24) & 0xff))
 #define GSF_LE_SET_GUINT64(p, dat)			\
-	((*((guint8 *)(p) + 0) = ((dat))       & 0xff),	\
-	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff),	\
-	 (*((guint8 *)(p) + 2) = ((dat) >> 16) & 0xff),	\
-	 (*((guint8 *)(p) + 3) = ((dat) >> 24) & 0xff),	\
-	 (*((guint8 *)(p) + 4) = ((dat) >> 32) & 0xff),	\
-	 (*((guint8 *)(p) + 5) = ((dat) >> 40) & 0xff),	\
-	 (*((guint8 *)(p) + 6) = ((dat) >> 48) & 0xff),	\
-	 (*((guint8 *)(p) + 7) = ((dat) >> 56) & 0xff))
+	((*((guint8 *)(p) + 0) = (guchar) ((dat))       & 0xff),	\
+	 (*((guint8 *)(p) + 1) = (guchar) ((dat) >>  8) & 0xff),	\
+	 (*((guint8 *)(p) + 2) = (guchar) ((dat) >> 16) & 0xff),	\
+	 (*((guint8 *)(p) + 3) = (guchar) ((dat) >> 24) & 0xff),	\
+	 (*((guint8 *)(p) + 4) = (guchar) ((dat) >> 32) & 0xff),	\
+	 (*((guint8 *)(p) + 5) = (guchar) ((dat) >> 40) & 0xff),	\
+	 (*((guint8 *)(p) + 6) = (guchar) ((dat) >> 48) & 0xff),	\
+	 (*((guint8 *)(p) + 7) = (guchar) ((dat) >> 56) & 0xff))
 #define GSF_LE_SET_GINT8(p,dat) GSF_LE_SET_GUINT8((p),(dat))
 #define GSF_LE_SET_GINT16(p,dat) GSF_LE_SET_GUINT16((p),(dat))
 #define GSF_LE_SET_GINT32(p,dat) GSF_LE_SET_GUINT32((p),(dat))

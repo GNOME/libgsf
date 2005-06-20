@@ -199,9 +199,7 @@ ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
 	guint8 buf [BAT_INDEX_SIZE];
 
-#ifdef __GNUC__
-#warning optimize this to dump a buffer in 1 step
-#endif
+/* FIXME FIXME FIXME  optimize this to dump a buffer in 1 step */
 	while (blocks-- > 1) {
 		block++;
 		GSF_LE_SET_GUINT32 (buf, block);

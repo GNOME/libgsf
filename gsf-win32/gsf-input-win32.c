@@ -243,7 +243,7 @@ gsf_input_istream_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		return TRUE;
 	}
 
-	if(SUCCEEDED (IStream_Seek (istm->stream, (LARGE_INTEGER)offset, dwhence, NULL)))
+	if(SUCCEEDED (IStream_Seek (istm->stream, *(LARGE_INTEGER *) &offset, dwhence, NULL)))
 		return FALSE;
 	return TRUE;
 }

@@ -388,7 +388,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		break;
 
 	case VT_BSTR :
@@ -397,11 +397,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * ceeded by a DWORD representing the byte count of the number
 		 * of bytes in the string (including the  terminating null).
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		break;
 
 	case VT_DISPATCH :
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		break;
 
 	case VT_BOOL :
@@ -524,11 +524,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		GsfTimestamp ts;
 
 		ft /= 10000000; /* convert to seconds */
-#ifdef _MSC_VER
-		ft -= 11644473600i64; /* move to Jan 1 1970 */
-#else
-		ft -= 11644473600ULL; /* move to Jan 1 1970 */
-#endif
+		ft -= G_GINT64_CONSTANT (11644473600); /* move to Jan 1 1970 */
 		ts.timet = (time_t)ft;
 		g_value_init (res, GSF_TIMESTAMP_TYPE);
 		gsf_value_set_timestamp (res, &ts);
@@ -544,7 +540,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * tation of a VT_BLOB is similar to that of a VT_BSTR but does
 		 * not guarantee a null byte at the end of the data.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -556,7 +552,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * in the format of a serialized VT_LPSTR, which names the stream
 		 * containing the data.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -568,7 +564,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * in the format of a serialized VT_LPSTR, which names the
 		 * IStorage containing the data.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -579,7 +575,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * serialized object, which is a class ID followed by initiali-
 		 * zation data for the class.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -589,7 +585,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * Same as VT_STORAGE, but indicates that the designated IStorage
 		 * contains a loadable object.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -603,7 +599,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * which is in the format of a class ID followed by initialization
 		 * data for that class
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
+
 		g_free (res);
 		res = NULL;
 		break;
@@ -617,7 +614,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * VTCFREP, followed immediately by an array of bytes as appropriate
 		 * for data in the clipboard format.
 		 */
-#warning TODO
+/* FIXME FIXME FIXME  TODO */
 		g_free (res);
 		res = NULL;
 		break;
@@ -1112,7 +1109,7 @@ msole_metadata_write_prop (WritePropState *state,
 		return gsf_output_write (state->out, 8, buf);
 
 	case VT_LPSTR : {
-#warning TODO : use iconv from codepage
+/* FIXME FIXME FIXME  TODO : use iconv from codepage */
 		char const *txt = g_value_get_string (value);
 		unsigned len = strlen (txt);
 		GSF_LE_SET_GUINT32 (buf, len+1);
@@ -1125,11 +1122,7 @@ msole_metadata_write_prop (WritePropState *state,
 		GsfTimestamp const *ts = g_value_get_boxed (value);
 		guint64 timet_value = ts->timet;
 
-#ifdef _MSC_VER
-		timet_value += 11644473600i64;
-#else
-		timet_value += 11644473600ULL;
-#endif
+		timet_value += G_GINT64_CONSTANT (11644473600);
 		timet_value *= 10000000;
 
 		GSF_LE_SET_GUINT64 (buf+4, timet_value);

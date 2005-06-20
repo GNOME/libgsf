@@ -264,7 +264,7 @@ gsf_output_stdio_close (GsfOutput *output)
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
-#warning "We need g_chmod in gstdio.h for this"
+/* FIXME FIXME FIXME  "We need g_chmod in gstdio.h for this" */
 		chmod (stdio->real_filename, stdio->st.st_mode);
 #ifdef HAVE_CHOWN
 		if (chown (stdio->real_filename,

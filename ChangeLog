@@ -1,3 +1,19 @@
+2005-06-21  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* gsf/gsf-input-stdio.c:
+	* gsf/gsf-libxml.c:
+	* gsf/gsf-msole-utils.c:
+	* gsf/gsf-outfile-msole.c:
+	* gsf/gsf-outfile-stdio.c:
+	* gsf/gsf-output-stdio.c:
+	* gsf/gsf-timestamp.c:
+	* gsf/gsf-utils.h
+	* gsf-win32/gsf-input-win32.c:
+	* gsf-win32/gsf-output-win32.c: Remove all #warning. That is
+	  a gcc only directive. Use /* FIXME FIXME FIXME Blah Blah */ instead.
+	  Remove all _MSC_VER, which are either unnecessary or not belong
+	  there.
+
 2005-06-13  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Use g_value_set_uint64

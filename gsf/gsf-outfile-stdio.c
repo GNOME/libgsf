@@ -59,7 +59,7 @@ gsf_outfile_stdio_new_child (GsfOutfile *parent,
 	GsfOutput *child;
 	char *path = g_build_filename (ofs->root, name, NULL);
 
-#warning FIX : allow args
+/* FIXME FIXME FIXME  FIX : allow args */
 	if (is_dir)
 		child = (GsfOutput *)gsf_outfile_stdio_new (path, NULL);
 	else
