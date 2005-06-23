@@ -143,6 +143,20 @@ AC_FUNC_MMAP
 
 AC_CHECK_FUNCS(chown)
 
+AC_TRY_LINK([#include <sys/types.h>
+	     #include <sys/stat.h>
+	     #include <unistd.h>
+	    ], [void *ptr = &lstat], need_bsd2=no, need_bsd2=yes)
+
+AC_MSG_CHECKING([whether macro S_ISREG is available])
+AC_TRY_COMPILE([#include <sys/types.h>
+		#include <sys/stat.h>
+	       ], [S_ISREG(S_IFMT);], macro_s_isreg=yes,
+	       [AH_TEMPLATE([S_ISREG], [Define S_ISREG if stat.h doesn't])
+		AC_DEFINE([S_ISREG(m)], [(((m) & S_IFMT) == S_IFREG)])
+		macro_s_isreg=no])
+AC_MSG_RESULT($macro_s_isreg)
+
 AC_MSG_CHECKING([for native Win32])
 case $host in
   *-*-mingw*)
