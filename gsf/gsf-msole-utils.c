@@ -614,7 +614,13 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * VTCFREP, followed immediately by an array of bytes as appropriate
 		 * for data in the clipboard format.
 		 */
-/* FIXME FIXME FIXME  TODO */
+
+/* FIXME FIXME FIXME TODO
+ * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/stg/stg/propvariant.asp
+ * http://jakarta.apache.org/poi/hpsf/thumbnails.html
+ * http://linux.com.hk/docs/poi/org/apache/poi/hpsf/Thumbnail.html
+ * http://sparks.discreet.com/knowledgebase/public/solutions/ExtractThumbnailImg.htm
+ * has some information */
 		g_free (res);
 		res = NULL;
 		break;
