@@ -1,0 +1,7 @@
+LIBRARY libgsf-win32-1-1.dll
+EXPORTS
+gsf_input_istream_get_type
+gsf_input_istream_new
+gsf_output_istream_get_type
+gsf_output_istream_new
+gsf_win32_hresult_to_utf8

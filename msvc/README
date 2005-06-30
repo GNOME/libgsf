@@ -1,0 +1,75 @@
+Please note that the MSVC building tools/files of libgsf are not as stable or 
+correct as the GNU build system. I mainly use it for debugging or development of 
+the library. If you want to include the binaries of libgsf in your package, try 
+to use those built by MinGW.
+
+It doesn't mean that we won't correct problems found in these build tools. 
+Please let us know if there is any.
+
+
+Building Requirements
+=====================
+
+1. Package dependencies of libgsf. e.g. glib, gtk+, pango, atk, zlib, etc. Make 
+   sure that you have the devel files of them as well and they are all rooted at 
+   the same prefix, e.g. C:\GTK
+2. Create an environment variable "GTK_BASEPATH" which points to the prefix
+   metioned above.
+3. A working installation of perl. I use the favourite ActivePerl from
+   http://www.activestate.com/. But I can see no reason why you can't use other 
+   distribution of perl that works on Win32. Make sure MSVC can find it, i.e. 
+   check the existence of something likes C:\PERL\bin in Tools -> Options -> 
+   Directories -> Show directories for -> Executable files.
+
+The project "install" will try to install binaries/headers/libraries in the 
+prefix $GTK_BASEPATH. If you want it to install in other location, create a text 
+file called "install.options" with content:
+
+--prefix "D:\ANOTHER PREFIX"
+
+You can modify the custom build steps of "config.txt" directly, but this is a 
+local option and should not change install.dsp in anyway. "install.options" is 
+in .cvsignore and it's safe to change it.
+
+If you work with a CVS checkout (i.e. unautoconfiscated), you *still need* 
+autoheader to produce the template "gsf-config.h.in"
+
+TODO
+====
+
+1. When gsf-config.h.in/config.txt/configure.in is modified, gsf-config.h is 
+   updated even if the content of it is unchanged. This results in an 
+   unnecessary rebuild of the whole library. I used to work around it by setting 
+the custom build steps of "config.txt" like these:
+
+perl config.pl --template ../gsf-config.h.in > gsf-config.h.stamp
+if errorlevel 1 goto error
+fc gsf-config.h gsf-config.h.stamp > nul 2> nul
+if not errorlevel 1 goto unchanged
+copy /y gsf-config.h.stamp gsf-config.h
+goto end
+:unchanged
+echo gsf-config.h is unchanged
+goto end
+:error
+dir nul > nul 2> nul
+:end
+
+In this case the target is "gsf-config.h.stamp" and gsf-config.h will not be 
+touched if its content is not going to be changed. Since projects "libgsf" and 
+"libgsf-win32" depends on project "config", it sounds sane enough. However, I 
+found that MSVC checks the last modified time of gsf-config.h *before* building 
+the project "config". This means that if you change config.txt and press F7 
+(with current project set to "libgsf"), libgsf is not rebuilt even though its 
+dependent project "config" did change gsf-config.h! Pressing F7 again will 
+rebuild libgsf but people may be confused by this strange behaviour. Chaning the 
+target of the above build steps from "gsf-config.h.stamp" to "gsf-config.h" will 
+correct the problem, but our original purpose that keeps gsf-config.h untouched 
+when its content is not changed will result in "config" being rebuilt everytime 
+you press F7 (the target gsf-config.h is older than input dependencies).
+
+2. Is there anyway to generate gsf-config.h.in without autoheader? The ideal 
+   solution should be able to build from an unautoconfiscated copy with any 
+   autotools
+
+-- Ivan, Wong Yat Cheung <email at ivanwong dot info>

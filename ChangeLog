@@ -1,3 +1,9 @@
+2005-06-30  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* win: Rename to msvc
+	* msvc: Add MSVC build files, see msvc/README for
+	  details.
+
 2005-06-23  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* configure.in: Check for the existence of S_ISREG,
