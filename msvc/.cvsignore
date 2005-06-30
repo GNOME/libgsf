@@ -1,2 +1,11 @@
 *.options
-
+Debug
+Release
+libgsf___Win32_Debug
+libgsf___Win32_Release
+libgsf_win32___Win32_Debug
+libgsf_win32___Win32_Release
+*.ncb
+*.opt
+*.plg
+gsf-config.h
