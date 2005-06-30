@@ -39,8 +39,8 @@ TODO
 
 1. When gsf-config.h.in/config.txt/configure.in is modified, gsf-config.h is 
    updated even if the content of it is unchanged. This results in an 
-   unnecessary rebuild of the whole library. I used to work around it by setting 
-the custom build steps of "config.txt" like these:
+   unnecessary rebuild of the whole library. I used to work around it by
+   setting the custom build steps of "config.txt" like these:
 
 perl config.pl --template ../gsf-config.h.in > gsf-config.h.stamp
 if errorlevel 1 goto error
@@ -69,7 +69,7 @@ when its content is not changed will result in "config" being rebuilt everytime
 you press F7 (the target gsf-config.h is older than input dependencies).
 
 2. Is there anyway to generate gsf-config.h.in without autoheader? The ideal 
-   solution should be able to build from an unautoconfiscated copy with any 
+   solution should be able to build from an unautoconfiscated copy without any 
    autotools
 
 -- Ivan, Wong Yat Cheung <email at ivanwong dot info>
