@@ -1905,6 +1905,7 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 		case 1201:
 			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-16BE"));
 			break;
+		case 0x8000:
 		case 10000:
 			cp_list = g_slist_prepend (cp_list, g_strdup ("MACROMAN"));
 			cp_list = g_slist_prepend (cp_list, g_strdup ("MACINTOSH"));
@@ -1913,6 +1914,9 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 		case 65001:
 			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-8"));
 			break;
+		case 0x8001:
+			/* according to OOo docs 8001 is a synonym CP1252 */
+			codepage = 1252;
 		default:
 			cp_list = g_slist_prepend (cp_list, g_strdup_printf ("CP%u", codepage));
 	}

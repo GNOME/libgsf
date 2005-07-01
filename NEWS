@@ -1,5 +1,9 @@
 libgsf 1.12.2
 
+Jody:
+	* Handle 0x8000 and 0x8001 codepages.
+	* Fix leak in array properties.
+
 Morten:
 	* Fix problem with 64-bit OLE properties.
 

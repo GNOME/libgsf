@@ -21,6 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-docprop-vector.h>
+#include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 
 struct _GsfDocPropVector {
@@ -138,85 +139,9 @@ gsf_docprop_vector_init (GsfDocPropVector *vector)
 	vector->gva = g_value_array_new (0);
 }
 
-static void
-gsf_docprop_vector_value_init (GValue *value)
-{
-	value->data[0].v_pointer = gsf_docprop_vector_new ();
-}
-
-static void
-gsf_docprop_vector_value_free (GValue *value)
-{
-	GValueArray *gva = gsf_value_get_docprop_varray (value);
-	if (gva != NULL)
-		g_value_array_free (gva);
-}
-
-static void
-gsf_docprop_vector_value_dup (GValue const *src_value, GValue *dest_value)
-{
-	GsfDocPropVector	*vector;
-	GsfDocPropVector	*new_vector;
-
-	vector = (GsfDocPropVector *)src_value->data[0].v_pointer;
-
-	new_vector = gsf_docprop_vector_new ();
-	dest_value->data[0].v_pointer = new_vector;
-
-	g_value_array_free (new_vector->gva);
-	new_vector->gva = g_value_array_copy (vector->gva);
-}
-
-static gpointer
-gsf_docprop_vector_value_peek_pointer (GValue const *value)
-{
-	return value->data[0].v_pointer;
-}
-
-GType
-gsf_docprop_vector_get_type (void)
-{
-	static GTypeValueTable const value_info = {
-		&gsf_docprop_vector_value_init,		/* value initialization function */
-		&gsf_docprop_vector_value_free,		/* value free function */
-		&gsf_docprop_vector_value_dup,		/* value copy function */
-		&gsf_docprop_vector_value_peek_pointer,	/* value peek function */
-		NULL,					/* collect format */
-		NULL,					/* collect value function */
-		NULL,					/* lcopy format */
-		NULL					/* lcopy value function */
-	};
-
-	/*
-	 * GTypeInfo
-	 * Do this manually so that we can specify a value_info field.
-	 */
-	static GTypeInfo const type_info = {
-		sizeof (GsfDocPropVectorClass),			/* Class size */
-		(GBaseInitFunc) NULL,				/* Base initialization function */
-		(GBaseFinalizeFunc) NULL,			/* Base finalization function */
-		(GClassInitFunc) gsf_docprop_vector_class_init,	/* Class initialization function */
-		(GClassFinalizeFunc) NULL,			/* Class finalization function */
-		NULL,						/* Class data */
-		sizeof (GsfDocPropVector),			/* Instance size */
-		0,						/* Number of pre-allocated instances */
-		(GInstanceInitFunc) gsf_docprop_vector_init,	/* Location of the instance initialization function */
-		&value_info					/* A GTypeValueTable function table for
-								   generic handling of GValues of this
-								   type */
-	};
-	static GType my_type = 0;
-
-	if (my_type == 0) {
-		my_type = g_type_register_static (
-				G_TYPE_OBJECT,			/* Parent type */
-				"GsfDocPropVector",		/* Type name */
-				&type_info,			/* GTypeInfo structure */
-				0);				/* GTypeFlags */
-	}
-
-	return my_type;
-}
+GSF_CLASS (GsfDocPropVector, gsf_docprop_vector,
+	   gsf_docprop_vector_class_init, gsf_docprop_vector_init,
+	   G_TYPE_OBJECT)
 
 /**
  * gsf_docprop_vector_new
