@@ -6,6 +6,7 @@ Jody:
 
 Morten:
 	* Fix problem with 64-bit OLE properties.
+	* Fix standard-violation that hit i86_64.
 
 --------------------------------------------------------------------------
 libgsf 1.12.1

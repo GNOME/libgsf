@@ -67,20 +67,22 @@ gsf_shutdown (void)
 void
 gsf_init_dynamic (GTypeModule *module)
 {
+	(void)module;
 }
 
 void
 gsf_shutdown_dynamic (GTypeModule *module)
 {
+	(void)module;
 }
 
 static void
-gsf_mem_dump_full (guint8 const *ptr, size_t len, guint offset)
+gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 {
-	size_t i, j, off;
+	gsf_off_t i, j, off;
 
 	for (i = 0 ; i < (len+15)/16 ; i++) {
-		g_print ("%8x | ", i*16 + offset);
+		g_print ("%8lx | ", (long)(i*16 + offset));
 		for (j = 0;j < 16; j++) {
 			off = j + (i << 4);
 			off<len ? g_print("%2x ", ptr[off]) : g_print("XX ");
@@ -117,7 +119,8 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 void
 gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 {
-	size_t size, count, offset = 0;
+	gsf_off_t offset = 0;
+	size_t size, count;
 	guint8 const *data;
 
 	/* read in small blocks to excercise things */

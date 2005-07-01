@@ -1,3 +1,11 @@
+2005-07-01  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-memory.c (gsf_output_memory_vprintf): Don't use a
+	va_list twice as an argument.  (The standard does not allow that.)
+	Fixes i86_64 problems and was found by Jean.
+
+	* gsf/gsf-utils.c (gsf_mem_dump_full): Kill a warning.
+
 2005-06-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_iconv_get_codepage_string_list) :

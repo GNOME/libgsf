@@ -137,13 +137,24 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 	GsfOutputMemory *mem = (GsfOutputMemory *)output;
 
 	if (mem->buffer) {
-		gsf_off_t len =
+		va_list args2;
+		gsf_off_t len;
+
+		/*
+		 * We need to make a copy as args will become unusable after
+		 * the g_vsnprintf call.
+		 */
+		G_VA_COPY (args2, args);
+
+		len =
 			g_vsnprintf (mem->buffer + output->cur_offset,
 				     mem->capacity - output->cur_offset,
 				     format, args);
 
 		if (len < mem->capacity - output->cur_offset)
 			return len; /* There was sufficient space */
+
+		return parent_class->Vprintf (output, format, args2);
 	}
 	return parent_class->Vprintf (output, format, args);
 }
