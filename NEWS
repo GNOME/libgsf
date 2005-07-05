@@ -4,6 +4,9 @@ Jody:
 	* Handle 0x8000 and 0x8001 codepages.
 	* Fix leak in array properties.
 
+Jon Kåre:
+	* FIX VT_FILETIME OLE property output.
+
 Morten:
 	* Fix problem with 64-bit OLE properties.
 	* Fix standard-violation that hit i86_64.
