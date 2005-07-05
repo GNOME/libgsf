@@ -1,7 +1,7 @@
 2005-07-05  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_prop): Fix
-	VT_FILETIME output.
+	VT_FILETIME export.
 
 2005-07-01  Morten Welinder  <terra@gnome.org>
 
