@@ -340,6 +340,12 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -653,6 +659,12 @@ utils
 @\
 			       abstract:
 @\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
 			       abstract: 
 @interface_decl: 
 <!-- # Unused Parameters # -->
@@ -703,6 +715,34 @@ utils
 
 </para>
 
+
+
+<!-- ##### MACRO GSF_ERROR ##### -->
+<para>
+  This convenience macro simply calls gsf_error_quark().  You can use
+  it in calls to g_error_matches(), for example.  The macro returns
+  the #GQuark that is used to identify errors from libgsf functions.
+  Specific error codes come from the #GsfError enumeration.
+</para>
+
+
+
+<!-- ##### ENUM GsfError ##### -->
+<para>
+   Error codes that can be returned from libgsf functions in #GError structures.
+</para>
+
+@GSF_ERROR_OUT_OF_MEMORY: Not enough memory could be allocated to hold
+a structure or object.
+@GSF_ERROR_INVALID_DATA: A file being read contained invalid or
+inconsistent data.
+
+<!-- ##### FUNCTION gsf_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 
 <!-- ##### FUNCTION gsf_mem_dump ##### -->
@@ -1182,4 +1222,12 @@ utils
 @params: 
 @n_params: 
 
+
+
+<!--
+Local variables:
+mode: sgml
+sgml-parent-document: ("../gsf-docs.sgml" "book" "refsect1")
+End:
+-->
 

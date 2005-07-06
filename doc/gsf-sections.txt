@@ -367,6 +367,50 @@ BAT_MAGIC_UNUSED
 </SECTION>
 
 <SECTION>
+<FILE>gsf-blob</FILE>
+GsfBlob
+GsfBlobClass
+<TITLE>GsfBlob</TITLE>
+gsf_blob_new
+gsf_blob_get_size
+gsf_blob_peek_data
+<SUBSECTION Standard>
+GSF_BLOB
+GSF_IS_BLOB
+GSF_TYPE_BLOB
+GSF_BLOB_CLASS
+GSF_IS_BLOB_CLASS
+GSF_BLOB_GET_CLASS
+<SUBSECTION Private>
+gsf_blob_get_type
+GsfBlobPrivate
+</SECTION>
+
+<SECTION>
+<FILE>gsf-clip-data</FILE>
+GsfClipFormat
+GsfClipFormatWindows
+GsfClipData
+GsfClipDataClass
+<TITLE>GsfClipData</TITLE>
+gsf_clip_data_new
+gsf_clip_data_get_format
+gsf_clip_data_get_data_blob
+gsf_clip_data_get_windows_clipboard_format
+gsf_clip_data_peek_real_data
+<SUBSECTION Standard>
+GSF_CLIP_DATA
+GSF_IS_CLIP_DATA
+GSF_TYPE_CLIP_DATA
+GSF_CLIP_DATA_CLASS
+GSF_IS_CLIP_DATA_CLASS
+GSF_CLIP_DATA_GET_CLASS
+<SUBSECTION Private>
+GsfClipDataPrivate
+gsf_clip_data_get_type
+</SECTION>
+
+<SECTION>
 <TITLE>Zip</TITLE>
 <FILE>zip</FILE>
 GsfInfileZip
@@ -577,6 +621,10 @@ GSF_DYNAMIC_CLASS_ABSTRACT
 GSF_DYNAMIC_INTERFACE
 GSF_DYNAMIC_INTERFACE_FULL
 GSF_PARAM_STATIC
+<SUBSECTION Errors>
+GSF_ERROR
+GsfError
+gsf_error_quark
 <SUBSECTION Debugging>
 gsf_mem_dump
 gsf_input_dump

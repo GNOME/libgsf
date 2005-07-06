@@ -15,10 +15,12 @@
 
 <!ENTITY GsfMetadata		SYSTEM "xml/metadata.xml">
 <!ENTITY GsfMsole		SYSTEM "xml/msole.xml">
+<!ENTITY GsfBlob		SYSTEM "xml/gsf-blob.xml">
+<!ENTITY GsfClipData		SYSTEM "xml/gsf-clip-data.xml">
 <!ENTITY GsfCompression		SYSTEM "xml/compression.xml">
 <!ENTITY GsfZip			SYSTEM "xml/zip.xml">
 <!ENTITY GsfXml			SYSTEM "xml/xml.xml">
-<!ENTITY GsfBlob		SYSTEM "xml/blob.xml">
+<!ENTITY GsfStructuredBlob	SYSTEM "xml/blob.xml">
 <!ENTITY GsfText		SYSTEM "xml/text.xml">
 
 <!ENTITY GsfUtils		SYSTEM "xml/utils.xml">
@@ -82,6 +84,8 @@ string utilities, file utilities, a main loop abstraction, and so on.
     &GsfMsole;
     &GsfMetadata;
     &GsfBlob;
+    &GsfClipData;
+    &GsfStructuredBlob;
   </chapter>
   <chapter id="misc">
     <title>Miscellaneous</title>

@@ -123,6 +123,19 @@ void        gsf_property_settings_collect (GType object_type,
 void        gsf_property_settings_free (GParameter *params,
 					size_t n_params);
 
+
+
+/* Errors */
+
+#define GSF_ERROR (gsf_error_quark ())
+
+typedef enum {
+	GSF_ERROR_OUT_OF_MEMORY,
+	GSF_ERROR_INVALID_DATA
+} GsfError;
+
+GQuark gsf_error_quark (void);
+
 
 G_END_DECLS
 

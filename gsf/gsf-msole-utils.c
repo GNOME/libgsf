@@ -30,6 +30,7 @@
 #include <gsf/gsf-timestamp.h>
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-clip-data.h>
 
 #include <locale.h>
 #include <stdlib.h>
@@ -273,6 +274,112 @@ msole_gsf_name_to_prop (char const *name)
 	return g_hash_table_lookup (name_to_prop_hash, (gpointer)name);
 }
 
+static void
+set_error_missing_data (GError **error, const char *property_name, gsize size_needed, gsize size_gotten)
+{
+	g_set_error (error,
+		     GSF_ERROR,
+		     GSF_ERROR_INVALID_DATA,
+		     "Missing data when reading the %s property; got %" G_GSIZE_FORMAT "bytes, "
+		     "but %" G_GSIZE_FORMAT " bytes at least are needed.",
+		     property_name,
+		     size_needed,
+		     size_gotten);
+}
+
+/* Can return errors from gsf_blob_new() and GSF_ERROR_INVALID_DATA */
+static gboolean
+parse_vt_cf (GValue *res, guint8 const **data, guint8 const *data_end, GError **error)
+{
+	/* clipboard size		uint32		sizeof (clipboard format tag) + sizeof (clipboard data)
+	 * clipboard format tag		int32		see below
+	 * clipboard data		byte[]		see below
+	 *
+	 * Clipboard format tag:
+	 * -1 - Windows clipboard format
+	 * -2 - Macintosh clipboard format
+	 * -3 - GUID that contains a format identifier (FMTID)
+	 * >0 - custom clipboard format name plus data (see msdn site below)
+	 *  0 - No data
+	 *
+	 * References:
+	 * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/stg/stg/propvariant.asp
+	 * http://jakarta.apache.org/poi/hpsf/thumbnails.html
+	 * http://linux.com.hk/docs/poi/org/apache/poi/hpsf/Thumbnail.html
+	 * http://sparks.discreet.com/knowledgebase/public/solutions/ExtractThumbnailImg.htm
+	 */
+	guint32 clip_size, clip_data_size;
+	gint32 clip_format;
+	GsfBlob *blob;
+	GsfClipData *clip_data;
+
+	/* Clipboard size field */
+
+	if (data_end < *data + 4) {
+		set_error_missing_data (error, "VT_CF", 4, data_end - *data);
+		return FALSE;
+	}
+
+	clip_size = GSF_LE_GET_GUINT32 (*data);
+
+	if (clip_size < 4) {	/* must emcompass int32 format plus data size */
+		g_set_error (error,
+			     GSF_ERROR,
+			     GSF_ERROR_INVALID_DATA,
+			     "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, "
+			     "but the data says it only has %" G_GSIZE_FORMAT " bytes available.",
+			     (gsize) clip_size);
+		return FALSE;
+	}
+
+	*data += 4;
+
+	/* Check clipboard format plus data size */
+
+	if (data_end < *data + clip_size) {
+		set_error_missing_data (error, "VT_CF", clip_size, data_end - *data);
+		return FALSE;
+	}
+
+	clip_format = GSF_LE_GET_GINT32 (*data);
+	*data += 4;
+
+	switch (clip_format) {
+	case GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD:
+	case GSF_CLIP_FORMAT_MACINTOSH_CLIPBOARD:
+	case GSF_CLIP_FORMAT_GUID:
+	case GSF_CLIP_FORMAT_NO_DATA:
+		/* everything is ok */
+		break;
+
+	default:
+		if (clip_format > 0)
+			clip_format = GSF_CLIP_FORMAT_CLIPBOARD_FORMAT_NAME;
+		else
+			clip_format = GSF_CLIP_FORMAT_UNKNOWN;
+
+		break;
+	}
+
+	clip_data_size = clip_size - 4;
+
+	blob = gsf_blob_new (clip_data_size, *data, error);
+
+	*data += clip_data_size;
+
+	if (!blob)
+		return FALSE;
+
+	clip_data = gsf_clip_data_new (clip_format, blob);
+	g_object_unref (blob);
+
+	g_value_init (res, GSF_TYPE_CLIP_DATA);
+	g_value_set_object (res, clip_data);
+	g_object_unref (clip_data);
+
+	return TRUE;
+}
+
 static GValue *
 msole_prop_parse (GsfMSOleMetaDataSection *section,
 		  guint32 type, guint8 const **data, guint8 const *data_end)
@@ -282,6 +389,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	guint32 len;
 	gsize gslen;
 	gboolean const is_vector = type & VT_VECTOR;
+	GError *error;
 
 	g_return_val_if_fail (!(type & (unsigned)(~0x1fff)), NULL); /* not valid in a prop set */
 
@@ -606,23 +714,14 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_CF :
-		/*
-		 * a BLOB containing a clipboard format identifier followed by
-		 * the data in that format.  That is, following the VT_CF tag is
-		 * data in the format of a VT_BLOB: a CWORD count of bytes,
-		 * followed by that many bytes of data in the format of a packed
-		 * VTCFREP, followed immediately by an array of bytes as appropriate
-		 * for data in the clipboard format.
-		 */
-
-/* FIXME FIXME FIXME TODO
- * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/stg/stg/propvariant.asp
- * http://jakarta.apache.org/poi/hpsf/thumbnails.html
- * http://linux.com.hk/docs/poi/org/apache/poi/hpsf/Thumbnail.html
- * http://sparks.discreet.com/knowledgebase/public/solutions/ExtractThumbnailImg.htm
- * has some information */
-		g_free (res);
-		res = NULL;
+		error = NULL;
+		if (!parse_vt_cf (res, data, data_end, &error)) {
+			/* suck, we can't propagate the error upwards */
+			g_warning ("error: %s", error->message);
+			g_error_free (error);
+			g_free (res);
+			res = NULL;
+		}
 		break;
 
 	case VT_CLSID :

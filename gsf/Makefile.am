@@ -62,7 +62,9 @@ libgsf_1_la_SOURCES =		\
 	\
 	gsf-shared-memory.c	\
 	gsf-shared-memory.h	\
-	gsf-structured-blob.c
+	gsf-structured-blob.c	\
+	gsf-blob.c		\
+	gsf-clip-data.c
 #	gsf-output-transaction.c	\
 #	gsf-command-context.c	\
 #	gsf-io-context.c
@@ -112,7 +114,9 @@ libgsf_1_include_HEADERS = 	\
 	gsf-outfile-zip.h	\
 	\
 	gsf-structured-blob.h   \
-	gsf-meta-names.h
+	gsf-meta-names.h	\
+	gsf-blob.h		\
+	gsf-clip-data.h
 #	gsf-command-context.h	\
 #	gsf-io-context.h
 

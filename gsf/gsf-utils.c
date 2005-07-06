@@ -738,3 +738,26 @@ gsf_property_settings_free (GParameter *params,
 		g_value_unset (&params[n_params].value);
 	g_free (params);
 }
+
+
+
+/* Errors */
+
+/**
+ * gsf_error_quark:
+ *
+ * Returns the #GQuark used to identify libgsf errors in #GError structures.
+ * Specific error codes come from the #GsfError enumeration.
+ * 
+ * Return value: A #GQuark.
+ **/
+GQuark
+gsf_error_quark (void)
+{
+	static GQuark quark;
+
+	if (quark == 0)
+		quark = g_quark_from_static_string ("gsf-error-quark");
+
+	return quark;
+}

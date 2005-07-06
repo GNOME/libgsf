@@ -1,3 +1,36 @@
+2005-07-06  Federico Mena Quintero  <federico@ximian.com>
+
+	* gsf/gsf-blob.[ch]: New files with a GsfBlob object, used to hold
+	generic binary data.
+
+	* gsf/gsf-clip-data.[ch]: New files with a GsfClipData object,
+	used to hold the VT_CF property data.
+
+	* gsf/gsf-msole-utils.c (parse_vt_cf): New function; creates a
+	GsfClipData for the resulting GValue.
+	(msole_prop_parse): Handle the VT_CF property.
+
+	* gsf/gsf-utils.h (GSF_ERROR): Add a generic error quark.
+	(GsfError): Add an enum with generic error values; so far we only
+	have GSF_ERROR_OUT_OF_MEMORY and GSF_ERROR_INVALID_DATA.
+
+	* gsf/gsf-utils.c (gsf_error_quark): Implement.
+
+	* gsf/Makefile.am: Added gsf-blob.[ch] and gsf-clip-data.[ch].
+
+	* doc/gsf-sections.txt: Added sections for GsfBlob and
+	GsfClipData.  Added the GsfError stuff to the "utils" section.
+
+	* doc/gsf-docs.sgml: Add the GsfBlob and GsfClipData sections.
+	Renamed the old "GsfBlob" entity to "GsfStructuredBlob", to match
+	the object to which it refers.
+
+	* doc/tmpl/utils.sgml: Document the GError bits.
+
+	* doc/tmpl/gsf-clip-data.sgml: New file.
+
+	* doc/tmpl/gsf-blob.sgml: New file.
+
 2005-07-05  Jon K Hellan  <hellan@acm.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_prop): Fix
