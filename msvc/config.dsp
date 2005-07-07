@@ -65,7 +65,7 @@ SOURCE=.\config.txt
 
 !IF  "$(CFG)" == "config - Win32 Release"
 
-USERDEP__CONFI="..\configure.in"	
+USERDEP__CONFI="gsf-config.h.in.stamp"	
 # Begin Custom Build
 InputPath=.\config.txt
 
@@ -76,13 +76,48 @@ InputPath=.\config.txt
 
 !ELSEIF  "$(CFG)" == "config - Win32 Debug"
 
-USERDEP__CONFI="..\configure.in"	
+USERDEP__CONFI="gsf-config.h.in.stamp"	
 # Begin Custom Build
 InputPath=.\config.txt
 
 "gsf-config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	perl config.pl --template ../gsf-config.h.in > gsf-config.h
 
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE="..\configure.in"
+
+!IF  "$(CFG)" == "config - Win32 Release"
+
+# Begin Custom Build
+InputPath="..\configure.in"
+
+"gsf-config.h.in.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cd .. 
+	perl msvc\autom4te.hack\autoheader 
+	if errorlevel 1 goto end 
+	echo>msvc\gsf-config.h.in.stamp 
+	:end 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "config - Win32 Debug"
+
+# Begin Custom Build
+InputPath="..\configure.in"
+
+"gsf-config.h.in.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cd .. 
+	perl msvc\autom4te.hack\autoheader 
+	if errorlevel 1 goto end 
+	echo>msvc\gsf-config.h.in.stamp 
+	:end 
+	
 # End Custom Build
 
 !ENDIF 

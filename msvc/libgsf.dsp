@@ -95,6 +95,10 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE="..\gsf\gsf-clip-data.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\gsf\gsf-doc-meta-data.c"
 # End Source File
 # Begin Source File
@@ -237,6 +241,10 @@ SOURCE=.\gsf.def
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE="..\gsf\gsf-clip-data.h"
+# End Source File
 # Begin Source File
 
 SOURCE="..\gsf\gsf-doc-meta-data.h"

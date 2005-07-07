@@ -20,6 +20,9 @@ Building Requirements
    distribution of perl that works on Win32. Make sure MSVC can find it, i.e. 
    check the existence of something likes C:\PERL\bin in Tools -> Options -> 
    Directories -> Show directories for -> Executable files.
+4. Gnu m4. You can get the native win32 binary of Gnu m4 from
+   http://www.ivanwong.info/gnumeric/m4.exe
+   Make sure you save it in a place where MSVC can find it too.
 
 The project "install" will try to install binaries/headers/libraries in the 
 prefix $GTK_BASEPATH. If you want it to install in other location, create a text 
@@ -30,9 +33,6 @@ file called "install.options" with content:
 You can modify the custom build steps of "config.txt" directly, but this is a 
 local option and should not change install.dsp in anyway. "install.options" is 
 in .cvsignore and it's safe to change it.
-
-If you work with a CVS checkout (i.e. unautoconfiscated), you *still need* 
-autoheader to produce the template "gsf-config.h.in"
 
 TODO
 ====
@@ -68,8 +68,7 @@ correct the problem, but our original purpose that keeps gsf-config.h untouched
 when its content is not changed will result in "config" being rebuilt everytime 
 you press F7 (the target gsf-config.h is older than input dependencies).
 
-2. Is there anyway to generate gsf-config.h.in without autoheader? The ideal 
-   solution should be able to build from an unautoconfiscated copy without any 
-   autotools
+2. Now a slightly modifed and stripped version of autoheader is included. It's
+   not perfect. Is there any better solution?
 
 -- Ivan, Wong Yat Cheung <email at ivanwong dot info>

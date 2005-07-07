@@ -9,3 +9,4 @@ libgsf_win32___Win32_Release
 *.opt
 *.plg
 gsf-config.h
+*.stamp

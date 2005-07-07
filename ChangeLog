@@ -1,3 +1,14 @@
+2005-07-07  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* msvc/.cvsignore:
+	* msvc/README:
+	* msvc/config.dsp:
+	* msvc/install.pl:
+	* msvc/autom4te.hack: New
+	Include a hacked version autoheader that doesn't need a posix
+	environment. The whole MSVC building process is now posix-
+	independent.
+
 2005-07-06  Federico Mena Quintero  <federico@ximian.com>
 
 	* gsf/gsf-blob.[ch]: New files with a GsfBlob object, used to hold
