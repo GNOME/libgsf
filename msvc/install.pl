@@ -30,7 +30,7 @@ if (-e 'install.options' and open OPTIONS, 'install.options') {
 while ($_ = $ARGV[0], defined $_ and /^-/) {
     shift;
     if (/^--$/)						 { push @vars, split ',', shift }
-    if (/^--lname$/)                 { $libname = shift }
+    elsif (/^--lname$/)              { $libname = shift }
     elsif (/^--srcdir$/)             { $srcdir = shift }
     elsif (/^--outdir$/)             { $outdir = shift }
     elsif (/^--prefix$/)             { $prefix = shift }

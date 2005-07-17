@@ -69,9 +69,20 @@ USERDEP__CONFI="gsf-config.h.in.stamp"
 # Begin Custom Build
 InputPath=.\config.txt
 
-"gsf-config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	perl config.pl --template ../gsf-config.h.in > gsf-config.h
-
+"gsf-config.h.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	perl config.pl --template ../gsf-config.h.in > gsf-config.h.stamp 
+	if errorlevel 1 goto error 
+	fc gsf-config.h gsf-config.h.stamp > nul 2> nul 
+	if not errorlevel 1 goto unchanged 
+	copy /y gsf-config.h.stamp gsf-config.h 
+	goto end 
+	:unchanged 
+	echo gsf-config.h is unchanged 
+	goto end 
+	:error 
+	dir nul > nul 2> nul 
+	:end 
+	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "config - Win32 Debug"
@@ -80,9 +91,20 @@ USERDEP__CONFI="gsf-config.h.in.stamp"
 # Begin Custom Build
 InputPath=.\config.txt
 
-"gsf-config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	perl config.pl --template ../gsf-config.h.in > gsf-config.h
-
+"gsf-config.h.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	perl config.pl --template ../gsf-config.h.in > gsf-config.h.stamp 
+	if errorlevel 1 goto error 
+	fc gsf-config.h gsf-config.h.stamp > nul 2> nul 
+	if not errorlevel 1 goto unchanged 
+	copy /y gsf-config.h.stamp gsf-config.h 
+	goto end 
+	:unchanged 
+	echo gsf-config.h is unchanged 
+	goto end 
+	:error 
+	dir nul > nul 2> nul 
+	:end 
+	
 # End Custom Build
 
 !ENDIF 
@@ -116,6 +138,35 @@ InputPath="..\configure.in"
 	perl msvc\autom4te.hack\autoheader 
 	if errorlevel 1 goto end 
 	echo>msvc\gsf-config.h.in.stamp 
+	:end 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=".\gsf-config.h.stamp"
+
+!IF  "$(CFG)" == "config - Win32 Release"
+
+# Begin Custom Build
+InputPath=.\gsf-config.h.stamp
+
+"gsf-config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	goto end 
+	:end 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "config - Win32 Debug"
+
+# Begin Custom Build
+InputPath=.\gsf-config.h.stamp
+
+"gsf-config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	goto end 
 	:end 
 	
 # End Custom Build
