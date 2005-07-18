@@ -57,7 +57,7 @@ dir nul > nul 2> nul
 
 In this case the target is "gsf-config.h.stamp" and gsf-config.h will not be 
 touched if its content is not going to be changed. Since projects "libgsf" and 
-"libgsf-win32" depends on project "config", it sounds sane enough. However, I 
+"libgsf-win32" depend on project "config", it sounds sane enough. However, I 
 found that MSVC checks the last modified time of gsf-config.h *before* building 
 the project "config". This means that if you change config.txt and press F7 
 (with current project set to "libgsf"), libgsf is not rebuilt even though its 
