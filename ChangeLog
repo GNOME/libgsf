@@ -1,3 +1,8 @@
+2005-07-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_doc_free): In the description, remove
+	the reference to the nonexistent gsf_xml_in_doc_prep.
+
 2005-07-07  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* msvc/.cvsignore:

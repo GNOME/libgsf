@@ -574,7 +574,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * gsf_xml_in_doc_free :
  * @doc :
  *
- * Free up resources allocated by gsf_xml_in_doc_prep
+ * Free up resources
  **/
 void
 gsf_xml_in_doc_free (GsfXMLInDoc *doc)
