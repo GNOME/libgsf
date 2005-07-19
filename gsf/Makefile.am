@@ -10,7 +10,8 @@ install-libtool-import-lib:
 uninstall-libtool-import-lib:
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS) \
+	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
 
 lib_LTLIBRARIES = libgsf-1.la
 

@@ -1,3 +1,5 @@
+#include "gsf-config.h"
+#include <glib/gi18n-lib.h>
 #include "gsf-clip-data.h"
 #include "gsf-utils.h"
 
@@ -121,8 +123,8 @@ set_error_missing_clipboard_data (GError **error, const char *format_name, gsize
 	g_set_error (error,
 		     GSF_ERROR,
 		     GSF_ERROR_INVALID_DATA,
-		     "The clip_data is in %s, but it is smaller than "
-		     "at least %" G_GSIZE_FORMAT " bytes",
+		     _("The clip_data is in %s, but it is smaller than "
+		       "at least %" G_GSIZE_FORMAT " bytes"),
 		     format_name,
 		     at_least_size);
 }
@@ -206,8 +208,8 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
 		g_set_error (error,
 			     GSF_ERROR,
 			     GSF_ERROR_INVALID_DATA,
-			     "The clip_data is in Windows clipboard format, but it is smaller than "
-			     "the required 4 bytes.");
+			     _("The clip_data is in Windows clipboard format, but it is smaller than "
+			       "the required 4 bytes."));
 		return GSF_CLIP_FORMAT_WINDOWS_ERROR;
 	}
 
@@ -217,18 +219,18 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
 
 	switch (value) {
 	case GSF_CLIP_FORMAT_WINDOWS_METAFILE:
-		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_METAFILE, "Windows Metafile format",
+		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_METAFILE, _("Windows Metafile format"),
 					       size, error);
 		break;
 
 	case GSF_CLIP_FORMAT_WINDOWS_DIB:
 	case 2: /* CF_BITMAP */
-		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_DIB, "Windows DIB or BITMAP format",
+		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_DIB, _("Windows DIB or BITMAP format"),
 					       size, error);
 		break;
 
 	case GSF_CLIP_FORMAT_WINDOWS_ENHANCED_METAFILE:
-		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_ENHANCED_METAFILE, "Windows Enhanced Metafile format",
+		format = check_format_windows (GSF_CLIP_FORMAT_WINDOWS_ENHANCED_METAFILE, _("Windows Enhanced Metafile format"),
 					       size, error);
 		break;
 

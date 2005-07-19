@@ -1,3 +1,34 @@
+2005-07-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in: Generate thumbnailer/Makefile.  Add a test for GConf.
+
+	* Makefile.am (SUBDIRS): Added the thumbnailer directory.
+
+	* gsf/gsf-utils.c (gsf_init): Call bindtextdomain() and
+	bind_textdomain_codeset().
+
+	* gsf/gsf-clip-data.c: Mark strings for translation.
+
+	* gsf/gsf-blob.c: Likewise.
+
+	* gsf/gsf-msole-utils.c: Mark strings in GErrors for translation.
+
+	* gsf/Makefile.am (AM_CPPFLAGS): Add the locale directory.
+
+2005-07-19  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add po.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath, m4/ChangeLog.
+	* configure.in (AC_CONFIG_FILES): Add po/Makefile.in.
+
+2005-07-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in: Pull in intltool and gettext.
+
+	* thumbnailer/gsf-office-thumbnailer.schemas.in: New file with the
+	schemas for the thumbnailer.
+
 2005-07-18  Federico Mena Quintero  <federico@ximian.com>
 
 	* thumbnailer/main.c: New file with a very simple GNOME

@@ -1,3 +1,5 @@
+#include "gsf-config.h"
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include "gsf-utils.h"
 #include "gsf-blob.h"
@@ -79,7 +81,7 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
 			g_set_error (error,
 				     GSF_ERROR,
 				     GSF_ERROR_OUT_OF_MEMORY,
-				     "Not enough memory to copy %" G_GSIZE_FORMAT " bytes of data",
+				     _("Not enough memory to copy %" G_GSIZE_FORMAT " bytes of data"),
 				     size);
 			return NULL;
 		}

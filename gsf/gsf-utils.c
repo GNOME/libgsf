@@ -23,6 +23,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
 #include <gobject/gvaluecollector.h>
+#include <glib/gi18n-lib.h>
 
 #include <ctype.h>
 #include <stdio.h>
@@ -50,6 +51,11 @@ static void base64_init (void);
 void
 gsf_init (void)
 {
+#ifdef ENABLE_NLS
+	bindtextdomain(GETTEXT_PACKAGE, GNOMELOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+#endif
+
 	g_type_init ();
 	base64_init ();
 }

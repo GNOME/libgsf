@@ -37,6 +37,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <glib/gi18n-lib.h>
 
 #define NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
@@ -280,8 +281,8 @@ set_error_missing_data (GError **error, const char *property_name, gsize size_ne
 	g_set_error (error,
 		     GSF_ERROR,
 		     GSF_ERROR_INVALID_DATA,
-		     "Missing data when reading the %s property; got %" G_GSIZE_FORMAT "bytes, "
-		     "but %" G_GSIZE_FORMAT " bytes at least are needed.",
+		     _("Missing data when reading the %s property; got %" G_GSIZE_FORMAT "bytes, "
+		       "but %" G_GSIZE_FORMAT " bytes at least are needed."),
 		     property_name,
 		     size_needed,
 		     size_gotten);
@@ -326,8 +327,8 @@ parse_vt_cf (GValue *res, guint8 const **data, guint8 const *data_end, GError **
 		g_set_error (error,
 			     GSF_ERROR,
 			     GSF_ERROR_INVALID_DATA,
-			     "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, "
-			     "but the data says it only has %" G_GSIZE_FORMAT " bytes available.",
+			     _("Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, "
+			       "but the data says it only has %" G_GSIZE_FORMAT " bytes available."),
 			     (gsize) clip_size);
 		return FALSE;
 	}

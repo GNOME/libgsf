@@ -8,7 +8,7 @@ if PLATFORM_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
 
-SUBDIRS = gsf gsf-gnome gsf-win32 doc tests
+SUBDIRS = po gsf gsf-gnome thumbnailer gsf-win32 doc tests
 
 if WITH_PYTHON
   SUBDIRS += python
@@ -20,7 +20,9 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 clean-local:
 	rm -f intl/po2tbl.sed
 
-EXTRA_DIST = 			\
+EXTRA_DIST = config.rpath m4/ChangeLog  			\
 	libgsf-1.spec		\
 	libgsf-gnome-1.spec	\
 	README TODO HACKING NEWS BUGS ChangeLog COPYING.LIB
+
+ACLOCAL_AMFLAGS = -I m4

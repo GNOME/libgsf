@@ -54,6 +54,18 @@ AC_FUNC_FSEEKO
 AC_SYS_LARGEFILE
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
+dnl Gettext/i18n stuff
+
+AC_PROG_INTLTOOL
+
+ALL_LINGUAS="es"
+
+AM_GLIB_GNU_GETTEXT
+
+GETTEXT_PACKAGE=AC_PACKAGE_NAME
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
+
 dnl Checks for libraries.
 ifelse([
   If we defined the module lists on the M4 level, we could have problems
@@ -320,9 +332,17 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
+dnl GConf configuration
+AM_GCONF_SOURCE_2
+
+AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
+if test "x$GCONFTOOL" = "xno"; then
+	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+fi
+
 LDFLAGS="-no-undefined $LDFLAGS"
 
-AC_CONFIG_FILES([
+AC_CONFIG_FILES([ po/Makefile.in
 Makefile
 doc/Makefile
 gsf/Makefile
@@ -331,6 +351,7 @@ gsf-win32/Makefile
 tests/Makefile
 python/Makefile
 gsf/version.c
+thumbnailer/Makefile
 libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
