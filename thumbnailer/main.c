@@ -206,21 +206,6 @@ int
 main (int argc, char **argv)
 {
 	GOptionContext *option_ctx;
-	FILE *file;
-	int i;
-
-	file = fopen ("/tmp/thumb.log", "a");
-	if (!file)
-		exit (EXIT_FAILURE);
-
-	fprintf (file, "get-msthumb called: ");
-	for (i = 0; i < argc; i++)
-		fprintf (file, "%s ", argv[i]);
-
-	fprintf (file, "\n");
-	fclose (file);
-
-	
 
 	option_ctx = g_option_context_new ("Options");
 	g_option_context_add_main_entries (option_ctx, option_entries, NULL); /* FIXME: no translation domain */

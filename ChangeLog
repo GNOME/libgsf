@@ -1,5 +1,7 @@
 2005-07-19  Federico Mena Quintero  <federico@ximian.com>
 
+	* thumbnailer/main.c (main): Oops, remove some leftover debugging code.
+
 	* configure.in: Generate thumbnailer/Makefile.  Add a test for GConf.
 
 	* Makefile.am (SUBDIRS): Added the thumbnailer directory.
