@@ -1,3 +1,14 @@
+2005-07-18  Federico Mena Quintero  <federico@ximian.com>
+
+	* thumbnailer/main.c: New file with a very simple GNOME
+	thumbnailer for MS Office files.  This will grow to something more
+	sophisticated in the future.
+
+	* thumbnailer/Makefile.am: New file.
+
+	I'll add this subdir to the build tomorrow, when I get the GConf
+	bits right for configure.in.
+
 2005-07-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_doc_free): In the description, remove
