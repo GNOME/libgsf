@@ -765,12 +765,14 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 			g_free (val);
 		});
 	} else {
-		char const *type_name = msole_vt_name (type);
-		if (type_name) {
-			g_print ("A '%s' property could not be parsed\n", type_name);
-		} else {
-			g_print ("A %d property could not be parsed\n", type);
-		}
+		d ({
+			char const *type_name = msole_vt_name (type);
+			if (type_name) {
+				g_print ("A '%s' property could not be parsed\n", type_name);
+			} else {
+				g_print ("A %d property could not be parsed\n", type);
+			}
+		});
 	}
 	return res;
 }
@@ -1168,8 +1170,8 @@ msole_metadata_write_prop (WritePropState *state,
 		gsf_output_write (state->out, 4, buf);
 	}
 	if (NULL != map && map->prefered_type != type) {
-		g_print ("Exporting property '%s' with type 0x%x rather than the usual 0x%x\n",
-			 map->gsf_name, type, map->prefered_type);
+		d(g_print ("Exporting property '%s' with type 0x%x rather than the usual 0x%x\n",
+			   map->gsf_name, type, map->prefered_type););
 	}
 
 	if (type & VT_VECTOR) {
