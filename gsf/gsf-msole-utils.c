@@ -388,7 +388,6 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	GValue *res;
 	char *str;
 	guint32 len;
-	gsize gslen;
 	gboolean const is_vector = type & VT_VECTOR;
 	GError *error;
 
@@ -587,16 +586,20 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_return_val_if_fail (len < 0x10000, NULL);
 		g_return_val_if_fail (*data + 4 + len*section->char_size <= data_end, NULL);
 
-		gslen = 0;
+		error = NULL;
 		str = g_convert_with_iconv (*data + 4,
 			len * section->char_size,
-			section->iconv_handle, &gslen, NULL, NULL);
-		len = (guint32)gslen;
+			section->iconv_handle, NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
-		g_value_set_string (res, str);
-		g_free (str);
-		*data += 4 + len;
+		if (NULL == str) {
+			g_warning ("error: %s", error->message);
+			g_error_free (error);
+		} else {
+			g_value_set_string (res, str);
+			g_free (str);
+		}
+		*data += 4 + len * section->char_size;
 		break;
 
 	case VT_LPWSTR :
@@ -615,13 +618,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
 
 		str = g_convert (*data + 4, len*2,
-				 "UTF-8", "UTF-16LE", &gslen, NULL, NULL);
-		len = (guint32)gslen;
+				 "UTF-8", "UTF-16LE", NULL, NULL, NULL);
 
 		g_value_init (res, G_TYPE_STRING);
 		g_value_set_string (res, str);
 		g_free (str);
-		*data += 4 + len;
+		*data += 4 + len*2;
 		break;
 
 	case VT_FILETIME :
@@ -1219,7 +1221,7 @@ msole_metadata_write_prop (WritePropState *state,
 	case VT_LPSTR : {
 /* FIXME FIXME FIXME  TODO : use iconv from codepage */
 		char const *txt = g_value_get_string (value);
-		unsigned len = strlen (txt);
+		unsigned len = (NULL != txt) ? strlen (txt) : 0;
 		GSF_LE_SET_GUINT32 (buf, len+1);
 		return  gsf_output_write (state->out, 4, buf) &&
 			gsf_output_write (state->out, len, txt) &&

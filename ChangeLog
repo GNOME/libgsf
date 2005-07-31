@@ -1,3 +1,14 @@
+2005-07-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=310118
+	* gsf/gsf-msole-utils.c (msole_metadata_write_prop) : be more careful
+	  about NULL strings.  This fixes the crash on export, but there are
+	  still some warnings on import that put us into an inconsistent
+	  state.
+	(msole_prop_parse) : In the LPSTR case use the actual byte size not
+	  the result of the conversion.  If the encoding is off, we ended up
+	  with the wrong size.
+
 2005-07-24  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-msole-utilc.c (msole_prop_parse): Move some g_prints behind a debug macro.
