@@ -35,7 +35,7 @@
 #include <ctype.h>
 
 #define BIFF_TYPES_FILE    "biff-types.h"
-#undef DUMP_CONTENT
+#define DUMP_CONTENT
 
 typedef struct {
 	guint16 opcode;
