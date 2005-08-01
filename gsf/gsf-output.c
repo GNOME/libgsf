@@ -389,10 +389,12 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 gboolean
 gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 {
-	g_return_val_if_fail (output != NULL, FALSE);
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	g_free (output->name);
-	output->name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	output->name = filename
+		? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL)
+		: NULL;
 	return TRUE;
 }
 
