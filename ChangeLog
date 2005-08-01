@@ -16,7 +16,8 @@
 
 2005-07-24  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-msole-utilc.c (msole_prop_parse): Move some g_prints behind a debug macro.
+	* gsf/gsf-msole-utilc.c (msole_prop_parse): Move some g_prints behind
+	  a debug macro.
 	
 2005-07-19  Federico Mena Quintero  <federico@ximian.com>
 
