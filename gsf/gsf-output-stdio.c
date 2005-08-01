@@ -526,7 +526,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 
 /**
  * gsf_output_stdio_new_full :
- * @filename : in utf8.
+ * @filename : name of file to create or replace.
  * @err	     : optionally NULL.
  * @first_property_name : NULL terminated list of properties
  * @Varargs : 
@@ -549,7 +549,7 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
 
 /**
  * gsf_output_stdio_new :
- * @filename : in utf8.
+ * @filename : name of file to create or replace.
  * @err	     : optionally NULL.
  *
  * Returns a new file or NULL.
@@ -567,7 +567,7 @@ gsf_output_stdio_new (char const *filename, GError **err)
  * @keep_open : Should @file be closed when the wrapper is closed
  *
  * Assumes ownership of @file.  If @keep_open is true, ownership reverts
- * to caller when the Gsfobject is closed.
+ * to caller when the GsfObject is closed.
  *
  * Returns a new GsfOutput wrapper for @file.  Warning: the result will be
  * seekable only if @file is seekable.  If it is seekable, the resulting
