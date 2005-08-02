@@ -245,7 +245,7 @@ LDFLAGS=${_ldflags}
 dnl ***********************************************************************************
 pygtk_msg=no
 
-dnl Uncomment to enable Python bindings. automake1.5 or later is required.
+dnl Uncomment to enable Python bindings.
 dnl
 dnl AM_PATH_PYTHON
 dnl AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
@@ -332,17 +332,18 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
-dnl GConf configuration
-AM_GCONF_SOURCE_2
-
-AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
+# GConf configuration
+dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
+GCONFTOOL=
+AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 fi
+AM_GCONF_SOURCE_2
 
 LDFLAGS="-no-undefined $LDFLAGS"
 
-AC_CONFIG_FILES([ po/Makefile.in
+AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 gsf/Makefile
@@ -350,15 +351,16 @@ gsf-gnome/Makefile
 gsf-win32/Makefile
 tests/Makefile
 python/Makefile
-gsf/version.c
 thumbnailer/Makefile
+po/Makefile.in
+gsf/version.c
+doc/version.xml
 libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
 libgsf-gnome-1.spec
 libgsf-win32-1.pc
 libgsf-zip
-doc/version.xml
 ])
 AC_OUTPUT
 

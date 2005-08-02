@@ -1,18 +1,15 @@
 These are Python bindings for libgsf.
 
 The bindings require gnome-python 1.99.10 or later. Building from CVS
-requires automake1.5 or later and a little manual intervention: 
+requires a little manual intervention: 
 
 - Remove 'dnl' from the beginning of the lines from AM_PATH_PYTHON
   down to the next line of asterisks in ../configure.in.
-- Remove 'dnl' from the beginning of each line in ../acinclude.m4.
+- Overwrite ../acinclude.m4 with ../acinclude.m4.am15
 - Overwrite Makefile.am in this directory with Makefile.am15.
 Then you may run autogen.sh.
 
-The reason for this setup as that we use automake macros from
-gnome-python, and these cause errors for users who still have automake
-1.4, even without --with-python selected. But automake 1.4 is supposed
-to be sufficient for building libgsf out of CVS.
+The reasons for this setup are historical; these files should be merged.
 
 Python 2.2 is required because gnome-python requires this. If you have
 Python 2.2 installed with another name, e.g. /usr/bin/python2.2, you

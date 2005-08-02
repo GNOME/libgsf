@@ -1,3 +1,19 @@
+2005-08-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (clean-local): That rule contained command
+	  "rm -f intl/po2tbl.sed".  But it seems the subdirectory intl/ is
+	  no longer used.
+	(ACLOCAL_AMFLAGS): Remove again.
+	(EXTRA_DIST): Remove files added by gettextize and files distributed
+	  by default.
+	(DISTCLEANFILES): Add the three intltool-* scripts.
+	* configure.in (GCONFTOOL): Determine by a procedure similar to
+	  what is in gnumeric/configure.in.
+	* thumbnailer/Makefile.am (install-data-local): Fix the rule so that
+	  we pass distcheck.
+	* acinclude.m4, acinclude.m4.am15: Partial cleanup of the comments;
+	  in particular, don't speak as if Automake 1.5 were something new.
+  
 2005-07-11  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output.c (gsf_output_set_name_from_filename): Make this

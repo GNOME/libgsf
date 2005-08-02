@@ -1,3 +1,13 @@
+2005-08-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* README-python: Partial cleanup; in particular, don't speak as if
+	  Automake 1.5 were something new.
+
+	* Makefile.am15: s/INCLUDES/AM_CPPFLAGS/
+	* Makefile.am: A tine change.
+
+	The two Makefile.am's should be merged.  Who is able to do it?
+
 2005-06-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.12.1

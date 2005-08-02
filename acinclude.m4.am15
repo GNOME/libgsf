@@ -1,10 +1,11 @@
-dnl
-dnl Copy this over acinclude.m4 if you have automake >= 1.5 and want
-dnl to build with python binding.
-dnl
-dnl a macro to check for ability to create python extensions
-dnl  AM_CHECK_PYTHON_HEADERS([ACTION-IF-POSSIBLE], [ACTION-IF-NOT-POSSIBLE])
-dnl function also defines PYTHON_INCLUDES
+#
+# Copy this over acinclude.m4 if you want to build with python bindings.
+#
+
+# a macro to check for ability to create python extensions
+#  AM_CHECK_PYTHON_HEADERS([ACTION-IF-POSSIBLE], [ACTION-IF-NOT-POSSIBLE])
+# function also defines PYTHON_INCLUDES
+
 AC_DEFUN([AM_CHECK_PYTHON_HEADERS],
 [AC_REQUIRE([AM_PATH_PYTHON])
 AC_MSG_CHECKING(for headers required to compile python extensions)

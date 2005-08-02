@@ -1,4 +1,4 @@
-INCLUDES = $(LIBGSF_CFLAGS) $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
+AM_CPPFLAGS = $(LIBGSF_CFLAGS) $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
 
 pygsfdir = $(pythondir)/gsf
 pygsf_PYTHON = __init__.py
