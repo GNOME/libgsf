@@ -23,6 +23,7 @@
 #define GSF_INPUT_STDIO_H
 
 #include "gsf-input.h"
+#include <stdio.h>
 
 G_BEGIN_DECLS
 
@@ -34,6 +35,9 @@ typedef struct _GsfInputStdio GsfInputStdio;
 
 GType     gsf_input_stdio_get_type (void);
 GsfInput *gsf_input_stdio_new      (char const *filename, GError **err);
+
+GsfInput *gsf_input_stdio_new_FILE   (char const *filename, FILE *file,
+				      gboolean keep_open);
 
 G_END_DECLS
 

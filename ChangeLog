@@ -1,3 +1,9 @@
+2005-08-02  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new_FILE): New function
+	for symmetry.  (This is not as useful as it might seem since the
+	file must be seekable.)
+
 2005-08-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am (clean-local): That rule contained command

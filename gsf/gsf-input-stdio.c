@@ -43,6 +43,7 @@ struct _GsfInputStdio {
 	char     *filename;
 	guint8   *buf;
 	size_t   buf_size;
+	gboolean keep_open;
 };
 
 typedef struct {
@@ -100,10 +101,48 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	input->filename = g_strdup (filename);
 	input->buf  = NULL;
 	input->buf_size = 0;
+	input->keep_open = FALSE;
 	gsf_input_set_size (GSF_INPUT (input), size);
 	gsf_input_set_name_from_filename (GSF_INPUT (input), filename);
 
 	return GSF_INPUT (input);
+}
+
+/**
+ * gsf_input_stdio_new_FILE :
+ * @filename  : The filename corresponding to @file.
+ * @file      : an existing stdio FILE *
+ * @keep_open : Should @file be closed when the wrapper is closed
+ *
+ * Assumes ownership of @file.  If @keep_open is true, ownership reverts
+ * to caller when the GsfObject is closed.
+ *
+ * Returns a new GsfInput wrapper for @file.  Note: the file must be
+ * seekable, so this will not work for stdin when that is a tty or pipe.
+ **/
+GsfInput *
+gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
+{
+	GsfInputStdio *stdio;
+	struct stat st;
+	gsf_off_t size;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+	g_return_val_if_fail (file != NULL, NULL);
+
+	if (fstat (fileno (file), &st) < 0)
+		return NULL;
+	if (!S_ISREG (st.st_mode))
+		/* It's not that we really care, but we need st.st_size to be sane.  */
+		return NULL;
+	size = st.st_size;
+
+	stdio = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
+	stdio->file = file;
+	stdio->filename = g_strdup (filename);
+	gsf_input_set_size (GSF_INPUT (stdio), size);
+	gsf_input_set_name_from_filename (GSF_INPUT (stdio), filename);
+	return GSF_INPUT (stdio);
 }
 
 static void
@@ -112,7 +151,8 @@ gsf_input_stdio_finalize (GObject *obj)
 	GsfInputStdio *input = (GsfInputStdio *)obj;
 
 	if (input->file != NULL) {
-		fclose (input->file);
+		if (!input->keep_open)
+			fclose (input->file);
 		input->file = NULL;
 	}
 
@@ -214,8 +254,9 @@ gsf_input_stdio_init (GObject *obj)
 
 	stdio->file = NULL;
 	stdio->filename = NULL;
-	stdio->buf  = NULL;
+	stdio->buf = NULL;
 	stdio->buf_size = 0;
+	stdio->keep_open = FALSE;
 }
 
 static void
