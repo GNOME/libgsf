@@ -346,6 +346,8 @@ utils
 @\
 		       abstract:
 @\
+		       abstract:
+@\
 		       abstract: 
 @interface_decl: 
 
@@ -406,6 +408,8 @@ utils
 @class_init: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
 @\
 			       abstract:
 @\
@@ -1230,4 +1234,5 @@ mode: sgml
 sgml-parent-document: ("../gsf-docs.sgml" "book" "refsect1")
 End:
 -->
+
 

@@ -1,3 +1,7 @@
+2005-08-05  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : be more careful
+
 2005-08-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_new_FILE): New function

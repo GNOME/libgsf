@@ -587,17 +587,20 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_return_val_if_fail (*data + 4 + len*section->char_size <= data_end, NULL);
 
 		error = NULL;
+		d (gsf_mem_dump (*data + 4, len * section->char_size););
 		str = g_convert_with_iconv (*data + 4,
 			len * section->char_size,
 			section->iconv_handle, NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
-		if (NULL == str) {
+		if (NULL != str) {
+			g_value_set_string (res, str);
+			g_free (str);
+		} else if (NULL != error) {
 			g_warning ("error: %s", error->message);
 			g_error_free (error);
 		} else {
-			g_value_set_string (res, str);
-			g_free (str);
+			g_warning ("unknown error converting string property, using blank");
 		}
 		*data += 4 + len * section->char_size;
 		break;
@@ -617,12 +620,21 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_return_val_if_fail (len < 0x10000, NULL);
 		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
 
+		error = NULL;
+		d (gsf_mem_dump (*data + 4, len*2););
 		str = g_convert (*data + 4, len*2,
-				 "UTF-8", "UTF-16LE", NULL, NULL, NULL);
+				 "UTF-8", "UTF-16LE", NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
-		g_value_set_string (res, str);
-		g_free (str);
+		if (NULL != str) {
+			g_value_set_string (res, str);
+			g_free (str);
+		} else if (NULL != error) {
+			g_warning ("error: %s", error->message);
+			g_error_free (error);
+		} else {
+			g_warning ("unknown error converting string property, using blank");
+		}
 		*data += 4 + len*2;
 		break;
 
