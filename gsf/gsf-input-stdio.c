@@ -139,6 +139,7 @@ gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 
 	stdio = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
 	stdio->file = file;
+	stdio->keep_open = keep_open;
 	stdio->filename = g_strdup (filename);
 	gsf_input_set_size (GSF_INPUT (stdio), size);
 	gsf_input_set_name_from_filename (GSF_INPUT (stdio), filename);

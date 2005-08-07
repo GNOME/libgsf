@@ -1,3 +1,9 @@
+2005-08-07  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-input-stdio.c (gsf_input_stdio_new_FILE): Don't forget
+	  to set the keep_open flag.
+	* thumbnailer/main.c (show_error_string_and_exit): Add G_GNUC_NORETURN.
+
 2005-08-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse) : be more careful

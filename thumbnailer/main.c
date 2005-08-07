@@ -32,7 +32,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-clip-data.h>
 
-static void
+G_GNUC_NORETURN static void
 show_error_string_and_exit (const char *str)
 {
 	fprintf (stderr, "error: %s\n", str);
