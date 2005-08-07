@@ -31,3 +31,6 @@ build-stamp
 config-stamp
 ID
 .*.sw*
+intltool-extract*
+intltool-merge*
+intltool-update*
