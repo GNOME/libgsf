@@ -1,3 +1,7 @@
+2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* *: Updated the FSF's address.
+
 2005-08-07  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_new_FILE): Don't forget
