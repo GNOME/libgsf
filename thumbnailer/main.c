@@ -39,7 +39,7 @@ show_error_string_and_exit (const char *str)
 	exit (EXIT_FAILURE);
 }
 
-static void
+G_GNUC_NORETURN static void
 show_error_and_exit (GError *error)
 {
 	if (error)

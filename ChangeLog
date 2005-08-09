@@ -1,3 +1,8 @@
+2005-08-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* thumbnailer/main.c (show_error_and_exit): Mark this G_GNUC_NORETURN
+	as well.
+
 2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* *: Updated the FSF's address.
