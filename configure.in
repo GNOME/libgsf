@@ -156,22 +156,25 @@ AC_FUNC_MMAP
 AC_CHECK_FUNCS(chown)
 
 SAVE_CFLAGS=$CFLAGS
+SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $LIBGSF_CFLAGS"
+LIBS="$LIBS $LIBGSF_LIBS"
 AC_MSG_CHECKING([for g_chmod])
-AC_TRY_COMPILE([#include <glib/gstdio.h>
+AC_TRY_LINK([#include <glib/gstdio.h>
 	       ],
 	       [(void)g_chmod("/xxx",0777);],
                [AC_DEFINE(HAVE_G_CHMOD,1,[Define if g_chmod is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 AC_MSG_CHECKING([for g_access])
-AC_TRY_COMPILE([#include <glib/gstdio.h>
+AC_TRY_LINK([#include <glib/gstdio.h>
 	       ],
 	       [(void)g_access("/xxx",0);],
                [AC_DEFINE(HAVE_G_ACCESS,1,[Define if g_access is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 CFLAGS=$SAVE_CFLAGS
+LIBS=$SAVE_LIBS
 
 AC_MSG_CHECKING([whether macro S_ISREG is available])
 AC_TRY_COMPILE([#include <sys/types.h>
