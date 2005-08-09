@@ -77,47 +77,25 @@ rename_wrapper (char const *oldfilename, char const *newfilename)
 	return result;
 }
 
-/* g_access would be nice here.  */
-static gboolean
-gsf_access (char const *filename, int what)
+static int
+chmod_wrapper (const char *filename, mode_t mode)
 {
-#ifdef G_OS_WIN32
-	int retval;
-	int save_errno;
-	if (G_WIN32_HAVE_WIDECHAR_API ()) {
-		wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
-		if (wfilename == NULL) {
-			errno = EINVAL;
-			return -1;
-		}
+#ifdef HAVE_G_CHMOD
+	return g_chmod (filename, mode);
+#else
+	return chmod (filename, mode);
+#endif
+}
 
-		retval = _waccess (wfilename, what);
-		save_errno = errno;
-
-		g_free (wfilename);
-      
-		errno = save_errno;
-	} else {
-		gchar *cp_filename = g_locale_from_utf8 (filename, -1, NULL, NULL, NULL);
-		if (cp_filename == NULL) {
-			errno = EINVAL;
-			return -1;
-		}
-
-		retval = _access (cp_filename, what);
-		save_errno = errno;
-
-		g_free (cp_filename);
-
-		errno = save_errno;
-	}
-	return retval;
+static int
+access_wrapper (char const *filename, int what)
+{
+#ifdef HAVE_G_ACCESS
+	return g_access (filename, what);
 #else
 	return access (filename, what);
 #endif
 }
-
-
 
 #define GSF_MAX_LINK_LEVEL 256
 
@@ -258,14 +236,15 @@ gsf_output_stdio_close (GsfOutput *output)
 		if (backup_filename != NULL &&
 		    rename_wrapper (backup_filename, stdio->real_filename) != 0)
 			saved_errno = errno;
-		res = gsf_output_set_error (output, errno, g_strerror (errno));
+		res = gsf_output_set_error (output,
+					    saved_errno,
+					    g_strerror (saved_errno));
 	} else {
 		/* Restore permissions.  There is not much error checking we
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
-/* FIXME FIXME FIXME  "We need g_chmod in gstdio.h for this" */
-		chmod (stdio->real_filename, stdio->st.st_mode);
+		chmod_wrapper (stdio->real_filename, stdio->st.st_mode);
 #ifdef HAVE_CHOWN
 		if (chown (stdio->real_filename,
 			   stdio->st.st_uid,
@@ -274,7 +253,7 @@ gsf_output_stdio_close (GsfOutput *output)
 			chown (stdio->real_filename, -1, stdio->st.st_gid);
 			chown (stdio->real_filename, stdio->st.st_uid, -1);
 		}
-		chmod (stdio->real_filename, stdio->st.st_mode);
+		chmod_wrapper (stdio->real_filename, stdio->st.st_mode);
 #endif
 	}
 
@@ -438,7 +417,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 		}
 
 		/* FIXME? Race conditions en masse.  */
-		if (gsf_access (real_filename, W_OK) == -1) {
+		if (access_wrapper (real_filename, W_OK) == -1) {
 			if (err != NULL) {
 				int save_errno = errno;
 				char *dname = g_filename_display_name
