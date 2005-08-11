@@ -1,3 +1,8 @@
+2005-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gsf/gsf-impl-utils.h: made GSF_CLASS_FULL and GSF_DYNAMIC_CLASS_FULL
+	really full.
+
 2005-08-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Changed tests for g_chmod and g_access: actually try

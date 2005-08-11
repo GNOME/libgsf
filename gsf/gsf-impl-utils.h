@@ -36,7 +36,8 @@ G_BEGIN_DECLS
 
 /*************************************************************************/
 
-#define	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, \
+#define	GSF_CLASS_FULL(name, prefix, base_init, base_finalize, \
+			   class_init, class_finalize, instance_init, parent_type, \
 		       abstract, interface_decl) \
 GType									\
 prefix ## _get_type (void)						\
@@ -45,10 +46,10 @@ prefix ## _get_type (void)						\
 	if (type == 0) {						\
 		static GTypeInfo const object_info = {			\
 			sizeof (name ## Class),				\
-			(GBaseInitFunc) NULL,				\
-			(GBaseFinalizeFunc) NULL,			\
+			(GBaseInitFunc) base_init,				\
+			(GBaseFinalizeFunc) base_finalize,			\
 			(GClassInitFunc) class_init,			\
-			(GClassFinalizeFunc) NULL,			\
+			(GClassFinalizeFunc) class_finalize,			\
 			NULL,	/* class_data */			\
 			sizeof (name),					\
 			0,	/* n_preallocs */			\
@@ -63,11 +64,11 @@ prefix ## _get_type (void)						\
 }
 
 #define	GSF_CLASS(name, prefix, class_init, instance_init, parent) \
-	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
-		       0, {})
+	GSF_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+				instance_init, parent, 0, {})
 #define	GSF_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent) \
-	GSF_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
-		       G_TYPE_FLAG_ABSTRACT, {})
+	GSF_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+		       instance_init, parent, G_TYPE_FLAG_ABSTRACT, {})
 
 #define GSF_INTERFACE_FULL(type, init_func, iface_type) {	\
 	static GInterfaceInfo const iface = {			\
@@ -80,7 +81,8 @@ prefix ## _get_type (void)						\
 
 /*************************************************************************/
 
-#define	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent_type, \
+#define	GSF_DYNAMIC_CLASS_FULL(name, prefix, base_init, base_finalize, \
+				   class_init,  class_finalize, instance_init, parent_type, \
 			       abstract, interface_decl) 		\
 static GType prefix ## _type; 						\
 									\
@@ -98,10 +100,10 @@ prefix ## _register_type (GTypeModule *module)				\
 {									\
 	static GTypeInfo const type_info = {				\
 		sizeof (name ## Class),					\
-		(GBaseInitFunc) NULL,					\
-		(GBaseFinalizeFunc) NULL,				\
+		(GBaseInitFunc) base_init,					\
+		(GBaseFinalizeFunc) base_finalize,				\
 		(GClassInitFunc) class_init,				\
-		(GClassFinalizeFunc) NULL,				\
+		(GClassFinalizeFunc) class_finalize,				\
 		NULL,	/* class_data */				\
 		sizeof (name),						\
 		0,	/* n_preallocs */				\
@@ -118,11 +120,11 @@ prefix ## _register_type (GTypeModule *module)				\
 }
 
 #define	GSF_DYNAMIC_CLASS(name, prefix, class_init, instance_init, parent)	\
-	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent,	\
-			       0, {})
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+				   instance_init, parent, 0, {})
 #define	GSF_DYNAMIC_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent) \
-	GSF_DYNAMIC_CLASS_FULL(name, prefix, class_init, instance_init, parent, \
-		       G_TYPE_FLAG_ABSTRACT, {})
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+		       instance_init, parent, G_TYPE_FLAG_ABSTRACT, {})
 
 #define GSF_DYNAMIC_INTERFACE_FULL(type, init_func, iface_type, module) {	\
 	static GInterfaceInfo const iface = {					\

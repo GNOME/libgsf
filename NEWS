@@ -1,5 +1,9 @@
 libgsf 1.12.2
 
+Jean Brefort:
+	* made GSF_CLASS_FULL and GSF_DYNAMIC_CLASS_FULL really full (add
+	base_init, base_finalize and class_finalize arguments).
+
 Jody:
 	* Handle 0x8000 and 0x8001 codepages.
 	* Fix leak in array properties.
