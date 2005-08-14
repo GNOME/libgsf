@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.2
+
 2005-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gsf/gsf-impl-utils.h: made GSF_CLASS_FULL and GSF_DYNAMIC_CLASS_FULL

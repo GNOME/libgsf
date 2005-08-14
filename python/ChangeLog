@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.2
+
 2005-08-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* README-python: Partial cleanup; in particular, don't speak as if
