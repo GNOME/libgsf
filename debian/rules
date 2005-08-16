@@ -36,8 +36,7 @@ confflags +=	--prefix=/usr \
 		--with-html-dir=\$${prefix}/share/doc/libgsf-1-dev/html
 
 # Compiler, language dialect
-confflags +=	--enable-iso-c \
-		--enable-compile-warnings=maximum
+confflags +=	--enable-compile-warnings=maximum
 
 # Features
 confflags +=	--with-gnome --with-bz2 --enable-gtk-doc

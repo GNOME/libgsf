@@ -82,6 +82,7 @@ Package: libgsf-1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
+Conflicts: gnumeric (<< 1.4.4)
 Description: Structured File Library - runtime version
  The GNOME Structured File Library library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file

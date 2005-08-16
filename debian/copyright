@@ -3,11 +3,11 @@ Thu, 23 May 2002 15:59:34 +0200.
 
 It was downloaded from ftp://ftp.gnome.org/pub/GNOME/sources/libgsf/
 
-Upstream Author: Jody Goldberg <jody@gnome.org>
+Upstream Authors: Jody Goldberg <jody@gnome.org> and others.
 
 Copyright:
 
-Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org) and others.
 
 libgsf is licensed under the terms of the GNU LGPL:
 
@@ -23,5 +23,5 @@ libgsf is licensed under the terms of the GNU LGPL:
   You should have received a copy of the GNU Lesser General Public
   License with the Debian GNU/Linux distribution in the file
   /usr/share/common-licenses/LGPL-2.1; if not, write to the Free
-  Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-  02111-1307  USA
+  Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  02110-1301  USA

@@ -1,3 +1,17 @@
+libgsf (1.12.2-1) unstable; urgency=high
+
+  * New upstream release.
+  * [debian/rules] Dropped "--enable-iso-c".
+  * [debian/copyright] Updated.
+  * [debian/control] The libgsf API for metadata was changed in 1.12 without a
+    corresponding soname change. This broke saving in Excel format for older
+    versions of gnumeric but caused no other reported breakage. Added a 
+    Conflicts: to handle this. (A renaming of the library package would force
+    rebuilds of a large number of packages that are otherwise not affected by 
+    this API change). (Closes: #316096)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 16 Aug 2005 09:39:56 +0200
+
 libgsf (1.12.1-1) unstable; urgency=low
 
   * New upstream release.
