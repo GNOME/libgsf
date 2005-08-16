@@ -46,10 +46,10 @@ prefix ## _get_type (void)						\
 	if (type == 0) {						\
 		static GTypeInfo const object_info = {			\
 			sizeof (name ## Class),				\
-			(GBaseInitFunc) base_init,				\
-			(GBaseFinalizeFunc) base_finalize,			\
+			(GBaseInitFunc) base_init,			\
+			(GBaseFinalizeFunc) base_finalize,		\
 			(GClassInitFunc) class_init,			\
-			(GClassFinalizeFunc) class_finalize,			\
+			(GClassFinalizeFunc) class_finalize,		\
 			NULL,	/* class_data */			\
 			sizeof (name),					\
 			0,	/* n_preallocs */			\
@@ -100,10 +100,10 @@ prefix ## _register_type (GTypeModule *module)				\
 {									\
 	static GTypeInfo const type_info = {				\
 		sizeof (name ## Class),					\
-		(GBaseInitFunc) base_init,					\
-		(GBaseFinalizeFunc) base_finalize,				\
+		(GBaseInitFunc) base_init,				\
+		(GBaseFinalizeFunc) base_finalize,			\
 		(GClassInitFunc) class_init,				\
-		(GClassFinalizeFunc) class_finalize,				\
+		(GClassFinalizeFunc) class_finalize,			\
 		NULL,	/* class_data */				\
 		sizeof (name),						\
 		0,	/* n_preallocs */				\
