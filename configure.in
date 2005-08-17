@@ -96,9 +96,9 @@ if test "$GCC" = "yes"; then
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
-		AC_TRY_COMPILE([], [],
+		AC_COMPILE_IFELSE([AC_LANG_PROGRAM([], [])],
 			has_option=yes,
-			has_option=no,)
+			has_option=no)
 		if test $has_option = no; then
 		  CFLAGS="$SAVE_CFLAGS"
 		fi
@@ -122,28 +122,36 @@ fi
 
 # Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
 AC_MSG_CHECKING([whether struct timeval is available])
-AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+for try in 1 2; do
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM(
+			[[#include <sys/time.h>]],
+			[[struct timeval tv;]])],
+		struct_timeval_works=yes,
+		struct_timeval_works=no)
+	test $struct_timeval_works = yes && break
+	# Try this for the second attempt:
+	test $try = 1 && CFLAGS="$CFLAGS -D__EXTENSIONS__"
+done
 AC_MSG_RESULT($struct_timeval_works)
-
 if test $struct_timeval_works = no ; then
-	CFLAGS="$CFLAGS -D__EXTENSIONS__"
-	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
-	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
-	AC_MSG_RESULT($struct_timeval_works)
-	if test $struct_timeval_works = no ; then
-		AC_MSG_ERROR([struct timeval is not available])
-	fi
+	AC_MSG_ERROR([struct timeval is not available])
 fi
 
 AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
-AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd1=no, need_bsd1=yes)
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([[#include <sys/types.h>]], [[caddr_t ca]])],
+	need_bsd1=no,
+	need_bsd1=yes)
 AC_MSG_RESULT($need_bsd1)
 
 AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for lstat])
-AC_TRY_LINK([#include <sys/types.h>
-	     #include <sys/stat.h>
-	     #include <unistd.h>
-	    ], [void *ptr = &lstat], need_bsd2=no, need_bsd2=yes)
+AC_LINK_IFELSE([AC_LANG_PROGRAM(
+[[#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>]],
+[[void *ptr = &lstat]])],
+need_bsd2=no, need_bsd2=yes)
 AC_MSG_RESULT($need_bsd2)
 if test $need_bsd1 = yes -o $need_bsd2 = yes; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
@@ -158,31 +166,29 @@ AC_CHECK_FUNCS(chown)
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $LIBGSF_CFLAGS"
-LIBS="$LIBS $LIBGSF_LIBS"
+LIBS="$LIBGSF_LIBS $LIBS"
 AC_MSG_CHECKING([for g_chmod])
-AC_TRY_LINK([#include <glib/gstdio.h>
-	       ],
-	       [(void)g_chmod("/xxx",0777);],
-               [AC_DEFINE(HAVE_G_CHMOD,1,[Define if g_chmod is available as macro or function])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chmod("/xxx",0777);]])],
+               [AC_DEFINE(HAVE_G_CHMOD, 1, [Define if g_chmod is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 AC_MSG_CHECKING([for g_access])
-AC_TRY_LINK([#include <glib/gstdio.h>
-	       ],
-	       [(void)g_access("/xxx",0);],
-               [AC_DEFINE(HAVE_G_ACCESS,1,[Define if g_access is available as macro or function])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_access("/xxx",0777);]])],
+               [AC_DEFINE(HAVE_G_ACCESS, 1, [Define if g_access is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
 AC_MSG_CHECKING([whether macro S_ISREG is available])
-AC_TRY_COMPILE([#include <sys/types.h>
-		#include <sys/stat.h>
-	       ], [S_ISREG(S_IFMT);], macro_s_isreg=yes,
-	       [AH_TEMPLATE([S_ISREG], [Define S_ISREG if stat.h doesn't])
-		AC_DEFINE([S_ISREG(m)], [(((m) & S_IFMT) == S_IFREG)])
-		macro_s_isreg=no])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+[[#include <sys/types.h>
+#include <sys/stat.h>]],
+[[S_ISREG(S_IFMT);]])],
+	[macro_s_isreg=yes],
+	[AH_TEMPLATE([S_ISREG], [Define S_ISREG if stat.h doesn't])
+	 AC_DEFINE([S_ISREG(m)], [(((m) & S_IFMT) == S_IFREG)])
+	 macro_s_isreg=no])
 AC_MSG_RESULT($macro_s_isreg)
 
 AC_MSG_CHECKING([for native Win32])
@@ -299,12 +305,13 @@ if test "x$test_bz2" = xtrue ; then
 
    if test "$bz2_ok" = yes; then
       AC_MSG_CHECKING([for bzlib.h])
-      AC_TRY_CPP(
-	[#include <stdio.h>
+      AC_PREPROC_IFELSE(
+	[AC_LANG_SOURCE(
+	[[#include <stdio.h>
 	#undef PACKAGE
 	#undef VERSION
 	#undef HAVE_STDLIB_H
-	#include <bzlib.h>],
+	#include <bzlib.h>]])],
         bz2_ok=yes,
         bz2_ok=no)
       AC_MSG_RESULT($bz2_ok)

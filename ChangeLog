@@ -1,3 +1,11 @@
+2005-08-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Update obsolete AC_TRY_* macros.
+	Before the tests for g_chmod and g_access, LIBGSF_LIBS should be
+	_prepended_ to LIBS, not appended; more specific libs have to be
+	listed first.
+	* gsf/gsf-impl-utils.h: Align tabs.
+
 2005-08-13  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release bump
