@@ -54,9 +54,14 @@ extra_files =
 GTKDOC_CFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 GTKDOC_LIBS = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
+manpagedir   = $(datadir)/man/man1
+manpage_DATA = gsf-office-thumbnailer.1
+
 if GTK_DOC_INSTALLED
 include $(top_srcdir)/gtk-doc.make
 CLEANFILES += gsf-scan.*
 .PHONY : dist-hook-local
+EXTRA_DIST += $(manpage_DATA)
+else
+EXTRA_DIST = $(manpage_DATA)
 endif
-
