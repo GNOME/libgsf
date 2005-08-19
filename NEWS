@@ -1,5 +1,8 @@
 libgsf 1.12.3
 
+Rambokid:
+	* Fix excessive memory use problem for writing zip files.
+
 --------------------------------------------------------------------------
 libgsf 1.12.2
 
@@ -12,7 +15,7 @@ Jody:
 	* Fix leak in array properties.
 
 Jon Kåre:
-	* FIX VT_FILETIME OLE property export.
+	* Fix VT_FILETIME OLE property export.
 
 Morten:
 	* Fix problem with 64-bit OLE properties.

@@ -1,3 +1,9 @@
+2005-08-19  Tim Janik  <timj@imendio.com>
+
+	* gsf/gsf-outfile-zip.c (zip_close_stream): call deflateEnd, free
+	stream and buffer space, so we are not holding on to large amounts
+	of memory until we're done with the current directory.
+
 2005-08-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/gsf-office-thumbnailer.1: Added.

@@ -443,6 +443,7 @@ static gboolean
 zip_close_stream (GsfOutput *output)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);
+	gboolean result;
 
 	if (!zip->writing)
 		if (!zip_init_write (output))
@@ -460,7 +461,18 @@ zip_close_stream (GsfOutput *output)
 	}
 	zip->root->writing = FALSE;
 
-	return gsf_output_unwrap (G_OBJECT (output), zip->sink);
+	result = gsf_output_unwrap (G_OBJECT (output), zip->sink);
+
+	/* Free unneeded memory */
+	if (zip->stream) {
+		(void) deflateEnd (zip->stream);
+		g_free (zip->stream);
+		zip->stream = NULL;
+		g_free (zip->buf);
+		zip->buf = NULL;
+	}
+
+	return result;
 }
 
 static gboolean
