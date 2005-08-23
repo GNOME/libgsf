@@ -84,9 +84,19 @@ utils
 
 @name: 
 @prefix: 
-@class_init: 
+@base_init: 
+@base_finalize: 
+@\
+			   class_init:
+@\
+			   class_init: 
+@class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
+@\
+		       abstract:
 @\
 		       abstract:
 @\
@@ -350,6 +360,8 @@ utils
 @\
 		       abstract: 
 @interface_decl: 
+<!-- # Unused Parameters # -->
+@class_init: 
 
 
 <!-- ##### MACRO GSF_CLASS_ABSTRACT ##### -->
@@ -405,9 +417,19 @@ utils
 
 @name: 
 @prefix: 
-@class_init: 
+@base_init: 
+@base_finalize: 
+@\
+				   class_init:
+@\
+				   class_init: 
+@class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\
@@ -672,6 +694,7 @@ utils
 			       abstract: 
 @interface_decl: 
 <!-- # Unused Parameters # -->
+@class_init: 
 @module: 
 @plugin: 
 @type: 

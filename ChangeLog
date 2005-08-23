@@ -1,3 +1,7 @@
+2005-08-22  Jody Goldberg <jody@gnome.org>
+
+	* gsf-gnome/Makefile.am : Add -no-undefined on win32 [#314221]
+
 2005-08-19  Tim Janik  <timj@imendio.com>
 
 	* gsf/gsf-outfile-zip.c (zip_close_stream): call deflateEnd, free
