@@ -8,10 +8,13 @@ if PLATFORM_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
 
-SUBDIRS = po gsf gsf-gnome thumbnailer gsf-win32 doc tests
+SUBDIRS = po gsf gsf-gnome gsf-win32 doc tests
 
 if WITH_PYTHON
   SUBDIRS += python
+endif
+if WITH_GCONF
+  SUBDIRS += thumbnailer
 endif
 
 EXTRA_DIST = BUGS HACKING	\

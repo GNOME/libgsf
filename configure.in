@@ -360,9 +360,11 @@ dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' 
 GCONFTOOL=
 AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
-	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+    AC_MSG_WARN([thumbnailer will not be built, unable to find gconftool-2])
+else
+    AM_GCONF_SOURCE_2
 fi
-AM_GCONF_SOURCE_2
+AM_CONDITIONAL(WITH_GCONF, test "x$GCONFTOOL" != "xno")
 
 LDFLAGS="-no-undefined $LDFLAGS"
 

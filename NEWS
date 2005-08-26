@@ -1,5 +1,8 @@
 libgsf 1.12.3
 
+Jody:
+	* Make gconf optional again.
+
 Rambokid:
 	* Fix excessive memory use problem for writing zip files.
 
