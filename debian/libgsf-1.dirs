@@ -1,1 +1,4 @@
+usr/bin
 usr/lib
+usr/share/gconf/schemas
+usr/share/locale

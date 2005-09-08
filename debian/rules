@@ -31,6 +31,7 @@ confflags :=	-v
 
 # FHS locations
 confflags +=	--prefix=/usr \
+		--sysconfdir=/etc \
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info \
 		--with-html-dir=\$${prefix}/share/doc/libgsf-1-dev/html
@@ -123,6 +124,7 @@ install: build
 
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) -C build \
+		GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 		DESTDIR=$(CURDIR)/debian/tmp \
 		install
 
@@ -148,7 +150,8 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_install --sourcedir=debian/tmp --list-missing -Xindex.sgml
+	#dh_install --sourcedir=debian/tmp --list-missing -Xindex.sgml -Xwin32.h
+	dh_install --sourcedir=debian/tmp --fail-missing -Xindex.sgml -Xwin32.h
 
 #	dh_installdebconf	
 	dh_installdocs
@@ -172,6 +175,7 @@ binary-arch: build install
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
+	dh_gconf
 	dh_strip -v -Nlibgsf-1-dbg -N libgsf-gnome-1-dbg
 	dh_compress
 	dh_buildinfo

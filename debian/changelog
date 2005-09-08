@@ -1,3 +1,14 @@
+libgsf (1.12.3-1) experimental; urgency=low
+
+  * New upstream bugfix release.
+  * Upload to experimental for now, so as not to interfere with the GNOME
+    transition for etch.
+  * [debian/libgsf-1.install, debian/libgsf-1.dirs, debian/rules] Include
+    gsf-office-thumbnailer helper binary and its support files.
+  * [debian/watch] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  8 Sep 2005 18:46:03 +0200
+
 libgsf (1.12.2-1) unstable; urgency=high
 
   * New upstream release.
