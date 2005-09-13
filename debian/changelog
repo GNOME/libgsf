@@ -1,3 +1,11 @@
+libgsf (1.12.3-2) experimental; urgency=medium
+
+  * [debian/control] Added libgsf-1 Depends: ${misc:Depends} to get the gconf2
+    dependency needed to install gsf-office-thumbnailer's schemas. 
+    (Closes: #327760)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 12 Sep 2005 18:40:47 +0200
+
 libgsf (1.12.3-1) experimental; urgency=low
 
   * New upstream bugfix release.
