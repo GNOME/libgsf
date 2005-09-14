@@ -1,3 +1,9 @@
+libgsf (1.12.3-3) unstable; urgency=low
+
+  * Upload to unstable now that 1.12.2-1 has made it into testing.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 14 Sep 2005 07:09:10 +0200
+
 libgsf (1.12.3-2) experimental; urgency=medium
 
   * [debian/control] Added libgsf-1 Depends: ${misc:Depends} to get the gconf2
