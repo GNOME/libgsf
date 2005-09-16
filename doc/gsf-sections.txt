@@ -120,6 +120,7 @@ gsf_outfile_get_type
 <FILE>stdio</FILE>
 GsfInputStdio
 gsf_input_stdio_new
+gsf_input_stdio_new_FILE
 GsfOutputStdio
 gsf_output_stdio_new
 gsf_output_stdio_new_full
