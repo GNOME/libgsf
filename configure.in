@@ -355,7 +355,13 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 
+# ===================
 # GConf configuration
+
+dnl The following conditional is set in AM_GCONF_SOURCE_2.
+dnl Because we may skip its execution, we have to set a default here.
+AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+
 dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
 GCONFTOOL=
 AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
