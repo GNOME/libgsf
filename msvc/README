@@ -10,9 +10,9 @@ Please let us know if there is any.
 Building Requirements
 =====================
 
-1. Package dependencies of libgsf. e.g. glib, gtk+, pango, atk, zlib, etc. Make 
-   sure that you have the devel files of them as well and they are all rooted at 
-   the same prefix, e.g. C:\GTK
+1. Package dependencies of libgsf, e.g. glib, zlib, etc. Make sure that you have
+   the devel files of them as well and they are all rooted at the same prefix,
+   e.g. C:\GTK
 2. Create an environment variable "GTK_BASEPATH" which points to the prefix
    metioned above.
 3. A working installation of perl. I use the favourite ActivePerl from
