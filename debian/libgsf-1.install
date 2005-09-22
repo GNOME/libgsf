@@ -1,5 +1,2 @@
-etc/gconf/schemas/*.schemas
-usr/bin/gsf-office-thumbnailer
 usr/lib/libgsf-1.so.*
 usr/share/locale/*/LC_MESSAGES/libgsf.mo
-usr/share/man/man1/gsf-office-thumbnailer.1
