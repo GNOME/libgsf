@@ -18,23 +18,19 @@ AC_SUBST(LIBGSF_MINOR_VERSION, libgsf_version_minor)
 AC_SUBST(LIBGSF_MICRO_VERSION, libgsf_version_micro)
 
 dnl Version info for libraries = CURRENT:REVISION:AGE
-AC_SUBST(VERSION_INFO,
-m4_eval(libgsf_version_major + libgsf_version_minor)[]dnl
-:libgsf_version_micro:libgsf_version_minor)
-
-dnl FIXME: the above formula and the following explanation are wrong:  --kasal
 dnl
-dnl Set release number
-dnl This is derived from "Versioning" chapter of info libtool documentation.
-dnl     4a) Increment when removing or changing interfaces.
-dnl LIBGSF_MAJOR_VERSION=1
-dnl     4a) 5) Increment when adding interfaces.
-dnl     6) Set to zero when removing or changing interfaces.
-dnl LIBGSF_MINOR_VERSION=12
-dnl     3) Increment when interfaces not changed at all,
-dnl               only bug fixes or internal changes made.
-dnl     4b) Set to zero when adding, removing or changing interfaces.
-dnl LIBGSF_MICRO_VERSION=0
+dnl Within each x.y.*, ABI is maintained backward and _forward_ compatible.
+dnl (As a consequence, no exported function may be added.)
+dnl So it's enough to have one interface number per each x.y.* branch.
+dnl
+dnl OTOH, we are not able to keep ABI strictly backward compatible throughout
+dnl the whole x.*.*.
+dnl The easiest way is to declare no ABI compatibility, ie. AGE is always 0.
+dnl
+m4_define([version_iface],
+	m4_eval(100 * libgsf_version_major + libgsf_version_minor))
+
+AC_SUBST([VERSION_INFO], [version_iface:libgsf_version_micro:0])
 
 AM_INIT_AUTOMAKE(dist-bzip2)
 

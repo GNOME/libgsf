@@ -1,3 +1,7 @@
+2005-10-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (VERSION_INFO): Fix the definition, add a comment.
+
 2005-09-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Make sure that the Automake conditional
