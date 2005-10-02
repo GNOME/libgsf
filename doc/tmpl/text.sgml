@@ -56,6 +56,26 @@ Text
 </para>
 
 
+<!-- ##### ARG GsfOutputIconv:fallback ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputIconv:input-charset ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputIconv:output-charset ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputIconv:sink ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION gsf_output_iconv_new ##### -->
 <para>
 
@@ -72,18 +92,36 @@ Text
 
 </para>
 
-@output: 
-@sink: 
-@quote: 
-@quote_len: 
-@quoting_mode: 
-@quoting_triggers: 
-@eol: 
-@eol_len: 
-@separator: 
-@separator_len: 
-@fields_on_line: 
-@buf: 
+
+<!-- ##### ARG GsfOutputCsv:eol ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputCsv:quote ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputCsv:quoting-mode ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputCsv:quoting-triggers ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputCsv:separator ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputCsv:sink ##### -->
+<para>
+
+</para>
 
 <!-- ##### FUNCTION gsf_output_csv_write_eol ##### -->
 <para>

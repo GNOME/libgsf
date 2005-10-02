@@ -1,3 +1,10 @@
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the version to 1.13.0 due to the xml changes.
+	  Add -Wno-pointer-sign to make the warnings stop.
+	* doc/gsf-sections.txt : update
+	* doc/gsf.types : update
+
 2005-10-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (VERSION_INFO): Fix the definition, add a comment.

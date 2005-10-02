@@ -1176,6 +1176,31 @@ gsf
 @value: 
 @vector: 
 
+<!-- ##### FUNCTION gsf_xml_in_extend ##### -->
+<para>
+
+</para>
+
+@xin: 
+@nodes: 
+
+<!-- ##### FUNCTION gsf_xml_in_parse ##### -->
+<para>
+
+</para>
+
+@state: 
+@input: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_xml_in_set_unknown_handler ##### -->
+<para>
+
+</para>
+
+@xin: 
+@handler: 
+
 <!-- ##### FUNCTION gsf_xml_out_get_type ##### -->
 <para>
 

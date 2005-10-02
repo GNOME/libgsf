@@ -28,8 +28,6 @@ A generic, unstructured block of binary data
     sequence.
   </para>
 
-@object: 
-@priv: 
 
 <!-- ##### STRUCT GsfBlobClass ##### -->
 <para>

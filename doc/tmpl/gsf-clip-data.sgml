@@ -99,8 +99,6 @@ Object to hold clipboard data from a VT_CF section
     Object used to represent a VT_CF property in the OLE stream.
   </para>
 
-@object: 
-@priv: 
 
 <!-- ##### STRUCT GsfClipDataClass ##### -->
 <para>

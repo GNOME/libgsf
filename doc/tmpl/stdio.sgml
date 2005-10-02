@@ -33,6 +33,17 @@ Reading and Writing from local files and directories
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_input_stdio_new_FILE ##### -->
+<para>
+
+</para>
+
+@filename: 
+@file: 
+@keep_open: 
+@Returns: 
+
+
 <!-- ##### STRUCT GsfOutputStdio ##### -->
 <para>
 

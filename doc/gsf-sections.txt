@@ -368,6 +368,13 @@ BAT_MAGIC_UNUSED
 </SECTION>
 
 <SECTION>
+<FILE>gsf-opendoc-utils</FILE>
+gsf_opendoc_metadata_read
+gsf_opendoc_metadata_extend_doc
+gsf_opendoc_metadata_write
+</SECTION>
+
+<SECTION>
 <FILE>gsf-blob</FILE>
 GsfBlob
 GsfBlobClass
@@ -544,22 +551,27 @@ GSF_XML_IN_NS
 GsfXMLContent
 GsfXMLIn
 gsf_xmlDocFormatDump
-gsf_xml_in_doc_free
 GsfXMLBlob
 GsfXMLOut
 GsfXMLInDoc
+GsfXMLInDocExtension
+GsfXMLInUnknownFunc
 GsfXMLInNS
+GsfXMLInNode
 GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
-GsfXMLInNode
-GsfXMLInUnknownFunc
+
 gsf_xml_parser_context
+gsf_xml_gvalue_from_str
+
 gsf_xml_in_doc_new
-gsf_xml_in_namecmp
-gsf_xml_in_parse
-gsf_xml_in_check_ns
+gsf_xml_in_doc_free
+gsf_xml_in_doc_parse
 gsf_xml_in_doc_extend
 gsf_xml_in_doc_set_unknown_handler
+
+gsf_xml_in_namecmp
+gsf_xml_in_check_ns
 
 gsf_xml_out_new
 gsf_xml_out_set_doc_type
@@ -769,6 +781,8 @@ GSF_META_NAME_MSOLE_UNKNOWN_22
 GSF_META_NAME_MSOLE_UNKNOWN_23
 GSF_META_NAME_LOCALE_SYSTEM_DEFAULT 
 GSF_META_NAME_CASE_SENSITIVE        
+GSF_META_NAME_PRINTED_BY
+GSF_META_NAME_INITIAL_CREATOR
 <SUBSECTION Standard>
 GSF_DOC_META_DATA_TYPE
 GSF_DOC_META_DATA

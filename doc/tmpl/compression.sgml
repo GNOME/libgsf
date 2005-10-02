@@ -64,6 +64,16 @@ Compression
 </para>
 
 
+<!-- ##### ARG GsfOutputGZip:raw ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GsfOutputGZip:sink ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION gsf_output_gzip_new ##### -->
 <para>
 
