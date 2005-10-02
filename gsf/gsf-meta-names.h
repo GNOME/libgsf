@@ -105,59 +105,59 @@
  * Locked for annotations          4
  *
  */
-#define GSF_META_NAME_SECURITY              "gsf:security"
+#define GSF_META_NAME_SECURITY			"gsf:security"
 
 /* (String) Category of the document (example???) */
-#define GSF_META_NAME_CATEGORY              "gsf:category"
+#define GSF_META_NAME_CATEGORY			"gsf:category"
 
 /* (String) Type of presentation, like "On-screen Show", "SlideView" etc */
-#define GSF_META_NAME_PRESENTATION_FORMAT   "gsf:presentation-format"
+#define GSF_META_NAME_PRESENTATION_FORMAT	"gsf:presentation-format"
 
 /* (Clipboard Format (VT_CF)) Thumbnail data of the document, typically
  * a preview image of the document
  */
-#define GSF_META_NAME_THUMBNAIL             "gsf:thumbnail"
+#define GSF_META_NAME_THUMBNAIL			"gsf:thumbnail"
 
 /* (String) The creator (product) of this document. AbiWord, Gnumeric, etc...  */
-#define GSF_META_NAME_GENERATOR             "gsf:generator"
+#define GSF_META_NAME_GENERATOR			"gsf:generator"
 
 /* (Integer) Count of liness in the document */
-#define GSF_META_NAME_LINE_COUNT            "gsf:line-count"
+#define GSF_META_NAME_LINE_COUNT		"gsf:line-count"
 
 /* (Integer) Count of slides in the presentation document */
-#define GSF_META_NAME_SLIDE_COUNT           "gsf:slide-count"
+#define GSF_META_NAME_SLIDE_COUNT		"gsf:slide-count"
 
 /* (Integer) Count of "notes" in the document */
-#define GSF_META_NAME_NOTE_COUNT            "gsf:note-count"
+#define GSF_META_NAME_NOTE_COUNT		"gsf:note-count"
 
 /* (Integer) Count of hidden-slides in the presentation document */
-#define GSF_META_NAME_HIDDEN_SLIDE_COUNT    "gsf:hidden-slide-count"
+#define GSF_META_NAME_HIDDEN_SLIDE_COUNT	"gsf:hidden-slide-count"
 
 /* (Integer) Count of "multi-media" clips in the document */
-#define GSF_META_NAME_MM_CLIP_COUNT         "gsf:MM-clip-count"
+#define GSF_META_NAME_MM_CLIP_COUNT		"gsf:MM-clip-count"
 
 /* (Integer) Count of bytes in the document */
-#define GSF_META_NAME_BYTE_COUNT            "gsf:byte-count"
+#define GSF_META_NAME_BYTE_COUNT		"gsf:byte-count"
 
 /* (Boolean) ????? */
-#define GSF_META_NAME_SCALE                 "gsf:scale"
+#define GSF_META_NAME_SCALE			"gsf:scale"
 
 /* (VT_VECTOR|VT_VARIANT) ??????? */
-#define GSF_META_NAME_HEADING_PAIRS         "gsf:heading-pairs"
+#define GSF_META_NAME_HEADING_PAIRS		"gsf:heading-pairs"
 
 /* (VT_VECTOR|VT_LPSTR) ??????? */
-#define GSF_META_NAME_DOCUMENT_PARTS        "gsf:document-parts"
+/* In spreadsheets this is a list of the sheet names, and the named expressions */
+#define GSF_META_NAME_DOCUMENT_PARTS		"gsf:document-parts"
 
 /* (String) Name of the manager of "CREATOR" entity */
-#define GSF_META_NAME_MANAGER               "gsf:manager"
+#define GSF_META_NAME_MANAGER			"gsf:manager"
 
 /* (String) Name of the company/organization that
- * the "CREATOR" entity is associated with.
- */
-#define GSF_META_NAME_COMPANY               "gsf:company"
+ * the "CREATOR" entity is associated with.  */
+#define GSF_META_NAME_COMPANY			"gsf:company"
 
 /* (Boolean) ??????? */
-#define GSF_META_NAME_LINKS_DIRTY           "gsf:links-dirty"
+#define GSF_META_NAME_LINKS_DIRTY		"gsf:links-dirty"
 
 /* (Unknown) User-defined names */
 #define GSF_META_NAME_MSOLE_UNKNOWN_17		"msole:unknown-doc-17"
@@ -177,6 +177,15 @@
 #define GSF_META_NAME_LOCALE_SYSTEM_DEFAULT	"gsf:default-locale"
 
 /* (Unsigned Integer) Identifier representing the case-sensitiveness */
-#define GSF_META_NAME_CASE_SENSITIVE        "gsf:case-sensitivity"
+/* of what ?? why is it an integer ?? */
+#define GSF_META_NAME_CASE_SENSITIVE		"gsf:case-sensitivity"
+
+/* (String) Specifies the name of the person who
+ * created the document initially. */
+#define GSF_META_NAME_INITIAL_CREATOR		"gsf:initial-creator"
+
+/* (String) Specifies the name of the last person
+ * who printed the document. */
+#define GSF_META_NAME_PRINTED_BY		"gsf:printed-by"
 
 #endif /* GSF_META_NAMES_H */

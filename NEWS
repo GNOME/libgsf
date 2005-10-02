@@ -1,3 +1,12 @@
+libgsf 1.13.0
+
+Jody:
+	* API changes SAX wrappers for help OpenDoc and SpreadsheetML.
+
+Luciano Wolf:
+	* OpenDocument meta stream parser.
+
+--------------------------------------------------------------------------
 libgsf 1.12.3
 
 Jody:

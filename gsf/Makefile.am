@@ -28,6 +28,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-docprop-vector.c	\
 	gsf-msole-impl.h	\
 	gsf-msole-utils.c	\
+	gsf-opendoc-utils.c	\
 	gsf-timestamp.c		\
 	gsf-zip-impl.h		\
 	gsf-zip-utils.c		\
@@ -79,6 +80,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-doc-meta-data.h	\
 	gsf-docprop-vector.h	\
 	gsf-msole-utils.h	\
+	gsf-opendoc-utils.h	\
 	gsf-timestamp.h		\
 	\
 	gsf-input.h		\

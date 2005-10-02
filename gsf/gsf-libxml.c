@@ -2,7 +2,7 @@
 /*
  * gsf-libxml.c :
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,9 +32,163 @@
 
 static GObjectClass *parent_class;
 
+static gint
+glade_enum_from_string (GType type, const char *string)
+{
+    GEnumClass *eclass;
+    GEnumValue *ev;
+    gchar *endptr;
+    gint ret = 0;
+
+    ret = strtoul(string, &endptr, 0);
+    if (endptr != string) /* parsed a number */
+	return ret;
+
+    eclass = g_type_class_ref(type);
+    ev = g_enum_get_value_by_name(eclass, string);
+    if (!ev) ev = g_enum_get_value_by_nick(eclass, string);
+    if (ev)  ret = ev->value;
+
+    g_type_class_unref(eclass);
+
+    return ret;
+}
+
+static guint
+glade_flags_from_string (GType type, const char *string)
+{
+    GFlagsClass *fclass;
+    gchar *endptr, *prevptr;
+    guint i, j, ret = 0;
+    char *flagstr;
+
+    ret = strtoul(string, &endptr, 0);
+    if (endptr != string) /* parsed a number */
+	return ret;
+
+    fclass = g_type_class_ref(type);
+
+
+    flagstr = g_strdup (string);
+    for (ret = i = j = 0; ; i++) {
+	gboolean eos;
+
+	eos = flagstr [i] == '\0';
+	
+	if (eos || flagstr [i] == '|') {
+	    GFlagsValue *fv;
+	    const char  *flag;
+	    gunichar ch;
+
+	    flag = &flagstr [j];
+            endptr = &flagstr [i];
+
+	    if (!eos) {
+		flagstr [i++] = '\0';
+		j = i;
+	    }
+
+            /* trim spaces */
+	    for (;;)
+	      {
+		ch = g_utf8_get_char (flag);
+		if (!g_unichar_isspace (ch))
+		  break;
+		flag = g_utf8_next_char (flag);
+	      }
+
+	    while (endptr > flag)
+	      {
+		prevptr = g_utf8_prev_char (endptr);
+		ch = g_utf8_get_char (prevptr);
+		if (!g_unichar_isspace (ch))
+		  break;
+		endptr = prevptr;
+	      }
+
+	    if (endptr > flag)
+	      {
+		*endptr = '\0';
+		fv = g_flags_get_value_by_name (fclass, flag);
+
+		if (!fv)
+		  fv = g_flags_get_value_by_nick (fclass, flag);
+
+		if (fv)
+		  ret |= fv->value;
+		else
+		  g_warning ("Unknown flag: '%s'", flag);
+	      }
+
+	    if (eos)
+		break;
+	}
+    }
+    
+    g_free (flagstr);
+
+    g_type_class_unref(fclass);
+
+    return ret;
+}
+
+gboolean
+gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
+{
+	g_return_val_if_fail (res != NULL, FALSE);
+	g_return_val_if_fail (str != NULL, FALSE);
+
+	g_value_init (res, t);
+	switch (t) {
+	case G_TYPE_CHAR:
+		g_value_set_char (res, str[0]);
+		break;
+	case G_TYPE_UCHAR:
+		g_value_set_uchar (res, (guchar)str[0]);
+		break;
+	case G_TYPE_BOOLEAN:
+		g_value_set_boolean (res, 
+			g_ascii_tolower (str[0]) == 't' ||
+			g_ascii_tolower (str[0]) == 'y' ||
+			strtol (str, NULL, 0));
+		break;
+	case G_TYPE_INT:
+		g_value_set_int (res, strtol (str, NULL, 0));
+		break;
+	case G_TYPE_UINT:
+		g_value_set_uint (res, strtoul (str, NULL, 0));
+		break;
+	case G_TYPE_LONG:
+		g_value_set_long (res, strtol (str, NULL, 0));
+		break;
+	case G_TYPE_ULONG:
+		g_value_set_ulong (res, strtoul (str, NULL, 0));
+		break; 
+	case G_TYPE_ENUM:
+		g_value_set_enum (res, glade_enum_from_string (t, str));
+		break;
+	case G_TYPE_FLAGS:
+		g_value_set_flags (res, glade_flags_from_string (t, str));
+		break;
+	case G_TYPE_FLOAT:
+		g_value_set_float (res, g_strtod (str, NULL));
+		break;
+	case G_TYPE_DOUBLE:
+		g_value_set_double (res, g_strtod (str, NULL));
+		break;
+	case G_TYPE_STRING:
+		g_value_set_string (res, str);
+		break;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
 /* Note: libxml erroneously declares the length argument as int.  */
 static int
-gsf_libxml_read (void *context, char *buffer, int len)
+gsf_libxml_read (void *context, guint8 *buffer, int len)
 {
 	gsf_off_t remaining = gsf_input_remaining ((GsfInput *)context);
 	guint8* res;
@@ -188,15 +342,63 @@ node_name (GsfXMLInNode const *node)
 	return (node->name != NULL) ? node->name : "{catch all)}";
 }
 
+static gboolean
+lookup_child (GsfXMLIn *state, GsfXMLInNS const *default_ns,
+	      GsfXMLInNSInstance *inst,
+	      GSList *groups, xmlChar const *name, xmlChar const **attrs)
+{
+	GsfXMLInNodeGroup  *group;
+	GsfXMLInNode	   *node;
+	GSList *elem, *ptr;
+	char const *tmp;
+
+	for (ptr = groups ; ptr != NULL ; ptr = ptr->next) {
+		group = ptr->data;
+		/* does the namespace match */
+		if (group->ns != NULL && group->ns != default_ns) {
+			g_return_val_if_fail (state->ns_by_id->len > group->ns->ns_id, FALSE);
+			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+			if (inst == NULL || 0 != strncmp (name, inst->tag, inst->taglen))
+				continue;
+			tmp = name + inst->taglen;
+		} else {
+#if 0
+			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
+			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
+#endif
+			tmp = name;
+		}
+		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
+			node = elem->data;
+			if (node->name == NULL || !strcmp (tmp, node->name)) {
+				if (node->has_content == GSF_XML_CONTENT &&
+				    state->content->len > 0) {
+					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
+				}
+				state->state_stack = g_slist_prepend (state->state_stack,
+								      (gpointer)state->node);
+				state->ns_stack = g_slist_prepend (state->ns_stack,
+								   (gpointer)state->default_ns);
+				state->node = node;
+				state->default_ns = default_ns;
+				if (node->start != NULL)
+					node->start (state, attrs);
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}
+
 static void
 gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **attrs)
 {
-	GSList *ptr, *elem;
 	GsfXMLInNSInstance *inst;
-	GsfXMLInNodeGroup  *group;
-	GsfXMLInNode	   *node;
 	GsfXMLInNS const   *ns, *default_ns = state->default_ns;
+	GsfXMLInNode const *node;
 	xmlChar const **ns_ptr;
+	GSList *ptr;
 	char const *tmp;
 	int i;
 	gboolean check_unknown_handler = TRUE;
@@ -246,68 +448,40 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		}
 	}
 
-lookup_child :
-	for (ptr = state->node->groups ; ptr != NULL ; ptr = ptr->next) {
-		group = ptr->data;
-		/* does the namespace match */
-		if (group->ns != NULL && group->ns != default_ns) {
-			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
-			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
-			if (inst == NULL || 0 != strncmp (name, inst->tag, inst->taglen))
-				continue;
-			tmp = name + inst->taglen;
-		} else {
-#if 0
-			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
-			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
-			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
-#endif
-			tmp = name;
-		}
-		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
-			node = elem->data;
-			if (node->name == NULL || !strcmp (tmp, node->name)) {
-				if (node->has_content == GSF_XML_CONTENT &&
-				    state->content->len > 0) {
-					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
-				}
-				state->state_stack = g_slist_prepend (state->state_stack,
-								      (gpointer)state->node);
-				state->ns_stack = g_slist_prepend (state->ns_stack,
-								   (gpointer)state->default_ns);
-				state->node = node;
-				state->default_ns = default_ns;
-				if (node->start != NULL)
-					node->start (state, attrs);
-				return;
-			}
-		}
+retry_after_unknown :
+	if (lookup_child (state, default_ns, inst, state->node->groups, name, attrs))
+		return;
+
+	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
+	node = state->node;
+	ptr = state->state_stack;
+	for (; ptr != NULL && node->share_children_with_parent; ptr = ptr->next) {
+		node = ptr->data;
+		if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
+			return;
 	}
 
 	if (check_unknown_handler) {
 		check_unknown_handler = FALSE; /* only loop once */
 		if (state->doc->unknown_handler != NULL &&
 		    (state->doc->unknown_handler) (state, name, attrs))
-			goto lookup_child;
+			goto retry_after_unknown;
 	}
 	if (state->unknown_depth++)
 		return;
 	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->node));
-	{
-		GSList *ptr;
-		GsfXMLInNode *node;
-		ptr = state->state_stack = g_slist_reverse (state->state_stack);
-		for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
-			node = ptr->data;
-			if (node != NULL) {
+
+	ptr = state->state_stack = g_slist_reverse (state->state_stack);
+	for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
+		node = ptr->data;
+		if (node != NULL) {
 /* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
-				g_print ("%s", node_name (node));
-				if (ptr->next != NULL && ptr->next->data != NULL)
-					g_print (" -> ");
-			}
+			g_print ("%s", node_name (node));
+			if (ptr->next != NULL && ptr->next->data != NULL)
+				g_print (" -> ");
 		}
-		state->state_stack = g_slist_reverse (state->state_stack);
 	}
+	state->state_stack = g_slist_reverse (state->state_stack);
 }
 
 static void
@@ -602,30 +776,32 @@ gsf_xml_in_doc_free (GsfXMLInDoc *doc)
 }
 
 /**
- * gsf_xml_in_parse :
- * @state :
+ * gsf_xml_in_doc_parse :
+ * @doc :
  * @input :
+ * @user_state :
  *
  * Read an xml document from @input and parse based on the the descriptor in
- * @state::doc
+ * @doc
  *
  * returns FALSE on error
  **/
 gboolean
-gsf_xml_in_parse (GsfXMLIn *state, GsfInput *input)
+gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 {
-	xmlParserCtxt *ctxt;
+	xmlParserCtxt	*ctxt;
+	GsfXMLIn	 state;
 	gboolean res;
 
-	g_return_val_if_fail (state != NULL, FALSE);
-	g_return_val_if_fail (state->doc != NULL, FALSE);
-	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+	g_return_val_if_fail (doc != NULL, FALSE);
 
-	ctxt = gsf_xml_parser_context_full (input, &gsfXMLInParser, state);
+	ctxt = gsf_xml_parser_context_full (input, &gsfXMLInParser, &state);
+	if (ctxt == NULL)
+		return FALSE;
 
-	g_return_val_if_fail (ctxt != NULL, FALSE);
-
-	state->content = g_string_sized_new (128);
+	state.doc = doc;
+	state.user_state = user_state;
+	state.content = g_string_sized_new (128);
 	xmlParseDocument (ctxt);
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);

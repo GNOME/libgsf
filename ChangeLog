@@ -1,5 +1,27 @@
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
+	 From :  Luciano Wolf (luciano.wolf@indt.org.br)
+	 * gsf/gsf-opendoc-utils.{c,h} : new
+	* gsf/Makefile.am : Add gsf/gsf-opendoc-utils.{c,h}
+
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (glade_enum_from_string) : imported from goffice.
+	(glade_flags_from_string) : ditto.
+	(gsf_xml_gvalue_from_str) : ditto.
+	(lookup_child) : break this out of.
+	(gsf_xml_in_start_element) : here.
+	  Add a new flags to node 'share_children_with_parent' this is allows
+	  all of a nodes siblings to work as mutual children.  Eg for
+	  <b><i><u> for rich text which need to nest arbitrarily.
+	(gsf_xml_in_doc_parse) : renamed from gsf_xml_in_parse.
+	  Takes a GsfXMLInDoc rather than a GsfXMLIn.  This is useful to keep
+	  the lifecycle of the GsfXMLIn more under our control.  We intialize
+	  it not the caller.  People no longer need to inherit/contain it, now
+	  they store their state seperately.
+
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : bump the version to 1.13.0 due to the xml changes.
 	  Add -Wno-pointer-sign to make the warnings stop.
 	* doc/gsf-sections.txt : update
