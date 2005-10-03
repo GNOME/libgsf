@@ -108,13 +108,13 @@ OO_PROP(creator,		GSF_META_NAME_CREATOR,		G_TYPE_STRING)
 /* last to print */
 OO_PROP(printed_by,		GSF_META_NAME_PRINTED_BY,	G_TYPE_STRING)
 
-#warning should be dates using 'YYYY-MM-DDThh:mm:ss'
+#warning "should be dates using 'YYYY-MM-DDThh:mm:ss'"
 OO_PROP(date_created,		GSF_META_NAME_DATE_CREATED,	G_TYPE_STRING)
 OO_PROP(date_modified,		GSF_META_NAME_DATE_MODIFIED,	G_TYPE_STRING)
 OO_PROP(print_date,		GSF_META_NAME_LAST_PRINTED,	G_TYPE_STRING)
 OO_PROP(language,		GSF_META_NAME_LANGUAGE,		G_TYPE_STRING)
 OO_PROP(editing_cycles,		GSF_META_NAME_REVISION_COUNT,	G_TYPE_UINT)
-#warning should be durations using format 'PnYnMnDTnHnMnS
+#warning "should be durations using format 'PnYnMnDTnHnMnS'"
 OO_PROP(editing_duration,	GSF_META_NAME_EDITING_DURATION, G_TYPE_STRING)
 
 #if 0
