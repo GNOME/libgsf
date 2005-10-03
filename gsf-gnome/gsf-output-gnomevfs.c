@@ -92,7 +92,11 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	if (perms == -1) {
 		/* we didn't get the permissions, but calling open_uri() with OPEN_WRITE set will create the file for us.
 		 * if the uri_exists(), let's hope that truncate() works. */
-		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);	
+		res = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM);
+
+		if (res != GNOME_VFS_OK) {
+			res = gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM, FALSE, 0644);
+		}
 	} else {
 		/* we got the permissions, so let's call create() with the existing permissions instead of open() since 
 		 * create() will truncate the file for us. */

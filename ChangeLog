@@ -1,3 +1,10 @@
+2005-10-03  Sven Herzberg  <herzi@gnome-de.org>
+
+	Got okay from Morten for this:
+
+	* gsf-gnome/gsf-output-gnomevfs.c: create the file if necessary; fixes
+	bug 317766
+
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
 	 From :  Luciano Wolf (luciano.wolf@indt.org.br)
