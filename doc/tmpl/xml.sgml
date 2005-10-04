@@ -421,6 +421,8 @@ XML and libxml
 @\
 			     deprecated_unused_allow_unknown:
 @\
+			     share_children_with_parent:
+@\
 			     share_children_with_parent: 
 @check_ns: 
 @start: 

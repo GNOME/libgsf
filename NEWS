@@ -3,8 +3,15 @@ libgsf 1.13.0
 Jody:
 	* API changes SAX wrappers for help OpenDoc and SpreadsheetML.
 
+Kasal:
+	* Improve libtool versioning.
+	* Relax the gconf requirement.
+
 Luciano Wolf:
 	* OpenDocument meta stream parser.
+
+Sven Herzberg:
+	* Fix for GsfOutputGnomeVFS
 
 --------------------------------------------------------------------------
 libgsf 1.12.3
