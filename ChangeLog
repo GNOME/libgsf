@@ -15,8 +15,8 @@
 
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
-	 From :  Luciano Wolf (luciano.wolf@indt.org.br)
-	 * gsf/gsf-opendoc-utils.{c,h} : new
+	From :  Luciano Wolf (luciano.wolf@indt.org.br)
+	* gsf/gsf-opendoc-utils.{c,h} : new
 	* gsf/Makefile.am : Add gsf/gsf-opendoc-utils.{c,h}
 
 2005-10-02  Jody Goldberg <jody@gnome.org>
