@@ -318,9 +318,15 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, char const *encoding,
 
 /***************************************************************************/
 
+typedef struct {
+	GsfXMLInNode pub;
+	/* internal state */
+	GSList *groups;
+} GsfXMLInNodeInternal;
 struct _GsfXMLInDoc {
-	GsfXMLInNode	*root;
-	GsfXMLInNS	*ns;
+	GsfXMLInNodeInternal const *root_node;
+	GHashTable      *symbols; /* GsfXMLInNodeInternal hashed by id */
+	GsfXMLInNS const*ns;
 	GPtrArray	*ns_by_id;
 	GsfXMLInUnknownFunc	unknown_handler;
 };
@@ -376,7 +382,7 @@ lookup_child (GsfXMLIn *state, GsfXMLInNS const *default_ns,
 				    state->content->len > 0) {
 					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
 				}
-				state->state_stack = g_slist_prepend (state->state_stack,
+				state->node_stack = g_slist_prepend (state->node_stack,
 								      (gpointer)state->node);
 				state->ns_stack = g_slist_prepend (state->ns_stack,
 								   (gpointer)state->default_ns);
@@ -396,7 +402,7 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 {
 	GsfXMLInNSInstance *inst;
 	GsfXMLInNS const   *ns, *default_ns = state->default_ns;
-	GsfXMLInNode const *node;
+	GsfXMLInNodeInternal const *node;
 	xmlChar const **ns_ptr;
 	GSList *ptr;
 	char const *tmp;
@@ -449,13 +455,13 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	}
 
 retry_after_unknown :
-	if (lookup_child (state, default_ns, inst, state->node->groups, name, attrs))
+	node = (GsfXMLInNodeInternal const *) state->node;
+	if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
 		return;
 
 	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
-	node = state->node;
-	ptr = state->state_stack;
-	for (; ptr != NULL && node->share_children_with_parent; ptr = ptr->next) {
+	ptr = state->node_stack;
+	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
 		node = ptr->data;
 		if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
 			return;
@@ -471,17 +477,17 @@ retry_after_unknown :
 		return;
 	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->node));
 
-	ptr = state->state_stack = g_slist_reverse (state->state_stack);
+	ptr = state->node_stack = g_slist_reverse (state->node_stack);
 	for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
 		node = ptr->data;
 		if (node != NULL) {
 /* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
-			g_print ("%s", node_name (node));
+			g_print ("%s", node_name (&node->pub));
 			if (ptr->next != NULL && ptr->next->data != NULL)
 				g_print (" -> ");
 		}
 	}
-	state->state_stack = g_slist_reverse (state->state_stack);
+	state->node_stack = g_slist_reverse (state->node_stack);
 }
 
 static void
@@ -493,7 +499,7 @@ gsf_xml_in_end_element (GsfXMLIn *state,
 		return;
 	}
 
-	g_return_if_fail (state->state_stack != NULL);
+	g_return_if_fail (state->node_stack != NULL);
 	g_return_if_fail (state->ns_stack != NULL);
 
 	if (state->node->end)
@@ -502,8 +508,8 @@ gsf_xml_in_end_element (GsfXMLIn *state,
 		g_string_truncate (state->content, 0);
 
 	/* pop the state stack */
-	state->node	   = state->state_stack->data;
-	state->state_stack = g_slist_remove (state->state_stack, state->node);
+	state->node	   = state->node_stack->data;
+	state->node_stack = g_slist_remove (state->node_stack, state->node);
 	state->default_ns = state->ns_stack->data;
 	state->ns_stack   = g_slist_remove (state->ns_stack, state->default_ns);
 }
@@ -524,9 +530,10 @@ gsf_xml_in_get_entity (G_GNUC_UNUSED GsfXMLIn *state, const xmlChar *name)
 static void
 gsf_xml_in_start_document (GsfXMLIn *state)
 {
-	state->node = state->doc->root;
+	state->node = &state->doc->root_node->pub;
 	state->unknown_depth = 0;
-	state->state_stack = NULL;
+	state->node_stack = NULL;
+	state->user_state_stack = NULL;
 	state->ns_stack    = NULL;
 	state->default_ns  = NULL;
 	state->ns_by_id    = g_ptr_array_new ();
@@ -540,14 +547,14 @@ gsf_xml_in_end_document (GsfXMLIn *state)
 	g_string_free (state->content, TRUE);
 	state->content = NULL;
 
-	g_return_if_fail (state->node == state->doc->root);
-	g_return_if_fail (state->unknown_depth == 0);
-
 	g_ptr_array_free (state->ns_by_id, TRUE);
 	state->ns_by_id = NULL;
 
 	g_hash_table_destroy (state->ns_prefixes);
 	state->ns_prefixes = NULL;
+
+	g_return_if_fail (state->node == &state->doc->root_node->pub);
+	g_return_if_fail (state->unknown_depth == 0);
 }
 
 static void
@@ -619,12 +626,50 @@ static xmlSAXHandler gsfXMLInParser = {
 #endif
 };
 
+static void
+gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
+{
+	GSList *ptr;
+	GsfXMLInNodeGroup *group;
+
+	for (ptr = node->groups; ptr != NULL ; ptr = ptr->next) {
+		group = ptr->data;
+		g_slist_free (group->elem);
+		g_free (group);
+	}
+	g_slist_free (node->groups);
+	node->groups = NULL;
+	g_free (node);
+}
+
+/**
+ * gsf_xml_in_doc_free :
+ * @doc :
+ *
+ * Free up resources
+ **/
+void
+gsf_xml_in_doc_free (GsfXMLInDoc *doc)
+{
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (doc->symbols != NULL);
+	g_return_if_fail (doc->ns_by_id != NULL);
+
+	g_hash_table_destroy (doc->symbols);
+	g_ptr_array_free (doc->ns_by_id, TRUE);
+	/* poison the well just in case */
+	doc->symbols   = NULL;
+	doc->ns_by_id  = NULL;
+	doc->root_node = NULL;
+	g_free (doc);
+}
+
 /**
  * gsf_xml_in_doc_new :
- * @root : an array of node descriptors
+ * @nodes : an array of node descriptors
  * @ns : an array of namespace identifiers
  *
- * Put the nodes in the NULL terminated array starting at @root and the name
+ * Put the nodes in the NULL terminated array starting at @nodes and the name
  * spaces in the NULL terminated array starting at @ns together.  Link them up
  * and prepare the static data structures necessary to validate a doument based
  * on that description.
@@ -632,72 +677,69 @@ static xmlSAXHandler gsfXMLInParser = {
  * Returns NULL on error
  **/
 GsfXMLInDoc *
-gsf_xml_in_doc_new (GsfXMLInNode *root, GsfXMLInNS *ns)
+gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 {
 	GsfXMLInDoc  *doc;
 	unsigned i;
 
-	if (root->parent_initialized)
-		return NULL;
-
 	doc = g_new0 (GsfXMLInDoc, 1);
-	doc->root     = root;
-	doc->ns       = ns;
-	doc->ns_by_id = g_ptr_array_new ();
+	doc->root_node = NULL;
+	doc->symbols   = g_hash_table_new_full (g_str_hash, g_str_equal,
+		NULL, (GDestroyNotify) gsf_xml_in_node_internal_free);
+	doc->ns        = ns;
+	doc->ns_by_id  = g_ptr_array_new ();
 
 	/* Add namespaces to an idex */
-	if (ns != NULL) {
+	if (ns != NULL)
 		for (i = 0; ns[i].uri != NULL ; i++) {
 			if (ns[i].ns_id >= doc->ns_by_id->len)
 				g_ptr_array_set_size  (doc->ns_by_id, ns[i].ns_id+1);
-			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = ns+i;
+			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = (gpointer)(ns+i);
 		}
-	}
-	gsf_xml_in_doc_extend (doc, root);
+
+	gsf_xml_in_doc_extend (doc, nodes);
 	return doc;
 }
 
 void
 gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
-		       GsfXMLInNode *extension_nodes)
+		       GsfXMLInNode const *extension_nodes)
 {
-	GsfXMLInNode *tmp, *real_node, *node;
-	GHashTable   *symbols = g_hash_table_new (g_str_hash, g_str_equal);
+	GsfXMLInNode const *e_node;
+	GsfXMLInNodeInternal *tmp, *node;
 
-	g_return_if_fail (doc != NULL);
 	g_return_if_fail (extension_nodes != NULL);
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (doc->symbols != NULL);
 
-	if (extension_nodes->parent_initialized)
-		return;
-	for (node = extension_nodes; node->id != NULL ; node++ ) {
-		g_return_if_fail (!node->parent_initialized);
+	for (e_node = extension_nodes; e_node->id != NULL ; e_node++ ) {
 
-		tmp = g_hash_table_lookup (symbols, node->id);
+		node = g_hash_table_lookup (doc->symbols, e_node->id);
 		if (tmp != NULL) {
 			/* if its empty then this is just a recusion */
-			if (node->start != NULL || node->end != NULL ||
-			    node->has_content != GSF_XML_NO_CONTENT || node->user_data.v_int != 0) {
+			if (e_node->start != NULL || e_node->end != NULL ||
+			    e_node->has_content != GSF_XML_NO_CONTENT ||
+			    e_node->user_data.v_int != 0) {
 				g_warning ("ID '%s' has already been registered.\n"
-					   "The additional decls should not specify start,end,content,data", node->id);
+					   "The additional decls should not specify start,end,content,data", e_node->id);
 				return;
 			}
-			real_node = tmp;
 		} else {
-			/* be anal, the macro probably initialized this, but do it just in case */
+			node = g_new0 (GsfXMLInNodeInternal, 1);
+			node->pub = *e_node;
 			node->groups = NULL;
-			g_hash_table_insert (symbols, (gpointer)node->id, node);
-			real_node = node;
+			g_hash_table_insert (doc->symbols,
+				(gpointer)node->pub.id, node);
 		}
 
-		tmp = g_hash_table_lookup (symbols, node->parent_id);
+		tmp = g_hash_table_lookup (doc->symbols, node->pub.parent_id);
 		if (tmp != NULL) {
 			GSList *ptr;
 			GsfXMLInNodeGroup *group = NULL;
 			GsfXMLInNS const *ns = NULL;
 			
-			ns = (real_node->ns_id < 0) ? NULL
-				: g_ptr_array_index (doc->ns_by_id,
-						     real_node->ns_id);
+			ns = (node->pub.ns_id < 0) ? NULL
+				: g_ptr_array_index (doc->ns_by_id, node->pub.ns_id);
 			for (ptr = tmp->groups; ptr != NULL ; ptr = ptr->next) {
 				group = ptr->data;
 				if (group->ns == ns)
@@ -708,25 +750,12 @@ gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
 				group->ns = ns;
 				tmp->groups = g_slist_prepend (tmp->groups, group);
 			}
-			group->elem = g_slist_prepend (group->elem, real_node);
-		} else if (strcmp (node->id, node->parent_id)) {
-			g_warning ("Parent ID '%s' unknown", node->parent_id);
+			group->elem = g_slist_prepend (group->elem, node);
+		} else if (strcmp (node->pub.id, node->pub.parent_id)) {
+			g_warning ("Parent ID '%s' unknown", node->pub.parent_id);
 			return;
 		}
-
-		/* WARNING VILE HACK :
-		 * The api in 1.8.2 passed has_content as a boolean.  It's too
-		 * late to change it but we need more contol.  We edit the bool
-		 * here to be GSF_CONTENT_NONE, GSF_CONTENT_ROOT and add a
-		 * mechanism to edit the flag later */
-		if (node->has_content != 0 &&
-		    node->has_content != GSF_XML_SHARED_CONTENT)
-			node->has_content = GSF_XML_CONTENT;
-
-		node->parent_initialized = TRUE;
 	}
-
-	g_hash_table_destroy (symbols);
 }
 
 /**
@@ -742,37 +771,6 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 {
 	g_return_if_fail (doc != NULL);
 	doc->unknown_handler = handler;
-}
-
-/**
- * gsf_xml_in_doc_free :
- * @doc :
- *
- * Free up resources
- **/
-void
-gsf_xml_in_doc_free (GsfXMLInDoc *doc)
-{
-	GSList *ptr;
-	GsfXMLInNode *node;
-	GsfXMLInNodeGroup *group;
-
-	g_return_if_fail (doc != NULL);
-	g_return_if_fail (doc->root != NULL);
-	g_return_if_fail (doc->ns_by_id != NULL);
-
-	for (node = doc->root; node->id != NULL ; node++ ) {
-		for (ptr = node->groups; ptr != NULL ; ptr = ptr->next) {
-			group = ptr->data;
-			g_slist_free (group->elem);
-			g_free (group);
-		}
-		g_slist_free (node->groups);
-		node->groups = NULL;
-	}
-
-	g_ptr_array_free (doc->ns_by_id, TRUE);
-	g_free (doc);
 }
 
 /**

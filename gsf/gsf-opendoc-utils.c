@@ -152,7 +152,7 @@ static GsfXMLInNode gsf_opendoc_meta_dtd[] = {
     GSF_XML_IN_NODE (META, META_EDITING_DURATION, OO_NS_META, "editing-duration", TRUE, NULL, &od_meta_editing_duration),
 
     GSF_XML_IN_NODE (META, META_USER_DEFINED,	OO_NS_META, "user-defined", FALSE, NULL, NULL),
-  { NULL }
+    GSF_XML_IN_NODE_END
 };
 
 /**
@@ -193,7 +193,8 @@ gsf_opendoc_metadata_extend_doc (GsfXMLInDoc *doc, GsfDocMetaData *md)
 }
 
 gboolean
-gsf_opendoc_metadata_write (GsfOutput *output, GsfDocMetaData const *md)
+gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 {
+	/* TODO */
 	return FALSE;
 }

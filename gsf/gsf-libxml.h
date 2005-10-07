@@ -51,28 +51,28 @@ typedef struct _GsfXMLInNode		GsfXMLInNode;
 typedef struct _GsfXMLInNS		GsfXMLInNS;
 
 typedef enum {
-	GSF_XML_NO_CONTENT,
+	GSF_XML_NO_CONTENT = FALSE,
 	GSF_XML_CONTENT,
 	GSF_XML_SHARED_CONTENT
 } GsfXMLContent;
 
 typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs);
 struct _GsfXMLIn {
-	GsfXMLInDoc  const *doc;	/* init before parsing */
-
-    /* look but do not change */
+	/* public state : read only */
+	GsfXMLInDoc  const *doc;
 	GsfXMLInNode const *node;	/* current node */
-	GSList	 	   *state_stack;
+
+	GSList	 	   *node_stack;
+	GSList		   *user_state_stack;
+	gpointer	    user_state;
 
 	GsfXMLInNS   const *default_ns;	/* optionally NULL */
 	GSList	 	   *ns_stack;
+	GHashTable	   *ns_prefixes;
+	GPtrArray	   *ns_by_id;
 
-	GString		*content;
-	gint		 unknown_depth;	/* handle recursive unknown tags */
-	GHashTable	*ns_prefixes;	/* current ns prefixes */
-	GPtrArray	*ns_by_id;		/* indexed by id */
-
-	gpointer	 user_state;
+	GString	 *content;
+	gint	  unknown_depth;	/* handle recursive unknown tags */
 };
 
 struct _GsfXMLInNode {
@@ -93,10 +93,6 @@ struct _GsfXMLInNode {
 
 	unsigned int check_children_for_ns : 1;
 	unsigned int share_children_with_parent : 1;
-
-	/* internal state */
-	unsigned int parent_initialized : 1;
-	GSList *groups;
 };
 
 struct _GsfXMLInNS {
@@ -105,28 +101,31 @@ struct _GsfXMLInNS {
 };
 
 struct _GsfXMLInDocExtension {
+	void (*start) (GsfXMLIn *state, xmlChar const **attrs);
+	void (*end)   (GsfXMLIn *state, GsfXMLBlob *unknown);
 };
 
 #define GSF_XML_IN_NS(id, uri) \
-{ uri, id}
+{ uri, id }
 
 #define GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content, 	\
 			     share_children_with_parent, check_ns, start, end, user)	\
 {									\
 	#id, ns, name, #parent_id, start, end, { user }, has_content,	\
 	check_ns, share_children_with_parent,				\
-	FALSE, NULL							\
 }
 
 #define GSF_XML_IN_NODE(parent_id, id, ns, name, has_content, start, end) \
 	GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content,	  \
 			     FALSE, FALSE, start, end, 0)
+#define GSF_XML_IN_NODE_END	\
+	{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
 
-GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode *root, GsfXMLInNS *ns);
+GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const *ns);
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
 gboolean     gsf_xml_in_doc_parse  (GsfXMLInDoc *doc, GsfInput *input,
 				    gpointer user_state);
-void	     gsf_xml_in_doc_extend (GsfXMLInDoc *doc, GsfXMLInNode *nodes);
+void	     gsf_xml_in_doc_extend (GsfXMLInDoc *doc, GsfXMLInNode const *nodes);
 void	     gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 				    GsfXMLInUnknownFunc handler);
 
