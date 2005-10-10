@@ -1,3 +1,16 @@
+libgsf (1.13.2-1) experimental; urgency=low
+
+  * New upstream release. Library versioning is now separate from the
+    versioning of gsf as a whole.
+  * Package renames, reorganisation to take advantage of proper library
+    versioning.
+  * Upload to experimental for now; there are to still too many library 
+    transitions happening currently.
+  * [debian/control] Bumped Standards-Version.
+  * [debian/rules] Link --as-needed.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 10 Oct 2005 19:22:14 +0200
+
 libgsf (1.12.3-4) unstable; urgency=medium
 
   * [debian/control, debian/libgsf-1.install, debian/libgsf-gnome-1.install,
