@@ -834,6 +834,12 @@ gsf
 
 @output_class: 
 
+<!-- ##### STRUCT GsfXMLInDocExtension ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
 
@@ -1124,6 +1130,16 @@ gsf
 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_opendoc_metadata_extend_doc ##### -->
+<para>
+
+</para>
+
+@doc: 
+@md: 
+@xin: 
+@store: 
+
 <!-- ##### FUNCTION gsf_outfile_add_child ##### -->
 <para>
 
@@ -1175,6 +1191,14 @@ gsf
 
 @value: 
 @vector: 
+
+<!-- ##### FUNCTION gsf_xml_in_doc_extend ##### -->
+<para>
+
+</para>
+
+@doc: 
+@nodes: 
 
 <!-- ##### FUNCTION gsf_xml_in_extend ##### -->
 <para>

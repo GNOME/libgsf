@@ -61,9 +61,9 @@ enum {
 
 extern GsfXMLInNS gsf_ooo_ns[];
 
-GError	*gsf_opendoc_metadata_read 	 (GsfInput *input,  GsfDocMetaData *md);
-void	 gsf_opendoc_metadata_extend_doc (GsfXMLInDoc *doc, GsfDocMetaData *md);
-gboolean gsf_opendoc_metadata_write	 (GsfXMLOut *output, GsfDocMetaData const *md);
+GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);
+void	 gsf_opendoc_metadata_subtree (GsfXMLIn *doc,    GsfDocMetaData *md);
+gboolean gsf_opendoc_metadata_write   (GsfXMLOut *output, GsfDocMetaData const *md);
 
 G_END_DECLS
 

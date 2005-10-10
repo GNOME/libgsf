@@ -126,7 +126,7 @@ doc_stats
 #endif
 
 
-static GsfXMLInNode gsf_opendoc_meta_dtd[] = {
+static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
   GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (START, META, OO_NS_OFFICE, "meta", FALSE, NULL, NULL),
     /* OpenDocument TAGS */
@@ -152,7 +152,7 @@ static GsfXMLInNode gsf_opendoc_meta_dtd[] = {
     GSF_XML_IN_NODE (META, META_EDITING_DURATION, OO_NS_META, "editing-duration", TRUE, NULL, &od_meta_editing_duration),
 
     GSF_XML_IN_NODE (META, META_USER_DEFINED,	OO_NS_META, "user-defined", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE_END
+  GSF_XML_IN_NODE_END
 };
 
 /**
@@ -180,16 +180,25 @@ gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
 	return state.err;
 }
 
+static void
+gsf_opendoc_metadata_subtree_free (GsfXMLIn *xin, G_GNUC_UNUSED gpointer old_state)
+{
+	gsf_xml_in_doc_free (xin->user_state);
+}
+
 /**
- * gsf_opendoc_metadata_extend_doc :
+ * gsf_opendoc_metadata_subtree :
  * @doc : #GsfXMLInDoc
  * @md  : #GsfDocMetaData
  *
- * Extend @doc so that it can parse a subtree in OpenDoc metadata format
+ * Extend @xin so that it can parse a subtree in OpenDoc metadata format
  **/
 void
-gsf_opendoc_metadata_extend_doc (GsfXMLInDoc *doc, GsfDocMetaData *md)
+gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 {
+	GsfXMLInDoc *doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd+1, gsf_ooo_ns);
+	gsf_xml_in_push_state (xin, doc, md, &gsf_opendoc_metadata_subtree_free,
+		NULL);
 }
 
 gboolean

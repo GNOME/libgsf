@@ -370,7 +370,7 @@ BAT_MAGIC_UNUSED
 <SECTION>
 <FILE>gsf-opendoc-utils</FILE>
 gsf_opendoc_metadata_read
-gsf_opendoc_metadata_extend_doc
+gsf_opendoc_metadata_subtree
 gsf_opendoc_metadata_write
 </SECTION>
 
@@ -547,31 +547,32 @@ gsf_shared_bonobo_stream_get_type
 <SECTION>
 <TITLE>XML and libxml</TITLE>
 <FILE>xml</FILE>
-GSF_XML_IN_NS
-GsfXMLContent
+<SUBSECTION Parsing>
 GsfXMLIn
-gsf_xmlDocFormatDump
-GsfXMLBlob
-GsfXMLOut
 GsfXMLInDoc
-GsfXMLInDocExtension
 GsfXMLInUnknownFunc
 GsfXMLInNS
 GsfXMLInNode
+GsfXMLInExtDtor
+GsfXMLContent
+GsfXMLBlob
+
 GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
-
-gsf_xml_parser_context
-gsf_xml_gvalue_from_str
+GSF_XML_IN_NODE_END
+GSF_XML_IN_NS
 
 gsf_xml_in_doc_new
 gsf_xml_in_doc_free
 gsf_xml_in_doc_parse
-gsf_xml_in_doc_extend
 gsf_xml_in_doc_set_unknown_handler
 
+gsf_xml_in_push_state
 gsf_xml_in_namecmp
 gsf_xml_in_check_ns
+
+<SUBSECTION Creation>
+GsfXMLOut
 
 gsf_xml_out_new
 gsf_xml_out_set_doc_type
@@ -591,6 +592,12 @@ gsf_xml_out_add_base64
 gsf_xml_out_simple_element
 gsf_xml_out_simple_float_element
 gsf_xml_out_simple_int_element
+
+<SUBSECTION Utilities>
+gsf_xml_parser_context
+gsf_xml_gvalue_from_str
+gsf_xmlDocFormatDump
+
 <SUBSECTION Standard>
 GSF_XML_OUT_TYPE
 GSF_XML_OUT

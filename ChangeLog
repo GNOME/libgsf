@@ -1,3 +1,17 @@
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.13.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_end_element) : Clean up after
+	  extensions.  If the extensions was created by an unknown handler we
+	  do not need to do anything special.  If it was created by a start
+	  handler then there are effectively two nodes for one parse state,
+	  loop back to clear the original.
+	(gsf_xml_in_push_state) : finally get an api that will be able to do
+	  what we'll need.
+
 2005-10-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

@@ -330,17 +330,33 @@ struct _GsfXMLInDoc {
 	GPtrArray	*ns_by_id;
 	GsfXMLInUnknownFunc	unknown_handler;
 };
+typedef struct {
+	GsfXMLIn	pub;
 
+	GsfXMLInNS   const *default_ns;	/* optionally NULL */
+	GSList	 	   *ns_stack;
+	GHashTable	   *ns_prefixes;
+	GPtrArray	   *ns_by_id;
+	gint	  	    unknown_depth; /* handle recursive unknown tags */
+	gboolean	    from_unknown_handler;
+
+	GSList	 	   *extension_stack;
+} GsfXMLInInternal;
 typedef struct {
 	char    *tag;
 	unsigned taglen;
 	unsigned ref_count;
 } GsfXMLInNSInstance;
-
 typedef struct {
 	GsfXMLInNS const *ns;
 	GSList *elem;
 } GsfXMLInNodeGroup;
+typedef struct {
+	GsfXMLInDoc const *old_doc;
+	gpointer	   old_state;
+	GsfXMLInExtDtor    dtor;
+	gboolean	   from_unknown;
+} GsfXMLInExtension;
 
 static char const *
 node_name (GsfXMLInNode const *node)
@@ -348,8 +364,27 @@ node_name (GsfXMLInNode const *node)
 	return (node->name != NULL) ? node->name : "{catch all)}";
 }
 
+static void
+push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const *default_ns,
+	    xmlChar const **attrs, GsfXMLInExtension *ext)
+{
+	if (node->has_content == GSF_XML_CONTENT &&
+	    state->pub.content->len > 0) {
+		g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
+	}
+	state->pub.node_stack	= g_slist_prepend (state->pub.node_stack,
+		(gpointer)state->pub.node);
+	state->ns_stack		= g_slist_prepend (state->ns_stack,
+		(gpointer)state->default_ns);
+	state->extension_stack	= g_slist_prepend (state->extension_stack, ext);
+	state->pub.node = node;
+	state->default_ns = default_ns;
+	if (node->start != NULL)
+		node->start (&state->pub, attrs);
+}
+
 static gboolean
-lookup_child (GsfXMLIn *state, GsfXMLInNS const *default_ns,
+lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
 	      GsfXMLInNSInstance *inst,
 	      GSList *groups, xmlChar const *name, xmlChar const **attrs)
 {
@@ -378,18 +413,7 @@ lookup_child (GsfXMLIn *state, GsfXMLInNS const *default_ns,
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
 			if (node->name == NULL || !strcmp (tmp, node->name)) {
-				if (node->has_content == GSF_XML_CONTENT &&
-				    state->content->len > 0) {
-					g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
-				}
-				state->node_stack = g_slist_prepend (state->node_stack,
-								      (gpointer)state->node);
-				state->ns_stack = g_slist_prepend (state->ns_stack,
-								   (gpointer)state->default_ns);
-				state->node = node;
-				state->default_ns = default_ns;
-				if (node->start != NULL)
-					node->start (state, attrs);
+				push_child (state, node, default_ns, attrs, NULL);
 				return TRUE;
 			}
 		}
@@ -398,7 +422,7 @@ lookup_child (GsfXMLIn *state, GsfXMLInNS const *default_ns,
 }
 
 static void
-gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **attrs)
+gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar const **attrs)
 {
 	GsfXMLInNSInstance *inst;
 	GsfXMLInNS const   *ns, *default_ns = state->default_ns;
@@ -407,7 +431,6 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	GSList *ptr;
 	char const *tmp;
 	int i;
-	gboolean check_unknown_handler = TRUE;
 
 	/* Scan for namespace declarations.  Yes it is ugly to have the api
 	 * flag that its children can declare namespaces. However, given that a
@@ -416,8 +439,8 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 	 * eg <gnm:Workbook xmlns:gnm="www.gnumeric.org"/> we can not know
 	 * that we are in node 'Workbook' without recognizing ns=gnm, which we
 	 * would not do unless we checked for a namespace */
-	ns = state->doc->ns;
-	if (ns != NULL && state->node->check_children_for_ns) {
+	ns = state->pub.doc->ns;
+	if (ns != NULL && state->pub.node->check_children_for_ns) {
 		for (ns_ptr = attrs; ns_ptr != NULL && ns_ptr[0] && ns_ptr[1] ; ns_ptr += 2) {
 			if (strncmp (*ns_ptr, "xmlns", 5))
 				continue;
@@ -454,30 +477,32 @@ gsf_xml_in_start_element (GsfXMLIn *state, xmlChar const *name, xmlChar const **
 		}
 	}
 
-retry_after_unknown :
-	node = (GsfXMLInNodeInternal const *) state->node;
+	node = (GsfXMLInNodeInternal const *) state->pub.node;
 	if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
 		return;
 
 	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
-	ptr = state->node_stack;
+	ptr = state->pub.node_stack;
 	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
 		node = ptr->data;
 		if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
 			return;
 	}
 
-	if (check_unknown_handler) {
-		check_unknown_handler = FALSE; /* only loop once */
-		if (state->doc->unknown_handler != NULL &&
-		    (state->doc->unknown_handler) (state, name, attrs))
-			goto retry_after_unknown;
+	if (state->pub.doc->unknown_handler != NULL) {
+		gboolean handled;
+		state->from_unknown_handler = TRUE;
+		handled = (state->pub.doc->unknown_handler) (&state->pub, name, attrs);
+		state->from_unknown_handler = FALSE;
+		if (handled)
+			return;
 	}
-	if (state->unknown_depth++)
-		return;
-	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->node));
 
-	ptr = state->node_stack = g_slist_reverse (state->node_stack);
+	if (state->unknown_depth++ > 0)
+		return;
+	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->pub.node));
+
+	ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 	for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
 		node = ptr->data;
 		if (node != NULL) {
@@ -487,65 +512,83 @@ retry_after_unknown :
 				g_print (" -> ");
 		}
 	}
-	state->node_stack = g_slist_reverse (state->node_stack);
+	state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 }
 
 static void
-gsf_xml_in_end_element (GsfXMLIn *state,
+gsf_xml_in_end_element (GsfXMLInInternal *state,
 			G_GNUC_UNUSED xmlChar const *name)
 {
+	GsfXMLInExtension *ext;
+	gboolean was_overlay;
+
 	if (state->unknown_depth > 0) {
 		state->unknown_depth--;
 		return;
 	}
 
-	g_return_if_fail (state->node_stack != NULL);
-	g_return_if_fail (state->ns_stack != NULL);
+	do {
+		g_return_if_fail (state->pub.node_stack != NULL);
+		g_return_if_fail (state->ns_stack != NULL);
+		g_return_if_fail (state->extension_stack != NULL);
 
-	if (state->node->end)
-		state->node->end (state, NULL);
-	if (state->node->has_content == GSF_XML_CONTENT)
-		g_string_truncate (state->content, 0);
+		if (state->pub.node->end)
+			state->pub.node->end (&state->pub, NULL);
+		/* pop the state stack */
+		ext = state->extension_stack->data;
+		state->extension_stack	= g_slist_remove (state->extension_stack, ext);
+		state->pub.node		= state->pub.node_stack->data;
+		state->pub.node_stack	= g_slist_remove (state->pub.node_stack, state->pub.node);
+		state->default_ns	= state->ns_stack->data;
+		state->ns_stack		= g_slist_remove (state->ns_stack, state->default_ns);
 
-	/* pop the state stack */
-	state->node	   = state->node_stack->data;
-	state->node_stack = g_slist_remove (state->node_stack, state->node);
-	state->default_ns = state->ns_stack->data;
-	state->ns_stack   = g_slist_remove (state->ns_stack, state->default_ns);
+		if (NULL != ext) {
+			was_overlay = !ext->from_unknown;
+			if (ext->dtor)
+				(ext->dtor) (&state->pub, ext->old_state);
+			state->pub.user_state = ext->old_state;
+			state->pub.doc = ext->old_doc;
+			g_free (ext);
+		} else
+			was_overlay = FALSE;
+	} while (was_overlay);
+
+	if (state->pub.node->has_content == GSF_XML_CONTENT)
+		g_string_truncate (state->pub.content, 0);
 }
 
 static void
-gsf_xml_in_characters (GsfXMLIn *state, const xmlChar *chars, int len)
+gsf_xml_in_characters (GsfXMLInInternal *state, xmlChar const *chars, int len)
 {
-	if (state->node->has_content != GSF_XML_NO_CONTENT)
-		g_string_append_len (state->content, chars, len);
+	if (state->pub.node->has_content != GSF_XML_NO_CONTENT)
+		g_string_append_len (state->pub.content, chars, len);
 }
 
 static xmlEntityPtr
-gsf_xml_in_get_entity (G_GNUC_UNUSED GsfXMLIn *state, const xmlChar *name)
+gsf_xml_in_get_entity (G_GNUC_UNUSED GsfXMLInInternal *state, xmlChar const *name)
 {
 	return xmlGetPredefinedEntity (name);
 }
 
 static void
-gsf_xml_in_start_document (GsfXMLIn *state)
+gsf_xml_in_start_document (GsfXMLInInternal *state)
 {
-	state->node = &state->doc->root_node->pub;
-	state->unknown_depth = 0;
-	state->node_stack = NULL;
-	state->user_state_stack = NULL;
-	state->ns_stack    = NULL;
-	state->default_ns  = NULL;
-	state->ns_by_id    = g_ptr_array_new ();
-	state->ns_prefixes = g_hash_table_new_full (g_str_hash, g_str_equal,
-		NULL, g_free);
+	state->pub.node = &state->pub.doc->root_node->pub;
+	state->unknown_depth	= 0;
+	state->pub.node_stack	= NULL;
+	state->extension_stack	= NULL;
+	state->ns_stack		= NULL;
+	state->default_ns	= NULL;
+	state->ns_by_id		= g_ptr_array_new ();
+	state->ns_prefixes	= g_hash_table_new_full (
+		g_str_hash, g_str_equal, NULL, g_free);
 }
 
 static void
-gsf_xml_in_end_document (GsfXMLIn *state)
+gsf_xml_in_end_document (GsfXMLInInternal *state)
 {
-	g_string_free (state->content, TRUE);
-	state->content = NULL;
+	g_string_free (state->pub.content, TRUE);
+	state->pub.content = NULL;
 
 	g_ptr_array_free (state->ns_by_id, TRUE);
 	state->ns_by_id = NULL;
@@ -553,12 +596,12 @@ gsf_xml_in_end_document (GsfXMLIn *state)
 	g_hash_table_destroy (state->ns_prefixes);
 	state->ns_prefixes = NULL;
 
-	g_return_if_fail (state->node == &state->doc->root_node->pub);
+	g_return_if_fail (state->pub.node == &state->pub.doc->root_node->pub);
 	g_return_if_fail (state->unknown_depth == 0);
 }
 
 static void
-gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
+gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
 {
 	va_list args;
 
@@ -568,7 +611,7 @@ gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
 }
 
 static void
-gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
+gsf_xml_in_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
 {
 	va_list args;
 
@@ -578,7 +621,7 @@ gsf_xml_in_error (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
 }
 
 static void
-gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLIn *state, char const *msg, ...)
+gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
 {
 	va_list args;
 
@@ -669,10 +712,9 @@ gsf_xml_in_doc_free (GsfXMLInDoc *doc)
  * @nodes : an array of node descriptors
  * @ns : an array of namespace identifiers
  *
- * Put the nodes in the NULL terminated array starting at @nodes and the name
- * spaces in the NULL terminated array starting at @ns together.  Link them up
- * and prepare the static data structures necessary to validate a doument based
- * on that description.
+ * Combine the nodes in the NULL terminated array starting at @nodes with the
+ * name spaces in the NULL terminated array starting at @ns.  Prepare the
+ * data structures necessary to validate a doument based on that description.
  *
  * Returns NULL on error
  **/
@@ -680,7 +722,11 @@ GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 {
 	GsfXMLInDoc  *doc;
+	GsfXMLInNode const *e_node;
+	GsfXMLInNodeInternal *tmp, *node;
 	unsigned i;
+
+	g_return_val_if_fail (nodes != NULL, NULL);
 
 	doc = g_new0 (GsfXMLInDoc, 1);
 	doc->root_node = NULL;
@@ -697,23 +743,7 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = (gpointer)(ns+i);
 		}
 
-	gsf_xml_in_doc_extend (doc, nodes);
-	return doc;
-}
-
-void
-gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
-		       GsfXMLInNode const *extension_nodes)
-{
-	GsfXMLInNode const *e_node;
-	GsfXMLInNodeInternal *tmp, *node;
-
-	g_return_if_fail (extension_nodes != NULL);
-	g_return_if_fail (doc != NULL);
-	g_return_if_fail (doc->symbols != NULL);
-
-	for (e_node = extension_nodes; e_node->id != NULL ; e_node++ ) {
-
+	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
 		node = g_hash_table_lookup (doc->symbols, e_node->id);
 		if (tmp != NULL) {
 			/* if its empty then this is just a recusion */
@@ -722,7 +752,7 @@ gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
 			    e_node->user_data.v_int != 0) {
 				g_warning ("ID '%s' has already been registered.\n"
 					   "The additional decls should not specify start,end,content,data", e_node->id);
-				return;
+				continue;
 			}
 		} else {
 			node = g_new0 (GsfXMLInNodeInternal, 1);
@@ -753,9 +783,11 @@ gsf_xml_in_doc_extend (GsfXMLInDoc  *doc,
 			group->elem = g_slist_prepend (group->elem, node);
 		} else if (strcmp (node->pub.id, node->pub.parent_id)) {
 			g_warning ("Parent ID '%s' unknown", node->pub.parent_id);
-			return;
+			continue;
 		}
 	}
+
+	return doc;
 }
 
 /**
@@ -774,6 +806,40 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 }
 
 /**
+ * gsf_xml_in_push_state :
+ * @xin : #GsfXMLIn
+ * @doc : #GsfXMLInDoc
+ * @new_state :
+ * @dtor : #GsfXMLInExtDtor
+ * @attrs :
+ *
+ * Take the first node from @doc as the current node and call it's start handler.
+ **/
+void
+gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
+		       gpointer new_state, GsfXMLInExtDtor dtor,
+		       xmlChar const **attrs)
+{
+	GsfXMLInInternal *state = (GsfXMLInInternal *)xin;
+	GsfXMLInExtension *ext;
+	
+	g_return_if_fail (xin != NULL);
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (doc->root_node != NULL);
+
+	ext = g_new (GsfXMLInExtension, 1);
+	ext->old_doc	= xin->doc;
+	ext->old_state	= xin->user_state;
+	ext->dtor	= dtor;
+	ext->from_unknown = state->from_unknown_handler;
+
+	xin->doc = doc;
+	xin->user_state = new_state;
+
+	push_child (state, &doc->root_node->pub, NULL, attrs, ext);
+}
+
+/**
  * gsf_xml_in_doc_parse :
  * @doc :
  * @input :
@@ -788,7 +854,7 @@ gboolean
 gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 {
 	xmlParserCtxt	*ctxt;
-	GsfXMLIn	 state;
+	GsfXMLInInternal state;
 	gboolean res;
 
 	g_return_val_if_fail (doc != NULL, FALSE);
@@ -797,9 +863,9 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 	if (ctxt == NULL)
 		return FALSE;
 
-	state.doc = doc;
-	state.user_state = user_state;
-	state.content = g_string_sized_new (128);
+	state.pub.doc = doc;
+	state.pub.user_state = user_state;
+	state.pub.content = g_string_sized_new (128);
 	xmlParseDocument (ctxt);
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);
@@ -809,7 +875,7 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 
 /**
  * gsf_xml_in_check_ns :
- * @state :
+ * @xin :
  * @str :
  * @ns_id :
  * 
@@ -819,8 +885,9 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
  * otherwise NULL.
  **/
 char const *
-gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned int ns_id)
+gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
 {
+	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	GsfXMLInNSInstance *inst;
 	if (state->ns_by_id->len <= ns_id)
 		return NULL;
@@ -833,7 +900,7 @@ gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned int ns_id)
 
 /**
  * gsf_xml_in_namecmp :
- * @state : The #GsfXMLIn we are reading from.
+ * @xin   : The #GsfXMLIn we are reading from.
  * @str   : The potentially namespace qualified node name.
  * @ns_id : The name space id to check
  * @name  : The target node name
@@ -841,10 +908,12 @@ gsf_xml_in_check_ns (GsfXMLIn const *state, char const *str, unsigned int ns_id)
  * Returns TRUE if @str == @ns_id:@name according to @state.
  **/
 gboolean
-gsf_xml_in_namecmp (GsfXMLIn const *state, char const *str,
+gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 		    unsigned int ns_id, char const *name)
 {
+	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	GsfXMLInNSInstance *inst;
+
 	if (state->ns_by_id->len <= ns_id)
 		return FALSE;
 	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
@@ -868,7 +937,7 @@ struct _GsfXMLOut {
 	GsfOutput	 *output;
 	char		 *doc_type;
 	GSList		 *stack;
-	GsfXMLOutState state;
+	GsfXMLOutState	  state;
 	unsigned   	  indent;
 	gboolean	  needs_header;
 };

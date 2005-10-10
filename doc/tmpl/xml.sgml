@@ -17,71 +17,18 @@ XML and libxml
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GSF_XML_IN_NS ##### -->
-<para>
-
-</para>
-
-@id: 
-@uri: 
-
-
-<!-- ##### ENUM GsfXMLContent ##### -->
-<para>
-
-</para>
-
-@GSF_XML_NO_CONTENT: 
-@GSF_XML_CONTENT: 
-@GSF_XML_SHARED_CONTENT: 
-
 <!-- ##### STRUCT GsfXMLIn ##### -->
 <para>
 
 </para>
 
+@user_state: 
+@content: 
 @doc: 
 @node: 
-@state_stack: 
-@default_ns: 
-@ns_stack: 
-@content: 
-@unknown_depth: 
-@ns_prefixes: 
-@ns_by_id: 
-@user_state: 
-
-<!-- ##### FUNCTION gsf_xmlDocFormatDump ##### -->
-<para>
-
-</para>
-
-@output: 
-@cur: 
-@encoding: 
-@format: 
-@Returns: 
-
-
-<!-- ##### STRUCT GsfXMLBlob ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GsfXMLOut ##### -->
-<para>
-
-</para>
-
+@node_stack: 
 
 <!-- ##### STRUCT GsfXMLInDoc ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GsfXMLInDocExtension ##### -->
 <para>
 
 </para>
@@ -92,10 +39,12 @@ XML and libxml
 
 </para>
 
-@state: 
+@xin: 
 @elem: 
 @attrs: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@state: 
 
 
 <!-- ##### STRUCT GsfXMLInNS ##### -->
@@ -119,8 +68,30 @@ XML and libxml
 @has_content: 
 @check_children_for_ns: 
 @share_children_with_parent: 
-@parent_initialized: 
-@groups: 
+
+<!-- ##### USER_FUNCTION GsfXMLInExtDtor ##### -->
+<para>
+
+</para>
+
+@xin: 
+@old_state: 
+
+
+<!-- ##### ENUM GsfXMLContent ##### -->
+<para>
+
+</para>
+
+@GSF_XML_NO_CONTENT: 
+@GSF_XML_CONTENT: 
+@GSF_XML_SHARED_CONTENT: 
+
+<!-- ##### STRUCT GsfXMLBlob ##### -->
+<para>
+
+</para>
+
 
 <!-- ##### MACRO GSF_XML_IN_NODE_FULL ##### -->
 <para>
@@ -423,6 +394,14 @@ XML and libxml
 @\
 			     share_children_with_parent:
 @\
+			     share_children_with_parent:
+@\
+			     share_children_with_parent:
+@\
+			     share_children_with_parent:
+@\
+			     share_children_with_parent:
+@\
 			     share_children_with_parent: 
 @check_ns: 
 @start: 
@@ -444,24 +423,20 @@ XML and libxml
 @end: 
 
 
-<!-- ##### FUNCTION gsf_xml_parser_context ##### -->
+<!-- ##### MACRO GSF_XML_IN_NODE_END ##### -->
 <para>
 
 </para>
 
-@input: 
-@Returns: 
 
 
-<!-- ##### FUNCTION gsf_xml_gvalue_from_str ##### -->
+<!-- ##### MACRO GSF_XML_IN_NS ##### -->
 <para>
 
 </para>
 
-@res: 
-@t: 
-@str: 
-@Returns: 
+@id: 
+@uri: 
 
 
 <!-- ##### FUNCTION gsf_xml_in_doc_new ##### -->
@@ -469,9 +444,11 @@ XML and libxml
 
 </para>
 
-@root: 
+@nodes: 
 @ns: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@root: 
 
 
 <!-- ##### FUNCTION gsf_xml_in_doc_free ##### -->
@@ -493,15 +470,6 @@ XML and libxml
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_xml_in_doc_extend ##### -->
-<para>
-
-</para>
-
-@doc: 
-@nodes: 
-
-
 <!-- ##### FUNCTION gsf_xml_in_doc_set_unknown_handler ##### -->
 <para>
 
@@ -511,17 +479,32 @@ XML and libxml
 @handler: 
 
 
+<!-- ##### FUNCTION gsf_xml_in_push_state ##### -->
+<para>
+
+</para>
+
+@xin: 
+@doc: 
+@new_state: 
+@dtor: 
+@attrs: 
+<!-- # Unused Parameters # -->
+@name: 
+
+
 <!-- ##### FUNCTION gsf_xml_in_namecmp ##### -->
 <para>
 
 </para>
 
-@state: 
+@xin: 
 @str: 
 @ns_id: 
 @name: 
 @Returns: 
 <!-- # Unused Parameters # -->
+@state: 
 @Param3: 
 
 
@@ -530,10 +513,18 @@ XML and libxml
 
 </para>
 
-@state: 
+@xin: 
 @str: 
 @ns_id: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@state: 
+
+
+<!-- ##### STRUCT GsfXMLOut ##### -->
+<para>
+
+</para>
 
 
 <!-- ##### FUNCTION gsf_xml_out_new ##### -->
@@ -704,5 +695,37 @@ XML and libxml
 @xml: 
 @id: 
 @val: 
+
+
+<!-- ##### FUNCTION gsf_xml_parser_context ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_xml_gvalue_from_str ##### -->
+<para>
+
+</para>
+
+@res: 
+@t: 
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_xmlDocFormatDump ##### -->
+<para>
+
+</para>
+
+@output: 
+@cur: 
+@encoding: 
+@format: 
+@Returns: 
 
 

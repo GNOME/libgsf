@@ -111,10 +111,26 @@ utils
 @\
 			   class_init:
 @\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
 			   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
 @\
 		       abstract:
 @\
@@ -488,10 +504,26 @@ utils
 @\
 				   class_init:
 @\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
 				   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\

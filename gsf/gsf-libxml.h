@@ -41,47 +41,37 @@ int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
 				       gboolean    format);
 
 /****************************************************************************/
-/* Simplified GSF based xml import (based on libxml2 SAX) */
-typedef struct _GsfXMLBlob	GsfXMLBlob;
-
+/* Simplified wrapper to SAX based xml import */
 typedef struct _GsfXMLIn		GsfXMLIn;
 typedef struct _GsfXMLInDoc		GsfXMLInDoc;
-typedef struct _GsfXMLInDocExtension	GsfXMLInDocExtension;
 typedef struct _GsfXMLInNode		GsfXMLInNode;
 typedef struct _GsfXMLInNS		GsfXMLInNS;
-
+typedef struct _GsfXMLBlob		GsfXMLBlob;
 typedef enum {
 	GSF_XML_NO_CONTENT = FALSE,
 	GSF_XML_CONTENT,
 	GSF_XML_SHARED_CONTENT
 } GsfXMLContent;
+typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *xin,
+					 xmlChar const *elem, xmlChar const **attrs);
+typedef void     (*GsfXMLInExtDtor)     (GsfXMLIn *xin, gpointer old_state);
 
-typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs);
 struct _GsfXMLIn {
 	/* public state : read only */
-	GsfXMLInDoc  const *doc;
-	GsfXMLInNode const *node;	/* current node */
-
-	GSList	 	   *node_stack;
-	GSList		   *user_state_stack;
 	gpointer	    user_state;
-
-	GsfXMLInNS   const *default_ns;	/* optionally NULL */
-	GSList	 	   *ns_stack;
-	GHashTable	   *ns_prefixes;
-	GPtrArray	   *ns_by_id;
-
-	GString	 *content;
-	gint	  unknown_depth;	/* handle recursive unknown tags */
+	GString		   *content;
+	GsfXMLInDoc  const *doc;
+	GsfXMLInNode const *node;	/* current node (not on the stack) */
+	GSList	 	   *node_stack;	/* stack of GsfXMLInNode */
 };
 
 struct _GsfXMLInNode {
-	char const *id;
+	char const *id;		/* unique in the entire tree */
 	int	    ns_id;
 	char const *name;
 	char const *parent_id;
-	void (*start) (GsfXMLIn *state, xmlChar const **attrs);
-	void (*end)   (GsfXMLIn *state, GsfXMLBlob *unknown);
+	void (*start) (GsfXMLIn *xin, xmlChar const **attrs);
+	void (*end)   (GsfXMLIn *xin, GsfXMLBlob *unknown);
 
 	union {
 		int	    v_int;
@@ -98,11 +88,6 @@ struct _GsfXMLInNode {
 struct _GsfXMLInNS {
 	char const *uri;
 	unsigned    ns_id;
-};
-
-struct _GsfXMLInDocExtension {
-	void (*start) (GsfXMLIn *state, xmlChar const **attrs);
-	void (*end)   (GsfXMLIn *state, GsfXMLBlob *unknown);
 };
 
 #define GSF_XML_IN_NS(id, uri) \
@@ -125,13 +110,16 @@ GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const 
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
 gboolean     gsf_xml_in_doc_parse  (GsfXMLInDoc *doc, GsfInput *input,
 				    gpointer user_state);
-void	     gsf_xml_in_doc_extend (GsfXMLInDoc *doc, GsfXMLInNode const *nodes);
 void	     gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 				    GsfXMLInUnknownFunc handler);
 
-char const  *gsf_xml_in_check_ns   (GsfXMLIn const *state, char const *str,
+void	     gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
+				    gpointer new_state, GsfXMLInExtDtor dtor,
+				    xmlChar const **attrs);
+
+char const  *gsf_xml_in_check_ns   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id);
-gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *state, char const *str,
+gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id, char const *name);
 
 /****************************************************************************/
