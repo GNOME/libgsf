@@ -1,5 +1,19 @@
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.13.2
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	DOH!
+	* gsf/gsf-libxml.c (gsf_xml_in_end_element) : clear the content before
+	  we pop the node.
+	(gsf_xml_in_doc_new) : restore the hack to handle bools in
+	  has_content.  There are still several callers that are passing bool.
+	(gsf_xml_in_doc_new) : Fix bogus typo that was crashing everything.
+	(gsf_xml_in_doc_new) : Init root_node
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump
 
 2005-10-10  Jody Goldberg <jody@gnome.org>

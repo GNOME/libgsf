@@ -534,6 +534,9 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 
 		if (state->pub.node->end)
 			state->pub.node->end (&state->pub, NULL);
+		if (state->pub.node->has_content == GSF_XML_CONTENT)
+			g_string_truncate (state->pub.content, 0);
+
 		/* pop the state stack */
 		ext = state->extension_stack->data;
 		state->extension_stack	= g_slist_remove (state->extension_stack, ext);
@@ -552,9 +555,6 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 		} else
 			was_overlay = FALSE;
 	} while (was_overlay);
-
-	if (state->pub.node->has_content == GSF_XML_CONTENT)
-		g_string_truncate (state->pub.content, 0);
 }
 
 static void
@@ -745,7 +745,7 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 
 	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
 		node = g_hash_table_lookup (doc->symbols, e_node->id);
-		if (tmp != NULL) {
+		if (node != NULL) {
 			/* if its empty then this is just a recusion */
 			if (e_node->start != NULL || e_node->end != NULL ||
 			    e_node->has_content != GSF_XML_NO_CONTENT ||
@@ -757,10 +757,20 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 		} else {
 			node = g_new0 (GsfXMLInNodeInternal, 1);
 			node->pub = *e_node;
+			/* WARNING VILE HACK :
+			 * The api in 1.8.2 passed has_content as a boolean.
+			 * Too many things still use that to change yet.  We
+			 * edit the bool here to be GSF_CONTENT_NONE or
+			 * GSF_XML_CONTENT and try to ignore SHARED_CONTENT */
+			if (node->pub.has_content != 0 &&
+			    node->pub.has_content != GSF_XML_SHARED_CONTENT)
+				node->pub.has_content = GSF_XML_CONTENT;
 			node->groups = NULL;
 			g_hash_table_insert (doc->symbols,
 				(gpointer)node->pub.id, node);
 		}
+		if (e_node == nodes) /* first valid node is the root */
+			doc->root_node = node;
 
 		tmp = g_hash_table_lookup (doc->symbols, node->pub.parent_id);
 		if (tmp != NULL) {
