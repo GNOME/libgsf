@@ -385,11 +385,11 @@ push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const 
 
 static gboolean
 lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
-	      GsfXMLInNSInstance *inst,
 	      GSList *groups, xmlChar const *name, xmlChar const **attrs)
 {
 	GsfXMLInNodeGroup  *group;
 	GsfXMLInNode	   *node;
+	GsfXMLInNSInstance *inst;
 	GSList *elem, *ptr;
 	char const *tmp;
 
@@ -478,14 +478,14 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	}
 
 	node = (GsfXMLInNodeInternal const *) state->pub.node;
-	if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
+	if (lookup_child (state, default_ns, node->groups, name, attrs))
 		return;
 
 	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
 	ptr = state->pub.node_stack;
 	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
 		node = ptr->data;
-		if (lookup_child (state, default_ns, inst, node->groups, name, attrs))
+		if (lookup_child (state, default_ns, node->groups, name, attrs))
 			return;
 	}
 

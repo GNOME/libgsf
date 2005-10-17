@@ -8,6 +8,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-timestamp.h>
+#include <gsf/gsf-shared-memory.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-impl.h>
@@ -50,21 +51,21 @@
 gsf_blob_get_type
 gsf_clip_data_get_type
 gsf_doc_meta_data_get_type
-gsf_docprop_vector_get_type 
+gsf_docprop_vector_get_type
 gsf_infile_get_type
-gsf_infile_msole_get_type	
+gsf_infile_msole_get_type
 gsf_infile_msvba_get_type
 gsf_infile_stdio_get_type
 gsf_infile_zip_get_type
 gsf_input_get_type
 gsf_input_gzip_get_type
-gsf_input_memory_get_type 
-gsf_input_proxy_get_type 
+gsf_input_memory_get_type
+gsf_input_proxy_get_type
 gsf_input_stdio_get_type
 gsf_input_textline_get_type
 gsf_outfile_get_type
 gsf_outfile_msole_get_type
-gsf_outfile_stdio_get_type	
+gsf_outfile_stdio_get_type
 gsf_outfile_zip_get_type
 gsf_output_bzip_get_type
 gsf_output_csv_get_type
@@ -73,7 +74,7 @@ gsf_output_gzip_get_type
 gsf_output_iconv_get_type
 gsf_output_iochannel_get_type
 gsf_output_memory_get_type
-gsf_output_stdio_get_type  
+gsf_output_stdio_get_type
 gsf_shared_memory_get_type
 gsf_structured_blob_get_type
 gsf_timestamp_get_type

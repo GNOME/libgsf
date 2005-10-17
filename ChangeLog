@@ -1,3 +1,10 @@
+2005-10-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-libxml.c (lookup_child): `inst' is a local variable, not
+	  a parameter.
+	* doc/gsf.types: Add #include <gsf/gsf-shared-memory.h> to fix a
+	  warning.
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
