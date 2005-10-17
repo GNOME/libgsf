@@ -185,6 +185,7 @@ gsf_output_csv_init (GObject *obj)
 	GsfOutputCsv *csv = (GsfOutputCsv *)obj;
 	csv->quoting_triggers = g_strdup ("");
 	csv->eol = g_strdup ("\n");
+	csv->eol_len = strlen (csv->eol);
 	csv->buf = g_string_new (NULL);
 }
 
