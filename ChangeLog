@@ -1,3 +1,9 @@
+2005-10-26  Stepan Kasal  <kasal@ucw.cz>
+
+	* tests/test-dump-msole.c: Improve the description line in the top
+	comment; remove an unused #include.
+	* tests/test-restore-msole.c: Likewise.
+
 2005-10-17  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-libxml.c (lookup_child): `inst' is a local variable, not

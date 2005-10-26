@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * test-cp-msole.c: Test gsf-outfile-msole by cloning a file the hard way
+ * test-restore-msole.c: Create a msole file from a directory tree
  *
- * Copyright (C) 2002-2003	Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005	Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -24,7 +24,6 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-stdio.h>
-#include <gsf/gsf-infile-msole.h>
 
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-outfile.h>
