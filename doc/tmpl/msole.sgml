@@ -2,16 +2,24 @@
 MS OLE2
 
 <!-- ##### SECTION Short_Description ##### -->
-
+Microsoft OLE2 files
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+Object Linking and Embedding 2, or <firstterm>OLE2</firstterm> was developed
+by Microsoft and provides ways to create combined documents out of parts
+from different types of office applications (like spreadsheets and word
+processor files).
+</para>
+<para>
+These routines handle the <term>OLE2</term> file format.
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
 <para>
-
+The <ulink
+url="http://en.wikipedia.org/wiki/Object_linking_and_embedding">Wikipedia
+article "Object linking and embedding"</ulink>.
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->

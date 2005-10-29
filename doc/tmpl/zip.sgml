@@ -1,17 +1,23 @@
 <!-- ##### SECTION Title ##### -->
-Zip
+ZIP archives
 
 <!-- ##### SECTION Short_Description ##### -->
-
+ZIP compression and archive format
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+The ZIP file format is a file format that provides data compression and
+archiving. It is in widespread use on various platforms.
+</para>
+<para>
+These routines handle ZIP archives.
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
 <para>
-
+The <ulink
+url="http://en.wikipedia.org/wiki/ZIP_%28file_format%29">Wikipedia article
+"ZIP (file format)"</ulink>.
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
