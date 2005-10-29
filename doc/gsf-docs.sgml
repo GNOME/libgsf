@@ -22,6 +22,7 @@
 <!ENTITY GsfXml			SYSTEM "xml/xml.xml">
 <!ENTITY GsfStructuredBlob	SYSTEM "xml/blob.xml">
 <!ENTITY GsfText		SYSTEM "xml/text.xml">
+<!ENTITY GsfOpenDocument	SYSTEM "xml/gsf-opendoc-utils.xml">
 
 <!ENTITY GsfUtils		SYSTEM "xml/utils.xml">
 <!ENTITY TreeIndex		SYSTEM "xml/tree_index.sgml">
@@ -83,6 +84,7 @@ string utilities, file utilities, a main loop abstraction, and so on.
     &GsfCompression;
     &GsfMsole;
     &GsfMetadata;
+    &GsfOpenDocument;
     &GsfBlob;
     &GsfClipData;
     &GsfStructuredBlob;
