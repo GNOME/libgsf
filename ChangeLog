@@ -1,7 +1,7 @@
 2005-10-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/gsf-docs.sgml: Add OpenDoc documentation.
-	* gsf/gsf-timestamp.c, doc/tmpl/compression.sgml,
+	* gsf/gsf-timestamp.c, gsf/gsf-utils.c, doc/tmpl/compression.sgml,
 	doc/tmpl/gsf-opendoc-utils.sgml, doc/tmpl/msole.sgml,
 	doc/tmpl/utils.sgml, doc/tmpl/zip.sgml: Add some basic documentation.
 

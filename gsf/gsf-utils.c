@@ -148,6 +148,15 @@ gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 		fflush (stdout);
 }
 
+/**
+ * gsf_le_get_guint64
+ * @p: pointer to storage
+ *
+ * Interpret binary data as a guint64 (8 byte unsigned integer type) in little
+ * endian order.
+ *
+ * Returns: interpreted data
+ */
 guint64
 gsf_le_get_guint64 (void const *p)
 {
@@ -183,6 +192,15 @@ gsf_le_get_guint64 (void const *p)
 #endif
 }
 
+/**
+ * gsf_le_get_float :
+ * @p: pointer to storage
+ *
+ * Interpret binary data as a float in little endian order.
+ *
+ *
+ * Returns: interpreted data
+ */
 float
 gsf_le_get_float (void const *p)
 {
@@ -218,15 +236,22 @@ gsf_le_get_float (void const *p)
 #endif
 }
 
+/**
+ * gsf_le_set_float :
+ * @p: pointer to storage
+ * @f: float to be stored
+ *
+ * Store a value of type float in memory in little endian order.
+ */
 void
-gsf_le_set_float (void *p, float d)
+gsf_le_set_float (void *p, float f)
 {
 #if G_FLOAT_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (float) == 4) {
 		int     i;
-		guint8 *t  = (guint8 *)&d;
+		guint8 *t  = (guint8 *)&f;
 		guint8 *p2 = (guint8 *)p;
-		int     sd = sizeof (d);
+		int     sd = sizeof (f);
 
 		for (i = 0; i < sd; i++)
 			p2[sd - 1 - i] = t[i];
@@ -239,7 +264,7 @@ gsf_le_set_float (void *p, float d)
 		 * On i86, we could access directly, but Alphas require
 		 * aligned access.
 		 */
-		memcpy (p, &d, sizeof (d));
+		memcpy (p, &f, sizeof (f));
 	} else {
 		g_error ("Little endian machine, but weird size of floats");
 	}
@@ -248,6 +273,14 @@ gsf_le_set_float (void *p, float d)
 #endif
 }
 
+/**
+ * gsf_le_get_double :
+ * @p: pointer to storage
+ *
+ * Interpret binary data as a double in little endian order.
+ *
+ * Returns: interpreted data
+ */
 double
 gsf_le_get_double (void const *p)
 {
@@ -288,6 +321,13 @@ gsf_le_get_double (void const *p)
 #endif
 }
 
+/**
+ * gsf_le_set_double :
+ * @p: pointer to storage
+ * @d: double to be stored
+ *
+ * Store a value of type double in memory in little endian order
+ */
 void
 gsf_le_set_double (void *p, double d)
 {
@@ -352,8 +392,10 @@ gsf_extension_pointer (char const *path)
 }
 
 /**
- * gsf_iconv_close : A utility wrapper to safely close an iconv handle
- * @handle :
+ * gsf_iconv_close :
+ * @handle : handle to be closed.
+ *
+ * A utility wrapper to safely close an iconv handle.
  **/
 void
 gsf_iconv_close (GIConv handle)

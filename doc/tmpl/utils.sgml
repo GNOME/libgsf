@@ -146,10 +146,54 @@ of the GSF library from which you have included the headers).
 @\
 			   class_init:
 @\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
 			   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
 @\
 		       abstract:
 @\
@@ -551,10 +595,54 @@ of the GSF library from which you have included the headers).
 @\
 				   class_init:
 @\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
 				   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\
@@ -1058,66 +1146,66 @@ inconsistent data.
 
 <!-- ##### MACRO GSF_LE_GET_GINT8 ##### -->
 <para>
-
+Interpret data as an 8 bit integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT64 ##### -->
 <para>
-
+Interpret data as a 64 bit unsigned integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT16 ##### -->
 <para>
-
+Interpret data as a 16 bit integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT8 ##### -->
 <para>
-
+Interpret data as an 8 bit unsigned integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT32 ##### -->
 <para>
-
+Interpret data as a 32 bit integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT16 ##### -->
 <para>
-
+Interpret data as a 16 bit unsigned integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT32 ##### -->
 <para>
-
+Interpret data as a 32 bit unsigned integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT64 ##### -->
 <para>
-
+Interpret data as a 64 bit integer value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### FUNCTION gsf_le_get_guint64 ##### -->
@@ -1131,10 +1219,10 @@ inconsistent data.
 
 <!-- ##### MACRO GSF_LE_GET_FLOAT ##### -->
 <para>
-
+Interpret data as a float value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### FUNCTION gsf_le_get_float ##### -->
@@ -1148,10 +1236,10 @@ inconsistent data.
 
 <!-- ##### MACRO GSF_LE_GET_DOUBLE ##### -->
 <para>
-
+Interpret data as a double value in little endian order.
 </para>
 
-@p: 
+@p: Pointer to storage
 
 
 <!-- ##### FUNCTION gsf_le_get_double ##### -->
@@ -1165,92 +1253,92 @@ inconsistent data.
 
 <!-- ##### MACRO GSF_LE_SET_GUINT8 ##### -->
 <para>
-
+Store an 8 bit unsigned integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT16 ##### -->
 <para>
-
+Store a 16 bit unsigned integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT32 ##### -->
 <para>
-
+Store a 32 bit unsigned integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT8 ##### -->
 <para>
-
+Store an 8 bit integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT16 ##### -->
 <para>
-
+Store a 16 bit integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT32 ##### -->
 <para>
-
+Store a 32 bit integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT64 ##### -->
 <para>
-
+Store a 64 bit integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT64 ##### -->
 <para>
-
+Store a 64 bit unsigned integer value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_FLOAT ##### -->
 <para>
-
+Store a float value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### MACRO GSF_LE_SET_DOUBLE ##### -->
 <para>
-
+Store a double value in memory in little endian order.
 </para>
 
-@p: 
-@dat: 
+@p: Pointer to storage
+@dat: Value to be stored
 
 
 <!-- ##### FUNCTION gsf_le_set_float ##### -->
