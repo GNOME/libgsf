@@ -49,19 +49,40 @@ utils
 
 <!-- ##### VARIABLE libgsf_major_version ##### -->
 <para>
+The major version number of the GSF library. 
+(e.g. in GSF version 1.2.5 this is 1.)
+</para>
 
+<para>
+This variable is in the library and thus represents the
+GSF library you have linked against (which may be different from the version
+of the GSF library from which you have included the headers).
 </para>
 
 
 <!-- ##### VARIABLE libgsf_minor_version ##### -->
 <para>
+The minor version number of the GLib library.
+(e.g. in GLib version 1.2.5 this is 2.)
+</para>
 
+<para>
+This variable is in the library and thus represents the
+GSF library you have linked against (which may be different from the version
+of the GSF library from which you have included the headers).
 </para>
 
 
 <!-- ##### VARIABLE libgsf_micro_version ##### -->
 <para>
+The micro version number of the GSF library.
+(e.g. in GSF version 1.2.5 this is 5.)
+</para>
 
+<para>
+This variable is in the library and thus represents the
+GSF library you have linked against (which may be different from the version
+of the GSF library from which you have included the headers).
 </para>
 
 
@@ -119,10 +140,22 @@ utils
 @\
 			   class_init:
 @\
+			   class_init:
+@\
+			   class_init:
+@\
+			   class_init:
+@\
 			   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
+@\
+		       abstract:
+@\
+		       abstract:
 @\
 		       abstract:
 @\
@@ -512,10 +545,22 @@ utils
 @\
 				   class_init:
 @\
+				   class_init:
+@\
+				   class_init:
+@\
+				   class_init:
+@\
 				   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
+@\
+			       abstract:
+@\
+			       abstract:
 @\
 			       abstract:
 @\

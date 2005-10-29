@@ -47,6 +47,14 @@ gsf_timestamp_get_type (void)
 	return our_type;
 }
 
+/**
+ * gsf_timestamp_copy:
+ * @stamp: timestamp to be copied
+ *
+ * Copies a timestamp.
+ *
+ * Returns: a separate copy of @stamp.
+ */
 GsfTimestamp *
 gsf_timestamp_copy (GsfTimestamp const *stamp)
 {
@@ -55,6 +63,12 @@ gsf_timestamp_copy (GsfTimestamp const *stamp)
 	return res;
 }
 
+/**
+ * gsf_timestamp_free :
+ * @stamp : timestamp to be freed
+ *
+ * Releases the memory in use for @stamp (if any).
+ **/
 void
 gsf_timestamp_free (GsfTimestamp *stamp)
 {
@@ -68,6 +82,15 @@ gsf_timestamp_parse (G_GNUC_UNUSED char const *spec,
 	return 0;
 }
 
+/**
+ * gsf_timestamp_as_string :
+ * @stamp: timestamp to be converted.
+ *
+ * Produce a string representation of @stamp.
+ *
+ * Returns: a string representation of @stamp. When @stamp is NULL, the
+ * representation is "&lt;invalid&gt;".
+ */
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
@@ -86,6 +109,16 @@ gsf_timestamp_hash (GsfTimestamp const *stamp)
 	return stamp->timet;
 }
 
+/**
+ * gsf_timestamp_equal :
+ * @a: a timestamp
+ * @b: another timestamp
+ *
+ * Compare timestamps @a and @b.
+ *
+ * Returns: true if @a and @b represent the same point in time; false otherwise.
+ *
+ **/
 gboolean
 gsf_timestamp_equal (GsfTimestamp const *a, GsfTimestamp const *b)
 {
