@@ -167,9 +167,9 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
 
 /**
  * gsf_output_name :
- * @output :
+ * @output:
  *
- * Returns @output's name in utf8 form, DO NOT FREE THIS STRING
+ * Returns: @output's name in utf8 form, DO NOT FREE THIS STRING
  **/
 char const *
 gsf_output_name (GsfOutput const *output)
@@ -194,9 +194,9 @@ gsf_output_container (GsfOutput const *output)
 
 /**
  * gsf_output_size :
- * @output :
+ * @output:
  *
- * Returns the size of the output, or -1 if it does not have a size.
+ * Returns: the size of the output, or -1 if it does not have a size.
  **/
 gsf_off_t
 gsf_output_size (GsfOutput *output)
@@ -207,10 +207,11 @@ gsf_output_size (GsfOutput *output)
 
 /**
  * gsf_output_close :
- * @output :
+ * @output:
  *
  * Close a stream.
- * Returns FALSE on error
+ *
+ * Returns: FALSE on error
  **/
 gboolean
 gsf_output_close (GsfOutput *output)
@@ -232,9 +233,9 @@ gsf_output_close (GsfOutput *output)
 
 /**
  * gsf_output_is_closed :
- * @output :
+ * @output:
  *
- * Returns TRUE if @output has already been closed.
+ * Returns: TRUE if @output has already been closed.
  **/
 gboolean
 gsf_output_is_closed (GsfOutput const *output)
@@ -247,7 +248,7 @@ gsf_output_is_closed (GsfOutput const *output)
  * gsf_output_tell :
  * @output :
  *
- * Returns the current position in the file
+ * Returns: the current position in the file
  **/
 gsf_off_t
 gsf_output_tell	(GsfOutput *output)
@@ -263,7 +264,7 @@ gsf_output_tell	(GsfOutput *output)
  * @offset :
  * @whence :
  *
- * Returns FALSE on error.
+ * Returns: FALSE on error.
  **/
 gboolean
 gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
@@ -319,11 +320,11 @@ gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
 
 /**
  * gsf_output_write :
- * @output :
- * @num_bytes :
- * @data :
+ * @output:
+ * @num_bytes:
+ * @data:
  *
- * Returns FALSE on error.
+ * Returns: FALSE on error.
  **/
 gboolean
 gsf_output_write (GsfOutput *output,
@@ -342,9 +343,9 @@ gsf_output_write (GsfOutput *output,
 
 /**
  * gsf_output_error :
- * @output :
+ * @output:
  *
- * Returns the last error logged on the output, or NULL.
+ * Returns: the last error logged on the output, or NULL.
  **/
 GError const *
 gsf_output_error (GsfOutput const *output)
@@ -355,13 +356,13 @@ gsf_output_error (GsfOutput const *output)
 
 /**
  * gsf_output_set_name :
- * @output :
- * @name :
+ * @output:
+ * @name:
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  **/
 gboolean
 gsf_output_set_name (GsfOutput *output, char const *name)
@@ -384,7 +385,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  **/
 gboolean
 gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
@@ -400,13 +401,13 @@ gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 
 /**
  * gsf_output_set_container :
- * @output :
- * @container :
+ * @output:
+ * @container:
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  **/
 gboolean
 gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
@@ -423,15 +424,15 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 
 /**
  * gsf_output_set_error :
- * @output :
- * @code :
- * @format :
- * @Varargs :
+ * @output:
+ * @code:
+ * @format:
+ * @Varargs:
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
  *
- * Returns Always returns FALSE to facilitate its use.
+ * Returns: Always returns FALSE to facilitate its use.
  **/
 gboolean
 gsf_output_set_error (GsfOutput  *output,
@@ -464,10 +465,10 @@ cb_output_unwrap (GsfOutput *wrapee, G_GNUC_UNUSED GObject *wrapper)
 
 /**
  * gsf_output_wrap :
- * @wrapper :
- * @wrapee :
+ * @wrapper:
+ * @wrapee:
  *
- * Returns TRUE if the wrapping succeeded.
+ * Returns: TRUE if the wrapping succeeded.
  **/
 gboolean
 gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
@@ -488,10 +489,10 @@ gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
 
 /**
  * gsf_output_unwrap :
- * @wrapper :
- * @wrapee :
+ * @wrapper:
+ * @wrapee:
  *
- * Returns TRUE if the unwrapping succeeded.
+ * Returns: TRUE if the unwrapping succeeded.
  **/
 gboolean
 gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)

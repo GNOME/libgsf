@@ -104,12 +104,15 @@ static void ole_info_unref (MSOleInfo *info);
 
 /**
  * ole_get_block :
- * @ole    : the infile
- * @block  :
- * @buffer : optionally NULL
+ * @ole: the infile
+ * @block:
+ * @buffer: optionally NULL
  *
  * Read a block of data from the underlying input.
  * Be really anal.
+ *
+ * Returns: pointer to the buffer or NULL if there is an error or 0 bytes are
+ * requested.
  **/
 static guint8 const *
 ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
@@ -128,15 +131,15 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 
 /**
  * ole_make_bat :
- * @metabat	: a meta bat to connect to the raw blocks (small or large)
- * @size_guess	: An optional guess as to how many blocks are in the file
- * @block	: The first block in the list.
- * @res		: where to store the result.
+ * @metabat: a meta bat to connect to the raw blocks (small or large)
+ * @size_guess: An optional guess as to how many blocks are in the file
+ * @block: The first block in the list.
+ * @res: where to store the result.
  *
  * Walk the linked list of the supplied block allocation table and build up a
  * table for the list starting in @block.
  *
- * Retrurns TRUE on error.
+ * Returns: TRUE on error.
  */
 static gboolean
 ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
@@ -186,13 +189,13 @@ ols_bat_release (MSOleBAT *bat)
 
 /**
  * ole_info_read_metabat :
- * @ole  :
- * @bats :
+ * @ole:
+ * @bats:
  *
  * A small utility routine to read a set of references to bat blocks
  * either from the OLE header, or a meta-bat block.
  *
- * Returns a pointer to the element after the last position filled.
+ * Returns: a pointer to the element after the last position filled.
  **/
 static guint32 *
 ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
@@ -216,9 +219,9 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 
 /**
  * gsf_ole_get_guint32s :
- * @dst :
- * @src :
- * @num_bytes :
+ * @dst:
+ * @src:
+ * @num_bytes:
  *
  * Copy some some raw data into an array of guint32.
  **/
@@ -275,11 +278,13 @@ ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
 
 /**
  * ole_dirent_new :
- * @ole    :
- * @entry  :
- * @parent : optional
+ * @ole:
+ * @entry:
+ * @parent: optional
  *
  * Parse dirent number @entry and recursively handle its siblings and children.
+ *
+ * Returns: The dirent
  **/
 static MSOleDirent *
 ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
@@ -427,13 +432,13 @@ ole_info_ref (MSOleInfo *info)
 }
 
 /**
- * ole_dup :
- * @src :
+ * ole_dup:
+ * @src:
  *
  * Utility routine to _partially_ replicate a file.  It does NOT copy the bat
  * blocks, or init the dirent.
  *
- * Return value: the partial duplicate.
+ * Returns: the partial duplicate.
  **/
 static GsfInfileMSOle *
 ole_dup (GsfInfileMSOle const *src, GError **err)
@@ -462,13 +467,13 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 
 /**
  * ole_init_info :
- * @ole :
- * @err : optionally NULL
+ * @ole:
+ * @err: optionally NULL
  *
  * Read an OLE header and do some sanity checking
  * along the way.
  *
- * Return value: TRUE on error setting @err if it is supplied.
+ * Returns: TRUE on error setting @err if it is supplied.
  **/
 static gboolean
 ole_init_info (GsfInfileMSOle *ole, GError **err)
@@ -895,13 +900,13 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 
 /**
  * gsf_infile_msole_new :
- * @source :
- * @err   :
+ * @source:
+ * @err:
  *
  * Opens the root directory of an MS OLE file.
- * NOTE : adds a reference to @source
+ * <note>This adds a reference to @source.</note>
  *
- * Returns : the new ole file handler
+ * Returns: the new ole file handler
  **/
 GsfInfile *
 gsf_infile_msole_new (GsfInput *source, GError **err)
@@ -936,7 +941,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
  * Retrieves the 16 byte indentifier (often a GUID in MS Windows apps)
  * stored within the directory associated with @ole and stores it in @res.
  *
- * Returns TRUE on success
+ * Returns: TRUE on success
  **/
 gboolean
 gsf_infile_msole_get_class_id (GsfInfileMSOle const *ole, guint8 *res)

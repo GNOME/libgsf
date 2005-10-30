@@ -1,3 +1,11 @@
+2005-10-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/gsf-infile-ar.c, gsf/gsf-infile-msole.c, gsf/gsf-infile-zip.c,
+	sf/gsf-infile.c, gsf/gsf-input-textline.c, gsf/gsf-input.c,
+	gsf/gsf-libxml.c, gsf/gsf-outfile-msole.c, gsf/gsf-outfile-zip.c,
+	gsf/gsf-output-transaction.c, gsf/gsf-output.c,
+	gsf/gsf-structured-blob.c: Minor documentation work.
+
 2005-10-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/gsf-docs.sgml: Add OpenDoc documentation.

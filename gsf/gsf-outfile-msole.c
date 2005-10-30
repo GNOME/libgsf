@@ -692,9 +692,9 @@ compute_shift (unsigned value)
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
- * NOTE : adds a reference to @sink
+ * <note>This adds a reference to @sink.</note>
  *
- * Returns the new ole file handler
+ * Returns: the new ole file handler.
  **/
 GsfOutfile *
 gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
@@ -766,9 +766,9 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
- * NOTE : adds a reference to @sink
+ * <note>This adds a reference to @sink.</note>
  *
- * Returns the new ole file handler
+ * Returns: the new ole file handler.
  **/
 GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)
@@ -784,7 +784,7 @@ gsf_outfile_msole_new (GsfOutput *sink)
  *
  * Write @clsid to the directory associated with @ole.
  *
- * Returns TRUE on success.
+ * Returns: TRUE on success.
  **/
 gboolean
 gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole, guint8 const *clsid)

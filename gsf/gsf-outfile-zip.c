@@ -731,15 +731,15 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 
 /**
  * gsf_outfile_zip_new :
- * @sink :
- * @err   :
+ * @sink:
+ * @err:
  *
  * Creates the root directory of a Zip file and manages the addition of
  * children.
  *
- * NOTE : adds a reference to @sink
+ * <note>This adds a reference to @sink.</note>
  *
- * Returns : the new zip file handler
+ * Returns: the new zip file handler
  **/
 GsfOutfile *
 gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)

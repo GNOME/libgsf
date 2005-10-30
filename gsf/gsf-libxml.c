@@ -244,9 +244,9 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
  * Create a libxml2 pull style parser context wrapper around a gsf input.
  * This signature will probably change to supply a SAX structure.
  *
- * NOTE : adds a reference to @input
- * NOTE : a simple wrapper around a cleaner implementation that will fold in
- *	 when we add other api changes.  Its not worth bumping just for this
+ * <note>This adds a reference to @input.</note>
+ * <note>A simple wrapper around a cleaner implementation that will fold in
+ * when we add other api changes.  Its not worth bumping just for this.</note>
  *
  * Returns : A parser context or NULL
  **/
@@ -258,11 +258,11 @@ gsf_xml_parser_context (GsfInput *input)
 
 /**
  * gsf_xml_output_buffer_new :
- * @output :
- * @encoding : optionally NULL.
+ * @output:
+ * @encoding: optionally NULL.
  *
- * NOTE : adds a reference to @output
- * NOTE : This is _not_ releated to GsfXMLOut
+ * <note>This adds a reference to @output.</note>
+ * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
  */
 static xmlOutputBufferPtr
 gsf_xml_output_buffer_new (GsfOutput *output,

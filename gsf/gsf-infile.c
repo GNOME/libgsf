@@ -48,7 +48,7 @@ gsf_infile_num_children (GsfInfile *infile)
  * @i      :
  *
  * Returns the utf8 encoded name of the @i-th child
- * NOTE : DO NOT FREE THE STRING
+ * <emphasis>DO NOT FREE THE STRING.</emphasis>
  **/
 char const *
 gsf_infile_name_by_index (GsfInfile *infile, int i)

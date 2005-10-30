@@ -166,9 +166,11 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
 
 /**
  * gsf_input_name :
- * @input : the input stream
+ * @input: the input stream
  *
- * Returns @input's name in utf8 form, or NULL if it has no name.
+ * The name of the input stream.
+ *
+ * Returns: @input's name in utf8 form, or NULL if it has no name.
  **/
 char const *
 gsf_input_name (GsfInput *input)
@@ -179,7 +181,7 @@ gsf_input_name (GsfInput *input)
 
 /**
  * gsf_input_container :
- * @input : the input stream
+ * @input: the input stream
  *
  * Returns, but does not add a reference to @input's container.
  * Potentially NULL
@@ -193,12 +195,12 @@ gsf_input_container (GsfInput *input)
 
 /**
  * gsf_input_dup :
- * @input : The input to duplicate
- * @err : optionally NULL
+ * @input: The input to duplicate
+ * @err: optionally NULL
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
- * Returns : the duplicate, or NULL on error
+ * Returns: the duplicate, or NULL on error
  **/
 GsfInput *
 gsf_input_dup (GsfInput *input, GError **err)
@@ -235,7 +237,7 @@ gsf_input_dup (GsfInput *input, GError **err)
 
 /**
  * gsf_input_open_sibling :
- * @input : The input
+ * @input: The input
  *
  * NOT CURRENTLY IMPLEMENTED
  *
@@ -244,7 +246,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  *
  * NOT CURRENTLY IMPLEMENTED
  *
- * Returns :  the size or -1 on error
+ * Returns:  the size or -1 on error
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
@@ -256,11 +258,11 @@ gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
 
 /**
  * gsf_input_size :
- * @input : The input
+ * @input: The input
  *
  * Looks up and caches the number of bytes in the input
  *
- * Returns :  the size or -1 on error
+ * Returns:  the size or -1 on error
  **/
 gsf_off_t
 gsf_input_size (GsfInput *input)
@@ -271,11 +273,11 @@ gsf_input_size (GsfInput *input)
 
 /**
  * gsf_input_eof :
- * @input : the input
+ * @input: the input
  *
  * Are we at the end of the file ?
  *
- * Returns : TRUE if the input is at the eof.
+ * Returns: TRUE if the input is at the eof.
  **/
 gboolean
 gsf_input_eof (GsfInput *input)
@@ -287,15 +289,15 @@ gsf_input_eof (GsfInput *input)
 
 /**
  * gsf_input_read :
- * @input : the input stream
- * @num_bytes : number of bytes to read
- * @optional_buffer : NULL, or pointer to destination memory area
+ * @input: the input stream
+ * @num_bytes: number of bytes to read
+ * @optional_buffer: NULL, or pointer to destination memory area
  *
  * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
- * Returns : pointer to the buffer or NULL if there is an error or 0 bytes are
+ * Returns: pointer to the buffer or NULL if there is an error or 0 bytes are
  * 	requested.
  **/
 guint8 const *
@@ -317,9 +319,9 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 
 /**
  * gsf_input_remaining :
- * @input : the input stream
+ * @input: the input stream
  *
- * Returns the number of bytes left in the file.
+ * Returns: the number of bytes left in the file.
  **/
 gsf_off_t
 gsf_input_remaining (GsfInput *input)
@@ -331,9 +333,9 @@ gsf_input_remaining (GsfInput *input)
 
 /**
  * gsf_input_tell :
- * @input : the input stream
+ * @input: the input stream
  *
- * Returns the current offset in the file.
+ * Returns: the current offset in the file.
  **/
 gsf_off_t
 gsf_input_tell (GsfInput *input)
@@ -345,12 +347,14 @@ gsf_input_tell (GsfInput *input)
 
 /**
  * gsf_input_seek :
- * @input : the input stream
- * @offset : target offset
- * @whence : determines whether the offset is relative to the beginning or
- *           the end of the stream, or to the current location.
+ * @input: the input stream
+ * @offset: target offset
+ * @whence: determines whether the offset is relative to the beginning or
+ *          the end of the stream, or to the current location.
  *
- * Returns TRUE on error.
+ * Move the current location in the input stream.
+ *
+ * Returns: TRUE on error.
  **/
 gboolean
 gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
@@ -385,12 +389,12 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 /**
  * gsf_input_set_name :
- * @input : the input stream
- * @name : the new name of the stream, or NULL.
+ * @input: the input stream
+ * @name: the new name of the stream, or NULL.
  *
  * protected.
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  **/
 gboolean
 gsf_input_set_name (GsfInput *input, char const *name)
@@ -407,12 +411,12 @@ gsf_input_set_name (GsfInput *input, char const *name)
 
 /**
  * gsf_input_set_name_from_filename :
- * @input : the input stream
- * @filename : the (fs-sys encoded) filename
+ * @input: the input stream
+ * @filename: the (fs-sys encoded) filename
  *
  * protected.
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  **/
 gboolean
 gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
@@ -427,10 +431,10 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
 
 /**
  * gsf_input_set_container :
- * @input : the input stream
- * @container :
+ * @input: the input stream
+ * @container:
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  */
 gboolean
 gsf_input_set_container (GsfInput *input, GsfInfile *container)
@@ -447,10 +451,10 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 
 /**
  * gsf_input_set_size :
- * @input : the input stream
- * @size : the size of the stream
+ * @input: the input stream
+ * @size: the size of the stream
  *
- * Returns : TRUE if the assignment was ok.
+ * Returns: TRUE if the assignment was ok.
  */
 gboolean
 gsf_input_set_size (GsfInput *input, gsf_off_t size)
@@ -463,11 +467,13 @@ gsf_input_set_size (GsfInput *input, gsf_off_t size)
 }
 
 /**
- * gsf_input_seek_emulate: Emulate forward seeks by reading.
- * @input : stream to emulate seek for
- * @pos : absolute position to seek to
+ * gsf_input_seek_emulate :
+ * @input: stream to emulate seek for
+ * @pos: absolute position to seek to
  *
- * Returns : TRUE if the emulation failed.
+ * Emulate forward seeks by reading.
+ *
+ * Returns: TRUE if the emulation failed.
  */
 gboolean
 gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
@@ -488,7 +494,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 /**
  * gsf_input_error_id :
  *
- * Returns : A utility quark to flag a GError as being an input problem.
+ * Returns: A utility quark to flag a GError as being an input problem.
  */
 GQuark 
 gsf_input_error_id (void)
@@ -502,8 +508,9 @@ gsf_input_error_id (void)
 /**
  * gsf_input_error :
  *
- * Deprecated in 1.12.0
- * Returns : A utility quark to flag a GError as being an input problem.
+ * Deprecated as of GSF 1.12.0; use gsf_input_error_id() instead.
+ *
+ * Returns: A utility quark to flag a GError as being an input problem.
  */
 GQuark 
 gsf_input_error (void)
@@ -517,15 +524,15 @@ gsf_input_error (void)
 
 /**
  * gsf_input_copy :
- * @input : a non-null #GsfInput
- * @output : a non-null #GsfOutput
+ * @input: a non-null #GsfInput
+ * @output: a non-null #GsfOutput
  *
  * Copy the contents from @input to @output from their respective
  * current positions. So if you want to be sure to copy *everything*,
  * make sure to call gsf_input_seek (input, 0, G_SEEK_SET) and
  * gsf_output_seek (output, 0, G_SEEK_SET) first, if applicable.
  *
- * Returns : TRUE on Success
+ * Returns: TRUE on Success
  **/
 gboolean
 gsf_input_copy (GsfInput *input, GsfOutput *output)

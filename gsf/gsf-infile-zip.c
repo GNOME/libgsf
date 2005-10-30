@@ -837,13 +837,13 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
 
 /**
  * gsf_infile_zip_new :
- * @source : A base #GsfInput
- * @err   : A #GError, optionally %null
+ * @source: A base #GsfInput
+ * @err: A #GError, optionally %null
  *
  * Opens the root directory of a Zip file.
- * NOTE : adds a reference to @source
+ * <note>This adds a reference to @source.</note>
  *
- * Returns : the new zip file handler
+ * Returns: the new zip file handler
  **/
 GsfInfile *
 gsf_infile_zip_new (GsfInput *source, GError **err)

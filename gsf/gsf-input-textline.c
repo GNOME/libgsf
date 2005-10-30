@@ -50,7 +50,7 @@ typedef struct {
  * gsf_input_textline_new :
  * @source : in some combination of ascii and utf8
  *
- * NOTE : adds a reference to @source
+ * <note>This adds a reference to @source.</note>
  *
  * Returns a new file or NULL.
  **/

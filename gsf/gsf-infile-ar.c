@@ -259,7 +259,7 @@ ar_vdir_insert (ArVDir *vdir, char const * name, ArDirent *dirent)
  * ar_dup :
  * @src :
  *
- * Return value: the partial duplicate.
+ * Returns: the partial duplicate.
  **/
 static GsfInfileAr *
 ar_dup (GsfInfileAr const *src)
@@ -450,13 +450,13 @@ GSF_CLASS (GsfInfileAr, gsf_infile_ar,
 
 /**
  * gsf_infile_ar_new :
- * @source :
- * @err   :
+ * @source:
+ * @err:
  *
  * Opens the root directory of a Ar file.
- * NOTE : adds a reference to @source
+ * <note>This adds a reference to @source.</note>
  *
- * Returns : the new AR file handler
+ * Returns: the new AR file handler
  **/
 GsfInfile *
 gsf_infile_ar_new (GsfInput *source, GError **err)

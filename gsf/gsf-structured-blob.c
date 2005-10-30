@@ -193,9 +193,9 @@ GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,
 
 /**
  * gsf_structured_blob_read :
- * @input : An input (potentially a GsfInfile) holding the blob
+ * @input: An input (potentially a GsfInfile) holding the blob
  *
- * Returns a freshly created tree of blobs
+ * Returns: a freshly created tree of blobs
  **/
 GsfStructuredBlob *
 gsf_structured_blob_read (GsfInput *input)
@@ -256,13 +256,13 @@ gsf_structured_blob_read (GsfInput *input)
 
 /**
  * gsf_structured_blob_write :
- * @blob :
- * @container :
+ * @blob:
+ * @container:
  *
  * Dumps structured blob @blob onto the @container.  Will fail if the output is
  * not an Outfile and blob has multiple streams.
  *
- * Returns : TRUE on success.
+ * Returns: TRUE on success.
  **/
 gboolean
 gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
