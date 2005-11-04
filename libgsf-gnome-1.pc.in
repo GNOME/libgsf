@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: libgsf-gnome-1
 Description: GNOME specific extensions to libgsf
 Version: @VERSION@
-Requires: libgsf-1
+Requires: libgsf-1 libbonobo-2.0 >= 2.0.0 gnome-vfs-2.0 >= 2.2.0 gnome-vfs-module-2.0 >= 2.2.0
 Libs: -L${libdir} -lgsf-gnome-1
 Cflags:
