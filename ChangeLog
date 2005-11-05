@@ -1,3 +1,7 @@
+2005-11-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* doc/gsf-docs.sgml: Fleshed things out a bit.
+
 2005-11-04  Christian Neumair  <chris@gnome-de.org>
 
 	* libgsf-gnome-1.pc.in: Add required packages to Requires field.
