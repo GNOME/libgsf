@@ -22,11 +22,6 @@ gsf_input_proxy_new_section
 <SUBSECTION Convenience>
 gsf_input_copy
 gsf_input_uncompress
-<SUBSECTION Implementation>
-gsf_input_set_name
-gsf_input_set_container
-gsf_input_set_size
-gsf_input_seek_emulate
 <SUBSECTION Standard>
 GSF_INPUT_TYPE
 GSF_INPUT
@@ -40,6 +35,11 @@ GSF_INPUT_PROXY
 GSF_INPUT_PROXY_TYPE
 GSF_IS_INPUT_PROXY
 gsf_input_proxy_get_type
+<SUBSECTION Private>
+gsf_input_set_name
+gsf_input_set_container
+gsf_input_set_size
+gsf_input_seek_emulate
 </SECTION>
 
 <SECTION>
@@ -65,9 +65,6 @@ gsf_output_is_closed
 
 gsf_output_wrap
 gsf_output_unwrap
-<SUBSECTION Implementation>
-gsf_output_set_name
-gsf_output_set_container
 
 <SUBSECTION Standard>
 GSF_OUTPUT_TYPE
@@ -77,6 +74,9 @@ GSF_OUTPUT_CLASS
 GSF_IS_OUTPUT_CLASS
 GsfOutfileClass
 gsf_output_get_type
+<SUBSECTION Private>
+gsf_output_set_name
+gsf_output_set_container
 </SECTION>
 
 <SECTION>
@@ -315,7 +315,7 @@ GSF_OUTFILE_MSOLE_TYPE
 GSF_OUTFILE_MSOLE
 GSF_IS_OUTFILE_MSOLE
 gsf_outfile_msole_get_type
-<SUBSECTION Implementation>
+<SUBSECTION Private>
 OLE_HEADER_START_BAT
 OLE_HEADER_MAJOR_VER
 OLE_HEADER_METABAT_SIZE
@@ -439,7 +439,7 @@ GSF_OUTFILE_ZIP
 GSF_IS_OUTFILE_ZIP
 gsf_outfile_zip_get_type
 
-<SUBSECTION Implementation>
+<SUBSECTION Private>
 GsfZipDirent
 gsf_zip_dirent_new
 gsf_zip_dirent_free
@@ -621,7 +621,6 @@ gsf_structured_blob_get_type
 
 <SECTION>
 <FILE>utils</FILE>
-<SUBSECTION Implementation>
 gsf_init
 gsf_shutdown
 gsf_init_dynamic
@@ -689,8 +688,6 @@ gsf_le_set_double
 
 <SUBSECTION TimeStamps>
 GsfTimestamp
-gsf_timestamp_new
-gsf_timestamp_new_now
 gsf_timestamp_copy
 gsf_timestamp_free
 gsf_timestamp_as_string

@@ -302,6 +302,168 @@ gsf-utils
 gsf
 
 
+<!-- ##### MACRO BAT_INDEX_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO BAT_MAGIC_BAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO BAT_MAGIC_END_OF_CHAIN ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO BAT_MAGIC_METABAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO BAT_MAGIC_UNUSED ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_CHILD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_CLSID ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_COLOUR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_CREATE_TIME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_DETAILS_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_FILE_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_FIRSTBLOCK ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_MAGIC_END ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_MAX_NAME_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_MODIFY_TIME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_NAME_LEN ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_NEXT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_PREV ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_DIR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_FILE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_INVALID ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_LOCKBYTES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_PROPERTY ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_TYPE_ROOTDIR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO DIRENT_USERFLAGS ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_INFILE ##### -->
 <para>
 
@@ -840,6 +1002,48 @@ gsf
 </para>
 
 
+<!-- ##### ENUM GsfZipCompressionMethod ##### -->
+<para>
+
+</para>
+
+@GSF_ZIP_STORED: 
+@GSF_ZIP_SHRUNK: 
+@GSF_ZIP_REDUCEDx1: 
+@GSF_ZIP_REDUCEDx2: 
+@GSF_ZIP_REDUCEDx3: 
+@GSF_ZIP_REDUCEDx4: 
+@GSF_ZIP_IMPLODED: 
+@GSF_ZIP_TOKENIZED: 
+@GSF_ZIP_DEFLATED: 
+@GSF_ZIP_DEFLATED_BETTER: 
+@GSF_ZIP_IMPLODED_BETTER: 
+
+<!-- ##### STRUCT GsfZipDirent ##### -->
+<para>
+
+</para>
+
+@name: 
+@compr_method: 
+@crc32: 
+@csize: 
+@usize: 
+@offset: 
+@data_offset: 
+@dostime: 
+
+<!-- ##### STRUCT GsfZipVDir ##### -->
+<para>
+
+</para>
+
+@name: 
+@is_directory: 
+@dirent: 
+@children: 
+@last_child: 
+
 <!-- ##### MACRO IS_GSF_INFILE ##### -->
 <para>
 
@@ -964,6 +1168,435 @@ gsf
 
 </para>
 
+
+<!-- ##### MACRO OLE_DEFAULT_BB_SHIFT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_DEFAULT_SB_SHIFT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_BB_SHIFT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_BYTE_ORDER ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_CLSID ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_CSECTDIR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_DIRENT_START ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_MAJOR_VER ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_METABAT_BLOCK ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_METABAT_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_MINOR_VER ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_NUM_BAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_NUM_METABAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_NUM_SBAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_SBAT_START ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_SB_SHIFT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_SIGNATURE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_START_BAT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO OLE_HEADER_THRESHOLD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_BLOCK_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_BUF_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_COMMENT_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_COMPR_METHOD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_CRC32 ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_CSIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_DISKSTART ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_DOSTIME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_ENCODER ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_EXTRACT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_EXTRAS_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_FILE_MODE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_FILE_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_FLAGS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_NAME_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_OFFSET ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_DIRENT_USIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_COMPR_METHOD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_CRC32 ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_CSIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_DOSTIME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_EXTRACT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_EXTRAS_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_FLAGS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_NAME_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_FILE_HEADER_USIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_COMP_METHOD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_COMP_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_CRC ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_EXTRA_LEN ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_FLAGS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_NAME_LEN ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_OS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_TIME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_UNCOMP_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_HEADER_VERSION ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_NAME_SEPARATOR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_COMMENT_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_DIR_DISK ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_DIR_POS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_DIR_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_DISK ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_ENTRIES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_SIZE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZIP_TRAILER_TOTAL_ENTRIES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO ZZIP_IS_COMPRLEVEL ##### -->
+<para>
+
+</para>
+
+@p: 
+
+<!-- ##### MACRO ZZIP_IS_ENCRYPTED ##### -->
+<para>
+
+</para>
+
+@p: 
+
+<!-- ##### MACRO ZZIP_IS_STREAMED ##### -->
+<para>
+
+</para>
+
+@p: 
 
 <!-- ##### ENUM ZipCompressionMethod ##### -->
 <para>
@@ -1123,6 +1756,42 @@ gsf
 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_input_seek_emulate ##### -->
+<para>
+
+</para>
+
+@input: 
+@pos: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_set_container ##### -->
+<para>
+
+</para>
+
+@input: 
+@container: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_set_name ##### -->
+<para>
+
+</para>
+
+@input: 
+@name: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_input_set_size ##### -->
+<para>
+
+</para>
+
+@input: 
+@size: 
+@Returns: 
+
 <!-- ##### FUNCTION gsf_input_stdio_get_type ##### -->
 <para>
 
@@ -1177,7 +1846,42 @@ gsf
 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_output_set_container ##### -->
+<para>
+
+</para>
+
+@output: 
+@container: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_output_set_name ##### -->
+<para>
+
+</para>
+
+@output: 
+@name: 
+@Returns: 
+
 <!-- ##### FUNCTION gsf_timestamp_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_timestamp_new ##### -->
+<para>
+
+</para>
+
+@date: 
+@seconds: 
+@tz: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_timestamp_new_now ##### -->
 <para>
 
 </para>
@@ -1191,6 +1895,32 @@ gsf
 
 @value: 
 @vector: 
+
+<!-- ##### FUNCTION gsf_vdir_add_child ##### -->
+<para>
+
+</para>
+
+@vdir: 
+@child: 
+
+<!-- ##### FUNCTION gsf_vdir_free ##### -->
+<para>
+
+</para>
+
+@vdir: 
+@free_dirent: 
+
+<!-- ##### FUNCTION gsf_vdir_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@is_directory: 
+@dirent: 
+@Returns: 
 
 <!-- ##### FUNCTION gsf_xml_in_doc_extend ##### -->
 <para>
@@ -1226,6 +1956,20 @@ gsf
 @handler: 
 
 <!-- ##### FUNCTION gsf_xml_out_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION gsf_zip_dirent_free ##### -->
+<para>
+
+</para>
+
+@dirent: 
+
+<!-- ##### FUNCTION gsf_zip_dirent_new ##### -->
 <para>
 
 </para>
