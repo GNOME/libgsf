@@ -210,23 +210,3 @@ Output to unstructured files
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_output_set_name ##### -->
-<para>
-
-</para>
-
-@output: 
-@name: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_output_set_container ##### -->
-<para>
-
-</para>
-
-@output: 
-@container: 
-@Returns: 
-
-

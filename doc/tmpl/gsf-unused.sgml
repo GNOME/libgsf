@@ -1864,6 +1864,25 @@ gsf
 @name: 
 @Returns: 
 
+<!-- ##### FUNCTION gsf_shared_memory_mmapped_new ##### -->
+<para>
+
+</para>
+
+@buf: 
+@size: 
+@Returns: 
+
+<!-- ##### FUNCTION gsf_shared_memory_new ##### -->
+<para>
+
+</para>
+
+@buf: 
+@size: 
+@needs_free: 
+@Returns: 
+
 <!-- ##### FUNCTION gsf_timestamp_get_type ##### -->
 <para>
 

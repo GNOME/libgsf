@@ -1,6 +1,9 @@
 2005-11-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/gsf-timestamp.h: Dropped two superfluous declarations.
+	* doc/gsf-sections.txt: Mark internal symbols as subsection "Private"
+	so as not to be counted for coverage stats.
+	* doc/tmpl/*.sgml: Cascaded updates.
 
 2005-11-05  Jody Goldberg <jody@gnome.org>
 

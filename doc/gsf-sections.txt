@@ -169,9 +169,6 @@ gsf_output_memory_get_bytes
 gsf_output_memory_get_type
 gsf_output_memory_new
 
-GsfSharedMemory
-gsf_shared_memory_new
-gsf_shared_memory_mmapped_new
 <SUBSECTION Standard>
 GSF_INPUT_MEMORY_TYPE
 GSF_INPUT_MEMORY
@@ -187,6 +184,12 @@ GSF_SHARED_MEMORY_TYPE
 GSF_SHARED_MEMORY
 GSF_IS_SHARED_MEMORY
 gsf_shared_memory_get_type
+
+<SUBSECTION Private>
+GsfSharedMemory
+gsf_shared_memory_new
+gsf_shared_memory_mmapped_new
+</SUBSECTION>
 </SECTION>
 
 <SECTION>

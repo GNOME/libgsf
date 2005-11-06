@@ -107,13 +107,21 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@class_init:
+@\
+			   class_init:
+@\
+			   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@abstract: 
+@\
+		       abstract:
+@\
+		       abstract: 
 @interface_decl: 
 <!-- # Unused Parameters # -->
+@class_init: 
+@abstract: 
 @class_init: 
 
 
@@ -172,13 +180,21 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@class_init:
+@\
+				   class_init:
+@\
+				   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@abstract:
+@\
+			       abstract:
+@\
+			       abstract: 
 @interface_decl: 
 <!-- # Unused Parameters # -->
+@class_init: 
+@abstract: 
 @class_init: 
 @module: 
 @plugin: 
@@ -600,25 +616,6 @@ Store a double value in memory in little endian order.
 @seconds: 
 @time_zone: 
 @timet: 
-
-<!-- ##### FUNCTION gsf_timestamp_new ##### -->
-<para>
-
-</para>
-
-@date: 
-@seconds: 
-@tz: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gsf_timestamp_new_now ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
 
 <!-- ##### FUNCTION gsf_timestamp_copy ##### -->
 <para>
