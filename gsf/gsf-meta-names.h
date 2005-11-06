@@ -25,118 +25,255 @@
 #ifndef GSF_META_NAMES_H
 #define GSF_META_NAMES_H
 
-/* (String) A formal name given to the resource */
+/**
+ * GSF_META_NAME_TITLE:
+ *
+ * (String) A formal name given to the resource.
+ */
 #define GSF_META_NAME_TITLE                 "dc:title"
 
-/* (String) An account of the content of the resource */
+/**
+ * GSF_META_NAME_DESCRIPTION:
+ *
+ * (String) An account of the content of the resource.
+ */
 #define GSF_META_NAME_DESCRIPTION           "dc:description"
 
-/* (String) The topic of the content of the resource, *typically* including keywords */
+/**
+ * GSF_META_NAME_SUBJECT:
+ *
+ * (String) The topic of the content of the resource,
+ * <emphasis>typically</emphasis> including keywords.
+ */
 #define GSF_META_NAME_SUBJECT               "dc:subject"
 
-/* (Date as ISO String) The last time this document was saved */
+/**
+ * GSF_META_NAME_DATE_MODIFIED:
+ *
+ * (Date as ISO String) The last time this document was saved.
+ */
 #define GSF_META_NAME_DATE_MODIFIED         "dc:date-modified"
 
-/* (Date as ISO String) A date associated with an event in the life cycle of the resource (creation/publication date) */
+/**
+ * GSF_META_NAME_DATE_CREATED:
+ *
+ * (Date as ISO String) A date associated with an event in the life cycle of
+ * the resource (creation/publication date).
+ */
 #define GSF_META_NAME_DATE_CREATED          "gsf:date-created"
 
-/* (String) Searchable, indexable keywords. Similar to PDF keywords or HTML's meta block */
+/**
+ * GSF_META_NAME_KEYWORDS:
+ *
+ * (String) Searchable, indexable keywords. Similar to PDF keywords or HTML's
+ * meta block.
+ */
 #define GSF_META_NAME_KEYWORDS              "dc:keywords"
 
-/* (String) A language of the intellectual content of the resource (basically xx_YY form for us) */
+/**
+ * GSF_META_NAME_LANGUAGE:
+ *
+ * (String) A language of the intellectual content of the resource (basically
+ * xx_YY form for us).
+ */
 #define GSF_META_NAME_LANGUAGE              "dc:language"
 
-/* (Integer) Count of revision on the document, if appropriate */
+/**
+ * GSF_META_NAME_REVISION_COUNT:
+ *
+ * (Integer) Count of revision on the document, if appropriate.
+ */
 #define GSF_META_NAME_REVISION_COUNT        "gsf:revision-count"
 
-/* (Date as ISO String) The total-time taken till last-modified */
+/**
+ * GSF_META_NAME_EDITING_DURATION:
+ *
+ * (Date as ISO String) The total-time taken until the last modification.
+ */
 #define GSF_META_NAME_EDITING_DURATION      "gsf:editing-duration"
 
-/* (Integer) Count of tables in the document, if appropriate */
+/**
+ * GSF_META_NAME_TABLE_COUNT:
+ *
+ * (Integer) Count of tables in the document, if appropriate.
+ */
 #define GSF_META_NAME_TABLE_COUNT           "gsf:table-count"
 
-/* (Integer) Count of images in the document, if appropriate */
+/**
+ * GSF_META_NAME_IMAGE_COUNT:
+ *
+ * (Integer) Count of images in the document, if appropriate.
+ */
 #define GSF_META_NAME_IMAGE_COUNT           "gsf:image-count"
 
-/* (Integer) Count of objects (OLE and other graphics) in the document, if appropriate */
+/**
+ * GSF_META_NAME_OBJECT_COUNT:
+ *
+ * (Integer) Count of objects (OLE and other graphics) in the document, if
+ * appropriate.
+ */
 #define GSF_META_NAME_OBJECT_COUNT          "gsf:object-count"
 
-/* (Integer) Count of pages in the document, if appropriate */
+/**
+ * GSF_META_NAME_PAGE_COUNT:
+ *
+ * (Integer) Count of pages in the document, if appropriate.
+ */
 #define GSF_META_NAME_PAGE_COUNT            "gsf:page-count"
 
-/* (Integer) Count of paragraphs in the document, if appropriate */
+/**
+ * GSF_META_NAME_PARAGRAPH_COUNT:
+ *
+ * (Integer) Count of paragraphs in the document, if appropriate.
+ */
 #define GSF_META_NAME_PARAGRAPH_COUNT       "gsf:paragraph-count"
 
-/* (Integer) Count of words in the document */
+/**
+ * GSF_META_NAME_WORD_COUNT:
+ *
+ * (Integer) Count of words in the document.
+ */
 #define GSF_META_NAME_WORD_COUNT            "gsf:word-count"
 
-/* (Integer) Count of characters in the document */
+/**
+ * GSF_META_NAME_CHARACTER_COUNT:
+ *
+ * (Integer) Count of characters in the document.
+ */
 #define GSF_META_NAME_CHARACTER_COUNT       "gsf:character-count"
 
-/* (Integer) Count of cells in the spread-sheet document, if appropriate */
+/**
+ * GSF_META_NAME_CELL_COUNT:
+ *
+ * (Integer) Count of cells in the spread-sheet document, if appropriate.
+ */
 #define GSF_META_NAME_CELL_COUNT            "gsf:cell-count"
 
-/* (Integer) Count of pages in the document, if appropriate */
+/**
+ * GSF_META_NAME_SPREADSHEET_COUNT:
+ *
+ * (Integer) Count of pages in the document, if appropriate.
+ */
 #define GSF_META_NAME_SPREADSHEET_COUNT     "gsf:spreadsheet-count"
 
-/* (String) An entity primarily responsible for making the content of the resource
- * typically a person, organization, or service
+/**
+ * GSF_META_NAME_CREATOR:
+ *
+ * (String) An entity primarily responsible for making the content of the
+ * resource typically a person, organization, or service.
  */
 #define GSF_META_NAME_CREATOR               "gsf:creator"
 
-/* (String) The template file that is been used to generate this document */
+/**
+ * GSF_META_NAME_TEMPLATE:
+ *
+ * (String) The template file that is been used to generate this document.
+ */
 #define GSF_META_NAME_TEMPLATE              "gsf:template"
 
-/* (String) The entity that made the last change to the document, 
- * typically a person, organization, or service
+/* GSF_META_NAME_LAST_SAVED_BY:
+ *
+ * (String) The entity that made the last change to the document, typically a
+ * person, organization, or service.
  */
 #define GSF_META_NAME_LAST_SAVED_BY         "gsf:last-saved-by"
 
-/* (Date as ISO String) The last time this document was printed */
+/**
+ * GSF_META_NAME_LAST_PRINTED:
+ *
+ * (Date as ISO String) The last time this document was printed.
+ */
 #define GSF_META_NAME_LAST_PRINTED          "gsf:last-printed"
 
-/* (Integer) Level of security.
- * Level                         Value
- * -----                         -----
- * None                            0
- * Password protected              1
- * Read-only recommended           2
- * Read-only enforced              3
- * Locked for annotations          4
+/**
+ * GSF_META_NAME_SECURITY:
  *
+ * (Integer) Level of security.
+ *
+ * <informaltable frame="none" role="params">
+ * <tgroup cols="2">
+ * <thead>
+ * <row><entry align="left">Level</entry><entry>Value</entry></row>
+ * </thead>
+ * <tbody>
+ * <row><entry>None</entry><entry>0</entry></row>
+ * <row><entry>Password protected</entry><entry>1</entry></row>
+ * <row><entry>Read-only recommended</entry><entry>2</entry></row>
+ * <row><entry>Read-only enforced</entry><entry>3</entry></row>
+ * <row><entry>Locked for annotations</entry><entry>4</entry></row>
+ * </tbody></tgroup></informaltable>
  */
 #define GSF_META_NAME_SECURITY			"gsf:security"
 
-/* (String) Category of the document (example???) */
+/**
+ * GSF_META_NAME_CATEGORY
+ *
+ * (String) Category of the document. <note>example???</note>
+ */
 #define GSF_META_NAME_CATEGORY			"gsf:category"
 
-/* (String) Type of presentation, like "On-screen Show", "SlideView" etc */
+/**
+ * GSF_META_NAME_PRESENTATION_FORMAT:
+ *
+ * (String) Type of presentation, like "On-screen Show", "SlideView" etc.
+ */
 #define GSF_META_NAME_PRESENTATION_FORMAT	"gsf:presentation-format"
 
-/* (Clipboard Format (VT_CF)) Thumbnail data of the document, typically
- * a preview image of the document
+/**
+ * GSF_META_NAME_THUMBNAIL:
+ *
+ * (Clipboard Format (VT_CF)) Thumbnail data of the document, typically a
+ * preview image of the document.
  */
 #define GSF_META_NAME_THUMBNAIL			"gsf:thumbnail"
 
-/* (String) The creator (product) of this document. AbiWord, Gnumeric, etc...  */
+/**
+ * GSF_META_NAME_GENERATOR:
+ *
+ * (String) The creator (product) of this document. AbiWord, Gnumeric, etc...
+ */
 #define GSF_META_NAME_GENERATOR			"gsf:generator"
 
-/* (Integer) Count of liness in the document */
+/**
+ * GSF_META_NAME_LINE_COUNT:
+ *
+ * (Integer) Count of liness in the document.
+ */
 #define GSF_META_NAME_LINE_COUNT		"gsf:line-count"
 
-/* (Integer) Count of slides in the presentation document */
+/**
+ * GSF_META_NAME_SLIDE_COUNT:
+ *
+ * (Integer) Count of slides in the presentation document.
+ */
 #define GSF_META_NAME_SLIDE_COUNT		"gsf:slide-count"
 
-/* (Integer) Count of "notes" in the document */
+/**
+ * GSF_META_NAME_NOTE_COUNT:
+ *
+ * (Integer) Count of "notes" in the document.
+ */
 #define GSF_META_NAME_NOTE_COUNT		"gsf:note-count"
 
-/* (Integer) Count of hidden-slides in the presentation document */
+/**
+ * GSF_META_NAME_HIDDEN_SLIDE_COUNT:
+ *
+ * (Integer) Count of hidden-slides in the presentation document.
+ */
 #define GSF_META_NAME_HIDDEN_SLIDE_COUNT	"gsf:hidden-slide-count"
 
-/* (Integer) Count of "multi-media" clips in the document */
+/**
+ * GSF_META_NAME_MM_CLIP_COUNT:
+ *
+ * (Integer) Count of "multi-media" clips in the document.
+ */
 #define GSF_META_NAME_MM_CLIP_COUNT		"gsf:MM-clip-count"
 
-/* (Integer) Count of bytes in the document */
+/**
+ * GSF_META_NAME_BYTE_COUNT:
+ *
+ * (Integer) Count of bytes in the document.
+ */
 #define GSF_META_NAME_BYTE_COUNT		"gsf:byte-count"
 
 /* (Boolean) ????? */
@@ -149,11 +286,19 @@
 /* In spreadsheets this is a list of the sheet names, and the named expressions */
 #define GSF_META_NAME_DOCUMENT_PARTS		"gsf:document-parts"
 
-/* (String) Name of the manager of "CREATOR" entity */
+/**
+ * GSF_META_NAME_MANAGER:
+ *
+ * (String) Name of the manager of "CREATOR" entity.
+ */
 #define GSF_META_NAME_MANAGER			"gsf:manager"
 
-/* (String) Name of the company/organization that
- * the "CREATOR" entity is associated with.  */
+/**
+ * GSF_META_NAME_COMPANY:
+ *
+ * (String) Name of the company/organization that the "CREATOR" entity is
+ * associated with.
+ */
 #define GSF_META_NAME_COMPANY			"gsf:company"
 
 /* (Boolean) ??????? */
@@ -171,21 +316,34 @@
 /* (None) Reserved name (PID) for Dictionary */
 #define GSF_META_NAME_DICTIONARY            "gsf:dictionary"
 
-/* (Unsigned Integer) Identifier representing the default 
- * system locale.
+/**
+ * GSF_META_NAME_LOCALE_SYSTEM_DEFAULT:
+ *
+ * (Unsigned Integer) Identifier representing the default system locale.
  */
 #define GSF_META_NAME_LOCALE_SYSTEM_DEFAULT	"gsf:default-locale"
 
-/* (Unsigned Integer) Identifier representing the case-sensitiveness */
-/* of what ?? why is it an integer ?? */
+/**
+ * GSF_META_NAME_CASE_SENSITIVE
+ *
+ * (Unsigned Integer) Identifier representing the case-sensitiveness.
+ * <note>of what ?? why is it an integer ??</note>
+ */
 #define GSF_META_NAME_CASE_SENSITIVE		"gsf:case-sensitivity"
 
-/* (String) Specifies the name of the person who
- * created the document initially. */
+/**
+ * GSF_META_NAME_INITIAL_CREATOR:
+ *
+ * (String) Specifies the name of the person who created the document
+ * initially.
+ */
 #define GSF_META_NAME_INITIAL_CREATOR		"gsf:initial-creator"
 
-/* (String) Specifies the name of the last person
- * who printed the document. */
+/**
+ * GSF_META_NAME_PRINTED_BY:
+ *
+ * (String) Specifies the name of the last person who printed the document.
+ */
 #define GSF_META_NAME_PRINTED_BY		"gsf:printed-by"
 
 #endif /* GSF_META_NAMES_H */
