@@ -41,10 +41,6 @@ struct _GsfTimestamp {
 
 GType gsf_timestamp_get_type (void);
 
-GsfTimestamp *gsf_timestamp_new_now	(void);
-GsfTimestamp *gsf_timestamp_new		(GDate const *date, glong seconds,
-					 char const *tz);
-
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);
 int           gsf_timestamp_parse	(char const *spec, GsfTimestamp *stamp);

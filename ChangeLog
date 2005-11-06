@@ -1,3 +1,7 @@
+2005-11-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/gsf-timestamp.h: Dropped two superfluous declarations.
+
 2005-11-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (push_child) : apply extension if one was supplied.
