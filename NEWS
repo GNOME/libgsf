@@ -1,3 +1,12 @@
+libgsf 1.13.3
+
+J.H.M. Dassen (Ray) :
+	* Improve documentation.
+
+Jody :
+	* More work on extension interface to sax import wrapper.
+
+--------------------------------------------------------------------------
 libgsf 1.13.0
 
 Jody:

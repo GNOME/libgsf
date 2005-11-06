@@ -82,7 +82,7 @@ od_get_meta_prop (GsfXMLIn *xin, char const *prop_name, GType g_type)
 {
 	GValue *res = g_new0 (GValue, 1);
 	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str))
-		gsf_doc_meta_data_insert (((GsfOOMetaIn *)xin)->md,
+		gsf_doc_meta_data_insert (((GsfOOMetaIn *)xin->user_state)->md,
 			g_strdup (prop_name), res);
 	else
 		g_free (res);

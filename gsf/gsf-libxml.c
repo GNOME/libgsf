@@ -322,6 +322,7 @@ typedef struct {
 	GsfXMLInNode pub;
 	/* internal state */
 	GSList *groups;
+	GSList *extensions;
 } GsfXMLInNodeInternal;
 struct _GsfXMLInDoc {
 	GsfXMLInNodeInternal const *root_node;
@@ -333,14 +334,14 @@ struct _GsfXMLInDoc {
 typedef struct {
 	GsfXMLIn	pub;
 
-	GsfXMLInNS   const *default_ns;	/* optionally NULL */
-	GSList	 	   *ns_stack;
-	GHashTable	   *ns_prefixes;
-	GPtrArray	   *ns_by_id;
-	gint	  	    unknown_depth; /* handle recursive unknown tags */
-	gboolean	    from_unknown_handler;
+	GsfXMLInNS const *default_ns;	   /* optionally NULL */
+	GSList	 	 *ns_stack;
+	GHashTable	 *ns_prefixes;
+	GPtrArray	 *ns_by_id;
+	gint	  	  unknown_depth; /* handle recursive unknown tags */
+	gboolean	  from_unknown_handler;
 
-	GSList	 	   *extension_stack;
+	GSList	 	 *extension_stack; /* stack of GsfXMLInExtension */
 } GsfXMLInInternal;
 typedef struct {
 	char    *tag;
@@ -352,9 +353,9 @@ typedef struct {
 	GSList *elem;
 } GsfXMLInNodeGroup;
 typedef struct {
-	GsfXMLInDoc const *old_doc;
-	gpointer	   old_state;
-	GsfXMLInExtDtor    dtor;
+	GsfXMLInExtDtor	   dtor;
+	gpointer	   state;
+	GsfXMLInDoc const *doc;
 	gboolean	   from_unknown;
 } GsfXMLInExtension;
 
@@ -376,16 +377,28 @@ push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const 
 		(gpointer)state->pub.node);
 	state->ns_stack		= g_slist_prepend (state->ns_stack,
 		(gpointer)state->default_ns);
-	state->extension_stack	= g_slist_prepend (state->extension_stack, ext);
 	state->pub.node = node;
 	state->default_ns = default_ns;
-	if (node->start != NULL)
+
+	state->extension_stack	= g_slist_prepend (state->extension_stack, ext);
+	if (NULL != ext) {
+		GsfXMLInDoc const *old_doc = state->pub.doc;
+		state->pub.doc = ext->doc;
+		ext->doc = old_doc;
+		if (NULL != ext->state) {
+			gpointer old_state = state->pub.user_state;
+			state->pub.user_state = ext->state;
+			ext->state = old_state;
+		}
+	}
+	if (NULL != node->start)
 		node->start (&state->pub, attrs);
 }
 
 static gboolean
 lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
-	      GSList *groups, xmlChar const *name, xmlChar const **attrs)
+	      GSList *groups, xmlChar const *name,
+	      xmlChar const **attrs, GsfXMLInExtension *ext)
 {
 	GsfXMLInNodeGroup  *group;
 	GsfXMLInNode	   *node;
@@ -413,7 +426,7 @@ lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
 			if (node->name == NULL || !strcmp (tmp, node->name)) {
-				push_child (state, node, default_ns, attrs, NULL);
+				push_child (state, node, default_ns, attrs, ext);
 				return TRUE;
 			}
 		}
@@ -478,14 +491,22 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	}
 
 	node = (GsfXMLInNodeInternal const *) state->pub.node;
-	if (lookup_child (state, default_ns, node->groups, name, attrs))
+	if (lookup_child (state, default_ns, node->groups, name, attrs, NULL))
 		return;
 
 	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
 	ptr = state->pub.node_stack;
 	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
 		node = ptr->data;
-		if (lookup_child (state, default_ns, node->groups, name, attrs))
+		if (lookup_child (state, default_ns, node->groups, name, attrs, NULL))
+			return;
+	}
+
+	/* Check for extensions */
+	for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next) {
+		GsfXMLInExtension *ext = ptr->data;
+		if (lookup_child (state, default_ns,
+			ext->doc->root_node->groups, name, attrs, ext))
 			return;
 	}
 
@@ -516,45 +537,62 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 }
 
 static void
+gsf_xml_in_ext_free (GsfXMLInInternal *state, GsfXMLInExtension *ext)
+{
+	if (ext->dtor)
+		(ext->dtor) (&state->pub, ext->state);
+	g_free (ext);
+}
+
+static void
 gsf_xml_in_end_element (GsfXMLInInternal *state,
 			G_GNUC_UNUSED xmlChar const *name)
 {
-	GsfXMLInExtension *ext;
-	gboolean was_overlay;
+	GsfXMLInNodeInternal	*node;
+	GsfXMLInExtension	*ext;
+	GSList *ptr;
 
 	if (state->unknown_depth > 0) {
 		state->unknown_depth--;
 		return;
 	}
 
-	do {
-		g_return_if_fail (state->pub.node_stack != NULL);
-		g_return_if_fail (state->ns_stack != NULL);
-		g_return_if_fail (state->extension_stack != NULL);
+	g_return_if_fail (state->pub.node	!= NULL);
+	g_return_if_fail (state->pub.node_stack != NULL);
+	g_return_if_fail (state->ns_stack != NULL);
 
-		if (state->pub.node->end)
-			state->pub.node->end (&state->pub, NULL);
-		if (state->pub.node->has_content == GSF_XML_CONTENT)
-			g_string_truncate (state->pub.content, 0);
+	node = (GsfXMLInNodeInternal *) state->pub.node;
+	if (node->pub.end)
+		node->pub.end (&state->pub, NULL);
+	if (node->pub.has_content == GSF_XML_CONTENT)
+		g_string_truncate (state->pub.content, 0);
 
-		/* pop the state stack */
-		ext = state->extension_stack->data;
-		state->extension_stack	= g_slist_remove (state->extension_stack, ext);
-		state->pub.node		= state->pub.node_stack->data;
-		state->pub.node_stack	= g_slist_remove (state->pub.node_stack, state->pub.node);
-		state->default_ns	= state->ns_stack->data;
-		state->ns_stack		= g_slist_remove (state->ns_stack, state->default_ns);
+	/* Free any potential extensions associated with the current node */
+	for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next)
+		gsf_xml_in_ext_free (state, ptr->data);
+	g_slist_free (node->extensions);
+	node->extensions = NULL;
 
-		if (NULL != ext) {
-			was_overlay = !ext->from_unknown;
-			if (ext->dtor)
-				(ext->dtor) (&state->pub, ext->old_state);
-			state->pub.user_state = ext->old_state;
-			state->pub.doc = ext->old_doc;
-			g_free (ext);
-		} else
-			was_overlay = FALSE;
-	} while (was_overlay);
+	/* pop the state stack */
+	ext = state->extension_stack->data;
+	state->extension_stack	= g_slist_remove (state->extension_stack, ext);
+	state->pub.node		= state->pub.node_stack->data;
+	state->pub.node_stack	= g_slist_remove (state->pub.node_stack, state->pub.node);
+	state->default_ns	= state->ns_stack->data;
+	state->ns_stack		= g_slist_remove (state->ns_stack, state->default_ns);
+
+	if (NULL != ext) {
+		GsfXMLInDoc const *ext_doc = state->pub.doc;
+		state->pub.doc = ext->doc;
+		ext->doc = ext_doc;
+		if (NULL != ext->state) {
+			gpointer ext_state = state->pub.user_state;
+			state->pub.user_state = ext->state;
+			ext->state = ext_state;
+		}
+		if (ext->from_unknown)
+			gsf_xml_in_ext_free (state, ext);
+	}
 }
 
 static void
@@ -582,6 +620,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->ns_by_id		= g_ptr_array_new ();
 	state->ns_prefixes	= g_hash_table_new_full (
 		g_str_hash, g_str_equal, NULL, g_free);
+	state->from_unknown_handler = FALSE;
 }
 
 static void
@@ -674,6 +713,10 @@ gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
 {
 	GSList *ptr;
 	GsfXMLInNodeGroup *group;
+
+	if (NULL != node->extensions) {
+		g_warning ("leaking extensions");
+	}
 
 	for (ptr = node->groups; ptr != NULL ; ptr = ptr->next) {
 		group = ptr->data;
@@ -838,15 +881,14 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 	g_return_if_fail (doc->root_node != NULL);
 
 	ext = g_new (GsfXMLInExtension, 1);
-	ext->old_doc	= xin->doc;
-	ext->old_state	= xin->user_state;
-	ext->dtor	= dtor;
-	ext->from_unknown = state->from_unknown_handler;
-
-	xin->doc = doc;
-	xin->user_state = new_state;
-
-	push_child (state, &doc->root_node->pub, NULL, attrs, ext);
+	ext->doc	  = doc;
+	ext->state	  = new_state;
+	ext->dtor	  = dtor;
+	if (!(ext->from_unknown = state->from_unknown_handler)) {
+		GsfXMLInNodeInternal *node = (GsfXMLInNodeInternal *) xin->node;
+		node->extensions = g_slist_prepend (node->extensions, ext);
+	} else
+		push_child (state, &doc->root_node->pub, NULL, attrs, ext);
 }
 
 /**
