@@ -189,7 +189,6 @@ gsf_shared_memory_get_type
 GsfSharedMemory
 gsf_shared_memory_new
 gsf_shared_memory_mmapped_new
-</SUBSECTION>
 </SECTION>
 
 <SECTION>
