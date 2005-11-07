@@ -1,5 +1,10 @@
 2005-11-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
+	* gsf/gsf-opendoc-utils.c: use /* FIXME FIXME FIXME Blah Blah */
+	instead of #warning for non-gcc compilers. (#306740)
+
+2005-11-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
+
 	* Makefile.am:
 	* configure.in:
 	* dumpdef.in: New

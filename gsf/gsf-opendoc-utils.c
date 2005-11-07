@@ -99,7 +99,7 @@ OO_PROP(generator,		GSF_META_NAME_GENERATOR,	G_TYPE_STRING)
 OO_PROP(title,			GSF_META_NAME_TITLE,		G_TYPE_STRING)
 OO_PROP(description,		GSF_META_NAME_DESCRIPTION,	G_TYPE_STRING)
 OO_PROP(subject,		GSF_META_NAME_SUBJECT,		G_TYPE_STRING)
-#warning OD allows multiple keywords, make this an array ?
+/* FIXME FIXME FIXME OD allows multiple keywords, make this an array ? */
 OO_PROP(keyword,		GSF_META_NAME_KEYWORDS,		G_TYPE_STRING)
 OO_PROP(initial_creator,	GSF_META_NAME_INITIAL_CREATOR,	G_TYPE_STRING)
 /* OD considers this the last person to modify the doc, rather than
@@ -108,13 +108,13 @@ OO_PROP(creator,		GSF_META_NAME_CREATOR,		G_TYPE_STRING)
 /* last to print */
 OO_PROP(printed_by,		GSF_META_NAME_PRINTED_BY,	G_TYPE_STRING)
 
-#warning "should be dates using 'YYYY-MM-DDThh:mm:ss'"
+/* FIXME FIXME FIXME should be dates using 'YYYY-MM-DDThh:mm:ss' */
 OO_PROP(date_created,		GSF_META_NAME_DATE_CREATED,	G_TYPE_STRING)
 OO_PROP(date_modified,		GSF_META_NAME_DATE_MODIFIED,	G_TYPE_STRING)
 OO_PROP(print_date,		GSF_META_NAME_LAST_PRINTED,	G_TYPE_STRING)
 OO_PROP(language,		GSF_META_NAME_LANGUAGE,		G_TYPE_STRING)
 OO_PROP(editing_cycles,		GSF_META_NAME_REVISION_COUNT,	G_TYPE_UINT)
-#warning "should be durations using format 'PnYnMnDTnHnMnS'"
+/* FIXME FIXME FIXME should be durations using format 'PnYnMnDTnHnMnS' */
 OO_PROP(editing_duration,	GSF_META_NAME_EDITING_DURATION, G_TYPE_STRING)
 
 #if 0
