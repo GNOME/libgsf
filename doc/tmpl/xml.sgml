@@ -402,6 +402,8 @@ XML and libxml
 @\
 			     share_children_with_parent:
 @\
+			     share_children_with_parent:
+@\
 			     share_children_with_parent: 
 @check_ns: 
 @start: 

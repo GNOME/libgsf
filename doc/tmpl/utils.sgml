@@ -110,10 +110,14 @@ of the GSF library from which you have included the headers).
 @\
 			   class_init:
 @\
+			   class_init:
+@\
 			   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+		       abstract:
 @\
 		       abstract:
 @\
@@ -183,10 +187,14 @@ of the GSF library from which you have included the headers).
 @\
 				   class_init:
 @\
+				   class_init:
+@\
 				   class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
+@\
+			       abstract:
 @\
 			       abstract:
 @\
