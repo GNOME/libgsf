@@ -124,6 +124,6 @@ gsf_mslib_DATA = gsf-1.lib
 gsf-1.lib: libgsf-1.la lib.def
 	lib -name:libgsf-1-1.dll -def:lib.def -out:$@
 
-CLEANFILES += gsf-1.exp gsf-1.lib
+CLEANFILES = gsf-1.exp gsf-1.lib
 endif
 

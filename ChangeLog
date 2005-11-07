@@ -1,3 +1,8 @@
+2005-11-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gsf-win32/Makefile.am: Unbreak the build
+	* gsf/Makefile.am: Same here.
+
 2005-11-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
 	* gsf/gsf-opendoc-utils.c: use /* FIXME FIXME FIXME Blah Blah */
