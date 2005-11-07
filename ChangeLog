@@ -1,3 +1,23 @@
+2005-11-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
+
+	* Makefile.am:
+	* configure.in:
+	* dumpdef.in: New
+	* gsf.mk: New
+	* gsf/Makefile.am:
+	* gsf-gnome/Makefile.am:
+	* gsf-win32/Makefile.am:
+	For Win32 Only: 1.) For every source directory of a library, pass all
+	the public headers (with all #include removed) to the C preprocessor.
+	2.) Pass the result from 1. to a perl script which extracts names of
+	all the public functions and variables. 3.) Concat all from step 2. to
+	produce a single .def file at the top directory of the library. No
+	--export-all-symbols anymore.
+
+	* gsf/.cvsignore:
+	* gsf-win32/.cvsignore:
+	Shutup CVS.
+
 2005-11-07  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

@@ -5,7 +5,7 @@ lib_LTLIBRARIES = libgsf-gnome-1.la
 
 libgsf_gnome_1_la_LIBADD  = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_GNOME_LIBS)
 libgsf_gnome_1_la_LDFLAGS = -version-info $(VERSION_INFO)
-if PLATFORM_WIN32
+if WITH_WIN32
   libgsf_gnome_1_la_LDFLAGS += -no-undefined
 endif
 libgsf_gnome_1_la_SOURCES =	\

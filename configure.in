@@ -187,29 +187,20 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	 macro_s_isreg=no])
 AC_MSG_RESULT($macro_s_isreg)
 
-AC_MSG_CHECKING([for native Win32])
-case $host in
-  *-*-mingw*)
-    native_win32=yes
-    ;;
-  *)
-    native_win32=no
-    ;;
-esac
-AC_MSG_RESULT([$native_win32])
-AM_CONDITIONAL(OS_WIN32, test "$native_win32" = yes)
-
-AC_MSG_CHECKING([for Win32 platform in general])
-case $host in
-  *-*-mingw*|*-*-cygwin*)
-    platform_win32=yes
-    ;;
-  *)
-    platform_win32=no
+AC_MSG_CHECKING([for Win32 platform])
+with_win32=no
+case $host_os in
+  mingw* | pw32* | cygwin*)
+    with_win32=yes
+    AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
+    AC_CHECK_TOOL(WINDRES, windres)
+    AC_ARG_VAR(LIBEXE, [The lib.exe executable (used by win32 builds only).])
+    AC_CHECK_PROG(LIBEXE, lib.exe, yes, no)
     ;;
 esac
-AC_MSG_RESULT($platform_win32)
-AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = yes)
+AC_MSG_RESULT($with_win32)
+AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
+AM_CONDITIONAL(HAVE_LIBEXE, test x$LIBEXE = xyes)
 
 ##################################################
 # Checks for gtk-doc and docbook-tools

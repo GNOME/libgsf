@@ -1,15 +1,3 @@
-if OS_WIN32
-
-install-libtool-import-lib:
-	$(INSTALL) .libs/libgsf-1.dll.a $(DESTDIR)$(libdir)
-
-uninstall-libtool-import-lib:
-	-rm $(DESTDIR)$(libdir)/libgsf-1.dll.a
-else
-install-libtool-import-lib:
-uninstall-libtool-import-lib:
-endif
-
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS) \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
 
@@ -17,8 +5,9 @@ lib_LTLIBRARIES = libgsf-1.la
 
 libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS)
 libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
-if PLATFORM_WIN32
-  libgsf_1_la_LDFLAGS += -no-undefined
+if WITH_WIN32
+  libgsf_1_la_DEPENDENCIES = lib.def
+  libgsf_1_la_LDFLAGS += -no-undefined -export-symbols lib.def
 endif
 
 libgsf_1_la_SOURCES =		\
@@ -66,7 +55,8 @@ libgsf_1_la_SOURCES =		\
 	gsf-shared-memory.h	\
 	gsf-structured-blob.c	\
 	gsf-blob.c		\
-	gsf-clip-data.c
+	gsf-clip-data.c		\
+	version.c
 #	gsf-output-transaction.c	\
 #	gsf-command-context.c	\
 #	gsf-io-context.c
@@ -123,6 +113,17 @@ libgsf_1_include_HEADERS = 	\
 #	gsf-command-context.h	\
 #	gsf-io-context.h
 
-install-data-local: install-libtool-import-lib
+include $(top_srcdir)/gsf.mk
+CPP_CFLAGS = -DGLIB_CHECK_VERSION\(x,y,z\)
+LIB_PUBLIC_HDRS = $(libgsf_1_include_HEADERS)
 
-uninstall-local: uninstall-libtool-import-lib
+if HAVE_LIBEXE
+gsf_mslibdir = $(DESTDIR)$(libdir)
+gsf_mslib_DATA = gsf-1.lib
+
+gsf-1.lib: libgsf-1.la lib.def
+	lib -name:libgsf-1-1.dll -def:lib.def -out:$@
+
+CLEANFILES += gsf-1.exp gsf-1.lib
+endif
+
