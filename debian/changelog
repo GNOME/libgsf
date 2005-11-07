@@ -1,3 +1,10 @@
+libgsf (1.13.3-1) unstable; urgency=medium
+
+  * New upstream release; limited changes.
+  * [debian/watch] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  7 Nov 2005 06:52:45 +0100
+
 libgsf (1.13.2-2) unstable; urgency=low
 
   * Upload to unstable.
