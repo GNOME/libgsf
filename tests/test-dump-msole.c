@@ -81,7 +81,7 @@ test (char *argv[])
 	GsfInput   *input;
 	GsfInfile  *infile;
 	GsfOutfile *outfile;
-	GError    *err;
+	GError    *err = NULL;
 
 	fprintf (stderr, "%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);

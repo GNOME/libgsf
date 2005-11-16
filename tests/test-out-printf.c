@@ -28,7 +28,7 @@ static int
 test (int argc, char *argv[])
 {
 	GsfOutput *output;
-	GError   *err;
+	GError   *err = NULL;
 
 	if (argc != 2) {
 		fprintf (stderr, "Usage : %s outfile\n", argv[0]);

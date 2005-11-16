@@ -1,23 +1,43 @@
 #!/bin/sh
 
-# Build runtime and developer zipfiles for libgsf on Win32.
+# Build runtime and developer zipfiles for libgsf and libgsf-gnome for
+# Win32.
 
 ZIP=/tmp/libgsf-@VERSION@.zip
 DEVZIP=/tmp/libgsf-dev-@VERSION@.zip
+GNOMEZIP=/tmp/libgsf-gnome-@VERSION@.zip
+GNOMEDEVZIP=/tmp/libgsf-gnome-dev-@VERSION@.zip
 
 cd @prefix@
+
 rm $ZIP
-
-DLLDIR=lib
-[ -f bin/libgsf-1-@LIBGSF_MAJOR_VERSION@.dll ] && DLLDIR=bin
-
 zip $ZIP -@ <<EOF
-$DLLDIR/libgsf-1-@LIBGSF_MAJOR_VERSION@.dll
+bin/libgsf-1-@CURRENT_MINUS_AGE@.dll
+bin/libgsf-win32-1-@CURRENT_MINUS_AGE@.dll
+EOF
+
+zip $ZIP lib/locale/*/LC_MESSAGES/libgsf.mo
+
+rm $GNOMEZIP
+zip $GNOMEZIP -@ <<EOF
+etc/gconf/schemas/gsf-office-thumbnailer.schemas
+bin/libgsf-gnome-1-@CURRENT_MINUS_AGE@.dll
 EOF
 
 rm $DEVZIP
 zip -r $DEVZIP -@ <<EOF
-include/libgsf-1
-lib/liblibgsf-1.dll.a
+include/libgsf-1/gsf
+include/libgsf-1/gsf-win32
+lib/libgsf-1.dll.a
+lib/libgsf-win32-1.dll.a
 lib/pkgconfig/libgsf-1.pc
+lib/pkgconfig/libgsf-win32-1.pc
+EOF
+
+rm $GNOMEDEVZIP
+zip -r $GNOMEDEVZIP -@ <<EOF
+bin/gsf-office-thumbnailer.exe
+include/libgsf-1/gsf-gnome
+lib/liblibgsf-gnome-1.dll.a
+lib/pkgconfig/libgsf-gnome-1.pc
 EOF

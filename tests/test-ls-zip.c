@@ -33,7 +33,7 @@ test (int argc, char *argv[])
 {
 	GsfInput  *input;
 	GsfInfile *infile;
-	GError    *err;
+	GError    *err = NULL;
 	gint       i, j;
 
 	for (i = 1; i < argc; i++) {

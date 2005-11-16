@@ -31,7 +31,7 @@ test (char *argv[])
 {
 	GsfInput   *input;
 	GsfOutput  *output;
-	GError     *err;
+	GError     *err = NULL;
 	int         rval = 0;
 
 	input = gsf_input_stdio_new (argv[1], &err);

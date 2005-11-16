@@ -30,7 +30,7 @@ test (int argc, char *argv[])
 {
 	GsfOutput *output;
 	GsfOutput *gzout;
-	GError   *err;
+	GError   *err = NULL;
 
 	if (argc != 2) {
 		fprintf (stderr, "Usage : %s outfile\n", argv[0]);

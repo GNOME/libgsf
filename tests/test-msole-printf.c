@@ -49,7 +49,7 @@ test (int argc, char *argv[])
 	GsfOutfile *outfile;
 	GsfOutput  *small;
 	GsfOutput  *large;
-	GError   *err;
+	GError   *err = NULL;
 	int i;
 
 	if (argc != 2) {

@@ -1,3 +1,21 @@
+2005-11-16  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Calculate CURRENT_MINUS_AGE as the libtool version
+	info's CURRENT - AGE and AC_SUBST it. This number gets used in the
+	DLL name, and thus needed in libgsf-zip.
+
+	* libgsf-zip.in: Use CURRENT_MINUS_AGE. DLLs are always in "bin"
+	nowadays. Build packages for gsf-gnome, too.
+
+	* gsf/gsf-utils.c: Use G_WIN32_DLLMAIN_FOR_DLL_NAME to get DLL
+	name, use g_win32_get_package_installation_directory() to
+	construct locale directory name at run-time on Win32.
+
+	* tests/*.c: Initialize GError pointers to NULL.
+
+	* thumbnailer/Makefile.am (install-data-local): Workaround for
+	MSYS feature that causes problems when running gconftool on Win32.
+
 2005-11-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gsf-win32/Makefile.am: Unbreak the build

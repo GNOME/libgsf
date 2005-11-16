@@ -30,7 +30,7 @@ test (int argc, char *argv[])
 {
 	GsfInput     	 *input;
 	GsfInputTextline *textline;
-	GError       	 *err;
+	GError       	 *err = NULL;
 	unsigned char *line;
 
 	if (argc < 2) {

@@ -43,6 +43,11 @@
 
 static void base64_init (void);
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+G_WIN32_DLLMAIN_FOR_DLL_NAME (static, dll_name)
+#endif
+
 /**
  * gsf_init :
  *
@@ -52,7 +57,16 @@ void
 gsf_init (void)
 {
 #ifdef ENABLE_NLS
+#ifdef G_OS_WIN32
+#undef GNOMELOCALEDIR
+	gchar *prefix = g_win32_get_package_installation_directory (NULL, dll_name);
+	gchar *GNOMELOCALEDIR = g_build_filename (prefix, "lib/locale", NULL);
+	g_free (prefix);
+#endif
 	bindtextdomain(GETTEXT_PACKAGE, GNOMELOCALEDIR);
+#ifdef G_OS_WIN32
+	g_free (GNOMELOCALEDIR);
+#endif
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 #endif
 

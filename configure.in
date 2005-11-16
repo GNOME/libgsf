@@ -31,6 +31,7 @@ m4_define([version_iface],
 	m4_eval(100 * libgsf_version_major + libgsf_version_minor))
 
 AC_SUBST([VERSION_INFO], [version_iface:libgsf_version_micro:0])
+AC_SUBST([CURRENT_MINUS_AGE], m4_eval(version_iface - 0))
 
 AM_INIT_AUTOMAKE(dist-bzip2)
 
