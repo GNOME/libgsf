@@ -3,6 +3,9 @@ libgsf 1.13.4
 Ivan Wong :
 	* Only export symbols which are in the public headers (Win32).
 
+Morten:
+	* Fix GsfOutputIConv.  [#323503]
+
 --------------------------------------------------------------------------
 libgsf 1.13.3
 
