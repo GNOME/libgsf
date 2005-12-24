@@ -65,3 +65,5 @@ EXTRA_DIST += $(manpage_DATA)
 else
 EXTRA_DIST = $(manpage_DATA)
 endif
+
+EXTRA_DIST += developer/blocksize.html

@@ -1,3 +1,8 @@
+2005-12-24  Stepan Kasal  <kasal@ucw.cz>
+
+	* doc/developer/blocksize.html: New fil in a new subdir.
+	* doc/Makefile.am: Distribute it.
+
 2005-12-07  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-iconv.c (iconv_flush): Fix handling of partial
