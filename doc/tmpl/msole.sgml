@@ -75,9 +75,6 @@ article "Object linking and embedding"</ulink>.
 @bb_size: 
 @sb_size: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@Param2: 
-@Param3: 
 
 
 <!-- ##### FUNCTION gsf_outfile_msole_set_class_id ##### -->
@@ -98,8 +95,6 @@ article "Object linking and embedding"</ulink>.
 @in: 
 @accum: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@err: 
 
 
 <!-- ##### FUNCTION gsf_msole_metadata_write ##### -->
@@ -111,8 +106,6 @@ article "Object linking and embedding"</ulink>.
 @meta_data: 
 @doc_not_component: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@err: 
 
 
 <!-- ##### FUNCTION gsf_msole_iconv_open_codepages_for_export ##### -->

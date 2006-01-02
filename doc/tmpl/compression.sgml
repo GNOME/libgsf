@@ -89,8 +89,6 @@ The <ulink url="http://en.wikipedia.org/wiki/Bzip2">Wikipedia article
 @sink: 
 @err: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@source: 
 
 
 <!-- ##### STRUCT GsfOutputBzip ##### -->
@@ -107,7 +105,5 @@ The <ulink url="http://en.wikipedia.org/wiki/Bzip2">Wikipedia article
 @sink: 
 @err: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@source: 
 
 

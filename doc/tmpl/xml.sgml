@@ -43,8 +43,6 @@ XML and libxml
 @elem: 
 @attrs: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@state: 
 
 
 <!-- ##### STRUCT GsfXMLInNS ##### -->
@@ -103,308 +101,7 @@ XML and libxml
 @ns: 
 @name: 
 @has_content: 
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     deprecated_unused_allow_unknown:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent:
-@\
-			     share_children_with_parent: 
+@share_children_with_parent: 
 @check_ns: 
 @start: 
 @end: 
@@ -449,8 +146,6 @@ XML and libxml
 @nodes: 
 @ns: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@root: 
 
 
 <!-- ##### FUNCTION gsf_xml_in_doc_free ##### -->
@@ -491,8 +186,6 @@ XML and libxml
 @new_state: 
 @dtor: 
 @attrs: 
-<!-- # Unused Parameters # -->
-@name: 
 
 
 <!-- ##### FUNCTION gsf_xml_in_namecmp ##### -->
@@ -505,9 +198,6 @@ XML and libxml
 @ns_id: 
 @name: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@state: 
-@Param3: 
 
 
 <!-- ##### FUNCTION gsf_xml_in_check_ns ##### -->
@@ -519,8 +209,6 @@ XML and libxml
 @str: 
 @ns_id: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@state: 
 
 
 <!-- ##### STRUCT GsfXMLOut ##### -->
@@ -613,8 +301,6 @@ XML and libxml
 @xml: 
 @id: 
 @val: 
-<!-- # Unused Parameters # -->
-@Param3: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_add_float ##### -->
@@ -649,10 +335,6 @@ XML and libxml
 @r: 
 @g: 
 @b: 
-<!-- # Unused Parameters # -->
-@Param3: 
-@Param4: 
-@Param5: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_add_base64 ##### -->
@@ -664,8 +346,6 @@ XML and libxml
 @id: 
 @data: 
 @len: 
-<!-- # Unused Parameters # -->
-@Param4: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_simple_element ##### -->

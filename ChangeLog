@@ -1,6 +1,10 @@
+2006-01-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* doc/tmpl/*.sgml: Cleanup errors introduced by gtk-doc, #318666.
+
 2005-12-24  Stepan Kasal  <kasal@ucw.cz>
 
-	* doc/developer/blocksize.html: New fil in a new subdir.
+	* doc/developer/blocksize.html: New file in a new subdir.
 	* doc/Makefile.am: Distribute it.
 
 2005-12-07  Morten Welinder  <terra@gnome.org>
