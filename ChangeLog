@@ -1,3 +1,7 @@
+2006-01-06  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gsf/gsf-clip-data (gsf_clip_data_finalize): Bug 325989 - Memory leak in gsf_clip_data_finalize(). Based on a patch from Michal Kowalczuk.
+	
 2006-01-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* doc/tmpl/*.sgml: Cleanup errors introduced by gtk-doc, #318666.

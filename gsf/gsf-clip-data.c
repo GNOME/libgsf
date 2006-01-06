@@ -44,6 +44,8 @@ gsf_clip_data_finalize (GObject *object)
 	if (priv->data_blob)
 		g_object_unref (priv->data_blob);
 
+	g_free (priv);
+
 	G_OBJECT_CLASS (gsf_clip_data_parent_class)->finalize (object);
 }
 
