@@ -43,7 +43,7 @@ GType									\
 prefix ## _get_type (void)						\
 {									\
 	static GType type = 0;						\
-	if (type == 0) {						\
+	if (G_UNLIKELY  (type == 0)) {					\
 		static GTypeInfo const object_info = {			\
 			sizeof (name ## Class),				\
 			(GBaseInitFunc) base_init,			\

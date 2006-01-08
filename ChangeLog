@@ -1,6 +1,10 @@
+2006-01-08  Stepan Kasal  <kasal@ucw.cz>
+
+	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Wrap (type==0) by G_UNLIKELY.
+
 2006-01-06  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-clip-data (gsf_clip_data_finalize): Bug 325989 - Memory 
+	* gsf/gsf-clip-data.c (gsf_clip_data_finalize): Bug 325989 - Memory 
 	leak in gsf_clip_data_finalize(). Based on a patch from Michal 
 	Kowalczuk.
 	
