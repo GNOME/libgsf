@@ -221,6 +221,7 @@ static xmlParserCtxtPtr
 gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer user)
 {
 	GsfInput *gzip;
+	xmlParserCtxtPtr res;
 
 	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 
@@ -230,11 +231,14 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 	else
 		g_object_ref (G_OBJECT (input));
 
-	return xmlCreateIOParserCtxt (
+	res = xmlCreateIOParserCtxt (
 		sax, user,
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
+	if (NULL != res)
+		res->replaceEntities = TRUE;
+	return res;
 }
 
 /**

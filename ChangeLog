@@ -1,3 +1,9 @@
+2006-01-20  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_parser_context_full) : set
+	  xmlParserCtxt::replaceEntities.  This fixes parsing problems with
+	  attributes that contain &amp;
+
 2006-01-08  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Wrap (type==0) by G_UNLIKELY.
