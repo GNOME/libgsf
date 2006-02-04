@@ -55,7 +55,7 @@ dnl Gettext/i18n stuff
 
 AC_PROG_INTLTOOL
 
-ALL_LINGUAS="es"
+ALL_LINGUAS="es sv"
 
 AM_GLIB_GNU_GETTEXT
 
