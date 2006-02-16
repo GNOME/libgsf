@@ -1,3 +1,14 @@
+2006-02-16  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_document): Plug leaks.
+	(gsf_xml_in_start_element): Fix key used for inserting into
+	state->ns_prefixes hash.
+
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_parser_context_full): Fix a
+	hypothetical leak.
+
 2006-02-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek): Plug leak by

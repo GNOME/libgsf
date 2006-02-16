@@ -236,8 +236,12 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 		(xmlInputReadCallback) gsf_libxml_read, 
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
-	if (NULL != res)
+
+	if (res)
 		res->replaceEntities = TRUE;
+	else
+		g_object_unref (input);
+
 	return res;
 }
 
@@ -478,7 +482,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 					inst->tag    = g_strconcat (ns_ptr[0] + 6, ":", NULL);
 					inst->taglen = strlen (inst->tag);
 					inst->ref_count = 1;
-					g_hash_table_insert (state->ns_prefixes, inst->tag, inst);
+					g_hash_table_insert (state->ns_prefixes, g_strdup (ns_ptr[0] + 6), inst);
 
 					if (ns[i].ns_id >= state->ns_by_id->len)
 						g_ptr_array_set_size  (state->ns_by_id, ns[i].ns_id+1);
@@ -613,6 +617,13 @@ gsf_xml_in_get_entity (G_GNUC_UNUSED GsfXMLInInternal *state, xmlChar const *nam
 }
 
 static void
+gsf_free_xmlinnsinstance (GsfXMLInNSInstance *inst)
+{
+	g_free (inst->tag);
+	g_free (inst);
+}
+
+static void
 gsf_xml_in_start_document (GsfXMLInInternal *state)
 {
 	state->pub.node = &state->pub.doc->root_node->pub;
@@ -623,7 +634,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->default_ns	= NULL;
 	state->ns_by_id		= g_ptr_array_new ();
 	state->ns_prefixes	= g_hash_table_new_full (
-		g_str_hash, g_str_equal, NULL, g_free);
+		g_str_hash, g_str_equal, g_free, gsf_free_xmlinnsinstance);
 	state->from_unknown_handler = FALSE;
 }
 
