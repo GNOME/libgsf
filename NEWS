@@ -8,6 +8,7 @@ Ivan Wong :
 
 Morten:
 	* Fix GsfOutputIConv.  [#323503]
+	* Plug leak in GsfInfileZip.
 
 --------------------------------------------------------------------------
 libgsf 1.13.3

@@ -552,9 +552,8 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	}
 
 	if (zip->stream) {
-		zip->stream->next_in  = NULL;
-		zip->stream->avail_in = 0;
-		zip->stream->total_in = 0;
+		(void) inflateEnd (zip->stream);
+		memset (zip->stream, 0, sizeof (z_stream));
 	}
 
 	if (zip_child_init (zip, NULL)) {

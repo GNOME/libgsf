@@ -1,3 +1,12 @@
+2006-02-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek): Plug leak by
+	shutting down the old stream properly.
+
+2006-02-15  Morten Welinder  <welinder@rentec.com>
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek): 
+
 2006-02-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Add "sv" to ALL_LINGUAS.

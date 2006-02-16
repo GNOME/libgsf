@@ -105,7 +105,7 @@ gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 		g_print ("%8lx | ", (long)(i*16 + offset));
 		for (j = 0;j < 16; j++) {
 			off = j + (i << 4);
-			off<len ? g_print("%2x ", ptr[off]) : g_print("XX ");
+			off<len ? g_print("%02x ", ptr[off]) : g_print("XX ");
 		}
 		g_print ("| ");
 		for (j = 0 ; j < 16 ; j++) {
