@@ -1,3 +1,7 @@
+2006-02-24  Jon K Hellan  <hellan@acm.org>
+
+	* README-python: Added "abandonware" notice to Python bindings.
+
 2005-11-06  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.13.3

@@ -1,3 +1,17 @@
+**********************************************************************
+I wrote these bindings in 2002, and they haven't been updated since.
+They were never part of a standard build, but it was possible to build
+them by following the instructions below. It will probably take some
+work to make them work with current versions of autotools and
+pygobject. Bindings would have to be revalidated, and extended to
+match the current API of libgsf.
+
+I do not plan to do further work on these bindings. If anybody wants
+to pick them up, please feel free.
+
+Jon K Hellan <hellan@acm.org> 2006-02-24
+**********************************************************************
+
 These are Python bindings for libgsf.
 
 The bindings require gnome-python 1.99.10 or later. Building from CVS
