@@ -1,6 +1,7 @@
 2006-02-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* gsf/gsf-libxml.c: Documentation work.
+	* gsf/gsf-input-textline.c, gsf/gsf-input-textline.h, gsf/gsf-libxml.c,
+	gsf/gsf-outfile-zip.c: Documentation work.
 
 2006-02-16  Morten Welinder  <terra@gnome.org>
 
