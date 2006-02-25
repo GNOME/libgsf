@@ -731,8 +731,8 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 
 /**
  * gsf_outfile_zip_new :
- * @sink:
- * @err:
+ * @sink: a #GsfOutput to hold the ZIP file
+ * @err: Location to store error, or %NULL; currently unused.
  *
  * Creates the root directory of a Zip file and manages the addition of
  * children.

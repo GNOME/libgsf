@@ -149,13 +149,13 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
 
 /**
  * gsf_input_textline_ascii_gets :
- * @input :
+ * @textline : #GsfInputTextline
  *
  * A utility routine to read things line by line from the underlying source.
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
- * returns the string read, or NULL on eof.
+ * Returns : the string read, or NULL on eof.
  **/
 unsigned char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
@@ -236,13 +236,13 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 
 /**
  * gsf_input_textline_utf8_gets :
- * @input :
+ * @textline : #GsfInputTextline
  *
  * A utility routine to read things line by line from the underlying source.
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
- * returns the string read, or NULL on eof.
+ * Returns: the string read, or NULL on eof.
  **/
 guint8 *
 gsf_input_textline_utf8_gets (GsfInputTextline *textline)

@@ -490,8 +490,20 @@ base64_init(void)
 	camel_mime_base64_rank['='] = 0;
 }
 
-/* call this when finished encoding everything, to
-   flush off the last little bit */
+/**
+ * gsf_base64_encode_close :
+ * @in : Data to be encoded
+ * @inlen : Length of data to be encoded
+ * @break_lines : Whether to use line breaks
+ * @out : Encoded data.
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been decoded
+ *
+ * This funcion should be called to when finished encoding everything, to
+ * flush off the last little bit.
+ *
+ * Returns :
+ */
 size_t
 gsf_base64_encode_close (guint8 const *in, size_t inlen,
 			 gboolean break_lines, guint8 *out, int *state, unsigned int *save)
@@ -534,11 +546,21 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 	return outptr-out;
 }
 
-/*
-  performs an 'encode step', only encodes blocks of 3 characters to the
-  output at a time, saves left-over state in state and save (initialise to
-  0 on first invocation).
-*/
+/**
+ * gsf_base64_encode_step :
+ * @in : input stream
+ * @len : max length of data to decode
+ * @break_lines : Whether to use line breaks
+ * @out : output stream
+ * @state : holds the number of bits that are stored in @save
+ * @save : leftover bits that have not yet been decoded
+ *
+ * Performs an 'encode step', only encodes blocks of 3 characters from @in into
+ * the output @out at a time, saves left-over state in @state and @save
+ * (initialise to 0 on first invocation).
+ *
+ * Returns : the number of bytes encoded
+ */
 size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
 			gboolean break_lines, guint8 *out, int *state, unsigned int *save)
@@ -679,6 +701,15 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 	return outptr-out;
 }
 
+/**
+ * gsf_base64_encode_simple :
+ * @data : data stream
+ * @len : max length of data to encode
+ *
+ * Encodes data from @data back into @data using base64 encoding.
+ *
+ * Returns : the number of bytes encoded
+ */
 guint8 *
 gsf_base64_encode_simple (guint8 const *data, size_t len)
 {
@@ -697,6 +728,15 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 	return out;
 }
 
+/**
+ * gsf_base64_decode_simple :
+ * @data : data stream
+ * @len : max length of data to decode
+ *
+ * Decodes a chunk of base64 encoded data from @data back into @data.
+ *
+ * Returns : the number of bytes converted
+ */
 size_t
 gsf_base64_decode_simple (guint8 *data, size_t len)
 {

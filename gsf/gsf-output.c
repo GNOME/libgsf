@@ -167,9 +167,11 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
 
 /**
  * gsf_output_name :
- * @output:
+ * @output: #GsfOutput
  *
- * Returns: @output's name in utf8 form, DO NOT FREE THIS STRING
+ * Give the name of @output.
+ *
+ * Returns : @output's name in utf8 form, DO NOT FREE THIS STRING
  **/
 char const *
 gsf_output_name (GsfOutput const *output)
@@ -194,7 +196,9 @@ gsf_output_container (GsfOutput const *output)
 
 /**
  * gsf_output_size :
- * @output:
+ * @output: #GsfOutput
+ *
+ * Determine the size of the output stream @output.
  *
  * Returns: the size of the output, or -1 if it does not have a size.
  **/
@@ -246,9 +250,11 @@ gsf_output_is_closed (GsfOutput const *output)
 
 /**
  * gsf_output_tell :
- * @output :
+ * @output : #GsfOutput
  *
- * Returns: the current position in the file
+ * Tell the current position in @output, similar to ftell(3).
+ *
+ * Returns : the current position in the file
  **/
 gsf_off_t
 gsf_output_tell	(GsfOutput *output)
@@ -260,9 +266,14 @@ gsf_output_tell	(GsfOutput *output)
 
 /**
  * gsf_output_seek :
- * @output :
- * @offset :
- * @whence :
+ * @output : #GsfOutput
+ * @offset : Relative amount to reposition
+ * @whence : What the offset is relative to.
+ *
+ * Reposition in output stream @output. @whence specifies what the offset is
+ * relative to: the beginning of the stream (%G_SEEK_SET), current position in
+ * the stream (%G_SEEK_CUR) or the end of the stream (%G_SEEK_END).
+ * This function is similar to fseek(3).
  *
  * Returns: FALSE on error.
  **/
@@ -320,11 +331,13 @@ gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
 
 /**
  * gsf_output_write :
- * @output:
- * @num_bytes:
- * @data:
+ * @output : Output stream
+ * @num_bytes : Number of bytes to write
+ * @data : Data to write.
  *
- * Returns: FALSE on error.
+ * Write @num_bytes of @data to @output.
+ *
+ * Returns : FALSE on error.
  **/
 gboolean
 gsf_output_write (GsfOutput *output,
@@ -516,12 +529,15 @@ gsf_output_error_id (void)
 }
 
 /**
- * gsf_output_printf:
- * @output: A #GsfOutput
- * @format: The printf-style format string
- * @Varargs: the arguments for @format
+ * gsf_output_printf :
+ * @output : A #GsfOutput
+ * @format : The printf-style format string
+ * @Varargs : the arguments for @format
  *
- * Returns: TRUE if successful, FALSE if not
+ * Output @Varargs to @output using the format string @format, similar to
+ * printf(3).
+ *
+ * Returns : TRUE if successful, FALSE if not
  **/
 gboolean
 gsf_output_printf (GsfOutput *output, char const *format, ...)
@@ -536,12 +552,15 @@ gsf_output_printf (GsfOutput *output, char const *format, ...)
 }
 
 /**
- * gsf_output_vprintf:
- * @output: A #GsfOutput
- * @format: The printf-style format string
- * @args: the arguments for @format
+ * gsf_output_vprintf :
+ * @output : A #GsfOutput
+ * @format : The printf-style format string
+ * @args : the arguments for @format
  *
- * Returns: number of bytes printed, a negative value if not successful
+ * Output @args to @output using the format string @format, similar to
+ * vprintf(3).
+ *
+ * Returns : number of bytes printed, a negative value if not successful
  **/
 gsf_off_t
 gsf_output_vprintf (GsfOutput *output, char const *format, va_list args)

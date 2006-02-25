@@ -132,6 +132,17 @@ glade_flags_from_string (GType type, const char *string)
     return ret;
 }
 
+/**
+ * gsf_xml_gvalue_from_str :
+ * @res : Result value
+ * @t : Type of data
+ * @str : Value string
+ *
+ * Try to parse @str as a value of type @t into @res.
+ *
+ * Returns : True when parsing of @str as a value of type @t was succesfull;
+ * false otherwise.
+ */
 gboolean
 gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 {
@@ -247,9 +258,9 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 
 /**
  * gsf_xml_parser_context :
- * @input :
+ * @input : #GsfInput
  *
- * Create a libxml2 pull style parser context wrapper around a gsf input.
+ * Create a libxml2 pull style parser context wrapper around gsf input @input.
  * This signature will probably change to supply a SAX structure.
  *
  * <note>This adds a reference to @input.</note>
@@ -1046,6 +1057,14 @@ GSF_CLASS (GsfXMLOut, gsf_xml_out,
 	   gsf_xml_out_class_init, gsf_xml_out_init,
 	   G_TYPE_OBJECT)
 
+/**
+ * gsf_xml_out_new :
+ * @output : #GsfOutput
+ *
+ * Create an XML output stream.
+ *
+ * Returns: #GsfXMLOut
+ */
 GsfXMLOut *
 gsf_xml_out_new (GsfOutput *output)
 {
@@ -1059,8 +1078,8 @@ gsf_xml_out_new (GsfOutput *output)
 /**
  * gsf_xml_out_set_doc_type :
  * @xml : #GsfXMLOut
- * @type :
- * 
+ * @type : the document type declaration
+ *
  * Store some optional some &lt;!DOCTYPE .. &gt; content
  **/
 void
@@ -1087,9 +1106,11 @@ gsf_xml_out_indent (GsfXMLOut *xml)
 }
 
 /**
- * gsf_xml_out_start_elem :
- * @xml :
- * @id  :
+ * gsf_xml_out_start_element :
+ * @xml : #GsfXMLOut
+ * @id  : Element name
+ *
+ * Output a start element @id, if necessary preceeded by an XML declaration.
  */
 void
 gsf_xml_out_start_element (GsfXMLOut *xml, char const *id)
@@ -1118,8 +1139,12 @@ gsf_xml_out_start_element (GsfXMLOut *xml, char const *id)
 }
 
 /**
- * gsf_xml_out_end_elem :
- * @xml :
+ * gsf_xml_out_end_element :
+ * @xml : #GsfXMLOut
+ *
+ * Closes/ends an XML element.
+ *
+ * Returns: the element that has been closed.
  */
 char const *
 gsf_xml_out_end_element (GsfXMLOut *xml)
@@ -1149,11 +1174,11 @@ gsf_xml_out_end_element (GsfXMLOut *xml)
 
 /**
  * gsf_xml_out_simple_element :
- * @xml :
- * @id  :
- * @content :
+ * @xml : #GsfXMLOut
+ * @id  : Element name
+ * @content : Content of the element
  *
- * A convenience routine
+ * Convenience routine to output a simple @id element with content @content.
  **/
 void
 gsf_xml_out_simple_element (GsfXMLOut *xml, char const *id,
@@ -1167,11 +1192,11 @@ gsf_xml_out_simple_element (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_simple_int_element :
- * @xml :
- * @id  :
- * @val :
+ * @xml : #GsfXMLOut
+ * @id  : Element name
+ * @val : Element value
  *
- * A convenience routine
+ * Convenience routine to output an element @id with integer value @val.
  **/
 void
 gsf_xml_out_simple_int_element (GsfXMLOut *xml, char const *id, int val)
@@ -1183,12 +1208,13 @@ gsf_xml_out_simple_int_element (GsfXMLOut *xml, char const *id, int val)
 
 /**
  * gsf_xml_out_simple_float_element :
- * @xml :
- * @id  :
- * @val :
- * @precision :
+ * @xml : #GsfXMLOut
+ * @id  : Element name
+ * @val : Element value
+ * @precision : the number of significant digits to use, -1 meaning "enough".
  *
- * A convenience routine
+ * Convenience routine to output an element @id with float value @val using
+ * @precision significant digits.
  **/
 void
 gsf_xml_out_simple_float_element (GsfXMLOut *xml, char const *id,
@@ -1210,7 +1236,7 @@ close_tag_if_neccessary (GsfXMLOut* xml)
 
 /**
  * gsf_xml_out_add_cstr_unchecked :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id : optionally NULL for content
  * @val_utf8 : a utf8 encoded string to export
  *
@@ -1237,7 +1263,7 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_cstr :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id : optionally NULL for content
  * @val_utf8 : a utf8 encoded string
  *
@@ -1307,7 +1333,7 @@ gsf_xml_out_add_cstr (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_bool :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
  * @val : a boolean
  *
@@ -1324,7 +1350,7 @@ gsf_xml_out_add_bool (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_int :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
  * @val : the value
  *
@@ -1341,7 +1367,7 @@ gsf_xml_out_add_int (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_uint :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
  * @val : the value
  *
@@ -1359,7 +1385,7 @@ gsf_xml_out_add_uint (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_float :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
  * @val : the value
  * @precision : the number of significant digits to use, -1 meaning "enough".
@@ -1385,11 +1411,11 @@ gsf_xml_out_add_float (GsfXMLOut *xml, char const *id,
 
 /**
  * gsf_xml_out_add_color :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
- * @r :
- * @g :
- * @b :
+ * @r : Red value
+ * @g : Green value
+ * @b : Blue value
  *
  * dump Color @r.@g.@b to an attribute named @id or as the nodes content
  **/
@@ -1402,6 +1428,15 @@ gsf_xml_out_add_color (GsfXMLOut *xml, char const *id,
 	gsf_xml_out_add_cstr_unchecked (xml, id, buf);
 }
 
+/**
+ * gsf_xml_out_add_enum :
+ * @xml : #GsfXMLOut
+ * @id  : optionally NULL for content
+ * @etype : #GType
+ * @val : enum element number
+ *
+ * Output the name of value @val of enumeration type @etype.
+ **/
 void
 gsf_xml_out_add_enum (GsfXMLOut *xml, char const *id, GType etype, gint val)
 {
@@ -1417,10 +1452,10 @@ gsf_xml_out_add_enum (GsfXMLOut *xml, char const *id, GType etype, gint val)
 
 /**
  * gsf_xml_out_add_base64 :
- * @xml :
+ * @xml : #GsfXMLOut
  * @id  : optionally NULL for content
- * @data :
- * @len :
+ * @data : Data to be written
+ * @len : Length of data
  *
  * dump @len bytes in @data into the content of node @id using base64
  **/
