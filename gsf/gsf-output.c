@@ -252,7 +252,9 @@ gsf_output_is_closed (GsfOutput const *output)
  * gsf_output_tell :
  * @output : #GsfOutput
  *
- * Tell the current position in @output, similar to ftell(3).
+ * Tell the current position in @output, similar to
+ * <citerefentry><refentrytitle>ftell</refentrytitle>
+ * <manvolnum>3</manvolnum></citerefentry>.
  *
  * Returns : the current position in the file
  **/
@@ -273,7 +275,9 @@ gsf_output_tell	(GsfOutput *output)
  * Reposition in output stream @output. @whence specifies what the offset is
  * relative to: the beginning of the stream (%G_SEEK_SET), current position in
  * the stream (%G_SEEK_CUR) or the end of the stream (%G_SEEK_END).
- * This function is similar to fseek(3).
+ * This function is similar to 
+ * <citerefentry><refentrytitle>fseek</refentrytitle>
+ * <manvolnum>3</manvolnum></citerefentry>.
  *
  * Returns: FALSE on error.
  **/
@@ -535,7 +539,8 @@ gsf_output_error_id (void)
  * @Varargs : the arguments for @format
  *
  * Output @Varargs to @output using the format string @format, similar to
- * printf(3).
+ * <citerefentry><refentrytitle>printf</refentrytitle>
+ * <manvolnum>3</manvolnum></citerefentry>.
  *
  * Returns : TRUE if successful, FALSE if not
  **/
@@ -558,7 +563,8 @@ gsf_output_printf (GsfOutput *output, char const *format, ...)
  * @args : the arguments for @format
  *
  * Output @args to @output using the format string @format, similar to
- * vprintf(3).
+ * <citerefentry><refentrytitle>vprintf</refentrytitle>
+ * <manvolnum>3</manvolnum></citerefentry>.
  *
  * Returns : number of bytes printed, a negative value if not successful
  **/
