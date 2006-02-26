@@ -27,6 +27,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-utils.h>
@@ -109,34 +110,34 @@ write_thumbnail (const char *filename, gconstpointer data, gsize size, int thumb
 }
 
 static void
-read_thumbnail_and_write (const char *in_filename, const char *out_filename, int thumb_size)
+zip_thumbnail (GsfInfile *infile, const char *out_filename, int thumb_size)
 {
-	GsfInput *input;
-	GsfInfile *infile;
-	GError *error;
-	GsfInput *summary_stream;
-	GsfDocMetaData *meta_data;
-	GsfDocProp *thumb_doc_prop;
-	GValue const *thumb_value;
-	GsfClipData *clip_data;
-	GsfClipFormat clip_format;
-	gconstpointer data;
-	gsize size;
+	GsfInput *thumbnail;
 
-	input = gsf_input_mmap_new (in_filename, NULL);
-	if (!input) {
-		error = NULL;
-		input = gsf_input_stdio_new (in_filename, &error);
-		if (!input)
-			show_error_and_exit (error);
-	}
+	/* Office Document thumbnail */
+	if (NULL != (thumbnail = gsf_infile_child_by_vname (infile,
+			"Thumbnails", "thumbnail.png", NULL))) {
+		gsf_off_t len = gsf_input_remaining (thumbnail);
+		guint8 const *data = gsf_input_read (thumbnail, len, NULL);
+		write_thumbnail (out_filename, data, len, thumb_size);
+		g_object_unref (thumbnail);
+	/* Check MS Office Open thumbnail */
+	} else
+		show_error_string_and_exit ("Could not find thumbnail in zip file");
+}
 
-	input = gsf_input_uncompress (input);
-
-	error = NULL;
-	infile = gsf_infile_msole_new (input, &error);
-	if (!infile)
-		show_error_and_exit (error);
+static void
+msole_thumbnail (GsfInfile *infile, const char *out_filename, int thumb_size)
+{
+	GsfInput	*summary_stream;
+	GsfDocMetaData	*meta_data;
+	GsfDocProp	*thumb_doc_prop;
+	GValue const	*thumb_value;
+	GsfClipData	*clip_data;
+	GsfClipFormat	 clip_format;
+	gconstpointer	 data;
+	gsize		 size;
+	GError		*error;
 
 	summary_stream = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 	if (!summary_stream)
@@ -180,12 +181,39 @@ read_thumbnail_and_write (const char *in_filename, const char *out_filename, int
 
 	g_object_unref (meta_data);
 	g_object_unref (summary_stream);
+}
+
+static void
+read_thumbnail_and_write (const char *in_filename, const char *out_filename, int thumb_size)
+{
+	GsfInput  *input;
+	GsfInfile *infile;
+	GError	  *error;
+
+	input = gsf_input_mmap_new (in_filename, NULL);
+	if (!input) {
+		error = NULL;
+		input = gsf_input_stdio_new (in_filename, &error);
+		if (!input)
+			show_error_and_exit (error);
+	}
+
+	input = gsf_input_uncompress (input);
+
+	error = NULL;
+	if (NULL != (infile = gsf_infile_msole_new (input, &error)))
+		msole_thumbnail (infile, out_filename, thumb_size);
+	else if (NULL != (infile = gsf_infile_zip_new (input, &error)))
+		zip_thumbnail (infile, out_filename, thumb_size);
+	else
+		show_error_and_exit (error);
+
 	g_object_unref (infile);
 	g_object_unref (input);
 }
 
 /* Command-line options */
-static int option_size = -1;
+static int   option_size = -1;
 static char *option_input_filename = NULL;
 static char *option_output_filename = NULL;
 

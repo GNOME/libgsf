@@ -1,3 +1,11 @@
+2006-02-26  Jody Goldberg <jody@gnome.org>
+
+	* thumbnailer/main.c (read_thumbnail_and_write) : split out ole2
+	  handling into.
+	(msole_thumbnail) : here.
+	(zip_thumbnail) : and add a quick call to unzip for ODF.  We can tack
+	  on MS Office Open when docs become available.
+
 2006-02-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/gsf-input-textline.c, gsf/gsf-input-textline.h, gsf/gsf-libxml.c,
