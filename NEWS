@@ -1,4 +1,7 @@
-libgsf 1.14.0
+libgsf 1.14.0 aka 1.13.99
+
+    NOTE : 1.13.99 and 1.14.0 are identical.  The later was made as a
+	convenience to avoid bumping .so versions late in the release cycle.
 
 Daniel Nylander:
 	* Initial Swedish PO translation. [Debian #351382]
