@@ -3,8 +3,8 @@ dnl We require Automake 1.7.1, which requires Autoconf 2.54.
 AC_PREREQ(2.54)
 
 m4_define([libgsf_version_major], [1])
-m4_define([libgsf_version_minor], [13])
-m4_define([libgsf_version_micro], [99])
+m4_define([libgsf_version_minor], [14])
+m4_define([libgsf_version_micro], [1])
 m4_define([libgsf_version_extra], [])
 m4_define([libgsf_full_version],
     [libgsf_version_major.libgsf_version_minor.libgsf_version_micro[]libgsf_version_extra])
