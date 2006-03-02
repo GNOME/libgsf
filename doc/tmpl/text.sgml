@@ -37,8 +37,10 @@ Text
 
 </para>
 
-@input: 
+@textline: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@input: 
 
 
 <!-- ##### FUNCTION gsf_input_textline_utf8_gets ##### -->
@@ -46,8 +48,10 @@ Text
 
 </para>
 
-@input: 
+@textline: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@input: 
 
 
 <!-- ##### STRUCT GsfOutputIconv ##### -->

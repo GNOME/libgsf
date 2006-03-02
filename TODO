@@ -1,7 +1,5 @@
 Near:
     - Check the outputs for proper wrap use.  eg GsfOutputGzip does not
-    - rework proposed meta data framework to support improved understanding of
-      MS Office
     - Complete MS property set read and write
       (complete codepage support for writing)
     - work on GsfOutput error handling to propagate errors up the stack.
@@ -10,6 +8,7 @@ Near:
       on open even though we do not want to write to it until later.
     - Add 'cancel' flag to GsfOutputStdio to support not overwriting the target
       file even if things succeed.
+    - sync ODF document-statistic with OLE2's document-parts and various counts
 
 Longer:
     - More work on VBA directory parsing so that we can decompress

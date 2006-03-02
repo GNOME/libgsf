@@ -2,7 +2,8 @@
 /*
  * gsf-doc-meta-data.h: get, set, remove custom meta properties associated with documents
  *
- * Copyright (C) 2002-2005 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
+ * 			   Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -47,6 +48,7 @@ void		gsf_doc_meta_data_store   (GsfDocMetaData *meta,
 void		gsf_doc_meta_data_foreach (GsfDocMetaData const *meta,
 					   GHFunc func, gpointer user_data);
 gsize		gsf_doc_meta_data_size	  (GsfDocMetaData const *meta);
+void		gsf_doc_meta_dump	  (GsfDocMetaData const *meta);
 
 GsfDocProp   *gsf_doc_prop_new	    (char *name);
 void	      gsf_doc_prop_free	    (GsfDocProp *prop);

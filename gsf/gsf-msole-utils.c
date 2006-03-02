@@ -150,7 +150,7 @@ typedef struct {
 
 static GsfMSOleMetaDataPropMap const builtin_props [] = {
 	{ "Dictionary",		  COMMON_PROP,	GSF_META_NAME_DICTIONARY,            0,	   0, /* magic */},
-	{ "CodePage",		  COMMON_PROP,	GSF_META_NAME_LANGUAGE,              1,	   VT_I2 },
+	{ "CodePage",		  COMMON_PROP,	GSF_META_NAME_CODEPAGE,              1,	   VT_I2 },
 	{ "LOCALE_SYSTEM_DEFAULT",COMMON_PROP,	GSF_META_NAME_LOCALE_SYSTEM_DEFAULT, 0x80000000, VT_UI4},
 	{ "CASE_SENSITIVE",	  COMMON_PROP,	GSF_META_NAME_CASE_SENSITIVE,        0x80000003, VT_UI4},
 	{ "Category",		DOC_PROP,	GSF_META_NAME_CATEGORY,             2,	VT_LPSTR },
@@ -1059,7 +1059,7 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		for (j = 0; j < sections[i].num_props; j++) /* first codepage */
 			if (props[j].id == 1) {
 				msole_prop_read (in, sections+i, props, j, accum);
-				if (NULL != (prop = gsf_doc_meta_data_lookup (accum, GSF_META_NAME_LANGUAGE))) {
+				if (NULL != (prop = gsf_doc_meta_data_lookup (accum, GSF_META_NAME_CODEPAGE))) {
 					GValue const *val = gsf_doc_prop_get_val (prop);
 					if (NULL != val && G_VALUE_HOLDS_INT (val)) {
 						int codepage = g_value_get_int (val);
@@ -2014,8 +2014,7 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 {
 	GSList *cp_list = NULL;
 
-	switch (codepage)
-	{
+	switch (codepage) {
 		case 1200:
 			cp_list = g_slist_prepend (cp_list, g_strdup ("UTF-16LE"));
 			break;

@@ -26,10 +26,16 @@
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-timestamp.h>
+#include <gsf/gsf-docprop-vector.h>
+#include <string.h>
+
+#define OFFICE	 "office:"
 
 typedef struct {
-	GsfDocMetaData	*md;
-	GError		*err;
+	GsfDocMetaData	 *md;
+	GsfDocPropVector *keywords;
+	GError		 *err;
 } GsfOOMetaIn;
 
 /* Generated based on:
@@ -99,8 +105,6 @@ OO_PROP(generator,		GSF_META_NAME_GENERATOR,	G_TYPE_STRING)
 OO_PROP(title,			GSF_META_NAME_TITLE,		G_TYPE_STRING)
 OO_PROP(description,		GSF_META_NAME_DESCRIPTION,	G_TYPE_STRING)
 OO_PROP(subject,		GSF_META_NAME_SUBJECT,		G_TYPE_STRING)
-/* FIXME FIXME FIXME OD allows multiple keywords, make this an array ? */
-OO_PROP(keyword,		GSF_META_NAME_KEYWORDS,		G_TYPE_STRING)
 OO_PROP(initial_creator,	GSF_META_NAME_INITIAL_CREATOR,	G_TYPE_STRING)
 /* OD considers this the last person to modify the doc, rather than
  * the DC convention of the person primarilly responsible for its creation */
@@ -108,14 +112,33 @@ OO_PROP(creator,		GSF_META_NAME_CREATOR,		G_TYPE_STRING)
 /* last to print */
 OO_PROP(printed_by,		GSF_META_NAME_PRINTED_BY,	G_TYPE_STRING)
 
-/* FIXME FIXME FIXME should be dates using 'YYYY-MM-DDThh:mm:ss' */
-OO_PROP(date_created,		GSF_META_NAME_DATE_CREATED,	G_TYPE_STRING)
-OO_PROP(date_modified,		GSF_META_NAME_DATE_MODIFIED,	G_TYPE_STRING)
-OO_PROP(print_date,		GSF_META_NAME_LAST_PRINTED,	G_TYPE_STRING)
+OO_PROP(date_created,		GSF_META_NAME_DATE_CREATED,	GSF_TIMESTAMP_TYPE)
+OO_PROP(date_modified,		GSF_META_NAME_DATE_MODIFIED,	GSF_TIMESTAMP_TYPE)
+OO_PROP(print_date,		GSF_META_NAME_LAST_PRINTED,	GSF_TIMESTAMP_TYPE)
+
 OO_PROP(language,		GSF_META_NAME_LANGUAGE,		G_TYPE_STRING)
 OO_PROP(editing_cycles,		GSF_META_NAME_REVISION_COUNT,	G_TYPE_UINT)
 /* FIXME FIXME FIXME should be durations using format 'PnYnMnDTnHnMnS' */
 OO_PROP(editing_duration,	GSF_META_NAME_EDITING_DURATION, G_TYPE_STRING)
+
+/* OD allows multiple keywords, accumulate things and make it an array */
+static void
+od_meta_keyword (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
+	GValue *v= g_new0 (GValue, 1);
+
+	if (NULL == mi->keywords)
+		mi->keywords = gsf_docprop_vector_new ();
+	g_value_set_string (v, xin->content->str);
+	gsf_docprop_vector_append (mi->keywords, v);
+	g_value_unset (v);
+	g_free (v);
+}
+static void
+od_meta_user_defined (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+}
 
 #if 0
 /* These need special handling for attributes */
@@ -124,7 +147,6 @@ auto_reload
 hl_behavior
 doc_stats
 #endif
-
 
 static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
   GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
@@ -151,7 +173,7 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
     GSF_XML_IN_NODE (META, META_EDITING_CYCLES,	OO_NS_META, "editing-cycles", TRUE, NULL, &od_meta_editing_cycles),
     GSF_XML_IN_NODE (META, META_EDITING_DURATION, OO_NS_META, "editing-duration", TRUE, NULL, &od_meta_editing_duration),
 
-    GSF_XML_IN_NODE (META, META_USER_DEFINED,	OO_NS_META, "user-defined", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (META, META_USER_DEFINED,	OO_NS_META, "user-defined", TRUE, NULL, &od_meta_user_defined),
   GSF_XML_IN_NODE_END
 };
 
@@ -171,11 +193,21 @@ gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
 	GsfOOMetaIn	 state;
 
 	state.md  = md;
+	state.keywords = NULL;
 	state.err = NULL;
 
 	doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd, gsf_ooo_ns);
 	gsf_xml_in_doc_parse (doc, input, &state);
 	gsf_xml_in_doc_free (doc);
+
+	if (state.keywords) {
+		GValue *val = g_new0 (GValue, 1);
+		g_value_init (val, GSF_DOCPROP_VECTOR_TYPE);
+		g_value_set_object (val, state.keywords);
+		gsf_doc_meta_data_insert (md,
+			g_strdup (GSF_META_NAME_KEYWORDS), val);
+		g_object_unref (state.keywords);
+	}
 
 	return state.err;
 }
@@ -201,9 +233,164 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 		NULL);
 }
 
+static char const *
+od_map_prop_name (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *od_prop_name_map = NULL;
+
+	if (NULL == od_prop_name_map) 
+	{
+		static struct {
+			char const *gsf_key;
+			char const *od_key;
+		} const map [] = {
+			{ GSF_META_NAME_GENERATOR,	"meta:generator" },
+			{ GSF_META_NAME_TITLE,		"dc:title" },
+			{ GSF_META_NAME_DESCRIPTION,	"dc:description" },
+			{ GSF_META_NAME_SUBJECT,	"dc:subject" },
+			{ GSF_META_NAME_INITIAL_CREATOR,"meta:initial-creator" },
+			{ GSF_META_NAME_CREATOR,	"dc:creator" },
+			{ GSF_META_NAME_PRINTED_BY,	"meta:printed-by" },
+			{ GSF_META_NAME_DATE_CREATED,	"meta:creation-date" },
+			{ GSF_META_NAME_DATE_MODIFIED,	"dc:date" },
+			{ GSF_META_NAME_LAST_PRINTED,	"meta:print-date" },
+			{ GSF_META_NAME_LANGUAGE,	"dc:language" },
+			{ GSF_META_NAME_REVISION_COUNT,	"meta:editing-cycles" },
+			{ GSF_META_NAME_EDITING_DURATION, "meta:editing-duration" }
+		};
+		int i = G_N_ELEMENTS (map);
+
+		od_prop_name_map = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (od_prop_name_map,
+				(gpointer)map[i].gsf_key,
+				(gpointer)map[i].od_key);
+	}
+
+	return g_hash_table_lookup (od_prop_name_map, name);
+}
+
+#if 0
+meta:page-count		GSF_META_NAME_PAGE_COUNT
+meta:table-count	GSF_META_NAME_TABLE_COUNT:
+meta:draw-count
+meta:image-count	GSF_META_NAME_IMAGE_COUNT:
+meta:ole-object-count	GSF_META_NAME_OBJECT_COUNT:
+meta:paragraph-count	GSF_META_NAME_PARAGRAPH_COUNT:
+meta:word-count
+meta:character-count	GSF_META_NAME_CHARACTER_COUNT
+meta:row-count		GSF_META_NAME_LINE_COUNT:
+meta:frame-count
+meta:sentence-count
+meta:syllable-count
+meta:non-whitespace-character-count
+
+meta:page-count
+	GSF_META_NAME_SPREADSHEET_COUNT
+meta:table-count
+	GSF_META_NAME_TABLE_COUNT:
+meta:image-count
+	* GSF_META_NAME_IMAGE_COUNT:
+meta:cell-count
+	GSF_META_NAME_CELL_COUNT
+meta:object-count
+	GSF_META_NAME_OBJECT_COUNT:
+
+meta:page-count
+	 GSF_META_NAME_SLIDE_COUNT:
+meta:image-count
+	GSF_META_NAME_IMAGE_COUNT:
+meta:object-count
+	GSF_META_NAME_OBJECT_COUNT:
+#endif
+
+static void
+meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
+{
+	char const *mapped_name;
+	GValue const *val = gsf_doc_prop_get_val (prop);
+
+	/* Handle specially */
+	if (0 == strcmp (prop_name, GSF_META_NAME_KEYWORDS)) {
+		GValueArray *va = gsf_value_get_docprop_varray (val);
+		unsigned i;
+		char *str;
+		
+		for (i = 0 ; i < va->n_values; i++) {
+			str = g_value_dup_string (g_value_array_get_nth	(va, i));
+			gsf_xml_out_start_element (output, "meta:keyword");
+			gsf_xml_out_add_cstr (output, NULL, str);
+			g_free (str);
+		}
+		return;
+	}
+
+	if (NULL == (mapped_name = od_map_prop_name (prop_name))) {
+		GType t;
+		char const *type_name = NULL;
+
+		gsf_xml_out_start_element (output, "meta:user-defined");
+		gsf_xml_out_add_cstr (output, "meta:name", prop_name);
+
+		if (NULL == val)
+			gsf_xml_out_end_element (output);
+
+		switch ((t = G_VALUE_TYPE (val))) {
+		case G_TYPE_CHAR:
+		case G_TYPE_UCHAR:
+		case G_TYPE_STRING:
+		case G_TYPE_ENUM:
+		case G_TYPE_FLAGS:
+			type_name = "string";
+			break;
+		case G_TYPE_BOOLEAN:
+			type_name = "boolean";
+			break;
+		case G_TYPE_INT:
+		case G_TYPE_UINT:
+		case G_TYPE_LONG:
+		case G_TYPE_ULONG:
+		case G_TYPE_FLOAT:
+		case G_TYPE_DOUBLE:
+			type_name = "float";
+			break; 
+
+		default:
+			if (GSF_TIMESTAMP_TYPE == t)
+				type_name = "data";
+		}
+		gsf_xml_out_add_cstr (output, "meta:type", type_name);
+	} else
+		gsf_xml_out_start_element (output, mapped_name);
+	gsf_xml_out_add_gvalue (output, NULL, val);
+	gsf_xml_out_end_element (output);
+}
+
 gboolean
 gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 {
-	/* TODO */
-	return FALSE;
+	if (output == NULL)
+		return FALSE;
+
+	gsf_xml_out_start_element (output, OFFICE "document-meta");
+	gsf_xml_out_add_cstr_unchecked (output, "xmlns:office",
+		"urn:oasis:names:tc:opendocument:xmlns:office:1.0");
+	gsf_xml_out_add_cstr_unchecked (output, "xmlns:xlink",
+		"http://www.w3.org/1999/xlink");
+	gsf_xml_out_add_cstr_unchecked (output, "xmlns:dc",
+		"http://purl.org/dc/elements/1.1/");
+	gsf_xml_out_add_cstr_unchecked (output, "xmlns:meta",
+		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
+	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
+		"http://openoffice.org/2004/office");
+	gsf_xml_out_add_cstr_unchecked (output, "office:version", "1.0");
+
+	gsf_xml_out_start_element (output, OFFICE "meta");
+	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);
+	gsf_xml_out_end_element (output); /* </office:meta> */
+
+	gsf_xml_out_end_element (output); /* </office:document-meta> */
+
+	return TRUE;
 }

@@ -88,7 +88,7 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
  * Returns: a string of comma-separated values
  **/
 gchar*
-gsf_docprop_vector_as_string (GsfDocPropVector *vector)
+gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 {
 	gchar		*rstring;
 

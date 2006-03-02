@@ -163,6 +163,8 @@ void gsf_xml_out_add_base64		(GsfXMLOut *xml, char const *id,
 					 guint8 const *data, unsigned int len);
 void gsf_xml_out_add_enum               (GsfXMLOut *xml, char const *id,
 					 GType etype, gint val);
+void gsf_xml_out_add_gvalue             (GsfXMLOut *xml, char const *id,
+					 GValue const *val);
 
 /****************************************************************************/
 /* Some general utilities */

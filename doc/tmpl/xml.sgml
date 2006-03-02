@@ -101,6 +101,8 @@ XML and libxml
 @ns: 
 @name: 
 @has_content: 
+@\
+			     share_children_with_parent:
 @share_children_with_parent: 
 @check_ns: 
 @start: 
@@ -346,6 +348,16 @@ XML and libxml
 @id: 
 @data: 
 @len: 
+
+
+<!-- ##### FUNCTION gsf_xml_out_add_gvalue ##### -->
+<para>
+
+</para>
+
+@xml: 
+@id: 
+@val: 
 
 
 <!-- ##### FUNCTION gsf_xml_out_simple_element ##### -->

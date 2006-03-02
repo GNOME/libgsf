@@ -28,7 +28,6 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-msole-utils.h>
-#include <gsf/gsf-docprop-vector.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,35 +138,6 @@ dump_biff_stream (GsfInput *stream)
 }
 #endif /* DUMP_CONTENT */
 
-static void
-cb_print_property (char const *name, GsfDocProp const *prop)
-{
-	GValue const *val = gsf_doc_prop_get_val  (prop);
-	char *tmp;
-
-	if (gsf_doc_prop_get_link (prop) != NULL)
-		g_print ("prop '%s' LINKED TO  -> '%s'\n",
-			 name, gsf_doc_prop_get_link (prop));
-	else
-		g_print ("prop '%s'\n", name);
-
-	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
-		GValueArray *va = gsf_value_get_docprop_varray (val);
-		unsigned i;
-
-		for (i = 0 ; i < va->n_values; i++) {
-			tmp = g_strdup_value_contents (
-				g_value_array_get_nth (va, i));
-			g_print ("\t[%u] = %s\n", i, tmp);
-			g_free (tmp);
-		}
-	} else {
-		tmp = g_strdup_value_contents (val);
-		printf ("\t= %s\n", tmp);
-		g_free (tmp);
-	}
-}
-
 static int
 test (unsigned argc, char *argv[])
 {
@@ -235,8 +205,7 @@ test (unsigned argc, char *argv[])
 				g_error_free (err);
 				err = NULL;
 			} else
-				gsf_doc_meta_data_foreach (meta_data,
-					(GHFunc) cb_print_property, NULL);
+				gsf_doc_meta_dump (meta_data);
 
 			g_object_unref (meta_data);
 			g_object_unref (G_OBJECT (stream));
@@ -253,8 +222,7 @@ test (unsigned argc, char *argv[])
 				g_error_free (err);
 				err = NULL;
 			} else
-				gsf_doc_meta_data_foreach (meta_data,
-					(GHFunc) cb_print_property, NULL);
+				gsf_doc_meta_dump (meta_data);
 
 			g_object_unref (meta_data);
 			g_object_unref (G_OBJECT (stream));

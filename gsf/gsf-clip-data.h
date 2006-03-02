@@ -1,7 +1,7 @@
-#include <gsf/gsf-blob.h>
-
 #ifndef GSF_CLIP_DATA_H
 #define GSF_CLIP_DATA_H
+
+#include <gsf/gsf-blob.h>
 
 G_BEGIN_DECLS
 
@@ -62,4 +62,4 @@ gconstpointer gsf_clip_data_peek_real_data (GsfClipData *clip_data,
 
 G_END_DECLS
 
-#endif
+#endif /* GSF_CLIP_DATA_H */

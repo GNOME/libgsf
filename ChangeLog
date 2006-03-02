@@ -1,3 +1,13 @@
+2006-03-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.0
+
+2006-03-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_parse) : enable this.  keep the
+	  cheesy name to avoid api changes.
+	  (gsf_timestamp_as_string) : sync with timestamp_parse.
+
 2006-02-26  Jody Goldberg <jody@gnome.org>
 
 	* thumbnailer/main.c (read_thumbnail_and_write) : split out ole2

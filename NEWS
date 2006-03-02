@@ -11,6 +11,7 @@ Jody:
 	* bump to 1.14.0 to indicate a stable release.
 	* improve header versioning.
 	* Add ODF thumbnail support to gsf-office-thumbnailer
+	* Enable ODF meta data import/export.
 
 Morten:
 	* Fix GsfOutputIConv.  [#323503]

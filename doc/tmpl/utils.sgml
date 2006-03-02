@@ -107,11 +107,15 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@class_init:
+@\
+			   class_init:
+@class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@abstract:
+@\
+		       abstract:
+@abstract: 
 @interface_decl: 
 
 
@@ -167,11 +171,15 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@class_init:
+@\
+				   class_init:
+@class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@abstract:
+@\
+			       abstract:
+@abstract: 
 @interface_decl: 
 
 

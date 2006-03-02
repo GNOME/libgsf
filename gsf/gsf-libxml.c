@@ -26,6 +26,7 @@
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-timestamp.h>
 
 #include <math.h>
 #include <string.h>
@@ -52,6 +53,21 @@ glade_enum_from_string (GType type, const char *string)
     g_type_class_unref(eclass);
 
     return ret;
+}
+
+static char const *
+glade_string_from_enum (GType type, gint value)
+{
+    GEnumClass *eclass;
+    GEnumValue *ev;
+
+    eclass = g_type_class_ref(type);
+
+    ev = g_enum_get_value (eclass, value);
+
+    g_type_class_unref(eclass);
+
+    return ev ? ev->value_name : "0";
 }
 
 static guint
@@ -131,6 +147,44 @@ glade_flags_from_string (GType type, const char *string)
 
     return ret;
 }
+static gchar *
+glade_string_from_flags (GType type, guint flags)
+{
+    GFlagsClass *flags_class;
+    GString *string;
+    char *ret;
+
+    flags_class = g_type_class_ref (type);
+
+    string = g_string_new ("");
+
+    if (flags_class->n_values)
+      {
+	GFlagsValue *fval;
+      
+	for (fval = flags_class->values; fval->value_name; fval++)
+	  {
+	    /* We have to be careful as some flags include 0 values, e.g.
+	       BonoboDockItemBehavior uses 0 for BONOBO_DOCK_ITEM_BEH_NORMAL.
+	       If a 0 value is available, we only output it if the entire
+	       flags value is 0, otherwise we check if the bit-flag is set. */
+	    if ((fval->value == 0 && flags == 0)
+		|| (fval->value && (fval->value & flags) == fval->value))
+	      {
+		if (string->len)
+		  g_string_append_c (string, '|');
+		g_string_append (string, fval->value_name);
+	      }
+	  }
+      }
+
+    ret = string->str;
+    g_string_free (string, FALSE);
+
+    g_type_class_unref (flags_class);
+
+    return ret;
+}
 
 /**
  * gsf_xml_gvalue_from_str :
@@ -192,6 +246,14 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 		break;
 
 	default:
+		if (GSF_TIMESTAMP_TYPE == t) {
+			GsfTimestamp ts;
+			if (gsf_timestamp_parse (str, &ts)) {
+				gsf_value_set_timestamp (res, &ts);
+				break;
+			}
+		}
+
 		return FALSE;
 	}
 	return TRUE;
@@ -645,7 +707,8 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->default_ns	= NULL;
 	state->ns_by_id		= g_ptr_array_new ();
 	state->ns_prefixes	= g_hash_table_new_full (
-		g_str_hash, g_str_equal, g_free, gsf_free_xmlinnsinstance);
+		g_str_hash, g_str_equal,
+		g_free, (GDestroyNotify) gsf_free_xmlinnsinstance);
 	state->from_unknown_handler = FALSE;
 }
 
@@ -1448,6 +1511,84 @@ gsf_xml_out_add_enum (GsfXMLOut *xml, char const *id, GType etype, gint val)
 	else
 		g_warning ("Invalid value %d for type %s",
 			   val, g_type_name (etype));
+}
+
+/**
+ * gsf_xml_out_add_gvalue :
+ * @xml : #GsfXMLOut
+ * @id  : optionally NULL for content
+ * @val : #GValue
+ *
+ * Output the value of @val as a string.  Does NOT store any type information
+ * with the string, just thevalue.
+ **/
+void
+gsf_xml_out_add_gvalue (GsfXMLOut *xml, char const *id, GValue const *val)
+{
+	GType t;
+	g_return_if_fail (xml != NULL);
+	g_return_if_fail (val != NULL);
+
+	t = G_VALUE_TYPE (val);
+	switch (t) {
+	case G_TYPE_CHAR: {
+		char c[2] = { 0, 0 };
+		c[0] = g_value_get_char (val);
+		gsf_xml_out_add_cstr (xml, id, c);
+		break;
+	}
+
+	case G_TYPE_UCHAR: {
+		unsigned char c[2] = { 0, 0 };
+		c[0] = g_value_get_uchar (val);
+		gsf_xml_out_add_cstr (xml, id, c);
+		break;
+	}
+
+	case G_TYPE_BOOLEAN:
+		gsf_xml_out_add_cstr (xml, id,
+			g_value_get_boolean (val) ? "t" : "f");
+		break;
+	case G_TYPE_INT:
+		gsf_xml_out_add_int (xml, id, g_value_get_int (val));
+		break;
+	case G_TYPE_UINT:
+		gsf_xml_out_add_uint (xml, id, g_value_get_uint (val));
+		break;
+	case G_TYPE_LONG:
+		gsf_xml_out_add_uint (xml, id, g_value_get_long (val));
+		break;
+	case G_TYPE_ULONG:
+		gsf_xml_out_add_uint (xml, id, g_value_get_ulong (val));
+		break; 
+	case G_TYPE_ENUM:
+		gsf_xml_out_add_cstr (xml, id,
+			glade_string_from_enum (t, g_value_get_enum (val)));
+		break;
+	case G_TYPE_FLAGS:
+		gsf_xml_out_add_cstr (xml, id,
+			glade_string_from_flags (t, g_value_get_flags (val)));
+		break;
+	case G_TYPE_FLOAT:
+		gsf_xml_out_add_float (xml, id, g_value_get_float (val), -1);
+		break;
+	case G_TYPE_DOUBLE:
+		gsf_xml_out_add_float (xml, id, g_value_get_double (val), -1);
+		break;
+	case G_TYPE_STRING:
+		gsf_xml_out_add_cstr (xml, id, g_value_get_string (val));
+		break;
+
+	default:
+		if (GSF_TIMESTAMP_TYPE == t) {
+			char *str = gsf_timestamp_as_string (
+				(GsfTimestamp const *)g_value_get_boxed (val));
+			gsf_xml_out_add_cstr (xml, id, str);
+			break;
+		}
+	}
+
+	/* FIXME FIXME FIXME Add some error checking */
 }
 
 /**

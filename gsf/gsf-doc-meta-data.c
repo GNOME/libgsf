@@ -2,7 +2,8 @@
 /*
  * gsf-doc-meta-data.c:
  *
- * Copyright (C) 2002-2005 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
+ * 			   Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -21,6 +22,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-docprop-vector.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GsfDocMetaData {
@@ -193,6 +195,48 @@ gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 	return (gsize) g_hash_table_size (meta->table);
 }
 
+static void
+cb_print_property (char const *name, GsfDocProp const *prop)
+{
+	GValue const *val = gsf_doc_prop_get_val  (prop);
+	char *tmp;
+
+	if (gsf_doc_prop_get_link (prop) != NULL)
+		g_print ("prop '%s' LINKED TO  -> '%s'\n",
+			 name, gsf_doc_prop_get_link (prop));
+	else
+		g_print ("prop '%s'\n", name);
+
+	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
+		GValueArray *va = gsf_value_get_docprop_varray (val);
+		unsigned i;
+
+		for (i = 0 ; i < va->n_values; i++) {
+			tmp = g_strdup_value_contents (
+				g_value_array_get_nth (va, i));
+			g_print ("\t[%u] = %s\n", i, tmp);
+			g_free (tmp);
+		}
+	} else {
+		tmp = g_strdup_value_contents (val);
+		g_print ("\t= %s\n", tmp);
+		g_free (tmp);
+	}
+}
+
+/**
+ * gsf_doc_meta_dump :
+ * @meta : #GsfDocMetaData
+ *
+ * A debugging utility to dump the content of @meta via g_print
+ **/
+void
+gsf_doc_meta_dump (GsfDocMetaData const *meta)
+{
+	gsf_doc_meta_data_foreach (meta,
+		(GHFunc) cb_print_property, NULL);
+}
+
 /**********************************************************************/
 
 /**
@@ -329,4 +373,3 @@ gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 		prop->linked_to = link;
 	}
 }
-

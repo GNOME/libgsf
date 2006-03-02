@@ -23,6 +23,7 @@
 #include <gsf/gsf-timestamp.h>
 #include <string.h>
 #include <time.h>
+#include <stdio.h>
 
 static void
 timestamp_to_string (GValue const *src_value, GValue *dest_value)
@@ -75,11 +76,70 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 	g_free (stamp);
 }
 
-int
-gsf_timestamp_parse (G_GNUC_UNUSED char const *spec,
-		     G_GNUC_UNUSED GsfTimestamp *stamp)
+#if defined(HAVE_STRUCT_TM_TM_GMTOFF)
+#define GMTOFF(t) ((t).tm_gmtoff)
+#elif defined(HAVE_STRUCT_TM___TM_GMTOFF)
+#define GMTOFF(t) ((t).__tm_gmtoff)
+#elif defined(WIN32)
+#define GMTOFF(t) (gmt_to_local_win32())
+#else
+/* FIXME: work out the offset anyway. */
+#define GMTOFF(t) (0)
+#endif
+
+#ifdef WIN32
+time_t gmt_to_local_win32(void)
 {
-	return 0;
+    TIME_ZONE_INFORMATION tzinfo;
+    DWORD dwStandardDaylight;
+    long bias;
+
+    dwStandardDaylight = GetTimeZoneInformation(&tzinfo);
+    bias = tzinfo.Bias;
+
+    if (dwStandardDaylight == TIME_ZONE_ID_STANDARD)
+        bias += tzinfo.StandardBias;
+    
+    if (dwStandardDaylight == TIME_ZONE_ID_DAYLIGHT)
+        bias += tzinfo.DaylightBias;
+    
+    return (- bias * 60);
+}
+#endif
+
+/**
+ * gsf_timestamp_parse : ICK ICK ICK
+ * Should be called _from_stong.
+ * @spec : The string to parse
+ * @stamp : #GsfTimestamp
+ *
+ * Very simple parser for time stamps.  Currently requires
+ * 	'YYYY-MM-DDThh:mm:ss'
+ * and does no bounds checking.
+ *
+ * Returns TRUE on success
+ **/
+int
+gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
+{
+	struct tm	tm;
+
+	memset (&tm, 0, sizeof (struct tm));
+
+	/* 'YYYY-MM-DDThh:mm:ss' */
+	if (6 == sscanf (spec, "%d-%d-%dT%d:%d:%d",
+			 &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
+			 &tm.tm_hour, &tm.tm_min, &tm.tm_sec)) {
+		tm.tm_mon--; /* 0..11 */
+
+		/* err on the side of avoiding negatives */
+		if (tm.tm_year >= 1900)
+			tm.tm_year -= 1900;
+
+		stamp->timet = mktime (&tm) + GMTOFF(tm);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /**
@@ -94,13 +154,18 @@ gsf_timestamp_parse (G_GNUC_UNUSED char const *spec,
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
-	time_t t;
+	time_t    t;
+	struct tm tm;
+
 	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
 
-	/* Use an honest time_t for ctime.  */
-	t = stamp->timet;
-/* FIXME FIXME FIXME  ctime is not thread safe, use ctime_r if available */
-	return g_strdup (ctime (&t));
+	t = stamp->timet;	/* Use an honest time_t for gmtime_r.  */
+	gmtime_r (&t, &tm);
+
+	/* using 'YYYY-MM-DDThh:mm:ss' */
+	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%d",
+		tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
+		tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
 guint

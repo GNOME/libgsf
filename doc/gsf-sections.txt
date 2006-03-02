@@ -591,6 +591,7 @@ gsf_xml_out_add_float
 gsf_xml_out_add_enum
 gsf_xml_out_add_color
 gsf_xml_out_add_base64
+gsf_xml_out_add_gvalue
 gsf_xml_out_simple_element
 gsf_xml_out_simple_float_element
 gsf_xml_out_simple_int_element
