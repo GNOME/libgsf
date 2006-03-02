@@ -12,7 +12,7 @@ Standards-Version: 3.6.2
 Package: libgsf-gnome-1-dev
 Section: libdevel
 Architecture: any
-Depends: libgsf-gnome-1-113 (= ${Source-Version}), libgsf-1-dev
+Depends: libgsf-gnome-1-114 (= ${Source-Version}), libgsf-1-dev
 Recommends: pkg-config
 Description: Structured File Library - development files for GNOME
  This package contains the development files used in building applications
@@ -26,17 +26,17 @@ Description: Structured File Library - development files for GNOME
  This package supports the use of Bonobo, GNOME's CORBA-based component
  architecture and of GNOME-VFS, the GNOME virtual file-system.
 
-Package: libgsf-gnome-1-113-dbg
+Package: libgsf-gnome-1-114-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: libgsf-gnome-1-113 (= ${Source-Version})
-Recommends: libgsf-1-113-dbg
+Depends: libgsf-gnome-1-114 (= ${Source-Version})
+Recommends: libgsf-1-114-dbg
 Description: Structured File Library - debugging files for GNOME
  This package contains the files for debugging (applications that use the)
  the GNOME extension parts of the GNOME Structured File Library.
 
-Package: libgsf-gnome-1-113
+Package: libgsf-gnome-1-114
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -48,22 +48,22 @@ Description: Structured File Library - runtime version for GNOME
  This version of libgsf makes use of Bonobo, GNOME's CORBA-based component
  architecture and of GNOME-VFS, the GNOME virtual file-system.
 
-Package: libgsf-1-113-dbg
+Package: libgsf-1-114-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: libgsf-1-113 (= ${Source-Version})
+Depends: libgsf-1-114 (= ${Source-Version})
 Description: Structured File Library - debugging files (basic version)
  This package contains the files for debugging (applications that use the)
  the core parts of the GNOME Structured File Library.
  .
  To debug (applications that use the) GNOME extensions to this library,
- install libgsf-gnome-1-113-dbg as well.
+ install libgsf-gnome-1-114-dbg as well.
 
 Package: libgsf-1-dev
 Section: libdevel
 Architecture: any
-Depends: libgsf-1-113 (= ${Source-Version}), libglib2.0-dev (>= 2.4.1-2), libxml2-dev (>= 2.6.10-1), libbz2-dev
+Depends: libgsf-1-114 (= ${Source-Version}), libglib2.0-dev (>= 2.4.1-2), libxml2-dev (>= 2.6.10-1), libbz2-dev
 Recommends: pkg-config
 Description: Structured File Library - development files (basic version)
  This package contains the development files used in building applications
@@ -78,7 +78,7 @@ Description: Structured File Library - development files (basic version)
  It is not GNOME-specific and thus does not depend on GNOME libraries. 
  For GNOME-specific extensions, use libgsf-gnome-1-dev.
 
-Package: libgsf-1-113
+Package: libgsf-1-114
 Section: libs
 Architecture: any
 Depends: libgsf-1-common (>= ${Source-Version})), ${shlibs:Depends}, ${misc:Depends}

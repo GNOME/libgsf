@@ -1,3 +1,12 @@
+libgsf (1.14.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/rules] Restructured to make it easy to build "oldlibs" packages
+    should they be needed.
+  * [debian/watch] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  2 Mar 2006 07:05:51 +0100
+
 libgsf (1.13.3-1) unstable; urgency=medium
 
   * New upstream release; limited changes.
