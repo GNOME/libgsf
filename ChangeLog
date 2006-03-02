@@ -1,3 +1,9 @@
+2006-03-02  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* gsf/gsf-docprop-vector.c (gsf_docprop_vector_as_string) : no need
+	  to call g_value_unset () because g_value_array_get_nth () returns
+	  just a pointer to the value. 
+
 2006-03-02  Luciano M. Wolf <luciano.wolf@indt.org.br>
 
 	* gsf/gsf-opendoc-utils.c (od_meta_keyword) : init the value to string

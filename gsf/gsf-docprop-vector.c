@@ -109,7 +109,6 @@ gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 		str = g_strdup_value_contents (v);
 		rstring = g_strconcat (rstring, str, ",", NULL);
 		g_free (str);
-		g_value_unset (v);
 	}
 
 	return rstring;
