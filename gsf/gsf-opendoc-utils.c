@@ -128,6 +128,7 @@ od_meta_keyword (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
 	GValue *v= g_new0 (GValue, 1);
 
+	g_value_init (v, G_TYPE_STRING);
 	if (NULL == mi->keywords)
 		mi->keywords = gsf_docprop_vector_new ();
 	g_value_set_string (v, xin->content->str);
