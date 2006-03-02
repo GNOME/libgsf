@@ -1,6 +1,18 @@
 2006-03-02  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-opendoc-utils.c (gsf_opendoc_metadata_write) : enabled.
+	(meta_write_props) : new.
+	(gsf_opendoc_metadata_read) : handle keywords.
+	(od_meta_keyword) : ditto.
+
+2006-03-02  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.14.0
+
+2006-03-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_dump) : Move this here from
+	  test-msole1.
 
 2006-03-01  Jody Goldberg <jody@gnome.org>
 
