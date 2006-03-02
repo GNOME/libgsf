@@ -1,3 +1,9 @@
+libgsf 1.14.1
+
+Jody:
+	* Enable the ODF support in the thumbnailer's schema.
+
+--------------------------------------------------------------------------
 libgsf 1.14.0 aka 1.13.99
 
     NOTE : 1.13.99 and 1.14.0 are identical.  The former was made as a

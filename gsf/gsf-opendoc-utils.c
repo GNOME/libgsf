@@ -126,16 +126,18 @@ static void
 od_meta_keyword (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
-	GValue *v= g_new0 (GValue, 1);
+	GValue *v = g_new0 (GValue, 1);
 
-	g_value_init (v, G_TYPE_STRING);
 	if (NULL == mi->keywords)
 		mi->keywords = gsf_docprop_vector_new ();
+
+	g_value_init (v, G_TYPE_STRING);
 	g_value_set_string (v, xin->content->str);
 	gsf_docprop_vector_append (mi->keywords, v);
 	g_value_unset (v);
 	g_free (v);
 }
+
 static void
 od_meta_user_defined (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
