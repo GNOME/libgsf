@@ -1,5 +1,11 @@
 2006-03-02  Jody Goldberg <jody@gnome.org>
 
+	* thumbnailer/gsf-office-thumbnailer.schemas.in : Add the opendoc
+	  types to the schema.  Need to check the older OOo 1.x formats before
+	  we can add them.
+
+2006-03-02  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump
 
 2006-03-02  Jody Goldberg <jody@gnome.org>

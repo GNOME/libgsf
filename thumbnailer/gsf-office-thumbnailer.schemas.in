@@ -1,6 +1,7 @@
 <gconfschemafile>
     <schemalist>
 
+	<!-- MS Powerpoint -->
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@vnd.ms-powerpoint/enable</key>
             <applyto>/desktop/gnome/thumbnailers/application@vnd.ms-powerpoint/enable</applyto>
@@ -8,11 +9,10 @@
             <type>bool</type>
             <default>true</default>
             <locale name="C">
-                <short>Enable thumbnailing of Microsoft PowerPoint documents</short>
+                <short>Enable thumbnailing of Microsoft PowerPoint presentations</short>
                 <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
             </locale>
         </schema>
-
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@vnd.ms-powerpoint/command</key>
             <applyto>/desktop/gnome/thumbnailers/application@vnd.ms-powerpoint/command</applyto>
@@ -20,11 +20,12 @@
             <type>string</type>
             <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
             <locale name="C">
-                <short>Thumbnail command for Microsoft PowerPoint documents</short>
-                <long>Valid command plus arguments for the Microsoft PowerPoint thumbnailer.</long>
+                <short>Thumbnail command for Microsoft PowerPoint presentations</short>
+                <long>Valid command plus arguments for the Microsoft PowerPoint thumbnailer</long>
             </locale>
         </schema>
 
+	<!-- MS Excel -->
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@vnd.ms-excel/enable</key>
             <applyto>/desktop/gnome/thumbnailers/application@vnd.ms-excel/enable</applyto>
@@ -32,11 +33,10 @@
             <type>bool</type>
             <default>true</default>
             <locale name="C">
-                <short>Enable thumbnailing of Microsoft Excel documents</short>
+                <short>Enable thumbnailing of Microsoft Excel spreadsheets</short>
                 <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
             </locale>
         </schema>
-
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@vnd.ms-excel/command</key>
             <applyto>/desktop/gnome/thumbnailers/application@vnd.ms-excel/command</applyto>
@@ -44,11 +44,12 @@
             <type>string</type>
             <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
             <locale name="C">
-                <short>Thumbnail command for Microsoft Excel documents</short>
-                <long>Valid command plus arguments for the Microsoft Excel thumbnailer.</long>
+                <short>Thumbnail command for Microsoft Excel spreadsheets</short>
+                <long>Valid command plus arguments for the Microsoft Excel spreadsheets.</long>
             </locale>
         </schema>
 
+	<!-- MS Word -->
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@msword/enable</key>
             <applyto>/desktop/gnome/thumbnailers/application@msword/enable</applyto>
@@ -60,7 +61,6 @@
                 <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
             </locale>
         </schema>
-
         <schema>
             <key>/schemas/desktop/gnome/thumbnailers/application@msword/command</key>
             <applyto>/desktop/gnome/thumbnailers/application@msword/command</applyto>
@@ -69,9 +69,172 @@
             <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
             <locale name="C">
                 <short>Thumbnail command for Microsoft Word documents</short>
-                <long>Valid command plus arguments for the Microsoft Word thumbnailer.</long>
+                <long>Valid command plus arguments for the Microsoft Word thumbnailer</long>
             </locale>
         </schema>
+
+	<!-- OpenDoc Presentation Templates -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation-template/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation-template/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument presentation templates</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation-template/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation-template/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument presentation templates</short>
+                <long>Valid command plus arguments for the OpenDocument presentation template thumbnailer</long>
+            </locale>
+        </schema>
+
+	<!-- OpenDocument Presentations -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument presentations</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.presentation/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument presentations</short>
+                <long>Valid command plus arguments for the OpenDocument presentation thumbnailer</long>
+            </locale>
+        </schema>
+
+	<!-- OpenDocument Spreadsheet Templates -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet-template/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet-template/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument spreadsheet templates</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet-template/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet-template/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument spreadsheet templates</short>
+                <long>Valid command plus arguments for the OpenDocument spreadsheet template thumbnailer</long>
+            </locale>
+        </schema>
+
+	<!-- OpenDocument Spreadsheet -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument spreadsheets</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.spreadsheet/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument spreadsheets</short>
+                <long>Valid command plus arguments for the OpenDocument spreadsheet thumbnailer</long>
+            </locale>
+        </schema>
+
+	<!-- OpenDocument Text Templates -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text-template/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text-template/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument wordprocessing document templates</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text-template/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text-template/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument wordprocessing document templates</short>
+                <long>Valid command plus arguments for the OpenDocument wordprocessing document template thumbnailer</long>
+            </locale>
+        </schema>
+
+	<!-- OpenDocument Text -->
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text/enable</applyto>
+            <owner>libgsf</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of OpenDocument wordprocessing documents</short>
+                <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+            </locale>
+        </schema>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@vnd.oasis.opendocument.text/command</applyto>
+            <owner>libgsf</owner>
+            <type>string</type>
+            <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+            <locale name="C">
+                <short>Thumbnail command for OpenDocument wordprocessing documents</short>
+                <long>Valid command plus arguments for the OpenDocument wordprocessing document thumbnailer</long>
+            </locale>
+        </schema>
+
+<!-- Check these 
+    vnd.oasis.opendocument.chart.xml
+    vnd.oasis.opendocument.database.xml
+    vnd.oasis.opendocument.formula.xml
+    vnd.oasis.opendocument.graphics-template.xml
+    vnd.oasis.opendocument.graphics.xml
+    vnd.oasis.opendocument.image.xml
+    vnd.sun.xml.calc.template.xml
+    vnd.sun.xml.calc.xml
+    vnd.sun.xml.draw.template.xml
+    vnd.sun.xml.draw.xml
+    vnd.sun.xml.impress.template.xml
+    vnd.sun.xml.impress.xml
+    vnd.sun.xml.math.xml
+    vnd.sun.xml.writer.global.xml
+    vnd.sun.xml.writer.template.xml
+    vnd.sun.xml.writer.xml
+-->
 
     </schemalist>
 </gconfschemafile>
