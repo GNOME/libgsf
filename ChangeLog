@@ -1,3 +1,9 @@
+2006-03-03  Jody Goldberg <jody@gnome.org>
+
+	* thumbnailer/main.c (call_convert) : use -thumbnail rather than -resize
+	  to handle transparent backgrounds.  I can not find normative docs on
+	  this but it seems to do the right thing.
+
 2006-03-02  Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* gsf/gsf-docprop-vector.c (gsf_docprop_vector_as_string) : no need

@@ -60,9 +60,9 @@ call_convert (const char *in_filename, const char *out_filename, int thumb_size)
 
 	in_quote = g_shell_quote (in_filename);
 	out_quote = g_shell_quote (out_filename);
-	cmd_line = g_strdup_printf ("convert -resize %dx%d %s png:%s",
-				    thumb_size, thumb_size,
+	cmd_line = g_strdup_printf ("convert %s -thumbnail %dx%d png:%s",
 				    in_quote,
+				    thumb_size, thumb_size,
 				    out_quote);
 	fprintf (stderr, "calling %s\n", cmd_line);
 	g_free (in_quote);
