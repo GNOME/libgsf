@@ -2,6 +2,7 @@ libgsf 1.14.1
 
 Jody:
 	* Enable the ODF support in the thumbnailer's schema.
+	* Fix handling of transparent backgrounds in ODF thumbnails.
 
 --------------------------------------------------------------------------
 libgsf 1.14.0 aka 1.13.99
