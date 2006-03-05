@@ -1,3 +1,11 @@
+2006-03-06  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
+
+	* configure.in: detect gmtime/gmtime_r
+	* gsf/gsf-timestamp.c: various fixes to enable compilatioon on win32
+
+	* thumbnailer/Makefile.am: disable running of gconftool when
+	cross-compile
+
 2006-03-03  Jody Goldberg <jody@gnome.org>
 
 	* thumbnailer/main.c (call_convert) : use -thumbnail rather than -resize

@@ -160,6 +160,11 @@ AC_FUNC_MMAP
 
 AC_CHECK_FUNCS(chown)
 
+AC_CHECK_FUNCS(gmtime_r, [],
+	       [AC_CHECK_FUNCS(gmtime,
+	       		       [AC_MSG_WARN(*** Please note that gmtime_r() is missing and I will use gmtime() which is not thread safe ***)],
+			       [AC_MSG_ERROR([Neither gmtime_r or gmtime is available])])])
+
 AC_CHECK_MEMBERS(struct tm.tm_gmtoff,,,
 [#include <time.h>])
 
@@ -205,6 +210,7 @@ esac
 AC_MSG_RESULT($with_win32)
 AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
 AM_CONDITIONAL(HAVE_LIBEXE, test x$LIBEXE = xyes)
+AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != "xno")
 
 ##################################################
 # Checks for gtk-doc and docbook-tools

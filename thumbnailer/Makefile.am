@@ -18,6 +18,7 @@ schemadir = $(GCONF_SCHEMA_FILE_DIR)
 install-data-local:
 if GCONF_SCHEMAS_INSTALL
 if WITH_WIN32
+if !CROSS_COMPILING
 	if test -z "$(DESTDIR)"; then \
 	  for p in $(schema_DATA); do \
 	    (echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE); \
@@ -25,6 +26,7 @@ if WITH_WIN32
 	    cmd /c _temp.bat; \
 	  done \
 	fi
+endif
 else
 	if test -z "$(DESTDIR)"; then \
 	  for p in $(schema_DATA); do \

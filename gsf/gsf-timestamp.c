@@ -24,6 +24,9 @@
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
 
 static void
 timestamp_to_string (GValue const *src_value, GValue *dest_value)
@@ -80,15 +83,15 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 #define GMTOFF(t) ((t).tm_gmtoff)
 #elif defined(HAVE_STRUCT_TM___TM_GMTOFF)
 #define GMTOFF(t) ((t).__tm_gmtoff)
-#elif defined(WIN32)
+#elif defined(G_OS_WIN32)
 #define GMTOFF(t) (gmt_to_local_win32())
 #else
 /* FIXME: work out the offset anyway. */
 #define GMTOFF(t) (0)
 #endif
 
-#ifdef WIN32
-time_t gmt_to_local_win32(void)
+#ifdef G_OS_WIN32
+static time_t gmt_to_local_win32(void)
 {
     TIME_ZONE_INFORMATION tzinfo;
     DWORD dwStandardDaylight;
@@ -160,7 +163,13 @@ gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
 
 	t = stamp->timet;	/* Use an honest time_t for gmtime_r.  */
+#ifdef HAVE_GMTIME_R
 	gmtime_r (&t, &tm);
+#else
+	/* -NOT- thread-safe */
+	tm = *gmtime (&t);
+#endif
+
 
 	/* using 'YYYY-MM-DDThh:mm:ss' */
 	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%d",
