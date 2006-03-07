@@ -1,3 +1,11 @@
+2006-03-07  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_free): Ensure that
+	prop->linked_to is valid before free it.
+	(gsf_doc_prop_set_val): Just unset and free prop->val if it is not
+	NULL.
+	(gsf_doc_prop_set_link): Just free prop->linked_to if it is not NULL.
+
 2006-03-06  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
 	* configure.in: detect gmtime/gmtime_r
