@@ -1,3 +1,7 @@
+2006-03-08  Morten Welinder  <terra@gnome.org>
+
+	* doc/Makefile.am (manpagedir): Fix #316107.
+
 2006-03-07  Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_free): Ensure that

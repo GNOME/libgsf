@@ -4,6 +4,9 @@ Jody:
 	* Enable the ODF support in the thumbnailer's schema.
 	* Fix handling of transparent backgrounds in ODF thumbnails.
 
+Morten:
+	* Make --mandir=... work.  [#316107]
+
 --------------------------------------------------------------------------
 libgsf 1.14.0 aka 1.13.99
 
