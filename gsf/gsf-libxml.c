@@ -419,6 +419,7 @@ typedef struct {
 	GSList	 	 *ns_stack;
 	GHashTable	 *ns_prefixes;
 	GPtrArray	 *ns_by_id;
+	gboolean          initialized;
 	gint	  	  unknown_depth; /* handle recursive unknown tags */
 	gboolean	  from_unknown_handler;
 
@@ -699,6 +700,11 @@ gsf_free_xmlinnsinstance (GsfXMLInNSInstance *inst)
 static void
 gsf_xml_in_start_document (GsfXMLInInternal *state)
 {
+	/*
+	 * This function will not be called when parsing an empty
+	 * document.
+	 */
+	state->initialized	= TRUE;
 	state->pub.node = &state->pub.doc->root_node->pub;
 	state->unknown_depth	= 0;
 	state->pub.node_stack	= NULL;
@@ -718,14 +724,16 @@ gsf_xml_in_end_document (GsfXMLInInternal *state)
 	g_string_free (state->pub.content, TRUE);
 	state->pub.content = NULL;
 
-	g_ptr_array_free (state->ns_by_id, TRUE);
-	state->ns_by_id = NULL;
+	if (state->initialized) {
+		g_ptr_array_free (state->ns_by_id, TRUE);
+		state->ns_by_id = NULL;
 
-	g_hash_table_destroy (state->ns_prefixes);
-	state->ns_prefixes = NULL;
+		g_hash_table_destroy (state->ns_prefixes);
+		state->ns_prefixes = NULL;
 
-	g_return_if_fail (state->pub.node == &state->pub.doc->root_node->pub);
-	g_return_if_fail (state->unknown_depth == 0);
+		g_return_if_fail (state->pub.node == &state->pub.doc->root_node->pub);
+		g_return_if_fail (state->unknown_depth == 0);
+	}
 }
 
 static void
@@ -1000,6 +1008,7 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 
 	g_return_val_if_fail (doc != NULL, FALSE);
 
+	state.initialized = FALSE;
 	ctxt = gsf_xml_parser_context_full (input, &gsfXMLInParser, &state);
 	if (ctxt == NULL)
 		return FALSE;
