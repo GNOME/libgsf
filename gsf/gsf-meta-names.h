@@ -85,14 +85,6 @@
  * 1.14.0	Clarified that this is unique from _NAME_CODEPAGE in msole
  */
 #define	GSF_META_NAME_CODEPAGE			"msole:codepage"
-/**
- * GSF_META_NAME_LAST_PRINTED:
- *
- * (Date as ISO String) The last time this document was printed.
- *
- * 1.14.0	Moved from "gsf" to "dc".
- */
-#define GSF_META_NAME_LAST_PRINTED		"dc:last-printed"
 
 /**
  * GSF_META_NAME_SUBJECT:
@@ -382,6 +374,15 @@
  * (Date as ISO String) Specifies the date and time when the document was last printed.
  */
 #define GSF_META_NAME_PRINT_DATE		"meta:print-date"
+/**
+ * GSF_META_NAME_LAST_PRINTED:
+ *
+ * (Date as ISO String) The last time this document was printed.
+ *
+ * 1.14.0	Moved from "gsf" to "dc".
+ */
+#define GSF_META_NAME_LAST_PRINTED		"dc:last-printed"
+
 
 /**
  * GSF_META_NAME_PRINTED_BY:

@@ -5,12 +5,15 @@
 
 G_BEGIN_DECLS
 
+#define GSF_BLOB_TYPE			(gsf_blob_get_type ())
+#define GSF_BLOB(obj)		  	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GSF_BLOB_TYPE, GsfBlob))
+#define GSF_BLOB_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GSF_BLOB_TYPE, GsfBlobClass))
+#define GSF_IS_BLOB(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GSF_BLOB_TYPE))
+#define GSF_IS_BLOB_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), GSF_BLOB_TYPE))
+#define GSF_BLOB_GET_CLASS(obj)         (G_TYPE_INSTANCE_GET_CLASS ((obj), GSF_BLOB_TYPE, GsfBlobClass))
+
+/* Deprecated old typo */
 #define GSF_TYPE_BLOB			(gsf_blob_get_type ())
-#define GSF_BLOB(obj)		  	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GSF_TYPE_BLOB, GsfBlob))
-#define GSF_BLOB_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GSF_TYPE_BLOB, GsfBlobClass))
-#define GSF_IS_BLOB(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GSF_TYPE_BLOB))
-#define GSF_IS_BLOB_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), GSF_TYPE_BLOB))
-#define GSF_BLOB_GET_CLASS(obj)         (G_TYPE_INSTANCE_GET_CLASS ((obj), GSF_TYPE_BLOB, GsfBlobClass))
 
 typedef struct _GsfBlob GsfBlob;
 typedef struct _GsfBlobClass GsfBlobClass;

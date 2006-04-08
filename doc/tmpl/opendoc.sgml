@@ -1,25 +1,17 @@
 <!-- ##### SECTION Title ##### -->
-gsf-opendoc-utils
+OASIS Open Document
 
 <!-- ##### SECTION Short_Description ##### -->
-OpenDocument format
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-The OASIS Open Document Format for Office Applications or
-<firstterm>OpenDocument</firstterm> for short is an XML-based file format
-specification for office applications overseen by the <ulink
-url="http://www.oasis-open.org/">OASIS</ulink> standards consortium.
-</para>
-<para>
-These routines handle the application neutral portions of the
-<term>OpenDocument</term> format.
+
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
 <para>
-The <ulink url="http://en.wikipedia.org/wiki/OpenDocument">Wikipedia article
-"OpenDocument"</ulink>.
+
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->

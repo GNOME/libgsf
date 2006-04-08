@@ -1,0 +1,104 @@
+<!-- ##### SECTION Title ##### -->
+GsfClipData
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM GsfClipFormat ##### -->
+<para>
+
+</para>
+
+@GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD: 
+@GSF_CLIP_FORMAT_MACINTOSH_CLIPBOARD: 
+@GSF_CLIP_FORMAT_GUID: 
+@GSF_CLIP_FORMAT_NO_DATA: 
+@GSF_CLIP_FORMAT_CLIPBOARD_FORMAT_NAME: 
+@GSF_CLIP_FORMAT_UNKNOWN: 
+
+<!-- ##### ENUM GsfClipFormatWindows ##### -->
+<para>
+
+</para>
+
+@GSF_CLIP_FORMAT_WINDOWS_ERROR: 
+@GSF_CLIP_FORMAT_WINDOWS_UNKNOWN: 
+@GSF_CLIP_FORMAT_WINDOWS_METAFILE: 
+@GSF_CLIP_FORMAT_WINDOWS_DIB: 
+@GSF_CLIP_FORMAT_WINDOWS_ENHANCED_METAFILE: 
+
+<!-- ##### STRUCT GsfClipData ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GsfClipDataClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
+<!-- ##### FUNCTION gsf_clip_data_new ##### -->
+<para>
+
+</para>
+
+@format: 
+@data_blob: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_clip_data_get_format ##### -->
+<para>
+
+</para>
+
+@clip_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_clip_data_get_data_blob ##### -->
+<para>
+
+</para>
+
+@clip_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_clip_data_get_windows_clipboard_format ##### -->
+<para>
+
+</para>
+
+@clip_data: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_clip_data_peek_real_data ##### -->
+<para>
+
+</para>
+
+@clip_data: 
+@ret_size: 
+@error: 
+@Returns: 
+
+

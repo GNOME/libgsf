@@ -370,34 +370,48 @@ BAT_MAGIC_UNUSED
 </SECTION>
 
 <SECTION>
-<FILE>gsf-opendoc-utils</FILE>
+<TITLE>OASIS Open Document</TITLE>
+<FILE>opendoc</FILE>
 gsf_opendoc_metadata_read
 gsf_opendoc_metadata_subtree
 gsf_opendoc_metadata_write
 </SECTION>
 
 <SECTION>
-<FILE>gsf-blob</FILE>
+<TITLE>Raw Data Chunks</TITLE>
+<FILE>blobs</FILE>
 GsfBlob
 GsfBlobClass
+GsfStructuredBlob
 <TITLE>GsfBlob</TITLE>
 gsf_blob_new
 gsf_blob_get_size
 gsf_blob_peek_data
+
+gsf_structured_blob_write
+gsf_structured_blob_read
 <SUBSECTION Standard>
 GSF_BLOB
 GSF_IS_BLOB
-GSF_TYPE_BLOB
+GSF_BLOB_TYPE
 GSF_BLOB_CLASS
 GSF_IS_BLOB_CLASS
 GSF_BLOB_GET_CLASS
+
+GSF_STRUCTURED_BLOB_TYPE
+GSF_STRUCTURED_BLOB
+GSF_IS_STRUCTURED_BLOB
+</SECTION>
 <SUBSECTION Private>
-gsf_blob_get_type
+GSF_TYPE_BLOB
 GsfBlobPrivate
+gsf_blob_get_type
+gsf_structured_blob_get_type
 </SECTION>
 
+
 <SECTION>
-<FILE>gsf-clip-data</FILE>
+<FILE>clip-data</FILE>
 GsfClipFormat
 GsfClipFormatWindows
 GsfClipData
@@ -609,20 +623,6 @@ gsf_xml_out_get_type
 </SECTION>
 
 <SECTION>
-<TITLE>Structured Blobs</TITLE>
-<FILE>blob</FILE>
-GsfStructuredBlob
-gsf_structured_blob_write
-gsf_structured_blob_read
-
-<SUBSECTION Standard>
-GSF_STRUCTURED_BLOB_TYPE
-GSF_STRUCTURED_BLOB
-GSF_IS_STRUCTURED_BLOB
-gsf_structured_blob_get_type
-</SECTION>
-
-<SECTION>
 <FILE>utils</FILE>
 gsf_init
 gsf_shutdown
@@ -721,6 +721,7 @@ gsf_doc_meta_data_steal
 gsf_doc_meta_data_store
 gsf_doc_meta_data_foreach
 gsf_doc_meta_data_size
+gsf_doc_meta_dump
 
 GsfDocProp
 gsf_doc_prop_new
@@ -746,6 +747,7 @@ GSF_META_NAME_DATE_MODIFIED
 GSF_META_NAME_DATE_CREATED          
 GSF_META_NAME_KEYWORDS              
 GSF_META_NAME_LANGUAGE              
+GSF_META_NAME_CODEPAGE
 GSF_META_NAME_REVISION_COUNT        
 GSF_META_NAME_EDITING_DURATION      
 GSF_META_NAME_TABLE_COUNT           
@@ -761,6 +763,9 @@ GSF_META_NAME_CREATOR
 GSF_META_NAME_TEMPLATE              
 GSF_META_NAME_LAST_SAVED_BY         
 GSF_META_NAME_LAST_PRINTED          
+GSF_META_NAME_PRINT_DATE
+GSF_META_NAME_PRINTED_BY
+GSF_META_NAME_KEYWORD
 GSF_META_NAME_SECURITY              
 GSF_META_NAME_CATEGORY              
 GSF_META_NAME_PRESENTATION_FORMAT   
@@ -788,7 +793,6 @@ GSF_META_NAME_MSOLE_UNKNOWN_22
 GSF_META_NAME_MSOLE_UNKNOWN_23
 GSF_META_NAME_LOCALE_SYSTEM_DEFAULT 
 GSF_META_NAME_CASE_SENSITIVE        
-GSF_META_NAME_PRINTED_BY
 GSF_META_NAME_INITIAL_CREATOR
 <SUBSECTION Standard>
 GSF_DOC_META_DATA_TYPE

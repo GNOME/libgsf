@@ -101,8 +101,6 @@ XML and libxml
 @ns: 
 @name: 
 @has_content: 
-@\
-			     share_children_with_parent:
 @share_children_with_parent: 
 @check_ns: 
 @start: 

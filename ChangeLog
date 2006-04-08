@@ -1,3 +1,17 @@
+2006-04-07  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_check_ns) : check the current default
+	  namespace too.
+	(gsf_xml_in_namecmp) : ditto.
+	(gsf_xml_in_start_element) : improve the warning for unexpected
+	  elements.
+
+	* gsf/gsf-blob.h : deprecate the non-standard name 'GSF_TYPE_BLOB'
+	  and add GSF_BLOB_TYPE.
+
+	* doc/gsf-docs.sgml : fix up the organization a bit.
+	* doc/gsf-sections.txt : ditto.
+
 2006-03-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_doc_parse): Set new member

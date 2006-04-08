@@ -2,23 +2,16 @@
 Compression
 
 <!-- ##### SECTION Short_Description ##### -->
-Data compressed using gzip or bzip2
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-gzip and bzip2 are data compression algorithms and file formats that are in
-widespread use.
-</para>
-<para>
-These routines handle both gzip and bzip2 compression and decompression.
+
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
 <para>
-The <ulink url="http://en.wikipedia.org/wiki/Gzip">Wikipedia article
-"gzip"</ulink>.
-The <ulink url="http://en.wikipedia.org/wiki/Bzip2">Wikipedia article
-"bzip2"</ulink>.
+
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
@@ -89,8 +82,6 @@ The <ulink url="http://en.wikipedia.org/wiki/Bzip2">Wikipedia article
 @sink: 
 @err: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@source: 
 
 
 <!-- ##### STRUCT GsfOutputBzip ##### -->
@@ -107,7 +98,5 @@ The <ulink url="http://en.wikipedia.org/wiki/Bzip2">Wikipedia article
 @sink: 
 @err: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@source: 
 
 

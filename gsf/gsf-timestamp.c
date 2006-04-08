@@ -111,14 +111,16 @@ static time_t gmt_to_local_win32(void)
 #endif
 
 /**
- * gsf_timestamp_parse : ICK ICK ICK
- * Should be called _from_stong.
+ * gsf_timestamp_parse :
  * @spec : The string to parse
  * @stamp : #GsfTimestamp
  *
- * Very simple parser for time stamps.  Currently requires
+ * Very simple parser for time stamps.  Currently requires a format of
  * 	'YYYY-MM-DDThh:mm:ss'
  * and does no bounds checking.
+ *
+ * ICK ICK ICK
+ * This routine should be called _from_sting.
  *
  * Returns TRUE on success
  **/

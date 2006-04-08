@@ -49,40 +49,19 @@ utils
 
 <!-- ##### VARIABLE libgsf_major_version ##### -->
 <para>
-The major version number of the GSF library. 
-(e.g. in GSF version 1.2.5 this is 1.)
-</para>
 
-<para>
-This variable is in the library and thus represents the
-GSF library you have linked against (which may be different from the version
-of the GSF library from which you have included the headers).
 </para>
 
 
 <!-- ##### VARIABLE libgsf_minor_version ##### -->
 <para>
-The minor version number of the GLib library.
-(e.g. in GLib version 1.2.5 this is 2.)
-</para>
 
-<para>
-This variable is in the library and thus represents the
-GSF library you have linked against (which may be different from the version
-of the GSF library from which you have included the headers).
 </para>
 
 
 <!-- ##### VARIABLE libgsf_micro_version ##### -->
 <para>
-The micro version number of the GSF library.
-(e.g. in GSF version 1.2.5 this is 5.)
-</para>
 
-<para>
-This variable is in the library and thus represents the
-GSF library you have linked against (which may be different from the version
-of the GSF library from which you have included the headers).
 </para>
 
 
@@ -107,14 +86,10 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@\
-			   class_init:
 @class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@\
-		       abstract:
 @abstract: 
 @interface_decl: 
 
@@ -171,14 +146,10 @@ of the GSF library from which you have included the headers).
 @prefix: 
 @base_init: 
 @base_finalize: 
-@\
-				   class_init:
 @class_init: 
 @class_finalize: 
 @instance_init: 
 @parent_type: 
-@\
-			       abstract:
 @abstract: 
 @interface_decl: 
 
@@ -225,23 +196,18 @@ of the GSF library from which you have included the headers).
 
 <!-- ##### MACRO GSF_ERROR ##### -->
 <para>
-  This convenience macro simply calls gsf_error_quark().  You can use
-  it in calls to g_error_matches(), for example.  The macro returns
-  the #GQuark that is used to identify errors from libgsf functions.
-  Specific error codes come from the #GsfError enumeration.
+
 </para>
 
 
 
 <!-- ##### ENUM GsfError ##### -->
 <para>
-   Error codes that can be returned from libgsf functions in #GError structures.
+
 </para>
 
-@GSF_ERROR_OUT_OF_MEMORY: Not enough memory could be allocated to hold
-a structure or object.
-@GSF_ERROR_INVALID_DATA: A file being read contained invalid or
-inconsistent data.
+@GSF_ERROR_OUT_OF_MEMORY: 
+@GSF_ERROR_INVALID_DATA: 
 
 <!-- ##### FUNCTION gsf_error_quark ##### -->
 <para>
@@ -372,66 +338,66 @@ inconsistent data.
 
 <!-- ##### MACRO GSF_LE_GET_GINT8 ##### -->
 <para>
-Interpret data as an 8 bit integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT64 ##### -->
 <para>
-Interpret data as a 64 bit unsigned integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT16 ##### -->
 <para>
-Interpret data as a 16 bit integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT8 ##### -->
 <para>
-Interpret data as an 8 bit unsigned integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT32 ##### -->
 <para>
-Interpret data as a 32 bit integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT16 ##### -->
 <para>
-Interpret data as a 16 bit unsigned integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GUINT32 ##### -->
 <para>
-Interpret data as a 32 bit unsigned integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### MACRO GSF_LE_GET_GINT64 ##### -->
 <para>
-Interpret data as a 64 bit integer value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### FUNCTION gsf_le_get_guint64 ##### -->
@@ -445,10 +411,10 @@ Interpret data as a 64 bit integer value in little endian order.
 
 <!-- ##### MACRO GSF_LE_GET_FLOAT ##### -->
 <para>
-Interpret data as a float value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### FUNCTION gsf_le_get_float ##### -->
@@ -462,10 +428,10 @@ Interpret data as a float value in little endian order.
 
 <!-- ##### MACRO GSF_LE_GET_DOUBLE ##### -->
 <para>
-Interpret data as a double value in little endian order.
+
 </para>
 
-@p: Pointer to storage
+@p: 
 
 
 <!-- ##### FUNCTION gsf_le_get_double ##### -->
@@ -479,92 +445,92 @@ Interpret data as a double value in little endian order.
 
 <!-- ##### MACRO GSF_LE_SET_GUINT8 ##### -->
 <para>
-Store an 8 bit unsigned integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT16 ##### -->
 <para>
-Store a 16 bit unsigned integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT32 ##### -->
 <para>
-Store a 32 bit unsigned integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT8 ##### -->
 <para>
-Store an 8 bit integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT16 ##### -->
 <para>
-Store a 16 bit integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT32 ##### -->
 <para>
-Store a 32 bit integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GINT64 ##### -->
 <para>
-Store a 64 bit integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_GUINT64 ##### -->
 <para>
-Store a 64 bit unsigned integer value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_FLOAT ##### -->
 <para>
-Store a float value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### MACRO GSF_LE_SET_DOUBLE ##### -->
 <para>
-Store a double value in memory in little endian order.
+
 </para>
 
-@p: Pointer to storage
-@dat: Value to be stored
+@p: 
+@dat: 
 
 
 <!-- ##### FUNCTION gsf_le_set_float ##### -->
@@ -708,14 +674,5 @@ Store a double value in memory in little endian order.
 
 @params: 
 @n_params: 
-
-
-
-<!--
-Local variables:
-mode: sgml
-sgml-parent-document: ("../gsf-docs.sgml" "book" "refsect1")
-End:
--->
 
 

@@ -15,14 +15,13 @@
 
 <!ENTITY GsfMetadata		SYSTEM "xml/metadata.xml">
 <!ENTITY GsfMsole		SYSTEM "xml/msole.xml">
-<!ENTITY GsfBlob		SYSTEM "xml/gsf-blob.xml">
-<!ENTITY GsfClipData		SYSTEM "xml/gsf-clip-data.xml">
+<!ENTITY GsfBlobs		SYSTEM "xml/blobs.xml">
+<!ENTITY GsfClipData		SYSTEM "xml/clip-data.xml">
 <!ENTITY GsfCompression		SYSTEM "xml/compression.xml">
 <!ENTITY GsfZip			SYSTEM "xml/zip.xml">
 <!ENTITY GsfXml			SYSTEM "xml/xml.xml">
-<!ENTITY GsfStructuredBlob	SYSTEM "xml/blob.xml">
 <!ENTITY GsfText		SYSTEM "xml/text.xml">
-<!ENTITY GsfOpenDocument	SYSTEM "xml/gsf-opendoc-utils.xml">
+<!ENTITY GsfOpenDocument	SYSTEM "xml/opendoc.xml">
 
 <!ENTITY GsfUtils		SYSTEM "xml/utils.xml">
 <!ENTITY TreeIndex		SYSTEM "xml/tree_index.sgml">
@@ -222,9 +221,8 @@ data and a set of parsers for various structured types of data streams.
     &GsfMsole;
     &GsfMetadata;
     &GsfOpenDocument;
-    &GsfBlob;
+    &GsfBlobs;
     &GsfClipData;
-    &GsfStructuredBlob;
   </chapter>
   <chapter id="misc">
     <title>Miscellaneous</title>

@@ -2,7 +2,7 @@
 metadata
 
 <!-- ##### SECTION Short_Description ##### -->
-Data about documents
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -96,6 +96,14 @@ Data about documents
 
 @meta: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gsf_doc_meta_dump ##### -->
+<para>
+
+</para>
+
+@meta: 
 
 
 <!-- ##### STRUCT GsfDocProp ##### -->
@@ -265,6 +273,13 @@ Data about documents
 
 
 
+<!-- ##### MACRO GSF_META_NAME_CODEPAGE ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO GSF_META_NAME_REVISION_COUNT ##### -->
 <para>
 
@@ -364,6 +379,27 @@ Data about documents
 
 
 <!-- ##### MACRO GSF_META_NAME_LAST_PRINTED ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_META_NAME_PRINT_DATE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_META_NAME_PRINTED_BY ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GSF_META_NAME_KEYWORD ##### -->
 <para>
 
 </para>
@@ -553,13 +589,6 @@ Data about documents
 
 
 <!-- ##### MACRO GSF_META_NAME_CASE_SENSITIVE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GSF_META_NAME_PRINTED_BY ##### -->
 <para>
 
 </para>

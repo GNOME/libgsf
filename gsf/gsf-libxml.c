@@ -2,7 +2,7 @@
 /*
  * gsf-libxml.c :
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -603,17 +603,20 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 
 	if (state->unknown_depth++ > 0)
 		return;
-	g_warning ("Unexpected element '%s' in state %s.", name, node_name (state->pub.node));
 
+	g_print ("Unexpected element '%s' in state : \n\t", name);
 	ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
-	for (;ptr != NULL && ptr->next != NULL; ptr = ptr->next) {
+	if (ptr != NULL)	/* skip toplevel catch all */
+		ptr = ptr->next;
+	for (;ptr != NULL && ptr != NULL; ptr = ptr->next) {
 		node = ptr->data;
 		if (node != NULL) {
 /* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
-			g_print ("%s", node_name (&node->pub));
-			if (ptr->next != NULL && ptr->next->data != NULL)
-				g_print (" -> ");
+			g_print ("%s -> ", node_name (&node->pub));
 		}
+	}
+	if (state->pub.node != NULL) {
+		g_print ("%s\n", node_name (state->pub.node));
 	}
 	state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 }
@@ -875,7 +878,7 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 	doc->ns        = ns;
 	doc->ns_by_id  = g_ptr_array_new ();
 
-	/* Add namespaces to an idex */
+	/* Add namespaces to an index */
 	if (ns != NULL)
 		for (i = 0; ns[i].uri != NULL ; i++) {
 			if (ns[i].ns_id >= doc->ns_by_id->len)
@@ -1039,12 +1042,16 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
 {
 	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	GsfXMLInNSInstance *inst;
+
 	if (state->ns_by_id->len <= ns_id)
 		return NULL;
 	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
 		return NULL;
-	if (strncmp (str, inst->tag, inst->taglen))
+	if (strncmp (str, inst->tag, inst->taglen)) {
+		if (NULL != state->default_ns && state->default_ns->ns_id == ns_id)
+			return str;
 		return NULL;
+	}
 	return str + inst->taglen;
 }
 
@@ -1063,6 +1070,12 @@ gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 {
 	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	GsfXMLInNSInstance *inst;
+
+	/* check for default namespace as a likely choice */
+	if (NULL != state->default_ns &&
+	    state->default_ns->ns_id == ns_id &&
+	    0 == strcmp (name, str))
+		return TRUE;
 
 	if (state->ns_by_id->len <= ns_id)
 		return FALSE;
