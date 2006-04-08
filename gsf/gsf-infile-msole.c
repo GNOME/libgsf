@@ -518,7 +518,8 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	 * 2) It makes no sense to have a block larger than 2^31 for now.
 	 *    Maybe relax this later, but not much.
 	 */
-	if (6 > bb_shift || bb_shift >= 31 || sb_shift > bb_shift) {
+	if (6 > bb_shift || bb_shift >= 31 || sb_shift > bb_shift ||
+	    (gsf_input_size (ole->input) >> bb_shift) < 1) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
 				"Unreasonable block sizes");
