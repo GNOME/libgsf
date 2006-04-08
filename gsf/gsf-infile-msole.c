@@ -204,14 +204,24 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 	guint8 const *bat, *end;
 
 	for (; metabat < metabat_end; metabat++) {
-		bat = ole_get_block (ole, *metabat, NULL);
-		if (bat == NULL)
-			return NULL;
-		end = bat + ole->info->bb.size;
-		for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++) {
-			*bats = GSF_LE_GET_GUINT32 (bat);
-			g_return_val_if_fail (*bats < max ||
-					      *bats >= BAT_MAGIC_METABAT, NULL);
+		if (*metabat != BAT_MAGIC_UNUSED) {
+			bat = ole_get_block (ole, *metabat, NULL);
+			if (bat == NULL)
+				return NULL;
+			end = bat + ole->info->bb.size;
+			for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++) {
+				*bats = GSF_LE_GET_GUINT32 (bat);
+				g_return_val_if_fail (*bats < max ||
+						      *bats >= BAT_MAGIC_METABAT, NULL);
+			}
+		} else {
+			/* Looks like something in the wild sometimes creates
+			 * 'unused' entries in the metabat.  Lets assume that
+			 * corresponds to lots of unused blocks
+			 * http://bugzilla.gnome.org/show_bug.cgi?id=336858 */
+			unsigned i = ole->info->bb.size / BAT_INDEX_SIZE;
+			while (i-- > 0)
+				bats[i] = BAT_MAGIC_UNUSED;
 		}
 	}
 	return bats;

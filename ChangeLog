@@ -1,5 +1,12 @@
 2006-04-07  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=336858
+	* gsf/gsf-infile-msole.c (ole_info_read_metabat) : handle situation
+	  where an entire metabat is unused.  We don't have any normative docs
+	  on what that indicates but this seems relatively safe.
+
+2006-04-07  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-libxml.c (gsf_xml_in_check_ns) : check the current default
 	  namespace too.
 	(gsf_xml_in_namecmp) : ditto.
