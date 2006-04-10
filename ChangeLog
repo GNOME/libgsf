@@ -1,3 +1,12 @@
+2006-04-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_as_string) : single digit seconds
+	  should pad with 0.
+
+2006-04-08  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_sibling) : fix docs.
+
 2006-04-08  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Constrain big blocksize

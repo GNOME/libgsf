@@ -239,14 +239,14 @@ gsf_input_dup (GsfInput *input, GError **err)
  * gsf_input_open_sibling :
  * @input: The input
  *
- * NOT CURRENTLY IMPLEMENTED
+ * UNIMPLEMENTED BY ANY BACKEND
+ * 	and it is probably unnecessary.   gsf_input_get_container provides
+ * 	enough power to do what is necessary.
  *
  * Attempts to open a 'sibling' of @input.  The caller is responsible for
  * managing the resulting object.
  *
- * NOT CURRENTLY IMPLEMENTED
- *
- * Returns:  the size or -1 on error
+ * Returns:  A related #GsfInput or NULL on failure.
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)

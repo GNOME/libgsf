@@ -174,7 +174,7 @@ gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 
 
 	/* using 'YYYY-MM-DDThh:mm:ss' */
-	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%d",
+	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02d",
 		tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
 		tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
