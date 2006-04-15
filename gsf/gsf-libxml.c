@@ -1043,15 +1043,16 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
 	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	GsfXMLInNSInstance *inst;
 
-	if (state->ns_by_id->len <= ns_id)
-		return NULL;
-	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
-		return NULL;
-	if (strncmp (str, inst->tag, inst->taglen)) {
+	/* If this is the default namespace there will not be an entry in the
+	 * ns_by_id array */
+	if (ns_id >= state->ns_by_id->len ||
+	    NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)) ||
+	    0 != strncmp (str, inst->tag, inst->taglen)) {
 		if (NULL != state->default_ns && state->default_ns->ns_id == ns_id)
-			return str;
+			return (NULL == strchr (str, ':')) ? str : NULL;
 		return NULL;
 	}
+
 	return str + inst->taglen;
 }
 
@@ -1072,16 +1073,13 @@ gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 	GsfXMLInNSInstance *inst;
 
 	/* check for default namespace as a likely choice */
-	if (NULL != state->default_ns &&
-	    state->default_ns->ns_id == ns_id &&
+	if (NULL != state->default_ns && state->default_ns->ns_id == ns_id &&
 	    0 == strcmp (name, str))
 		return TRUE;
 
-	if (state->ns_by_id->len <= ns_id)
-		return FALSE;
-	if (NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)))
-		return FALSE;
-	if (strncmp (str, inst->tag, inst->taglen))
+	if (ns_id >= state->ns_by_id->len ||
+	    NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)) ||
+	    0 != strncmp (str, inst->tag, inst->taglen))
 		return FALSE;
 	return 0 == strcmp (name, str + inst->taglen);
 }
