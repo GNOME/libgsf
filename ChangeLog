@@ -1,3 +1,9 @@
+2006-04-21  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Drop characters 1-8, 11,
+	12, 14-31 on the floor.  The XML 1.0 spec does not allow them.
+	Bandaids #339335.
+
 2006-04-15  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_check_ns) : handle default namespaces

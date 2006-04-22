@@ -8,6 +8,8 @@ Jody:
 Morten:
 	* Make --mandir=... work.  [#316107]
 	* Avoid crash on parsing completely empty xml.  [#335152]
+	* Crudely avoid producing invalid xml by dropping certain control
+	  characters on the floor.  [#339335]
 
 --------------------------------------------------------------------------
 libgsf 1.14.0 aka 1.13.99
