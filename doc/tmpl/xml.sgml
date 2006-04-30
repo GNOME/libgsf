@@ -217,6 +217,11 @@ XML and libxml
 </para>
 
 
+<!-- ##### ARG GsfXMLOut:pretty-print ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION gsf_xml_out_new ##### -->
 <para>
 

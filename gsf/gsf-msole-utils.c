@@ -618,7 +618,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		len = GSF_LE_GET_GUINT32 (*data);
 
 		g_return_val_if_fail (len < 0x10000, NULL);
-		g_return_val_if_fail (*data + 4 + len <= data_end, NULL);
+		g_return_val_if_fail (*data + 4 + len * 2 <= data_end, NULL);
 
 		error = NULL;
 		d (gsf_mem_dump (*data + 4, len*2););

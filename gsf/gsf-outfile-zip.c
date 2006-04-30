@@ -679,7 +679,7 @@ gsf_outfile_zip_set_property (GObject      *object,
 static void
 gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 {
-	GsfOutputClass  *input_class  = GSF_OUTPUT_CLASS (gobject_class);
+	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
 	gobject_class->constructor      = gsf_outfile_zip_constructor;
@@ -687,9 +687,9 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property     = gsf_outfile_zip_get_property;
 	gobject_class->set_property     = gsf_outfile_zip_set_property;
 
-	input_class->Write		= gsf_outfile_zip_write;
-	input_class->Seek		= gsf_outfile_zip_seek;
-	input_class->Close		= gsf_outfile_zip_close;
+	output_class->Write		= gsf_outfile_zip_write;
+	output_class->Seek		= gsf_outfile_zip_seek;
+	output_class->Close		= gsf_outfile_zip_close;
 	outfile_class->new_child	= gsf_outfile_zip_new_child;
 
 	parent_class = g_type_class_peek_parent (gobject_class);

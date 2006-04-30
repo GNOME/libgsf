@@ -1086,6 +1086,11 @@ gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 
 /****************************************************************************/
 
+enum {
+	PROP_0,
+	PROP_PRETTY_PRINT
+};
+
 typedef enum {
 	GSF_XML_OUT_NOCONTENT,
 	GSF_XML_OUT_CHILD,
@@ -1101,11 +1106,48 @@ struct _GsfXMLOut {
 	GsfXMLOutState	  state;
 	unsigned   	  indent;
 	gboolean	  needs_header;
+	gboolean	  pretty_print;
 };
 
 typedef struct {
 	GObjectClass  base;
 } GsfXMLOutClass;
+
+static void
+gsf_xml_out_set_property (GObject      *object,
+			  guint         property_id,
+			  GValue const *value,
+			  GParamSpec   *pspec)
+{
+	GsfXMLOut *xml = (GsfXMLOut *)object;
+
+	switch (property_id) {
+	case PROP_PRETTY_PRINT:
+		xml->pretty_print = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_xml_out_get_property (GObject     *object,
+			  guint        property_id,
+			  GValue      *value,
+			  GParamSpec  *pspec)
+{
+	GsfXMLOut const *xml = (GsfXMLOut const *)object;
+
+	switch (property_id) {
+	case PROP_PRETTY_PRINT:
+		g_value_set_boolean (value, xml->pretty_print);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gsf_xml_out_finalize (GObject *obj)
@@ -1127,13 +1169,22 @@ gsf_xml_out_init (GObject *obj)
 	xml->indent = 0;
 	xml->needs_header = TRUE;
 	xml->doc_type = NULL;
+	xml->pretty_print = TRUE;
 }
 
 static void
 gsf_xml_out_class_init (GObjectClass *gobject_class)
 {
-	gobject_class->finalize = gsf_xml_out_finalize;
 	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize	    = gsf_xml_out_finalize;
+	gobject_class->get_property = gsf_xml_out_get_property;
+	gobject_class->set_property = gsf_xml_out_set_property;
+
+	g_object_class_install_property (gobject_class, PROP_PRETTY_PRINT,
+		 g_param_spec_boolean ("pretty-print", "Pretty print",
+			"Should the output auto-indent elements to make reading easier",
+			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GsfXMLOut, gsf_xml_out,
@@ -1182,10 +1233,12 @@ gsf_xml_out_indent (GsfXMLOut *xml)
 		"                                        "
 		"                                        "
 		"                                        ";
-	unsigned i;
-	for (i = xml->indent ; i > (sizeof (spaces)/2) ; i -= sizeof (spaces)/2)
-		gsf_output_write (xml->output, sizeof (spaces) - 1, spaces);
-	gsf_output_write (xml->output, i*2, spaces);
+	if (xml->pretty_print) {
+		unsigned i;
+		for (i = xml->indent ; i > (sizeof (spaces)/2) ; i -= sizeof (spaces)/2)
+			gsf_output_write (xml->output, sizeof (spaces) - 1, spaces);
+		gsf_output_write (xml->output, i*2, spaces);
+	}
 }
 
 /**
@@ -1210,8 +1263,12 @@ gsf_xml_out_start_element (GsfXMLOut *xml, char const *id)
 			gsf_output_puts (xml->output, xml->doc_type);
 		xml->needs_header = FALSE;
 	}
-	if (xml->state == GSF_XML_OUT_NOCONTENT)
-		gsf_output_write (xml->output, 2, ">\n");
+	if (xml->state == GSF_XML_OUT_NOCONTENT) {
+		if (xml->pretty_print)
+			gsf_output_write (xml->output, 2, ">\n");
+		else
+			gsf_output_write (xml->output, 1, ">");
+	}
 
 	gsf_xml_out_indent (xml);
 	gsf_output_printf (xml->output, "<%s", id);
@@ -1242,14 +1299,20 @@ gsf_xml_out_end_element (GsfXMLOut *xml)
 	xml->indent--;
 	switch (xml->state) {
 	case GSF_XML_OUT_NOCONTENT :
-		gsf_output_write (xml->output, 3, "/>\n");
+		if (xml->pretty_print)
+			gsf_output_write (xml->output, 3, "/>\n");
+		else
+			gsf_output_write (xml->output, 2, "/>");
 		break;
 
 	case GSF_XML_OUT_CHILD :
 		gsf_xml_out_indent (xml);
 	/* fall through */
 	case GSF_XML_OUT_CONTENT :
-		gsf_output_printf (xml->output, "</%s>\n", id);
+		if (xml->pretty_print)
+			gsf_output_printf (xml->output, "</%s>\n", id);
+		else
+			gsf_output_printf (xml->output, "</%s>", id);
 	}
 	xml->state = GSF_XML_OUT_CHILD;
 	return id;

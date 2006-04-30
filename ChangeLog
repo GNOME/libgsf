@@ -1,3 +1,15 @@
+2006-04-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (GsfXMLOut) : added 'pretty-print' property to
+	  optionally disable auto indenting of output.
+
+2006-04-18  Jody Goldberg <jody@gnome.org>
+
+	From: Xavier Roche <roche@exalead.com>
+	* gsf/gsf-msole-utils.c (msole_prop_parse) : Fix over zealous boundary
+	  check for wide character string properties.  There are _two_ bytes
+	  per character.
+
 2006-04-21  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Drop characters 1-8, 11,
