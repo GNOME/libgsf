@@ -4,6 +4,7 @@
 #include <gsf-input-stdio.h>
 #include <gsf-utils.h>
 #include <glib/gi18n.h>
+#include <string.h>
 
 #define GETTEXT_PACKAGE NULL /* FIXME */
 
@@ -61,10 +62,37 @@ open_archive (const char *filename)
 
 /* ------------------------------------------------------------------------- */
 
+static GsfInput *
+find_member (GsfInfile *arch, const char *name)
+{
+	const char *slash = strchr (name, '/');
+
+	if (slash) {
+		char *dirname = g_strndup (name, slash - name);
+		GsfInput *member;
+		GsfInfile *dir;
+
+		member = gsf_infile_child_by_name (arch, dirname);
+		g_free (dirname);
+		if (!member)
+			return NULL;
+		dir = GSF_INFILE (member);
+		member = find_member (dir, slash + 1);
+		g_object_unref (dir);
+		return member;
+	} else {
+		return gsf_infile_child_by_name (arch, name);
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
 static int
 gsf_help (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 {
 	g_print (_("Available subcommands are...\n"));
+	g_print (_("* cat        output one or more files in archive\n"));
+	g_print (_("* dump       dump one or more files in archive as hex\n"));
 	g_print (_("* help       list subcommands\n"));
 	g_print (_("* list       list files in archive\n"));
 	return 0;
@@ -139,6 +167,49 @@ gsf_list (int argc, char **argv)
 
 /* ------------------------------------------------------------------------- */
 
+static int
+gsf_dump (int argc, char **argv, gboolean hex)
+{
+	const char *filename;
+	GsfInfile *infile;
+	int i;
+	int res = 0;
+
+	if (argc < 2)
+		return 1;
+
+	filename = argv[0];
+	infile = open_archive (filename);
+	if (!infile)
+		return 1;
+
+	for (i = 1; i < argc; i++) {
+		const char *name = argv[i];
+		GsfInput *member = find_member (infile, name);
+		if (!member) {
+			char *display_name = g_filename_display_name (name);
+			g_print ("%s: archive has no member %s\n",
+				 g_get_prgname (), display_name);
+			g_free (display_name);
+			res = 1;
+			break;
+		}
+
+		if (hex) {
+			char *display_name = g_filename_display_name (name);
+			g_print ("%s:\n", display_name);
+			g_free (display_name);
+		}
+		gsf_input_dump (member, hex);
+		g_object_unref (member);
+	}
+
+	g_object_unref (infile);
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
 int
 main (int argc, char **argv)
 {
@@ -186,6 +257,11 @@ main (int argc, char **argv)
 
 	if (strcmp (cmd, "list") == 0 || strcmp (cmd, "l") == 0)
 		return gsf_list (argc - 2, argv + 2);
+
+	if (strcmp (cmd, "cat") == 0)
+		return gsf_dump (argc - 2, argv + 2, FALSE);
+	if (strcmp (cmd, "dump") == 0)
+		return gsf_dump (argc - 2, argv + 2, TRUE);
 
 	g_printerr (_("Run '%s help' to see a list subcommands.\n"), argv[0]);
 	return 1;
