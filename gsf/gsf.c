@@ -106,15 +106,18 @@ ls_R (GsfInput *input, const char *prefix)
 	char const *name = gsf_input_name (input);
 	GsfInfile *infile = GSF_IS_INFILE (input) ? GSF_INFILE (input) : NULL;
 	gboolean is_dir = infile && gsf_infile_num_children (infile) > 0;
-	char *display_name = name ? g_filename_display_name (name) : g_strdup ("?");
 	char *full_name;
 	char *new_prefix;
 
 	if (prefix) {
+		char *display_name = name ?
+			g_filename_display_name (name)
+			: g_strdup ("?");
 		full_name = g_strconcat (prefix,
 					 display_name,
 					 NULL);
 		new_prefix = g_strconcat (full_name, "/", NULL);
+		g_free (display_name);
 	} else {
 		full_name = g_strdup ("*root*");
 		new_prefix = g_strdup ("");
@@ -135,7 +138,6 @@ ls_R (GsfInput *input, const char *prefix)
 	}
 
 	g_free (full_name);
-	g_free (display_name);
 	g_free (new_prefix);
 }
 
@@ -215,7 +217,7 @@ main (int argc, char **argv)
 {
 	GOptionContext *ocontext;
 	GError *error = NULL;	
-	const char *usage = _("SUBCOMMAND ARCHIVE...");
+	const char *usage;
 	const char *cmd;
 
 	g_set_prgname (argv[0]);
@@ -227,6 +229,7 @@ main (int argc, char **argv)
 	setlocale (LC_ALL, "");
 #endif
 
+	usage = _("SUBCOMMAND ARCHIVE...");
 	ocontext = g_option_context_new (usage);
 	g_option_context_add_main_entries (ocontext, gsf_options, GETTEXT_PACKAGE);
 	g_option_context_parse (ocontext, &argc, &argv, &error);
