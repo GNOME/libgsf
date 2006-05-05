@@ -3,6 +3,10 @@ AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS) \
 
 lib_LTLIBRARIES = libgsf-1.la
 
+noinst_PROGRAMS=gsf
+gsf_SOURCES = gsf.c
+gsf_LDADD = $(lib_LTLIBRARIES)
+
 libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS)
 libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32

@@ -1,7 +1,8 @@
-#include <glib-object.h>
-
 #ifndef GSF_BLOB_H
 #define GSF_BLOB_H
+
+#include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

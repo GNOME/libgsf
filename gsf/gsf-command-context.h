@@ -22,6 +22,7 @@
 #define GSF_COMMAND_CONTEXT_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

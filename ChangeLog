@@ -1,3 +1,8 @@
+2006-05-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf.c (main): New (uninstalled) beginning of a tar-like
+	program.
+
 2006-04-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (GsfXMLOut) : added 'pretty-print' property to

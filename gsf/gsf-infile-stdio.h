@@ -23,6 +23,7 @@
 #define GSF_INFILE_STDIO_H
 
 #include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

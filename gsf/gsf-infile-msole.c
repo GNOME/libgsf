@@ -216,10 +216,11 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 			}
 		} else {
 			/* Looks like something in the wild sometimes creates
-			 * 'unused' entries in the metabat.  Lets assume that
+			 * 'unused' entries in the metabat.  Let's assume that
 			 * corresponds to lots of unused blocks
 			 * http://bugzilla.gnome.org/show_bug.cgi?id=336858 */
 			unsigned i = ole->info->bb.size / BAT_INDEX_SIZE;
+			g_print ("Ping!\n");
 			while (i-- > 0)
 				bats[i] = BAT_MAGIC_UNUSED;
 		}
