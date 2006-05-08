@@ -151,7 +151,7 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
  * gsf_timestamp_as_string :
  * @stamp: timestamp to be converted.
  *
- * Produce a string representation of @stamp.
+ * Produce a string representation (ISO 8601 format) of @stamp.
  *
  * Returns: a string representation of @stamp. When @stamp is NULL, the
  * representation is "&lt;invalid&gt;".
@@ -174,7 +174,7 @@ gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 
 
 	/* using 'YYYY-MM-DDThh:mm:ss' */
-	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02d",
+	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02dZ",
 		tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
 		tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
