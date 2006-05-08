@@ -4,6 +4,7 @@ Jody:
 	* Enable the ODF support in the thumbnailer's schema.
 	* Fix handling of transparent backgrounds in ODF thumbnails.
 	* Fix handling of default namespaces in libxml sax wrappers.
+	* Handle odd OLE2 files from palmcalc. [#336858]
 
 Morten:
 	* Make --mandir=... work.  [#316107]
