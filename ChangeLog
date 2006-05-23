@@ -1,3 +1,8 @@
+2006-05-18  Jody Goldberg <jody@gnome.org>
+
+	* thumbnailer/gsf-office-thumbnailer.schemas.in : Add OpenOffice 1.0
+	  mime types and missing OpenDocument types.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
