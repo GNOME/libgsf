@@ -378,6 +378,7 @@ gsf/Makefile
 gsf-gnome/Makefile
 gsf-win32/Makefile
 tests/Makefile
+tools/Makefile
 python/Makefile
 thumbnailer/Makefile
 po/Makefile.in

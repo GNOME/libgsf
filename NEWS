@@ -1,3 +1,13 @@
+libgsf 1.14.2
+
+Jody:
+	* Add more OOo 1.0.x and 2.0.x mime types to thumbnailer.
+	* Add gsf-vba-dump utility to extra macros from Ms Office files.
+
+Morten:
+	* Initial variant of a gsf based tar like utility.
+
+--------------------------------------------------------------------------
 libgsf 1.14.1
 
 Jody:

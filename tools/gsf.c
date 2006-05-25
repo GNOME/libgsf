@@ -1,8 +1,8 @@
-#include <gsf-infile-msole.h>
-#include <gsf-infile-zip.h>
-#include <gsf-infile.h>
-#include <gsf-input-stdio.h>
-#include <gsf-utils.h>
+#include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-zip.h>
+#include <gsf/gsf-infile.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
 

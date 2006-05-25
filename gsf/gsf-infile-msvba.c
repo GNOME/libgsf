@@ -2,7 +2,7 @@
 /*
  * gsf-infile-msvba.c :
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -29,7 +29,7 @@
  */
 #include <gsf-config.h>
 #include <gsf/gsf-infile-msvba.h>
-#include <gsf/gsf-infile.h>
+#include <gsf/gsf-infile-impl.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-msole-utils.h>
@@ -41,16 +41,15 @@
 static GObjectClass *parent_class;
 
 struct _GsfInfileMSVBA {
-	GObject parent;
+	GsfInfile parent;
 
-	GsfInfile *source;
-	GList *children;
+	GsfInfile	*source;
+	GList		*children;
 };
-typedef GObjectClass GsfInfileMSVBAClass;
+typedef GsfInfileClass GsfInfileMSVBAClass;
 
 #define GSF_INFILE_MSVBA_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBAClass))
 #define GSF_IS_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
-
 
 static guint8 *
 gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null_terminator)
@@ -79,7 +78,7 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 
 	src_code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, TRUE);
 	if (src_code != NULL) {
-		printf ("======================\n%s\n>>>>>>\n%s<<<<<<\n", name, src_code);
+		printf ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
 		g_free (src_code);
 	} else
 		g_warning ("Problems extracting the source for %s @ %u", name, src_offset);
@@ -175,11 +174,13 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		switch (tag) {
 		case 4:
 			name = g_strndup (ptr, len);
-			g_print ("Project Name : '%s'\n", name);
+			puts ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			printf ("<project name=\"%s\">", name);
 			g_free (name);
 			break;
 		case 9:
-			g_print ("Quirk - duff tag length");
+			/* this seems to have an extra two bytes that are not
+			 * part of the length ..?? */
 			len += 2;
 			break;
 		case 0xf  :
@@ -250,6 +251,8 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 
 fail_content :
 	g_free (inflated_data);
+	puts ("</project>");
+
 fail_compression :
 	g_object_unref (G_OBJECT (dir));
 fail_stream :
@@ -413,7 +416,7 @@ gsf_infile_msvba_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
 	   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
-	   G_TYPE_OBJECT)
+	   GSF_INFILE_TYPE)
 
 GsfInfile *
 gsf_infile_msvba_new (GsfInfile *source, GError **err)
