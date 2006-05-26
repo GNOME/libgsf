@@ -1,3 +1,10 @@
+2006-05-26  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_set_link) : as per Federico's
+	  note.  Handle the case of @link being the result of
+	  gsf_doc_prop_get_link.
+	(gsf_doc_prop_set_val) : ditto.
+
 2006-05-25  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (vba_dir_read) : dump as xml.

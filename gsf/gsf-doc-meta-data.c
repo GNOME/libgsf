@@ -321,13 +321,13 @@ gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 {
 	g_return_if_fail (prop != NULL);
 
-	if (prop->val != NULL) {
-		g_value_unset (prop->val);
-		g_free (prop->val);
-	}
-
-	if (val != prop->val)
+	if (val != prop->val) {
+		if (prop->val != NULL) {
+			g_value_unset (prop->val);
+			g_free (prop->val);
+		}
 		prop->val = val;
+	}
 }
 
 /**
@@ -367,15 +367,17 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
  * gsf_doc_prop_set_link :
  * @prop : #GsfDocProp
  * @link :
+ *
+ * Sets @prop's link to @link
  **/
 void
 gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 {
 	g_return_if_fail (prop != NULL);
 
-	if (prop->linked_to != NULL)
-		g_free (prop->linked_to);
-
-	if (link != prop->linked_to)
+	if (link != prop->linked_to) {
+		if (prop->linked_to != NULL)
+			g_free (prop->linked_to);
 		prop->linked_to = link;
+	}
 }
