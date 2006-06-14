@@ -78,22 +78,20 @@ gsf_init (void)
  * gsf_shutdown:
  * 
  * De-intializes the GSF library
- */
+ **/
 void
 gsf_shutdown (void)
 {
 }
 
 void
-gsf_init_dynamic (GTypeModule *module)
+gsf_init_dynamic (G_GNUC_UNUSED GTypeModule *module)
 {
-	(void)module;
 }
 
 void
-gsf_shutdown_dynamic (GTypeModule *module)
+gsf_shutdown_dynamic (G_GNUC_UNUSED GTypeModule *module)
 {
-	(void)module;
 }
 
 static void

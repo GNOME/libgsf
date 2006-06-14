@@ -366,7 +366,7 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
 /**
  * gsf_doc_prop_set_link :
  * @prop : #GsfDocProp
- * @link :
+ * @link : optionally NULL
  *
  * Sets @prop's link to @link
  **/
@@ -376,8 +376,7 @@ gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 	g_return_if_fail (prop != NULL);
 
 	if (link != prop->linked_to) {
-		if (prop->linked_to != NULL)
-			g_free (prop->linked_to);
+		g_free (prop->linked_to);
 		prop->linked_to = link;
 	}
 }

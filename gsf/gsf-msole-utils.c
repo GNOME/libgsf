@@ -1227,7 +1227,7 @@ msole_metadata_write_prop (WritePropState *state,
 		GSF_LE_SET_FLOAT (buf, g_value_get_float (value));
 		return gsf_output_write (state->out, 4, buf);
 	case VT_R8:
-		GSF_LE_SET_FLOAT (buf, g_value_get_double (value));
+		GSF_LE_SET_DOUBLE (buf, g_value_get_double (value));
 		return gsf_output_write (state->out, 8, buf);
 
 	case VT_LPSTR : {

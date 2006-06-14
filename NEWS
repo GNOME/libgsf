@@ -1,5 +1,8 @@
 libgsf 1.14.2
 
+DannyM:
+	* Fix export of msole2 double(r8) properties.
+
 Jody:
 	* Add more OOo 1.0.x and 2.0.x mime types to thumbnailer.
 	* Add gsf-vba-dump utility to extra macros from Ms Office files.
