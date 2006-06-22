@@ -1,3 +1,11 @@
+libgsf (1.14.1-2) unstable; urgency=low
+
+  * [debian/libgsf-1-dev.install, debian/libgsf-gnome-1-dev.install,
+    debian/rules] No longer include the .la files.
+  * [debian/control] Bumped Standards-Version (no changes needed).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 22 Jun 2006 22:36:12 +0200
+
 libgsf (1.14.1-1) unstable; urgency=low
 
   * New upstream bugfix release.

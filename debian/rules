@@ -152,6 +152,8 @@ install: build
 		exit 1; \
 	fi
 
+	rm -f $(CURDIR)/debian/tmp/usr/lib/libgsf-*.la
+
 	mkdir -p $(CURDIR)/debian/tmp/usr/lib/debug
 	for l in `find $(CURDIR)/debian/tmp/usr/lib -name '*.so*'`; do \
 		cp -vdf $$l $(CURDIR)/debian/tmp/usr/lib/debug ; \
