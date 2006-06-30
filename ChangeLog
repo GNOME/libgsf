@@ -1,3 +1,8 @@
+2006-06-30  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read): Validate
+	num_props a little bit.  (#346189, Michal Kowalczuk)
+
 2006-06-14  Jody Goldberg <jody@gnome.org>
 
 	From Dannym.

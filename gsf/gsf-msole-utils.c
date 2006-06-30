@@ -1023,6 +1023,10 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 		if (sections[i].num_props <= 0)
 			continue;
 
+		if (sections[i].num_props > gsf_input_remaining(in) / 8)
+			return g_error_new (gsf_input_error_id (), 0,
+				"Invalid MS property stream header or file truncated");
+
 		/*
 		 * Get and save all the Property ID/Offset pairs.
 		 * Format (bytes) :
