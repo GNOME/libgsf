@@ -333,35 +333,6 @@
   )
 )
 
-;; gsf-io-context.[ch]
-
-(define-object IOContext
-  (in-module "Gsf")
-  (parent "GObject")
-  (c-name "GsfIOContext")
-  (gtype-id "GSF_TYPE_IO_CONTEXT")
-)
-
-(define-function gsf_io_context_new
-  (c-name "gsf_io_context_new")
-  (is-constructor-of "GsfIOContext")
-  (return-type "GsfIOContext*")
-)
-
-(define-method clear
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_clear")
-  (return-type "none")
-)
-
-(define-method update_progress
-  (of-object "GsfIOContext")
-  (c-name "gsf_io_context_update_progress")
-  (return-type "none")
-  (parameters
-    '("gdouble" "value")
-  )
-)
 
 ;; gsf-output.[ch], gsf-output-impl.h
 

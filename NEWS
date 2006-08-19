@@ -6,6 +6,7 @@ DannyM:
 Jody:
 	* Add more OOo 1.0.x and 2.0.x mime types to thumbnailer.
 	* Add gsf-vba-dump utility to extra macros from Ms Office files.
+	* Add metadata property dump function to gsf command
 
 Michal Kowalczuk:
 	* Improve ms-ole property sanity checking.

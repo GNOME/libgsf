@@ -1,3 +1,11 @@
+2006-08-19  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_dump) : new.
+	(cb_print_property) : split out from here.
+
+	* tools/gsf.c (gsf_dump_props) : new.
+	(main) : Add 'props' command to dump metadata.
+
 2006-06-30  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read): Validate

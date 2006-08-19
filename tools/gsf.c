@@ -1,8 +1,12 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-msole-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -10,7 +14,7 @@
 
 static gboolean show_version;
 
-static const GOptionEntry gsf_options [] = { 
+static GOptionEntry const gsf_options [] = { 
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &show_version,
@@ -26,7 +30,7 @@ static const GOptionEntry gsf_options [] = {
 /* ------------------------------------------------------------------------- */
 
 static GsfInfile *
-open_archive (const char *filename)
+open_archive (char const *filename)
 {
 	GsfInfile *infile;
 	GError *error = NULL;	
@@ -63,9 +67,9 @@ open_archive (const char *filename)
 /* ------------------------------------------------------------------------- */
 
 static GsfInput *
-find_member (GsfInfile *arch, const char *name)
+find_member (GsfInfile *arch, char const *name)
 {
-	const char *slash = strchr (name, '/');
+	char const *slash = strchr (name, '/');
 
 	if (slash) {
 		char *dirname = g_strndup (name, slash - name);
@@ -95,13 +99,14 @@ gsf_help (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 	g_print (_("* dump       dump one or more files in archive as hex\n"));
 	g_print (_("* help       list subcommands\n"));
 	g_print (_("* list       list files in archive\n"));
+	g_print (_("* props      archive list of property names\n"));
 	return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 static void
-ls_R (GsfInput *input, const char *prefix)
+ls_R (GsfInput *input, char const *prefix)
 {
 	char const *name = gsf_input_name (input);
 	GsfInfile *infile = GSF_IS_INFILE (input) ? GSF_INFILE (input) : NULL;
@@ -147,7 +152,7 @@ gsf_list (int argc, char **argv)
 	int i;
 
 	for (i = 0; i < argc; i++) {
-		const char *filename = argv[i];
+		char const *filename = argv[i];
 		char *display_name;
 		GsfInfile *infile = open_archive (filename);
 		if (!infile)
@@ -172,7 +177,7 @@ gsf_list (int argc, char **argv)
 static int
 gsf_dump (int argc, char **argv, gboolean hex)
 {
-	const char *filename;
+	char const *filename;
 	GsfInfile *infile;
 	int i;
 	int res = 0;
@@ -186,7 +191,7 @@ gsf_dump (int argc, char **argv, gboolean hex)
 		return 1;
 
 	for (i = 1; i < argc; i++) {
-		const char *name = argv[i];
+		char const *name = argv[i];
 		GsfInput *member = find_member (infile, name);
 		if (!member) {
 			char *display_name = g_filename_display_name (name);
@@ -210,6 +215,64 @@ gsf_dump (int argc, char **argv, gboolean hex)
 	return res;
 }
 
+static int
+gsf_dump_props (int argc, char **argv)
+{
+	GsfInfile *infile;
+	GsfInput  *in;
+	GsfDocProp const *prop;
+	GsfDocMetaData   *meta_data;
+	GError	*err;
+	char const *filename;
+	int i, res = 0;
+
+	if (argc < 2)
+		return 1;
+
+	filename = argv[0];
+	infile = open_archive (filename);
+	if (!infile)
+		return 1;
+
+	meta_data = gsf_doc_meta_data_new ();
+
+	if (GSF_IS_INFILE_MSOLE (infile)) {
+		in = gsf_infile_child_by_name (infile, "\05SummaryInformation");
+		if (NULL != in) {
+			err = gsf_msole_metadata_read (in, meta_data);
+			if (err != NULL) {
+				g_warning ("'%s' error: %s", argv[i], err->message);
+				g_error_free (err);
+				err = NULL;
+			}
+			g_object_unref (G_OBJECT (in));
+		}
+
+		in = gsf_infile_child_by_name (infile, "\05DocumentSummaryInformation");
+		if (NULL != in) {
+			err = gsf_msole_metadata_read (in, meta_data);
+			if (err != NULL) {
+				g_warning ("'%s' error: %s", argv[i], err->message);
+				g_error_free (err);
+				err = NULL;
+			}
+
+			g_object_unref (G_OBJECT (in));
+		}
+	}
+
+	for (i = 1; i < argc; i++)
+		if (NULL != (prop = gsf_doc_meta_data_lookup(meta_data, argv[i]))) {
+			if (argc > 2)
+				g_print ("%s:", argv[i]);
+			gsf_doc_prop_dump (prop);
+		}
+
+	g_object_unref (G_OBJECT (meta_data));
+	g_object_unref (infile);
+	return res;
+}
+
 /* ------------------------------------------------------------------------- */
 
 int
@@ -217,8 +280,8 @@ main (int argc, char **argv)
 {
 	GOptionContext *ocontext;
 	GError *error = NULL;	
-	const char *usage;
-	const char *cmd;
+	char const *usage;
+	char const *cmd;
 
 	g_set_prgname (argv[0]);
 	gsf_init ();
@@ -265,6 +328,8 @@ main (int argc, char **argv)
 		return gsf_dump (argc - 2, argv + 2, FALSE);
 	if (strcmp (cmd, "dump") == 0)
 		return gsf_dump (argc - 2, argv + 2, TRUE);
+	if (strcmp (cmd, "props") == 0)
+		return gsf_dump_props (argc - 2, argv + 2);
 
 	g_printerr (_("Run '%s help' to see a list subcommands.\n"), argv[0]);
 	return 1;

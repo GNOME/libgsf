@@ -58,6 +58,7 @@ void	      gsf_doc_prop_set_val  (GsfDocProp *prop, GValue *val);
 GValue 	     *gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val);
 char const   *gsf_doc_prop_get_link (GsfDocProp const *prop);
 void	      gsf_doc_prop_set_link (GsfDocProp *prop, char *link);
+void	      gsf_doc_prop_dump	    (GsfDocProp const *prop);
 
 G_END_DECLS
 

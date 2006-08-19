@@ -1,3 +1,8 @@
+2006-08-15  Jody Goldberg <jody@gnome.org>
+
+	* gsf.defs : remove IOContext bindings
+	* gsf.override : ditto.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.14.1

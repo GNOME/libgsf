@@ -13,7 +13,6 @@ headers
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-infile-zip.h>
-#include <gsf/gsf-io-context.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
@@ -31,7 +30,6 @@ headers
 #define GSF_TYPE_INFILE_ZIP GSF_INFILE_ZIP_TYPE
 #define GSF_TYPE_INFILE_MSVBA GSF_INFILE_MSVBA_TYPE
 #define GSF_TYPE_INFILE_MS_OLE GSF_INFILE_MSOLE_TYPE
-#define GSF_TYPE_IO_CONTEXT GSF_IO_CONTEXT_TYPE
 #define GSF_TYPE_META_DATA_BAG GSF_METADATA_BAG_TYPE
 #define GSF_TYPE_OUTPUT GSF_OUTPUT_TYPE
 #define GSF_TYPE_OUTFILE GSF_OUTFILE_TYPE

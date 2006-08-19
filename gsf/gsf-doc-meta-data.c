@@ -196,32 +196,16 @@ gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 }
 
 static void
-cb_print_property (char const *name, GsfDocProp const *prop)
+cb_print_property (G_GNUC_UNUSED char const *name,
+		   GsfDocProp const *prop)
 {
-	GValue const *val = gsf_doc_prop_get_val  (prop);
-	char *tmp;
-
 	if (gsf_doc_prop_get_link (prop) != NULL)
 		g_print ("prop '%s' LINKED TO  -> '%s'\n",
 			 name, gsf_doc_prop_get_link (prop));
 	else
 		g_print ("prop '%s'\n", name);
 
-	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
-		GValueArray *va = gsf_value_get_docprop_varray (val);
-		unsigned i;
-
-		for (i = 0 ; i < va->n_values; i++) {
-			tmp = g_strdup_value_contents (
-				g_value_array_get_nth (va, i));
-			g_print ("\t[%u] = %s\n", i, tmp);
-			g_free (tmp);
-		}
-	} else {
-		tmp = g_strdup_value_contents (val);
-		g_print ("\t= %s\n", tmp);
-		g_free (tmp);
-	}
+	gsf_doc_prop_dump (prop);
 }
 
 /**
@@ -378,5 +362,34 @@ gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 	if (link != prop->linked_to) {
 		g_free (prop->linked_to);
 		prop->linked_to = link;
+	}
+}
+
+/**
+ * gsf_doc_prop_dump :
+ * @prop : #GsfDocProp
+ *
+ * A debugging utility to dump @prop as text via g_print
+ * New in 1.14.2
+ **/
+void
+gsf_doc_prop_dump (GsfDocProp const *prop)
+{
+	GValue const *val = gsf_doc_prop_get_val  (prop);
+	char *tmp;
+	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
+		GValueArray *va = gsf_value_get_docprop_varray (val);
+		unsigned i;
+
+		for (i = 0 ; i < va->n_values; i++) {
+			tmp = g_strdup_value_contents (
+				g_value_array_get_nth (va, i));
+			g_print ("\t[%u] = %s\n", i, tmp);
+			g_free (tmp);
+		}
+	} else {
+		tmp = g_strdup_value_contents (val);
+		g_print ("\t= %s\n", tmp);
+		g_free (tmp);
 	}
 }
