@@ -1,5 +1,12 @@
 2006-08-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=352055
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read) : do not generate
+	  an error when given an empty property file.  It's not a perfect
+	  solution but it will be what most people want.
+
+2006-08-19  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_dump) : new.
 	(cb_print_property) : split out from here.
 

@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4
+
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgsf-1.pc
 
@@ -23,6 +25,7 @@ EXTRA_DIST = BUGS HACKING	\
 	intltool-update.in	\
 	libgsf-1.spec		\
 	libgsf-gnome-1.spec	\
+	m4			\
 	dumpdef.pl
 	
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update

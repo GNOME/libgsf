@@ -21,22 +21,24 @@ headers
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-output-memory.h>
 
-#define GSF_TYPE_INPUT GSF_INPUT_TYPE
-#define GSF_TYPE_INPUT_STDIO GSF_INPUT_STDIO_TYPE
-#define GSF_TYPE_INPUT_MEMORY GSF_INPUT_MEMORY_TYPE
-#define GSF_TYPE_INPUT_TEXTLINE GSF_INPUT_TEXTLINE_TYPE
-#define GSF_TYPE_INPUT_GZIP GSF_INPUT_GZIP_TYPE
-#define GSF_TYPE_INFILE GSF_INFILE_TYPE
-#define GSF_TYPE_INFILE_ZIP GSF_INFILE_ZIP_TYPE
-#define GSF_TYPE_INFILE_MSVBA GSF_INFILE_MSVBA_TYPE
-#define GSF_TYPE_INFILE_MS_OLE GSF_INFILE_MSOLE_TYPE
-#define GSF_TYPE_META_DATA_BAG GSF_METADATA_BAG_TYPE
-#define GSF_TYPE_OUTPUT GSF_OUTPUT_TYPE
-#define GSF_TYPE_OUTFILE GSF_OUTFILE_TYPE
-#define GSF_TYPE_OUTFILE_MS_OLE GSF_OUTFILE_MSOLE_TYPE
-#define GSF_TYPE_OUTFILE_ZIP GSF_OUTFILE_ZIP_TYPE
-#define GSF_TYPE_OUTPUT_MEMORY GSF_OUTPUT_MEMORY_TYPE
-#define GSF_TYPE_OUTPUT_STDIO GSF_OUTPUT_STDIO_TYPE
+#define GSF_TYPE_INPUT		GSF_INPUT_TYPE
+#define GSF_TYPE_INPUT_STDIO	GSF_INPUT_STDIO_TYPE
+#define GSF_TYPE_INPUT_MEMORY	GSF_INPUT_MEMORY_TYPE
+#define GSF_TYPE_INPUT_TEXTLINE	GSF_INPUT_TEXTLINE_TYPE
+#define GSF_TYPE_INPUT_GZIP	GSF_INPUT_GZIP_TYPE
+
+#define GSF_TYPE_INFILE		GSF_INFILE_TYPE
+#define GSF_TYPE_INFILE_ZIP	GSF_INFILE_ZIP_TYPE
+#define GSF_TYPE_INFILE_MSVBA	GSF_INFILE_MSVBA_TYPE
+#define GSF_TYPE_INFILE_MS_OLE	GSF_INFILE_MSOLE_TYPE
+#
+#define GSF_TYPE_META_DATA_BAG	GSF_METADATA_BAG_TYPE
+#define GSF_TYPE_OUTPUT		GSF_OUTPUT_TYPE
+#define GSF_TYPE_OUTFILE	GSF_OUTFILE_TYPE
+#define GSF_TYPE_OUTFILE_MS_OLE	GSF_OUTFILE_MSOLE_TYPE
+#define GSF_TYPE_OUTFILE_ZIP	GSF_OUTFILE_ZIP_TYPE
+#define GSF_TYPE_OUTPUT_MEMORY	GSF_OUTPUT_MEMORY_TYPE
+#define GSF_TYPE_OUTPUT_STDIO	GSF_OUTPUT_STDIO_TYPE
 %%
 modulename gsf
 %%
@@ -233,13 +235,11 @@ static PyObject *
 _wrap_gsf_output_memory_get_bytes(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
     guint8 *outbuffer = NULL;
-    gsf_off_t outlength = 0;
-    int       num_bytes;
     
-    gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY(self->obj),
-				 &outbuffer, &outlength);
+    outbuffer = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY(self->obj));
     if (outbuffer) {
-	num_bytes = outlength;
+	gsf_off_t outlength = gsf_output_size (GSF_OUTPUT_MEMORY(self->obj));
+	int       num_bytes = outlength;
 	if (num_bytes != outlength) { /* Check for overflow */
 	    PyErr_SetString(PyExc_OverflowError, "Size is too large");
 	}

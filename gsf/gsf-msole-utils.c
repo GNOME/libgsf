@@ -925,7 +925,7 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 GError *
 gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 {
-	guint8 const *data = gsf_input_read (in, 28, NULL);
+	guint8 const *data;
 	guint16 version;
 	guint32 os, num_sections;
 	unsigned i, j;
@@ -933,6 +933,12 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 	GsfMSOleMetaDataProp	*props;
 	GsfDocProp		*prop;
 	
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=352055 
+	 * psiwin generates files with empty property sections */
+	if (gsf_input_size (in) <= 0)
+		return NULL;
+
+	data = gsf_input_read (in, 28, NULL);
 	if (NULL == data)
 		return g_error_new (gsf_input_error_id (), 0,
 			"Unable to read MS property stream header");

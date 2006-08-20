@@ -1,3 +1,8 @@
+2006-08-19  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : Fix exported init symbol
+	* gsf.override (_wrap_gsf_output_memory_get_bytes) : fix
+
 2006-08-15  Jody Goldberg <jody@gnome.org>
 
 	* gsf.defs : remove IOContext bindings
