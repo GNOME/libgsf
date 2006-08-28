@@ -349,7 +349,7 @@
     </schema>
 <!-- OpenOffice 1.x Presentation Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -360,7 +360,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -372,7 +372,7 @@
     </schema>
 <!-- OpenOffice 1.x Presentation Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -383,7 +383,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress.template/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -395,7 +395,7 @@
     </schema>
 <!-- OpenOffice 1.x Presentations -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -406,7 +406,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.impress/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -418,7 +418,7 @@
     </schema>
 <!-- OpenOffice 1.x Spreadsheet Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -429,7 +429,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc.template/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -441,7 +441,7 @@
     </schema>
 <!-- OpenOffice 1.x Spreadsheet -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -452,7 +452,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.calc/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -464,7 +464,7 @@
     </schema>
 <!-- OpenOffice 1.x Writer Global Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -475,7 +475,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.global/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -487,7 +487,7 @@
     </schema>
 <!-- OpenOffice 1.x Writer Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -498,7 +498,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer.template/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -510,7 +510,7 @@
     </schema>
 <!-- OpenOffice 1.x Writer -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -521,7 +521,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.writer/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -533,7 +533,7 @@
     </schema>
 <!-- OpenOffice 1.x Drawing Templates -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -544,7 +544,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw.template/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -556,7 +556,7 @@
     </schema>
 <!-- OpenOffice 1.x Drawings -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -567,7 +567,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.draw/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>
@@ -579,7 +579,7 @@
     </schema>
 <!-- OpenOffice 1.x Math -->
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/enable</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/enable</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/enable</applyto>
       <owner>libgsf</owner>
       <type>bool</type>
@@ -590,7 +590,7 @@
       </locale>
     </schema>
     <schema>
-      <key>/schema/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/command</key>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/command</key>
       <applyto>/desktop/gnome/thumbnailers/application@vnd.sun.xml.math/command</applyto>
       <owner>libgsf</owner>
       <type>string</type>

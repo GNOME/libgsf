@@ -1,3 +1,9 @@
+2006-08-28  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
+
+	* thumbnailer/gsf-office-thumbnailer.schemas.in: Trivial
+	patch to install all the schemas in the correct place.
+	Fixes bug #353216.
+
 2006-08-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=352055
