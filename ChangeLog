@@ -1,3 +1,13 @@
+2006-09-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_init_info): Silence a warning issued
+	for an only marginally bogus file.  See bug 346118.
+	(ole_dirent_new): Always treat the root directory as a directory,
+	even if the file claims otherwise.  See bug 346118.
+
+	* tools/gsf.c (gsf_dump_props): Print proper filename in error
+	message.
+
 2006-08-28  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* thumbnailer/gsf-office-thumbnailer.schemas.in: Trivial

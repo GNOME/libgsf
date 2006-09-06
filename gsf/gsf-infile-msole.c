@@ -324,6 +324,11 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 		g_warning ("Unknown stream type 0x%x", type);
 		return NULL;
 	}
+	if (!parent && type != DIRENT_TYPE_ROOTDIR) {
+		/* See bug 346118.  */
+		g_warning ("Root directory is not marked as such.");
+		type = DIRENT_TYPE_ROOTDIR;
+	}
 
 	/* It looks like directory (and root directory) sizes are sometimes bogus */
 	size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
@@ -543,8 +548,10 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
 	info->sb_file	     = NULL;
 
-	if (info->num_sbat == 0 && info->sbat_start != BAT_MAGIC_END_OF_CHAIN) {
-		g_warning ("There is are not supposed to be any blocks in the small block allocation table, yet there is a link to some.  Ignoring it.");
+	if (info->num_sbat == 0 &&
+	    info->sbat_start != BAT_MAGIC_END_OF_CHAIN &&
+	    info->sbat_start != BAT_MAGIC_UNUSED) {
+		g_warning ("There are not supposed to be any blocks in the small block allocation table, yet there is a link to some.  Ignoring it.");
 	}
 
 	/* very rough heuristic, just in case */

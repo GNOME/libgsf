@@ -15,6 +15,7 @@ Michal Kowalczuk:
 
 Morten:
 	* Initial variant of a gsf based tar like utility.
+	* Handle some broken FrameMaker generated files.  [#346118]
 
 --------------------------------------------------------------------------
 libgsf 1.14.1

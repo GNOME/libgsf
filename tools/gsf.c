@@ -241,7 +241,7 @@ gsf_dump_props (int argc, char **argv)
 		if (NULL != in) {
 			err = gsf_msole_metadata_read (in, meta_data);
 			if (err != NULL) {
-				g_warning ("'%s' error: %s", argv[i], err->message);
+				g_warning ("'%s' error: %s", filename, err->message);
 				g_error_free (err);
 				err = NULL;
 			}
@@ -252,7 +252,7 @@ gsf_dump_props (int argc, char **argv)
 		if (NULL != in) {
 			err = gsf_msole_metadata_read (in, meta_data);
 			if (err != NULL) {
-				g_warning ("'%s' error: %s", argv[i], err->message);
+				g_warning ("'%s' error: %s", filename, err->message);
 				g_error_free (err);
 				err = NULL;
 			}
