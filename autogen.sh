@@ -2,8 +2,9 @@
 # Run this to generate all the initial makefiles, etc.
 
 PKG_NAME="libgsf"
+ACLOCAL_FLAGS="-I `pwd`/m4 $ACLOCAL_FLAGS"
 
-REQUIRED_AUTOMAKE_VERSION=1.7.1
+REQUIRED_AUTOMAKE_VERSION=1.8
 # We require Automake 1.7.1, which requires Autoconf 2.54.
 REQUIRED_AUTOCONF_VERSION=2.54
 
