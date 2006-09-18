@@ -1,3 +1,8 @@
+2006-09-18  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_uncompress): Use correct HAVE_ symbol
+	for bzip2 and fix typo.  Fixes #356391.
+
 2006-09-06  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Silence a warning issued

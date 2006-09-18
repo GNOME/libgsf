@@ -25,7 +25,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 #include <gsf/gsf-input-bzip.h>
 #endif
 
@@ -595,12 +595,12 @@ gsf_input_uncompress (GsfInput *src)
 		}
 	}
 
-#ifdef HAVE_BZIP
+#ifdef HAVE_BZ2
 	/* Let's try bzip.  */
 	{
 		guint8 const *bzip_sig = "BZh";
 
-		if (memcmp (gzip_sig, data, strlen (bzip_sig)) == 0) {
+		if (memcmp (bzip_sig, data, strlen (bzip_sig)) == 0) {
 			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);
 			if (res) {
 				g_object_unref (G_OBJECT (src));
