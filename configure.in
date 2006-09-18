@@ -276,9 +276,9 @@ PKG_CHECK_MODULES(PYGTK, pygobject-2.0 >= 2.10.0,
 	      [pygobject_msg="NO.  pygtk problem"])
 AC_SUBST(PYGTK_CFLAGS)
 AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
-if test "x$PYGTK_CODEGEN" = xno; then
-   AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
-fi
+dnl if test "x$PYGTK_CODEGEN" = xno; then
+dnl   AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
+dnl fi
 
 AM_CONDITIONAL(WITH_PYTHON, [test "$pygobject_msg" = yes])
 
