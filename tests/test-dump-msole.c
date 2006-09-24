@@ -2,7 +2,7 @@
 /*
  * test-dump-msole.c: Export a msole file to a directory tree
  *
- * Copyright (C) 2002-2005	Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006	Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -54,18 +54,24 @@ clone (GsfInput *input, GsfOutput *output)
 		}
 	} 
 	
+	/* See test-cp-msole.c for explanation how to distinct directories
+	 * from regular files.
+	 */
 	if (GSF_IS_INFILE (input) &&
 	    gsf_infile_num_children (GSF_INFILE (input)) > 0) {
 		GsfInfile *in = GSF_INFILE (input);
 		GsfOutfile *out = GSF_OUTFILE (output);
 		GsfInput *src;
 		GsfOutput *dst;
+		gboolean is_dir;
 
 		for (i = 0 ; i < gsf_infile_num_children (in) ; i++) {
 			src = gsf_infile_child_by_index (in, i);
+			is_dir = GSF_IS_INFILE (src) &&
+				gsf_infile_num_children (GSF_INFILE (src)) >= 0;
 			dst = gsf_outfile_new_child  (out,
 				gsf_infile_name_by_index  (in, i),
-				GSF_IS_INFILE (src) && gsf_infile_num_children (GSF_INFILE (src)) >= 0);
+				is_dir);
 			clone (src, dst);
 		}
 	}
@@ -86,7 +92,6 @@ test (char *argv[])
 	fprintf (stderr, "%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[1], err->message);
@@ -107,7 +112,6 @@ test (char *argv[])
 
 	outfile = gsf_outfile_stdio_new (argv[2], &err);
 	if (outfile == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[1], err->message);
@@ -125,7 +129,7 @@ main (int argc, char *argv[])
 	int res;
 
 	if (argc != 3) {
-		fprintf (stderr, "%s : infile outfile\n", argv [0]);
+		fprintf (stderr, "%s : infile outdir\n", argv [0]);
 		return 1;
 	}
 

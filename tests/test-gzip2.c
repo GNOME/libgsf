@@ -3,7 +3,7 @@
  * test-gzip2.c:
  *
  * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

@@ -2,7 +2,7 @@
 /*
  * test-outmem-printf.c:
  *
- * Copyright (C) 2002-2003 Jon K Hellan (hellan@acm.org)
+ * Copyright (C) 2002-2006 Jon K Hellan (hellan@acm.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

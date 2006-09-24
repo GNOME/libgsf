@@ -2,8 +2,8 @@
 /*
  * test-msole1.c: test program to dump biff streams
  *
- * Copyright (C) 2002-2003	Jody Goldberg (jody@gnome.org)
- * 			Michael Meeks (michael@ximian.com)
+ * Copyright (C) 2002-2006	Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2003	Michael Meeks (michael.meeks@novell.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -169,7 +169,6 @@ test (unsigned argc, char *argv[])
 		infile = gsf_infile_msole_new (input, &err);
 
 		if (infile == NULL) {
-
 			g_return_val_if_fail (err != NULL, 1);
 
 			g_warning ("'%s' Not an OLE file: %s", argv[i], err->message);

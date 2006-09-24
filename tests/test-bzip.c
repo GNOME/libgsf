@@ -2,7 +2,7 @@
 /*
  * test-bzip.c:
  *
- * Copyright (C) 2003 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2003-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

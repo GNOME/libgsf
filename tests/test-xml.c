@@ -2,7 +2,7 @@
 /*
  * test-xml.c: Test libxml2 wrappers
  *
- * Copyright (C) 2003	Jody Goldberg <jody@gnome.org>
+ * Copyright (C) 2003-2006	Jody Goldberg <jody@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public

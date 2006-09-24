@@ -2,7 +2,7 @@
 /*
  * test-cp-msole.c: Test gsf-outfile-msole by cloning a file the hard way
  *
- * Copyright (C) 2002-2003	Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006	Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -31,16 +31,15 @@
 
 #include <stdio.h>
 
-static void
-clone (GsfInfile *in, GsfOutfile *out)
-{
-	GsfInput *input = GSF_INPUT (in);
-	GsfOutput *output = GSF_OUTPUT (out);
-	guint8 const *data;
-	size_t len;
-	int i;
+static void clone_dir (GsfInfile *in, GsfOutfile *out);
 
+static void
+clone (GsfInput *input, GsfOutput *output)
+{
 	if (gsf_input_size (input) > 0) {
+		guint8 const *data;
+		size_t len;
+
 		while ((len = gsf_input_remaining (input)) > 0) {
 			/* copy in odd sized chunks to exercise system */
 			if (len > 314)
@@ -54,16 +53,46 @@ clone (GsfInfile *in, GsfOutfile *out)
 				return;
 			}
 		}
-	} else for (i = 0 ; i < gsf_infile_num_children (in) ; i++) {
-		input = gsf_infile_child_by_index (in, i);
-		output = gsf_outfile_new_child  (out,
-			gsf_infile_name_by_index  (in, i),
-			gsf_infile_num_children (GSF_INFILE (input)) >= 0);
-		clone (GSF_INFILE (input), GSF_OUTFILE (output));
+	} else if (GSF_IS_INFILE(input))
+		clone_dir (GSF_INFILE(input), GSF_OUTFILE(output));
+
+	gsf_output_close (output);
+	g_object_unref (G_OBJECT (output));
+	g_object_unref (G_OBJECT (input));
+}
+
+static void
+clone_dir (GsfInfile *in, GsfOutfile *out)
+{
+	GsfInput *new_input;
+	GsfOutput *new_output;
+	gboolean is_dir;
+	int i;
+
+	for (i = 0 ; i < gsf_infile_num_children (in) ; i++) {
+		new_input = gsf_infile_child_by_index (in, i);
+
+		/* In theory, if new_file is a regular file (not directory),
+		 * it should be GsfInput only, not GsfInfile, as it is not
+		 * structured.  However, having each Infile define a 2nd class
+		 * that only inherited from Input was cumbersome.  So in
+		 * practice, the convention is that new_input is always
+		 * GsfInfile, but regular file is distinguished by having -1
+		 * children.
+		 */
+		is_dir = GSF_IS_INFILE (new_input) &&
+			gsf_infile_num_children (GSF_INFILE (new_input)) >= 0;
+
+		new_output = gsf_outfile_new_child  (out,
+				gsf_infile_name_by_index  (in, i),
+				is_dir);
+
+		clone (new_input, new_output);
 	}
-	gsf_output_close (GSF_OUTPUT (out));
-	g_object_unref (G_OBJECT (out));
-	g_object_unref (G_OBJECT (in));
+	/* An observation: when you think about the explanation to is_dir
+	 * above, you realize that clone_dir is called even for regular files.
+	 * But nothing bad happens, as the loop is never entered.
+	 */
 }
 
 static int
@@ -78,7 +107,6 @@ test (char *argv[])
 	fprintf (stderr, "%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[1], err->message);
@@ -99,7 +127,6 @@ test (char *argv[])
 
 	output = gsf_output_stdio_new (argv[2], &err);
 	if (output == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s", argv[2], err->message);
@@ -110,7 +137,7 @@ test (char *argv[])
 
 	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	clone (infile, outfile);
+	clone (GSF_INPUT (infile), GSF_OUTPUT (outfile));
 
 	return 0;
 }

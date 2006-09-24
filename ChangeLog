@@ -1,3 +1,15 @@
+2004-07-16  Stepan Kasal  <kasal@ucw.cz>
+
+	YES, 2004!.  Commit an ancient patch that was forgotten.
+
+	Cleanup of test-*msole*.c examples.
+	* tests/test-cp-msole.c:
+	* tests/test-dump-msole.c:
+	* tests/test-restore-msole.c:
+	* tests/test-msole1.c:
+	* tests/test-msole2.c:
+	* tests/test-msole-printf.c:
+
 2006-09-23  Jody Goldberg <jody@gnome.org>
 
 	Patch from Frederic Peters : #354690

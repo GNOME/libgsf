@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * test-msole1.c: test program to list content and dump raw stream data
+ * test-msole2.c: test program to list content and dump raw stream data
  *
- * Copyright (C) 2002-2003	Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006	Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -34,20 +34,23 @@ static gboolean dump_as_hex = FALSE;
 static void
 ls_R (GsfInput *input)
 {
-	int i;
-	char const *name = gsf_input_name (GSF_INPUT (input));
+	char const *name = gsf_input_name (input);
 	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
+	/* Please see the comment on is_dir in test-cp-msole.c. */
 	
 	printf ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		(name != NULL) ? name : "",
-		gsf_input_size (GSF_INPUT (input)));
+		gsf_input_size (input));
 
 	if (is_dir) {
+		GsfInfile *infile = GSF_INFILE (input);
+		int i;
+
 		puts ("{");
-		for (i = 0 ; i < gsf_infile_num_children (GSF_INFILE (input)) ; i++)
-			ls_R (gsf_infile_child_by_index (GSF_INFILE (input), i));
+		for (i = 0 ; i < gsf_infile_num_children (infile) ; i++)
+			ls_R (gsf_infile_child_by_index (infile, i));
 		puts ("}");
 	}
 
@@ -87,25 +90,24 @@ test (int argc, char *argv[])
 	if (argc > 2) {
 		int i;
 		GsfInput *child, *ptr = GSF_INPUT (infile);
+
 		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
 			fprintf (stderr, "--> '%s'\n", argv [i]);
 			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0) {
 				child = gsf_infile_child_by_name (GSF_INFILE (ptr), argv [i]);
-
 				if (child == NULL) {
 					g_warning ("No child named '%s'", argv [i]);
 					child = NULL;
-					break;
 				}
 			} else {
 				g_warning ("stream is not a directory '%s'", argv [i]);
 				child = NULL;
-				break;
 			}
 			g_object_unref (G_OBJECT (ptr));
 		}
 		if (ptr != NULL) {
+			/* See the comment on is_dir in test-cp-msole.c. */
 			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0)
 				ls_R (ptr); /* unrefs infile */
@@ -124,16 +126,19 @@ int
 main (int argc, char *argv[])
 {
 	int res;
+	char *progname = argv[0];
 
-	if (argc < 2) {
-		fprintf (stderr, "%s : file [--hex] stream stream ...\n", argv [0]);
-		return 1;
-	}
-
-	if (argv[1] != NULL && 0 == strcmp (argv[1], "--hex")) {
+	if (argc >= 2 && argv[1] != NULL && 0 == strcmp (argv[1], "--hex")) {
 		dump_as_hex = TRUE;
 		argv++;
 		argc--;
+	}
+
+	if (argc < 2) {
+		fprintf (stderr, "Usage: %s [--hex] file stream stream ...\n\n", progname);
+		fprintf (stderr, "For example, \"%s X A B C\" dumps the streem C "
+			"from directory A/B from file X.\n", progname);
+		return 1;
 	}
 
 	gsf_init ();
