@@ -198,7 +198,7 @@ ols_bat_release (MSOleBAT *bat)
  * Returns: a pointer to the element after the last position filled.
  **/
 static guint32 *
-ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
+ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max_bat,
 		       guint32 const *metabat, guint32 const *metabat_end)
 {
 	guint8 const *bat, *end;
@@ -211,7 +211,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max,
 			end = bat + ole->info->bb.size;
 			for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++) {
 				*bats = GSF_LE_GET_GUINT32 (bat);
-				g_return_val_if_fail (*bats < max ||
+				g_return_val_if_fail (*bats < max_bat ||
 						      *bats >= BAT_MAGIC_METABAT, NULL);
 			}
 		} else {
@@ -595,6 +595,13 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 			last = num_bat;
 		} else if (num_metabat > 0) {
 			metabat_block = metabat[last];
+			if (num_bat < last) {
+				/* ::num_bat and ::num_metabat are
+				 * inconsistent.  There are too many metabats
+				 * for the bat count in the header. */
+				ptr = NULL;
+				break;
+			}
 			num_bat -= last;
 		}
 

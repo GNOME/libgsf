@@ -36,6 +36,11 @@
 	patch to install all the schemas in the correct place.
 	Fixes bug #353216.
 
+2006-08-20  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_init_info) : Add validation in case
+	  ::num_metabat too large for the ::num_bats.
+
 2006-08-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=352055
