@@ -8,7 +8,9 @@ Jody:
 	* Add gsf-vba-dump utility to extra macros from Ms Office files.
 	* Add metadata property dump function to gsf command
 	* Accept invalid empty msole2 property files from psiwin. [#352055]
+	* More checks msole2 files with inconsistent headers.
 	* Fix python build
+	* Fix xml-sax wrapper to correctly handle shared subtrees.
 
 Michal Kowalczuk:
 	* Improve ms-ole property sanity checking.

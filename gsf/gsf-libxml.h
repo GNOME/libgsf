@@ -117,6 +117,7 @@ void	     gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 				    gpointer new_state, GsfXMLInExtDtor dtor,
 				    xmlChar const **attrs);
 
+GsfInput    *gsf_xml_in_get_input  (GsfXMLIn const *xin);
 char const  *gsf_xml_in_check_ns   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id);
 gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *xin, char const *str,

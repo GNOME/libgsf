@@ -1,3 +1,19 @@
+2006-09-23  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (push_child) : Handle namespaces internally by id
+	  rather than object pointer.  We don't actually need the struct and
+	  the code is simpler when using ids.
+	(lookup_child) : ditto.  No need for a verbose warning if the document
+	  does not yet define a namespace.
+	(gsf_xml_in_start_element) : warn when we find an unknown namespace uri.
+	(gsf_xml_in_doc_free) : now that we are using ids, the ns_by_id array
+	  goes away.  We did not really need it.
+	(gsf_xml_in_doc_new) : Get rid of ns_by_id and use ids directly.  This
+	  fixes support for multiple uris with the same id (common when
+	  versioning)
+	(gsf_xml_in_doc_new) : Be sure to look up the parent of the e_node,
+	  not the node already in the tree to fix the multple decl handling.
+
 2004-07-16  Stepan Kasal  <kasal@ucw.cz>
 
 	YES, 2004!.  Commit an ancient patch that was forgotten.

@@ -409,13 +409,13 @@ struct _GsfXMLInDoc {
 	GsfXMLInNodeInternal const *root_node;
 	GHashTable      *symbols; /* GsfXMLInNodeInternal hashed by id */
 	GsfXMLInNS const*ns;
-	GPtrArray	*ns_by_id;
 	GsfXMLInUnknownFunc	unknown_handler;
 };
 typedef struct {
 	GsfXMLIn	pub;
+	GsfInput	*input;	/* TODO : Move to pub for 1.16.0 */
 
-	GsfXMLInNS const *default_ns;	   /* optionally NULL */
+	int		  default_ns_id;   /* <0 => no default ns */
 	GSList	 	 *ns_stack;
 	GHashTable	 *ns_prefixes;
 	GPtrArray	 *ns_by_id;
@@ -431,7 +431,7 @@ typedef struct {
 	unsigned ref_count;
 } GsfXMLInNSInstance;
 typedef struct {
-	GsfXMLInNS const *ns;
+	int	ns_id;
 	GSList *elem;
 } GsfXMLInNodeGroup;
 typedef struct {
@@ -448,7 +448,7 @@ node_name (GsfXMLInNode const *node)
 }
 
 static void
-push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const *default_ns,
+push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, int default_ns_id,
 	    xmlChar const **attrs, GsfXMLInExtension *ext)
 {
 	if (node->has_content == GSF_XML_CONTENT &&
@@ -458,9 +458,9 @@ push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const 
 	state->pub.node_stack	= g_slist_prepend (state->pub.node_stack,
 		(gpointer)state->pub.node);
 	state->ns_stack		= g_slist_prepend (state->ns_stack,
-		(gpointer)state->default_ns);
+		GINT_TO_POINTER (state->default_ns_id));
 	state->pub.node = node;
-	state->default_ns = default_ns;
+	state->default_ns_id = default_ns_id;
 
 	state->extension_stack	= g_slist_prepend (state->extension_stack, ext);
 	if (NULL != ext) {
@@ -478,7 +478,7 @@ push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, GsfXMLInNS const 
 }
 
 static gboolean
-lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
+lookup_child (GsfXMLInInternal *state, int default_ns_id,
 	      GSList *groups, xmlChar const *name,
 	      xmlChar const **attrs, GsfXMLInExtension *ext)
 {
@@ -491,16 +491,19 @@ lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
 	for (ptr = groups ; ptr != NULL ; ptr = ptr->next) {
 		group = ptr->data;
 		/* does the namespace match */
-		if (group->ns != NULL && group->ns != default_ns) {
-			g_return_val_if_fail (state->ns_by_id->len > group->ns->ns_id, FALSE);
-			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+		if (group->ns_id >= 0 && group->ns_id != default_ns_id) {
+
+			if ((int)state->ns_by_id->len <= group->ns_id)
+				continue;
+
+			inst = g_ptr_array_index (state->ns_by_id, group->ns_id);
 			if (inst == NULL || 0 != strncmp (name, inst->tag, inst->taglen))
 				continue;
 			tmp = name + inst->taglen;
 		} else {
 #if 0
-			g_return_if_fail (state->ns_by_id->len > group->ns->ns_id);
-			inst = g_ptr_array_index (state->ns_by_id, group->ns->ns_id);
+			g_return_val_if_fail ((int)state->ns_by_id->len > group->ns_id, FALSE);
+			inst = g_ptr_array_index (state->ns_by_id, group->ns_id);
 			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
 #endif
 			tmp = name;
@@ -508,7 +511,7 @@ lookup_child (GsfXMLInInternal *state, GsfXMLInNS const *default_ns,
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
 			if (node->name == NULL || !strcmp (tmp, node->name)) {
-				push_child (state, node, default_ns, attrs, ext);
+				push_child (state, node, default_ns_id, attrs, ext);
 				return TRUE;
 			}
 		}
@@ -520,7 +523,8 @@ static void
 gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar const **attrs)
 {
 	GsfXMLInNSInstance *inst;
-	GsfXMLInNS const   *ns, *default_ns = state->default_ns;
+	GsfXMLInNS const   *ns;
+	int default_ns_id = state->default_ns_id;
 	GsfXMLInNodeInternal const *node;
 	xmlChar const **ns_ptr;
 	GSList *ptr;
@@ -546,7 +550,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 					continue;
 
 				if (ns_ptr[0][5] == '\0') {
-					default_ns = ns + i;
+					default_ns_id = ns[i].ns_id;
 					break;
 				}
 
@@ -569,25 +573,29 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 					inst->ref_count++;
 				break;
 			}
+
+			if (NULL == tmp) {
+				g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
+			}
 		}
 	}
 
 	node = (GsfXMLInNodeInternal const *) state->pub.node;
-	if (lookup_child (state, default_ns, node->groups, name, attrs, NULL))
+	if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
 		return;
 
 	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
 	ptr = state->pub.node_stack;
 	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
 		node = ptr->data;
-		if (lookup_child (state, default_ns, node->groups, name, attrs, NULL))
+		if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
 			return;
 	}
 
 	/* Check for extensions */
 	for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next) {
 		GsfXMLInExtension *ext = ptr->data;
-		if (lookup_child (state, default_ns,
+		if (lookup_child (state, default_ns_id,
 			ext->doc->root_node->groups, name, attrs, ext))
 			return;
 	}
@@ -663,8 +671,8 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 	state->extension_stack	= g_slist_remove (state->extension_stack, ext);
 	state->pub.node		= state->pub.node_stack->data;
 	state->pub.node_stack	= g_slist_remove (state->pub.node_stack, state->pub.node);
-	state->default_ns	= state->ns_stack->data;
-	state->ns_stack		= g_slist_remove (state->ns_stack, state->default_ns);
+	state->default_ns_id	= GPOINTER_TO_INT (state->ns_stack->data);
+	state->ns_stack		= g_slist_remove (state->ns_stack, GINT_TO_POINTER (state->default_ns_id));
 
 	if (NULL != ext) {
 		GsfXMLInDoc const *ext_doc = state->pub.doc;
@@ -713,7 +721,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->pub.node_stack	= NULL;
 	state->extension_stack	= NULL;
 	state->ns_stack		= NULL;
-	state->default_ns	= NULL;
+	state->default_ns_id	= -1;
 	state->ns_by_id		= g_ptr_array_new ();
 	state->ns_prefixes	= g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -839,13 +847,11 @@ gsf_xml_in_doc_free (GsfXMLInDoc *doc)
 {
 	g_return_if_fail (doc != NULL);
 	g_return_if_fail (doc->symbols != NULL);
-	g_return_if_fail (doc->ns_by_id != NULL);
 
 	g_hash_table_destroy (doc->symbols);
-	g_ptr_array_free (doc->ns_by_id, TRUE);
+
 	/* poison the well just in case */
 	doc->symbols   = NULL;
-	doc->ns_by_id  = NULL;
 	doc->root_node = NULL;
 	g_free (doc);
 }
@@ -867,7 +873,6 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 	GsfXMLInDoc  *doc;
 	GsfXMLInNode const *e_node;
 	GsfXMLInNodeInternal *tmp, *node;
-	unsigned i;
 
 	g_return_val_if_fail (nodes != NULL, NULL);
 
@@ -876,15 +881,6 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 	doc->symbols   = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gsf_xml_in_node_internal_free);
 	doc->ns        = ns;
-	doc->ns_by_id  = g_ptr_array_new ();
-
-	/* Add namespaces to an index */
-	if (ns != NULL)
-		for (i = 0; ns[i].uri != NULL ; i++) {
-			if (ns[i].ns_id >= doc->ns_by_id->len)
-				g_ptr_array_set_size  (doc->ns_by_id, ns[i].ns_id+1);
-			g_ptr_array_index (doc->ns_by_id, ns[i].ns_id) = (gpointer)(ns+i);
-		}
 
 	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
 		node = g_hash_table_lookup (doc->symbols, e_node->id);
@@ -915,27 +911,26 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 		if (e_node == nodes) /* first valid node is the root */
 			doc->root_node = node;
 
-		tmp = g_hash_table_lookup (doc->symbols, node->pub.parent_id);
+		/* NOTE : use e_node for parent_id rather than node
+		 *        in case this is a shared symbol */
+		tmp = g_hash_table_lookup (doc->symbols, e_node->parent_id);
 		if (tmp != NULL) {
 			GSList *ptr;
 			GsfXMLInNodeGroup *group = NULL;
-			GsfXMLInNS const *ns = NULL;
-			
-			ns = (node->pub.ns_id < 0) ? NULL
-				: g_ptr_array_index (doc->ns_by_id, node->pub.ns_id);
+			int const ns_id = node->pub.ns_id;
 			for (ptr = tmp->groups; ptr != NULL ; ptr = ptr->next) {
 				group = ptr->data;
-				if (group->ns == ns)
+				if (group->ns_id == ns_id)
 					break;
 			}
 			if (ptr == NULL) {
 				group = g_new0 (GsfXMLInNodeGroup, 1);
-				group->ns = ns;
+				group->ns_id = ns_id;
 				tmp->groups = g_slist_prepend (tmp->groups, group);
 			}
 			group->elem = g_slist_prepend (group->elem, node);
-		} else if (strcmp (node->pub.id, node->pub.parent_id)) {
-			g_warning ("Parent ID '%s' unknown", node->pub.parent_id);
+		} else if (strcmp (e_node->id, e_node->parent_id)) {
+			g_warning ("Parent ID '%s' unknown", e_node->parent_id);
 			continue;
 		}
 	}
@@ -988,7 +983,7 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 		GsfXMLInNodeInternal *node = (GsfXMLInNodeInternal *) xin->node;
 		node->extensions = g_slist_prepend (node->extensions, ext);
 	} else
-		push_child (state, &doc->root_node->pub, NULL, attrs, ext);
+		push_child (state, &doc->root_node->pub, -1, attrs, ext);
 }
 
 /**
@@ -1019,6 +1014,7 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 	state.pub.doc = doc;
 	state.pub.user_state = user_state;
 	state.pub.content = g_string_sized_new (128);
+	state.input = input;
 	xmlParseDocument (ctxt);
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);
@@ -1027,8 +1023,23 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 }
 
 /**
+ * gsf_xml_in_get_input :
+ * @xin : #GsfXMLIn
+ *
+ * (New in 1.14.2)
+ *
+ * Returns (but does not reference) the stream being parsed.
+ **/
+GsfInput *
+gsf_xml_in_get_input (GsfXMLIn const *xin)
+{
+	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
+	return state->input;
+}
+
+/**
  * gsf_xml_in_check_ns :
- * @xin :
+ * @xin : #GsfXMLIn
  * @str :
  * @ns_id :
  * 
@@ -1048,7 +1059,8 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
 	if (ns_id >= state->ns_by_id->len ||
 	    NULL == (inst = g_ptr_array_index (state->ns_by_id, ns_id)) ||
 	    0 != strncmp (str, inst->tag, inst->taglen)) {
-		if (NULL != state->default_ns && state->default_ns->ns_id == ns_id)
+		if (state->default_ns_id >= 0 &&
+		    state->default_ns_id == (int)ns_id)
 			return (NULL == strchr (str, ':')) ? str : NULL;
 		return NULL;
 	}
@@ -1073,7 +1085,8 @@ gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 	GsfXMLInNSInstance *inst;
 
 	/* check for default namespace as a likely choice */
-	if (NULL != state->default_ns && state->default_ns->ns_id == ns_id &&
+	if (state->default_ns_id >= 0 &&
+	    state->default_ns_id == (int)ns_id &&
 	    0 == strcmp (name, str))
 		return TRUE;
 
