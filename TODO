@@ -9,6 +9,7 @@ Near:
     - Add 'cancel' flag to GsfOutputStdio to support not overwriting the target
       file even if things succeed.
     - sync ODF document-statistic with OLE2's document-parts and various counts
+    - deprecate gsf_base64_* in favour of glib versions (requires 2.12)
 
 Longer:
     - More work on VBA directory parsing so that we can decompress

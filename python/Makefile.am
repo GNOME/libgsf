@@ -4,7 +4,7 @@ lib_LTLIBRARIES = gsfmodule.la
 
 gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS)
 gsfmodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex init_gsf
-gsfmodule_la_LIBADD = $(LIBGSF_LIBS) -lgsf-1
+gsfmodule_la_LIBADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 gsfmodule_la_SOURCES = gsfmodule.c
 nodist_gsfmodule_la_SOURCES = gsf.c
 CLEANFILES = gsf.c
