@@ -50,6 +50,7 @@ ignore-glob
  *_get_type
  gsf_metadata_bag_*
  gsf_*_error
+ gsf_infile_child_by_vname
 %%
 override gsf_input_size noargs
 static PyObject *
