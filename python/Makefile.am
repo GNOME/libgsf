@@ -27,7 +27,9 @@ CLEANFILES += gsfgnome.c
 EXTRA_DIST += gsfgnome.defs gsfgnome.override  
 gsfgnome.c: gsfgnome.defs gsfgnome.override
 
-_gsfmodule_la_CFLAGS = $(LIBGSF_CFLAGS)
+_gsfmodule_la_CFLAGS = 		\
+	-I$(top_srcdir)		\
+	$(LIBGSF_CFLAGS)
 _gsfmodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex init_gsf
 _gsfmodule_la_LIBADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 _gsfmodule_la_SOURCES = gsfmodule.c

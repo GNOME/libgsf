@@ -1,3 +1,14 @@
+2006-09-24  Jody Goldberg <jody@gnome.org>
+
+	Patch from Robert:
+	* autogen.sh : Check srcdir for the extra macros.
+	* python/Makefile.am : Include srcdir.
+
+2006-09-24  Jody Goldberg <jody@gnome.org>
+
+	Patch from Ivan:
+	* configure.in : conditionalize the python checks.
+
 2006-09-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (push_child) : Handle namespaces internally by id

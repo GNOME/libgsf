@@ -2,7 +2,6 @@
 # Run this to generate all the initial makefiles, etc.
 
 PKG_NAME="libgsf"
-ACLOCAL_FLAGS="-I `pwd`/m4 $ACLOCAL_FLAGS"
 
 REQUIRED_AUTOMAKE_VERSION=1.8
 # We require Automake 1.7.1, which requires Autoconf 2.54.
@@ -12,6 +11,8 @@ USE_GNOME2_MACROS=1
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
+
+ACLOCAL_FLAGS="-I `pwd`/$srcdir/m4 $ACLOCAL_FLAGS"
 
 (test -f $srcdir/configure.in \
   && test -d $srcdir/gsf \
