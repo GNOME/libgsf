@@ -1,3 +1,7 @@
+2006-09-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.2
+
 2006-08-19  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : Fix exported init symbol

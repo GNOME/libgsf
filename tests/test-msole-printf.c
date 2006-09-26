@@ -52,6 +52,11 @@ test (int argc, char *argv[])
 	GError   *err = NULL;
 	int i;
 
+	if (argc != 2) {
+		fprintf (stderr, "Usage : %s outfile\n", argv[0]);
+		return 1;
+	}
+
 	output = gsf_output_stdio_new (argv[1], &err);
 	if (output == NULL) {
 		g_return_val_if_fail (err != NULL, 1);
@@ -93,13 +98,8 @@ main (int argc, char *argv[])
 {
 	int res;
 
-	if (argc != 2) {
-		fprintf (stderr, "Usage : %s outfile\n", argv[0]);
-		return 1;
-	}
-
 	gsf_init ();
-	res = test (argv);
+	res = test (argc, argv);
 	gsf_shutdown ();
 
 	return res;

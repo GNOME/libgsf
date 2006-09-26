@@ -6,7 +6,7 @@ pygsf_PYTHON = __init__.py
 pygsfexecdir = $(pyexecdir)/gsf
 
 CLEANFILES =
-EXTRA_DIST =
+EXTRA_DIST = gsf-arg-types.py
 pygsfexec_LTLIBRARIES =
 
 if WITH_LIBGSF_GNOME
@@ -15,7 +15,9 @@ endif
 
 pygsfexec_LTLIBRARIES += _gsfmodule.la
 
-gnomemodule_la_CFLAGS = $(LIBGSF_CFLAGS) $(LIBGSF_GNOME_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
+gnomemodule_la_CFLAGS = \
+	-I$(top_srcdir)		\
+	$(LIBGSF_CFLAGS) $(LIBGSF_GNOME_CFLAGS) $(ORBIT_PYTHON_CFLAGS)
 gnomemodule_la_LDFLAGS = -module -avoid-version -export-symbols-regex initgnome
 gnomemodule_la_LIBADD = \
 	$(top_builddir)/gsf-gnome/libgsf-gnome-1.la	\
