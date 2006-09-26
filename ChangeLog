@@ -1,3 +1,7 @@
+2006-09-26  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (test_python): Fix python tests.
+
 2006-09-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.14.2
