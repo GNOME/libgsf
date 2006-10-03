@@ -1,3 +1,5 @@
 etc/gconf/schemas/*.schemas
+usr/bin/gsf
 usr/bin/gsf-office-thumbnailer
+usr/bin/gsf-vba-dump
 usr/share/man/man1/gsf-office-thumbnailer.1

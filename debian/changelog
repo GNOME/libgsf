@@ -1,3 +1,13 @@
+libgsf (1.14.2-1) unstable; urgency=high
+
+  * New upstream release. Urgency high as this includes a fix for a security
+    vulnerability, [IDEF1622].
+  * [debian/rules] Explicitly disable Python support.
+  * [debian/libgsf-bin.install] Updated.
+  * [debian/control] Updated description of libgsf-bin.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  3 Oct 2006 18:38:37 +0200
+
 libgsf (1.14.1-2) unstable; urgency=low
 
   * [debian/libgsf-1-dev.install, debian/libgsf-gnome-1-dev.install,

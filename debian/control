@@ -114,4 +114,6 @@ Description: Structured File Library - programs
  extensible I/O abstraction for dealing with different structured file
  formats.
  .
- These are the programs that are shipped as part of libgsf.
+ These are the programs that are shipped as part of libgsf. They include
+ a thumbnail generator, a tar-like archiver application and a VBA macro
+ extractor.
