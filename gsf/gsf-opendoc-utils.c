@@ -139,7 +139,7 @@ od_meta_keyword (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-od_meta_user_defined (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+od_meta_user_defined (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 }
 
@@ -316,15 +316,26 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 	/* Handle specially */
 	if (0 == strcmp (prop_name, GSF_META_NAME_KEYWORDS)) {
-		GValueArray *va = gsf_value_get_docprop_varray (val);
+		GValueArray *va;
 		unsigned i;
 		char *str;
-		
-		for (i = 0 ; i < va->n_values; i++) {
-			str = g_value_dup_string (g_value_array_get_nth	(va, i));
-			gsf_xml_out_start_element (output, "meta:keyword");
-			gsf_xml_out_add_cstr (output, NULL, str);
+
+		/* OLE2 stores a single string, with no obvious
+		 * standard for seperator */
+		if (G_TYPE_STRING == G_VALUE_TYPE (val)) {
+			str = g_value_dup_string (val);
+			if (str && *str) {
+				gsf_xml_out_start_element (output, "meta:keyword");
+				gsf_xml_out_add_cstr (output, NULL, str);
+			}
 			g_free (str);
+		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
+			for (i = 0 ; i < va->n_values; i++) {
+				str = g_value_dup_string (g_value_array_get_nth	(va, i));
+				gsf_xml_out_start_element (output, "meta:keyword");
+				gsf_xml_out_add_cstr (output, NULL, str);
+				g_free (str);
+			}
 		}
 		return;
 	}
