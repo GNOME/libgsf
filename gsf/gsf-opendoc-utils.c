@@ -327,6 +327,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 			if (str && *str) {
 				gsf_xml_out_start_element (output, "meta:keyword");
 				gsf_xml_out_add_cstr (output, NULL, str);
+				gsf_xml_out_end_element (output);
 			}
 			g_free (str);
 		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
@@ -334,6 +335,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 				str = g_value_dup_string (g_value_array_get_nth	(va, i));
 				gsf_xml_out_start_element (output, "meta:keyword");
 				gsf_xml_out_add_cstr (output, NULL, str);
+				gsf_xml_out_end_element (output);
 				g_free (str);
 			}
 		}
@@ -347,8 +349,10 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 		gsf_xml_out_start_element (output, "meta:user-defined");
 		gsf_xml_out_add_cstr (output, "meta:name", prop_name);
 
-		if (NULL == val)
+		if (NULL == val) {
 			gsf_xml_out_end_element (output);
+			return;
+		}
 
 		switch ((t = G_VALUE_TYPE (val))) {
 		case G_TYPE_CHAR:
@@ -374,10 +378,12 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 			if (GSF_TIMESTAMP_TYPE == t)
 				type_name = "data";
 		}
-		gsf_xml_out_add_cstr (output, "meta:type", type_name);
+		if (NULL != type_name)
+			gsf_xml_out_add_cstr (output, "meta:type", type_name);
 	} else
 		gsf_xml_out_start_element (output, mapped_name);
-	gsf_xml_out_add_gvalue (output, NULL, val);
+	if (NULL != val)
+		gsf_xml_out_add_gvalue (output, NULL, val);
 	gsf_xml_out_end_element (output);
 }
 

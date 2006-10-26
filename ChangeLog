@@ -1,3 +1,8 @@
+2006-10-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-opendoc-utils.c (meta_write_props) : clean up the code to
+	  handle missing values and invalid properties.
+
 2006-10-24  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-opendoc-utils.c (meta_write_props) : OLE2 stores a single
