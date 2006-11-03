@@ -259,8 +259,8 @@ gsf_doc_prop_free (GsfDocProp *prop)
 
 		if (prop->val) {
 			g_value_unset (prop->val);
+			g_free (prop->val);
 		}
-		g_free (prop->val);
 		g_free (prop->name);
 		g_free (prop);
 	}
