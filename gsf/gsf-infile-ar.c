@@ -119,10 +119,8 @@ ar_dirent_free (ArDirent *dirent)
 {
 	g_return_if_fail (dirent != NULL);
 
-	if (dirent->name != NULL) {
-		g_free (dirent->name);
-		dirent->name = NULL;
-	}
+	g_free (dirent->name);
+	dirent->name = NULL;
 	g_free (dirent);
 }
 

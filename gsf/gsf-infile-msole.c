@@ -720,8 +720,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	/* damn, we need to copy it block by block */
 	if (buffer == NULL) {
 		if (ole->stream.buf_size < num_bytes) {
-			if (ole->stream.buf != NULL)
-				g_free (ole->stream.buf);
+			g_free (ole->stream.buf);
 			ole->stream.buf_size = num_bytes;
 			ole->stream.buf = g_new (guint8, num_bytes);
 		}

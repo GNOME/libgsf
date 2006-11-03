@@ -80,10 +80,8 @@ gsf_input_textline_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (input->source));
 		input->source = NULL;
 	}
-	if (input->buf != NULL) {
-		g_free (input->buf);
-		input->buf  = NULL;
-	}
+	g_free (input->buf);
+	input->buf  = NULL;
 	input->buf_size = 0;
 
 	parent_class->finalize (obj);

@@ -1,3 +1,12 @@
+2006-11-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_free), gsf/gsf-infile-ar.c
+	(ar_dirent_free), gsf/gsf-infile-msole.c (gsf_infile_msole_read),
+	gsf/gsf-input-textline.c (gsf_input_textline_finalize), gsf/gsf-input.c
+	(gsf_input_finalize), gsf/gsf-outfile-msole.c
+	(gsf_outfile_msole_finalize): simplified as g_free handles NULL
+	properly. Fixes #369663.
+
 2006-10-25  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-opendoc-utils.c (meta_write_props) : clean up the code to

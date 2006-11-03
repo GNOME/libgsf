@@ -249,19 +249,18 @@ gsf_doc_prop_new  (char *name)
  * gsf_doc_prop_free :
  * @prop : #GsfDocProp
  *
- * If @prop is non NULL free the memory assosociated with it
+ * If @prop is non NULL free the memory associated with it
  **/
 void
 gsf_doc_prop_free (GsfDocProp *prop)
 {
 	if (NULL != prop) {
-		if (prop->linked_to)
-			g_free (prop->linked_to);
+		g_free (prop->linked_to);
 
 		if (prop->val) {
 			g_value_unset (prop->val);
-			g_free (prop->val);
 		}
+		g_free (prop->val);
 		g_free (prop->name);
 		g_free (prop);
 	}

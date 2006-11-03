@@ -92,10 +92,8 @@ gsf_input_finalize (GObject *obj)
 {
 	GsfInput *input = GSF_INPUT (obj);
 
-	if (input->name != NULL) {
-		g_free (input->name);
-		input->name = NULL;
-	}
+	g_free (input->name);
+	input->name = NULL;
 	if (input->container != NULL) {
 		g_object_unref (G_OBJECT (input->container));
 		input->container = NULL;

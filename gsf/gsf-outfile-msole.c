@@ -98,10 +98,8 @@ gsf_outfile_msole_finalize (GObject *obj)
 		break;
 
 	case MSOLE_SMALL_BLOCK:
-		if (ole->content.small_block.buf != NULL) {
-			g_free (ole->content.small_block.buf);
-			ole->content.small_block.buf = NULL;
-		}
+		g_free (ole->content.small_block.buf);
+		ole->content.small_block.buf = NULL;
 		break;
 
 	case MSOLE_BIG_BLOCK:
