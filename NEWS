@@ -1,3 +1,10 @@
+libgsf 1.14.3	: Last Release before branching 1.15.x
+
+Jody:
+	* Fix crash exporting keyword vector from OLE2 -> ODF.
+	* Improve debug spew for OLE2 propert import.
+
+--------------------------------------------------------------------------
 libgsf 1.14.2
 
 DannyM:
