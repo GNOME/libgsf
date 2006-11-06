@@ -1016,16 +1016,19 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 			return g_error_new (gsf_input_error_id (), 0,
 				"Invalid MS property section");
 
-		d (g_print ("=============================================\n"
-			   "===> section #%d : type %d at offset 0x%x\n",
-			   i, (int)sections [i].type,
-			   (guint32)sections [i].offset););
-
 		sections[i].iconv_handle = (GIConv)-1;
 		sections[i].char_size    = 1;
 		sections[i].dict      = NULL;
 		sections[i].size      = GSF_LE_GET_GUINT32 (data); /* includes header */
 		sections[i].num_props = GSF_LE_GET_GUINT32 (data + 4);
+
+		d (g_print ("=============================================\n"
+			   "===> section #%d : type %d at offset 0x%x, size 0x%x, numprops = %u\n",
+			   i, (int)sections [i].type,
+			   (guint32)sections [i].offset,
+			   sections[i].size,
+			   sections[i].num_props););
+
 		if (sections[i].num_props <= 0)
 			continue;
 

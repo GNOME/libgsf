@@ -1,3 +1,9 @@
+2006-11-03  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read) : add some debug
+	  spew to help track the OOo prop warnings.  Looks like an OOo
+	  problem.
+
 2006-11-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/gsf-doc-meta-data.c (gsf_doc_prop_free), gsf/gsf-infile-ar.c

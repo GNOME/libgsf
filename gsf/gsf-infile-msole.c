@@ -181,9 +181,9 @@ static void
 ols_bat_release (MSOleBAT *bat)
 {
 	if (bat->block != NULL) {
+		bat->num_blocks = 0;
 		g_free (bat->block);
 		bat->block = NULL;
-		bat->num_blocks = 0;
 	}
 }
 
