@@ -38,6 +38,6 @@ rm $GNOMEDEVZIP
 zip -r $GNOMEDEVZIP -@ <<EOF
 bin/gsf-office-thumbnailer.exe
 include/libgsf-1/gsf-gnome
-lib/liblibgsf-gnome-1.dll.a
+lib/libgsf-gnome-1.dll.a
 lib/pkgconfig/libgsf-gnome-1.pc
 EOF
