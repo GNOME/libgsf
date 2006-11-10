@@ -1,4 +1,5 @@
 Near:
+    - Look into Vba storage in .doc and .ppt
     - Check the outputs for proper wrap use.  eg GsfOutputGzip does not
     - Complete MS property set read and write
       (complete codepage support for writing)
@@ -12,8 +13,6 @@ Near:
     - deprecate gsf_base64_* in favour of glib versions (requires 2.12)
 
 Longer:
-    - More work on VBA directory parsing so that we can decompress
-      source streams.
     - Add encrypt and decrypt wrappers
 	- precede with some randomness due to static nature of xml header
 	- be absolutely clear about how we handle seek (only encrypt data on
