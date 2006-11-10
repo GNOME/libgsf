@@ -43,7 +43,17 @@ test (int argc, char *argv[])
 		if (input != NULL) {
 			GsfInfile *infile = gsf_infile_msole_new (input, &err);
 			if (infile != NULL) {
-				GsfInput *vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
+				GsfInput *vba;
+				
+				// Try XLS first
+				vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
+
+				// Try DOC next
+				if (NULL == vba)
+					vba = gsf_infile_child_by_vname (infile, "Macros", "VBA", NULL);
+
+				// TODO : PPT is more complex
+
 				if (vba != NULL) {
 					fprintf( stderr, "%s\n",argv[i]);
 

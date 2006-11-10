@@ -1,3 +1,9 @@
+2006-11-10  Jody Goldberg <jody@gnome.org>
+
+	* tools/gsf-vba-dump.c : Handle vba in .doc too.
+	  PPT is going to be more work.  It seems to be embedded in the escher
+	  stream as a compressed data blob.
+
 2006-11-09  Tor Lillqvist  <tml@novell.com>
 
 	* libgsf-zip.in: Fix typo.

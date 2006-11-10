@@ -1,3 +1,10 @@
+libgsf 1.14.4
+
+Jody:
+	* Have gsf-vba-dump handle .doc files too.
+
+--------------------------------------------------------------------------
+
 libgsf 1.14.3	: Last Release before branching 1.15.x
 
 Jody:
