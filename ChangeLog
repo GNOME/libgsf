@@ -1,3 +1,16 @@
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* doc/gsf-docs.sgml : Add some missing indicies.
+	* doc/Makefile.am : init with gsf_init
+
+2006-11-17  Jody Goldberg <jody@gnome.org>
+
+	* gsf/*.[ch] : update copyrights
+
+2006-11-17  Jody Goldberg <jody@gnome.org>
+
+	* gsf/*.[ch] : Make GTypes dynamic and enable gsf_init_dynamic
+
 2006-11-10  Jody Goldberg <jody@gnome.org>
 
 	* tools/gsf-vba-dump.c : Handle vba in .doc too.

@@ -34,7 +34,7 @@
 
   <part id="intro">
     <title>GSF: Introduction</title>
-    <partintro>
+    <partintro id="gsf-into">
     <para>
 The GNOME Structured File Library (GSF) is an I/O abstraction for
 reading/writing compound files.  GSF is released under the GNU <ulink
@@ -47,7 +47,7 @@ applications.
 
   <part id="history">
     <title>GSF: History</title>
-    <partintro>
+    <partintro id="gsf-history">
     <para>
 GSF was written as part of the Gnumeric project. It started in 2002 as a
 replacement for libole2 which Gnumeric was using to handle the Microsoft
@@ -145,7 +145,7 @@ local filesystem.
 
 <part id="gsf-users">
   <title>Projects using GSF</title>
-  <partintro>
+  <partintro id="gsf-projects">
   <para>
 GSF is now also being used by other projects than Gnumeric, including
 <variablelist>
@@ -190,7 +190,7 @@ A project management application.
 
 <part id="api">
   <title>API Reference</title>
-    <partintro>
+    <partintro id="gsf-api-ref">
       <para>
 The core of GSF's API deals with basic I/O, an abstraction layer that
 provides a uniform interface to several mechanisms that provide streams of
@@ -229,7 +229,7 @@ data and a set of parsers for various structured types of data streams.
     &GsfUtils;
   </chapter>
  </part>
-<index>
+<index id="gsf-index">
 &TreeIndex;
 </index>
 </book>
