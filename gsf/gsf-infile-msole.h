@@ -2,7 +2,7 @@
 /*
  * gsf-infile-msole.h: 
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ typedef struct _GsfInfileMSOle GsfInfileMSOle;
 #define GSF_INFILE_MSOLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_MSOLE_TYPE, GsfInfileMSOle))
 #define GSF_IS_INFILE_MSOLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_MSOLE_TYPE))
 
-GType	   gsf_infile_msole_get_type	 (void);
+GType gsf_infile_msole_get_type	     (void) G_GNUC_CONST;
+void  gsf_infile_msole_register_type (GTypeModule *module);
+
 GsfInfile *gsf_infile_msole_new		 (GsfInput *source, GError **err);
 gboolean   gsf_infile_msole_get_class_id (GsfInfileMSOle const *ole,
 					  guint8 *res);

@@ -3,7 +3,7 @@
  * gsf-timestamp.h: A useful little type for metadata, contains a superset of
  *		 all the features it would be nice to have.
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -39,7 +39,8 @@ struct _GsfTimestamp {
 	guint32	  timet;
 };
 
-GType gsf_timestamp_get_type (void);
+GType gsf_timestamp_get_type      (void) G_GNUC_CONST;
+void  gsf_timestamp_register_type (GTypeModule *module);
 
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);

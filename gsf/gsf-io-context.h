@@ -2,7 +2,7 @@
 /*
  * gsf-io-context.h: IO context class
  *
- * Copyright (C) 2002-2004 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2002-2006 Rodrigo Moya (rodrigo@gnome-db.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -40,7 +40,9 @@ struct _GsfIOContextClass {
 	void (* progress) (GsfIOContext *ioc, gdouble percent);
 };
 
-GType         gsf_io_context_get_type (void);
+GType gsf_io_context_get_type      (void) G_GNUC_CONST;
+void  gsf_io_context_register_type (GTypeModule *module);
+
 GsfIOContext *gsf_io_context_new (void);
 void          gsf_io_context_clear (GsfIOContext *ioc);
 void          gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value);

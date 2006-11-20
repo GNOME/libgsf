@@ -2,7 +2,7 @@
 /*
  * gsf-libxml.h: Utility wrappers for using gsf with libxml
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -132,7 +132,9 @@ typedef struct _GsfXMLOut	GsfXMLOut;
 #define GSF_XML_OUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_XML_OUT_TYPE, GsfXMLOut))
 #define GSF_IS_XML_OUT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_XML_OUT_TYPE))
 
-GType gsf_xml_out_get_type (void);
+GType gsf_xml_out_get_type      (void) G_GNUC_CONST;
+void  gsf_xml_out_register_type (GTypeModule *module);
+
 GsfXMLOut *gsf_xml_out_new (GsfOutput *output);
 
 void	    gsf_xml_out_set_doc_type	(GsfXMLOut *xml, char const *type);

@@ -2,7 +2,7 @@
 /*
  * gsf-docprop-vector.c: A type implementing OLE Document Property vectors using a GValueArray
  *
- * Copyright (C) 2004-2005 Frank Chiulli (fc-linux@cox.net)
+ * Copyright (C) 2004-2006 Frank Chiulli (fc-linux@cox.net)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -138,9 +138,9 @@ gsf_docprop_vector_init (GsfDocPropVector *vector)
 	vector->gva = g_value_array_new (0);
 }
 
-GSF_CLASS (GsfDocPropVector, gsf_docprop_vector,
-	   gsf_docprop_vector_class_init, gsf_docprop_vector_init,
-	   G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS (GsfDocPropVector, gsf_docprop_vector,
+		   gsf_docprop_vector_class_init, gsf_docprop_vector_init,
+		   G_TYPE_OBJECT)
 
 /**
  * gsf_docprop_vector_new

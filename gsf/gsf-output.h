@@ -2,7 +2,7 @@
 /*
  * gsf-output.h: interface for storing data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -60,7 +60,8 @@ struct _GsfOutput {
 #define GSF_OUTPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_TYPE, GsfOutput))
 #define GSF_IS_OUTPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_TYPE))
 
-GType gsf_output_get_type (void);
+GType gsf_output_get_type      (void) G_GNUC_CONST;
+void  gsf_output_register_type (GTypeModule *module);
 
 char const   *gsf_output_name	   (GsfOutput const *output);
 GsfOutfile   *gsf_output_container (GsfOutput const *output);

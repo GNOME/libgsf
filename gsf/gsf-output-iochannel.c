@@ -2,7 +2,7 @@
 /*
  * gsf-output-iochannel.c
  *
- * Copyright (C) 2002-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -126,5 +126,6 @@ gsf_output_iochannel_class_init (GObjectClass *gobject_class)
 	parent_class = GSF_OUTPUT_CLASS (g_type_class_peek_parent (gobject_class));
 }
 
-GSF_CLASS (GsfOutputIOChannel, gsf_output_iochannel,
-           gsf_output_iochannel_class_init, gsf_output_iochannel_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputIOChannel, gsf_output_iochannel,
+		   gsf_output_iochannel_class_init, gsf_output_iochannel_init,
+		   GSF_OUTPUT_TYPE)

@@ -2,7 +2,7 @@
 /*
  * gsf-input-proxy.c: proxy object (with its own current position)
  *
- * Copyright (C) 2004 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2004-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -165,5 +165,7 @@ gsf_input_proxy_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfInputProxy, gsf_input_proxy,
-	   gsf_input_proxy_class_init, gsf_input_proxy_init, GSF_INPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfInputProxy, gsf_input_proxy,
+		   gsf_input_proxy_class_init, gsf_input_proxy_init,
+		   GSF_INPUT_TYPE)
+

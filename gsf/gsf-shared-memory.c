@@ -2,7 +2,7 @@
 /*
  * gsf-shared-memory.c: 
  *
- * Copyright (C) 2002-2004 Morten Welinder (terra@diku.dk)
+ * Copyright (C) 2002-2006 Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -102,6 +102,6 @@ gsf_shared_memory_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gsf_shared_memory_finalize;
 }
 
-GSF_CLASS (GsfSharedMemory, gsf_shared_memory,
-	   gsf_shared_memory_class_init, gsf_shared_memory_init,
-	   G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS (GsfSharedMemory, gsf_shared_memory,
+		   gsf_shared_memory_class_init, gsf_shared_memory_init,
+		   G_TYPE_OBJECT)

@@ -30,6 +30,7 @@ struct _GsfBlobClass {
 };
 
 GType gsf_blob_get_type (void) G_GNUC_CONST;
+void  gsf_blob_register_type (GTypeModule *module);
 
 GsfBlob *gsf_blob_new (gsize size,
 		       gconstpointer data_to_copy,

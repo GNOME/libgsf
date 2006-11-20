@@ -2,7 +2,7 @@
 /*
  * gsf-shared-memory.h
  *
- * Copyright (C) 2002-2004 Morten Welinder (terra@diku.dk)
+ * Copyright (C) 2002-2006 Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -41,7 +41,9 @@ struct _GsfSharedMemory {
 	gboolean needs_unmap;
 };
 
-GType gsf_shared_memory_get_type (void);
+GType gsf_shared_memory_get_type      (void) G_GNUC_CONST;
+void  gsf_shared_memory_register_type (GTypeModule *module);
+
 GsfSharedMemory *gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free);
 GsfSharedMemory *gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size);
 

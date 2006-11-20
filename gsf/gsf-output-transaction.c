@@ -2,7 +2,7 @@
 /*
  * gsf-output-transaction.c: 
  *
- * Copyright (C) 2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2004-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -325,5 +325,6 @@ gsf_output_transaction_class_init (GObjectClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 }
 
-GSF_CLASS(GsfOutputTransaction, gsf_output_transaction,
-	  gsf_output_transaction_class_init, gsf_output_transaction_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputTransaction, gsf_output_transaction,
+		   gsf_output_transaction_class_init, gsf_output_transaction_init,
+		   GSF_OUTPUT_TYPE)

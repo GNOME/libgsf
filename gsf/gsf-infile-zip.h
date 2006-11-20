@@ -2,7 +2,7 @@
 /*
  * gsf-infile-zip.h: 
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ typedef struct _GsfInfileZip GsfInfileZip;
 #define GSF_INFILE_ZIP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_ZIP_TYPE, GsfInfileZip))
 #define GSF_IS_INFILE_ZIP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_ZIP_TYPE))
 
-GType	   gsf_infile_zip_get_type (void);
+GType gsf_infile_zip_get_type      (void) G_GNUC_CONST;
+void  gsf_infile_zip_register_type (GTypeModule *module);
+
 GsfInfile *gsf_infile_zip_new      (GsfInput *source, GError **err);
 
 G_END_DECLS

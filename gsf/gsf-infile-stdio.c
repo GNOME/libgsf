@@ -2,7 +2,7 @@
 /*
  * gsf-infile-stdio.c: read a directory tree
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2004-2006 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -65,7 +65,7 @@ static GsfInput *
 gsf_infile_stdio_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
 	GsfInfileStdio *src = GSF_INFILE_STDIO (src_input);
-	GsfInfileStdio *dst = g_object_new (gsf_infile_stdio_get_type(), NULL);
+	GsfInfileStdio *dst = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
 	GList *ptr;
 
 	dst->root = g_strdup (src->root);
@@ -165,9 +165,9 @@ gsf_infile_stdio_class_init (GObjectClass *gobject_class)
 	infile_class->child_by_name	= gsf_infile_stdio_child_by_name;
 }
 
-GSF_CLASS (GsfInfileStdio, gsf_infile_stdio,
-	   gsf_infile_stdio_class_init, gsf_infile_stdio_init,
-	   GSF_INFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfInfileStdio, gsf_infile_stdio,
+		   gsf_infile_stdio_class_init, gsf_infile_stdio_init,
+		   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_stdio_new :
@@ -187,7 +187,7 @@ gsf_infile_stdio_new (char const *root, GError **err)
 	if (dir == NULL)
 		return NULL;
 
-	ifs = g_object_new (gsf_infile_stdio_get_type(), NULL);
+	ifs = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
 	ifs->root = g_strdup (root);
 
 	while ((child = g_dir_read_name (dir)))

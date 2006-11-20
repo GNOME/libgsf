@@ -2,7 +2,7 @@
 /*
  * gsf-utils.c: 
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -22,6 +22,43 @@
 #include <gsf-config.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-docprop-vector.h>
+#include <gsf/gsf-impl-utils.h>
+
+#include <gsf/gsf-infile.h>
+#include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-msvba.h>
+#include <gsf/gsf-infile-stdio.h>
+#include <gsf/gsf-infile-zip.h>
+
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-input-gzip.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-input-proxy.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-input-textline.h>
+
+#include <gsf/gsf-output.h>
+#include <gsf/gsf-output-bzip.h>
+#include <gsf/gsf-output-csv.h>
+#include <gsf/gsf-output-gzip.h>
+#include <gsf/gsf-output-iconv.h>
+#include <gsf/gsf-output-iochannel.h>
+#include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-output-stdio.h>
+
+#include <gsf/gsf-outfile.h>
+#include <gsf/gsf-outfile-msole.h>
+#include <gsf/gsf-outfile-stdio.h>
+#include <gsf/gsf-outfile-zip.h>
+
+#include <gsf/gsf-libxml.h>
+#include <gsf/gsf-blob.h>
+#include <gsf/gsf-structured-blob.h>
+#include <gsf/gsf-shared-memory.h>
+#include <gsf/gsf-clip-data.h>
+
 #include <gobject/gvaluecollector.h>
 #include <glib/gi18n-lib.h>
 
@@ -48,11 +85,30 @@ static void base64_init (void);
 G_WIN32_DLLMAIN_FOR_DLL_NAME (static, dll_name)
 #endif
 
+typedef GTypeModule      GsfDummyTypeModule;
+typedef GTypeModuleClass GsfDummyTypeModuleClass;
+static gboolean
+gsf_dummy_type_module_load (GTypeModule *module)
+{
+	gsf_init_dynamic (module);
+	return TRUE;
+}
+static void
+gsf_dummy_type_module_class_init (GTypeModuleClass *gtm_class)
+{
+	gtm_class->load = gsf_dummy_type_module_load;
+}
+static GSF_CLASS (GsfDummyTypeModule, gsf_dummy_type_module,
+		  gsf_dummy_type_module_class_init, NULL,
+		  G_TYPE_TYPE_MODULE)
+
+static GTypeModule *static_type_module = NULL;
+
 /**
  * gsf_init :
  *
  * Initializes the GSF library
- */
+ **/
 void
 gsf_init (void)
 {
@@ -72,23 +128,77 @@ gsf_init (void)
 
 	g_type_init ();
 	base64_init ();
+
+	if (NULL == static_type_module) {
+		static_type_module = g_object_new (gsf_dummy_type_module_get_type(), NULL);
+		g_type_module_use (static_type_module);
+		g_type_module_set_name (static_type_module, "libgsf-builtin");
+	}
 }
 
 /**
  * gsf_shutdown:
  * 
  * De-intializes the GSF library
+ * Currently does nothing.
  **/
 void
 gsf_shutdown (void)
 {
 }
 
+/**
+ * gsf_init_dynamic :
+ * @module : #GTypeModule.
+ *
+ * Initializes the GSF library and associates it with a type module @mod.
+ **/
 void
-gsf_init_dynamic (G_GNUC_UNUSED GTypeModule *module)
+gsf_init_dynamic (GTypeModule *module)
 {
+	gsf_input_register_type (module);
+	gsf_input_gzip_register_type (module);
+	gsf_input_memory_register_type (module);
+	gsf_input_proxy_register_type (module);
+	gsf_input_stdio_register_type (module);
+	gsf_input_textline_register_type (module);
+
+	gsf_infile_register_type (module);
+	gsf_infile_msole_register_type (module);
+	gsf_infile_msvba_register_type (module);
+	gsf_infile_stdio_register_type (module);
+	gsf_infile_zip_register_type (module);
+
+	gsf_output_register_type (module);
+	gsf_output_bzip_register_type (module);
+	gsf_output_csv_quoting_mode_register_type (module);
+	gsf_output_csv_register_type (module);
+	gsf_output_gzip_register_type (module);
+	gsf_output_iconv_register_type (module);
+	gsf_output_iochannel_register_type (module);
+	gsf_output_memory_register_type (module);
+	gsf_output_stdio_register_type (module);
+
+	gsf_outfile_register_type (module);
+	gsf_outfile_msole_register_type (module);
+	gsf_outfile_stdio_register_type (module);
+	gsf_outfile_zip_register_type (module);
+
+	gsf_shared_memory_register_type (module);
+	gsf_structured_blob_register_type (module);
+	gsf_xml_out_register_type (module);
+	gsf_blob_register_type (module);
+	gsf_clip_data_register_type (module);
+	gsf_doc_meta_data_register_type (module);
+	gsf_docprop_vector_register_type (module);
 }
 
+/**
+ * gsf_shutdown:
+ * 
+ * De-intializes the GSF library from a type module.
+ * Currently does nothing.
+ **/
 void
 gsf_shutdown_dynamic (G_GNUC_UNUSED GTypeModule *module)
 {

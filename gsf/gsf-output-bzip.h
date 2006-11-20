@@ -2,7 +2,7 @@
 /*
  * gsf-output-bzip.h: wrapper to compress to bzipped output
  *
- * Copyright (C) 2003-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2003-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputBzip GsfOutputBzip;
 
-GType	   gsf_output_bzip_get_type (void);
+GType gsf_output_bzip_get_type      (void) G_GNUC_CONST;
+void  gsf_output_bzip_register_type (GTypeModule *module);
+
 GsfOutput *gsf_output_bzip_new	    (GsfOutput *sink, GError **err);
 
 G_END_DECLS

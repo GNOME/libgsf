@@ -2,8 +2,8 @@
 /*
  * gsf-input-gzip.c: wrapper to uncompress gzipped input
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -529,5 +529,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfInputGZip, gsf_input_gzip,
-	   gsf_input_gzip_class_init, gsf_input_gzip_init, GSF_INPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfInputGZip, gsf_input_gzip,
+		   gsf_input_gzip_class_init, gsf_input_gzip_init,
+		   GSF_INPUT_TYPE)
+

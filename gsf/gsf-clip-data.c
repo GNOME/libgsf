@@ -1,7 +1,29 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * gsf-clip-data.c: clipboard data
+ *
+ * Copyright (C) 2006 Novell Inc
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2.1 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
 #include "gsf-config.h"
 #include <glib/gi18n-lib.h>
 #include "gsf-clip-data.h"
 #include "gsf-utils.h"
+#include "gsf-impl-utils.h"
 
 /* Private part of the GsfClipData structure */
 struct _GsfClipDataPrivate {
@@ -9,29 +31,7 @@ struct _GsfClipDataPrivate {
 	GsfBlob *data_blob;
 };
 
-G_DEFINE_TYPE (GsfClipData, gsf_clip_data, G_TYPE_OBJECT);
-
-static void gsf_clip_data_finalize (GObject *object);
-
-static void
-gsf_clip_data_class_init (GsfClipDataClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass *) class;
-
-	object_class->finalize = gsf_clip_data_finalize;
-}
-
-static void
-gsf_clip_data_init (GsfClipData *clip_data)
-{
-	GsfClipDataPrivate *priv;
-
-	priv = g_new0 (GsfClipDataPrivate, 1);
-	clip_data->priv = priv;
-}
-
+static GObjectClass *gsf_clip_data_parent_class;
 static void
 gsf_clip_data_finalize (GObject *object)
 {
@@ -46,8 +46,29 @@ gsf_clip_data_finalize (GObject *object)
 
 	g_free (priv);
 
-	G_OBJECT_CLASS (gsf_clip_data_parent_class)->finalize (object);
+	gsf_clip_data_parent_class->finalize (object);
 }
+
+static void
+gsf_clip_data_init (GsfClipData *clip_data)
+{
+	GsfClipDataPrivate *priv;
+
+	priv = g_new0 (GsfClipDataPrivate, 1);
+	clip_data->priv = priv;
+}
+static void
+gsf_clip_data_class_init (GObjectClass *gobject_class)
+{
+	gobject_class->finalize = gsf_clip_data_finalize;
+
+	gsf_clip_data_parent_class = g_type_class_peek_parent (gobject_class);
+}
+
+
+GSF_DYNAMIC_CLASS (GsfClipData, gsf_clip_data,
+		   gsf_clip_data_class_init, gsf_clip_data_init,
+		   G_TYPE_OBJECT);
 
 /**
  * gsf_clip_data_new:

@@ -2,7 +2,7 @@
 /*
  * gsf-input-memory.c:
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -182,9 +182,9 @@ gsf_input_memory_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfInputMemory, gsf_input_memory,
-	   gsf_input_memory_class_init, gsf_input_memory_init,
-	   GSF_INPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfInputMemory, gsf_input_memory,
+		   gsf_input_memory_class_init, gsf_input_memory_init,
+		   GSF_INPUT_TYPE)
 
 /***************************************************************************/
 

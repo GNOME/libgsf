@@ -1,7 +1,7 @@
 /*
  * gsf-command-context.c: Command context class
  *
- * Copyright (C) 2002-2004 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2002-2006 Rodrigo Moya (rodrigo@gnome-db.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -84,8 +84,9 @@ gsf_command_context_finalize (GObject *object)
 	parent_class->finalize (object);
 }
 
-GSF_CLASS(GsfCommandContext, gsf_command_context,
-	  gsf_command_context_class_init, gsf_command_context_init, G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS(GsfCommandContext, gsf_command_context,
+		  gsf_command_context_class_init, gsf_command_context_init,
+		  G_TYPE_OBJECT)
 
 /**
  * gsf_command_context_new

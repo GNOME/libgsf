@@ -2,7 +2,7 @@
 /*
  * gsf-output-transaction.h: 
  *
- * Copyright (C) 2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2004-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -31,7 +31,8 @@ G_BEGIN_DECLS
 typedef struct _GsfOutputTransaction GsfOutputTransaction;
 typedef struct _GsfOutputTransactionClass GsfOutputTransactionClass;
 
-GType      gsf_output_transaction_get_type (void);
+GType gsf_output_transaction_get_type      (void) G_GNUC_CONST;
+void  gsf_output_transaction_register_type (GTypeModule *module);
 
 GsfOutput *gsf_output_transaction_new       (GsfOutput *wrapped);
 GsfOutput *gsf_output_transaction_new_named (GsfOutput *wrapped, char const *my_name);

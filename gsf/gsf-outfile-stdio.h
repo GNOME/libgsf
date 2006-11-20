@@ -2,7 +2,7 @@
 /*
  * gsf-outfile-stdio.h: write a directory tree
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2004-2006 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,7 +32,9 @@ typedef struct _GsfOutfileStdio GsfOutfileStdio;
 #define GSF_OUTFILE_STDIO(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_STDIO_TYPE, GsfOutfileStdio))
 #define GSF_IS_OUTFILE_STDIO(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_STDIO_TYPE))
 
-GType	    gsf_outfile_stdio_get_type	 (void);
+GType gsf_outfile_stdio_get_type      (void) G_GNUC_CONST;
+void  gsf_outfile_stdio_register_type (GTypeModule *module);
+
 GsfOutfile *gsf_outfile_stdio_new	 (char const *root, GError **err);
 GsfOutfile *gsf_outfile_stdio_new_full	 (char const *root, GError **err,
 					  char const *first_property_name,

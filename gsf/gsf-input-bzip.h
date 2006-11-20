@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-bzip.h: wrapper to compress to bzipped output
+ * gsf-input-bzip.h: wrapper to uncompress to bzipped output
  *
- * Copyright (C) 2003-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2003-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -22,7 +22,8 @@
 #ifndef GSF_INPUT_BZIP_H
 #define GSF_INPUT_BZIP_H
 
-#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

@@ -2,7 +2,7 @@
 /*
  * gsf-infile-stdio.h: 
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2004-2006 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ typedef struct _GsfInfileStdio GsfInfileStdio;
 #define GSF_INFILE_STDIO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_STDIO_TYPE, GsfInfileStdio))
 #define GSF_IS_INFILE_STDIO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_STDIO_TYPE))
 
-GType	   gsf_infile_stdio_get_type (void);
+GType gsf_infile_stdio_get_type      (void) G_GNUC_CONST;
+void  gsf_infile_stdio_register_type (GTypeModule *module);
+
 GsfInfile *gsf_infile_stdio_new      (char const *root, GError **err);
 
 G_END_DECLS

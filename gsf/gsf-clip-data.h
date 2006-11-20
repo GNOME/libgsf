@@ -43,7 +43,8 @@ struct _GsfClipDataClass {
 	GObjectClass parent_class;
 };
 
-GType gsf_clip_data_get_type (void) G_GNUC_CONST;
+GType gsf_clip_data_get_type      (void) G_GNUC_CONST;
+void  gsf_clip_data_register_type (GTypeModule *module);
 
 GsfClipData *gsf_clip_data_new (GsfClipFormat format,
 				GsfBlob *data_blob);

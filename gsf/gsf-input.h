@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input.h: interface for used by the ole layer to read raw data
+ * gsf-input.h: abstract interface for reading data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,8 @@ G_BEGIN_DECLS
 #define GSF_INPUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_TYPE, GsfInput))
 #define GSF_IS_INPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TYPE))
 
-GType gsf_input_get_type (void);
+GType gsf_input_get_type      (void) G_GNUC_CONST;
+void  gsf_input_register_type (GTypeModule *module);
 
 char const   *gsf_input_name	  (GsfInput *input);
 GsfInfile    *gsf_input_container (GsfInput *input);

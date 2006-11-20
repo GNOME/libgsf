@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-iochannel.c: BZ2 based input
+ * gsf-input-iochannel.c: wrapper for glib's GIOChannel
  *
- * Copyright (C) 2003-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2003-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -21,6 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf-input-bzip.h>
+#include <gsf-input-memory.h>
 #include <gsf-output-memory.h>
 #include <string.h>
 

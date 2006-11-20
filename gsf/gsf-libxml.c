@@ -1200,9 +1200,9 @@ gsf_xml_out_class_init (GObjectClass *gobject_class)
 			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
-GSF_CLASS (GsfXMLOut, gsf_xml_out,
-	   gsf_xml_out_class_init, gsf_xml_out_init,
-	   G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS (GsfXMLOut, gsf_xml_out,
+		   gsf_xml_out_class_init, gsf_xml_out_init,
+		   G_TYPE_OBJECT)
 
 /**
  * gsf_xml_out_new :

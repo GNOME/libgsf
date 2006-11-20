@@ -2,7 +2,7 @@
 /*
  * gsf-input-stdio.h: interface for use by the structured file layer to read raw data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ G_BEGIN_DECLS
 
 typedef struct _GsfInputStdio GsfInputStdio;
 
-GType     gsf_input_stdio_get_type (void);
+GType gsf_input_stdio_get_type      (void) G_GNUC_CONST;
+void  gsf_input_stdio_register_type (GTypeModule *module);
+
 GsfInput *gsf_input_stdio_new      (char const *filename, GError **err);
 
 GsfInput *gsf_input_stdio_new_FILE   (char const *filename, FILE *file,

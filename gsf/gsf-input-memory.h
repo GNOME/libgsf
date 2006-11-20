@@ -2,7 +2,7 @@
 /*
  * gsf-input-memory.h: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 
 typedef struct _GsfInputMemory GsfInputMemory;
 
-GType     gsf_input_memory_get_type  (void);
+GType gsf_input_memory_get_type      (void) G_GNUC_CONST;
+void  gsf_input_memory_register_type (GTypeModule *module);
+
 GsfInput *gsf_input_memory_new       (guint8 const *buf, gsf_off_t length,
 				      gboolean needs_free);
 GsfInput *gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length);

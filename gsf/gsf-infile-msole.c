@@ -919,9 +919,9 @@ gsf_infile_msole_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
-	   gsf_infile_msole_class_init, gsf_infile_msole_init,
-	   GSF_INFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfInfileMSOle, gsf_infile_msole,
+		   gsf_infile_msole_class_init, gsf_infile_msole_init,
+		   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_msole_new :

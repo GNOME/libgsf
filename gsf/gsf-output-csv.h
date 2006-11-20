@@ -1,7 +1,7 @@
 /*
  * gsf-output-csv.h: a GsfOutput to write .csv style files.
  *
- * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -30,7 +30,9 @@ typedef enum {
 	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,
 	GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS
 } GsfOutputCsvQuotingMode;
-GType gsf_output_csv_quoting_mode_get_type (void);
+GType gsf_output_csv_quoting_mode_get_type      (void) G_GNUC_CONST;
+void  gsf_output_csv_quoting_mode_register_type (GTypeModule *module);
+
 #define GSF_OUTPUT_CSV_QUOTING_MODE_TYPE (gsf_output_csv_quoting_mode_get_type ())
 
 typedef struct {
@@ -55,7 +57,9 @@ typedef struct {
 #define GSF_OUTPUT_CSV_TYPE        (gsf_output_csv_get_type ())
 #define GSF_OUTPUT_CSV(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_CSV_TYPE, GsfOutputCsv))
 #define GSF_IS_OUTPUT_CSV(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_CSV_TYPE))
-GType gsf_output_csv_get_type (void);
+GType gsf_output_csv_get_type      (void) G_GNUC_CONST;
+void  gsf_output_csv_register_type (GTypeModule *module);
+
 gboolean gsf_output_csv_write_field (GsfOutputCsv *csv,
 				     char const *field,
 				     size_t len);

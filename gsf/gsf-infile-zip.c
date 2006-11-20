@@ -2,8 +2,8 @@
 /*
  * gsf-infile-zip.c :
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
- *                    Tambet Ingo   (tambet@ximian.com)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
+ *                    	   Tambet Ingo   (tambet@ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -830,9 +830,9 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      G_PARAM_CONSTRUCT_ONLY));
 }
 
-GSF_CLASS (GsfInfileZip, gsf_infile_zip,
-	   gsf_infile_zip_class_init, gsf_infile_zip_init,
-	   GSF_INFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfInfileZip, gsf_infile_zip,
+		   gsf_infile_zip_class_init, gsf_infile_zip_init,
+		   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_zip_new :

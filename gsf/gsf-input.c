@@ -2,7 +2,7 @@
 /*
  * gsf-input.c: interface for used by the ole layer to read raw data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -158,9 +158,9 @@ gsf_input_class_init (GObjectClass *gobject_class)
 							     G_PARAM_READABLE));
 }
 
-GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
-		    gsf_input_class_init, gsf_input_init,
-		    G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS_ABSTRACT (GsfInput, gsf_input,
+			    gsf_input_class_init, gsf_input_init,
+			    G_TYPE_OBJECT)
 
 /**
  * gsf_input_name :

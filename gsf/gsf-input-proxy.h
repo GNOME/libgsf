@@ -2,7 +2,7 @@
 /*
  * gsf-input-proxy.h: proxy object (with its own current position)
  *
- * Copyright (C) 2004 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2004-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 
 typedef struct _GsfInputProxy GsfInputProxy;
 
-GType	  gsf_input_proxy_get_type  (void);
+GType gsf_input_proxy_get_type      (void) G_GNUC_CONST;
+void  gsf_input_proxy_register_type (GTypeModule *module);
+
 GsfInput *gsf_input_proxy_new	    (GsfInput *source);
 GsfInput *gsf_input_proxy_new_section (GsfInput *source,
 				       gsf_off_t offset,

@@ -1,8 +1,32 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * gsf-blob.c: a chunk of data
+ *
+ * Copyright (C) 2006 Novell Inc
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2.1 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
 #include "gsf-config.h"
+#include "gsf-blob.h"
+
+#include "gsf-utils.h"
+#include "gsf-impl-utils.h"
+
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#include "gsf-utils.h"
-#include "gsf-blob.h"
 
 /* Private part of the GsfBlob structure */
 struct _GsfBlobPrivate {
@@ -10,29 +34,7 @@ struct _GsfBlobPrivate {
 	gpointer data;
 };
 
-G_DEFINE_TYPE (GsfBlob, gsf_blob, G_TYPE_OBJECT);
-
-static void gsf_blob_finalize (GObject *object);
-
-static void
-gsf_blob_class_init (GsfBlobClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass *) class;
-
-	object_class->finalize = gsf_blob_finalize;
-}
-
-static void
-gsf_blob_init (GsfBlob *blob)
-{
-	GsfBlobPrivate *priv;
-
-	priv = g_new0 (GsfBlobPrivate, 1);
-	blob->priv = priv;
-}
-
+static GObjectClass *gsf_blob_parent_class;
 static void
 gsf_blob_finalize (GObject *object)
 {
@@ -45,8 +47,30 @@ gsf_blob_finalize (GObject *object)
 	g_free (priv->data);
 	g_free (priv);
 
-	G_OBJECT_CLASS (gsf_blob_parent_class)->finalize (object);
+	gsf_blob_parent_class->finalize (object);
 }
+
+static void
+gsf_blob_class_init (GObjectClass *gobject_class)
+{
+	gobject_class->finalize = gsf_blob_finalize;
+
+	gsf_blob_parent_class = g_type_class_peek_parent (gobject_class);
+}
+
+static void
+gsf_blob_init (GsfBlob *blob)
+{
+	GsfBlobPrivate *priv;
+
+	priv = g_new0 (GsfBlobPrivate, 1);
+	blob->priv = priv;
+}
+
+GSF_DYNAMIC_CLASS (GsfBlob, gsf_blob,
+		   gsf_blob_class_init, gsf_blob_init,
+		   G_TYPE_OBJECT);
+
 
 /**
  * gsf_blob_new:

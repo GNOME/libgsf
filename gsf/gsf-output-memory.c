@@ -2,7 +2,7 @@
 /*
  * gsf-output-memory.c:
  *
- * Copyright (C) 2002-2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -195,6 +195,7 @@ gsf_output_memory_get_bytes (GsfOutputMemory * mem)
 	return mem->buffer;
 }
 
-GSF_CLASS (GsfOutputMemory, gsf_output_memory,
-           gsf_output_memory_class_init, gsf_output_memory_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputMemory, gsf_output_memory,
+		   gsf_output_memory_class_init, gsf_output_memory_init,
+		   GSF_OUTPUT_TYPE)
 

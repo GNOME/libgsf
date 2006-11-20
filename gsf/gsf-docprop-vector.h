@@ -2,7 +2,7 @@
 /*
  * gsf-docprop-vectors.h: A type implementing OLE Document Property vectors
  *
- * Copyright (C) 2004-2005 Frank Chiulli (fc-linux@cox.net)
+ * Copyright (C) 2004-2006 Frank Chiulli (fc-linux@cox.net)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 #define IS_GSF_DOCPROP_VECTOR(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GSF_DOCPROP_VECTOR_TYPE))
 
 typedef struct _GsfDocPropVector      GsfDocPropVector;
-GType		  gsf_docprop_vector_get_type	(void);
+GType gsf_docprop_vector_get_type	(void) G_GNUC_CONST;
+void  gsf_docprop_vector_register_type	(GTypeModule *module);
+
 GsfDocPropVector *gsf_docprop_vector_new	(void);
 void		  gsf_docprop_vector_append	(GsfDocPropVector *vector, GValue *value);
 gchar		 *gsf_docprop_vector_as_string	(GsfDocPropVector const *vector);

@@ -2,7 +2,7 @@
 /*
  * gsf-outfile-zip.c: zip archive output.
  *
- * Copyright (C) 2002-2004 Jon K Hellan (hellan@acm.org)
+ * Copyright (C) 2002-2006 Jon K Hellan (hellan@acm.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -725,9 +725,9 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   G_PARAM_CONSTRUCT_ONLY));
 }
 
-GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
-	   gsf_outfile_zip_class_init, gsf_outfile_zip_init,
-	   GSF_OUTFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutfileZip, gsf_outfile_zip,
+		   gsf_outfile_zip_class_init, gsf_outfile_zip_init,
+		   GSF_OUTFILE_TYPE)
 
 /**
  * gsf_outfile_zip_new :

@@ -2,7 +2,7 @@
 /*
  * gsf-output-stdio.h: stdio based output
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOutputStdio GsfOutputStdio;
 
-GType      gsf_output_stdio_get_type   (void);
+GType gsf_output_stdio_get_type	     (void) G_GNUC_CONST;
+void  gsf_output_stdio_register_type (GTypeModule *module);
+
 GsfOutput *gsf_output_stdio_new        (char const *filename, GError **err);
 GsfOutput *gsf_output_stdio_new_full   (char const *filename, GError **err,
 					char const *first_property_name,

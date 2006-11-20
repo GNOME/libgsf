@@ -2,7 +2,7 @@
 /*
  * gsf-outfile-msole.c: 
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -667,9 +667,9 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 	gsf_output_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 }
 
-GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
-	   gsf_outfile_msole_class_init, gsf_outfile_msole_init,
-	   GSF_OUTFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
+		   gsf_outfile_msole_class_init, gsf_outfile_msole_init,
+		   GSF_OUTFILE_TYPE)
 
 /* returns the number of times 1 must be shifted left to reach value */
 static unsigned

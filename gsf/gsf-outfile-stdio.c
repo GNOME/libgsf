@@ -2,7 +2,7 @@
 /*
  * gsf-outfile-stdio.c: A directory tree wrapper for Outfile
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2004-2006 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -99,9 +99,9 @@ gsf_outfile_stdio_class_init (GObjectClass *gobject_class)
 	outfile_class->new_child = gsf_outfile_stdio_new_child;
 }
 
-GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
-	   gsf_outfile_stdio_class_init, gsf_outfile_stdio_init,
-	   GSF_OUTFILE_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
+		   gsf_outfile_stdio_class_init, gsf_outfile_stdio_init,
+		   GSF_OUTFILE_TYPE)
 
 /**
  * gsf_outfile_stdio_new :

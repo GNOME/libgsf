@@ -2,7 +2,7 @@
 /*
  * gsf-infile-ar.h: 
  *
- * Copyright (C) 2004 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2004-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -33,7 +33,9 @@ typedef struct _GsfInfileAr GsfInfileAr;
 #define GSF_INFILE_AR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INFILE_AR_TYPE, GsfInfileAr))
 #define GSF_IS_INFILE_AR(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INFILE_AR_TYPE))
 
-GType	   gsf_infile_ar_get_type (void);
+GType gsf_infile_ar_get_type      (void) G_GNUC_CONST;
+void  gsf_infile_ar_register_type (GTypeModule *module);
+
 GsfInfile *gsf_infile_ar_new	  (GsfInput *source, GError **err);
 
 G_END_DECLS

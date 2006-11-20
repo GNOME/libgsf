@@ -1,7 +1,8 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-output-csv.c: a GsfOutput to write .csv style files.
  *
- * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -161,20 +162,26 @@ gsf_output_csv_write_eol (GsfOutputCsv *csv)
 
 /* ------------------------------------------------------------------------- */
 
+static GType gsf_output_csv_quoting_mode_type = 0;
 GType
 gsf_output_csv_quoting_mode_get_type (void)
 {
-  static GType etype = 0;
-  if (etype == 0) {
-    static const GEnumValue values[] = {
-      { GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,  (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_NEVER",  (char *)"never" },
-      { GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,   (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_AUTO",   (char *)"auto" },
-      { GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS, (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS", (char *)"always" },
-      { 0, NULL, NULL }
-    };
-    etype = g_enum_register_static ("GsfOutputCsvQuotingMode", values);
-  }
-  return etype;
+	return gsf_output_csv_quoting_mode_type;
+}
+
+void
+gsf_output_csv_quoting_mode_register_type (GTypeModule *module)
+{
+	if (gsf_output_csv_quoting_mode_type == 0) {
+		static GEnumValue const values[] = {
+		{ GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,  (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_NEVER",  (char *)"never" },
+		{ GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,   (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_AUTO",   (char *)"auto" },
+		{ GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS, (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS", (char *)"always" },
+		{ 0, NULL, NULL }
+		};
+		gsf_output_csv_quoting_mode_type =
+			g_type_module_register_enum (module, "GsfOutputCsvQuotingMode", values);
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -349,5 +356,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfOutputCsv, gsf_output_csv,
-	   gsf_output_csv_class_init, gsf_output_csv_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputCsv, gsf_output_csv,
+		   gsf_output_csv_class_init, gsf_output_csv_init,
+		   GSF_OUTPUT_TYPE)
+

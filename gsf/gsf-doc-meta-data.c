@@ -62,9 +62,9 @@ gsf_doc_meta_data_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfDocMetaData, gsf_doc_meta_data,
-	   gsf_doc_meta_data_class_init, gsf_doc_meta_data_init,
-	   G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS(GsfDocMetaData, gsf_doc_meta_data,
+		  gsf_doc_meta_data_class_init, gsf_doc_meta_data_init,
+		  G_TYPE_OBJECT)
 
 /**********************************************************************/
 

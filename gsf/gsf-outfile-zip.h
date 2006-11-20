@@ -2,7 +2,7 @@
 /*
  * gsf-outfile-zip.h: interface for zip archive output.
  *
- * Copyright (C) 2002-2004 Jon K Hellan (hellan@acm.org)
+ * Copyright (C) 2002-2006 Jon K Hellan (hellan@acm.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -47,7 +47,9 @@ typedef struct _GsfOutfileZip GsfOutfileZip;
 #define GSF_OUTFILE_ZIP(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_ZIP_TYPE, GsfOutfileZip))
 #define GSF_IS_OUTFILE_ZIP(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_ZIP_TYPE))
 
-GType	    gsf_outfile_zip_get_type	(void);
+GType gsf_outfile_zip_get_type	    (void) G_GNUC_CONST;
+void  gsf_outfile_zip_register_type (GTypeModule *module);
+
 GsfOutfile *gsf_outfile_zip_new		(GsfOutput *sink, GError **err);
 
 /* Deprecated.  Has no effect.  */

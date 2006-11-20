@@ -2,7 +2,7 @@
 /*
  * gsf-io-context.c: IO context class
  *
- * Copyright (C) 2002-2004 Rodrigo Moya (rodrigo@gnome-db.org)
+ * Copyright (C) 2002-2006 Rodrigo Moya (rodrigo@gnome-db.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -84,8 +84,9 @@ gsf_io_context_finalize (GObject *object)
 	parent_class->finalize (object);
 }
 
-GSF_CLASS(GsfIOContext, gsf_io_context,
-	  gsf_io_context_class_init, gsf_io_context_init, GSF_COMMAND_CONTEXT_TYPE)
+GSF_DYNAMIC_CLASS(GsfIOContext, gsf_io_context,
+		  gsf_io_context_class_init, gsf_io_context_init,
+		  GSF_COMMAND_CONTEXT_TYPE)
 
 /**
  * gsf_io_context_new

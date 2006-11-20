@@ -1,7 +1,8 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-output-iconv.c: wrapper to convert character sets.
  *
- * Copyright (C) 2005 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -315,5 +316,6 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfOutputIconv, gsf_output_iconv,
-	   gsf_output_iconv_class_init, gsf_output_iconv_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputIconv, gsf_output_iconv,
+		   gsf_output_iconv_class_init, gsf_output_iconv_init,
+		   GSF_OUTPUT_TYPE)

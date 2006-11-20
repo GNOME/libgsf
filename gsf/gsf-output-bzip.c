@@ -2,8 +2,8 @@
 /*
  * gsf-output-bzip.c: wrapper to compress to bzipped output
  *
- * Copyright (C) 2003-2004 Dom Lachowicz (cinamod@hotmail.com)
- *               2002-2004 Jon K Hellan (hellan@acm.org)
+ * Copyright (C) 2003-2006 Dom Lachowicz (cinamod@hotmail.com)
+ *               2002-2006 Jon K Hellan (hellan@acm.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -224,9 +224,9 @@ gsf_output_bzip_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
-	   gsf_output_bzip_class_init, gsf_output_bzip_init,
-	   GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputBzip, gsf_output_bzip,
+		   gsf_output_bzip_class_init, gsf_output_bzip_init,
+		   GSF_OUTPUT_TYPE)
 
 /**
  * gsf_output_bzip_new :

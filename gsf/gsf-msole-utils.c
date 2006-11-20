@@ -2,8 +2,8 @@
 /*
  * gsf-msole-utils.c: 
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2002-2005 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
  * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  *
  * This program is free software; you can redistribute it and/or

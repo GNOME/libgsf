@@ -33,7 +33,9 @@ G_BEGIN_DECLS
 #define GSF_DOC_META_DATA(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_DOC_META_DATA_TYPE, GsfDocMetaData))
 #define IS_GSF_DOC_META_DATA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_DOC_META_DATA_TYPE))
 
-GType  gsf_doc_meta_data_get_type (void);
+GType gsf_doc_meta_data_get_type      (void) G_GNUC_CONST;
+void  gsf_doc_meta_data_register_type (GTypeModule *module);
+
 GsfDocMetaData *gsf_doc_meta_data_new	  (void);
 GsfDocProp     *gsf_doc_meta_data_lookup  (GsfDocMetaData const *meta,
 					   char const *name);

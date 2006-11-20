@@ -2,7 +2,7 @@
 /*
  * gsf-outfile.h: interface for creating structured files
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -31,7 +31,8 @@ G_BEGIN_DECLS
 #define GSF_OUTFILE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_TYPE, GsfOutfile))
 #define GSF_IS_OUTFILE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_TYPE))
 
-GType gsf_outfile_get_type (void);
+GType gsf_outfile_get_type      (void) G_GNUC_CONST;
+void  gsf_outfile_register_type (GTypeModule *module);
 
 GsfOutput *gsf_outfile_new_child      (GsfOutfile *outfile,
 				       char const *name, gboolean is_dir);

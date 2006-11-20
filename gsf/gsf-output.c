@@ -2,7 +2,7 @@
 /*
  * gsf-output.c: interface for storing data
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -161,9 +161,9 @@ gsf_output_class_init (GObjectClass *gobject_class)
 							       G_PARAM_READABLE));
 }
 
-GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
-		    gsf_output_class_init, gsf_output_init,
-		    G_TYPE_OBJECT)
+GSF_DYNAMIC_CLASS_ABSTRACT (GsfOutput, gsf_output,
+			    gsf_output_class_init, gsf_output_init,
+			    G_TYPE_OBJECT)
 
 /**
  * gsf_output_name :

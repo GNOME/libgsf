@@ -4,7 +4,8 @@
  *
  * Author:  Luciano Wolf (luciano.wolf@indt.org.br)
  *
- * Copyright (C) 2005 INdT - Instituto Nokia de Tecnologia
+ * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005-2006 INdT - Instituto Nokia de Tecnologia
  * http://www.indt.org.br
  *
  * This program is free software; you can redistribute it and/or

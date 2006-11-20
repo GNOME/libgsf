@@ -2,7 +2,7 @@
 /*
  * gsf-output-stdio.c: stdio based output
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -379,8 +379,9 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
-	   gsf_output_stdio_class_init, gsf_output_stdio_init, GSF_OUTPUT_TYPE)
+GSF_DYNAMIC_CLASS (GsfOutputStdio, gsf_output_stdio,
+		   gsf_output_stdio_class_init, gsf_output_stdio_init,
+		   GSF_OUTPUT_TYPE)
 
 GsfOutput *
 gsf_output_stdio_new_valist (char const *filename, GError **err,
