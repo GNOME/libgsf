@@ -1,3 +1,7 @@
+2006-11-20  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_gvalue): Plug leak.
+
 2006-11-20  Jody Goldberg <jody@gnome.org>
 
 	* doc/gsf-docs.sgml : Add some missing indicies.

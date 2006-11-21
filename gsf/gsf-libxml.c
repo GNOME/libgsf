@@ -1638,6 +1638,7 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xml, char const *id, GValue const *val)
 	case G_TYPE_CHAR: {
 		char c[2] = { 0, 0 };
 		c[0] = g_value_get_char (val);
+		/* FIXME: What if we are in 0x80-0xff? */
 		gsf_xml_out_add_cstr (xml, id, c);
 		break;
 	}
@@ -1645,6 +1646,7 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xml, char const *id, GValue const *val)
 	case G_TYPE_UCHAR: {
 		unsigned char c[2] = { 0, 0 };
 		c[0] = g_value_get_uchar (val);
+		/* FIXME: What if we are in 0x80-0xff? */
 		gsf_xml_out_add_cstr (xml, id, c);
 		break;
 	}
@@ -1685,9 +1687,10 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xml, char const *id, GValue const *val)
 
 	default:
 		if (GSF_TIMESTAMP_TYPE == t) {
-			char *str = gsf_timestamp_as_string (
-				(GsfTimestamp const *)g_value_get_boxed (val));
+			GsfTimestamp const *ts = g_value_get_boxed (val);
+			char *str = gsf_timestamp_as_string (ts);
 			gsf_xml_out_add_cstr (xml, id, str);
+			g_free (str);
 			break;
 		}
 	}
