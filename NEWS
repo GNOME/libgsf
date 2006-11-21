@@ -2,6 +2,7 @@ libgsf 1.14.4
 
 Jody:
 	* Have gsf-vba-dump handle .doc files too.
+	* Implement gsf_init_dynamic
 
 Morten:
 	* Plug leak.
