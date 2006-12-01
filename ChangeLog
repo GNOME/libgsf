@@ -1,3 +1,9 @@
+2006-12-01  Christian Neumair  <chris@gnome-de.org>
+
+	* gsf/gsf-libxml.c: (gsf_xml_gvalue_from_str):
+	Handle types derived from G_TYPE_ENUM and G_TYPE_FLAGS correctly.
+	Bail if type was not handled.
+
 2006-11-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_gvalue): Plug leak.

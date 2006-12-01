@@ -204,6 +204,17 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 	g_return_val_if_fail (str != NULL, FALSE);
 
 	g_value_init (res, t);
+
+	/* If the passed-in type is derived from G_TYPE_ENUM
+	 * or G_TYPE_FLAGS, we cannot switch on its type
+	 * because we don't know its GType at compile time.
+	 * We just pretend to have a G_TYPE_ENUM/G_TYPE_FLAGS.
+	 */
+	if (G_TYPE_FUNDAMENTAL (t) == G_TYPE_ENUM ||
+	    G_TYPE_FUNDAMENTAL (t) == G_TYPE_FLAGS) {
+		t = G_TYPE_FUNDAMENTAL (t);
+	}
+
 	switch (t) {
 	case G_TYPE_CHAR:
 		g_value_set_char (res, str[0]);
@@ -230,10 +241,10 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 		g_value_set_ulong (res, strtoul (str, NULL, 0));
 		break; 
 	case G_TYPE_ENUM:
-		g_value_set_enum (res, glade_enum_from_string (t, str));
+		g_value_set_enum (res, glade_enum_from_string (G_VALUE_TYPE (res), str));
 		break;
 	case G_TYPE_FLAGS:
-		g_value_set_flags (res, glade_flags_from_string (t, str));
+		g_value_set_flags (res, glade_flags_from_string (G_VALUE_TYPE (res), str));
 		break;
 	case G_TYPE_FLOAT:
 		g_value_set_float (res, g_strtod (str, NULL));
@@ -252,7 +263,7 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 				gsf_value_set_timestamp (res, &ts);
 				break;
 			}
-		}
+		} else g_warning ("gsf_xml_gvalue_from_str(): Don't know how to handle type '%s'", g_type_name (t));
 
 		return FALSE;
 	}
