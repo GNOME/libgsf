@@ -6,6 +6,7 @@ Jody:
 
 Morten:
 	* Plug leak.
+	* Fix potential problem with reading mildly bogus files.  [#381588]
 
 --------------------------------------------------------------------------
 

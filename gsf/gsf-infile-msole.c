@@ -220,9 +220,8 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max_bat,
 			 * corresponds to lots of unused blocks
 			 * http://bugzilla.gnome.org/show_bug.cgi?id=336858 */
 			unsigned i = ole->info->bb.size / BAT_INDEX_SIZE;
-			g_print ("Ping!\n");
 			while (i-- > 0)
-				bats[i] = BAT_MAGIC_UNUSED;
+				*bats++ = BAT_MAGIC_UNUSED;
 		}
 	}
 	return bats;
