@@ -1,5 +1,8 @@
 2006-12-04  Morten Welinder  <terra@gnome.org>
 
+	* thumbnailer/main.c: Use g_printerr, not fprintf.  That fixes
+	output in non-UTF8 locales.
+
 	* configure.in (libgsf_reqs): Bump glib req to 2.8 for g_try_new.
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Use g_try_new, not

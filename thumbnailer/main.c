@@ -19,7 +19,6 @@
  * USA
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
@@ -36,7 +35,7 @@
 G_GNUC_NORETURN static void
 show_error_string_and_exit (const char *str)
 {
-	fprintf (stderr, "error: %s\n", str);
+	g_printerr ("error: %s\n", str);
 	exit (EXIT_FAILURE);
 }
 
@@ -64,7 +63,7 @@ call_convert (const char *in_filename, const char *out_filename, int thumb_size)
 				    in_quote,
 				    thumb_size, thumb_size,
 				    out_quote);
-	fprintf (stderr, "calling %s\n", cmd_line);
+	g_printerr ("calling %s\n", cmd_line);
 	g_free (in_quote);
 	g_free (out_quote);
 
@@ -241,7 +240,7 @@ main (int argc, char **argv)
 	    || option_size == -1
 	    || option_input_filename == NULL
 	    || option_output_filename == NULL) {
-		fprintf (stderr, "Invalid usage; type \"%s --help\" for instructions.  All the options must be used.\n", argv[0]);
+		g_printerr ("Invalid usage; type \"%s --help\" for instructions.  All the options must be used.\n", argv[0]);
 		exit (EXIT_FAILURE);
 	}
 
