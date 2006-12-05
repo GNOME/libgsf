@@ -7,6 +7,8 @@ Jody:
 Morten:
 	* Plug leak.
 	* Fix potential problem with reading mildly bogus files.  [#381588]
+	* Fix potential oom crash on crazy OLE2 files.  [#381600]
+	* Quote csv fields on initial or terminal white-space.  [#359348]
 
 --------------------------------------------------------------------------
 

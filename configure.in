@@ -75,7 +75,7 @@ ifelse([
 dnl Modules common to libgsf and libgsf-gnome
 libgsf_reqs="
     gobject-2.0 >= 2.6.0
-    glib-2.0 >= 2.6.0
+    glib-2.0 >= 2.8.0
     libxml-2.0 >= 2.4.16
 "
 dnl Modules required for libgsf-gnome

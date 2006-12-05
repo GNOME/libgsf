@@ -1,3 +1,13 @@
+2006-12-04  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (libgsf_reqs): Bump glib req to 2.8 for g_try_new.
+
+	* gsf/gsf-infile-msole.c (ole_init_info): Use g_try_new, not
+	g_alloca.  (And g_free the memory after use.)  Fixes #381600.
+
+	* gsf/gsf-output-csv.c (gsf_output_csv_write_field): Quote on
+	initial or terminal whitespace, see bug #359348.
+
 2006-12-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_info_read_metabat): Advance bats in

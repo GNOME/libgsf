@@ -169,7 +169,7 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 
 	if (block != BAT_MAGIC_END_OF_CHAIN) {
 		g_warning ("This OLE2 file is invalid.\n"
-			   "The Block Allocation  Table for one of the streams had %x instead of a terminator (%x).\n"
+			   "The Block Allocation Table for one of the streams had %x instead of a terminator (%x).\n"
 			   "We might still be able to extract some data, but you'll want to check the file.",
 			   block, BAT_MAGIC_END_OF_CHAIN);
 	}
@@ -500,6 +500,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	MSOleInfo *info;
 	guint32 bb_shift, sb_shift, num_bat, num_metabat, last, dirent_start;
 	guint32 metabat_block, *ptr;
+	gboolean fail;
 
 	/* check the header */
 	if (gsf_input_seek (ole->input, 0, G_SEEK_SET) ||
@@ -558,7 +559,14 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		info->bb.bat.num_blocks = num_bat * (info->bb.size / BAT_INDEX_SIZE);
 		info->bb.bat.block	= g_new0 (guint32, info->bb.bat.num_blocks);
 
-		metabat = (guint32 *)g_alloca (MAX (info->bb.size, OLE_HEADER_SIZE));
+		metabat = g_try_new (guint32, MAX (info->bb.size, OLE_HEADER_SIZE));
+		if (!metabat) {
+			g_free (info);
+			if (err != NULL)
+				*err = g_error_new (gsf_input_error_id (), 0,
+						    "Insufficient memory");
+			return TRUE;
+		}
 
 		/* Reading the elements invalidates this memory, make copy */
 		gsf_ole_get_guint32s (metabat, header + OLE_HEADER_START_BAT,
@@ -607,8 +615,12 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		ptr = ole_info_read_metabat (ole, ptr,
 			info->bb.bat.num_blocks, metabat, metabat + last);
 	}
+	fail = (ptr == NULL);
 
-	if (ptr == NULL) {
+	g_free (metabat);
+	metabat = ptr = NULL;
+
+	if (fail) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
 				"Inconsistent block allocation table");

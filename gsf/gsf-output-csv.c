@@ -35,9 +35,16 @@ enum {
 	PROP_QUOTE,
 	PROP_QUOTING_MODE,
 	PROP_QUOTING_TRIGGERS,
+	PROP_QUOTING_ON_WHITESPACE,
 	PROP_EOL,
 	PROP_SEPARATOR
 };
+
+/*
+ * We really need to add a data member to the structure, but that would be
+ * an ABI change.  For now, fake it.
+ */
+#define HACK_QUOTING_ON_WHITESPACE "hack-quoting-on-whitespace"
 
 static void
 gsf_output_csv_finalize (GObject *obj)
@@ -117,6 +124,13 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 			}
 			p = g_utf8_next_char (p);
 		}
+
+		if (!quote && *field &&
+		    (g_unichar_isspace (g_utf8_get_char (field)) ||
+		     g_unichar_isspace (g_utf8_get_char (g_utf8_prev_char (p)))) &&
+		    g_object_get_data (G_OBJECT (csv),
+				       HACK_QUOTING_ON_WHITESPACE) != NULL)
+			quote = TRUE;
 		break;
 	}
 	}
@@ -194,6 +208,9 @@ gsf_output_csv_init (GObject *obj)
 	csv->eol = g_strdup ("\n");
 	csv->eol_len = strlen (csv->eol);
 	csv->buf = g_string_new (NULL);
+	g_object_set_data (obj,
+			   HACK_QUOTING_ON_WHITESPACE,
+			   GINT_TO_POINTER (1));
 }
 
 static void
@@ -217,6 +234,12 @@ gsf_output_csv_get_property (GObject     *object,
 	case PROP_QUOTING_TRIGGERS:
 		g_value_set_string (value, csv->quoting_triggers);
 		break;
+	case PROP_QUOTING_ON_WHITESPACE: {
+		gboolean qow = g_object_get_data
+			(object, HACK_QUOTING_ON_WHITESPACE) != NULL;
+		g_value_set_boolean (value, qow);
+		break;
+	}
 	case PROP_EOL:
 		g_value_set_string (value, csv->eol);
 		break;
@@ -241,9 +264,9 @@ gsf_output_csv_set_sink (GsfOutputCsv *csv, GsfOutput *sink)
 
 static void
 gsf_output_csv_set_property (GObject      *object,
-			       guint         property_id,
-			       GValue const *value,
-			       GParamSpec   *pspec)
+			     guint         property_id,
+			     GValue const *value,
+			     GParamSpec   *pspec)
 {
 	GsfOutputCsv *csv = (GsfOutputCsv *)object;
 	char *scopy;
@@ -268,6 +291,13 @@ gsf_output_csv_set_property (GObject      *object,
 		if (*csv->quoting_triggers)
 			csv->quoting_mode = GSF_OUTPUT_CSV_QUOTING_MODE_AUTO;
 		break;
+	case PROP_QUOTING_ON_WHITESPACE: {
+		gboolean qow = g_value_get_boolean (value);
+		g_object_set_data (object,
+				   HACK_QUOTING_ON_WHITESPACE,
+				   GINT_TO_POINTER (qow));
+		break;
+	}
 	case PROP_EOL:
 		scopy = g_strdup (g_value_get_string (value));
 		g_free (csv->eol);
@@ -334,6 +364,15 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_QUOTING_ON_WHITESPACE,
+		 g_param_spec_boolean ("quoting-on-whitespace",
+				       "Quoting On Whitespace",
+				       "Does initial or terminal whitespace force quoting?",
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SEPARATOR,
