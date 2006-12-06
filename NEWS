@@ -10,6 +10,7 @@ Morten:
 	* Fix potential oom crash on crazy OLE2 files.  [#381600]
 	* Quote csv fields on initial or terminal white-space.  [#359348]
 	* Fix encoding problem with thumbnailer.
+	* Fix problem with gsf_output_printf triggering on x64_86.
 
 --------------------------------------------------------------------------
 

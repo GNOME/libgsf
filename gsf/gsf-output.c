@@ -589,6 +589,13 @@ static gsf_off_t
 gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {
 	gsf_off_t reslen;
+	va_list args2;
+
+	/*
+	 * We need to make a copy as args will become unusable after
+	 * the g_vsnprintf call.
+	 */
+	G_VA_COPY (args2, args);
 
 	if (NULL == output->printf_buf) {
 		output->printf_buf_size = 128;
@@ -599,7 +606,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 	/* handle C99 or older -1 case of vsnprintf */
 	if (reslen < 0 || reslen >= output->printf_buf_size) {
 		g_free (output->printf_buf);
-		output->printf_buf = g_strdup_vprintf (fmt, args);
+		output->printf_buf = g_strdup_vprintf (fmt, args2);
 		reslen = output->printf_buf_size = strlen (output->printf_buf);
 	}
 
