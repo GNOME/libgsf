@@ -207,20 +207,31 @@ gsf_shutdown_dynamic (G_GNUC_UNUSED GTypeModule *module)
 static void
 gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 {
-	gsf_off_t i, j, off;
+	static const char hexdigit[16] = "0123456789abcdef";
 
-	for (i = 0 ; i < (len+15)/16 ; i++) {
-		g_print ("%8lx | ", (long)(i*16 + offset));
-		for (j = 0;j < 16; j++) {
-			off = j + (i << 4);
-			off<len ? g_print("%02x ", ptr[off]) : g_print("XX ");
+	while (len > 0) {
+		char hexpart[3 * 16 + 1], *phex = hexpart;
+		char pic[17];
+		size_t j;
+		for (j = 0; j < 16; j++) {
+			if (len > 0) {
+				*phex++ = hexdigit[*ptr >> 4];
+				*phex++ = hexdigit[*ptr & 0xf];
+				pic[j] = (*ptr >= '!' && *ptr < 127 ? *ptr : '.');
+				len--;
+				ptr++;
+			} else {
+				*phex++ = 'X';
+				*phex++ = 'X';
+				pic[j] = '*';
+			}
+			*phex++ = ' ';
 		}
-		g_print ("| ");
-		for (j = 0 ; j < 16 ; j++) {
-			off = j + (i<<4);
-			g_print ("%c", off < len ? (ptr[off] >= '!' && ptr[off] < 127 ? ptr[off] : '.') : '*');
-		}
-		g_print ("\n");
+		hexpart[3 * 16] = 0;
+		pic[16] = 0 ;
+
+		g_print ("%8lx | %s| %s\n", (long)offset, hexpart, pic);
+		offset += 16;
 	}
 }
 
