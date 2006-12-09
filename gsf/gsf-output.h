@@ -37,7 +37,8 @@ typedef struct {
 	gboolean (*Write)   (GsfOutput *output,
 			     size_t num_bytes, guint8 const *data);
 	gsf_off_t (*Vprintf) (GsfOutput *output,
-			     char const *format, va_list args);
+			     char const *format, va_list args)
+			     G_GNUC_PRINTF (2, 0);
 } GsfOutputClass;
 #define GSF_OUTPUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_OUTPUT_TYPE, GsfOutputClass))
 #define GSF_IS_OUTPUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_OUTPUT_TYPE))
