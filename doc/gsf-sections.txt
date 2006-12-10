@@ -586,6 +586,7 @@ gsf_xml_in_doc_set_unknown_handler
 gsf_xml_in_push_state
 gsf_xml_in_namecmp
 gsf_xml_in_check_ns
+gsf_xml_in_get_input
 
 <SUBSECTION Creation>
 GsfXMLOut
@@ -731,6 +732,7 @@ gsf_doc_prop_get_val
 gsf_doc_prop_set_val
 gsf_doc_prop_get_link
 gsf_doc_prop_set_link
+gsf_doc_prop_dump
 
 GsfDocPropVector
 gsf_docprop_vector_new
