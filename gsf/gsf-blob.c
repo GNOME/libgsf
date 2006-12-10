@@ -133,7 +133,7 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
  * Return value: Size in bytes, or 0 if the data is %NULL.
  **/
 gsize
-gsf_blob_get_size (GsfBlob *blob)
+gsf_blob_get_size (GsfBlob const *blob)
 {
 	GsfBlobPrivate *priv;
 
@@ -155,7 +155,7 @@ gsf_blob_get_size (GsfBlob *blob)
  * of the data is zero.
  **/
 gconstpointer
-gsf_blob_peek_data (GsfBlob *blob)
+gsf_blob_peek_data (GsfBlob const *blob)
 {
 	GsfBlobPrivate *priv;
 

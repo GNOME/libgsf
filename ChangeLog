@@ -1,3 +1,9 @@
+2006-12-10  Jody Goldberg <jody@gnome.org>
+
+	Begin merging patch from Danny Milosavljevic (danny.milo@gmx.net)
+	* gsf/gsf-blob.c (gsf_blob_get_size) : constify.
+	(gsf_blob_peek_data) : constify.
+
 2006-12-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gsf/gsf-output.h: Annotate GsfOutputClass.Vprintf with a format

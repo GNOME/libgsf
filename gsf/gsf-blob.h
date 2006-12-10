@@ -36,9 +36,9 @@ GsfBlob *gsf_blob_new (gsize size,
 		       gconstpointer data_to_copy,
 		       GError **error);
 
-gsize gsf_blob_get_size (GsfBlob *blob);
+gsize gsf_blob_get_size (GsfBlob const *blob);
 
-gconstpointer gsf_blob_peek_data (GsfBlob *blob);
+gconstpointer gsf_blob_peek_data (GsfBlob const *blob);
 
 G_END_DECLS
 
