@@ -104,6 +104,10 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	mem = gsf_input_memory_new_clone (
 		gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (sink)), 
 		gsf_output_size (sink));
+
+	if (mem != NULL)
+		gsf_input_set_name (mem, gsf_input_name (source));
+
 	g_object_unref (G_OBJECT (sink));
 	return mem;
 #endif

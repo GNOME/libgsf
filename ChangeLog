@@ -1,5 +1,12 @@
 2006-12-15  Dom Lachowicz <domlachowicz@gmail.com>
 
+	* gsf/gsf-input-bzip.c: Set input name
+	* gsf/gsf-input-gzip.c: Ditto
+	* gsf/gsf-input-proxy.c: Ditto
+	* gsf/gsf-input-textline.c: Ditto
+	
+2006-12-15  Dom Lachowicz <domlachowicz@gmail.com>
+
 	* gsf/gsf-input-textline.c (gsf_input_textline_new): Set the input's
 	size based on its source sink's size.
 	

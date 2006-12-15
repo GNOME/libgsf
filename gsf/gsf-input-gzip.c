@@ -211,6 +211,9 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 		return NULL;
 	}
 
+	if (gzip)
+		gsf_input_set_name (GSF_INPUT (gzip), gsf_input_name (source));
+
 	return GSF_INPUT (gzip);
 }
 

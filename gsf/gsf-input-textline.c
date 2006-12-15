@@ -67,6 +67,7 @@ gsf_input_textline_new (GsfInput *source)
 	input->buf  = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), gsf_input_size (source));
+	gsf_input_set_name (GSF_INPUT (input), gsf_input_name (source));
 
 	return GSF_INPUT (input);
 }
