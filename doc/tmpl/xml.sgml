@@ -211,6 +211,15 @@ XML and libxml
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_xml_in_get_input ##### -->
+<para>
+
+</para>
+
+@xin: 
+@Returns: 
+
+
 <!-- ##### STRUCT GsfXMLOut ##### -->
 <para>
 
