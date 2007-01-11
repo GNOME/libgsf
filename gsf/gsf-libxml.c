@@ -430,6 +430,7 @@ typedef struct {
 	GSList	 	 *ns_stack;
 	GHashTable	 *ns_prefixes;
 	GPtrArray	 *ns_by_id;
+	GSList	 	 *contents_stack;
 	gboolean          initialized;
 	gint	  	  unknown_depth; /* handle recursive unknown tags */
 	gboolean	  from_unknown_handler;
@@ -462,9 +463,15 @@ static void
 push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, int default_ns_id,
 	    xmlChar const **attrs, GsfXMLInExtension *ext)
 {
-	if (node->has_content == GSF_XML_CONTENT &&
-	    state->pub.content->len > 0) {
-		g_warning ("too lazy to support nested unshared content for now.  We'll add it for 2.0");
+	if (node->has_content == GSF_XML_CONTENT) {
+		if (state->pub.content->len) {
+			state->contents_stack =	g_slist_prepend
+				(state->contents_stack, state->pub.content);
+			state->pub.content = g_string_sized_new (128);
+		} else {
+			state->contents_stack = g_slist_prepend
+				(state->contents_stack, NULL);
+		}
 	}
 	state->pub.node_stack	= g_slist_prepend (state->pub.node_stack,
 		(gpointer)state->pub.node);
@@ -668,8 +675,22 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 	node = (GsfXMLInNodeInternal *) state->pub.node;
 	if (node->pub.end)
 		node->pub.end (&state->pub, NULL);
-	if (node->pub.has_content == GSF_XML_CONTENT)
-		g_string_truncate (state->pub.content, 0);
+
+	if (node->pub.has_content == GSF_XML_CONTENT) {
+		GString *top;
+
+		g_return_if_fail (state->contents_stack != NULL);
+		top = state->contents_stack->data;
+		state->contents_stack = g_slist_remove
+			(state->contents_stack, top);
+
+		if (top) {
+			g_string_free (state->pub.content, TRUE);
+			state->pub.content = top;
+		} else {
+			g_string_truncate (state->pub.content, 0);
+		}
+	}
 
 	/* Free any potential extensions associated with the current node */
 	for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next)
@@ -737,6 +758,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->ns_prefixes	= g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		g_free, (GDestroyNotify) gsf_free_xmlinnsinstance);
+	state->contents_stack	= NULL;
 	state->from_unknown_handler = FALSE;
 }
 
