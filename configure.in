@@ -73,14 +73,18 @@ ifelse([
   As a handy workaround, we use shell variables.
 ])
 dnl Modules common to libgsf and libgsf-gnome
-libgsf_reqs="
+common_reqs="
     gobject-2.0 >= 2.6.0
     glib-2.0 >= 2.8.0
+"
+dnl Modules required for libgsf
+libgsf_reqs="
+    $common_reqs
     libxml-2.0 >= 2.4.16
 "
 dnl Modules required for libgsf-gnome
 libgsf_gnome_reqs="
-    $libgsf_reqs
+    $common_reqs
     libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 2.2.0
     gnome-vfs-module-2.0 >= 2.2.0
