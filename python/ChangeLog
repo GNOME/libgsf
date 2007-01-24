@@ -1,3 +1,13 @@
+2007-01-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf.override (_wrap_gsf_output_memory_get_bytes): Constify.  Fix
+	argument type for gsf_output_size.
+
+	* gsfgnome.override (_wrap_gsf_input_bonobo_new,
+	_wrap_gsf_output_bonobo_new): Lobotomize, see #382254.
+
+	* gsf.defs (gsf_infile_msvba_new): Fix type of source.
+
 2006-11-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.14.3

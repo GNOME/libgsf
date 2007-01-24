@@ -3,6 +3,7 @@
 headers
 #include <Python.h>
 
+#define NO_IMPORT_PYGOBJECT
 #include "pygobject.h"
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-stdio.h>
@@ -235,11 +236,11 @@ override gsf_output_memory_get_bytes noargs
 static PyObject *
 _wrap_gsf_output_memory_get_bytes(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    guint8 *outbuffer = NULL;
+    const guint8 *outbuffer = NULL;
     
     outbuffer = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY(self->obj));
     if (outbuffer) {
-	gsf_off_t outlength = gsf_output_size (GSF_OUTPUT_MEMORY(self->obj));
+	gsf_off_t outlength = gsf_output_size (GSF_OUTPUT(self->obj));
 	int       num_bytes = outlength;
 	if (num_bytes != outlength) { /* Check for overflow */
 	    PyErr_SetString(PyExc_OverflowError, "Size is too large");

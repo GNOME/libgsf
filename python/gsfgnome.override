@@ -3,6 +3,7 @@
 headers
 #include <Python.h>
 
+#define NO_IMPORT_PYGOBJECT
 #include "pygobject.h"
 #include <gsf/gsf-input.h>
 #include <gsf-gnome/gsf-input-bonobo.h>
@@ -42,6 +43,10 @@ _wrap_gsf_input_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 				     (char *) "O:GsfInputBonobo.__init__",
 				     kwlist, &stream))
         return -1;
+#if 1
+    /* See http://bugzilla.gnome.org/show_bug.cgi?id=382254 */
+    return -1;
+#else
     if (!PyORBit_Object_Check(stream)) {
         PyErr_SetString(PyExc_TypeError, "stream must be a CORBA.Object");
         return -1;
@@ -56,6 +61,7 @@ _wrap_gsf_input_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
+#endif
 }
 %%
 override gsf_output_bonobo_new kwargs
@@ -68,6 +74,10 @@ _wrap_gsf_output_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:GsfOutputBonobo.__init__", kwlist, &stream))
         return -1;
+#if 1
+    /* See http://bugzilla.gnome.org/show_bug.cgi?id=382254 */
+    return -1;
+#else
     if (!PyORBit_Object_Check(stream)) {
         PyErr_SetString(PyExc_TypeError, "stream must be a CORBA.Object");
         return -1;
@@ -82,4 +92,5 @@ _wrap_gsf_output_bonobo_new(PyGObject *self, PyObject *args, PyObject *kwargs)
     }
     pygobject_register_wrapper((PyObject *)self);
     return 0;
+#endif
 }

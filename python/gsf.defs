@@ -310,7 +310,7 @@
   (is-constructor-of "GsfInfileMSVBA")
   (return-type "GsfInfile*")
   (parameters
-    '("GsfInput*" "source")
+    '("GsfInfile*" "source")
     '("GError**" "err")
   )
 )

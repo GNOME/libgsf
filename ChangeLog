@@ -1,3 +1,7 @@
+2007-01-23  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (pygtk): Show result.
+
 2007-01-13  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Adjusted pkg-config requirements to reflect that

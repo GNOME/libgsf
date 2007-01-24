@@ -300,6 +300,7 @@ if test "x$test_python" = xtrue ; then
     if test "$pygobject_msg" = test; then
 	pygobject_msg=yes
     fi
+    AC_MSG_RESULT($pygobject_msg)
 else
     pygobject_msg=no
 fi
