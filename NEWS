@@ -12,6 +12,7 @@ Morten:
 	* Fix encoding problem with thumbnailer.
 	* Fix problem with gsf_output_printf triggering on x64_86.
 	* Handle nested xml contents.
+	* Basic life support for python bindings.  [#382239] [#382254]
 
 --------------------------------------------------------------------------
 
