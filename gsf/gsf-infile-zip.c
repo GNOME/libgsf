@@ -387,20 +387,35 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 {
 	static guint8 const header_signature[] =
 		{ 'P', 'K', 0x03, 0x04 };
-	guint8 const *data;
+	guint8 const *data = NULL;
 	guint16 name_len, extras_len;
+	char *err = NULL;
+
 	GsfZipDirent *dirent = child->vdir->dirent;
 
 	/* skip local header
 	 * should test tons of other info, but trust that those are correct
 	 **/
 
-	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET) ||
-	    NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)) ||
-	    0 != memcmp (data, header_signature, sizeof (header_signature))) {
+	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET))
+		err = g_strdup_printf ("Error seeking to zip header @ %" GSF_OFF_T_FORMAT,
+				       dirent->offset);
+	else if (NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)))
+		err = g_strdup_printf ("Error reading %d bytes in zip header", ZIP_FILE_HEADER_SIZE);
+	else if (0 != memcmp (data, header_signature, sizeof (header_signature))) {
+		err = g_strdup_printf ("Error incorrect zip header @ %" GSF_OFF_T_FORMAT,
+				       dirent->offset);
+		g_print ("Header is :\n");
+		gsf_mem_dump (data, sizeof (header_signature));
+		g_print ("Header should be :\n");
+		gsf_mem_dump (header_signature, sizeof (header_signature));
+	}
+
+	if (NULL != err) {
+		g_print (err);
 		if (errmsg != NULL)
-			*errmsg = g_error_new (gsf_input_error_id (), 0,
-					       "Unable to read zip header.");
+			*errmsg = g_error_new (gsf_input_error_id (), 0, err);
+		g_free (err);
 		return TRUE;
 	}
 

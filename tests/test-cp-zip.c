@@ -46,30 +46,35 @@ clone (GsfInfile *in, GsfOutfile *out)
 				len = 314;
 			if (NULL == (data = gsf_input_read (input, len, NULL))) {
 				g_warning ("error reading ?");
-				return;
+				break;
 			}
 			if (!gsf_output_write (output, len, data)) {
 				g_warning ("error writing ?");
-				return;
+				break;
 			}
 		}
 	} else {
 		int i, n = gsf_infile_num_children (in);
 		for (i = 0 ; i < n; i++) {
-			const char *name;
-			char *display_name;
 			int level;
 			gboolean is_dir;
+			char *name = gsf_infile_name_by_index (in, i);
+			char *display_name = name
+				? g_filename_display_name (name)
+				: NULL;
 
 			input = gsf_infile_child_by_index (in, i);
-			name = gsf_infile_name_by_index (in, i);
+			if (NULL == input) {
+				g_print ("Error opening '%s, index = %d\n",
+					 display_name ? display_name : "?", i);
+				g_free (display_name);
+				continue;
+			}
+
 			is_dir = gsf_infile_num_children (GSF_INFILE (input)) >= 0;
 
 			g_object_get (G_OBJECT (input), "compression-level", &level, NULL);
 
-			display_name = name
-				? g_filename_display_name (name)
-				: NULL;
 			g_print ("%s: size=%ld, level=%d, %s\n",
 				 display_name ? display_name : "?",
 				 (long)gsf_input_size (input),

@@ -4,4 +4,5 @@
 gsf/gsf-blob.c
 gsf/gsf-clip-data.c
 gsf/gsf-msole-utils.c
+tools/gsf.c
 thumbnailer/gsf-office-thumbnailer.schemas.in
