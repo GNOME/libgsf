@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf.h: 
+ * gsf.h:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -26,21 +26,73 @@
 
 G_BEGIN_DECLS
 
+/**
+ * GsfInput:
+ *
+ * Class representing an input stream.
+ */
 typedef struct _GsfInput	GsfInput;
-typedef struct _GsfInfile 	GsfInfile;
 
+/**
+ * GsfInfil:
+ *
+ * Class representing an input file.
+ */
+typedef struct _GsfInfile	GsfInfile;
+
+/**
+ * GsfOutput:
+ *
+ * Class representing an output stream, counterpart to #GsfInput.
+ */
 typedef struct _GsfOutput	GsfOutput;
-typedef struct _GsfOutfile 	GsfOutfile;
 
+/**
+ * GsfOutfile:
+ *
+ * Class representing an output file, counterpart to #GsfInfile.
+ */
+typedef struct _GsfOutfile	GsfOutfile;
+
+/**
+ * GsfDocProp:
+ *
+ * Class representing a properties of a document.
+ */
 typedef struct _GsfDocProp	GsfDocProp;
+
+/**
+ * GsfDocMetaData:
+ *
+ * Class representing information about a document, such as creator and time of
+ * last modification.
+ */
 typedef struct _GsfDocMetaData	GsfDocMetaData;
+
+/**
+ * GsfTimestamp:
+ *
+ * Class representing a point in time.
+ */
 typedef struct _GsfTimestamp	GsfTimestamp;
 
-/* FIXME:
+/**
+ * gsf_off_t:
+ *
+ * Data type to represent offsets (positions) within a data stream.
+ *
+ * FIXME:
  * gsf_off_t is really supposed to be the widest type off_t can be configured
  * to on the platform
- */ 
+ */
 typedef gint64 gsf_off_t;
+
+/**
+ * GSF_OFF_T_FORMAT:
+ *
+ * The printf(3) conversion specifier to be used for printing values of type
+ * #gsf_off_t.
+ */
 #define GSF_OFF_T_FORMAT	G_GINT64_FORMAT
 
 G_END_DECLS

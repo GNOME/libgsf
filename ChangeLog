@@ -1,3 +1,9 @@
+2007-04-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* doc/gsf.1: New.
+	* gsf/gsf-meta-names.h, gsf/gsf.h, gsf/gsf-impl-utils.h,
+	gsf/gsf-utils.h: Documentation work.
+
 2007-02-16  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-cp-zip.c (clone) : make more resistant to read failures.

@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-meta-names.h: a list of gsf-meta-names to "generically" represent 
- *                   all diviserly available implementation-specific
+ * gsf-meta-names.h: a list of gsf-meta-names to "generically" represent
+ *                   all diversly available implementation-specific
  *                   meta-names.
  *
  * Author:  Veerapuram Varadhan (vvaradhan@novell.com)
@@ -142,21 +142,29 @@
  */
 #define GSF_META_NAME_CHARACTER_COUNT			"gsf:character-count"
 
-/* (None) Reserved name (PID) for Dictionary */
+/**
+ * GSF_META_NAME_DICTIONARY:
+ *
+ * (None) Reserved name (PID) for Dictionary
+ */
 #define GSF_META_NAME_DICTIONARY			"gsf:dictionary"
 
-/* GSF_META_NAME_DOCUMENT_PARTS
+/**
+ * GSF_META_NAME_DOCUMENT_PARTS:
  *
  * (Vector of strings) Names of the 'interesting' parts of the document.  In
  * spreadsheets this is a list of the sheet names, and the named expressions.
- * From MSOLE */
+ * From MSOLE 
+ */
 #define GSF_META_NAME_DOCUMENT_PARTS			"gsf:document-parts"
 
-/* GSF_META_NAME_HEADING_PAIRS
+/**
+ * GSF_META_NAME_HEADING_PAIRS:
  *
  * (Vector of string value pairs stored in alternating elements) Store the
  * counts of objects in the document as names 'worksheet' and count '4'
- * From MSOLE */
+ * From MSOLE 
+ */
 #define GSF_META_NAME_HEADING_PAIRS			"gsf:heading-pairs"
 
 /**
@@ -173,14 +181,19 @@
  */
 #define GSF_META_NAME_IMAGE_COUNT           		"gsf:image-count"
 
-/* GSF_META_NAME_LAST_SAVED_BY:
+/**
+ * GSF_META_NAME_LAST_SAVED_BY:
  *
  * (String) The entity that made the last change to the document, typically a
  * person, organization, or service.
  */
 #define GSF_META_NAME_LAST_SAVED_BY         		"gsf:last-saved-by"
 
-/* (Boolean) ??????? */
+/**
+ * GSF_META_NAME_LINKS_DIRTY:
+ *
+ * (Boolean) ???????
+ */
 #define GSF_META_NAME_LINKS_DIRTY			"gsf:links-dirty"
 
 /**
@@ -204,7 +217,11 @@
  */
 #define GSF_META_NAME_PRESENTATION_FORMAT		"gsf:presentation-format"
 
-/* (Boolean) ????? */
+/**
+ * GSF_META_NAME_SCALE:
+ *
+ * (Boolean) ????? 
+ */
 #define GSF_META_NAME_SCALE				"gsf:scale"
 
 /**
@@ -309,14 +326,54 @@
 
 /****** Namespace - msole: ******/
 
-/* (Unknown) User-defined names */
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_17:
+ *
+ * (Unknown) User-defined name
+ */
 #define GSF_META_NAME_MSOLE_UNKNOWN_17			"msole:unknown-doc-17"
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_18:
+ *
+ * (Unknown) User-defined name
+ */
 #define GSF_META_NAME_MSOLE_UNKNOWN_18			"msole:unknown-doc-18"
-#define GSF_META_NAME_MSOLE_UNKNOWN_19			"msole:unknown-doc-19"	/* bool */
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_19:
+ *
+ * (Boolean) User-defined name
+ */
+#define GSF_META_NAME_MSOLE_UNKNOWN_19			"msole:unknown-doc-19"
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_20:
+ *
+ * (Unknown) User-defined name
+ */
 #define GSF_META_NAME_MSOLE_UNKNOWN_20			"msole:unknown-doc-20"
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_21:
+ *
+ * (Unknown) User-defined name
+ */
 #define GSF_META_NAME_MSOLE_UNKNOWN_21			"msole:unknown-doc-21"
-#define GSF_META_NAME_MSOLE_UNKNOWN_22			"msole:unknown-doc-22"	/* bool */
-#define GSF_META_NAME_MSOLE_UNKNOWN_23			"msole:unknown-doc-23"	/* i4 */
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_22:
+ *
+ * (Boolean) User-defined name
+ */
+#define GSF_META_NAME_MSOLE_UNKNOWN_22			"msole:unknown-doc-22"
+
+/**
+ * GSF_META_NAME_MSOLE_UNKNOWN_23:
+ *
+ * (i4) User-defined name
+ */
+#define GSF_META_NAME_MSOLE_UNKNOWN_23			"msole:unknown-doc-23"
 
 
 /****** Namespace - meta: ******/
@@ -380,7 +437,8 @@
 /**
  * GSF_META_NAME_PRINT_DATE:
  *
- * (GsfTimestamp) Specifies the date and time when the document was last printed.
+ * (GsfTimestamp) Specifies the date and time when the document was last
+ * printed.
  */
 #define GSF_META_NAME_PRINT_DATE			"meta:print-date"
 
@@ -393,7 +451,6 @@
  * 1.14.1	Moved back to "gsf" from "dc".
  */
 #define GSF_META_NAME_LAST_PRINTED			"gsf:last-printed"
-
 
 /**
  * GSF_META_NAME_PRINTED_BY:
@@ -408,8 +465,8 @@
  * GSF_META_NAME_REVISION_COUNT:
  *
  * (Integer) Count of revision on the document, if appropriate.
- * Moved from gsf:revision-count to meta:editing-cycles. This way can be used correctly
- * by OpenDocument and Gnumeric.
+ * Moved from gsf:revision-count to meta:editing-cycles. This way can be used
+ * correctly by OpenDocument and Gnumeric.
  */
 #define GSF_META_NAME_REVISION_COUNT			"meta:editing-cycles"
 

@@ -63,6 +63,19 @@ prefix ## _get_type (void)						\
 	return type;							\
 }
 
+/**
+ * GSF_CLASS:
+ * @name: (string) Name of the class.
+ * @prefix: (string) Prefix designating the namespace to be used for
+ * implementing the class.
+ * @class_init: (#GClassInitFunc) Initialisation function for the class.
+ * @instance_init: (#GInstanceInitFunc) Initialisation (constructor) function
+ * for an instance of the class.
+ * @parent: Parent class to this class.
+ *
+ * Set up a GSF class.
+ *
+ */
 #define	GSF_CLASS(name, prefix, class_init, instance_init, parent) \
 	GSF_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
 				instance_init, parent, 0, {})
