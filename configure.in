@@ -85,7 +85,6 @@ libgsf_reqs="
 dnl Modules required for libgsf-gnome
 libgsf_gnome_reqs="
     $common_reqs
-    libbonobo-2.0 >= 2.0.0
     gnome-vfs-2.0 >= 2.2.0
     gnome-vfs-module-2.0 >= 2.2.0
 "
@@ -369,6 +368,21 @@ have_gnome=no
 if  test $want_gnome = no ; then 
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
 else
+    dnl check for bonobo
+    AC_ARG_WITH(bonobo,
+	AC_HELP_STRING([--without-bonobo],[disable the use of bonobo]),
+	[case "${withval}" in
+	yes) WITH_BONOBO=yes ;;
+	no) WITH_BONOBO=no ;;
+	*) AC_MSG_ERROR(bad value ${withval} for --with-bonobo) ;;
+	esac],
+	[WITH_BONOBO=yes]) dnl Default value
+    AM_CONDITIONAL(WITH_BONOBO, test $WITH_BONOBO = yes)
+
+    if test $WITH_BONOBO = yes; then
+	libgsf_gnome_reqs="$libgsf_gnome_reqs libbonobo-2.0 >= 2.0.0"
+    fi
+
     PKG_CHECK_MODULES(LIBGSF_GNOME, $libgsf_gnome_reqs,
 	[have_gnome=yes],
 	[if test $want_gnome = yes; then

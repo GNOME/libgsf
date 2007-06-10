@@ -1,5 +1,25 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* doc/gsf-sections.txt : Add the dynamic _register_type functions, and
+	  the new nano-http class.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_init_dynamic) : register the new input type.
+
+	From :  Michael Lawrence [#362373]
+	* gsf/gsf-input-http.[ch] : provide a nano-http (from libxml2)
+	  input wrapper.
+	* tests/test-http.c : add.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	From : Eduardo Limo [#442205]
+	* configure.in : Make bonobo support optional, but enabled by default.
+	* gsf-gnome/Makefile.am : Use the new configure flag here.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* m4/Makefile.am : new.
 	* configure.in : Add it.
 	* Makefile.am : handle m4 as a subdir rather than in EXTRA_DIST to

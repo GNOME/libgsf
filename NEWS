@@ -1,8 +1,14 @@
 libgsf 1.14.4
 
+Eduardo Lima :
+	* Make Bonobo support optional.
+
 Jody:
 	* Have gsf-vba-dump handle .doc files too.
 	* Implement gsf_init_dynamic
+
+Michael Lawrence :
+	* Provide a libxml2-nanohttp wrapper.
 
 Morten:
 	* Plug leak.

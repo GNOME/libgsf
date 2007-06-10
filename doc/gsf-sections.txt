@@ -30,11 +30,13 @@ GSF_INPUT_CLASS
 GSF_IS_INPUT_CLASS
 GsfInputClass
 gsf_input_get_type
+gsf_input_register_type
 
 GSF_INPUT_PROXY
 GSF_INPUT_PROXY_TYPE
 GSF_IS_INPUT_PROXY
 gsf_input_proxy_get_type
+gsf_input_proxy_register_type
 <SUBSECTION Private>
 gsf_input_set_name
 gsf_input_set_container
@@ -74,6 +76,7 @@ GSF_OUTPUT_CLASS
 GSF_IS_OUTPUT_CLASS
 GsfOutfileClass
 gsf_output_get_type
+gsf_output_register_type
 <SUBSECTION Private>
 gsf_output_set_name
 gsf_output_set_container
@@ -96,6 +99,7 @@ GSF_INFILE_CLASS
 GSF_IS_INFILE_CLASS
 GsfInfileClass
 gsf_infile_get_type
+gsf_infile_register_type
 </SECTION>
 
 <SECTION>
@@ -113,6 +117,7 @@ GSF_OUTFILE_CLASS
 GSF_IS_OUTFILE_CLASS
 GsfOutputClass
 gsf_outfile_get_type
+gsf_outfile_register_type
 </SECTION>
 
 <SECTION>
@@ -138,21 +143,25 @@ GSF_INPUT_STDIO_TYPE
 GSF_INPUT_STDIO
 GSF_IS_INPUT_STDIO
 gsf_input_stdio_get_type
+gsf_input_stdio_register_type
 
 GSF_IS_OUTPUT_STDIO
 GSF_OUTPUT_STDIO
 GSF_OUTPUT_STDIO_TYPE
 gsf_output_stdio_get_type
+gsf_output_stdio_register_type
 
 GSF_IS_INFILE_STDIO
 GSF_INFILE_STDIO
 GSF_INFILE_STDIO_TYPE
 gsf_infile_stdio_get_type
+gsf_infile_stdio_register_type
 
 GSF_IS_OUTFILE_STDIO
 GSF_OUTFILE_STDIO
 GSF_OUTFILE_STDIO_TYPE
 gsf_outfile_stdio_get_type
+gsf_outfile_stdio_register_type
 <SUBSECTION StandardImplementation>
 </SECTION>
 
@@ -174,16 +183,19 @@ GSF_INPUT_MEMORY_TYPE
 GSF_INPUT_MEMORY
 GSF_IS_INPUT_MEMORY
 gsf_input_memory_get_type
+gsf_input_memory_register_type
 
 GSF_OUTPUT_MEMORY_TYPE
 GSF_OUTPUT_MEMORY
 GSF_IS_OUTPUT_MEMORY
 gsf_output_memory_get_type
+gsf_output_memory_register_type
 
 GSF_SHARED_MEMORY_TYPE
 GSF_SHARED_MEMORY
 GSF_IS_SHARED_MEMORY
 gsf_shared_memory_get_type
+gsf_shared_memory_register_type
 
 <SUBSECTION Private>
 GsfSharedMemory
@@ -231,16 +243,19 @@ GSF_INPUT_GZIP_TYPE
 GSF_INPUT_GZIP
 GSF_IS_INPUT_GZIP
 gsf_input_gzip_get_type
+gsf_input_gzip_register_type
 
 GSF_OUTPUT_GZIP_TYPE
 GSF_OUTPUT_GZIP
 GSF_IS_OUTPUT_GZIP
 gsf_output_gzip_get_type
+gsf_output_gzip_register_type
 
 GSF_OUTPUT_BZIP_TYPE
 GSF_OUTPUT_BZIP
 GSF_IS_OUTPUT_BZIP
 gsf_output_bzip_get_type
+gsf_output_bzip_register_type
 </SECTION>
 
 <SECTION>
@@ -264,21 +279,25 @@ GSF_INPUT_TEXTLINE_TYPE
 GSF_INPUT_TEXTLINE
 GSF_IS_INPUT_TEXTLINE
 gsf_input_textline_get_type
+gsf_input_textline_register_type
 
 GSF_OUTPUT_ICONV_TYPE
 GSF_OUTPUT_ICONV
 GSF_IS_OUTPUT_ICONV
 GsfOutputIconvClass
 gsf_output_iconv_get_type
+gsf_output_iconv_register_type
 
 GSF_OUTPUT_CSV_TYPE
 GSF_OUTPUT_CSV
 GSF_IS_OUTPUT_CSV
 GsfOutputCsvClass
 gsf_output_csv_get_type
+gsf_output_csv_register_type
 
 GSF_OUTPUT_CSV_QUOTING_MODE_TYPE
 gsf_output_csv_quoting_mode_get_type
+gsf_output_csv_quoting_mode_register_type
 </SECTION>
 
 <SECTION>
@@ -312,11 +331,13 @@ GSF_INFILE_MSOLE_TYPE
 GSF_INFILE_MSOLE
 GSF_IS_INFILE_MSOLE
 gsf_infile_msole_get_type
+gsf_infile_msole_register_type
 
 GSF_OUTFILE_MSOLE_TYPE
 GSF_OUTFILE_MSOLE
 GSF_IS_OUTFILE_MSOLE
 gsf_outfile_msole_get_type
+gsf_outfile_msole_register_type
 <SUBSECTION Private>
 OLE_HEADER_START_BAT
 OLE_HEADER_MAJOR_VER
@@ -406,7 +427,9 @@ GSF_IS_STRUCTURED_BLOB
 GSF_TYPE_BLOB
 GsfBlobPrivate
 gsf_blob_get_type
+gsf_blob_register_type
 gsf_structured_blob_get_type
+gsf_structured_blob_register_type
 </SECTION>
 
 
@@ -432,6 +455,7 @@ GSF_CLIP_DATA_GET_CLASS
 <SUBSECTION Private>
 GsfClipDataPrivate
 gsf_clip_data_get_type
+gsf_clip_data_register_type
 </SECTION>
 
 <SECTION>
@@ -449,11 +473,13 @@ GSF_INFILE_ZIP_TYPE
 GSF_INFILE_ZIP
 GSF_IS_INFILE_ZIP
 gsf_infile_zip_get_type
+gsf_infile_zip_register_type
 
 GSF_OUTFILE_ZIP_TYPE
 GSF_OUTFILE_ZIP
 GSF_IS_OUTFILE_ZIP
 gsf_outfile_zip_get_type
+gsf_outfile_zip_register_type
 
 <SUBSECTION Private>
 GsfZipDirent
@@ -530,6 +556,7 @@ GSF_OUTPUT_IOCHANNEL_TYPE
 GSF_OUTPUT_IOCHANNEL
 GSF_IS_OUTPUT_IOCHANNEL
 gsf_output_iochannel_get_type
+gsf_output_iochannel_register_type
 </SECTION>
 
 <SECTION>
@@ -572,6 +599,7 @@ GsfXMLInNode
 GsfXMLInExtDtor
 GsfXMLContent
 GsfXMLBlob
+GsfInputHTTP
 
 GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
@@ -611,6 +639,11 @@ gsf_xml_out_simple_element
 gsf_xml_out_simple_float_element
 gsf_xml_out_simple_int_element
 
+<SUBSECTION NanoHTTP>
+gsf_input_http_get_content_type
+gsf_input_http_get_type
+gsf_input_http_get_url
+
 <SUBSECTION Utilities>
 gsf_xml_parser_context
 gsf_xml_gvalue_from_str
@@ -621,6 +654,13 @@ GSF_XML_OUT_TYPE
 GSF_XML_OUT
 GSF_IS_XML_OUT
 gsf_xml_out_get_type
+gsf_xml_out_register_type
+
+GSF_INPUT_HTTP
+GSF_INPUT_HTTP_TYPE
+GSF_IS_INPUT_HTTP
+gsf_input_http_new
+gsf_input_http_register_type
 </SECTION>
 
 <SECTION>
@@ -703,6 +743,7 @@ VAL_IS_GSF_TIMESTAMP
 <SUBSECTION Standard>
 GSF_TIMESTAMP_TYPE
 gsf_timestamp_get_type
+gsf_timestamp_register_type
 
 <SUBSECTION GObject>
 gsf_doc_prop_swap_val
@@ -801,11 +842,13 @@ GSF_DOC_META_DATA_TYPE
 GSF_DOC_META_DATA
 IS_GSF_DOC_META_DATA
 gsf_doc_meta_data_get_type
+gsf_doc_meta_data_register_type
 
 GSF_DOCPROP_VECTOR
 GSF_DOCPROP_VECTOR_TYPE
 IS_GSF_DOCPROP_VECTOR
 VAL_IS_GSF_DOCPROP_VECTOR
 gsf_docprop_vector_get_type
+gsf_docprop_vector_register_type
 
 </SECTION>

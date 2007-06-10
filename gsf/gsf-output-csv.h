@@ -21,7 +21,7 @@
 #ifndef GSF_OUTPUT_CSV_H
 #define GSF_OUTPUT_CSV_H
 
-#include "gsf-output.h"
+#include <gsf/gsf-output.h>
 
 G_BEGIN_DECLS
 

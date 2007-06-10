@@ -8,4 +8,5 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-msole-printf test-zip-out test-zip-out-subdirs    \
 		 test-out-gzip1 test-out-gzip2 test-gzip1 test-gzip2	\
 		 test-out-bzip test-bzip				\
-		 test-dump-msole test-restore-msole test-msvba-zip	# test-xml
+		 test-dump-msole test-restore-msole test-msvba-zip	\
+		 test-http # test-xml

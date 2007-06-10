@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-proxy.h: proxy object (with its own current position)
+ * gsf-input-http.h:
  *
- * Copyright (C) 2004-2006 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2006 Michael Lawrence (lawremi@iastate.edu)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -18,28 +18,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-#ifndef GSF_INPUT_PROXY_H
-#define GSF_INPUT_PROXY_H
+ 
+#ifndef __GSF_INPUT_HTTP_H__
+#define __GSF_INPUT_HTTP_H__
 
 #include <gsf/gsf-input.h>
 
 G_BEGIN_DECLS
 
-#define GSF_INPUT_PROXY_TYPE        (gsf_input_proxy_get_type ())
-#define GSF_INPUT_PROXY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_PROXY_TYPE, GsfInputProxy))
-#define GSF_IS_INPUT_PROXY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_PROXY_TYPE))
+#define GSF_INPUT_HTTP_TYPE	(gsf_input_http_get_type())
+#define GSF_INPUT_HTTP(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GSF_INPUT_HTTP_TYPE, GsfInputHTTP))
+#define GSF_IS_INPUT_HTTP(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GSF_INPUT_HTTP_TYPE))
 
-typedef struct _GsfInputProxy GsfInputProxy;
+typedef struct _GsfInputHTTP GsfInputHTTP;
 
-GType gsf_input_proxy_get_type      (void) G_GNUC_CONST;
-void  gsf_input_proxy_register_type (GTypeModule *module);
+GType gsf_input_http_get_type (void) G_GNUC_CONST;
+void  gsf_input_http_register_type (GTypeModule *module);
 
-GsfInput *gsf_input_proxy_new	    (GsfInput *source);
-GsfInput *gsf_input_proxy_new_section (GsfInput *source,
-				       gsf_off_t offset,
-				       gsf_off_t size);
+GsfInput *gsf_input_http_new (gchar const *url, GError **error);
+gchar	 *gsf_input_http_get_url		(GsfInputHTTP *input);
+gchar	 *gsf_input_http_get_content_type	(GsfInputHTTP *input);
 
 G_END_DECLS
 
-#endif /* GSF_INPUT_PROXY_H */
+#endif /* __GSF_INPUT_HTTP_H__ */

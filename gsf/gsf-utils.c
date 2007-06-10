@@ -34,6 +34,7 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
+#include <gsf/gsf-input-http.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-proxy.h>
 #include <gsf/gsf-input-stdio.h>
@@ -158,6 +159,7 @@ gsf_init_dynamic (GTypeModule *module)
 {
 	gsf_input_register_type (module);
 	gsf_input_gzip_register_type (module);
+	gsf_input_http_register_type (module);
 	gsf_input_memory_register_type (module);
 	gsf_input_proxy_register_type (module);
 	gsf_input_stdio_register_type (module);

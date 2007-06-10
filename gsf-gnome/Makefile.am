@@ -10,10 +10,14 @@ if WITH_WIN32
 endif
 libgsf_gnome_1_la_SOURCES =	\
 	gsf-input-gnomevfs.c 	\
-	gsf-output-gnomevfs.c	\
+	gsf-output-gnomevfs.c
+
+if WITH_BONOBO
+libgsf_gnome_1_la_SOURCES +=	\
 	gsf-input-bonobo.c	\
 	gsf-output-bonobo.c	\
 	gsf-shared-bonobo-stream.c
+endif
 
 endif
 

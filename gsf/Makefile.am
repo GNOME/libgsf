@@ -25,6 +25,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-input.c		\
 	gsf-input-bzip.c	\
 	gsf-input-gzip.c 	\
+  gsf-input-http.c \
 	gsf-input-iochannel.c	\
 	gsf-input-memory.c 	\
 	gsf-input-proxy.c 	\
@@ -77,6 +78,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-input-impl.h	\
 	gsf-input-bzip.h	\
 	gsf-input-gzip.h 	\
+  gsf-input-http.h \
 	gsf-input-iochannel.h	\
 	gsf-input-memory.h 	\
 	gsf-input-proxy.h 	\

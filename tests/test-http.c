@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-memory.h
+ * test-http.c:
  *
- * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
+ * Copyright (C) 2006 Michael Lawrence (lawremi@iastate.edu)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -19,25 +19,46 @@
  * USA
  */
 
-#ifndef GSF_OUTPUT_MEMORY_H
-#define GSF_OUTPUT_MEMORY_H
+#include <gsf/gsf-input-http.h>
+#include <gsf/gsf-utils.h>
 
-#include <gsf/gsf-output.h>
+#include <stdio.h>
 
-G_BEGIN_DECLS
+static int
+test (int argc, char *argv[])
+{
+	GsfInput *input;
+	GError   *err = NULL;
+	int i;
 
-#define GSF_OUTPUT_MEMORY_TYPE	(gsf_output_memory_get_type ())
-#define GSF_OUTPUT_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_MEMORY_TYPE, GsfOutputMemory))
-#define GSF_IS_OUTPUT_MEMORY(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_MEMORY_TYPE))
+	for (i = 1 ; i < argc ; i++) {
+		puts (argv[i]);
+		input = gsf_input_http_new (argv[i], &err);
+		if (input == NULL) {
 
-typedef struct _GsfOutputMemory GsfOutputMemory;
+			g_return_val_if_fail (err != NULL, 1);
 
-GType gsf_output_memory_get_type      (void) G_GNUC_CONST;
-void  gsf_output_memory_register_type (GTypeModule *module);
+			g_warning ("'%s' error: %s", argv[i], err->message);
+			g_error_free (err);
+			continue;
+		}
 
-GsfOutput *gsf_output_memory_new      (void);
-const guint8* gsf_output_memory_get_bytes (GsfOutputMemory * mem);
+		gsf_input_dump (input, FALSE);
 
-G_END_DECLS
+		g_object_unref (G_OBJECT (input));
+	}
 
-#endif /* GSF_OUTPUT_MEMORY_H */
+	return 0;
+}
+
+int
+main (int argc, char *argv[])
+{
+	int res;
+
+	gsf_init ();
+	res = test (argc, argv);
+	gsf_shutdown ();
+
+	return res;
+}

@@ -91,6 +91,12 @@ XML and libxml
 </para>
 
 
+<!-- ##### STRUCT GsfInputHTTP ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO GSF_XML_IN_NODE_FULL ##### -->
 <para>
 
@@ -401,6 +407,32 @@ XML and libxml
 @xml: 
 @id: 
 @val: 
+
+
+<!-- ##### FUNCTION gsf_input_http_get_content_type ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_http_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_input_http_get_url ##### -->
+<para>
+
+</para>
+
+@input: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gsf_xml_parser_context ##### -->
