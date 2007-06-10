@@ -144,6 +144,13 @@ XML and libxml
 @uri: 
 
 
+<!-- ##### MACRO GSF_XML_IN_NS_END ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### FUNCTION gsf_xml_in_doc_new ##### -->
 <para>
 

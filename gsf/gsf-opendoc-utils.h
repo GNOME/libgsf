@@ -61,6 +61,7 @@ enum {
 
 extern GsfXMLInNS gsf_ooo_ns[];
 
+/* For 1.15.x s/opendoc/odf/ and s/ooo/odf/ */
 GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);
 void	 gsf_opendoc_metadata_subtree (GsfXMLIn *doc,    GsfDocMetaData *md);
 gboolean gsf_opendoc_metadata_write   (GsfXMLOut *output, GsfDocMetaData const *md);

@@ -1,5 +1,10 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* gsf/gsf-open-pkg-utils.c : Move over from gnumeric.
+	* po/POTFILES.in : Add the new code.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : Add a test for setrlimit.
 	* thumbnailer/main.c : use it here, just in case.
 

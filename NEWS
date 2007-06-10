@@ -10,6 +10,7 @@ Jody:
 	* Have gsf-vba-dump handle .doc files too.
 	* Implement gsf_init_dynamic
 	* Tidy up docs and #includes in public headers.
+	* Move the MS/ECMA Open Package code here from gnumeric.
 
 Michael Lawrence :
 	* Provide a libxml2-nanohttp wrapper. [#362373]

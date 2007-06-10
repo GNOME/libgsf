@@ -59,6 +59,7 @@
 #include <gsf/gsf-structured-blob.h>
 #include <gsf/gsf-shared-memory.h>
 #include <gsf/gsf-clip-data.h>
+#include <gsf/gsf-open-pkg-utils.h>
 
 #include <gobject/gvaluecollector.h>
 #include <glib/gi18n-lib.h>
@@ -185,6 +186,7 @@ gsf_init_dynamic (GTypeModule *module)
 	gsf_outfile_msole_register_type (module);
 	gsf_outfile_stdio_register_type (module);
 	gsf_outfile_zip_register_type (module);
+	gsf_outfile_open_pkg_register_type (module);
 
 	gsf_shared_memory_register_type (module);
 	gsf_structured_blob_register_type (module);

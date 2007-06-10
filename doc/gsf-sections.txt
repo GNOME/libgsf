@@ -399,6 +399,31 @@ gsf_opendoc_metadata_write
 </SECTION>
 
 <SECTION>
+<TITLE>Open Package (ECMA 376) </TITLE>
+<FILE>open-pkg</FILE>
+GsfOpenPkgRel
+GsfOpenPkgRels
+gsf_open_pkg_get_rel_by_type
+gsf_open_pkg_get_rel_by_id
+gsf_open_pkg_parse_rel_by_id
+
+gsf_open_pkg_error_id
+
+GsfOutfileOpenPkg
+gsf_outfile_open_pkg_new
+gsf_outfile_open_pkg_set_sink
+gsf_outfile_open_pkg_set_content_type
+gsf_outfile_open_pkg_relate
+gsf_outfile_open_pkg_add_rel
+<SUBSECTION Standard>
+GSF_OUTFILE_OPEN_PKG_TYPE
+GSF_OUTFILE_OPEN_PKG
+GSF_IS_OUTFILE_OPEN_PKG
+gsf_outfile_open_pkg_get_type
+gsf_outfile_open_pkg_register_type
+</SECTION>
+
+<SECTION>
 <TITLE>Raw Data Chunks</TITLE>
 <FILE>blobs</FILE>
 GsfBlob
@@ -605,6 +630,7 @@ GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
 GSF_XML_IN_NODE_END
 GSF_XML_IN_NS
+GSF_XML_IN_NS_END
 
 gsf_xml_in_doc_new
 gsf_xml_in_doc_free

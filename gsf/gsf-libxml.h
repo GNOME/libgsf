@@ -92,6 +92,8 @@ struct _GsfXMLInNS {
 
 #define GSF_XML_IN_NS(id, uri) \
 { uri, id }
+#define GSF_XML_IN_NS_END \
+{ NULL, 0 }
 
 #define GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content, 	\
 			     share_children_with_parent, check_ns, start, end, user)	\
