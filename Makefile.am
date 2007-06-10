@@ -10,7 +10,7 @@ if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
 
-SUBDIRS = po gsf gsf-gnome gsf-win32 doc tools tests
+SUBDIRS = po gsf gsf-gnome gsf-win32 doc tools tests m4
 
 if WITH_PYTHON
   SUBDIRS += python
@@ -25,7 +25,6 @@ EXTRA_DIST = BUGS HACKING	\
 	intltool-update.in	\
 	libgsf-1.spec		\
 	libgsf-gnome-1.spec	\
-	m4			\
 	dumpdef.pl
 	
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
