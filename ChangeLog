@@ -1,5 +1,21 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Add a test for setrlimit.
+	* thumbnailer/main.c : use it here, just in case.
+
+2006-12-21  Federico Mena Quintero  <federico@novell.com>
+
+	https://bugzilla.novell.com/show_bug.cgi?id=229609 - Limit the
+	resource consumption of the helper process in gsf-office-thumbnailer.
+
+	* thumbnailer/main.c (set_resource_limits): New function.  We use
+	setrlimit() to put a cap on how much resources the helper process
+	can use, as convert(1) is known to leak tons of memory and CPU on
+	certain WMF files.
+	(main): Call set_resource_limits().
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* doc/gsf-sections.txt : Add the dynamic _register_type functions, and
 	  the new nano-http class.
 

@@ -163,7 +163,7 @@ AC_TYPE_MODE_T
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h)
 AC_FUNC_MMAP
 
-AC_CHECK_FUNCS(chown)
+AC_CHECK_FUNCS(chown setrlimit)
 
 AC_CHECK_FUNCS(gmtime_r, [],
 	       [AC_CHECK_FUNCS(gmtime,

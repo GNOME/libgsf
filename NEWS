@@ -1,14 +1,18 @@
 libgsf 1.14.4
 
 Eduardo Lima :
-	* Make Bonobo support optional.
+	* Make Bonobo support optional. [#442205]
+
+Federico Mena Quintero :
+	* Limit resource usage in the thumbnailer. [#446087]
 
 Jody:
 	* Have gsf-vba-dump handle .doc files too.
 	* Implement gsf_init_dynamic
+	* Tidy up docs and #includes in public headers.
 
 Michael Lawrence :
-	* Provide a libxml2-nanohttp wrapper.
+	* Provide a libxml2-nanohttp wrapper. [#362373]
 
 Morten:
 	* Plug leak.

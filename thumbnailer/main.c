@@ -19,9 +19,6 @@
  * USA
  */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <glib.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-infile.h>
@@ -31,6 +28,13 @@
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-clip-data.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <glib.h>
+
+#ifdef HAVE_SETRLIMI
+#include <sys/resource.h>
+#endif
 
 G_GNUC_NORETURN static void
 show_error_string_and_exit (const char *str)
@@ -211,6 +215,30 @@ read_thumbnail_and_write (const char *in_filename, const char *out_filename, int
 	g_object_unref (input);
 }
 
+#define MAX_HELPER_MEMORY (256 * 1024 * 1024)	/* 256 MB */
+#define MAX_HELPER_SECONDS (5)			/* 5 seconds */
+
+static void
+set_resource_limits (void)
+{
+#ifdef HAVE_SETRLIMI
+	struct rlimit limit;
+
+	/* We call convert(1) from ImageMagick, which is especially scary when converting
+	 * WMF thumbnails into PNGs.  Convert(1) is known to leak tons of memory and CPU
+	 * time on certain WMFs.  So, we'll put a cap on how much resources it can use.
+	 */
+
+	limit.rlim_cur = MAX_HELPER_MEMORY;
+	limit.rlim_max = MAX_HELPER_MEMORY;
+	setrlimit (RLIMIT_AS, &limit);
+
+	limit.rlim_cur = MAX_HELPER_SECONDS;
+	limit.rlim_max = MAX_HELPER_SECONDS;
+	setrlimit (RLIMIT_CPU, &limit);
+#endif
+}
+
 /* Command-line options */
 static int   option_size = -1;
 static char *option_input_filename = NULL;
@@ -233,6 +261,8 @@ int
 main (int argc, char **argv)
 {
 	GOptionContext *option_ctx;
+
+	set_resource_limits ();
 
 	option_ctx = g_option_context_new ("Options");
 	g_option_context_add_main_entries (option_ctx, option_entries, NULL); /* FIXME: no translation domain */
