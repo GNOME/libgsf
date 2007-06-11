@@ -50,7 +50,7 @@ struct _GsfInputGZip {
 	guint8   *buf;
 	size_t    buf_size;
 
-	size_t    header_size, trailer_size;
+	gsf_off_t header_size, trailer_size;
 	gsf_off_t seek_skipped;
 };
 
@@ -351,9 +351,7 @@ gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	}
 
 	if (pos < input->cur_offset) {
-		if (gsf_input_seek (gzip->source,
-				    (gsf_off_t)gzip->header_size,
-				    G_SEEK_SET))
+		if (gsf_input_seek (gzip->source, gzip->header_size, G_SEEK_SET))
 			return TRUE;
 		gzip->crc = crc32 (0L, Z_NULL, 0);
 		gzip->stream.avail_in = 0;

@@ -151,7 +151,7 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 				     mem->capacity - output->cur_offset,
 				     format, args);
 
-		if (len < mem->capacity - output->cur_offset)
+		if (len < (gsf_off_t)(mem->capacity - output->cur_offset))
 			return len; /* There was sufficient space */
 
 		return parent_class->Vprintf (output, format, args2);

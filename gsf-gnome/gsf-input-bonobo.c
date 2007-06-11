@@ -207,8 +207,8 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 	if ((size_t) num_read == num_bytes) {
 		return buffer;
 	} else {
-		g_warning ("Only read %d bytes, asked for %d",
-			   num_read, num_bytes);
+		g_warning ("Only read %ld bytes, asked for %ld",
+			   (long)num_read, (long)num_bytes);
 		return NULL;
 	}
 }

@@ -1,3 +1,13 @@
+2007-06-11  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-gzip.c (GsfInputGZip): Use gsf_off_t for
+	header_size and trailer_size to kill warnings.
+
+	* gsf/gsf-input.c (gsf_input_read): Fix warning.
+
+	* gsf-gnome/gsf-input-bonobo.c (gsf_input_bonobo_read): Fix printf
+	size mismatch.
+
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c : Move over from gnumeric.

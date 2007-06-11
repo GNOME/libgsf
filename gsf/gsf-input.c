@@ -302,16 +302,17 @@ guint8 const *
 gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	guint8 const *res;
+	gsf_off_t newpos = input->cur_offset + num_bytes;
 
 	g_return_val_if_fail (input != NULL, NULL);
 
-	if (num_bytes == 0 || (input->cur_offset + num_bytes) > input->size)
+	if (num_bytes == 0 || newpos > input->size)
 		return NULL;
 	res = GET_CLASS (input)->Read (input, num_bytes, optional_buffer);
 	if (res == NULL)
 		return NULL;
 
-	input->cur_offset += num_bytes;
+	input->cur_offset = newpos;
 	return res;
 }
 
