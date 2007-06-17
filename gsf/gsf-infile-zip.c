@@ -227,6 +227,9 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	dirent->csize =         csize;
 	dirent->usize =         usize;
 	dirent->offset =        off;
+#if 0
+	g_print ("%s = 0x%x @ %" GSF_OFF_T_FORMAT "\n", name, off, *offset);
+#endif
 
 	*offset += ZIP_DIRENT_SIZE + name_len + extras_len + comment_len;
 

@@ -27,7 +27,10 @@
 
 G_BEGIN_DECLS
 
-/* We need to do this with a version check as this header gets installed.  */
+/* We need to do this with a version check as this header gets installed.
+ *
+ * DEPRECATED in favour of G_PARAM_STATIC_STRINGS
+ **/
 #if GLIB_CHECK_VERSION(2,7,0)
 #define GSF_PARAM_STATIC (G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB)
 #else
@@ -37,7 +40,7 @@ G_BEGIN_DECLS
 /*************************************************************************/
 
 #define	GSF_CLASS_FULL(name, prefix, base_init, base_finalize, \
-			   class_init, class_finalize, instance_init, parent_type, \
+		       class_init, class_finalize, instance_init, parent_type, \
 		       abstract, interface_decl) \
 GType									\
 prefix ## _get_type (void)						\
@@ -111,7 +114,7 @@ prefix ## _get_type ()							\
 void									\
 prefix ## _register_type (GTypeModule *module)				\
 {									\
-	static GTypeInfo const type_info = {				\
+	GTypeInfo const type_info = {					\
 		sizeof (name ## Class),					\
 		(GBaseInitFunc) base_init,				\
 		(GBaseFinalizeFunc) base_finalize,			\
@@ -133,14 +136,14 @@ prefix ## _register_type (GTypeModule *module)				\
 }
 
 #define	GSF_DYNAMIC_CLASS(name, prefix, class_init, instance_init, parent)	\
-	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, 	\
 				   instance_init, parent, 0, {})
 #define	GSF_DYNAMIC_CLASS_ABSTRACT(name, prefix, class_init, instance_init, parent) \
-	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
+	GSF_DYNAMIC_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, 	\
 		       instance_init, parent, G_TYPE_FLAG_ABSTRACT, {})
 
 #define GSF_DYNAMIC_INTERFACE_FULL(type, init_func, iface_type, module) {	\
-	static GInterfaceInfo const iface = {					\
+	GInterfaceInfo const iface = {						\
 		(GInterfaceInitFunc) init_func, NULL, NULL };			\
 	g_type_module_add_interface (module, type, iface_type, &iface);		\
 }

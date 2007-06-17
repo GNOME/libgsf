@@ -1,3 +1,11 @@
+2007-06-13  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_PARAM_STATIC) : deprecate in favour of
+	  glib's G_PARAM_STATIC_STRINGS.
+	(GSF_DYNAMIC_CLASS_FULL) : No need to add a reloc by making the type
+	  info static.
+	(GSF_DYNAMIC_INTERFACE_FULL) : ditto.
+
 2007-06-11  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-gzip.c (GsfInputGZip): Use gsf_off_t for
