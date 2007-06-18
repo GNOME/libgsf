@@ -1,3 +1,7 @@
+2007-06-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.4
+
 2007-01-23  Morten Welinder  <terra@gnome.org>
 
 	* gsf.override (_wrap_gsf_output_memory_get_bytes): Constify.  Fix

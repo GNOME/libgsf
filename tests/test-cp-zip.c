@@ -58,7 +58,7 @@ clone (GsfInfile *in, GsfOutfile *out)
 		for (i = 0 ; i < n; i++) {
 			int level;
 			gboolean is_dir;
-			char *name = gsf_infile_name_by_index (in, i);
+			char const *name = gsf_infile_name_by_index (in, i);
 			char *display_name = name
 				? g_filename_display_name (name)
 				: NULL;
