@@ -1,3 +1,12 @@
+libgsf (1.14.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control] Bump glib build dependency as per configure.in .
+  * [debian/rules] Build arch independent package in binary-indep; general
+    overhaul.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 19 Jun 2007 06:51:04 +0200
+
 libgsf (1.14.3-1) unstable; urgency=medium
 
   * New upstream release.

@@ -159,17 +159,6 @@ install: build
 		cp -vdf $$l $(CURDIR)/debian/tmp/usr/lib/debug ; \
 	done
 
-
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	#dh_install --sourcedir=debian/tmp --list-missing -Xindex.sgml -Xwin32.h
-
 ifeq ($(oldlibs_build),1)
 	# Delete files and directories that belong to packages we don't build
 	cat debian/$(p_libgsf_common).install debian/$(p_libgsf_bin).install debian/$(p_libgsf_dev).install debian/$(p_libgsf_gnome_dev).install debian/$(p_libgsf_dbg).install debian/$(p_libgsf_gnome_dbg).install | while read pattern ; do \
@@ -184,45 +173,76 @@ endif
 
 	dh_install --sourcedir=debian/tmp --fail-missing -Xindex.sgml -Xwin32.h
 
-#	dh_installdebconf	
-	dh_installdocs
-
+# This single target is used to build all the packages, all at once, or
+# one at a time. So keep in mind: any options passed to commands here will
+# affect _all_ packages. Anything that should only affect one package
+# should be put in another target (such as the install target) or be put
+# into conditional constructs.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs ChangeLog
+ifeq ($(DH_OPTIONS),-s)
 	# The -dbg packages don't have separate documentation; link to the
 	# corresponding runtime packages' documentation.
 	rm -rvf $(CURDIR)/debian/$(p_libgsf_dbg)/usr/share/doc/$(p_libgsf_dbg)
 	rm -rvf $(CURDIR)/debian/$(p_libgsf_gnome_dbg)/usr/share/doc/$(p_libgsf_gnome_dbg)
 
-	dh_link -p$(p_libgsf_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_dbg)
-	dh_link -p$(p_libgsf_gnome_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_gnome_dbg)
+	dh_link -s -p$(p_libgsf_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_dbg)
+	dh_link -s -p$(p_libgsf_gnome_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_gnome_dbg)
 
 	# Make the documentation accessible through devhelp.
-	dh_link -p$(p_libgsf_dev) /usr/share/doc/$(p_libgsf_dev)/html/gsf/ /usr/share/gtk-doc/html/gsf
-
+	dh_link -s -p$(p_libgsf_dev) /usr/share/doc/$(p_libgsf_dev)/html/gsf/ /usr/share/gtk-doc/html/gsf
+endif
+	dh_installdocs
 	dh_installexamples
 	dh_installmenu
+#	dh_installdebconf
 #	dh_installlogrotate
 #	dh_installemacsen
+#	dh_installcatalogs
 #	dh_installpam
 #	dh_installmime
 #	dh_installinit
-	dh_installcron
-	dh_installman
-	dh_installinfo
+#	dh_installman
+#	dh_installcron
+#	dh_installinfo
 #	dh_undocumented
-	dh_installchangelogs ChangeLog
 	dh_gconf
-	dh_strip -v -N $(p_libgsf_dbg) -N $(p_libgsf_gnome_dbg)
-	dh_compress
+	dh_link
 	dh_buildinfo
-	dh_fixperms
-	dh_makeshlibs -p$(p_libgsf) -V '$(p_libgsf) (>= $(upstreamversion))'
-	dh_makeshlibs -p$(p_libgsf_gnome) -V '$(p_libgsf_gnome) (>= $(upstreamversion))'
-	dh_installdeb
+	dh_compress
 #	dh_perl
-	dh_shlibdeps -l debian/$(p_libgsf)/usr/lib/ -L $(p_libgsf)
+#	dh_python
+ifeq ($(DH_OPTIONS),-s)
+	dh_strip -s -v -N $(p_libgsf_dbg) -N $(p_libgsf_gnome_dbg)
+
+	# Unfortunately, "-s" overrides "-p" for dh_makeshlibs and by acting
+	# on all architecture-dependent packages we would get wrong shlibs
+	# here, so we need to undo the "-s".
+	env -u DH_OPTIONS dh_makeshlibs -p$(p_libgsf) -V '$(p_libgsf) (>= $(upstreamversion))'
+	env -u DH_OPTIONS dh_makeshlibs -p$(p_libgsf_gnome) -V '$(p_libgsf_gnome) (>= $(upstreamversion))'
+
+	dh_shlibdeps -s -l debian/$(p_libgsf)/usr/lib/ -L $(p_libgsf) \
+		-l debian/$(p_libgsf_gnome)/usr/lib/ -L $(p_libgsf_gnome)
+endif
+	dh_fixperms
+	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
 
+# Build architecture independant packages using the common target.
+binary-indep: build install
+	 $(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+
+## Any other binary targets build just one binary package at a time.
+#binary-%: build install
+#	make -f debian/rules binary-common DH_OPTIONS=-p$*
+
 binary: binary-indep binary-arch
-.PHONY: source-update configure build clean binary-indep binary-arch binary install 
+.PHONY: source-updates configure build clean binary-indep binary-arch binary-common binary install
