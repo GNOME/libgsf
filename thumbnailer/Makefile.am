@@ -11,16 +11,18 @@ gsf_office_thumbnailer_SOURCES =	\
 schema_files = \
 	gsf-office-thumbnailer.schemas.in
 
-schema_DATA = gsf-office-thumbnailer.schemas
-
+schemas = gsf-office-thumbnailer.schemas
 schemadir = $(GCONF_SCHEMA_FILE_DIR)
+if GCONF_SCHEMAS_INSTALL
+schema_DATA = $(schemas)
+endif
 
 install-data-local:
 if GCONF_SCHEMAS_INSTALL
 if WITH_WIN32
 if !CROSS_COMPILING
-	if test -z "$(DESTDIR)"; then \
-	  for p in $(schema_DATA); do \
+	if test -z "$(DESTDIR)" -a -n "$(GCONF_SCHEMA_FILE_DIR)" ; then \
+	  for p in $(schemas); do \
 	    (echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE); \
 	     echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat; \
 	    cmd /c _temp.bat; \
@@ -28,8 +30,8 @@ if !CROSS_COMPILING
 	fi
 endif
 else
-	if test -z "$(DESTDIR)"; then \
-	  for p in $(schema_DATA); do \
+	if test -z "$(DESTDIR)" -a -n "$(GCONF_SCHEMA_FILE_DIR)" ; then \
+	  for p in $(schemas); do \
 	    GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
 	      $(GCONFTOOL) --makefile-install-rule $$p; \
 	  done \
