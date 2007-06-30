@@ -158,9 +158,9 @@ gsf_input_class_init (GObjectClass *gobject_class)
 							     G_PARAM_READABLE));
 }
 
-GSF_DYNAMIC_CLASS_ABSTRACT (GsfInput, gsf_input,
-			    gsf_input_class_init, gsf_input_init,
-			    G_TYPE_OBJECT)
+GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
+		    gsf_input_class_init, gsf_input_init,
+		    G_TYPE_OBJECT)
 
 /**
  * gsf_input_name :

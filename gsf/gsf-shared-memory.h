@@ -42,7 +42,7 @@ struct _GsfSharedMemory {
 };
 
 GType gsf_shared_memory_get_type      (void) G_GNUC_CONST;
-void  gsf_shared_memory_register_type (GTypeModule *module);
+/* void  gsf_shared_memory_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfSharedMemory *gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free);
 GsfSharedMemory *gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size);

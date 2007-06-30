@@ -48,7 +48,7 @@ typedef struct _GsfOutfileZip GsfOutfileZip;
 #define GSF_IS_OUTFILE_ZIP(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_ZIP_TYPE))
 
 GType gsf_outfile_zip_get_type	    (void) G_GNUC_CONST;
-void  gsf_outfile_zip_register_type (GTypeModule *module);
+/* void  gsf_outfile_zip_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfOutfile *gsf_outfile_zip_new		(GsfOutput *sink, GError **err);
 

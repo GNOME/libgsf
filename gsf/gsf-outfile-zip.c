@@ -725,9 +725,9 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   G_PARAM_CONSTRUCT_ONLY));
 }
 
-GSF_DYNAMIC_CLASS (GsfOutfileZip, gsf_outfile_zip,
-		   gsf_outfile_zip_class_init, gsf_outfile_zip_init,
-		   GSF_OUTFILE_TYPE)
+GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
+	   gsf_outfile_zip_class_init, gsf_outfile_zip_init,
+	   GSF_OUTFILE_TYPE)
 
 /**
  * gsf_outfile_zip_new :

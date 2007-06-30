@@ -187,9 +187,9 @@ gsf_structured_blob_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfStructuredBlob, gsf_structured_blob,
-		   gsf_structured_blob_class_init, gsf_structured_blob_init,
-		   GSF_INFILE_TYPE)
+GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,
+	   gsf_structured_blob_class_init, gsf_structured_blob_init,
+	   GSF_INFILE_TYPE)
 
 /**
  * gsf_structured_blob_read :

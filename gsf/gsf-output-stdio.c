@@ -379,9 +379,9 @@ gsf_output_stdio_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputStdio, gsf_output_stdio,
-		   gsf_output_stdio_class_init, gsf_output_stdio_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputStdio, gsf_output_stdio,
+	   gsf_output_stdio_class_init, gsf_output_stdio_init,
+	   GSF_OUTPUT_TYPE)
 
 GsfOutput *
 gsf_output_stdio_new_valist (char const *filename, GError **err,

@@ -156,4 +156,4 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 	return child;
 }
 
-GSF_DYNAMIC_CLASS_ABSTRACT (GsfInfile, gsf_infile, NULL, NULL, GSF_INPUT_TYPE)
+GSF_CLASS_ABSTRACT (GsfInfile, gsf_infile, NULL, NULL, GSF_INPUT_TYPE)

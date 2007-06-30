@@ -102,6 +102,6 @@ gsf_shared_memory_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gsf_shared_memory_finalize;
 }
 
-GSF_DYNAMIC_CLASS (GsfSharedMemory, gsf_shared_memory,
-		   gsf_shared_memory_class_init, gsf_shared_memory_init,
-		   G_TYPE_OBJECT)
+GSF_CLASS (GsfSharedMemory, gsf_shared_memory,
+	   gsf_shared_memory_class_init, gsf_shared_memory_init,
+	   G_TYPE_OBJECT)

@@ -325,6 +325,6 @@ gsf_output_transaction_class_init (GObjectClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputTransaction, gsf_output_transaction,
-		   gsf_output_transaction_class_init, gsf_output_transaction_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputTransaction, gsf_output_transaction,
+	   gsf_output_transaction_class_init, gsf_output_transaction_init,
+	   GSF_OUTPUT_TYPE)

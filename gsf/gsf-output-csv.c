@@ -395,7 +395,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputCsv, gsf_output_csv,
-		   gsf_output_csv_class_init, gsf_output_csv_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputCsv, gsf_output_csv,
+	   gsf_output_csv_class_init, gsf_output_csv_init,
+	   GSF_OUTPUT_TYPE)
 

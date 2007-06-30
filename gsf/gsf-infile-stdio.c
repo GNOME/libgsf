@@ -165,9 +165,9 @@ gsf_infile_stdio_class_init (GObjectClass *gobject_class)
 	infile_class->child_by_name	= gsf_infile_stdio_child_by_name;
 }
 
-GSF_DYNAMIC_CLASS (GsfInfileStdio, gsf_infile_stdio,
-		   gsf_infile_stdio_class_init, gsf_infile_stdio_init,
-		   GSF_INFILE_TYPE)
+GSF_CLASS (GsfInfileStdio, gsf_infile_stdio,
+	   gsf_infile_stdio_class_init, gsf_infile_stdio_init,
+	   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_stdio_new :

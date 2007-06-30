@@ -32,7 +32,7 @@ typedef struct _GsfOutputTransaction GsfOutputTransaction;
 typedef struct _GsfOutputTransactionClass GsfOutputTransactionClass;
 
 GType gsf_output_transaction_get_type      (void) G_GNUC_CONST;
-void  gsf_output_transaction_register_type (GTypeModule *module);
+/* void  gsf_output_transaction_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfOutput *gsf_output_transaction_new       (GsfOutput *wrapped);
 GsfOutput *gsf_output_transaction_new_named (GsfOutput *wrapped, char const *my_name);

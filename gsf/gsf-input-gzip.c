@@ -530,7 +530,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfInputGZip, gsf_input_gzip,
-		   gsf_input_gzip_class_init, gsf_input_gzip_init,
-		   GSF_INPUT_TYPE)
+GSF_CLASS (GsfInputGZip, gsf_input_gzip,
+	   gsf_input_gzip_class_init, gsf_input_gzip_init,
+	   GSF_INPUT_TYPE)
 

@@ -87,6 +87,7 @@ static void base64_init (void);
 G_WIN32_DLLMAIN_FOR_DLL_NAME (static, dll_name)
 #endif
 
+#ifdef _GSF_GTYPE_THREADING_FIXED
 typedef GTypeModule      GsfDummyTypeModule;
 typedef GTypeModuleClass GsfDummyTypeModuleClass;
 static gboolean
@@ -105,6 +106,7 @@ static GSF_CLASS (GsfDummyTypeModule, gsf_dummy_type_module,
 		  G_TYPE_TYPE_MODULE)
 
 static GTypeModule *static_type_module = NULL;
+#endif
 
 /**
  * gsf_init :
@@ -131,11 +133,15 @@ gsf_init (void)
 	g_type_init ();
 	base64_init ();
 
+#ifdef _GSF_GTYPE_THREADING_FIXED
 	if (NULL == static_type_module) {
 		static_type_module = g_object_new (gsf_dummy_type_module_get_type(), NULL);
 		g_type_module_use (static_type_module);
 		g_type_module_set_name (static_type_module, "libgsf-builtin");
 	}
+#else
+	gsf_init_dynamic (NULL);
+#endif
 }
 
 /**
@@ -149,6 +155,18 @@ gsf_shutdown (void)
 {
 }
 
+#ifdef _GSF_GTYPE_THREADING_FIXED
+#define REGISTER(prefix)						\
+	do {								\
+		prefix ## _register_type (module);			\
+		types = g_slist_prepend (types,				\
+			g_type_class_ref (prefix ## _get_type()));	\
+	} while (0)
+#else
+/* Assign the value to avoid compiler warnings */
+#define REGISTER(prefix)	t = prefix ## _get_type()
+#endif
+
 /**
  * gsf_init_dynamic :
  * @module : #GTypeModule.
@@ -158,43 +176,50 @@ gsf_shutdown (void)
 void
 gsf_init_dynamic (GTypeModule *module)
 {
-	gsf_input_register_type (module);
-	gsf_input_gzip_register_type (module);
-	gsf_input_http_register_type (module);
-	gsf_input_memory_register_type (module);
-	gsf_input_proxy_register_type (module);
-	gsf_input_stdio_register_type (module);
-	gsf_input_textline_register_type (module);
+#ifndef _GSF_GTYPE_THREADING_FIXED
+	GType t;
+	if (NULL != module) {
+		g_warning ("glib's support of dynamic types is not thread safe.\n"
+			   "Support for gsf_init_dynamic has been disabled until that is fixed");
+	}
+#endif
+	REGISTER (gsf_input);
+	REGISTER (gsf_input_gzip);
+	REGISTER (gsf_input_http);
+	REGISTER (gsf_input_memory);
+	REGISTER (gsf_input_proxy);
+	REGISTER (gsf_input_stdio);
+	REGISTER (gsf_input_textline);
 
-	gsf_infile_register_type (module);
-	gsf_infile_msole_register_type (module);
-	gsf_infile_msvba_register_type (module);
-	gsf_infile_stdio_register_type (module);
-	gsf_infile_zip_register_type (module);
+	REGISTER (gsf_infile);
+	REGISTER (gsf_infile_msole);
+	REGISTER (gsf_infile_msvba);
+	REGISTER (gsf_infile_stdio);
+	REGISTER (gsf_infile_zip);
 
-	gsf_output_register_type (module);
-	gsf_output_bzip_register_type (module);
-	gsf_output_csv_quoting_mode_register_type (module);
-	gsf_output_csv_register_type (module);
-	gsf_output_gzip_register_type (module);
-	gsf_output_iconv_register_type (module);
-	gsf_output_iochannel_register_type (module);
-	gsf_output_memory_register_type (module);
-	gsf_output_stdio_register_type (module);
+	REGISTER (gsf_output);
+	REGISTER (gsf_output_bzip);
+	REGISTER (gsf_output_csv_quoting_mode);
+	REGISTER (gsf_output_csv);
+	REGISTER (gsf_output_gzip);
+	REGISTER (gsf_output_iconv);
+	REGISTER (gsf_output_iochannel);
+	REGISTER (gsf_output_memory);
+	REGISTER (gsf_output_stdio);
 
-	gsf_outfile_register_type (module);
-	gsf_outfile_msole_register_type (module);
-	gsf_outfile_stdio_register_type (module);
-	gsf_outfile_zip_register_type (module);
-	gsf_outfile_open_pkg_register_type (module);
+	REGISTER (gsf_outfile);
+	REGISTER (gsf_outfile_msole);
+	REGISTER (gsf_outfile_stdio);
+	REGISTER (gsf_outfile_zip);
+	REGISTER (gsf_outfile_open_pkg);
 
-	gsf_shared_memory_register_type (module);
-	gsf_structured_blob_register_type (module);
-	gsf_xml_out_register_type (module);
-	gsf_blob_register_type (module);
-	gsf_clip_data_register_type (module);
-	gsf_doc_meta_data_register_type (module);
-	gsf_docprop_vector_register_type (module);
+	REGISTER (gsf_shared_memory);
+	REGISTER (gsf_structured_blob);
+	REGISTER (gsf_xml_out);
+	REGISTER (gsf_blob);
+	REGISTER (gsf_clip_data);
+	REGISTER (gsf_doc_meta_data);
+	REGISTER (gsf_docprop_vector);
 }
 
 /**

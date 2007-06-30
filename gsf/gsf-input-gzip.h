@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInputGZip GsfInputGZip;
 
 GType gsf_input_gzip_get_type      (void) G_GNUC_CONST;
-void  gsf_input_gzip_register_type (GTypeModule *module);
+/* void  gsf_input_gzip_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfInput *gsf_input_gzip_new	  (GsfInput *source, GError **err);
 

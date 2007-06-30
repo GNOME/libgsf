@@ -135,7 +135,7 @@ typedef struct _GsfXMLOut	GsfXMLOut;
 #define GSF_IS_XML_OUT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_XML_OUT_TYPE))
 
 GType gsf_xml_out_get_type      (void) G_GNUC_CONST;
-void  gsf_xml_out_register_type (GTypeModule *module);
+/* void  gsf_xml_out_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfXMLOut *gsf_xml_out_new (GsfOutput *output);
 

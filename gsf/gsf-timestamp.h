@@ -40,7 +40,7 @@ struct _GsfTimestamp {
 };
 
 GType gsf_timestamp_get_type      (void) G_GNUC_CONST;
-void  gsf_timestamp_register_type (GTypeModule *module);
+/* void  gsf_timestamp_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);

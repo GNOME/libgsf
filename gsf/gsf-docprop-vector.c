@@ -138,9 +138,9 @@ gsf_docprop_vector_init (GsfDocPropVector *vector)
 	vector->gva = g_value_array_new (0);
 }
 
-GSF_DYNAMIC_CLASS (GsfDocPropVector, gsf_docprop_vector,
-		   gsf_docprop_vector_class_init, gsf_docprop_vector_init,
-		   G_TYPE_OBJECT)
+GSF_CLASS (GsfDocPropVector, gsf_docprop_vector,
+	   gsf_docprop_vector_class_init, gsf_docprop_vector_init,
+	   G_TYPE_OBJECT)
 
 /**
  * gsf_docprop_vector_new

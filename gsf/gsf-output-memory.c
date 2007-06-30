@@ -195,7 +195,7 @@ gsf_output_memory_get_bytes (GsfOutputMemory * mem)
 	return mem->buffer;
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputMemory, gsf_output_memory,
-		   gsf_output_memory_class_init, gsf_output_memory_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputMemory, gsf_output_memory,
+	   gsf_output_memory_class_init, gsf_output_memory_init,
+	   GSF_OUTPUT_TYPE)
 

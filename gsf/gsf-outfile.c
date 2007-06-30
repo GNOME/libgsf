@@ -80,4 +80,4 @@ gsf_outfile_new_child_varg (GsfOutfile *outfile,
 					       first_property_name, args);
 }
 
-GSF_DYNAMIC_CLASS_ABSTRACT (GsfOutfile, gsf_outfile, NULL, NULL, GSF_OUTPUT_TYPE)
+GSF_CLASS_ABSTRACT (GsfOutfile, gsf_outfile, NULL, NULL, GSF_OUTPUT_TYPE)

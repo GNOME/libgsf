@@ -273,7 +273,7 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfInputStdio, gsf_input_stdio,
-		   gsf_input_stdio_class_init, gsf_input_stdio_init,
-		   GSF_INPUT_TYPE)
+GSF_CLASS (GsfInputStdio, gsf_input_stdio,
+	   gsf_input_stdio_class_init, gsf_input_stdio_init,
+	   GSF_INPUT_TYPE)
 

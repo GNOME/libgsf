@@ -84,9 +84,9 @@ gsf_io_context_finalize (GObject *object)
 	parent_class->finalize (object);
 }
 
-GSF_DYNAMIC_CLASS(GsfIOContext, gsf_io_context,
-		  gsf_io_context_class_init, gsf_io_context_init,
-		  GSF_COMMAND_CONTEXT_TYPE)
+GSF_CLASS(GsfIOContext, gsf_io_context,
+	  gsf_io_context_class_init, gsf_io_context_init,
+	  GSF_COMMAND_CONTEXT_TYPE)
 
 /**
  * gsf_io_context_new

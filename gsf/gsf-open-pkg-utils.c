@@ -569,9 +569,9 @@ gsf_outfile_open_pkg_class_init (GObjectClass *gobject_class)
 			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
-GSF_DYNAMIC_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,
-		   gsf_outfile_open_pkg_class_init, gsf_outfile_open_pkg_init,
-		   GSF_OUTFILE_TYPE)
+GSF_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,
+	   gsf_outfile_open_pkg_class_init, gsf_outfile_open_pkg_init,
+	   GSF_OUTFILE_TYPE)
 
 /**
  * gsf_outfile_open_pkg_new :

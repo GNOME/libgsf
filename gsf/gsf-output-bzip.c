@@ -224,9 +224,9 @@ gsf_output_bzip_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputBzip, gsf_output_bzip,
-		   gsf_output_bzip_class_init, gsf_output_bzip_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
+	   gsf_output_bzip_class_init, gsf_output_bzip_init,
+	   GSF_OUTPUT_TYPE)
 
 /**
  * gsf_output_bzip_new :

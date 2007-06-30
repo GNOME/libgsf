@@ -848,9 +848,9 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      G_PARAM_CONSTRUCT_ONLY));
 }
 
-GSF_DYNAMIC_CLASS (GsfInfileZip, gsf_infile_zip,
-		   gsf_infile_zip_class_init, gsf_infile_zip_init,
-		   GSF_INFILE_TYPE)
+GSF_CLASS (GsfInfileZip, gsf_infile_zip,
+	   gsf_infile_zip_class_init, gsf_infile_zip_init,
+	   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_zip_new :

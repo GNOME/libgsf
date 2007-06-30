@@ -414,9 +414,9 @@ gsf_infile_msvba_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
-		   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
-		   GSF_INFILE_TYPE)
+GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
+	   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
+	   GSF_INFILE_TYPE)
 
 GsfInfile *
 gsf_infile_msvba_new (GsfInfile *source, GError **err)

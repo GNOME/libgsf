@@ -285,6 +285,6 @@ gsf_input_http_seek (GsfInput *input G_GNUC_UNUSED,
         return FALSE;
 }
 
-GSF_DYNAMIC_CLASS (GsfInputHTTP, gsf_input_http,
-		   gsf_input_http_class_init, gsf_input_http_init,
-		   GSF_INPUT_TYPE)
+GSF_CLASS (GsfInputHTTP, gsf_input_http,
+	   gsf_input_http_class_init, gsf_input_http_init,
+	   GSF_INPUT_TYPE)

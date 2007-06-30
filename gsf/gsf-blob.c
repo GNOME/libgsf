@@ -67,9 +67,9 @@ gsf_blob_init (GsfBlob *blob)
 	blob->priv = priv;
 }
 
-GSF_DYNAMIC_CLASS (GsfBlob, gsf_blob,
-		   gsf_blob_class_init, gsf_blob_init,
-		   G_TYPE_OBJECT);
+GSF_CLASS (GsfBlob, gsf_blob,
+	   gsf_blob_class_init, gsf_blob_init,
+	   G_TYPE_OBJECT);
 
 
 /**

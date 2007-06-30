@@ -442,9 +442,9 @@ gsf_infile_ar_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfInfileAr, gsf_infile_ar,
-		   gsf_infile_ar_class_init, gsf_infile_ar_init,
-		   GSF_INFILE_TYPE)
+GSF_CLASS (GsfInfileAr, gsf_infile_ar,
+	   gsf_infile_ar_class_init, gsf_infile_ar_init,
+	   GSF_INFILE_TYPE)
 
 /**
  * gsf_infile_ar_new :

@@ -316,6 +316,6 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputIconv, gsf_output_iconv,
-		   gsf_output_iconv_class_init, gsf_output_iconv_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputIconv, gsf_output_iconv,
+	   gsf_output_iconv_class_init, gsf_output_iconv_init,
+	   GSF_OUTPUT_TYPE)

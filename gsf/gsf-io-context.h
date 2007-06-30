@@ -41,7 +41,7 @@ struct _GsfIOContextClass {
 };
 
 GType gsf_io_context_get_type      (void) G_GNUC_CONST;
-void  gsf_io_context_register_type (GTypeModule *module);
+/* void  gsf_io_context_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfIOContext *gsf_io_context_new (void);
 void          gsf_io_context_clear (GsfIOContext *ioc);

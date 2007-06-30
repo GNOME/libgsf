@@ -166,7 +166,7 @@ gsf_input_proxy_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_DYNAMIC_CLASS (GsfInputProxy, gsf_input_proxy,
-		   gsf_input_proxy_class_init, gsf_input_proxy_init,
-		   GSF_INPUT_TYPE)
+GSF_CLASS (GsfInputProxy, gsf_input_proxy,
+	   gsf_input_proxy_class_init, gsf_input_proxy_init,
+	   GSF_INPUT_TYPE)
 

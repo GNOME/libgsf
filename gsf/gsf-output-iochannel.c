@@ -126,6 +126,6 @@ gsf_output_iochannel_class_init (GObjectClass *gobject_class)
 	parent_class = GSF_OUTPUT_CLASS (g_type_class_peek_parent (gobject_class));
 }
 
-GSF_DYNAMIC_CLASS (GsfOutputIOChannel, gsf_output_iochannel,
-		   gsf_output_iochannel_class_init, gsf_output_iochannel_init,
-		   GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputIOChannel, gsf_output_iochannel,
+	   gsf_output_iochannel_class_init, gsf_output_iochannel_init,
+	   GSF_OUTPUT_TYPE)

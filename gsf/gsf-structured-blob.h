@@ -35,7 +35,7 @@ typedef struct _GsfStructuredBlob	GsfStructuredBlob;
 
 /* inherits from GsfInfile */
 GType gsf_structured_blob_get_type      (void) G_GNUC_CONST;
-void  gsf_structured_blob_register_type (GTypeModule *module);
+/* void  gsf_structured_blob_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfStructuredBlob *gsf_structured_blob_read  (GsfInput *input);
 gboolean	   gsf_structured_blob_write (GsfStructuredBlob *blob,

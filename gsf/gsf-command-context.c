@@ -84,9 +84,9 @@ gsf_command_context_finalize (GObject *object)
 	parent_class->finalize (object);
 }
 
-GSF_DYNAMIC_CLASS(GsfCommandContext, gsf_command_context,
-		  gsf_command_context_class_init, gsf_command_context_init,
-		  G_TYPE_OBJECT)
+GSF_CLASS(GsfCommandContext, gsf_command_context,
+	      gsf_command_context_class_init, gsf_command_context_init,
+	      G_TYPE_OBJECT)
 
 /**
  * gsf_command_context_new

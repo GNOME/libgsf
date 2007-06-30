@@ -44,7 +44,7 @@ typedef struct _GsfOutfileOpenPkg GsfOutfileOpenPkg;
 #define GSF_IS_OUTFILE_OPEN_PKG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_OPEN_PKG_TYPE))
 
 GType	    gsf_outfile_open_pkg_get_type	(void) G_GNUC_CONST;
-void	    gsf_outfile_open_pkg_register_type	(GTypeModule *module);
+/* void	    gsf_outfile_open_pkg_register_type	(GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfOutfile *gsf_outfile_open_pkg_new	  	  (GsfOutfile *sink);
 void	    gsf_outfile_open_pkg_set_sink	  (GsfOutfileOpenPkg *open_pkg,

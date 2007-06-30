@@ -1,3 +1,11 @@
+libgsf 1.14.5
+
+Jody:
+	* Revert jump to dynamic types, they aren't threadsafe. [#450722]
+	* Compilation glitch on windows.  [#449807]
+
+--------------------------------------------------------------------------
+
 libgsf 1.14.4
 
 Eduardo Lima :

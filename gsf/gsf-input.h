@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 #define GSF_IS_INPUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_TYPE))
 
 GType gsf_input_get_type      (void) G_GNUC_CONST;
-void  gsf_input_register_type (GTypeModule *module);
+/* void  gsf_input_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
 char const   *gsf_input_name	  (GsfInput *input);
 GsfInfile    *gsf_input_container (GsfInput *input);
