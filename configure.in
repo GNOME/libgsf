@@ -364,6 +364,8 @@ AC_ARG_WITH(gnome,
 	no) want_gnome=no;;
 	esac[]dnl
 ])
+
+have_bonobo=no
 have_gnome=no
 if  test $want_gnome = no ; then 
     AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome to enable)])
@@ -372,14 +374,13 @@ else
     AC_ARG_WITH(bonobo,
 	AC_HELP_STRING([--without-bonobo],[disable the use of bonobo]),
 	[case "${withval}" in
-	yes) WITH_BONOBO=yes ;;
-	no) WITH_BONOBO=no ;;
+	yes) have_bonobo=yes ;;
+	no) have_bonobo=no ;;
 	*) AC_MSG_ERROR(bad value ${withval} for --with-bonobo) ;;
 	esac],
-	[WITH_BONOBO=yes]) dnl Default value
-    AM_CONDITIONAL(WITH_BONOBO, test $WITH_BONOBO = yes)
+	[have_bonobo=yes]) dnl Default value
 
-    if test $WITH_BONOBO = yes; then
+    if test $have_bonobo = yes; then
 	libgsf_gnome_reqs="$libgsf_gnome_reqs libbonobo-2.0 >= 2.0.0"
     fi
 
@@ -392,6 +393,7 @@ else
 	 fi])
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
+AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $have_bonobo = yes)
 
 # ===================
 # GConf configuration
@@ -401,6 +403,7 @@ dnl Because we may skip its execution, we have to set a default here.
 AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
 
 dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
+m4_pattern_allow([^AM_GCONF_SOURCE_2$])
 GCONFTOOL=
 AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then

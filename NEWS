@@ -3,6 +3,8 @@ libgsf 1.14.5
 Jody:
 	* Revert jump to dynamic types, they aren't threadsafe. [#450722]
 	* Compilation glitch on windows.  [#449807]
+	* Avoid problems building without gconf macros installed.
+	* Configure breakage --without-gnome. [#4488842]
 
 --------------------------------------------------------------------------
 

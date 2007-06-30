@@ -1,5 +1,10 @@
 2007-06-30  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : fix --without-bonobo case in the --without-gnome
+	  case. [#4488842]
+
+2007-06-30  Jody Goldberg <jody@gnome.org>
+
 	* thumbnailer/Makefile.am : Work even if gconf macros are not
 	  installed.
 	* configure.in : ditto.
