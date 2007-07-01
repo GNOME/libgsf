@@ -590,9 +590,10 @@ gsf_outfile_open_pkg_new (GsfOutfile *sink)
 
 /**
  * gsf_outfile_open_pkg_set_sink :
- * @open_pkg #GsfOutfileOpenPkg
+ * @open_pkg : #GsfOutfileOpenPkg
  * @sink : #GsfOutput
  *
+ * Assigns a GsfOutput (@sink) to store the package into.
  **/
 void
 gsf_outfile_open_pkg_set_sink (GsfOutfileOpenPkg *open_pkg, GsfOutput *sink)
