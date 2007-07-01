@@ -176,26 +176,23 @@ gsf_output_csv_write_eol (GsfOutputCsv *csv)
 
 /* ------------------------------------------------------------------------- */
 
-static GType gsf_output_csv_quoting_mode_type = 0;
 GType
 gsf_output_csv_quoting_mode_get_type (void)
 {
-	return gsf_output_csv_quoting_mode_type;
-}
+	static GType gsf_output_csv_quoting_mode_type = 0;
 
-void
-gsf_output_csv_quoting_mode_register_type (GTypeModule *module)
-{
 	if (gsf_output_csv_quoting_mode_type == 0) {
-		static GEnumValue const values[] = {
+		GEnumValue const values[] = {
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,  (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_NEVER",  (char *)"never" },
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,   (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_AUTO",   (char *)"auto" },
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS, (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS", (char *)"always" },
 		{ 0, NULL, NULL }
 		};
-		gsf_output_csv_quoting_mode_type =
-			g_type_module_register_enum (module, "GsfOutputCsvQuotingMode", values);
+		gsf_output_csv_quoting_mode_type = g_enum_register_static (
+			g_intern_static_string ("GsfOutputCsvQuotingMode"), values);
 	}
+
+	return gsf_output_csv_quoting_mode_type;
 }
 
 /* ------------------------------------------------------------------------- */
