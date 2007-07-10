@@ -27,6 +27,8 @@
 extern PyMethodDef pygsf_functions[];
 extern DL_EXPORT(void) init_gsf (void);
 
+extern void pygsf_register_classes(PyObject *d);
+
 DL_EXPORT(void)
 init_gsf (void)
 {
