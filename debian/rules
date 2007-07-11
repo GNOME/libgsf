@@ -188,8 +188,9 @@ ifeq ($(DH_OPTIONS),-s)
 	rm -rvf $(CURDIR)/debian/$(p_libgsf_dbg)/usr/share/doc/$(p_libgsf_dbg)
 	rm -rvf $(CURDIR)/debian/$(p_libgsf_gnome_dbg)/usr/share/doc/$(p_libgsf_gnome_dbg)
 
-	dh_link -s -p$(p_libgsf_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_dbg)
-	dh_link -s -p$(p_libgsf_gnome_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_gnome_dbg)
+	# Unfortunately, "-s" overrides "-p" for dh_link messes things up.
+	env -u DH_OPTIONS dh_link -p$(p_libgsf_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_dbg)
+	env -u DH_OPTIONS dh_link -p$(p_libgsf_gnome_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_gnome_dbg)
 
 	# Make the documentation accessible through devhelp.
 	dh_link -s -p$(p_libgsf_dev) /usr/share/doc/$(p_libgsf_dev)/html/gsf/ /usr/share/gtk-doc/html/gsf
@@ -209,7 +210,7 @@ endif
 #	dh_installinfo
 #	dh_undocumented
 	dh_gconf
-	dh_link
+#	dh_link
 	dh_buildinfo
 	dh_compress
 #	dh_perl
