@@ -395,6 +395,32 @@ fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $have_bonobo = yes)
 
+dnl ***********************************************************************************
+
+dnl gvfs
+dnl
+want_gvfs=auto
+AC_ARG_WITH(gvfs,
+	[--{with,without}-gvfs   Build additional wrappers for GVFS],
+	[case $withval in
+	yes) want_gvfs=yes;;
+	no) want_gvfs=no;;
+	esac[]dnl
+])
+
+if  test $want_gvfs = no ; then 
+    AC_MSG_WARN([GVFS support disabled, as requested (Use --with-gvfs to enable)])
+else
+    PKG_CHECK_MODULES(LIBGSF_GVFS, gio-standalone >= 0.0.1,
+	[have_gvfs=yes],
+	[if test $want_gvfs = yes; then
+	    AC_MSG_ERROR([GVFS support requested, but not available.])
+	 else
+	    AC_MSG_WARN([GVFS support disabled, unable to find required version of GVFS])
+	 fi])
+fi
+AM_CONDITIONAL(WITH_GVFS, test $have_gvfs = yes)
+
 # ===================
 # GConf configuration
 
@@ -421,6 +447,7 @@ m4/Makefile
 doc/Makefile
 gsf/Makefile
 gsf-gnome/Makefile
+gsf-gvfs/Makefile
 gsf-win32/Makefile
 tests/Makefile
 tools/Makefile
@@ -432,6 +459,7 @@ doc/version.xml
 libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
+libgsf-gvfs-1.pc
 libgsf-gnome-1.spec
 libgsf-win32-1.pc
 libgsf-zip

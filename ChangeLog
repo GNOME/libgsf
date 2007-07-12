@@ -1,3 +1,17 @@
+2007-07-12  Dom Lachowicz <domlachowicz@gmail.com>
+
+	* gsf-gvfs/gsf-input-gvfs.c:
+	* gsf-gvfs/gsf-input-gvfs.h:
+	* gsf-gvfs/gsf-output-gvfs.c:
+	* gsf-gvfs/gsf-output-gvfs.h:
+	* gsf-gvfs/Makefile.am:
+	* libgsf-gvfs-1.pc.in:
+	* Makefile.am:
+	* configure.in: New GVFS-based backend
+
+	* tests/test-gvfs.c:
+	* tests/Makefile.am: Small test harness for the new GVFS-based backend
+	
 2007-07-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

@@ -9,8 +9,11 @@ endif
 if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
+if WITH_GVFS
+  pkgconfig_DATA += libgsf-gvfs-1.pc
+endif
 
-SUBDIRS = po gsf gsf-gnome gsf-win32 doc tools tests m4
+SUBDIRS = po gsf gsf-gnome gsf-win32 gsf-gvfs doc tools tests m4
 
 if WITH_PYTHON
   SUBDIRS += python
@@ -26,7 +29,7 @@ EXTRA_DIST = BUGS HACKING	\
 	libgsf-1.spec		\
 	libgsf-gnome-1.spec	\
 	dumpdef.pl
-	
+
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc
