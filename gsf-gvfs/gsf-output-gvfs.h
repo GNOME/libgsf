@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-ouptut-gvfs.h: 
+ * gsf-output-gvfs.h: 
  *
  * Copyright (C) 2007 Dom Lachowicz <cinamod@hotmail.com>
  *
