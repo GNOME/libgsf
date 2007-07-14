@@ -408,6 +408,7 @@ AC_ARG_WITH(gvfs,
 	esac[]dnl
 ])
 
+have_gvfs=no
 if  test $want_gvfs = no ; then 
     AC_MSG_WARN([GVFS support disabled, as requested (Use --with-gvfs to enable)])
 else

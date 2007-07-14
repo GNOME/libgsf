@@ -1,3 +1,7 @@
+2007-07-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: always initialize have_gvfs.
+
 2007-07-12  Dom Lachowicz <domlachowicz@gmail.com>
 
 	* gsf-gvfs/gsf-input-gvfs.c:
@@ -2308,7 +2312,7 @@
 
 	* configure.in: Fix typo.
 
-2004-02-05  Tomasz K³oczko <kloczek@pld.org.pl>
+2004-02-05  Tomasz KÂ³oczko <kloczek@pld.org.pl>
 
 	* Makefile.am: Added "DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc"
 	  for force correct pass build documentation during "make dist"
