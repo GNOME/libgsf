@@ -21,6 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf-gvfs/gsf-input-gvfs.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
 #include <gio/gseekable.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
@@ -38,12 +40,71 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputGvfsClass;
 
+static gboolean
+can_seek (GInputStream *stream)
+{
+	if (!G_IS_SEEKABLE (stream))
+		return FALSE;
+
+	return g_seekable_can_seek (G_SEEKABLE (stream));
+}
+
+static GsfInput *
+make_local_copy (GFile *file, GInputStream *stream)
+{
+	GsfOutput *out;
+	GsfInput  *copy;
+	GFileInfo *info;
+	
+	out = gsf_output_memory_new ();
+
+	while (1) {
+		guint8 buf[1024];
+		gssize nread;
+		
+		nread = g_input_stream_read (stream, buf, sizeof(buf), NULL, NULL);
+		
+		if (nread > 0) {
+			if (!gsf_output_write (out, nread, buf)) {
+				copy = NULL;
+				goto cleanup_and_exit;
+			}
+		}
+		else if (nread == 0)
+			break;
+		else {
+			copy = NULL;
+			goto cleanup_and_exit;
+		}
+	}
+
+	copy = gsf_input_memory_new_clone (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (out)),
+					   gsf_output_size (out));
+
+	if (copy != NULL) {
+		info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_NAME, 0, NULL, NULL);
+		if (info) {
+			gsf_input_set_name (GSF_INPUT (copy), g_file_info_get_name (info));
+			g_object_unref (G_OBJECT (info));
+		}
+	}
+
+ cleanup_and_exit:
+
+	gsf_output_close (out);
+	g_object_unref (G_OBJECT (out));
+	
+	g_input_stream_close (stream, NULL, NULL);
+	g_object_unref (G_OBJECT (stream));
+	return copy;
+}
+
 GsfInput *
 gsf_input_gvfs_new (GFile *file, GError **err)
 {
 	GsfInputGvfs *input;
 	GInputStream *stream;
-	GFileInfo *info;
+	GFileInfo    *info;
 
 	if (file == NULL) {
 		if (err != NULL)
@@ -55,6 +116,17 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	stream = (GInputStream *)g_file_read (file, NULL, err);
 	if (stream == NULL)
 		return NULL;
+
+	if (!can_seek (stream))
+		return make_local_copy (file, stream);
+
+	info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_SIZE, 0, NULL, NULL);
+	if (info) {
+		gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
+		g_object_unref (G_OBJECT (info));
+	}
+	else
+		return make_local_copy (file, stream);
 
 	g_object_ref (G_OBJECT (file));
 
@@ -68,12 +140,6 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_NAME, 0, NULL, NULL);
 	if (info) {
 		gsf_input_set_name (GSF_INPUT (input), g_file_info_get_name (info));
-		g_object_unref (G_OBJECT (info));
-	}
-
-	info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_SIZE, 0, NULL, NULL);
-	if (info) {
-		gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
 		g_object_unref (G_OBJECT (info));
 	}
 
@@ -166,8 +232,6 @@ gsf_input_gvfs_dup (GsfInput *src_input, GError **err)
 	GsfInputGvfs *src = (GsfInputGvfs *)src_input;
 	GFile *clone;
 
-	(void)err;
-
 	g_return_val_if_fail (src_input != NULL, NULL);
 	g_return_val_if_fail (src->file != NULL, NULL);
 
@@ -175,7 +239,7 @@ gsf_input_gvfs_dup (GsfInput *src_input, GError **err)
 	if (clone != NULL) {
 		GsfInput *dst;
 
-		dst = gsf_input_gvfs_new (clone, NULL);
+		dst = gsf_input_gvfs_new (clone, err);
 	        g_object_unref (G_OBJECT (clone)); /* gsf_input_gvfs_new() adds a ref, or fails to create a new file. 
 						      in any case, we need to unref the clone */
 		return dst;
@@ -203,22 +267,20 @@ gsf_input_gvfs_read (GsfInput *input, size_t num_bytes,
 		buffer = gvfs->buf;
 	}
 
-	while (1)
-	    {
-		    gssize nread;
+	while (1) {
+		gssize nread;
+		
+		nread = g_input_stream_read (gvfs->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
+		
+		if (nread >= 0) {
+			total_read += nread;
+			if ((size_t) total_read == num_bytes) {
+				return buffer;
+			}
+		} else
+			break;
+	}
 
-		    nread = g_input_stream_read (gvfs->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
-
-		    if (nread >= 0) {
-			    total_read += nread;
-			    if ((size_t) total_read == num_bytes) {
-				    return buffer;
-			    }
-		    } else
-			    break;
-	    }
-
-	g_warning ("Gvfs read failed\n");
 	return NULL;
 }
 
@@ -229,12 +291,7 @@ gsf_input_gvfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 	g_return_val_if_fail (gvfs != NULL, TRUE);
 	g_return_val_if_fail (gvfs->stream != NULL, TRUE);
-
-	if (!G_IS_SEEKABLE (gvfs->stream))
-		return TRUE;
-
-	if (!g_seekable_can_seek (G_SEEKABLE (gvfs->stream)))
-		return TRUE;
+	g_return_val_if_fail (can_seek (gvfs->stream), TRUE);
 
 	return (g_seekable_seek (G_SEEKABLE (gvfs->stream), offset, whence, NULL, NULL) ? FALSE : TRUE);
 }

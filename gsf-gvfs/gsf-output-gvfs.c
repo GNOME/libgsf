@@ -37,19 +37,44 @@ typedef struct {
 	GsfOutputClass output_class;
 } GsfOutputGvfsClass;
 
+static gboolean
+can_seek (GOutputStream *stream)
+{
+	if (!G_IS_SEEKABLE (stream))
+		return FALSE;
+
+	return g_seekable_can_seek (G_SEEKABLE (stream));
+}
+
+static GsfOutput *
+wrap_if_not_seekable (GsfOutputGvfs *output)
+{
+	if (!can_seek (output->stream)) {
+		/* todo: return a wrapper around the output that's seekable */
+	}
+
+	return GSF_OUTPUT (output);
+}
+
 GsfOutput *
 gsf_output_gvfs_new (GFile *file)
 {
 	GsfOutputGvfs *output;
+	GOutputStream *stream;
 
 	g_return_val_if_fail (file != NULL, NULL);
 
+	stream = (GOutputStream *)g_file_replace (file, 0, FALSE, NULL, NULL);
+	if (stream == NULL) {
+		return NULL;
+	}
+
 	output = g_object_new (GSF_OUTPUT_GVFS_TYPE, NULL);
 	output->file = file;
-	output->stream = (GOutputStream *)g_file_create (file, NULL, NULL);
+	output->stream = stream;
 	g_object_ref (output->file);
 
-	return GSF_OUTPUT(output);
+	return wrap_if_not_seekable (output);
 }
 
 GsfOutput *
@@ -175,11 +200,8 @@ gsf_output_gvfs_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 
 	g_return_val_if_fail (gvfs != NULL, FALSE);
 	g_return_val_if_fail (gvfs->stream != NULL, FALSE);
-
-	if (!G_IS_SEEKABLE (gvfs->stream))
-		return FALSE;
-
-	if (!g_seekable_can_seek (G_SEEKABLE (gvfs->stream)))
+	
+	if (!can_seek (gvfs->stream))
 		return FALSE;
 
 	return g_seekable_seek (G_SEEKABLE (gvfs->stream), offset, whence, NULL, NULL);

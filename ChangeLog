@@ -1,3 +1,11 @@
+2007-07-20  Dom Lachowicz <domlachowicz@gmail.com>
+
+	* gsf-gvfs/gsf-input-gvfs.c: Make a local copy of the stream if it's not 
+	seekable
+	* gsf-gvfs/gsf-output-gvfs.c: Use replace() instead of create() when creating 
+	streams. create() won't overwrite an existing file. Document limitations 
+	regarding seeking.
+	
 2007-07-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: always initialize have_gvfs.
