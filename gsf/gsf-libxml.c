@@ -1249,6 +1249,7 @@ GsfXMLOut *
 gsf_xml_out_new (GsfOutput *output)
 {
 	GsfXMLOut *xml = g_object_new (GSF_XML_OUT_TYPE, NULL);
+	if (G_UNLIKELY (NULL == xml)) return NULL;
 	if (!gsf_output_wrap (G_OBJECT (xml), output))
 		return NULL;
 	xml->output = output;

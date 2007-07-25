@@ -240,6 +240,7 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
 		"url",		url, 
 		"content-type", content_type,
 		NULL);
+	if (G_UNLIKELY (NULL == obj)) return NULL;
         
         gsf_input_set_size (GSF_INPUT (obj), xmlNanoHTTPContentLength (ctx));
         GSF_INPUT_HTTP (obj)->ctx = ctx;

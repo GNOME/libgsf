@@ -100,10 +100,7 @@ GSF_CLASS(GsfIOContext, gsf_io_context,
 GsfIOContext *
 gsf_io_context_new (void)
 {
-	GsfIOContext *ioc;
-
-	ioc = g_object_new (GSF_IO_CONTEXT_TYPE, NULL);
-	return ioc;
+	return g_object_new (GSF_IO_CONTEXT_TYPE, NULL);
 }
 
 /**

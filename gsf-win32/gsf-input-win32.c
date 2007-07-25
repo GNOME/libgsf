@@ -121,6 +121,11 @@ gsf_input_istream_new (IStream * stream, GError **err)
 	}
 
 	input = g_object_new (GSF_INPUT_ISTREAM_TYPE, NULL);
+	if (G_UNLIKELY (NULL == input)) {
+		IStream_Release (stream);
+		return NULL;
+	}
+
 	input->stream = stream;
 	input->buf  = NULL;
 	input->buf_size = 0;

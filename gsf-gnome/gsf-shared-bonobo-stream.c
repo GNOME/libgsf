@@ -34,6 +34,7 @@ gsf_shared_bonobo_stream_new (Bonobo_Stream stream)
 {
 	GsfSharedBonoboStream *bst =
 		g_object_new (GSF_SHARED_BONOBO_STREAM_TYPE, NULL);
+	if (G_UNLIKELY (NULL == bst)) return NULL;
 	bst->stream = stream;
 	return bst;
 }

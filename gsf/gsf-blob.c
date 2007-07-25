@@ -114,8 +114,9 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
 	} else
 		data = NULL;
 
-	blob = g_object_new (GSF_TYPE_BLOB,
-			     NULL);
+	blob = g_object_new (GSF_TYPE_BLOB, NULL);
+	if (G_UNLIKELY (NULL == blob)) return NULL;
+
 	priv = blob->priv;
 
 	priv->size = size;

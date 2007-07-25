@@ -267,6 +267,8 @@ ar_dup (GsfInfileAr const *src)
 	g_return_val_if_fail (src != NULL, NULL);
 
 	dst = g_object_new (GSF_INFILE_AR_TYPE, NULL);
+	if (G_UNLIKELY (NULL == dst)) return NULL;
+
 	dst->input = gsf_input_dup (src->input, NULL);
 	dst->info  = ar_info_ref (src->info);
 
@@ -464,6 +466,8 @@ gsf_infile_ar_new (GsfInput *source, GError **err)
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	ar = g_object_new (GSF_INFILE_AR_TYPE, NULL);
+	if (G_UNLIKELY (NULL == ar)) return NULL;
+
 	g_object_ref (G_OBJECT (source));
 	ar->input = source;
 	gsf_input_set_size (GSF_INPUT (ar), 0);

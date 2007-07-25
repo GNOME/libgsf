@@ -48,6 +48,8 @@ gsf_output_iochannel_new (GIOChannel *channel)
 	g_return_val_if_fail (channel != NULL, NULL);
 
 	output = g_object_new (GSF_OUTPUT_IOCHANNEL_TYPE, NULL);	
+	if (G_UNLIKELY (NULL == output)) return NULL;
+
 	output->channel = channel;
 	return GSF_OUTPUT (output);
 }

@@ -64,9 +64,11 @@ gsf_infile_stdio_finalize (GObject *obj)
 static GsfInput *
 gsf_infile_stdio_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
-	GsfInfileStdio *src = GSF_INFILE_STDIO (src_input);
-	GsfInfileStdio *dst = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
 	GList *ptr;
+	GsfInfileStdio *src = GSF_INFILE_STDIO (src_input);
+
+	GsfInfileStdio *dst = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
+	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	dst->root = g_strdup (src->root);
 
@@ -183,11 +185,13 @@ gsf_infile_stdio_new (char const *root, GError **err)
 	GDir *dir;
 	char const *child;
 
+	ifs = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
+	if (G_UNLIKELY (NULL == ifs)) return NULL;
+
 	dir = g_dir_open (root, 0, err);
 	if (dir == NULL)
 		return NULL;
 
-	ifs = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
 	ifs->root = g_strdup (root);
 
 	while ((child = g_dir_read_name (dir)))

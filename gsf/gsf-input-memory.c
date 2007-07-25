@@ -75,6 +75,8 @@ GsfInput *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	if (G_UNLIKELY (NULL == mem)) return NULL;
+
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
 	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
@@ -86,17 +88,25 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
  * @length: The length of @buf
  *
  * Returns: A new #GsfInputMemory
- */
+ **/
 GsfInput *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 {
 	GsfInputMemory *mem = NULL;
-	guint8 * cpy = g_try_malloc (length * sizeof (guint8));
-	if (cpy == NULL)
-		return NULL;
+	guint8 *cpy;
 
-	memcpy (cpy, buf, length);
+	g_return_val_if_fail (buf != NULL, NULL);
+	g_return_val_if_fail (length > 0, NULL);
+
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	if (G_UNLIKELY (NULL == mem)) return NULL;
+
+	cpy = g_try_malloc (length * sizeof (guint8));
+	if (cpy == NULL) {
+		g_object_unref (mem);
+		return NULL;
+	}
+	memcpy (cpy, buf, length);
 	mem->shared = gsf_shared_memory_new ((void *)cpy, length, TRUE);
 	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
@@ -123,6 +133,7 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
 	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	dst->shared = src->shared;
 	g_object_ref (G_OBJECT (dst->shared));
@@ -225,6 +236,9 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	int fd;
 	size_t size;
 
+	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
+	if (G_UNLIKELY (NULL == mem)) return NULL;
+
 	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
 	if (fd < 0 || fstat (fd, &st) < 0) {
 		if (err != NULL) {
@@ -287,7 +301,6 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		return NULL;
 	}
 
-	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_mmapped_new (buf, (gsf_off_t) size);
 	gsf_input_set_size (GSF_INPUT (mem), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (mem), filename);

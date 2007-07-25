@@ -120,6 +120,11 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	gnome_vfs_truncate_handle(handle, 0);
 
 	output = g_object_new (GSF_OUTPUT_GNOMEVFS_TYPE, NULL);
+	if (G_UNLIKELY (NULL == output)) {
+		if (handle != NULL)
+			gnome_vfs_close (handle);
+		return NULL;
+	}
 	output->handle = handle;
 
 	return GSF_OUTPUT (output);

@@ -48,6 +48,8 @@ gsf_output_bonobo_new (Bonobo_Stream const stream, G_GNUC_UNUSED GError **err)
 	GsfOutputBonobo *res;
 
 	res = g_object_new (GSF_OUTPUT_BONOBO_TYPE, NULL);
+	if (G_UNLIKELY (NULL == res)) return NULL;
+
 	res->stream = stream;
 
 	return GSF_OUTPUT (res);

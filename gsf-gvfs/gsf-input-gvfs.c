@@ -128,9 +128,14 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	else
 		return make_local_copy (file, stream);
 
-	g_object_ref (G_OBJECT (file));
-
 	input = g_object_new (GSF_INPUT_GVFS_TYPE, NULL);
+	if (G_UNLIKELY (NULL == input)) {
+		g_input_stream_close (stream, NULL, NULL);
+		g_object_unref (G_OBJECT (stream));
+		return NULL;
+	}
+
+	g_object_ref (G_OBJECT (file));
 
 	input->stream = stream;
 	input->file = file;

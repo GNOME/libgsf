@@ -1280,7 +1280,7 @@ static void
 cb_write_dict (char const *name, gpointer id, WritePropState *state)
 {
 	static guint8 const zero[1] = { '\0' };
-	guint8	  buf [4];
+	guint8	  buf [8];
 	unsigned  len = strlen (name) + 1;
 	GSF_LE_SET_GUINT32 (buf, GPOINTER_TO_UINT (id));
 	GSF_LE_SET_GUINT32 (buf+4, len+1);

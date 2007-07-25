@@ -79,6 +79,8 @@ gsf_output_istream_new (IStream * stream)
 	g_return_val_if_fail (stream != NULL, NULL);
 
 	output = g_object_new (GSF_OUTPUT_ISTREAM_TYPE, NULL);
+	if (G_UNLIKELY (NULL == output)) return NULL;
+
 	output->stream = stream;
 	IStream_AddRef (output->stream);
 

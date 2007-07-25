@@ -124,6 +124,11 @@ gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)
 	}
 
 	input = g_object_new (GSF_INPUT_BONOBO_TYPE, NULL);
+	if (G_UNLIKELY (NULL == input)) {
+		CORBA_free (info);
+		return NULL;
+	}
+
 	input->shared = gsf_shared_bonobo_stream_new (stream);
 	input->buf  = NULL;
 	input->buf_size = 0;
@@ -159,6 +164,7 @@ gsf_input_bonobo_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputBonobo const *src = (GsfInputBonobo *)src_input;
 	GsfInputBonobo *dst = g_object_new (GSF_INPUT_BONOBO_TYPE, NULL);
+	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	(void) err;
 

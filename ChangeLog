@@ -1,3 +1,14 @@
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	From coverity
+	* gsf/gsf-msole-utils.c (cb_write_dict) : fix buffer overrun that
+	  would overwrite a variable with itself +1
+
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-input-memory.c (gsf_input_memory_new_clone) : add some
+	  safety checks against invalid parameters.
+
 2007-07-20  Dom Lachowicz <domlachowicz@gmail.com>
 
 	* gsf-gvfs/gsf-input-gvfs.c: Make a local copy of the stream if it's not 

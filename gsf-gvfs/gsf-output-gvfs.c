@@ -70,6 +70,12 @@ gsf_output_gvfs_new (GFile *file)
 	}
 
 	output = g_object_new (GSF_OUTPUT_GVFS_TYPE, NULL);
+	if (G_UNLIKELY (NULL == output)) {
+		g_output_stream_close (stream, NULL, NULL);
+		g_object_unref (G_OBJECT (stream));
+		return NULL;
+	}
+
 	output->file = file;
 	output->stream = stream;
 	g_object_ref (output->file);

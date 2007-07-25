@@ -117,6 +117,11 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 	{
 		char *name;
 		GsfInputGnomeVFS *input = g_object_new (GSF_INPUT_GNOMEVFS_TYPE, NULL);
+		if (G_UNLIKELY (NULL == input)) {
+			if (NULL != handle)
+				gnome_vfs_close (handle);
+			return NULL;
+		}
 
 		input->handle = handle;
 		input->uri = gnome_vfs_uri_ref (uri);

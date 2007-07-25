@@ -100,10 +100,7 @@ GSF_CLASS(GsfCommandContext, gsf_command_context,
 GsfCommandContext *
 gsf_command_context_new (void)
 {
-	GsfCommandContext *cc;
-
-	cc = g_object_new (GSF_COMMAND_CONTEXT_TYPE, NULL);
-	return cc;
+	return g_object_new (GSF_COMMAND_CONTEXT_TYPE, NULL);
 }
 
 /**

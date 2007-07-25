@@ -712,6 +712,8 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
 	ole = g_object_new (GSF_OUTFILE_MSOLE_TYPE, NULL);
+	if (G_UNLIKELY (NULL == ole)) return NULL;
+
 	g_object_ref (G_OBJECT (sink));
 	ole->sink = sink;
 	ole->type = MSOLE_DIR;

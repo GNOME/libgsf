@@ -204,15 +204,15 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 	gzip = g_object_new (GSF_INPUT_GZIP_TYPE,
 			     "source", source,
 			     NULL);
+	if (G_UNLIKELY (NULL == gzip)) return NULL;
+
 	if (gzip->err) {
 		if (err)
 			*err = g_error_copy (gzip->err);
 		g_object_unref (gzip);
 		return NULL;
 	}
-
-	if (gzip)
-		gsf_input_set_name (GSF_INPUT (gzip), gsf_input_name (source));
+	gsf_input_set_name (GSF_INPUT (gzip), gsf_input_name (source));
 
 	return GSF_INPUT (gzip);
 }
@@ -255,8 +255,12 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 			    "source", src_source_copy,
 			    "raw", src->raw,
 			    NULL);
+
 	if (src_source_copy)
 		g_object_unref (src_source_copy);
+
+	if (G_UNLIKELY (NULL == dst))
+		return NULL;
 
 	if (src->err) {
 		g_clear_error (&dst->err);

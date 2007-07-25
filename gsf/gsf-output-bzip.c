@@ -246,6 +246,8 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
 	bzip = g_object_new (GSF_OUTPUT_BZIP_TYPE, NULL);
+	if (G_UNLIKELY (NULL == bzip)) return NULL;
+
 	g_object_ref (G_OBJECT (sink));
 	bzip->sink = sink;
 

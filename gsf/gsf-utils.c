@@ -136,6 +136,7 @@ gsf_init (void)
 #ifdef _GSF_GTYPE_THREADING_FIXED
 	if (NULL == static_type_module) {
 		static_type_module = g_object_new (gsf_dummy_type_module_get_type(), NULL);
+		g_assert (static_type_module != NULL);
 		g_type_module_use (static_type_module);
 		g_type_module_set_name (static_type_module, "libgsf-builtin");
 	}

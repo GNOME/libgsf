@@ -277,6 +277,7 @@ zip_dup (GsfInfileZip const *src, GError **err)
 	dst = g_object_new (GSF_INFILE_ZIP_TYPE,
 			    "internal-parent", src,
 			    NULL);
+	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	if (dst->err) {
 		if (err)
@@ -872,6 +873,8 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE,
 			    "source", source,
 			    NULL);
+	if (G_UNLIKELY (NULL == zip)) return NULL;
+
 	if (zip->err) {
 		if (err)
 			*err = g_error_copy (zip->err);
