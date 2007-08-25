@@ -194,7 +194,7 @@ glade_string_from_flags (GType type, guint flags)
  *
  * Try to parse @str as a value of type @t into @res.
  *
- * Returns : True when parsing of @str as a value of type @t was succesfull;
+ * Returns: True when parsing of @str as a value of type @t was succesfull;
  * false otherwise.
  */
 gboolean
@@ -340,7 +340,7 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
  * <note>A simple wrapper around a cleaner implementation that will fold in
  * when we add other api changes.  Its not worth bumping just for this.</note>
  *
- * Returns : A parser context or NULL
+ * Returns: A parser context or %NULL
  **/
 xmlParserCtxtPtr
 gsf_xml_parser_context (GsfInput *input)
@@ -351,7 +351,7 @@ gsf_xml_parser_context (GsfInput *input)
 /**
  * gsf_xml_output_buffer_new :
  * @output:
- * @encoding: optionally NULL.
+ * @encoding: optionally %NULL.
  *
  * <note>This adds a reference to @output.</note>
  * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
@@ -871,7 +871,7 @@ gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
 
 /**
  * gsf_xml_in_doc_free :
- * @doc :
+ * @doc : #GsfXMLInDoc
  *
  * Free up resources
  **/
@@ -894,11 +894,11 @@ gsf_xml_in_doc_free (GsfXMLInDoc *doc)
  * @nodes : an array of node descriptors
  * @ns : an array of namespace identifiers
  *
- * Combine the nodes in the NULL terminated array starting at @nodes with the
- * name spaces in the NULL terminated array starting at @ns.  Prepare the
+ * Combine the nodes in the %NULL terminated array starting at @nodes with the
+ * name spaces in the %NULL terminated array starting at @ns.  Prepare the
  * data structures necessary to validate a doument based on that description.
  *
- * Returns NULL on error
+ * Returns: %NULL on error
  **/
 GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
@@ -992,7 +992,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * @doc : #GsfXMLInDoc
  * @new_state :
  * @dtor : #GsfXMLInExtDtor
- * @attrs :
+ * @attrs : array of xmlChar const *
  *
  * Take the first node from @doc as the current node and call it's start handler.
  **/
@@ -1021,14 +1021,14 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 
 /**
  * gsf_xml_in_doc_parse :
- * @doc :
- * @input :
+ * @doc : #GsfXMLInDoc
+ * @input : #GsfInput
  * @user_state :
  *
  * Read an xml document from @input and parse based on the the descriptor in
  * @doc
  *
- * returns FALSE on error
+ * Returns: %FALSE on error
  **/
 gboolean
 gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
@@ -1061,7 +1061,7 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
  *
  * (New in 1.14.2)
  *
- * Returns (but does not reference) the stream being parsed.
+ * Returns: (but does not reference) the stream being parsed.
  **/
 GsfInput *
 gsf_xml_in_get_input (GsfXMLIn const *xin)
@@ -1078,8 +1078,8 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
  * 
  * According to @state is @str in the namespace @ns_id ?
  *
- * Returns a pointer to @str after the namespace if successful,
- * otherwise NULL.
+ * Returns: a pointer to @str after the namespace if successful,
+ * 	otherwise NULL.
  **/
 char const *
 gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
@@ -1108,7 +1108,7 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
  * @ns_id : The name space id to check
  * @name  : The target node name
  *
- * Returns TRUE if @str == @ns_id:@name according to @state.
+ * Returns: %TRUE if @str == @ns_id:@name according to @state.
  **/
 gboolean
 gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,

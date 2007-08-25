@@ -188,11 +188,11 @@ init_zip (GsfInputGZip *gzip, GError **err)
 /**
  * gsf_input_gzip_new :
  * @source : The underlying data source.
- * @err	   : optionally NULL.
+ * @err	   : optionally %NULL.
  *
  * Adds a reference to @source.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfInput *
 gsf_input_gzip_new (GsfInput *source, GError **err)

@@ -96,9 +96,9 @@ lpwstr_to_utf8 (LPWSTR str)
 /**
  * gsf_input_istream_new :
  * @stream   : IStream stream
- * @err	     : optionally NULL.
+ * @err	     : optionally %NULL.
  *
- * Returns a new input object or NULL.
+ * Returns: a new input object or %NULL.
  **/
 GsfInput *
 gsf_input_istream_new (IStream * stream, GError **err)

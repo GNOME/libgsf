@@ -71,7 +71,7 @@ GSF_CLASS(GsfDocMetaData, gsf_doc_meta_data,
 /**
  * gsf_doc_meta_data_new :
  *
- * Returns a new metadata property collection
+ * Returns: a new metadata property collection
  **/
 GsfDocMetaData *
 gsf_doc_meta_data_new (void)
@@ -84,7 +84,7 @@ gsf_doc_meta_data_new (void)
  * @meta : #GsfDocMetaData
  * @name :
  *
- * Returns the property with name @id in @meta.  The caller can modify the
+ * Returns: the property with name @id in @meta.  The caller can modify the
  * property value and link but not the name.
  **/
 GsfDocProp *
@@ -171,7 +171,7 @@ gsf_doc_meta_data_store (GsfDocMetaData *meta, GsfDocProp *prop)
  * gsf_doc_meta_data_foreach :
  * @meta : the collection
  * @func : the function called once for each element in the collection
- * @user_data : any supplied user data or NULL
+ * @user_data : any supplied user data or %NULL
  *
  * Iterate through each (key, value) pair in this collection
  **/
@@ -186,7 +186,7 @@ gsf_doc_meta_data_foreach (GsfDocMetaData const *meta, GHFunc func, gpointer use
  * gsf_doc_meta_data_size :
  * @meta : the collection
  *
- * Returns the number of items in this collection
+ * Returns: the number of items in this collection
  **/
 gsize
 gsf_doc_meta_data_size (GsfDocMetaData const *meta)
@@ -227,7 +227,7 @@ gsf_doc_meta_dump (GsfDocMetaData const *meta)
  * gsf_doc_prop_new :
  * @name :
  *
- * Returns a new #GsfDocProp which the caller is responsible for freeing.
+ * Returns: a new #GsfDocProp which the caller is responsible for freeing.
  * Takes ownership of @name.
  **/
 GsfDocProp *
@@ -249,7 +249,7 @@ gsf_doc_prop_new  (char *name)
  * gsf_doc_prop_free :
  * @prop : #GsfDocProp
  *
- * If @prop is non NULL free the memory associated with it
+ * If @prop is non %NULL free the memory associated with it
  **/
 void
 gsf_doc_prop_free (GsfDocProp *prop)
@@ -270,7 +270,7 @@ gsf_doc_prop_free (GsfDocProp *prop)
  * gsf_doc_prop_get_name :
  * @prop : #GsfDocProp
  *
- * Returns the name of the property, the caller should not modify the result.
+ * Returns: the name of the property, the caller should not modify the result.
  **/
 char const *
 gsf_doc_prop_get_name (GsfDocProp const *prop)
@@ -283,7 +283,7 @@ gsf_doc_prop_get_name (GsfDocProp const *prop)
  * gsf_doc_prop_get_val :
  * @prop : the property
  *
- * Returns the value of the property, the caller should not modify the result.
+ * Returns: the value of the property, the caller should not modify the result.
  **/
 GValue const *
 gsf_doc_prop_get_val (GsfDocProp const *prop)
@@ -318,7 +318,7 @@ gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
  * @prop : #GsfDocProp
  * @val  : #GValue
  *
- * Returns the current value of @prop, and replaces it with @val
+ * Returns: the current value of @prop, and replaces it with @val
  * 	Caller is responsible for unsetting and freeing the result.
  **/
 GValue *
@@ -336,7 +336,7 @@ gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
  * gsf_doc_prop_get_link :
  * @prop : #GsfDocProp
  *
- * Returns the current link descriptor of @prop.  The result should not be
+ * Returns: the current link descriptor of @prop.  The result should not be
  * 	freed or modified.
  **/
 char const *
@@ -349,7 +349,7 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
 /**
  * gsf_doc_prop_set_link :
  * @prop : #GsfDocProp
- * @link : optionally NULL
+ * @link : optionally %NULL
  *
  * Sets @prop's link to @link
  **/

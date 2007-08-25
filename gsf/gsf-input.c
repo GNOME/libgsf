@@ -168,7 +168,7 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
  *
  * The name of the input stream.
  *
- * Returns: @input's name in utf8 form, or NULL if it has no name.
+ * Returns: @input's name in utf8 form, or %NULL if it has no name.
  **/
 char const *
 gsf_input_name (GsfInput *input)
@@ -181,8 +181,8 @@ gsf_input_name (GsfInput *input)
  * gsf_input_container :
  * @input: the input stream
  *
- * Returns, but does not add a reference to @input's container.
- * Potentially NULL
+ * Returns: but does not add a reference to @input's container.
+ * 	Potentially %NULL
  **/
 GsfInfile *
 gsf_input_container (GsfInput *input)
@@ -194,11 +194,11 @@ gsf_input_container (GsfInput *input)
 /**
  * gsf_input_dup :
  * @input: The input to duplicate
- * @err: optionally NULL
+ * @err: optionally %NULL
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
- * Returns: the duplicate, or NULL on error
+ * Returns: the duplicate, or %NULL on error
  **/
 GsfInput *
 gsf_input_dup (GsfInput *input, GError **err)
@@ -244,7 +244,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  * Attempts to open a 'sibling' of @input.  The caller is responsible for
  * managing the resulting object.
  *
- * Returns:  A related #GsfInput or NULL on failure.
+ * Returns:  A related #GsfInput or %NULL on failure.
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
@@ -289,13 +289,13 @@ gsf_input_eof (GsfInput *input)
  * gsf_input_read :
  * @input: the input stream
  * @num_bytes: number of bytes to read
- * @optional_buffer: NULL, or pointer to destination memory area
+ * @optional_buffer: %NULL, or pointer to destination memory area
  *
  * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
- * Returns: pointer to the buffer or NULL if there is an error or 0 bytes are
+ * Returns: pointer to the buffer or %NULL if there is an error or 0 bytes are
  * 	requested.
  **/
 guint8 const *
@@ -389,7 +389,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 /**
  * gsf_input_set_name :
  * @input: the input stream
- * @name: the new name of the stream, or NULL.
+ * @name: the new name of the stream, or %NULL.
  *
  * protected.
  *

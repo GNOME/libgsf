@@ -110,7 +110,7 @@ GSF_XML_IN_NODE_END
  * gsf_open_pkg_get_rels :
  * @in : #GsfInput
  *
- * Returns a hashtable of the relationships associated with @in
+ * Returns: a hashtable of the relationships associated with @in
  **/
 static GsfOpenPkgRels *
 gsf_open_pkg_get_rels (GsfInput *in)
@@ -235,7 +235,7 @@ gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type)
  * @dtd : #GsfXMLInNode
  * @ns : #GsfXMLInNS
  *
- * Returns NULL on success or a GError which callerss need to free on failure.
+ * Returns: NULL on success or a GError which callerss need to free on failure.
  **/
 GError *
 gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
@@ -578,7 +578,8 @@ GSF_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,
  * @sink : #GsfOutfile
  *
  * Convenience routine to create a GsfOutfileOpenPkg inside @sink.
- * Returns a GsfOutfile that the caller is responsible for.
+ *
+ * Returns: a GsfOutfile that the caller is responsible for.
  **/
 GsfOutfile *
 gsf_outfile_open_pkg_new (GsfOutfile *sink)
@@ -669,7 +670,8 @@ gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
  *
  * A convenience wrapper to create a child in @dir of @content_type then create
  * a @type relation to @parent
- * Returns the new part.
+ *
+ * Returns: the new part.
  **/
 GsfOutput *
 gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,

@@ -69,9 +69,9 @@ gib_synch_shared_ptr (GsfInputBonobo *binput)
 /**
  * gsf_input_bonobo_new :
  * @stream   : Bonobo stream
- * @err	     : optionally NULL.
+ * @err	     : optionally %NULL.
  *
- * Returns a new input object or NULL.
+ * Returns: a new input object or %NULL.
  **/
 GsfInput *
 gsf_input_bonobo_new (Bonobo_Stream const stream, GError **err)

@@ -38,7 +38,7 @@
  * @source : a #GsfInput
  * @err    : a #GError
  *
- * Returns a new #GsfInputMemory or NULL.
+ * Returns: a new #GsfInputMemory or %NULL.
  */
 GsfInput * 
 gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)

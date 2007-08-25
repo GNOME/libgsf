@@ -55,7 +55,7 @@ typedef struct {
  * @filename : in utf8.
  * @err	     : optionally NULL.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or NULL.
  **/
 GsfInput *
 gsf_input_stdio_new (char const *filename, GError **err)
@@ -122,8 +122,8 @@ gsf_input_stdio_new (char const *filename, GError **err)
  * Assumes ownership of @file.  If @keep_open is true, ownership reverts
  * to caller when the GsfObject is closed.
  *
- * Returns a new GsfInput wrapper for @file.  Note: the file must be
- * seekable, so this will not work for stdin when that is a tty or pipe.
+ * Returns: a new GsfInput wrapper for @file.  Note: the file must be
+ * 	seekable, so this will not work for stdin when that is a tty or pipe.
  **/
 GsfInput *
 gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)

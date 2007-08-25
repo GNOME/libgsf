@@ -69,7 +69,7 @@ gsf_output_istream_set_error (GsfOutput * output, HRESULT hr)
  * gsf_output_istream_new :
  * @stream   : IStream stream
  *
- * Returns a new output object or NULL.
+ * Returns: a new output object or %NULL.
  **/
 GsfOutput *
 gsf_output_istream_new (IStream * stream)

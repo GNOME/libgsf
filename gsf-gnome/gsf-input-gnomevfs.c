@@ -43,9 +43,9 @@ typedef GsfInputClass GsfInputGnomeVFSClass;
 /**
  * gsf_input_gnomevfs_new_uri:
  * @uri : uri you wish to open.
- * @err	: optionally NULL.
+ * @err	: optionally %NULL.
  *
- * Returns a new input or NULL.
+ * Returns: a new input or %NULL.
  **/
 GsfInput *
 gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
@@ -169,9 +169,9 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 /**
  * gsf_input_gnomevfs_new :
  * @uri : uri you wish to open.
- * @err	: optionally NULL.
+ * @err	: optionally %NULL.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfInput *
 gsf_input_gnomevfs_new (char const *text_uri, GError **error)

@@ -281,7 +281,7 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 /**
  * gsf_input_dump :
  * @input: a #GsfInput
- * @dump_as_hex: If TRUE, dump in hexidecmal format
+ * @dump_as_hex: If %TRUE, dump in hexidecmal format
  *
  * Dumps @input's contents to STDOUT, optionally in hex format.
  */
@@ -570,13 +570,13 @@ gsf_iconv_close (GIConv handle)
 /**
  * gsf_filename_to_utf8:
  * @filename: file name suitable for open(2).
- * @quoted: if TRUE, the resulting utf8 file name will be quoted
+ * @quoted: if %TRUE, the resulting utf8 file name will be quoted
  *    (unless it is invalid).
  *
  * A utility wrapper to make sure filenames are valid utf8.
  * Caller must g_free the result.
  *
- * Returns @filename using utf-8 encoding for display
+ * Returns: @filename using utf-8 encoding for display
  **/
 char *
 gsf_filename_to_utf8 (char const *filename, gboolean quoted)
@@ -651,7 +651,7 @@ base64_init(void)
  * This funcion should be called to when finished encoding everything, to
  * flush off the last little bit.
  *
- * Returns :
+ * Returns:
  */
 size_t
 gsf_base64_encode_close (guint8 const *in, size_t inlen,
@@ -708,7 +708,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
  * the output @out at a time, saves left-over state in @state and @save
  * (initialise to 0 on first invocation).
  *
- * Returns : the number of bytes encoded
+ * Returns: the number of bytes encoded
  */
 size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
@@ -798,7 +798,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
  *
  * Decodes a chunk of base64 encoded data
  *
- * Returns the number of bytes converted
+ * Returns: the number of bytes converted
  **/
 size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
@@ -857,7 +857,7 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
  *
  * Encodes data from @data back into @data using base64 encoding.
  *
- * Returns : the number of bytes encoded
+ * Returns: the number of bytes encoded
  */
 guint8 *
 gsf_base64_encode_simple (guint8 const *data, size_t len)
@@ -884,7 +884,7 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
  *
  * Decodes a chunk of base64 encoded data from @data back into @data.
  *
- * Returns : the number of bytes converted
+ * Returns: the number of bytes converted
  */
 size_t
 gsf_base64_decode_simple (guint8 *data, size_t len)
@@ -902,11 +902,11 @@ gsf_base64_decode_simple (guint8 *data, size_t len)
  * @p_n_params: a pointer to the number of properties collected.  (Used for
  *   both input and output.)
  * @p_params: a pointer to the GParameter array that holds the properties.
- *   (Used for both input and output.  This may point to a NULL pointer if
+ *   (Used for both input and output.  This may point to a %NULL pointer if
  *   there are no properties collected yet.)
  * @first_property_name: the name of the first property being set, or NULL.
  * @var_args: a va_list holding the remainder of the property names and
- *   values, terminated by a NULL.
+ *   values, terminated by a %NULL.
  *
  * This function builds a GParameter array suitable for g_object_newv.
  **/
@@ -997,10 +997,8 @@ gsf_property_settings_free (GParameter *params,
 /**
  * gsf_error_quark:
  *
- * Returns the #GQuark used to identify libgsf errors in #GError structures.
- * Specific error codes come from the #GsfError enumeration.
- * 
- * Return value: A #GQuark.
+ * Returns:  the #GQuark used to identify libgsf errors in #GError structures.
+ * 	Specific error codes come from the #GsfError enumeration.
  **/
 GQuark
 gsf_error_quark (void)

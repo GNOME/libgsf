@@ -54,7 +54,7 @@ typedef struct {
  *
  * This function will ref the source.
  *
- * Returns a new input object.
+ * Returns: a new input object.
  **/
 GsfInput *
 gsf_input_proxy_new_section (GsfInput *source,
@@ -96,7 +96,7 @@ gsf_input_proxy_new_section (GsfInput *source,
  * This creates a new proxy to the entire, given input source.  See
  * gsf_input_proxy_new_section for details.
  *
- * Returns a new input object.
+ * Returns: a new input object.
  **/
 GsfInput *
 gsf_input_proxy_new (GsfInput *source)

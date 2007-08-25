@@ -59,7 +59,7 @@ enum {
  *
  * Adds a reference to @sink.
  *
- * Returns a new GsfOutput object or NULL.
+ * Returns: a new GsfOutput object or %NULL.
  **/
 GsfOutput *
 gsf_output_iconv_new (GsfOutput *sink, char const *dst, char const *src)

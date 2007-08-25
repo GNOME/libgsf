@@ -35,11 +35,11 @@ typedef struct {
 } GsfOutputGnomeVFSClass;
 
 /**
-* gsf_output_gnomevfs_new :
+ * gsf_output_gnomevfs_new :
  * @text_uri : in utf8.
- * @err	     : optionally NULL.
+ * @err	     : optionally %NULL.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_gnomevfs_new (char const *text_uri, GError **err)
@@ -53,9 +53,9 @@ gsf_output_gnomevfs_new (char const *text_uri, GError **err)
 /**
  * gsf_output_gnomevfs_new_uri :
  * @uri      : resource indicator
- * @err	     : optionally NULL.
+ * @err	     : optionally %NULL.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)

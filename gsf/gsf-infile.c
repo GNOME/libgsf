@@ -31,7 +31,7 @@
  * gsf_infile_num_children :
  * @infile : the structured storage
  *
- * Returns the number of children the storage has, or -1 if the storage can not
+ * Returns: the number of children the storage has, or -1 if the storage can not
  * 	have children.
  **/
 int
@@ -47,8 +47,8 @@ gsf_infile_num_children (GsfInfile *infile)
  * @infile :
  * @i      :
  *
- * Returns the utf8 encoded name of the @i-th child
- * <emphasis>DO NOT FREE THE STRING.</emphasis>
+ * Returns: the utf8 encoded name of the @i-th child
+ * 	<emphasis>DO NOT FREE THE STRING.</emphasis>
  **/
 char const *
 gsf_infile_name_by_index (GsfInfile *infile, int i)
@@ -64,7 +64,7 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
  * @i :
  *
  * TODO : For 2.0 api will change to include a GError.
- * Returns a newly created child which must be unrefed.
+ * Returns: a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_index (GsfInfile *infile, int i)
@@ -93,7 +93,7 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
  * @name :
  *
  * TODO : For 2.0 api will change to include a GError.
- * Returns a newly created child which must be unrefed.
+ * Returns: a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
@@ -123,7 +123,7 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
  * @name : A %null terminated list of names
  * @Varargs : the rest of the names
  *
- * Returns a newly created child which must be unrefed.
+ * Returns: a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)

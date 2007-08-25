@@ -188,7 +188,8 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
  *
  * Read an OpenDocument metadata stream from @input and store the properties
  * into @md.  Overwrite any existing properties with the same id.
- * Returns a GError if there is a problem.
+ *
+ * Returns: a GError if there is a problem.
  **/
 GError *
 gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)

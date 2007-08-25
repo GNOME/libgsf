@@ -122,7 +122,7 @@ static time_t gmt_to_local_win32(void)
  * ICK ICK ICK
  * This routine should be called _from_sting.
  *
- * Returns TRUE on success
+ * Returns: %TRUE on success
  **/
 int
 gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
@@ -153,7 +153,7 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
  *
  * Produce a string representation (ISO 8601 format) of @stamp.
  *
- * Returns: a string representation of @stamp. When @stamp is NULL, the
+ * Returns: a string representation of @stamp. When @stamp is %NULL, the
  * representation is "&lt;invalid&gt;".
  */
 char *

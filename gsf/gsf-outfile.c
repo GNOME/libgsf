@@ -29,9 +29,9 @@
  * gsf_outfile_new_child :
  * @outfile : A #GsfOutfile
  * @name : The name of the new child to create
- * @is_dir : TRUE to create a directory, FALSE to create a plain file
+ * @is_dir : %TRUE to create a directory, %FALSE to create a plain file
  *
- * Returns a newly created child
+ * Returns: a newly created child
  **/
 GsfOutput *
 gsf_outfile_new_child (GsfOutfile *outfile,
@@ -48,7 +48,7 @@ gsf_outfile_new_child (GsfOutfile *outfile,
  * @first_property_name :
  * @Varargs :
  *
- * Returns a newly created child
+ * Returns: a newly created child
  **/
 GsfOutput *
 gsf_outfile_new_child_full (GsfOutfile *outfile,

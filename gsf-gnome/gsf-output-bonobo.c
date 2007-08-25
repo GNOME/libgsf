@@ -37,10 +37,10 @@ typedef struct {
 
 /**
  * gsf_output_bonobo_new :
- * @stream : non-NULL bonobo stream
- * @err	     : optionally NULL.
+ * @stream : non-%NULL bonobo stream
+ * @err	   : optionally %NULL.
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_bonobo_new (Bonobo_Stream const stream, G_GNUC_UNUSED GError **err)

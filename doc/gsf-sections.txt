@@ -30,7 +30,6 @@ GSF_INPUT_CLASS
 GSF_IS_INPUT_CLASS
 GsfInputClass
 gsf_input_get_type
-
 GSF_INPUT_PROXY
 GSF_INPUT_PROXY_TYPE
 GSF_IS_INPUT_PROXY
@@ -46,7 +45,6 @@ gsf_input_seek_emulate
 <TITLE>Output to unstructured files</TITLE>
 <FILE>output</FILE>
 GsfOutput
-gsf_output_container
 gsf_output_size
 gsf_output_close
 gsf_output_tell
@@ -56,6 +54,7 @@ gsf_output_puts
 gsf_output_printf
 gsf_output_vprintf
 
+gsf_output_container
 gsf_output_name
 gsf_output_set_name_from_filename
 gsf_output_error_id

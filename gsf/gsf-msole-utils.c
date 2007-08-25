@@ -920,7 +920,7 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
  * Read a stream formated as a set of MS OLE properties from @in and store the
  * results in @accum.
  *
- * Returns GError which the caller must free on error.
+ * Returns: GError which the caller must free on error.
  **/
 GError *
 gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
@@ -1176,7 +1176,7 @@ gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 	return VT_UNKNOWN;
 }
 
-/* Returns TRUE on success */
+/* Returns: TRUE on success */
 static gboolean
 msole_metadata_write_prop (WritePropState *state,
 			   char const *name,
@@ -1425,7 +1425,7 @@ cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
  * @meta_data : #GsfDocMetaData
  * @doc_not_component : a kludge to differentiate DocumentSummary from Summary
  *
- * Returns TRUE on success;
+ * Returns: %TRUE on success;
  **/
 gboolean
 gsf_msole_metadata_write (GsfOutput *out,
@@ -1686,8 +1686,8 @@ static struct {
  * gsf_msole_lid_for_language
  * @lang :
  *
- * Returns the LID (Language Identifier) for the input language.
- * If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
+ * Returns: the LID (Language Identifier) for the input language.
+ * 	If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
  **/
 guint
 gsf_msole_lid_for_language (char const *lang)
@@ -1711,9 +1711,9 @@ gsf_msole_lid_for_language (char const *lang)
  * gsf_msole_language_for_lid :
  * @lid :
  *
- * Returns the xx_YY style string (can be just xx or xxx) for the given LID.
- * Return value must not be freed. If the LID is not found, is set to 0x0400,
- * or is set to 0x0000, will return "-none-"
+ * Returns: the xx_YY style string (can be just xx or xxx) for the given LID.
+ * 	Return value must not be freed. If the LID is not found, is set to
+ * 	0x0400, or is set to 0x0000, will return "-none-"
  **/
 char const *
 gsf_msole_language_for_lid (guint lid)
@@ -1776,7 +1776,7 @@ gsf_msole_codepage_to_lid (int codepage)
  * gsf_msole_lid_to_codepage
  * @lid :
  *
- * Returns our best guess at the codepage for the given language id
+ * Returns: our best guess at the codepage for the given language id
  **/
 int
 gsf_msole_lid_to_codepage (guint lid)
@@ -1977,8 +1977,8 @@ gsf_msole_lid_to_codepage (guint lid)
  * gsf_msole_lid_to_codepage_str
  * @lid :
  * 
- * Returns the Iconv codepage string for the given LID.
- * Return value must be g_free ()'d
+ * Returns: the Iconv codepage string for the given LID.
+ * 	Return value must be g_free ()'d
  **/
 gchar *
 gsf_msole_lid_to_codepage_str (guint lid)
@@ -1995,7 +1995,7 @@ gsf_msole_lid_to_codepage_str (guint lid)
 /**
  * gsf_msole_iconv_win_codepage :
  *
- * Returns our best guess at the applicable windows code page based on an
+ * Returns: our best guess at the applicable windows code page based on an
  * 	environment variable or the current locale.
  **/
 int
@@ -2058,7 +2058,7 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
  * @to:
  * @codepage :
  *
- * Returns an iconv converter for @codepage -> utf8.
+ * Returns: an iconv converter for @codepage -> utf8.
  **/
 GIConv
 gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
@@ -2088,7 +2088,7 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
  * gsf_msole_iconv_open_for_import :
  * @codepage :
  *
- * Returns an iconv converter for single byte encodings @codepage -> utf8.
+ * Returns: an iconv converter for single byte encodings @codepage -> utf8.
  * 	Attempt to handle the semantics of a specification for multibyte encodings
  * 	since this is only supposed to be used for single bytes.
  **/
@@ -2103,7 +2103,7 @@ gsf_msole_iconv_open_for_import (int codepage)
  * @codepage_to :
  * @from :
  *
- * Returns an iconv converter to go from utf8 -> to our best guess at a useful
+ * Returns: an iconv converter to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
  **/
 GIConv
@@ -2134,7 +2134,7 @@ gsf_msole_iconv_open_codepages_for_export (int codepage_to, char const *from)
  * gsf_msole_iconv_open_codepage_for_export :
  * @codepage_to:
  *
- * Returns an iconv converter to go from utf8 -> to our best guess at a useful
+ * Returns: an iconv converter to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
  **/
 GIConv
@@ -2146,7 +2146,7 @@ gsf_msole_iconv_open_codepage_for_export (int codepage_to)
 /**
  * gsf_msole_iconv_open_for_export :
  *
- * Returns an iconv convert to go from utf8 -> to our best guess at a useful
+ * Returns: an iconv convert to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
  **/
 GIConv

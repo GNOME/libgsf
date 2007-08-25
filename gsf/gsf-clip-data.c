@@ -180,10 +180,12 @@ get_windows_clipboard_data_offset (GsfClipFormatWindows format)
 	return 0;
 }
 
-/* Checks that the specified blob size matches the expected size for the format.
- * Returns the same format if the size is correct, or
- * GSF_CLIP_FORMAT_WINDOWS_ERROR if the size is too small.
- */
+/**
+ * Checks that the specified blob size matches the expected size for the format.
+ *
+ * Returns: the same format if the size is correct, or
+ * 	GSF_CLIP_FORMAT_WINDOWS_ERROR if the size is too small.
+ **/
 static GsfClipFormatWindows
 check_format_windows (GsfClipFormatWindows format, const char *format_name, gsize blob_size, GError **error)
 {
@@ -206,7 +208,7 @@ check_format_windows (GsfClipFormatWindows format, const char *format_name, gsiz
  * Queries the Windows clipboard data format for a #GsfClipData.  The @clip_data must
  * have been created with #GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD.
  *
- * Return value: A #GsfClipFormatWindows value.
+ * Returns: A #GsfClipFormatWindows value.
  *
  * Possible errors: #GSF_ERROR_INVALID_DATA if the data blob in the @clip_data is
  * smaller than it should be; in this case GSF_CLIP_FORMAT_WINDOWS_ERROR will be returned.

@@ -52,7 +52,7 @@ typedef struct {
  *
  * <note>This adds a reference to @source.</note>
  *
- * Returns a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 GsfInput *
 gsf_input_textline_new (GsfInput *source)
@@ -158,7 +158,7 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
- * Returns : the string read, or NULL on eof.
+ * Returns: the string read, or %NULL on eof.
  **/
 unsigned char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
@@ -245,7 +245,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
- * Returns: the string read, or NULL on eof.
+ * Returns: the string read, or %NULL on eof.
  **/
 guint8 *
 gsf_input_textline_utf8_gets (GsfInputTextline *textline)
