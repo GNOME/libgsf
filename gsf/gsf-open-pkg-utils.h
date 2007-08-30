@@ -31,11 +31,23 @@ G_BEGIN_DECLS
 typedef struct _GsfOpenPkgRel	GsfOpenPkgRel;
 typedef struct _GsfOpenPkgRels	GsfOpenPkgRels;
 
-GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type);
-GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *in, char const *id);
-GError   *gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
-					GsfXMLInNode const *dtd,
-					GsfXMLInNS const *ns);
+gboolean      gsf_open_pkg_rel_is_extern	(GsfOpenPkgRel const *rel);
+char const   *gsf_open_pkg_rel_get_target	(GsfOpenPkgRel const *rel);
+
+GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_type (GsfInput *in, char const *type);
+GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_id   (GsfInput *in, char const *id);
+
+GsfInput      *gsf_open_pkg_open_rel_by_type   (GsfInput *in, char const *type,
+						GError **err);
+GsfInput      *gsf_open_pkg_open_rel_by_id     (GsfInput *in, char const *id,
+						GError **err);
+GError	      *gsf_open_pkg_parse_rel_by_id    (GsfXMLIn *xin, char const *id,
+						GsfXMLInNode const *dtd,
+						GsfXMLInNS const *ns);
+
+/* DEPRECATED in 1.14.6 */
+GsfInput      *gsf_open_pkg_get_rel_by_type    (GsfInput *in, char const *type);
+GsfInput      *gsf_open_pkg_get_rel_by_id      (GsfInput *in, char const *id);
 
 typedef struct _GsfOutfileOpenPkg GsfOutfileOpenPkg;
 

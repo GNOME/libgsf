@@ -44,6 +44,7 @@ static GsfXMLInNS const open_pkg_ns[] = {
 
 struct _GsfOpenPkgRel {
 	char *id, *type, *target;
+	gboolean is_extern;
 };
 
 struct _GsfOpenPkgRels {
@@ -76,6 +77,7 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *id = NULL;
 	xmlChar const *type = NULL;
 	xmlChar const *target = NULL;
+	gboolean is_extern = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "Id"))
@@ -84,6 +86,8 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			type = attrs[1];
 		else if (0 == strcmp (attrs[0], "Target"))
 			target = attrs[1];
+		else if (0 == strcmp (attrs[0], "TargetMode"))
+			is_extern = 0 == strcmp (attrs[1], "External");
 
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (type != NULL);
@@ -93,6 +97,7 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	rel->id		= g_strdup (id);
 	rel->type	= g_strdup (type);
 	rel->target	= g_strdup (target);
+	rel->is_extern	= is_extern;
 
 	g_hash_table_replace (rels->by_id, rel->id, rel);
 	g_hash_table_replace (rels->by_type, rel->type, rel);
@@ -105,6 +110,19 @@ GSF_XML_IN_NODE_FULL (START, RELS, OPEN_PKG_NS_REL, "Relationships", GSF_XML_NO_
 
 GSF_XML_IN_NODE_END
 };
+
+gboolean
+gsf_open_pkg_rel_is_extern (GsfOpenPkgRel const *rel)
+{
+	g_return_val_if_fail (rel != NULL, FALSE);
+	return rel->is_extern;
+}
+char const *
+gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
+{
+	g_return_val_if_fail (rel != NULL, NULL);
+	return rel->target;
+}
 
 /**
  * gsf_open_pkg_get_rels :
@@ -157,7 +175,7 @@ gsf_open_pkg_get_rels (GsfInput *in)
 }
 
 static GsfInput *
-gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel)
+gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel, GError **err)
 {
 	GsfInfile *container, *prev;
 	gchar **elems;
@@ -202,8 +220,59 @@ gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel)
 	return in;
 }
 
+/**
+ * gsf_open_pkg_lookup_rel_by_type :
+ * @in : #GsfInput
+ * @type :
+ * @err : optionally %NULL
+ *
+ * New in 1.14.6
+ *
+ * Finds _a_ relation of @in with @type (no order is guaranteed)
+ *
+ * Returns: A #GsfOpenPkgRel or %NULL
+ **/
+GsfOpenPkgRel *
+gsf_open_pkg_lookup_rel_by_type (GsfInput *in, char const *type)
+{
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	g_return_val_if_fail (rels != NULL, NULL);
+	return g_hash_table_lookup (rels->by_type, type);
+}
+
+/**
+ * gsf_open_pkg_open_rel_by_id :
+ * @in : #GsfInput
+ * @id :
+ *
+ * New in 1.14.6
+ *
+ * Finds @in's relation with @id
+ *
+ * Returns: A #GsfOpenPkgRel or %NULL
+ **/
+GsfOpenPkgRel *
+gsf_open_pkg_lookup_rel_by_id (GsfInput *in, char const *id)
+{
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	g_return_val_if_fail (rels != NULL, NULL);
+	return g_hash_table_lookup (rels->by_id, id);
+}
+
+/**
+ * gsf_open_pkg_open_rel_by_id :
+ * @in : #GsfInput
+ * @id :
+ * @err : optionally %NULL
+ *
+ * New in 1.15.0
+ *
+ * Open @in's relation @id
+ *
+ * Returns: A new GsfInput or %NULL, and sets @err if possible.
+ **/
 GsfInput *
-gsf_open_pkg_get_rel_by_id (GsfInput *in, char const *id)
+gsf_open_pkg_open_rel_by_id (GsfInput *in, char const *id, GError **err)
 {
 	GsfOpenPkgRel *rel = NULL;
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
@@ -211,12 +280,28 @@ gsf_open_pkg_get_rel_by_id (GsfInput *in, char const *id)
 	g_return_val_if_fail (rels != NULL, NULL);
 
 	if (NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
-		return gsf_open_pkg_open_rel (in, rel);
+		return gsf_open_pkg_open_rel (in, rel, err);
+	if (err)
+		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
+			_("Unable to find part id='%s' for '%s'"),
+			id, gsf_input_name (in) );
 	return NULL;
 }
 
+/**
+ * gsf_open_pkg_open_rel_by_type :
+ * @in : #GsfInput
+ * @type :
+ * @err : optionally %NULL
+ *
+ * New in 1.15.0
+ *
+ * Open one of @in's relationships with type=@type.
+ *
+ * Returns: A new GsfInput or %NULL, and sets @err if possible.
+ **/
 GsfInput *
-gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type)
+gsf_open_pkg_open_rel_by_type (GsfInput *in, char const *type, GError **err)
 {
 	GsfOpenPkgRel *rel = NULL;
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
@@ -224,21 +309,28 @@ gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type)
 	g_return_val_if_fail (rels != NULL, NULL);
 
 	if (NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
-		return gsf_open_pkg_open_rel (in, rel);
+		return gsf_open_pkg_open_rel (in, rel, err);
+
+	if (err)
+		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
+			_("Unable to find part with type='%s' for '%s'"),
+			type, gsf_input_name (in) );
 	return NULL;
 }
 
 /**
  * gsf_open_pkg_parse_rel_by_id :
  * @xin : #GsfXMLIn
- * @part_id :
+ * @id :
  * @dtd : #GsfXMLInNode
  * @ns : #GsfXMLInNS
+ *
+ * Convenience function to parse a related part.
  *
  * Returns: NULL on success or a GError which callerss need to free on failure.
  **/
 GError *
-gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
+gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,
 			      GsfXMLInNode const *dtd,
 			      GsfXMLInNS const *ns)
 {
@@ -249,30 +341,31 @@ gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 
 	cur_stream = gsf_xml_in_get_input (xin);
 
-	if (NULL == part_id)
+	if (NULL == id)
 		return g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
 			_("Missing id for part in '%s'"),
 			gsf_input_name (cur_stream) );
 
-	part_stream = gsf_open_pkg_get_rel_by_id (cur_stream, part_id);
+	part_stream = gsf_open_pkg_open_rel_by_id (cur_stream, id, &res);
 	if (NULL != part_stream) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (dtd, ns);
 
 		if (!gsf_xml_in_doc_parse (doc, part_stream, xin->user_state))
 			res = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
 				_("Part '%s' in '%s' from '%s' is corrupt!"),
-				part_id,
+				id,
 				gsf_input_name (part_stream),
 				gsf_input_name (cur_stream) );
 		gsf_xml_in_doc_free (doc);
 
 		g_object_unref (G_OBJECT (part_stream));
-	} else
-		res = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
-			_("Unable to find part '%s' for '%s'"),
-			part_id, gsf_input_name (cur_stream) );
+	}
 	return res;
 }
+
+/* DEPRECATED in 1.14.6 */
+GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type) { return gsf_open_pkg_open_rel_by_type (in, type, NULL); }
+GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *in, char const *id)   { return gsf_open_pkg_open_rel_by_id (in, id, NULL); }
 
 /*************************************************************/
 
@@ -631,8 +724,9 @@ gsf_outfile_open_pkg_set_content_type (GsfOutfileOpenPkg *open_pkg,
  * @type : 
  *
  * Create a relationship between @child and @parent of @type.
- * Return the relID which the caller does not owm but will live as long as
- * @parent.
+ *
+ * Returns: the relID which the caller does not own but will live as long as
+ * 	@parent.
  **/
 char const *
 gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
@@ -640,22 +734,37 @@ gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
 			     char const *type)
 {
 	GsfOutfileOpenPkgRel *rel = g_new (GsfOutfileOpenPkgRel, 1);
-	char *tmp, *path = g_strdup (gsf_output_name (GSF_OUTPUT (child)));
-	GsfOutfile *ptr, *base = parent->is_dir ? GSF_OUTFILE (parent)
-		: gsf_output_container (GSF_OUTPUT (parent));
-
-	ptr = GSF_OUTFILE (child);
-	while (NULL != (ptr = gsf_output_container (GSF_OUTPUT (ptr))) &&
-	       ptr != base) {
-		path = g_strconcat (gsf_output_name (GSF_OUTPUT (ptr)), "/",
-			(tmp = path), NULL);
-		g_free (tmp);
-	}
-
+	GString *path;
+	int up = -1;
+	GsfOutfile *child_dir, *parent_dir;
+	
 	/* Calculate the path from @child to @parent */
-	rel->id = g_strdup_printf ("rId%u", g_slist_length (parent->relations) + 1);
-	rel->type = g_strdup (type);
-	rel->target = path;
+	parent_dir = parent->is_dir ? GSF_OUTFILE (parent)
+		: gsf_output_container (GSF_OUTPUT (parent));
+	do {
+		up++;
+		child_dir  = GSF_OUTFILE (child);
+		while (NULL != (child_dir = gsf_output_container (GSF_OUTPUT (child_dir))))
+		       if (child_dir == parent_dir)
+			       goto found; /* break out of both loops */
+	} while (NULL != (parent_dir = gsf_output_container (GSF_OUTPUT (parent_dir))));
+
+found:
+	/* yes prepend is slow, this will never be preformance critical */
+	path = g_string_new (gsf_output_name (GSF_OUTPUT (child)));
+	child_dir  = GSF_OUTFILE (child);
+	while (NULL != (child_dir = gsf_output_container (GSF_OUTPUT (child_dir))) &&
+	       NULL != gsf_output_name (GSF_OUTPUT (child_dir)) &&
+	       child_dir != parent_dir) {
+		g_string_prepend_c (path, '/');
+		g_string_prepend (path, gsf_output_name (GSF_OUTPUT (child_dir)));
+	}
+	while (up--)
+		g_string_prepend (path, "../");
+
+	rel->target = g_string_free (path, FALSE);
+	rel->type   = g_strdup (type);
+	rel->id     = g_strdup_printf ("rId%u", g_slist_length (parent->relations) + 1);
 	parent->relations = g_slist_prepend (parent->relations, rel);
 	return rel->id;
 }
