@@ -11,5 +11,6 @@ messages
 missing
 notexist
 .intltool-cache*
+.intltool-merge-cache
 po2tbl.sed.in
 stamp-it

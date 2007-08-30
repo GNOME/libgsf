@@ -1,0 +1,14 @@
+version.c
+Makefile
+Makefile.in
+.*.sw*
+ID
+*.def
+*.lib
+*.exp
+.deps
+.libs
+*.lo
+*.o
+*.la
+*.a

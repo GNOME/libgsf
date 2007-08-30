@@ -1,6 +1,7 @@
 Makefile
 Makefile.in
 .*.sw*
+.deps
 ID
 test-bzip
 test-cat-zip

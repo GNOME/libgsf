@@ -1,0 +1,13 @@
+Makefile
+Makefile.in
+gsf.c
+gsfgnome.c
+*.def
+*.lib
+*.exp
+.deps
+.libs
+*.lo
+*.o
+*.la
+*.a

@@ -36,4 +36,4 @@ intltool-merge*
 intltool-update*
 INSTALL
 py-compile
-
+libgsf-gvfs-1.pc
