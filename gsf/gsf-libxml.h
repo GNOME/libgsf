@@ -32,8 +32,8 @@ G_BEGIN_DECLS
 /* GSF wrappers for libxml2 */
 xmlParserCtxt *gsf_xml_parser_context (GsfInput   *input);
 #if 0
-				       /* this is cleaner, tack it on for 2.0 */
-					xmlSAXHandlerPtr sax, gpointer user);
+/* this is cleaner, tack it on for 2.0 */
+xmlSAXHandlerPtr sax, gpointer user);
 #endif
 int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
 				       xmlDoc	  *cur,
@@ -98,7 +98,7 @@ struct _GsfXMLInNS {
 #define GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content, 	\
 			     share_children_with_parent, check_ns, start, end, user)	\
 {									\
-	#id, ns, name, #parent_id, start, end, { user }, has_content,	\
+#id, ns, name, #parent_id, start, end, { user }, has_content,	\
 	check_ns, share_children_with_parent,				\
 }
 
@@ -106,14 +106,14 @@ struct _GsfXMLInNS {
 	GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content,	  \
 			     FALSE, FALSE, start, end, 0)
 #define GSF_XML_IN_NODE_END	\
-	{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
+{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
 
 GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const *ns);
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
 gboolean     gsf_xml_in_doc_parse  (GsfXMLInDoc *doc, GsfInput *input,
 				    gpointer user_state);
 void	     gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
-				    GsfXMLInUnknownFunc handler);
+						 GsfXMLInUnknownFunc handler);
 
 void	     gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 				    gpointer new_state, GsfXMLInExtDtor dtor,
@@ -139,41 +139,42 @@ GType gsf_xml_out_get_type      (void) G_GNUC_CONST;
 
 GsfXMLOut *gsf_xml_out_new (GsfOutput *output);
 
-void	    gsf_xml_out_set_doc_type	(GsfXMLOut *xml, char const *type);
-void	    gsf_xml_out_start_element	(GsfXMLOut *xml, char const *id);
-char const *gsf_xml_out_end_element	(GsfXMLOut *xml);
+void	    gsf_xml_out_set_doc_type	(GsfXMLOut *xout, char const *type);
+void	    gsf_xml_out_start_element	(GsfXMLOut *xout, char const *id);
+char const *gsf_xml_out_end_element	(GsfXMLOut *xout);
 
-void gsf_xml_out_simple_element		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_simple_element		(GsfXMLOut *xout, char const *id,
 					 char const *content);
-void gsf_xml_out_simple_int_element	(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_simple_int_element	(GsfXMLOut *xout, char const *id,
 					 int val);
-void gsf_xml_out_simple_float_element	(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_simple_float_element	(GsfXMLOut *xout, char const *id,
 					 double val, int precision);
 
-void gsf_xml_out_add_cstr_unchecked	(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_cstr_unchecked	(GsfXMLOut *xout, char const *id,
 					 char const *val_utf8);
-void gsf_xml_out_add_cstr		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_cstr		(GsfXMLOut *xout, char const *id,
 					 char const *val_utf8);
-void gsf_xml_out_add_bool		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_bool		(GsfXMLOut *xout, char const *id,
 					 gboolean val);
-void gsf_xml_out_add_int		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_int		(GsfXMLOut *xout, char const *id,
 					 int val);
-void gsf_xml_out_add_uint		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_uint		(GsfXMLOut *xout, char const *id,
 					 unsigned int val);
-void gsf_xml_out_add_float		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_float		(GsfXMLOut *xout, char const *id,
 					 double val, int precision);
-void gsf_xml_out_add_color		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_color		(GsfXMLOut *xout, char const *id,
 					 unsigned int r, unsigned int g, unsigned int b);
-void gsf_xml_out_add_base64		(GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_base64		(GsfXMLOut *xout, char const *id,
 					 guint8 const *data, unsigned int len);
-void gsf_xml_out_add_enum               (GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_enum               (GsfXMLOut *xout, char const *id,
 					 GType etype, gint val);
-void gsf_xml_out_add_gvalue             (GsfXMLOut *xml, char const *id,
+void gsf_xml_out_add_gvalue             (GsfXMLOut *xout, char const *id,
 					 GValue const *val);
 
 /****************************************************************************/
 /* Some general utilities */
 gboolean gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str);
+GsfOutput *gsf_xml_out_get_output (GsfXMLOut const *xout);
 
 G_END_DECLS
 

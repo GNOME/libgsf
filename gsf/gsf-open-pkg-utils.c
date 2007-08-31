@@ -93,7 +93,7 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (type != NULL);
 	g_return_if_fail (target != NULL);
 
-	rel = g_new (GsfOpenPkgRel, 1);
+	rel = g_new0 (GsfOpenPkgRel, 1);
 	rel->id		= g_strdup (id);
 	rel->type	= g_strdup (type);
 	rel->target	= g_strdup (target);
@@ -111,17 +111,43 @@ GSF_XML_IN_NODE_FULL (START, RELS, OPEN_PKG_NS_REL, "Relationships", GSF_XML_NO_
 GSF_XML_IN_NODE_END
 };
 
+/**
+ * gsf_open_pkg_rel_is_extern :
+ * @rel : #GsfOpenPkgRel
+ *
+ * Returns: %TRUE if @rel has mode 'External'
+ **/
 gboolean
 gsf_open_pkg_rel_is_extern (GsfOpenPkgRel const *rel)
 {
 	g_return_val_if_fail (rel != NULL, FALSE);
 	return rel->is_extern;
 }
+
+/**
+ * gsf_open_pkg_rel_get_target :
+ * @rel : #GsfOpenPkgRel
+ *
+ * Returns: const pointer to @rel's target.
+ **/
 char const *
 gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
 {
 	g_return_val_if_fail (rel != NULL, NULL);
 	return rel->target;
+}
+
+/**
+ * gsf_open_pkg_rel_get_type :
+ * @rel : #GsfOpenPkgRel
+ *
+ * Returns: const pointer to @rel's type.
+ **/
+char const *
+gsf_open_pkg_rel_get_type (GsfOpenPkgRel const *rel)
+{
+	g_return_val_if_fail (rel != NULL, NULL);
+	return rel->type;
 }
 
 /**
@@ -175,7 +201,8 @@ gsf_open_pkg_get_rels (GsfInput *in)
 }
 
 static GsfInput *
-gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel, GError **err)
+gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel,
+		       G_GNUC_UNUSED GError **err /* just in case we need it one day */ )
 {
 	GsfInfile *container, *prev;
 	gchar **elems;
@@ -378,10 +405,6 @@ struct _GsfOutfileOpenPkg {
 	GSList	   *children;
 	GSList	   *relations;
 };
-
-typedef struct {
-	char *id, *type, *target;
-} GsfOutfileOpenPkgRel;
 
 typedef GsfOutfileClass GsfOutfileOpenPkgClass;
 
@@ -594,7 +617,7 @@ gsf_outfile_open_pkg_close (GsfOutput *output)
 	if (NULL != open_pkg->relations) {
 		GsfOutput *rels;
 		GsfXMLOut *xml;
-		GsfOutfileOpenPkgRel *rel;
+		GsfOpenPkgRel *rel;
 		GSList *ptr;
 
 		dir = gsf_outfile_new_child (GSF_OUTFILE (dir), "_rels", TRUE);
@@ -611,6 +634,8 @@ gsf_outfile_open_pkg_close (GsfOutput *output)
 			gsf_xml_out_add_cstr (xml, "Id", rel->id);
 			gsf_xml_out_add_cstr (xml, "Type", rel->type);
 			gsf_xml_out_add_cstr (xml, "Target", rel->target);
+			if (rel->is_extern)
+				gsf_xml_out_add_cstr_unchecked (xml, "TargetMode", "External");
 			gsf_xml_out_end_element (xml); /* </Relationship> */
 
 			g_free (rel->id);
@@ -717,6 +742,21 @@ gsf_outfile_open_pkg_set_content_type (GsfOutfileOpenPkg *open_pkg,
 	}
 }
 
+static char const *
+gsf_outfile_open_pkg_create_rel (GsfOutfileOpenPkg *parent,
+				 char *target,
+				 char const *type,
+				 gboolean is_extern)
+{
+	GsfOpenPkgRel *rel = g_new0 (GsfOpenPkgRel, 1);
+	rel->target = target;
+	rel->type   = g_strdup (type);
+	rel->id     = g_strdup_printf ("rId%u", g_slist_length (parent->relations) + 1);
+	rel->is_extern = is_extern;
+	parent->relations = g_slist_prepend (parent->relations, rel);
+	return rel->id;
+}
+
 /**
  * gsf_outfile_open_pkg_relate:
  * @child : #GsfOutfileOpenPkg
@@ -733,7 +773,6 @@ gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
 			     GsfOutfileOpenPkg *parent,
 			     char const *type)
 {
-	GsfOutfileOpenPkgRel *rel = g_new (GsfOutfileOpenPkgRel, 1);
 	GString *path;
 	int up = -1;
 	GsfOutfile *child_dir, *parent_dir;
@@ -762,11 +801,8 @@ found:
 	while (up--)
 		g_string_prepend (path, "../");
 
-	rel->target = g_string_free (path, FALSE);
-	rel->type   = g_strdup (type);
-	rel->id     = g_strdup_printf ("rId%u", g_slist_length (parent->relations) + 1);
-	parent->relations = g_slist_prepend (parent->relations, rel);
-	return rel->id;
+	return gsf_outfile_open_pkg_create_rel (parent,
+		g_string_free (path, FALSE), type, FALSE);
 }
 
 /**
@@ -784,10 +820,10 @@ found:
  **/
 GsfOutput *
 gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
-			 char const *name,
-			 char const *content_type,
-			 GsfOutfile *parent,
-			 char const *type)
+			      char const *name,
+			      char const *content_type,
+			      GsfOutfile *parent,
+			      char const *type)
 {
 	GsfOutput *part = gsf_outfile_new_child_full (dir, name, FALSE,
 		"content-type", content_type,
@@ -795,6 +831,22 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
 	(void) gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (part),
 		GSF_OUTFILE_OPEN_PKG (parent), type);
 	return part;
+}
+
+/**
+ * gsf_outfile_open_pkg_add_extern_rel :
+ * @parent #GsfOutfileOpenPkg
+ * @target : 
+ * @type : 
+ *
+ **/
+char const *
+gsf_outfile_open_pkg_add_extern_rel (GsfOutfileOpenPkg *parent,
+				     char const *target,
+				     char const *type)
+{
+	return gsf_outfile_open_pkg_create_rel (parent,
+		g_strdup (target), type, TRUE);
 }
 
 gint

@@ -1756,3 +1756,11 @@ gsf_xml_out_add_base64 (GsfXMLOut *xml, char const *id,
 	gsf_xml_out_add_cstr_unchecked (xml, id, tmp);
 	g_free (tmp);
 }
+
+GsfOutput *
+gsf_xml_out_get_output (GsfXMLOut const *xout)
+{
+	g_return_val_if_fail (xout != NULL, NULL);
+	return xout->output;
+}
+

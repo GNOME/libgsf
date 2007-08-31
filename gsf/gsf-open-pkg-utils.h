@@ -33,6 +33,7 @@ typedef struct _GsfOpenPkgRels	GsfOpenPkgRels;
 
 gboolean      gsf_open_pkg_rel_is_extern	(GsfOpenPkgRel const *rel);
 char const   *gsf_open_pkg_rel_get_target	(GsfOpenPkgRel const *rel);
+char const   *gsf_open_pkg_rel_get_type		(GsfOpenPkgRel const *rel);
 
 GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_type (GsfInput *in, char const *type);
 GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_id   (GsfInput *in, char const *id);
@@ -63,6 +64,7 @@ void	    gsf_outfile_open_pkg_set_sink	  (GsfOutfileOpenPkg *open_pkg,
 						   GsfOutput *sink);
 void	    gsf_outfile_open_pkg_set_content_type (GsfOutfileOpenPkg *open_pkg,
 						   char const *content_type);
+
 char const *gsf_outfile_open_pkg_relate		  (GsfOutfileOpenPkg *child,
 						   GsfOutfileOpenPkg *parent,
 						   char const *type);
@@ -71,6 +73,9 @@ GsfOutput  *gsf_outfile_open_pkg_add_rel	  (GsfOutfile *dir,
 						   char const *content_type,
 						   GsfOutfile *parent,
 						   char const *type);
+char const *gsf_outfile_open_pkg_add_extern_rel	  (GsfOutfileOpenPkg *parent,
+						   char const *target,
+						   char const *content_type);
 
 gint gsf_open_pkg_error_id (void);
 
