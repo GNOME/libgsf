@@ -1,7 +1,27 @@
-2007-08-29  Jody Goldberg <jody@gnome.org>
+2007-08-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_outfile_open_pkg_relate) : handle
 	  relative paths better.
+	(open_pkg_rel_begin) : init rel::is_extern.
+	(open_pkg_rel_begin) : parse and store TargetMode as is_extern.
+	(gsf_open_pkg_rel_is_extern) : new.
+	(gsf_open_pkg_rel_get_target) : new.
+	(gsf_open_pkg_rel_get_type) : new.
+	(gsf_open_pkg_lookup_rel_by_type) : new.
+	(gsf_open_pkg_lookup_rel_by_id) : new.
+	(gsf_open_pkg_open_rel_by_id) : renamed from ...
+	(gsf_open_pkg_get_rel_by_id) : which was deprecated because the name
+	  was unclear.
+	(gsf_open_pkg_open_rel_by_type) : renamed from ...
+	(gsf_open_pkg_get_rel_by_type) : which was deprecated because the name
+	  was unclear.
+	(GsfOutfileOpenPkgRel) : delete.
+	(gsf_outfile_open_pkg_close) : use straight GsfOpenPkgRel and export
+	  the TargetMode for is_extern.
+	(gsf_outfile_open_pkg_create_rel) : new.
+	(gsf_outfile_open_pkg_add_extern_rel) : new.
+
+	* gsf/gsf-libxml.c (gsf_xml_out_get_output) : new.
 
 2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

@@ -32,8 +32,8 @@ G_BEGIN_DECLS
 /* GSF wrappers for libxml2 */
 xmlParserCtxt *gsf_xml_parser_context (GsfInput   *input);
 #if 0
-/* this is cleaner, tack it on for 2.0 */
-xmlSAXHandlerPtr sax, gpointer user);
+					/* this is cleaner, tack it on for 2.0 */
+					xmlSAXHandlerPtr sax, gpointer user);
 #endif
 int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
 				       xmlDoc	  *cur,
@@ -98,7 +98,7 @@ struct _GsfXMLInNS {
 #define GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content, 	\
 			     share_children_with_parent, check_ns, start, end, user)	\
 {									\
-#id, ns, name, #parent_id, start, end, { user }, has_content,	\
+	#id, ns, name, #parent_id, start, end, { user }, has_content,	\
 	check_ns, share_children_with_parent,				\
 }
 
@@ -106,7 +106,7 @@ struct _GsfXMLInNS {
 	GSF_XML_IN_NODE_FULL(parent_id, id, ns, name, has_content,	  \
 			     FALSE, FALSE, start, end, 0)
 #define GSF_XML_IN_NODE_END	\
-{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
+	{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
 
 GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const *ns);
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
