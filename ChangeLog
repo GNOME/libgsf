@@ -1,3 +1,7 @@
+2007-09-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.6
+
 2007-08-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_outfile_open_pkg_relate) : handle

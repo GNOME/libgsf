@@ -2,6 +2,8 @@ libgsf 1.14.6
 
 Jody:
 	* Add some safety checks for out of memory conditions.
+	* Some extensions to simplify OOX export.
+	* Docs improvements.
 
 --------------------------------------------------------------------------
 libgsf 1.14.5
