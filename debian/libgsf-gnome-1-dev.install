@@ -1,4 +1,5 @@
 usr/include/libgsf*/gsf-gnome/*
+usr/include/libgsf*/gsf-gvfs/*
 usr/lib/libgsf-gnome*.a
 usr/lib/libgsf-gnome*.so
 usr/lib/pkgconfig/libgsf-gnome*.pc

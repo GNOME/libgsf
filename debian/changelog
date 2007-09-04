@@ -1,3 +1,10 @@
+libgsf (1.14.6-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/libgsf-gnome-1-dev.install] Added gsf-gvfs includes.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 04 Sep 2007 18:57:39 +0200
+
 libgsf (1.14.5-1) unstable; urgency=medium
 
   * New upstream release. Changes include:
