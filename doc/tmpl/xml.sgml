@@ -262,6 +262,15 @@ XML and libxml
 @type: 
 
 
+<!-- ##### FUNCTION gsf_xml_out_get_output ##### -->
+<para>
+
+</para>
+
+@xout: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_xml_out_start_element ##### -->
 <para>
 

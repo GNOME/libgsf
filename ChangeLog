@@ -1,3 +1,10 @@
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (gsf_outfile_open_pkg_add_extern_rel) : add
+	  some docs.
+
+	* gsf/gsf-libxml.c : s/xml/xout/ to placate gtk-doc.
+
 2007-09-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

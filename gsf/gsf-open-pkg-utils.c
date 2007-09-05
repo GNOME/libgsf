@@ -251,7 +251,6 @@ gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel,
  * gsf_open_pkg_lookup_rel_by_type :
  * @in : #GsfInput
  * @type :
- * @err : optionally %NULL
  *
  * New in 1.14.6
  *
@@ -835,18 +834,22 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
 
 /**
  * gsf_outfile_open_pkg_add_extern_rel :
- * @parent #GsfOutfileOpenPkg
+ * @parent : #GsfOutfileOpenPkg
  * @target : 
- * @type : 
+ * @content_type : 
  *
+ * Add an external relation to @parent.
+ *
+ * Returns: The id of the relation.  The string is managed by the parent and
+ * 	should not be changed or freed by the caller.
  **/
 char const *
 gsf_outfile_open_pkg_add_extern_rel (GsfOutfileOpenPkg *parent,
 				     char const *target,
-				     char const *type)
+				     char const *content_type)
 {
 	return gsf_outfile_open_pkg_create_rel (parent,
-		g_strdup (target), type, TRUE);
+		g_strdup (target), content_type, TRUE);
 }
 
 gint

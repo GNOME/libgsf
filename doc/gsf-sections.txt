@@ -381,8 +381,14 @@ gsf_opendoc_metadata_write
 <FILE>open-pkg</FILE>
 GsfOpenPkgRel
 GsfOpenPkgRels
-gsf_open_pkg_get_rel_by_type
-gsf_open_pkg_get_rel_by_id
+gsf_open_pkg_rel_get_target
+gsf_open_pkg_rel_get_type
+gsf_open_pkg_rel_is_extern
+
+gsf_open_pkg_lookup_rel_by_id
+gsf_open_pkg_lookup_rel_by_type
+gsf_open_pkg_open_rel_by_id
+gsf_open_pkg_open_rel_by_type
 gsf_open_pkg_parse_rel_by_id
 
 gsf_open_pkg_error_id
@@ -393,11 +399,16 @@ gsf_outfile_open_pkg_set_sink
 gsf_outfile_open_pkg_set_content_type
 gsf_outfile_open_pkg_relate
 gsf_outfile_open_pkg_add_rel
+gsf_outfile_open_pkg_add_extern_rel
 <SUBSECTION Standard>
 GSF_OUTFILE_OPEN_PKG_TYPE
 GSF_OUTFILE_OPEN_PKG
 GSF_IS_OUTFILE_OPEN_PKG
 gsf_outfile_open_pkg_get_type
+
+<SUBSECTION Deprecated>
+gsf_open_pkg_get_rel_by_type
+gsf_open_pkg_get_rel_by_id
 </SECTION>
 
 <SECTION>
@@ -618,6 +629,7 @@ GsfXMLOut
 
 gsf_xml_out_new
 gsf_xml_out_set_doc_type
+gsf_xml_out_get_output
 
 gsf_xml_out_start_element
 gsf_xml_out_end_element
