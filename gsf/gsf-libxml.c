@@ -1304,7 +1304,7 @@ gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
 
 	if (xout->needs_header) {
 		static char const header0[] =
-			"<?xout version=\"1.0\" encoding=\"UTF-8\"?>\n";
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		gsf_output_write (xout->output, sizeof (header0) - 1, header0);
 		if (xout->doc_type != NULL)
 			gsf_output_puts (xout->output, xout->doc_type);

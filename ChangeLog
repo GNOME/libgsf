@@ -1,3 +1,8 @@
+2007-09-07  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_start_element) : Good grief.
+	  Overzealous renaming breaks all xml output.
+
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_outfile_open_pkg_add_extern_rel) : add
