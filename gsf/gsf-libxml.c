@@ -1025,7 +1025,7 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
  * @input : #GsfInput
  * @user_state :
  *
- * Read an xout document from @input and parse based on the the descriptor in
+ * Read an xml document from @input and parse based on the the descriptor in
  * @doc
  *
  * Returns: %FALSE on error
