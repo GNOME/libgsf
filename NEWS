@@ -1,3 +1,9 @@
+libgsf 1.14.7
+
+Jody:
+	* Fix typo that would break all xml output.
+
+--------------------------------------------------------------------------
 libgsf 1.14.6
 
 Jody:

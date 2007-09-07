@@ -1,5 +1,9 @@
 2007-09-07  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.14.7
+
+2007-09-07  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-libxml.c (gsf_xml_out_start_element) : Good grief.
 	  Overzealous renaming breaks all xml output.
 
