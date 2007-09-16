@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-10 10:35+0200\n"
-"PO-Revision-Date: 2007-09-10 10:35+0100\n"
+"POT-Creation-Date: 2007-09-16 15:22+0200\n"
+"PO-Revision-Date: 2007-09-16 15:23+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +25,8 @@ msgstr "clip_data är i %s, men det är mindre än minsta %"
 
 #: ../gsf/gsf-clip-data.c:237
 #, c-format
-msgid ""
-"The clip_data is in Windows clipboard format, but it is smaller than the "
-"required 4 bytes."
-msgstr ""
-"clip_data är i Windows-urklippsformat, men det är mindre än kravet på 4 byte."
+msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
+msgstr "clip_data är i Windows-urklippsformat, men det är mindre än kravet på 4 byte."
 
 #: ../gsf/gsf-clip-data.c:248
 msgid "Windows Metafile format"
@@ -49,12 +46,8 @@ msgid "Missing data when reading the %s property; got %"
 msgstr "Data saknas vid läsning av egenskapen %s; fick %"
 
 #: ../gsf/gsf-msole-utils.c:330
-msgid ""
-"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
-msgstr ""
-"Skadat data i egenskapen VT_CF; urklippets datalängd måste vara minst 4 "
-"byte, men datat säger det endast har %"
+msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %"
+msgstr "Skadat data i egenskapen VT_CF; urklippets datalängd måste vara minst 4 byte, men datat säger det endast har %"
 
 #: ../gsf/gsf-open-pkg-utils.c:312
 #, c-format
@@ -131,8 +124,7 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Kör \"%s --help\" för att se en fullständig lista över tillgängliga "
-"kommandoradsflaggor.\n"
+"Kör \"%s --help\" för att se en fullständig lista över tillgängliga kommandoradsflaggor.\n"
 
 #: ../tools/gsf.c:309
 #, c-format
@@ -150,16 +142,12 @@ msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Kör \"%s help\" för att se en lista över underkommandon.\n"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid ""
-"Boolean options available, true enables thumbnailing and false disables the "
-"creation of new thumbnails"
-msgstr ""
-"Booleska flaggor är tillgängliga, sant aktiverar miniatyrbilder och falskt "
-"inaktiverar skapandet av nya miniatyrbilder"
+msgid "Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails"
+msgstr "Booleska flaggor är tillgängliga, sant aktiverar miniatyrbilder och falskt inaktiverar skapandet av nya miniatyrbilder"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
 msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Calc-kalkylark"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Calc-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:3
 msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
@@ -167,15 +155,11 @@ msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Drawing-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
 msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-"
-"presentationsmallar"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-presentationsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
 msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-"
-"presentationer"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:6
 msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
@@ -183,18 +167,15 @@ msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Math-dokument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:7
 msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenOffice 1.x-kalkylarksmallar"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x-kalkylbladsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:8
 msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Writer-dokument"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Writer-dokument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:9
 msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för globala OpenOffice 1.x Writer-mallar"
+msgstr "Aktivera skapandet av miniatyrbilder för globala OpenOffice 1.x Writer-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:10
 msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
@@ -202,12 +183,11 @@ msgstr "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Writer-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:11
 msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-msgstr "Aktivera skapandet av miniatyrbilder för Microsoft Excel-kalkylark"
+msgstr "Aktivera skapandet av miniatyrbilder för Microsoft Excel-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:12
 msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för Microsoft PowerPoint-presentationer"
+msgstr "Aktivera skapandet av miniatyrbilder för Microsoft PowerPoint-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:13
 msgid "Enable thumbnailing of Microsoft Word documents"
@@ -235,8 +215,7 @@ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-bilder"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:19
 msgid "Enable thumbnailing of OpenDocument presentation templates"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenDocument-presentationsmallar"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-presentationsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
 msgid "Enable thumbnailing of OpenDocument presentations"
@@ -244,33 +223,27 @@ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
 msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylarksmallar"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylbladsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:22
 msgid "Enable thumbnailing of OpenDocument spreadsheets"
-msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylark"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:23
 msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenDocument-dokumentmallar för "
-"ordbehandling"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-dokumentmallar för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:24
 msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenDocument-dokument för "
-"ordbehandling"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-dokument för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:25
 msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr ""
-"Aktivera skapandet av miniatyrbilder för OpenDocument-huvuddokument för "
-"ordbehandling"
+msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-huvuddokument för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
 msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr "Kommando för miniatyrbild för Microsoft Excel-kalkylark"
+msgstr "Kommando för miniatyrbild för Microsoft Excel-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
 msgid "Thumbnail command for Microsoft PowerPoint presentations"
@@ -310,16 +283,15 @@ msgstr "Kommando för miniatyrbild för OpenDocument-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
 msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr "Kommando för miniatyrbild för OpenDocument-kalkylarksmallar"
+msgstr "Kommando för miniatyrbild för OpenDocument-kalkylbladsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
 msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr "Kommando för miniatyrbild för OpenDocument-kalkylark"
+msgstr "Kommando för miniatyrbild för OpenDocument-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
 msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr ""
-"Kommando för miniatyrbild för OpenDocument-dokumentmallar för ordbehandling"
+msgstr "Kommando för miniatyrbild för OpenDocument-dokumentmallar för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
 msgid "Thumbnail command for OpenDocument wordprocessing documents"
@@ -327,12 +299,11 @@ msgstr "Kommando för miniatyrbild för OpenDocument-dokument för ordbehandling
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
 msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr ""
-"Kommando för miniatyrbild för OpenDocument-huvuddokument för ordbehandling"
+msgstr "Kommando för miniatyrbild för OpenDocument-huvuddokument för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
 msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr "Kommando för miniatyrbild för OpenOffice 1.x Calc-kalkylark"
+msgstr "Kommando för miniatyrbild för OpenOffice 1.x Calc-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
 msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
@@ -340,8 +311,7 @@ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Drawing-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
 msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Kommando för miniatyrbild för OpenOffice 1.x Impress-presentationsmallar"
+msgstr "Kommando för miniatyrbild för OpenOffice 1.x Impress-presentationsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
 msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
@@ -369,169 +339,97 @@ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Writer-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
 msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr "Giltigt kommando plus argument för Microsoft Excel-kalkylark."
+msgstr "Giltigt kommando plus argument för Microsoft Excel-kalkylblad."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
 msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för Microsoft "
-"PowerPoint"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft PowerPoint"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
 msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för Microsoft Word"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft Word"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
 msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"diagram"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-diagram"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-msgid ""
-"Valid command plus arguments for the OpenDocument drawing template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"ritmallar"
+msgid "Valid command plus arguments for the OpenDocument drawing template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-ritmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
 msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"ritningar"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-ritningar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
 msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"formel"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-formel"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
 msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"bilder"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-bilder"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"presentationsmallar"
+msgid "Valid command plus arguments for the OpenDocument presentation template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-presentationsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"presentationer"
+msgid "Valid command plus arguments for the OpenDocument presentation thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"kalkylarksmallar"
+msgid "Valid command plus arguments for the OpenDocument spreadsheet template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-kalkylbladsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"kalkylark"
+msgid "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-kalkylblad"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"template thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"dokumentmallar för ordbehandling"
+msgid "Valid command plus arguments for the OpenDocument wordprocessing document template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-dokumentmallar för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"dokument för ordbehandling"
+msgid "Valid command plus arguments for the OpenDocument wordprocessing document thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-dokument för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing master "
-"document thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-"huvuddokument för ordbehandling"
+msgid "Valid command plus arguments for the OpenDocument wordprocessing master document thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-huvuddokument för ordbehandling"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Drawing template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Drawing-mallar"
+msgid "Valid command plus arguments for the OpenOffice 1.x Drawing template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Drawing-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Drawing"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Drawing"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"template thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Impress-presentationsmallar"
+msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Impress-presentationsmallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Impress-presentationer"
+msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Impress-presentationer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Math-dokument"
+msgid "Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Math-dokument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer document "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Writer-dokument"
+msgid "Valid command plus arguments for the OpenOffice 1.x Writer document thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Writer-dokument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer global template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för globala "
-"OpenOffice 1.x Writer-mallar"
+msgid "Valid command plus arguments for the OpenOffice 1.x Writer global template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för globala OpenOffice 1.x Writer-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer template "
-"thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-"Writer-mallar"
+msgid "Valid command plus arguments for the OpenOffice 1.x Writer template thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x Writer-mallar"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr ""
-"Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x-"
-"kalkylark"
+msgid "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
+msgstr "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x-kalkylblad"
+
