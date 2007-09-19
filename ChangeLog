@@ -1,3 +1,8 @@
+2007-09-19  Dom Lachowicz <domlachowicz@gmail.com>
+
+	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_child): Pass the va_list
+	to the child
+	
 2007-09-07  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

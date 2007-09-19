@@ -52,16 +52,16 @@ gsf_outfile_stdio_finalize (GObject *obj)
 static GsfOutput *
 gsf_outfile_stdio_new_child (GsfOutfile *parent,
 			     char const *name, gboolean is_dir,
-			     G_GNUC_UNUSED char const *first_property_name,
-			     G_GNUC_UNUSED va_list args)
+			     char const *first_property_name,
+			     va_list args)
 {
 	GsfOutfileStdio *ofs = GSF_OUTFILE_STDIO (parent);
 	GsfOutput *child;
 	char *path = g_build_filename (ofs->root, name, NULL);
 
-/* FIXME FIXME FIXME  FIX : allow args */
 	if (is_dir)
-		child = (GsfOutput *)gsf_outfile_stdio_new (path, NULL);
+		child = (GsfOutput *)gsf_outfile_stdio_new_valist (path, NULL, 
+								   first_property_name, args);
 	else
 		child = gsf_output_stdio_new (path, NULL);
 	g_free (path);
