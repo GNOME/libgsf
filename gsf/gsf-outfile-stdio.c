@@ -63,7 +63,8 @@ gsf_outfile_stdio_new_child (GsfOutfile *parent,
 		child = (GsfOutput *)gsf_outfile_stdio_new_valist (path, NULL, 
 								   first_property_name, args);
 	else
-		child = gsf_output_stdio_new (path, NULL);
+		child = gsf_output_stdio_new_valist (path, NULL,
+						     first_property_name, args);
 	g_free (path);
 
 	return child;

@@ -1,3 +1,8 @@
+2007-09-25  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_child) : use it for
+	  standard children too.
+
 2007-09-19  Dom Lachowicz <domlachowicz@gmail.com>
 
 	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_child): Pass the va_list
