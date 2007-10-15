@@ -800,9 +800,9 @@ msole_prop_read (GsfInput *in,
 {
 	guint32 type;
 	guint8 const *data;
-	/* FIXME : why size-4 ? I must be missing something */
 	gsf_off_t size = ((i+1) >= section->num_props)
-		? section->size-4 : props[i+1].offset;
+		? section->size
+		: props[i+1].offset;
 	char   *name;
 	GValue *val;
 
@@ -810,6 +810,7 @@ msole_prop_read (GsfInput *in,
 	g_return_val_if_fail (size >= props[i].offset + 4, FALSE);
 
 	size -= props[i].offset; /* includes the type id */
+	/* From now on, size is actually a size.  */
 	if (gsf_input_seek (in, section->offset+props[i].offset, G_SEEK_SET) ||
 	    NULL == (data = gsf_input_read (in, size, NULL))) {
 		g_warning ("failed to read prop #%d", i);
@@ -1031,8 +1032,11 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 
 		if (sections[i].num_props <= 0)
 			continue;
-
 		if (sections[i].num_props > gsf_input_remaining(in) / 8)
+			return g_error_new (gsf_input_error_id (), 0,
+				"Invalid MS property stream header or file truncated");
+
+		if (sections[i].offset + sections[i].size > gsf_input_size(in))
 			return g_error_new (gsf_input_error_id (), 0,
 				"Invalid MS property stream header or file truncated");
 
@@ -1052,16 +1056,30 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 					"Invalid MS property section");
 			}
 
-			props [j].id = GSF_LE_GET_GUINT32 (data);
-			props [j].offset  = GSF_LE_GET_GUINT32 (data + 4);
+			props[j].id = GSF_LE_GET_GUINT32 (data);
+			props[j].offset = GSF_LE_GET_GUINT32 (data + 4);
 			d (g_print ("%d) ID=%d, offset=0x%x\n", j,
 				    props [j].id, (unsigned)props [j].offset););
 		}
+
+		/* FIXME: Should we check that ids are distinct?  */
 
 		/* order prop info by offset to facilitate bounds checking */
 		qsort (props, sections[i].num_props,
 		       sizeof (GsfMSOleMetaDataProp),
 		       msole_prop_cmp);
+
+		/* Sanity checks.  */
+		for (j = 0; j < sections[i].num_props; j++) {
+			guint end = (j == sections[i].num_props - 1)
+				? sections[i].size
+				: props[j + 1].offset;
+			if (props[j].offset < 0 || props[j].offset + 4 > end) {
+				g_free (props);
+				return g_error_new (gsf_input_error_id (), 0,
+					"Invalid MS property section");
+			}
+		}
 
 		/*
 		 * Find and process the code page.

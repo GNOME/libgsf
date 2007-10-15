@@ -1,3 +1,9 @@
+2007-10-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read): Sanity check
+	sections without hitting g_return_val_if_fail.  Probably fixes
+	#485964.
+
 2007-09-25  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_child) : use it for
