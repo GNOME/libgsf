@@ -1,5 +1,9 @@
 2007-10-27  Jody Goldberg <jody@gnome.org>
 
+	* gsf-win32/Makefile.am : Only install headers on win32. [#459771]
+
+2007-10-27  Jody Goldberg <jody@gnome.org>
+
 	* gsf/gsf-opendoc-utils.c : Add
 	    urn:oasis:names:tc:opendocument:xmlns:presentation:1.0
 

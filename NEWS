@@ -1,5 +1,9 @@
 libgsf 1.14.8
 
+Jody:
+	* Add missing ODF presentation namespace.
+	* Only install win32 header for win32. [#459771]
+
 Morten:
 	* Fix criticals for corrupted file.  [#485964]
 

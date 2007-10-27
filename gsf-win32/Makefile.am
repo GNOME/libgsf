@@ -11,11 +11,14 @@ libgsf_win32_1_la_SOURCES =	\
 	gsf-input-win32.c	\
 	gsf-output-win32.c
 
-endif
-
 ## But headers are installed on all systems:
 libgsf_win32_1_includedir = $(includedir)/libgsf-1/gsf-win32
-libgsf_win32_1_include_HEADERS =  \
+libgsf_win32_1_include_HEADERS =  $(HEADERS)
+else
+EXTRA_DIST = $(gsf_win32_headers)
+endif
+
+gsf_win32_headers = \
 	gsf-input-win32.h	\
 	gsf-output-win32.h
 
