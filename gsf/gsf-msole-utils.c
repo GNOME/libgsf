@@ -381,15 +381,100 @@ parse_vt_cf (GValue *res, guint8 const **data, guint8 const *data_end, GError **
 	return TRUE;
 }
 
+/*
+ * Return a number no bigger than the number of bytes used for a property
+ * value of a given type.  The returned number might be too small, but
+ * we try to return as big a value as possible.
+ */
+static size_t
+msole_prop_min_size (guint32 type)
+{
+	switch (type) {
+	case VT_EMPTY:
+	case VT_NULL:
+		return 0;
+
+	case VT_BOOL:
+	case VT_I1:
+	case VT_UI1:
+		return 1;
+
+	case VT_I2:
+	case VT_UI2:
+		return 2;
+
+	case VT_I4:
+	case VT_R4:
+	case VT_ERROR:
+	case VT_VARIANT:
+	case VT_UI4:
+	case VT_LPSTR:
+	case VT_LPWSTR:
+	case VT_BLOB:
+	case VT_BLOB_OBJECT:
+	case VT_CF:
+	case VT_VECTOR:
+		return 4;
+
+	case VT_BSTR:
+		return 5;
+
+	case VT_R8:
+	case VT_CY:
+	case VT_DATE:
+	case VT_I8:
+	case VT_UI8:
+	case VT_FILETIME:
+		return 8;
+
+	case VT_CLSID:
+		return 16;
+
+	case VT_DISPATCH:
+	case VT_UNKNOWN:
+	case VT_DECIMAL:
+	case VT_INT:
+	case VT_UINT:
+	case VT_VOID:
+	case VT_HRESULT:
+	case VT_PTR:
+	case VT_SAFEARRAY:
+	case VT_CARRAY:
+	case VT_USERDEFINED:
+	case VT_STREAM:
+	case VT_STORAGE:
+	case VT_STREAMED_OBJECT:
+	case VT_STORED_OBJECT:
+	default:
+		return 0;
+	}
+}
+
+#define NEED_RECS(_n,_size1)						\
+  do {									\
+        guint _s1 = (_size1);						\
+	bytes_needed = (_n);						\
+	if (_s1 > 0 && (data_end - *data) / _s1 < bytes_needed) {	\
+		g_warning ("Invalid MS property or file truncated");	\
+		return NULL;						\
+	}								\
+	bytes_needed *= _s1;						\
+  } while (0)
+
+#define NEED_BYTES(_n) NEED_RECS(_n,1)
+
+#define ADVANCE do { *data += bytes_needed; } while (0)
+
 static GValue *
 msole_prop_parse (GsfMSOleMetaDataSection *section,
 		  guint32 type, guint8 const **data, guint8 const *data_end)
 {
-	GValue *res;
+	GValue *res = NULL;
 	char *str;
 	guint32 len;
 	gboolean const is_vector = type & VT_VECTOR;
 	GError *error;
+	guint bytes_needed;
 
 	g_return_val_if_fail (!(type & (unsigned)(~0x1fff)), NULL); /* not valid in a prop set */
 
@@ -402,17 +487,19 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 *  variant type.  Otherwise, each element has the same variant
 		 *  type associated with the vector.
 		 */
-		unsigned i, n;
+		unsigned i, n, size1;
 		GsfDocPropVector *vector;
 
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
-
+		NEED_BYTES (4);
 		n = GSF_LE_GET_GUINT32 (*data);
-		*data += 4;
+		ADVANCE;
 
 		d (g_print (" array with %d elem\n", n);
 		   gsf_mem_dump (*data, (unsigned)(data_end - *data)););
-		
+
+		size1 = msole_prop_min_size (type);
+		NEED_RECS(n, size1);
+
 		vector = gsf_docprop_vector_new ();
 
 		for (i = 0 ; i < n ; i++) {
@@ -453,40 +540,40 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 	case VT_I2 :
 		/* 2-byte signed integer */
-		g_return_val_if_fail (*data + 2 <= data_end, NULL);
+		NEED_BYTES (2);
 		g_value_init (res, G_TYPE_INT);
 		g_value_set_int	(res, GSF_LE_GET_GINT16 (*data));
-		*data += 2;
+		ADVANCE;
 		break;
 
 	case VT_I4 :
 		/* 4-byte signed integer */
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
+		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_INT);
 		g_value_set_int	(res, GSF_LE_GET_GINT32 (*data));
-		*data += 4;
+		ADVANCE;
 		break;
 
 	case VT_R4 :
 		/* 32-bit IEEE floating-point value */
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
+		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_FLOAT);
 		g_value_set_float (res, GSF_LE_GET_FLOAT (*data));
-		*data += 4;
+		ADVANCE;
 		break;
 
 	case VT_R8 :
 		/* 64-bit IEEE floating-point value */
-		g_return_val_if_fail (*data + 8 <= data_end, NULL);
+		NEED_BYTES (8);
 		g_value_init (res, G_TYPE_DOUBLE);
 		g_value_set_double (res, GSF_LE_GET_DOUBLE (*data));
-		*data += 8;
+		ADVANCE;
 		break;
 
 	case VT_CY :
 		/* 8-byte two's complement integer (scaled by 10,000) */
+		NEED_BYTES (8);
 		/* CHEAT : just store as an int64 for now */
-		g_return_val_if_fail (*data + 8 <= data_end, NULL);
 		g_value_init (res, G_TYPE_INT64);
 		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
 		break;
@@ -496,7 +583,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
+		NEED_BYTES (8);
 		break;
 
 	case VT_BSTR :
@@ -505,19 +593,21 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * ceeded by a DWORD representing the byte count of the number
 		 * of bytes in the string (including the  terminating null).
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
+		NEED_BYTES (4);
+		ADVANCE;
 		break;
 
 	case VT_DISPATCH :
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
 		break;
 
 	case VT_BOOL :
 		/* A boolean (WORD) value containg 0 (false) or -1 (true). */
-		g_return_val_if_fail (*data + 1 <= data_end, NULL);
+		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_BOOLEAN);
 		g_value_set_boolean (res, **data ? TRUE : FALSE);
-		*data += 1;
+		ADVANCE;
 		break;
 
 	case VT_VARIANT :	 d (g_print ("\tcontaining a "););
@@ -526,49 +616,58 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 *  value.  VT_VARIANT is only used in conjunction with
 		 *  VT_VECTOR.
 		 */
+		NEED_BYTES (4);
 		g_free (res);
 		type = GSF_LE_GET_GUINT32 (*data);
-		*data += 4;
+		ADVANCE;
 		return msole_prop_parse (section, type, data, data_end);
 
 	case VT_UI1 :
 		/* 1-byte unsigned integer */
-		g_return_val_if_fail (*data + 1 <= data_end, NULL);
+		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_UCHAR);
-		g_value_set_uchar (res, (guchar)(**data));
-		*data += 1;
+		g_value_set_uchar (res, GSF_LE_GET_GUINT8 (*data));
+		ADVANCE;
+		break;
+
+	case VT_I1 :
+		/* 1-byte unsigned integer */
+		NEED_BYTES (1);
+		g_value_init (res, G_TYPE_CHAR);
+		g_value_set_char (res, GSF_LE_GET_GINT8 (*data));
+		ADVANCE;
 		break;
 
 	case VT_UI2 :
 		/* 2-byte unsigned integer */
-		g_return_val_if_fail (*data + 2 <= data_end, NULL);
+		NEED_BYTES (2);
 		g_value_init (res, G_TYPE_UINT);
 		g_value_set_uint (res, GSF_LE_GET_GUINT16 (*data));
-		*data += 2;
+		ADVANCE;
 		break;
 
 	case VT_UI4 :
 		/* 4-type unsigned integer */
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
+		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_UINT);
 		g_value_set_uint (res, GSF_LE_GET_GUINT32 (*data));
-		*data += 4;
+		ADVANCE;
 		break;
 
 	case VT_I8 :		 d (g_print ("VT_I8\n"););
 		/* 8-byte signed integer */
-		g_return_val_if_fail (*data + 8 <= data_end, NULL);
+		NEED_BYTES (8);
 		g_value_init (res, G_TYPE_INT64);
 		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
-		*data += 8;
+		ADVANCE;
 		break;
 
 	case VT_UI8 :
 		/* 8-byte unsigned integer */
-		g_return_val_if_fail (*data + 8 <= data_end, NULL);
+		NEED_BYTES (8);
 		g_value_init (res, G_TYPE_UINT64);
 		g_value_set_uint64 (res, GSF_LE_GET_GUINT64 (*data));
-		*data += 8;
+		ADVANCE;
 		break;
 
 	case VT_LPSTR :
@@ -578,17 +677,17 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * representation of VP_LPSTR has a preceding byte count, whereas
 		 * the in-memory representation does not.
 		 */
-		/* be anal and safe */
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
-
+		NEED_BYTES (4);
 		len = GSF_LE_GET_GUINT32 (*data);
+		ADVANCE;
+
+		NEED_RECS (len, section->char_size);
 
 		g_return_val_if_fail (len < 0x10000, NULL);
-		g_return_val_if_fail (*data + 4 + len*section->char_size <= data_end, NULL);
 
 		error = NULL;
-		d (gsf_mem_dump (*data + 4, len * section->char_size););
-		str = g_convert_with_iconv (*data + 4,
+		d (gsf_mem_dump (*data, len * section->char_size););
+		str = g_convert_with_iconv (*data,
 			len * section->char_size,
 			section->iconv_handle, NULL, NULL, &error);
 
@@ -602,7 +701,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		} else {
 			g_warning ("unknown error converting string property, using blank");
 		}
-		*data += 4 + len * section->char_size;
+		ADVANCE;
 		break;
 
 	case VT_LPWSTR :
@@ -612,17 +711,18 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * by that many Unicode (16-bit) characters.  Note that the count
 		 * is character count, not byte count.
 		 */
-		/* be anal and safe */
-		g_return_val_if_fail (*data + 4 <= data_end, NULL);
 
+		NEED_BYTES (4);
 		len = GSF_LE_GET_GUINT32 (*data);
+		ADVANCE;
+
+		NEED_RECS (len, 2);
 
 		g_return_val_if_fail (len < 0x10000, NULL);
-		g_return_val_if_fail (*data + 4 + len * 2 <= data_end, NULL);
 
 		error = NULL;
-		d (gsf_mem_dump (*data + 4, len*2););
-		str = g_convert (*data + 4, len*2,
+		d (gsf_mem_dump (*data, len * 2););
+		str = g_convert (*data, len * 2,
 				 "UTF-8", "UTF-16LE", NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
@@ -635,25 +735,28 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		} else {
 			g_warning ("unknown error converting string property, using blank");
 		}
-		*data += 4 + len*2;
+		ADVANCE;
 		break;
 
-	case VT_FILETIME :
+	case VT_FILETIME : {
 		/* 64-bit FILETIME structure, as defined by Win32. */
-		g_return_val_if_fail (*data + 8 <= data_end, NULL);
-	{
-		/* ft * 100ns since Jan 1 1601 */
-		guint64 ft = GSF_LE_GET_GUINT64 (*data);
+		guint64 ft;
 		GsfTimestamp ts;
+
+		NEED_BYTES (8);
+
+		/* ft * 100ns since Jan 1 1601 */
+		ft = GSF_LE_GET_GUINT64 (*data);
 
 		ft /= 10000000; /* convert to seconds */
 		ft -= G_GINT64_CONSTANT (11644473600); /* move to Jan 1 1970 */
 		ts.timet = (time_t)ft;
 		g_value_init (res, GSF_TIMESTAMP_TYPE);
 		gsf_value_set_timestamp (res, &ts);
-		*data += 8;
+		ADVANCE;
 		break;
 	}
+
 	case VT_BLOB :
 		/*
 		 * A DWORD count of bytes, followed by that many bytes of data.
@@ -663,31 +766,33 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * tation of a VT_BLOB is similar to that of a VT_BSTR but does
 		 * not guarantee a null byte at the end of the data.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		NEED_BYTES (4);
+		ADVANCE;
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
 
 	case VT_STREAM :
 		/*
-		 * Indicates the value is stored in a stream that is sibling to
-		 * the CONTENTS stream.  Following this type indicator is data
-		 * in the format of a serialized VT_LPSTR, which names the stream
-		 * containing the data.
+		 * Indicates the value is stored in a stream that is sibling
+		 * to the CONTENTS stream.  Following this type indicator is
+		 * data in the format of a serialized VT_LPSTR, which names
+		 * the stream containing the data.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
 
 	case VT_STORAGE :
 		/*
-		 * Indicates the value is stored in an IStorage that is sibling
-		 * to the CONTENTS stream.  Following this type indicator is data
-		 * in the format of a serialized VT_LPSTR, which names the
-		 * IStorage containing the data.
+		 * Indicates the value is stored in an IStorage that is
+		 * sibling to the CONTENTS stream.  Following this type
+		 * indicator is data in the format of a serialized VT_LPSTR,
+		 * which names the IStorage containing the data.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
@@ -698,17 +803,17 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * serialized object, which is a class ID followed by initiali-
 		 * zation data for the class.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
 
 	case VT_STORED_OBJECT :
 		/*
-		 * Same as VT_STORAGE, but indicates that the designated IStorage
-		 * contains a loadable object.
+		 * Same as VT_STORAGE, but indicates that the designated
+		 * IStorage contains a loadable object.
 		 */
-/* FIXME FIXME FIXME  TODO */
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
@@ -716,14 +821,13 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	case VT_BLOB_OBJECT :
 		/*
 		 * Contains a serialized object in the same representation as
-		 * would appear in a VT_STREAMED_OBJECT.  That is, following the
-		 * VT_BLOB_OBJECT tag is a DWORD byte count of the remaining data
-		 * (where the byte count does not include the size of itself)
-		 * which is in the format of a class ID followed by initialization
-		 * data for that class
+		 * would appear in a VT_STREAMED_OBJECT.  That is, following
+		 * the VT_BLOB_OBJECT tag is a DWORD byte count of the
+		 * remaining data (where the byte count does not include the
+		 * size of itself) which is in the format of a class ID
+		 * followed by initialization data for that class
 		 */
-/* FIXME FIXME FIXME  TODO */
-
+		g_warning ("Unhandled property value type");
 		g_free (res);
 		res = NULL;
 		break;
@@ -741,7 +845,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 	case VT_CLSID :
 		/* A class ID (or other GUID) */
-		*data += 16;
+		NEED_BYTES (16);
+		ADVANCE;
 		g_free (res);
 		res = NULL;
 		break;
@@ -750,8 +855,6 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* A DWORD containing a status code. */
 	case VT_UNKNOWN :
 	case VT_DECIMAL :
-	case VT_I1 :
-		/* 1-byte signed integer */
 	case VT_INT :
 	case VT_UINT :
 	case VT_VOID :
@@ -790,6 +893,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	}
 	return res;
 }
+#undef NEED_BYTES
+#undef NEED_RECS
+#undef ADVANCE
 
 static gboolean
 msole_prop_read (GsfInput *in,
@@ -966,6 +1072,7 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 	if (GSF_LE_GET_GUINT16 (data + 0) != 0xfffe
 	    || (version != 0 && version != 1)
 	    || os > 2
+	    || num_sections > gsf_input_size(in) / 20
 	    || num_sections > 100) /* arbitrary sanity check */
 		return g_error_new (gsf_input_error_id (), 0,
 			"Invalid MS property stream header");

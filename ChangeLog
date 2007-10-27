@@ -1,3 +1,8 @@
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Improve sanity
+	checks.  [#404934]
+
 2007-10-27  Jody Goldberg <jody@gnome.org>
 
 	* gsf-win32/Makefile.am : Only install headers on win32. [#459771]

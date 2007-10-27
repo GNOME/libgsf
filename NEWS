@@ -6,6 +6,7 @@ Jody:
 
 Morten:
 	* Fix criticals for corrupted file.  [#485964]
+	* Improve sanity checks of ole properties.  [#404934]
 
 --------------------------------------------------------------------------
 libgsf 1.14.7
