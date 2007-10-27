@@ -13,7 +13,7 @@ libgsf_win32_1_la_SOURCES =	\
 
 ## But headers are installed on all systems:
 libgsf_win32_1_includedir = $(includedir)/libgsf-1/gsf-win32
-libgsf_win32_1_include_HEADERS =  $(HEADERS)
+libgsf_win32_1_include_HEADERS =  $(gsf_win32_headers)
 else
 EXTRA_DIST = $(gsf_win32_headers)
 endif
