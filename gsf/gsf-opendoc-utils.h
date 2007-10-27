@@ -56,7 +56,9 @@ enum {
 	OO_NS_DOM,
 	OO_NS_XFORMS,
 	OO_NS_XSD,
-	OO_NS_XSI
+	OO_NS_XSI,
+
+	OO_NS_PRESENT	/* added in gsf-1.14.8 */
 };
 
 extern GsfXMLInNS gsf_ooo_ns[];

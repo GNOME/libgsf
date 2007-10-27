@@ -1,3 +1,8 @@
+2007-10-27  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-opendoc-utils.c : Add
+	    urn:oasis:names:tc:opendocument:xmlns:presentation:1.0
+
 2007-10-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (gsf_msole_metadata_read): Sanity check

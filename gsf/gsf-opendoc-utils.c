@@ -73,6 +73,8 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	GSF_XML_IN_NS (OO_NS_DR3D,	"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0"),
 	GSF_XML_IN_NS (OO_NS_FORM,	"urn:oasis:names:tc:opendocument:xmlns:form:1.0"),
 	GSF_XML_IN_NS (OO_NS_SCRIPT,	"urn:oasis:names:tc:opendocument:xmlns:script:1.0"),
+	GSF_XML_IN_NS (OO_NS_PRESENT,	"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0"),
+
 	GSF_XML_IN_NS (OO_NS_DC,	"http://purl.org/dc/elements/1.1/"),
 	GSF_XML_IN_NS (OO_NS_OOO,	"http://openoffice.org/2004/office"),
 	GSF_XML_IN_NS (OO_NS_OOOW,	"http://openoffice.org/2004/writer"),
