@@ -1,3 +1,11 @@
+2007-10-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-http.c (gsf_input_http_finalize): Let g_free
+	handle NULL.
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_finalize): Let
+	g_slist_free handle empty lists too.
+
 2007-10-27  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Improve sanity

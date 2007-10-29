@@ -66,22 +66,21 @@ static void
 gsf_input_http_finalize (GObject *obj_input)
 {
         GsfInputHTTP *input = GSF_INPUT_HTTP (obj_input);
-        if (input->url) {
-                g_free (input->url);
-                input->url = NULL;
-        }
-        if (input->content_type) {
-                g_free (input->content_type);
-                input->content_type = NULL;
-        }
+
+	g_free (input->url);
+	input->url = NULL;
+
+	g_free (input->content_type);
+	input->content_type = NULL;
+
         if (input->ctx) {
                 xmlNanoHTTPClose ((gpointer) input->ctx);
                 input->ctx = NULL;
         }
-        if (input->buf) {
-                g_free (input->buf);
-                input->buf = NULL;
-        }
+
+	g_free (input->buf);
+	input->buf = NULL;
+
         ((GObjectClass *)parent_class)->finalize (obj_input);
 }
 

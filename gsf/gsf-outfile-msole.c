@@ -89,10 +89,8 @@ gsf_outfile_msole_finalize (GObject *obj)
 	}
 	switch (ole->type) {
 	case MSOLE_DIR:
-		if (ole->content.dir.children != NULL) {
-			g_slist_free (ole->content.dir.children);
-			ole->content.dir.children = NULL;
-		}
+		g_slist_free (ole->content.dir.children);
+		ole->content.dir.children = NULL;
 		if (ole->content.dir.root_order != NULL)
 			g_warning ("Finalizing a MSOle Outfile without closing it.");
 		break;
