@@ -252,8 +252,8 @@ gsf_output_csv_get_property (GObject     *object,
 static void
 gsf_output_csv_set_sink (GsfOutputCsv *csv, GsfOutput *sink)
 {
-	g_return_if_fail (GSF_IS_OUTPUT (sink));
-	g_object_ref (sink);
+	if (sink)
+		g_object_ref (sink);
 	if (csv->sink)
 		g_object_unref (csv->sink);
 	csv->sink = sink;
