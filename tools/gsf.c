@@ -99,7 +99,8 @@ gsf_help (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 	g_print (_("* dump       dump one or more files in archive as hex\n"));
 	g_print (_("* help       list subcommands\n"));
 	g_print (_("* list       list files in archive\n"));
-	g_print (_("* props      archive list of property names\n"));
+	g_print (_("* listprops  list document properties in archive\n"));
+	g_print (_("* props      print specified document properties\n"));
 	return 0;
 }
 
@@ -215,38 +216,15 @@ gsf_dump (int argc, char **argv, gboolean hex)
 	return res;
 }
 
-static void
-cb_print_prop (gpointer key, gpointer value, G_GNUC_UNUSED gpointer user)
+static GsfDocMetaData *
+get_meta_data (GsfInfile *infile, const char *filename)
 {
-	const char *name = key;
-	const GsfDocProp *prop = value;
-
-	g_print ("%s:", name);
-	gsf_doc_prop_dump (prop);
-}
-
-
-static int
-gsf_dump_props (int argc, char **argv)
-{
-	GsfInfile *infile;
-	GsfInput *in;
-	GsfDocMetaData *meta_data;
-	GError	*err;
-	char const *filename;
-	int res = 0;
-
-	if (argc < 2)
-		return 1;
-
-	filename = argv[0];
-	infile = open_archive (filename);
-	if (!infile)
-		return 1;
-
-	meta_data = gsf_doc_meta_data_new ();
+	GsfDocMetaData *meta_data = gsf_doc_meta_data_new ();
 
 	if (GSF_IS_INFILE_MSOLE (infile)) {
+		GsfInput *in;
+		GError *err;
+
 		in = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 		if (NULL != in) {
 			err = gsf_msole_metadata_read (in, meta_data);
@@ -271,28 +249,88 @@ gsf_dump_props (int argc, char **argv)
 		}
 	}
 
-	if (argc == 2 && strcmp (argv[1], "*") == 0) {
-		gsf_doc_meta_data_foreach (meta_data, cb_print_prop, NULL);
-	} else {
-		int i;
+	return meta_data;
+}
 
-		for (i = 1; i < argc; i++) {
-			const char *name = argv[i];
-			GsfDocProp const *prop =
-				gsf_doc_meta_data_lookup (meta_data, name);
-			if (prop) {
-				if (argc > 2)
-					g_print ("%s:", name);
-				gsf_doc_prop_dump (prop);
-			} else {
-				g_printerr (_("No property named %s\n"), name);
-			}
+static int
+gsf_dump_props (int argc, char **argv)
+{
+	GsfInfile *infile;
+	GsfDocMetaData *meta_data;
+	char const *filename;
+	int res = 0;
+	int i;
+
+	if (argc < 2)
+		return 1;
+
+	filename = argv[0];
+	infile = open_archive (filename);
+	if (!infile)
+		return 1;
+
+	meta_data = get_meta_data (infile, filename);
+
+	for (i = 1; i < argc; i++) {
+		const char *name = argv[i];
+		GsfDocProp const *prop =
+			gsf_doc_meta_data_lookup (meta_data, name);
+		if (prop) {
+			if (argc > 2)
+				g_print ("%s: ", name);
+			gsf_doc_prop_dump (prop);
+		} else {
+			g_printerr (_("No property named %s\n"), name);
 		}
 	}
 
-	g_object_unref (G_OBJECT (meta_data));
+	g_object_unref (meta_data);
 	g_object_unref (infile);
 	return res;
+}
+
+static void
+cb_collect_names (gpointer key,
+		  G_GNUC_UNUSED gpointer value,
+		  gpointer user)
+{
+	const char *name = key;
+	GSList **names = user;
+
+	*names = g_slist_prepend (*names, g_strdup (name));
+}
+
+static void
+cb_print_names (const char *name)
+{
+	g_print ("%s\n", name);
+}
+
+static int
+gsf_list_props (int argc, char **argv)
+{
+	GsfInfile *infile;
+	GsfDocMetaData *meta_data;
+	char const *filename;
+	GSList *names = NULL;
+
+	if (argc != 1)
+		return 1;
+
+	filename = argv[0];
+	infile = open_archive (filename);
+	if (!infile)
+		return 1;
+
+	meta_data = get_meta_data (infile, filename);
+	gsf_doc_meta_data_foreach (meta_data, cb_collect_names, &names);
+	names = g_slist_sort (names, (GCompareFunc)strcmp);
+	g_slist_foreach (names, (GFunc)cb_print_names, NULL);
+	g_slist_free (names);
+
+	g_object_unref (meta_data);
+	g_object_unref (infile);
+	return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -304,8 +342,9 @@ main (int argc, char **argv)
 	GError *error = NULL;	
 	char const *usage;
 	char const *cmd;
+	char const *me = (argv[0] ? argv[0] : "gsf");
 
-	g_set_prgname (argv[0]);
+	g_set_prgname (me);
 	gsf_init ();
 
 #if 0
@@ -322,7 +361,7 @@ main (int argc, char **argv)
 
 	if (error) {
 		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
-			    error->message, argv[0]);
+			    error->message, me);
 		g_error_free (error);
 		return 1;
 	}
@@ -334,7 +373,7 @@ main (int argc, char **argv)
 	}
 
 	if (argc <= 1) {
-		g_printerr (_("Usage: %s %s\n"), (argv[0] ? argv[0] : "gsf"), usage);
+		g_printerr (_("Usage: %s %s\n"), me, usage);
 		return 1;
 	}
 
@@ -352,7 +391,9 @@ main (int argc, char **argv)
 		return gsf_dump (argc - 2, argv + 2, TRUE);
 	if (strcmp (cmd, "props") == 0)
 		return gsf_dump_props (argc - 2, argv + 2);
+	if (strcmp (cmd, "listprops") == 0)
+		return gsf_list_props (argc - 2, argv + 2);
 
-	g_printerr (_("Run '%s help' to see a list subcommands.\n"), argv[0]);
+	g_printerr (_("Run '%s help' to see a list subcommands.\n"), me);
 	return 1;
 }
