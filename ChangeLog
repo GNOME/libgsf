@@ -1,5 +1,8 @@
 2007-11-10  Morten Welinder  <terra@gnome.org>
 
+	* tools/gsf.c (gsf_dump_props): Let 'gsf props archive *' mean
+	print all properties.
+
 	* gsf/gsf-msole-utils.c (msole_debug): New function.
 	(msole_prop_parse): Use msole_debug so we don't print scale
 	messages unless we want to.

@@ -215,16 +215,26 @@ gsf_dump (int argc, char **argv, gboolean hex)
 	return res;
 }
 
+static void
+cb_print_prop (gpointer key, gpointer value, G_GNUC_UNUSED gpointer user)
+{
+	const char *name = key;
+	const GsfDocProp *prop = value;
+
+	g_print ("%s:", name);
+	gsf_doc_prop_dump (prop);
+}
+
+
 static int
 gsf_dump_props (int argc, char **argv)
 {
 	GsfInfile *infile;
-	GsfInput  *in;
-	GsfDocProp const *prop;
-	GsfDocMetaData   *meta_data;
+	GsfInput *in;
+	GsfDocMetaData *meta_data;
 	GError	*err;
 	char const *filename;
-	int i, res = 0;
+	int res = 0;
 
 	if (argc < 2)
 		return 1;
@@ -261,12 +271,24 @@ gsf_dump_props (int argc, char **argv)
 		}
 	}
 
-	for (i = 1; i < argc; i++)
-		if (NULL != (prop = gsf_doc_meta_data_lookup(meta_data, argv[i]))) {
-			if (argc > 2)
-				g_print ("%s:", argv[i]);
-			gsf_doc_prop_dump (prop);
+	if (argc == 2 && strcmp (argv[1], "*") == 0) {
+		gsf_doc_meta_data_foreach (meta_data, cb_print_prop, NULL);
+	} else {
+		int i;
+
+		for (i = 1; i < argc; i++) {
+			const char *name = argv[i];
+			GsfDocProp const *prop =
+				gsf_doc_meta_data_lookup (meta_data, name);
+			if (prop) {
+				if (argc > 2)
+					g_print ("%s:", name);
+				gsf_doc_prop_dump (prop);
+			} else {
+				g_printerr (_("No property named %s\n"), name);
+			}
 		}
+	}
 
 	g_object_unref (G_OBJECT (meta_data));
 	g_object_unref (infile);
