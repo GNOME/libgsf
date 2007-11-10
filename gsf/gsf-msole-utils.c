@@ -46,6 +46,33 @@
 #define d(code)
 #endif
 
+enum {
+	DEBUG_UNKNOWN_PROPS = 1
+};
+
+static gboolean
+msole_debug (guint what)
+{
+	static guint flags;
+	static gboolean inited = FALSE;
+
+	if (!inited) {
+		/* not static */
+		const GDebugKey keys[] = {
+			{ (char*)"msole_prop", DEBUG_UNKNOWN_PROPS },
+		};
+
+		const char *val = g_getenv ("GSF_DEBUG");
+		flags = val
+			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
+			: 0;
+
+		inited = TRUE;
+	}
+
+	return (flags & what) != 0;
+}
+
 /*
  * The Format Identifier for Summary Information
  * F29F85E0-4FF9-1068-AB91-08002B27B3D9
@@ -583,7 +610,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		NEED_BYTES (8);
 		break;
 
@@ -593,13 +622,17 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * ceeded by a DWORD representing the byte count of the number
 		 * of bytes in the string (including the  terminating null).
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		NEED_BYTES (4);
 		ADVANCE;
 		break;
 
 	case VT_DISPATCH :
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		break;
 
 	case VT_BOOL :
@@ -768,7 +801,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 */
 		NEED_BYTES (4);
 		ADVANCE;
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -780,7 +815,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * data in the format of a serialized VT_LPSTR, which names
 		 * the stream containing the data.
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -792,7 +829,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * indicator is data in the format of a serialized VT_LPSTR,
 		 * which names the IStorage containing the data.
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -803,7 +842,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * serialized object, which is a class ID followed by initiali-
 		 * zation data for the class.
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -813,7 +854,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * Same as VT_STORAGE, but indicates that the designated
 		 * IStorage contains a loadable object.
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -827,7 +870,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		 * size of itself) which is in the format of a class ID
 		 * followed by initialization data for that class
 		 */
-		g_warning ("Unhandled property value type");
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unhandled property value type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 		break;
@@ -870,7 +915,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	default :
-		g_warning ("Unknown property type %d (0x%x)", type, type);
+		if (msole_debug (DEBUG_UNKNOWN_PROPS))
+			g_warning ("Unknown property type %d (0x%x)",
+				   type, type);
 		g_free (res);
 		res = NULL;
 	}
