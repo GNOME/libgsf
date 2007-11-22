@@ -45,12 +45,12 @@ glade_enum_from_string (GType type, const char *string)
     if (endptr != string) /* parsed a number */
 	return ret;
 
-    eclass = g_type_class_ref(type);
-    ev = g_enum_get_value_by_name(eclass, string);
-    if (!ev) ev = g_enum_get_value_by_nick(eclass, string);
+    eclass = g_type_class_ref (type);
+    ev = g_enum_get_value_by_name (eclass, string);
+    if (!ev) ev = g_enum_get_value_by_nick (eclass, string);
     if (ev)  ret = ev->value;
 
-    g_type_class_unref(eclass);
+    g_type_class_unref (eclass);
 
     return ret;
 }
@@ -61,11 +61,11 @@ glade_string_from_enum (GType type, gint value)
     GEnumClass *eclass;
     GEnumValue *ev;
 
-    eclass = g_type_class_ref(type);
+    eclass = g_type_class_ref (type);
 
     ev = g_enum_get_value (eclass, value);
 
-    g_type_class_unref(eclass);
+    g_type_class_unref (eclass);
 
     return ev ? ev->value_name : "0";
 }
@@ -1641,8 +1641,9 @@ gsf_xml_out_add_color (GsfXMLOut *xout, char const *id,
 void
 gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
 {
-	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_ref (etype));
 	GEnumValue *ev = g_enum_get_value (eclass, val);
+	g_type_class_unref (eclass);
 
 	if (ev)
 		gsf_xml_out_add_cstr_unchecked (xout, id, ev->value_name);
