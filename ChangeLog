@@ -1,3 +1,8 @@
+2007-11-22  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_enum) : ref/unref the type class.
+	  Peek does not seem sufficient to fully instantiate it.
+
 2007-11-10  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (gsf_dump_props): Let 'gsf listprops archive' print
