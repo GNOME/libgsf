@@ -94,7 +94,15 @@ config-stamp:
 	dh_testdir
 
 	rm -rf build && mkdir build
-	cd build && env "CFLAGS=$(CFLAGS)" "LDFLAGS=$(LDFLAGS)" ../configure $(confflags)
+	# With current libtool (1.5.24-1), LDFLAGS ends up on the actual
+	# link line after some "-l" parameters. This is unfortunate, as it
+	# means that passing "-Wl,--as-needed" through LDFLAGS will not drop
+	# references to all unneeded libraries.
+	#
+	# To work around this, we pass LDFLAGS through CC (which is also
+	# used for the link rules). The price we pay is some "linker input
+	# file unused because linking not done" warnings.
+	cd build && env "CC=$(CC) $(LDFLAGS)" "CFLAGS=$(CFLAGS)" ../configure $(confflags)
 
 	touch config-stamp
 

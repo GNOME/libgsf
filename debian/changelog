@@ -1,3 +1,14 @@
+libgsf (1.14.7-2) unstable; urgency=low
+
+  * [debian/control]
+    * Fixed a syntax error which was ignored by dpkg until recently.
+    * Added Vcs-Svn, Vcs-Browser.
+  * [debian/rules] Changed the way in which LDFLAGS are passed so
+    -Wl,--as-needed has much greater effect.
+  * [debian/watch] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 25 Nov 2007 14:29:33 +0100
+
 libgsf (1.14.7-1) unstable; urgency=medium
 
   * New upstream bugfix release.
