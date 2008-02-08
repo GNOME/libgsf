@@ -309,8 +309,9 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	if (entry >= DIRENT_MAGIC_END)
 		return NULL;
 
-	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
+	g_return_val_if_fail (entry <= G_MAXUINT / DIRENT_SIZE, NULL);
 
+	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
 
 	g_return_val_if_fail (!seen_before[entry], NULL);

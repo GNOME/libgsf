@@ -2,7 +2,8 @@
 
 	* gsf/gsf-infile-msole.c (ole_dirent_new): Add new argument to
 	keep track of what entries we have seen before.  All callers
-	changed.  Check for loops.  Fixes #513831.
+	changed.  Check for loops.  Handle overflow in block computation.
+	Fixes #513831.
 
 2007-11-22  Jody Goldberg <jody@gnome.org>
 
