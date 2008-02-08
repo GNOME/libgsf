@@ -4,6 +4,7 @@
 	keep track of what entries we have seen before.  All callers
 	changed.  Check for loops.  Handle overflow in block computation.
 	Fixes #513831.
+	(ole_init_info): Sanity check num_sbat too.
 
 2007-11-22  Jody Goldberg <jody@gnome.org>
 

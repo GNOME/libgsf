@@ -557,7 +557,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	}
 
 	/* very rough heuristic, just in case */
-	if (num_bat < info->max_block) {
+	if (num_bat < info->max_block && info->num_sbat < info->max_block) {
 		info->bb.bat.num_blocks = num_bat * (info->bb.size / BAT_INDEX_SIZE);
 		info->bb.bat.block	= g_new0 (guint32, info->bb.bat.num_blocks);
 

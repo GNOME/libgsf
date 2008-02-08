@@ -10,6 +10,7 @@ Morten:
 	* Improve sanity checks of ole properties.  [#404934]
 	* Enhance gsf (the program) to list all document properites.
 	* Fix endless loop with broken ole files.  [#513831]
+	* Fix memory allocation problem due to broken ole files.
 
 --------------------------------------------------------------------------
 libgsf 1.14.7
