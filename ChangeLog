@@ -1,3 +1,9 @@
+2008-02-07  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new): Add new argument to
+	keep track of what entries we have seen before.  All callers
+	changed.  Check for loops.  Fixes #513831.
+
 2007-11-22  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_enum) : ref/unref the type class.

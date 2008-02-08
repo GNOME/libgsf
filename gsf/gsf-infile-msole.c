@@ -297,7 +297,8 @@ ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
  * Returns: The dirent
  **/
 static MSOleDirent *
-ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
+ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
+		guint8 *seen_before)
 {
 	MSOleDirent *dirent;
 	guint32 block, next, prev, child, size;
@@ -311,6 +312,10 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 
 	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
+
+	g_return_val_if_fail (!seen_before[entry], NULL);
+	seen_before[entry] = TRUE;
+
 	data = ole_get_block (ole, ole->bat.block [block], NULL);
 	if (data == NULL)
 		return NULL;
@@ -386,17 +391,11 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent)
 			dirent, (GCompareFunc)ole_dirent_cmp);
 
 	/* NOTE : These links are a tree, not a linked list */
-	if (prev == entry) {
-		g_warning ("Invalid OLE file with a cycle in its directory tree");
-	} else
-		ole_dirent_new (ole, prev, parent); 
-	if (next == entry) {
-		g_warning ("Invalid OLE file with a cycle in its directory tree");
-	} else
-		ole_dirent_new (ole, next, parent); 
+	ole_dirent_new (ole, prev, parent, seen_before); 
+	ole_dirent_new (ole, next, parent, seen_before); 
 
 	if (dirent->is_directory)
-		ole_dirent_new (ole, child, dirent);
+		ole_dirent_new (ole, child, dirent, seen_before);
 	else if (child != DIRENT_MAGIC_END)
 		g_warning ("A non directory stream with children ?");
 
@@ -496,6 +495,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 {
 	static guint8 const signature[] =
 		{ 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1 };
+	guint8 *seen_before;
 	guint8 const *header, *tmp;
 	guint32 *metabat = NULL;
 	MSOleInfo *info;
@@ -637,7 +637,10 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	}
 
 	/* Read the directory */
-	ole->dirent = info->root_dir = ole_dirent_new (ole, 0, NULL);
+	seen_before = g_malloc0 ((ole->bat.num_blocks << info->bb.shift) * DIRENT_SIZE + 1);
+	ole->dirent = info->root_dir =
+		ole_dirent_new (ole, 0, NULL, seen_before);
+	g_free (seen_before);
 	if (ole->dirent == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,

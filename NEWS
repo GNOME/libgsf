@@ -8,7 +8,8 @@ Jody:
 Morten:
 	* Fix criticals for corrupted file.  [#485964]
 	* Improve sanity checks of ole properties.  [#404934]
-	* Enhance gsf (the program) to list all msole properites.
+	* Enhance gsf (the program) to list all document properites.
+	* Fix endless loop with broken ole files.  [#513831]
 
 --------------------------------------------------------------------------
 libgsf 1.14.7
