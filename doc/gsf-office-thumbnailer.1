@@ -1,3 +1,7 @@
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
 .TH GSF-OFFICE-THUMBNAILER 1 "August 17, 2005" gsf "GNOME"
 .SH NAME
 gsf-office-thumbnailer \- office files thumbnailer for the GNOME desktop
@@ -54,10 +58,7 @@ Display a brief usage message
 the GNU Lesser General Public License (LGPL) as published by the Free
 Software Foundation. For information on this license look at the source code
 that came with the software or see the 
-.UR http://www.gnu.org
-GNU project page
-.UE
-at http://www.gnu.org/.
+.URL "http://www.gnu.org/" "GNU project page" .
 
 .SH AUTHOR
 
