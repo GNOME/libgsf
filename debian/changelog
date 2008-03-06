@@ -1,3 +1,19 @@
+libgsf (1.14.8-1) unstable; urgency=low
+
+   * New upstream release.
+   * [debian/rules] No longer exclude win32.h on dh_install; upstream now only
+     tries to install it on win32 platforms.
+   * [debian/control]
+     * Bumped debhelper build dependency to match compatibility level
+       specified in debian/compat.
+     * Updated Standards-Version.
+   * [doc/gsf-office-thumbnailer.1, doc/gsf.1] Fixed lintian warnings:
+     corrected font reference and switched to .URL for hyperlinks.
+   * [debian/libgsf-1-dev.doc-base] Changed section to fit in the new section
+     hierarchy.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 06 Mar 2008 07:57:05 +0100
+
 libgsf (1.14.7-2) unstable; urgency=low
 
   * [debian/control]

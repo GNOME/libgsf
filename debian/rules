@@ -179,7 +179,7 @@ else
 	# and directories should belong to a package.
 endif
 
-	dh_install --sourcedir=debian/tmp --fail-missing -Xindex.sgml -Xwin32.h
+	dh_install --sourcedir=debian/tmp --fail-missing -Xindex.sgml
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
