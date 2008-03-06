@@ -1,3 +1,7 @@
+2008-03-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* doc/gsf.1: Fixed typo in font setting.
+
 2008-03-05  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post release bump.
