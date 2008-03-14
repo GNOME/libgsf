@@ -154,6 +154,7 @@ GsfInput *
 gsf_input_gvfs_new_for_path (char const *path, GError **err)
 {
 	GFile *file;
+	GsfInput *input;
 
 	if (path == NULL) {
 		if (err != NULL)
@@ -163,25 +164,18 @@ gsf_input_gvfs_new_for_path (char const *path, GError **err)
 	}
 
 	file = g_file_new_for_path (path);
-	if (file != NULL) {
-		GsfInput *input;
 
-		input = gsf_input_gvfs_new (file, err);
-		g_object_unref (G_OBJECT (file));
-
-		return input;
-	}
-
-	if (err != NULL)
-		*err = g_error_new (gsf_input_error_id (), 0,
-				    "couldn't open file");
-	return NULL;
+	input = gsf_input_gvfs_new (file, err);
+	g_object_unref (G_OBJECT (file));
+	
+	return input;
 }
 
 GsfInput *
 gsf_input_gvfs_new_for_uri (char const *uri, GError **err)
 {
 	GFile *file;
+	GsfInput *input;
 
 	if (uri == NULL) {
 		if (err != NULL)
@@ -191,19 +185,11 @@ gsf_input_gvfs_new_for_uri (char const *uri, GError **err)
 	}
 
 	file = g_file_new_for_uri (uri);
-	if (file != NULL) {
-		GsfInput *input;
 
-		input = gsf_input_gvfs_new (file, err);
-		g_object_unref (G_OBJECT (file));
-
-		return input;
-	}
-
-	if (err != NULL)
-		*err = g_error_new (gsf_input_error_id (), 0,
-				    "couldn't open file");
-	return NULL;
+	input = gsf_input_gvfs_new (file, err);
+	g_object_unref (G_OBJECT (file));
+	
+	return input;
 }
 
 static void

@@ -1,5 +1,10 @@
 2008-03-14  Dominic Lachowicz <domlachowicz@gmail.com>
 
+	* gsf-gvfs/gsf-input-gvfs.c:
+	* gsf-gvfs/gsf-output-gvfs.c: g_file_new() functions cannot fail
+	
+2008-03-14  Dominic Lachowicz <domlachowicz@gmail.com>
+
 	* tests/Makefile.am:
 	* gsf-gvfs/gsf-input-gvfs.c:
 	* gsf-gvfs/gsf-output-gvfs.c:
