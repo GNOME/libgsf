@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-gvfs.h: 
+ * gsf-input-gio.h: 
  *
  * Copyright (C) 2007 Dom Lachowicz <cinamod@hotmail.com>
  *
@@ -19,25 +19,25 @@
  * USA
  */
 
-#ifndef GSF_OUTPUT_GVFS_H
-#define GSF_OUTPUT_GVFS_H
+#ifndef GSF_INPUT_GIO_H
+#define GSF_INPUT_GIO_H
 
-#include <gsf/gsf-output.h>
+#include <gsf/gsf-input.h>
 #include <gio/gio.h>
 
 G_BEGIN_DECLS
 
-#define GSF_OUTPUT_GVFS_TYPE        (gsf_output_gvfs_get_type ())
-#define GSF_OUTPUT_GVFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTPUT_GVFS_TYPE, GsfOutputGvfs))
-#define GSF_IS_OUTPUT_GVFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTPUT_GVFS_TYPE))
+#define GSF_INPUT_GIO_TYPE        (gsf_input_gio_get_type ())
+#define GSF_INPUT_GIO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_INPUT_GIO_TYPE, GsfInputGio))
+#define GSF_IS_INPUT_GIO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_INPUT_GIO_TYPE))
 
-typedef struct _GsfOutputGvfs GsfOutputGvfs;
+typedef struct _GsfInputGio GsfInputGio;
 
-GType      gsf_output_gvfs_get_type (void);
-GsfOutput *gsf_output_gvfs_new      (GFile *file);
-GsfOutput *gsf_output_gvfs_new_for_path (char const *path, GError **err);
-GsfOutput *gsf_output_gvfs_new_for_uri (char const *uri, GError **err);
+GType     gsf_input_gio_get_type (void);
+GsfInput *gsf_input_gio_new (GFile *file, GError **err);
+GsfInput *gsf_input_gio_new_for_path (char const *path, GError **err);
+GsfInput *gsf_input_gio_new_for_uri (char const *uri, GError **err);
 
 G_END_DECLS
 
-#endif /* GSF_OUTPUT_GVFS_H */
+#endif /* GSF_INPUT_GIO_H */

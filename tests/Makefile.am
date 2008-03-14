@@ -12,6 +12,6 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-http # test-xml
 
 if WITH_GIO
-check_PROGRAMS += test-gvfs
-test_gvfs_LDADD = $(top_builddir)/gsf-gvfs/libgsf-gvfs-1.la $(LDADD) $(LIBGSF_GIO_LIBS)
+check_PROGRAMS += test-gio
+test_gio_LDADD = $(top_builddir)/gsf/libgsf-gio-1.la $(LDADD) $(LIBGSF_GIO_LIBS)
 endif

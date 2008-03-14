@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-gvfs.c:
+ * gsf-output-gio.c:
  *
  * Copyright (C) 2007 Dom Lachowicz <cinamod@hotmail.com>
  *
@@ -20,12 +20,12 @@
  */
 
 #include <gsf-config.h>
-#include <gsf-gvfs/gsf-output-gvfs.h>
+#include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-struct _GsfOutputGvfs {
+struct _GsfOutputGio {
 	GsfOutput output;
 	GFile *file;
 	GOutputStream *stream;
@@ -33,7 +33,7 @@ struct _GsfOutputGvfs {
 
 typedef struct {
 	GsfOutputClass output_class;
-} GsfOutputGvfsClass;
+} GsfOutputGioClass;
 
 static gboolean
 can_seek (GOutputStream *stream)
@@ -45,7 +45,7 @@ can_seek (GOutputStream *stream)
 }
 
 static GsfOutput *
-wrap_if_not_seekable (GsfOutputGvfs *output)
+wrap_if_not_seekable (GsfOutputGio *output)
 {
 	if (!can_seek (output->stream)) {
 		/* todo: return a wrapper around the output that's seekable */
@@ -55,9 +55,9 @@ wrap_if_not_seekable (GsfOutputGvfs *output)
 }
 
 GsfOutput *
-gsf_output_gvfs_new (GFile *file)
+gsf_output_gio_new (GFile *file)
 {
-	GsfOutputGvfs *output;
+	GsfOutputGio *output;
 	GOutputStream *stream;
 
 	g_return_val_if_fail (file != NULL, NULL);
@@ -67,7 +67,7 @@ gsf_output_gvfs_new (GFile *file)
 		return NULL;
 	}
 
-	output = g_object_new (GSF_OUTPUT_GVFS_TYPE, NULL);
+	output = g_object_new (GSF_OUTPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == output)) {
 		g_output_stream_close (stream, NULL, NULL);
 		g_object_unref (G_OBJECT (stream));
@@ -82,7 +82,7 @@ gsf_output_gvfs_new (GFile *file)
 }
 
 GsfOutput *
-gsf_output_gvfs_new_for_path (char const *path, GError **err)
+gsf_output_gio_new_for_path (char const *path, GError **err)
 {
 	GFile *file;
 	GsfOutput *output;
@@ -96,14 +96,14 @@ gsf_output_gvfs_new_for_path (char const *path, GError **err)
 
 	file = g_file_new_for_path (path);
 
-	output = gsf_output_gvfs_new (file);
+	output = gsf_output_gio_new (file);
 	g_object_unref (G_OBJECT (file));
 	
 	return output;
 }
 
 GsfOutput *
-gsf_output_gvfs_new_for_uri (char const *uri, GError **err)
+gsf_output_gio_new_for_uri (char const *uri, GError **err)
 {
 	GFile *file;
 	GsfOutput *output;
@@ -117,24 +117,24 @@ gsf_output_gvfs_new_for_uri (char const *uri, GError **err)
 
 	file = g_file_new_for_uri (uri);
 
-	output = gsf_output_gvfs_new (file);
+	output = gsf_output_gio_new (file);
 	g_object_unref (G_OBJECT (file));
 	
 	return output;
 }
 
 static gboolean
-gsf_output_gvfs_close (GsfOutput *output)
+gsf_output_gio_close (GsfOutput *output)
 {
-	GsfOutputGvfs *gvfs = GSF_OUTPUT_GVFS (output);
+	GsfOutputGio *gio = GSF_OUTPUT_GIO (output);
 
-	if (gvfs->stream != NULL) {
-		g_output_stream_close (gvfs->stream, NULL, NULL);
-		g_object_unref (G_OBJECT (gvfs->stream));
-		gvfs->stream = NULL;
+	if (gio->stream != NULL) {
+		g_output_stream_close (gio->stream, NULL, NULL);
+		g_object_unref (G_OBJECT (gio->stream));
+		gio->stream = NULL;
 		
-		g_object_unref (G_OBJECT (gvfs->file));
-		gvfs->file = NULL;
+		g_object_unref (G_OBJECT (gio->file));
+		gio->file = NULL;
 
 		return TRUE;
 	}
@@ -143,12 +143,12 @@ gsf_output_gvfs_close (GsfOutput *output)
 }
 
 static void
-gsf_output_gvfs_finalize (GObject *obj)
+gsf_output_gio_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfOutputGvfs *output = (GsfOutputGvfs *)obj;
+	GsfOutputGio *output = (GsfOutputGio *)obj;
 
-	gsf_output_gvfs_close (GSF_OUTPUT(output));
+	gsf_output_gio_close (GSF_OUTPUT(output));
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
 	if (parent_class && parent_class->finalize)
@@ -156,20 +156,20 @@ gsf_output_gvfs_finalize (GObject *obj)
 }
 
 static gboolean
-gsf_output_gvfs_write (GsfOutput *output,
+gsf_output_gio_write (GsfOutput *output,
 		       size_t num_bytes,
 		       guint8 const *buffer)
 {
-	GsfOutputGvfs *gvfs = GSF_OUTPUT_GVFS (output);
+	GsfOutputGio *gio = GSF_OUTPUT_GIO (output);
 	size_t total_written = 0;
 
-	g_return_val_if_fail (gvfs != NULL, FALSE);
-	g_return_val_if_fail (gvfs->stream != NULL, FALSE);
+	g_return_val_if_fail (gio != NULL, FALSE);
+	g_return_val_if_fail (gio->stream != NULL, FALSE);
 
 	while (1) {
 		gssize nwritten;
 
-		nwritten = g_output_stream_write (gvfs->stream, (guint8 *)(buffer + total_written), (num_bytes - total_written), NULL, NULL);
+		nwritten = g_output_stream_write (gio->stream, (guint8 *)(buffer + total_written), (num_bytes - total_written), NULL, NULL);
 
 		if (nwritten >= 0) {
 			total_written += nwritten;
@@ -184,41 +184,41 @@ gsf_output_gvfs_write (GsfOutput *output,
 }
 
 static gboolean
-gsf_output_gvfs_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
+gsf_output_gio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 {
-	GsfOutputGvfs *gvfs = GSF_OUTPUT_GVFS (output);
+	GsfOutputGio *gio = GSF_OUTPUT_GIO (output);
 
-	g_return_val_if_fail (gvfs != NULL, FALSE);
-	g_return_val_if_fail (gvfs->stream != NULL, FALSE);
+	g_return_val_if_fail (gio != NULL, FALSE);
+	g_return_val_if_fail (gio->stream != NULL, FALSE);
 	
-	if (!can_seek (gvfs->stream))
+	if (!can_seek (gio->stream))
 		return FALSE;
 
-	return g_seekable_seek (G_SEEKABLE (gvfs->stream), offset, whence, NULL, NULL);
+	return g_seekable_seek (G_SEEKABLE (gio->stream), offset, whence, NULL, NULL);
 }
 
 static void
-gsf_output_gvfs_init (GObject *obj)
+gsf_output_gio_init (GObject *obj)
 {
-	GsfOutputGvfs *gvfs = GSF_OUTPUT_GVFS (obj);
+	GsfOutputGio *gio = GSF_OUTPUT_GIO (obj);
 
-	gvfs->file   = NULL;
-	gvfs->stream = NULL;
+	gio->file   = NULL;
+	gio->stream = NULL;
 }
 
 static void
-gsf_output_gvfs_class_init (GObjectClass *gobject_class)
+gsf_output_gio_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
 
-	gobject_class->finalize = gsf_output_gvfs_finalize;
-	output_class->Close	= gsf_output_gvfs_close;
-	output_class->Write	= gsf_output_gvfs_write;
-	output_class->Seek	= gsf_output_gvfs_seek;
+	gobject_class->finalize = gsf_output_gio_finalize;
+	output_class->Close	= gsf_output_gio_close;
+	output_class->Write	= gsf_output_gio_write;
+	output_class->Seek	= gsf_output_gio_seek;
 }
 
-GSF_CLASS (GsfOutputGvfs, gsf_output_gvfs,
-	   gsf_output_gvfs_class_init, gsf_output_gvfs_init, GSF_OUTPUT_TYPE)
+GSF_CLASS (GsfOutputGio, gsf_output_gio,
+	   gsf_output_gio_class_init, gsf_output_gio_init, GSF_OUTPUT_TYPE)
 
 /***************************************************************************/
 /***************************************************************************/

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-input-gvfs.c:
+ * gsf-input-gio.c:
  *
  * Copyright (C) 2007 Dom Lachowicz <cinamod@hotmail.com>
  *
@@ -20,14 +20,14 @@
  */
 
 #include <gsf-config.h>
-#include <gsf-gvfs/gsf-input-gvfs.h>
+#include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-struct _GsfInputGvfs {
+struct _GsfInputGio {
 	GsfInput     input;
 	GFile        *file;
 	GInputStream *stream;
@@ -37,7 +37,7 @@ struct _GsfInputGvfs {
 
 typedef struct {
 	GsfInputClass input_class;
-} GsfInputGvfsClass;
+} GsfInputGioClass;
 
 static gboolean
 can_seek (GInputStream *stream)
@@ -99,9 +99,9 @@ make_local_copy (GFile *file, GInputStream *stream)
 }
 
 GsfInput *
-gsf_input_gvfs_new (GFile *file, GError **err)
+gsf_input_gio_new (GFile *file, GError **err)
 {
-	GsfInputGvfs *input;
+	GsfInputGio *input;
 	GInputStream *stream;
 	GFileInfo    *info;
 
@@ -119,7 +119,7 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	if (!can_seek (stream))
 		return make_local_copy (file, stream);
 
-	input = g_object_new (GSF_INPUT_GVFS_TYPE, NULL);
+	input = g_object_new (GSF_INPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) {
 		g_input_stream_close (stream, NULL, NULL);
 		g_object_unref (G_OBJECT (stream));
@@ -151,7 +151,7 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 }
 
 GsfInput *
-gsf_input_gvfs_new_for_path (char const *path, GError **err)
+gsf_input_gio_new_for_path (char const *path, GError **err)
 {
 	GFile *file;
 	GsfInput *input;
@@ -165,14 +165,14 @@ gsf_input_gvfs_new_for_path (char const *path, GError **err)
 
 	file = g_file_new_for_path (path);
 
-	input = gsf_input_gvfs_new (file, err);
+	input = gsf_input_gio_new (file, err);
 	g_object_unref (G_OBJECT (file));
 	
 	return input;
 }
 
 GsfInput *
-gsf_input_gvfs_new_for_uri (char const *uri, GError **err)
+gsf_input_gio_new_for_uri (char const *uri, GError **err)
 {
 	GFile *file;
 	GsfInput *input;
@@ -186,17 +186,17 @@ gsf_input_gvfs_new_for_uri (char const *uri, GError **err)
 
 	file = g_file_new_for_uri (uri);
 
-	input = gsf_input_gvfs_new (file, err);
+	input = gsf_input_gio_new (file, err);
 	g_object_unref (G_OBJECT (file));
 	
 	return input;
 }
 
 static void
-gsf_input_gvfs_finalize (GObject *obj)
+gsf_input_gio_finalize (GObject *obj)
 {
 	GObjectClass *parent_class;
-	GsfInputGvfs *input = (GsfInputGvfs *)obj;
+	GsfInputGio *input = (GsfInputGio *)obj;
 
 	g_input_stream_close (input->stream, NULL, NULL);
 	g_object_unref (G_OBJECT (input->stream));
@@ -217,9 +217,9 @@ gsf_input_gvfs_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_gvfs_dup (GsfInput *src_input, GError **err)
+gsf_input_gio_dup (GsfInput *src_input, GError **err)
 {
-	GsfInputGvfs *src = (GsfInputGvfs *)src_input;
+	GsfInputGio *src = (GsfInputGio *)src_input;
 	GFile *clone;
 
 	g_return_val_if_fail (src_input != NULL, NULL);
@@ -229,8 +229,8 @@ gsf_input_gvfs_dup (GsfInput *src_input, GError **err)
 	if (clone != NULL) {
 		GsfInput *dst;
 
-		dst = gsf_input_gvfs_new (clone, err);
-	        g_object_unref (G_OBJECT (clone)); /* gsf_input_gvfs_new() adds a ref, or fails to create a new file. 
+		dst = gsf_input_gio_new (clone, err);
+	        g_object_unref (G_OBJECT (clone)); /* gsf_input_gio_new() adds a ref, or fails to create a new file. 
 						      in any case, we need to unref the clone */
 		return dst;
 	}
@@ -239,28 +239,28 @@ gsf_input_gvfs_dup (GsfInput *src_input, GError **err)
 }
 
 static guint8 const *
-gsf_input_gvfs_read (GsfInput *input, size_t num_bytes,
+gsf_input_gio_read (GsfInput *input, size_t num_bytes,
 		     guint8 *buffer)
 {
-	GsfInputGvfs *gvfs = GSF_INPUT_GVFS (input);
+	GsfInputGio *gio = GSF_INPUT_GIO (input);
 	size_t total_read = 0;
 
-	g_return_val_if_fail (gvfs != NULL, NULL);
-	g_return_val_if_fail (gvfs->stream != NULL, NULL);
+	g_return_val_if_fail (gio != NULL, NULL);
+	g_return_val_if_fail (gio->stream != NULL, NULL);
 
 	if (buffer == NULL) {
-		if (gvfs->buf_size < num_bytes) {
-			gvfs->buf_size = num_bytes;
-			g_free (gvfs->buf);
-			gvfs->buf = g_new (guint8, gvfs->buf_size);
+		if (gio->buf_size < num_bytes) {
+			gio->buf_size = num_bytes;
+			g_free (gio->buf);
+			gio->buf = g_new (guint8, gio->buf_size);
 		}
-		buffer = gvfs->buf;
+		buffer = gio->buf;
 	}
 
 	while (1) {
 		gssize nread;
 		
-		nread = g_input_stream_read (gvfs->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
+		nread = g_input_stream_read (gio->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
 		
 		if (nread >= 0) {
 			total_read += nread;
@@ -275,41 +275,41 @@ gsf_input_gvfs_read (GsfInput *input, size_t num_bytes,
 }
 
 static gboolean
-gsf_input_gvfs_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
+gsf_input_gio_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
-	GsfInputGvfs *gvfs = GSF_INPUT_GVFS (input);
+	GsfInputGio *gio = GSF_INPUT_GIO (input);
 
-	g_return_val_if_fail (gvfs != NULL, TRUE);
-	g_return_val_if_fail (gvfs->stream != NULL, TRUE);
-	g_return_val_if_fail (can_seek (gvfs->stream), TRUE);
+	g_return_val_if_fail (gio != NULL, TRUE);
+	g_return_val_if_fail (gio->stream != NULL, TRUE);
+	g_return_val_if_fail (can_seek (gio->stream), TRUE);
 
-	return (g_seekable_seek (G_SEEKABLE (gvfs->stream), offset, whence, NULL, NULL) ? FALSE : TRUE);
+	return (g_seekable_seek (G_SEEKABLE (gio->stream), offset, whence, NULL, NULL) ? FALSE : TRUE);
 }
 
 static void
-gsf_input_gvfs_init (GObject *obj)
+gsf_input_gio_init (GObject *obj)
 {
-	GsfInputGvfs *gvfs = GSF_INPUT_GVFS (obj);
+	GsfInputGio *gio = GSF_INPUT_GIO (obj);
 
-	gvfs->file = NULL;
-	gvfs->stream = NULL;
-	gvfs->buf  = NULL;
-	gvfs->buf_size = 0;
+	gio->file = NULL;
+	gio->stream = NULL;
+	gio->buf  = NULL;
+	gio->buf_size = 0;
 }
 
 static void
-gsf_input_gvfs_class_init (GObjectClass *gobject_class)
+gsf_input_gio_class_init (GObjectClass *gobject_class)
 {
 	GsfInputClass *input_class = GSF_INPUT_CLASS (gobject_class);
 
-	gobject_class->finalize = gsf_input_gvfs_finalize;
-	input_class->Dup	= gsf_input_gvfs_dup;
-	input_class->Read	= gsf_input_gvfs_read;
-	input_class->Seek	= gsf_input_gvfs_seek;
+	gobject_class->finalize = gsf_input_gio_finalize;
+	input_class->Dup	= gsf_input_gio_dup;
+	input_class->Read	= gsf_input_gio_read;
+	input_class->Seek	= gsf_input_gio_seek;
 }
 
-GSF_CLASS (GsfInputGvfs, gsf_input_gvfs,
-	   gsf_input_gvfs_class_init, gsf_input_gvfs_init, GSF_INPUT_TYPE)
+GSF_CLASS (GsfInputGio, gsf_input_gio,
+	   gsf_input_gio_class_init, gsf_input_gio_init, GSF_INPUT_TYPE)
 
 /***************************************************************************/
 /***************************************************************************/

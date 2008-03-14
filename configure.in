@@ -448,7 +448,6 @@ m4/Makefile
 doc/Makefile
 gsf/Makefile
 gsf-gnome/Makefile
-gsf-gvfs/Makefile
 gsf-win32/Makefile
 tests/Makefile
 tools/Makefile
@@ -460,7 +459,7 @@ doc/version.xml
 libgsf-1.pc
 libgsf-1.spec
 libgsf-gnome-1.pc
-libgsf-gvfs-1.pc
+libgsf-gio-1.pc
 libgsf-gnome-1.spec
 libgsf-win32-1.pc
 libgsf-zip

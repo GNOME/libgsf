@@ -21,9 +21,9 @@
 
 #include <stdio.h>
 #include <gsf/gsf-utils.h>
-#include <gsf-gvfs/gsf-input-gvfs.h>
+#include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-infile.h>
-#include <gsf-gvfs/gsf-output-gvfs.h>
+#include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-outfile.h>
 
 static int
@@ -34,7 +34,7 @@ test (char *argv[])
 	GError     *err = NULL;
 	int         rval = 0;
 
-	input = gsf_input_gvfs_new_for_path (argv[1], &err);
+	input = gsf_input_gio_new_for_path (argv[1], &err);
 	if (input == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
@@ -44,7 +44,7 @@ test (char *argv[])
 		return 1;
 	}
 
-	output = gsf_output_gvfs_new_for_path (argv[2], &err);
+	output = gsf_output_gio_new_for_path (argv[2], &err);
 	if (output == NULL) {
 
 		g_return_val_if_fail (err != NULL, 1);
