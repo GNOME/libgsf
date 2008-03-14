@@ -19,6 +19,7 @@
 #include <gsf/gsf-input-proxy.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-input-gio.h>
 
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-impl.h>
@@ -36,6 +37,7 @@
 #include <gsf/gsf-output-iochannel.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-output-gio.h>
 
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-impl.h>

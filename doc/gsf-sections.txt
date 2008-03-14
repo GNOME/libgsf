@@ -214,6 +214,30 @@ gsf_output_gnomevfs_get_type
 </SECTION>
 
 <SECTION>
+<TITLE>GIO</TITLE>
+<FILE>gio</FILE>
+GsfInputGio
+gsf_input_gio_new
+gsf_input_gio_new_for_path
+gsf_input_gio_new_for_uri
+
+GsfOutputGio
+gsf_output_gio_new
+gsf_output_gio_new_for_path
+gsf_output_gio_new_for_uri
+<SUBSECTION Standard>
+GSF_INPUT_GIO_TYPE
+GSF_INPUT_GIO
+GSF_IS_INPUT_GIO
+gsf_input_gio_get_type
+
+GSF_OUTPUT_GIO_TYPE
+GSF_OUTPUT_GIO
+GSF_IS_OUTPUT_GIO
+gsf_output_gio_get_type
+</SECTION>
+
+<SECTION>
 <TITLE>Compression</TITLE>
 <FILE>compression</FILE>
 GsfInputGZip
