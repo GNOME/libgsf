@@ -1,10 +1,10 @@
-AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBGSF_GVFS_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBGSF_GIO_CFLAGS)
 
-if WITH_GVFS
+if WITH_GIO
 
 lib_LTLIBRARIES = libgsf-gvfs-1.la
 
-libgsf_gvfs_1_la_LIBADD  = $(LIBGSF_LIBS) $(LIBGSF_GVFS_LIBS) $(top_builddir)/gsf/libgsf-1.la
+libgsf_gvfs_1_la_LIBADD  = $(LIBGSF_LIBS) $(LIBGSF_GIO_LIBS) $(top_builddir)/gsf/libgsf-1.la
 libgsf_gvfs_1_la_LDFLAGS = -version-info $(VERSION_INFO) -no-undefined
 libgsf_gvfs_1_la_SOURCES =	\
 	gsf-input-gvfs.c	\

@@ -23,7 +23,7 @@
 #define GSF_OUTPUT_GVFS_H
 
 #include <gsf/gsf-output.h>
-#include <gio/gfile.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 

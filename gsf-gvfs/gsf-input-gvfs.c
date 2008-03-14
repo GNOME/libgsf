@@ -23,7 +23,6 @@
 #include <gsf-gvfs/gsf-input-gvfs.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
-#include <gio/gseekable.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -82,7 +81,7 @@ make_local_copy (GFile *file, GInputStream *stream)
 					   gsf_output_size (out));
 
 	if (copy != NULL) {
-		info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_NAME, 0, NULL, NULL);
+		info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
 		if (info) {
 			gsf_input_set_name (GSF_INPUT (copy), g_file_info_get_name (info));
 			g_object_unref (G_OBJECT (info));
@@ -120,20 +119,20 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	if (!can_seek (stream))
 		return make_local_copy (file, stream);
 
-	info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_SIZE, 0, NULL, NULL);
-	if (info) {
-		gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
-		g_object_unref (G_OBJECT (info));
-	}
-	else
-		return make_local_copy (file, stream);
-
 	input = g_object_new (GSF_INPUT_GVFS_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) {
 		g_input_stream_close (stream, NULL, NULL);
 		g_object_unref (G_OBJECT (stream));
 		return NULL;
 	}
+
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
+	if (info) {
+		gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
+		g_object_unref (G_OBJECT (info));
+	}
+	else
+		return make_local_copy (file, stream);
 
 	g_object_ref (G_OBJECT (file));
 
@@ -142,7 +141,7 @@ gsf_input_gvfs_new (GFile *file, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 
-	info = g_file_get_info (file, G_FILE_ATTRIBUTE_STD_NAME, 0, NULL, NULL);
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
 	if (info) {
 		gsf_input_set_name (GSF_INPUT (input), g_file_info_get_name (info));
 		g_object_unref (G_OBJECT (info));
@@ -163,7 +162,7 @@ gsf_input_gvfs_new_for_path (char const *path, GError **err)
 		return NULL;
 	}
 
-	file = g_file_get_for_path (path);
+	file = g_file_new_for_path (path);
 	if (file != NULL) {
 		GsfInput *input;
 
@@ -191,7 +190,7 @@ gsf_input_gvfs_new_for_uri (char const *uri, GError **err)
 		return NULL;
 	}
 
-	file = g_file_get_for_uri (uri);
+	file = g_file_new_for_uri (uri);
 	if (file != NULL) {
 		GsfInput *input;
 

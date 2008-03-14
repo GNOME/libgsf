@@ -21,8 +21,6 @@
 
 #include <gsf-config.h>
 #include <gsf-gvfs/gsf-output-gvfs.h>
-#include <gio/goutputstream.h>
-#include <gio/gseekable.h>
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -64,7 +62,7 @@ gsf_output_gvfs_new (GFile *file)
 
 	g_return_val_if_fail (file != NULL, NULL);
 
-	stream = (GOutputStream *)g_file_replace (file, 0, FALSE, NULL, NULL);
+	stream = (GOutputStream *)g_file_replace (file, NULL, 0, FALSE, NULL, NULL);
 	if (stream == NULL) {
 		return NULL;
 	}
@@ -95,7 +93,7 @@ gsf_output_gvfs_new_for_path (char const *path, GError **err)
 		return NULL;
 	}
 
-	file = g_file_get_for_path (path);
+	file = g_file_new_for_path (path);
 	if (file != NULL) {
 		GsfOutput *output;
 
@@ -123,7 +121,7 @@ gsf_output_gvfs_new_for_uri (char const *uri, GError **err)
 		return NULL;
 	}
 
-	file = g_file_get_for_uri (uri);
+	file = g_file_new_for_uri (uri);
 	if (file != NULL) {
 		GsfOutput *output;
 

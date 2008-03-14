@@ -23,7 +23,7 @@
 #define GSF_INPUT_GVFS_H
 
 #include <gsf/gsf-input.h>
-#include <gio/gfile.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 

@@ -9,7 +9,7 @@ endif
 if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
-if WITH_GVFS
+if WITH_GIO
   pkgconfig_DATA += libgsf-gvfs-1.pc
 endif
 
