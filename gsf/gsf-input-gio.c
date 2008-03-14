@@ -98,6 +98,13 @@ make_local_copy (GFile *file, GInputStream *stream)
 	return copy;
 }
 
+/**
+ * gsf_input_gio_new:
+ * @file:
+ * @err: optionally NULL.
+ *
+ * Returns: A new #GsfInputGio or NULL
+ */
 GsfInput *
 gsf_input_gio_new (GFile *file, GError **err)
 {
@@ -150,6 +157,13 @@ gsf_input_gio_new (GFile *file, GError **err)
 	return GSF_INPUT (input);
 }
 
+/**
+ * gsf_input_gio_new_for_path:
+ * @path:
+ * @err: optionally NULL.
+ *
+ * Returns: A new #GsfInputGio or NULL
+ */
 GsfInput *
 gsf_input_gio_new_for_path (char const *path, GError **err)
 {
@@ -171,6 +185,13 @@ gsf_input_gio_new_for_path (char const *path, GError **err)
 	return input;
 }
 
+/**
+ * gsf_input_gio_new_for_uri:
+ * @uri:
+ * @err: optionally NULL.
+ *
+ * Returns: A new #GsfInputGio or NULL
+ */
 GsfInput *
 gsf_input_gio_new_for_uri (char const *uri, GError **err)
 {

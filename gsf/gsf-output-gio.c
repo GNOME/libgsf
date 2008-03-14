@@ -54,6 +54,12 @@ wrap_if_not_seekable (GsfOutputGio *output)
 	return GSF_OUTPUT (output);
 }
 
+/**
+ * gsf_input_gio_new:
+ * @file: an existing GFile
+ *
+ * Returns: A new #GsfOutputGio or NULL
+ */
 GsfOutput *
 gsf_output_gio_new (GFile *file)
 {
@@ -81,6 +87,13 @@ gsf_output_gio_new (GFile *file)
 	return wrap_if_not_seekable (output);
 }
 
+/**
+ * gsf_input_gio_new_for_path:
+ * @path:
+ * @err: optionally NULL.
+ *
+ * Returns: A new #GsfOutputGio or NULL
+ */
 GsfOutput *
 gsf_output_gio_new_for_path (char const *path, GError **err)
 {
@@ -102,6 +115,13 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 	return output;
 }
 
+/**
+ * gsf_input_gio_new_for_uri:
+ * @uri:
+ * @err: optionally NULL.
+ *
+ * Returns: A new #GsfOutputGio or NULL
+ */
 GsfOutput *
 gsf_output_gio_new_for_uri (char const *uri, GError **err)
 {
