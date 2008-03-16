@@ -1,3 +1,7 @@
+2008-03-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* doc/gsf-vba-dump.1: New.
+
 2008-03-14  Dominic Lachowicz <domlachowicz@gmail.com>
 
 	* libgsf-gio-1.pc.in:
