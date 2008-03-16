@@ -1,3 +1,7 @@
+2008-03-16  Morten Welinder  <terra@gnome.org>
+
+	* gsf/Makefile.am: Don't install gio support in its own library.
+
 2008-03-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/gsf-vba-dump.1: New.
