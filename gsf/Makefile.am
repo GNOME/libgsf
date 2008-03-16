@@ -126,7 +126,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-structured-blob.h   \
 	gsf-meta-names.h	\
 	gsf-blob.h		\
-	gsf-clip-data.h
+	gsf-clip-data.h		\
 	\
 	$(gioh)
 #	gsf-command-context.h	\
