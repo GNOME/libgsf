@@ -1,3 +1,8 @@
+2008-03-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* libgsf-gio-1.pc.in: No longer needed.
+	* configure.in, Makefile: Drop references to it.
+
 2008-03-16  Morten Welinder  <terra@gnome.org>
 
 	* gsf/Makefile.am: Don't install gio support in its own library.

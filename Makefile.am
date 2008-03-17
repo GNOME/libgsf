@@ -9,9 +9,6 @@ endif
 if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
-if WITH_GIO
-  pkgconfig_DATA += libgsf-gio-1.pc
-endif
 
 SUBDIRS = po gsf gsf-gnome gsf-win32 doc tools tests m4
 
