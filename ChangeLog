@@ -1,3 +1,7 @@
+2008-03-17  Dominic Lachowicz <domlachowicz@gmail.com>
+
+	* tests/Makefile.am: libgsf-gio-1.la doesn't exist any more
+	
 2008-03-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* libgsf-gio-1.pc.in: No longer needed.
