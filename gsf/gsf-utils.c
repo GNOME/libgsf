@@ -80,7 +80,9 @@
 #endif
 
 
+#ifndef HAVE_G_BASE64_ENCODE
 static void base64_init (void);
+#endif
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -131,7 +133,9 @@ gsf_init (void)
 #endif
 
 	g_type_init ();
+#ifndef HAVE_G_BASE64_ENCODE
 	base64_init ();
+#endif
 
 #ifdef _GSF_GTYPE_THREADING_FIXED
 	if (NULL == static_type_module) {
@@ -593,6 +597,7 @@ gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 	return result;
 }
 
+#ifndef HAVE_G_BASE64_ENCODE
 /***************************************************************************/
 /* some code taken from evolution/camel/camel-mime-utils.c */
 
@@ -603,7 +608,7 @@ gsf_filename_to_utf8 (char const *filename, gboolean quoted)
  *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
+ * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -638,6 +643,7 @@ base64_init(void)
 	}
 	camel_mime_base64_rank['='] = 0;
 }
+#endif
 
 /**
  * gsf_base64_encode_close :
@@ -657,8 +663,14 @@ size_t
 gsf_base64_encode_close (guint8 const *in, size_t inlen,
 			 gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
-	int c1, c2;
 	guint8 *outptr = out;
+#ifdef HAVE_G_BASE64_ENCODE
+	if (inlen > 0)
+		outptr += gsf_base64_encode_step (in, inlen, break_lines,
+						  outptr, state, save);
+	outptr += g_base64_encode_close (break_lines, outptr, state, save);
+#else
+	int c1, c2;
 
 	if (inlen>0)
 		outptr += gsf_base64_encode_step(in, inlen, break_lines, outptr, state, save);
@@ -692,6 +704,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 	*save = 0;
 	*state = 0;
 
+#endif
 	return outptr-out;
 }
 
@@ -714,6 +727,9 @@ size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
 			gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
+#ifdef HAVE_G_BASE64_ENCODE
+	return g_base64_encode_step (in, len, break_lines, out, state, save);
+#else
 	register guint8 const *inptr;
 	register guint8 *outptr;
 
@@ -785,6 +801,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 		 (int)((char *)save)[2]));
 
 	return outptr-out;
+#endif
 }
 
 
@@ -804,6 +821,9 @@ size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 			int *state, guint *save)
 {
+#ifdef HAVE_G_BASE64_ENCODE
+	return g_base64_decode_step (in, len, out, state, save);
+#else
 	register guint8 const *inptr;
 	register guint8 *outptr, c;
 	register unsigned int v;
@@ -848,6 +868,7 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 
 	/* if i!= 0 then there is a truncation error! */
 	return outptr-out;
+#endif
 }
 
 /**
@@ -863,17 +884,17 @@ guint8 *
 gsf_base64_encode_simple (guint8 const *data, size_t len)
 {
 	guint8 *out;
-	int state = 0, outlen;
-	unsigned int save = 0;
-	gboolean break_lines = TRUE;
+	int state = 0;
+	guint save = 0;
+	gboolean break_lines = TRUE;  /* This differs from g_base64_encode */
+	size_t outlen = len * 4 / 3 + 5;
 
-	outlen = len * 4 / 3 + 5;
 	if (break_lines)
-		outlen += outlen / BASE64_LINE_LEN + 1;
+		outlen += outlen / 72 + 1;
 	out = g_new (guint8, outlen);
 	outlen = gsf_base64_encode_close (data, len, break_lines,
 					  out, &state, &save);
-	out [outlen] = '\0';
+	out[outlen] = '\0';
 	return out;
 }
 
@@ -890,7 +911,7 @@ size_t
 gsf_base64_decode_simple (guint8 *data, size_t len)
 {
 	int state = 0;
-	unsigned int save = 0;
+	guint save = 0;
 	return gsf_base64_decode_step (data, len, data, &state, &save);
 }
 

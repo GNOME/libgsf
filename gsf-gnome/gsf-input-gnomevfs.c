@@ -22,11 +22,18 @@
 #include <gsf-config.h>
 #include <string.h>
 
+#ifdef LIBGSF_GNOMEVFS_VIA_GIO
+#include <gsf/gsf-input-gio.h>
+#define GnomeVFSHandle void
+#define GnomeVFSURI void
+#else
+#include <libgnomevfs/gnome-vfs-method.h>
+#endif
+
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
-#include <libgnomevfs/gnome-vfs-method.h>
 
 struct _GsfInputGnomeVFS {
 	GsfInput input;
@@ -39,6 +46,56 @@ struct _GsfInputGnomeVFS {
 };
 
 typedef GsfInputClass GsfInputGnomeVFSClass;
+
+
+#ifdef LIBGSF_GNOMEVFS_VIA_GIO
+
+GType
+gsf_input_gnomevfs_get_type (void)
+{
+	return gsf_input_gio_get_type ();
+}
+
+GsfInput *
+gsf_input_gnomevfs_new (char const *uri, GError **error)
+{
+	return gsf_input_gio_new_for_path (uri, error);
+}
+
+GsfInput *
+gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
+{
+	static gboolean tried = FALSE;
+	static char * (*h_g_vfs_uri_to_string) (const GnomeVFSURI *uri, int);
+
+	if (!tried) {
+		gpointer p;
+		GModule *module;
+
+		tried = TRUE;
+		module = g_module_open (NULL, 0);
+		if (module) {
+			if (g_module_symbol (module, "gnome_vfs_uri_to_string",
+					     &p))
+				h_g_vfs_uri_to_string = p;
+			g_module_close (module);
+		}
+	}
+
+	if (h_g_vfs_uri_to_string) {
+		char *uritxt = h_g_vfs_uri_to_string (uri, 0);
+		g_printerr ("uri=[%s]\n", uritxt);
+		GsfInput *res = gsf_input_gio_new_for_path (uritxt, error);
+		g_free (uritxt);
+		return res;
+	}
+
+	g_set_error (error, gsf_input_error_id (), 0,
+		     "Failed to interface to gnome-vfs");
+	return NULL;
+}
+
+#else
 
 /**
  * gsf_input_gnomevfs_new_uri:
@@ -307,3 +364,5 @@ gsf_input_gnomevfs_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GsfInputGnomeVFS, gsf_input_gnomevfs,
 	   gsf_input_gnomevfs_class_init, gsf_input_gnomevfs_init,
 	   GSF_INPUT_TYPE)
+
+#endif
