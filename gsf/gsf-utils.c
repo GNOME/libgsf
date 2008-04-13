@@ -147,6 +147,21 @@ gsf_init (void)
 #else
 	gsf_init_dynamic (NULL);
 #endif
+
+	{
+		/* Little-endian representation of M_PI.  */
+		static guint8 pibytes[8] = {
+			0x18, 0x2d, 0x44, 0x54, 0xfb, 0x21, 0x09, 0x40
+		};
+
+		/*
+		 * If this fails, see
+		 *   http://bugzilla.gnome.org/show_bug.cgi?id=350973
+		 */
+		double pi = gsf_le_get_double (pibytes);
+		if (!(pi > 3.14 && pi < 3.15))
+			g_error ("Compilation trouble with endianess.");
+	}
 }
 
 /**

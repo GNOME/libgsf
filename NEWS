@@ -6,6 +6,7 @@ Dom:
 Morten:
 	* Use g_base64_-routines from glib when available.
 	* Prepare for using gio to simulate gnome-vfs interface.
+	* Add self-check for the benefit of __arm__.
 
 --------------------------------------------------------------------------
 libgsf 1.14.8
