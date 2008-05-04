@@ -3,6 +3,9 @@ libgsf 1.14.9
 Dom:
 	* Revitalize gio support.
 
+Jody:
+	* Add MS OOX support to gsf-vba-dump.
+
 Morten:
 	* Use g_base64_-routines from glib when available.
 	* Prepare for using gio to simulate gnome-vfs interface.

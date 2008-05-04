@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* tools/gsf-vba-dump.c (test) : support MS OOX.
+
 2008-04-13  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_init): Run-time test for gsf_le_get_double.
