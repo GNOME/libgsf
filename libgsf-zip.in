@@ -16,7 +16,7 @@ bin/libgsf-1-@CURRENT_MINUS_AGE@.dll
 bin/libgsf-win32-1-@CURRENT_MINUS_AGE@.dll
 EOF
 
-zip $ZIP lib/locale/*/LC_MESSAGES/libgsf.mo
+zip $ZIP share/locale/*/LC_MESSAGES/libgsf.mo
 
 rm $GNOMEZIP
 zip $GNOMEZIP -@ <<EOF

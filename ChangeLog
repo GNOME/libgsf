@@ -1,3 +1,8 @@
+2008-05-20  Tor Lillqvist  <tml@novell.com>
+
+	* libgsf-zip.in: Message catalogs nowadays end up in share/locale
+	as they should, not lib/locale.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* tools/gsf-vba-dump.c (test) : support MS OOX.
