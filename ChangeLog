@@ -1,3 +1,14 @@
+2008-06-13  Jody Goldberg <jody@gnome.org>
+
+	* tests/test-msole1.c :
+	* tests/test-http.c :
+	* tests/test-zip1.c :
+	* tests/test-gzip1.c :
+	* tests/test-gzip2.c :
+	* tests/test-bzip.c :
+	* tests/test-msvba.c : Clear error after use in preparation for the
+	  next file.
+
 2008-06-08  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Add nb to ALL_LINGUAS.

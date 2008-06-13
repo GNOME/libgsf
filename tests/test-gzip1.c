@@ -42,6 +42,7 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' error: %s", argv[i], err->message);
 			g_error_free (err);
+			err = NULL;
 			continue;
 		}
 
@@ -52,6 +53,7 @@ test (int argc, char *argv[])
 
 			g_warning ("'%s' Not a GZip file: %s", argv[i], err->message);
 			g_error_free (err);
+			err = NULL;
 			g_object_unref (G_OBJECT (input));
 			continue;
 		}

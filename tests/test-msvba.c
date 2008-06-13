@@ -67,6 +67,7 @@ test (int argc, char *argv[])
 		if (err != NULL) {
 			g_warning ("'%s' error: %s", argv[i], err->message);
 			g_error_free (err);
+			err = NULL;
 		}
 	}
 
