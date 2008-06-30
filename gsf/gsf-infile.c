@@ -120,30 +120,80 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 /**
  * gsf_infile_child_by_vname :
  * @infile :
- * @name : A %null terminated list of names
- * @Varargs : the rest of the names
+ * @Varargs : A %NULL terminated list of names
  *
  * Returns: a newly created child which must be unrefed.
  **/
 GsfInput *
-gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
+gsf_infile_child_by_vname (GsfInfile *infile,  ...)
 {
-	va_list   ap;
+	GsfInput *res;
+	va_list   names;
+
+	va_start (names, infile);
+	res = gsf_infile_child_by_vaname (infile, names);
+	va_end (names);
+
+	return res;
+}
+
+/**
+ * gsf_infile_child_by_vaname :
+ * @infile : #GsfInfile
+ * @names : A %NULL terminated array of names (e.g. from g_strsplit)
+ *
+ * New in 1.14.9.
+ *
+ * Returns: a newly created child which must be unrefed.
+ **/
+GsfInput *
+gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
+{
+	GsfInput  *child = GSF_INPUT (infile);
+	GsfInfile *tmp = NULL;
+	char const *name;
+
+	g_return_val_if_fail (GSF_IS_INFILE (infile), NULL);
+
+	while (NULL != (name = va_arg (names, char const *))) {
+		child = gsf_infile_child_by_name (infile, name);
+		if (child == NULL)
+			break;
+		if (tmp != NULL)
+			g_object_unref (G_OBJECT (tmp));
+
+		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
+
+		infile = tmp = GSF_INFILE (child);
+	}
+	if (tmp != NULL)
+		g_object_unref (G_OBJECT (tmp));
+
+	return child;
+}
+
+/**
+ * gsf_infile_child_by_aname :
+ * @infile : #GsfInfile
+ * @names : A %NULL terminated array of names (e.g. from g_strsplit)
+ *
+ * New in 1.14.9.
+ *
+ * Returns: a newly created child which must be unrefed.
+ **/
+GsfInput *
+gsf_infile_child_by_aname (GsfInfile *infile, char const *names[])
+{
 	GsfInput  *child = GSF_INPUT (infile);
 	GsfInfile *tmp = NULL;
 
 	g_return_val_if_fail (GSF_IS_INFILE (infile), NULL);
-	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (names != NULL, NULL);
 
-	va_start (ap, name);
-	while (1) {
-		child = gsf_infile_child_by_name (infile, name);
-
-		name = va_arg (ap, char *);
+	for (;*names ; names++) {
+		child = gsf_infile_child_by_name (infile, *names);
 		if (tmp != NULL)
 			g_object_unref (G_OBJECT (tmp));
-		if (name == NULL)
-			break;
 		if (child == NULL)
 			break;
 
@@ -151,7 +201,6 @@ gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...)
 
 		infile = tmp = GSF_INFILE (child);
 	}
-	va_end (ap);
 
 	return child;
 }

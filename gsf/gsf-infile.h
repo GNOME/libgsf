@@ -34,11 +34,13 @@ G_BEGIN_DECLS
 GType gsf_infile_get_type      (void) G_GNUC_CONST;
 /* void  gsf_infile_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
-int	    gsf_infile_num_children   (GsfInfile *infile);
-char const *gsf_infile_name_by_index  (GsfInfile *infile, int i);
-GsfInput   *gsf_infile_child_by_index (GsfInfile *infile, int i);
-GsfInput   *gsf_infile_child_by_name  (GsfInfile *infile, char const *name);
-GsfInput   *gsf_infile_child_by_vname (GsfInfile *infile, char const *name, ...);
+int	    gsf_infile_num_children    (GsfInfile *infile);
+char const *gsf_infile_name_by_index   (GsfInfile *infile, int i);
+GsfInput   *gsf_infile_child_by_index  (GsfInfile *infile, int i);
+GsfInput   *gsf_infile_child_by_name   (GsfInfile *infile, char const *name);
+GsfInput   *gsf_infile_child_by_vname  (GsfInfile *infile, ...);
+GsfInput   *gsf_infile_child_by_aname  (GsfInfile *infile, char const *name[]);
+GsfInput   *gsf_infile_child_by_vaname (GsfInfile *infile, va_list names);
 
 G_END_DECLS
 

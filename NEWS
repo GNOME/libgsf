@@ -5,6 +5,7 @@ Dom:
 
 Jody:
 	* Add MS OOX support to gsf-vba-dump.
+	* Extend the utility wrappers for GsfInfile.
 
 Morten:
 	* Use g_base64_-routines from glib when available.

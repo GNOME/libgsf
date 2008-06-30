@@ -1,3 +1,8 @@
+2008-06-30  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile.c (gsf_infile_child_by_aname) : new.
+	(gsf_infile_child_by_vaname) : new.
+
 2008-06-13  Jody Goldberg <jody@gnome.org>
 
 	* tests/test-msole1.c :
