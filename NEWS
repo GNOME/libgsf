@@ -7,6 +7,8 @@ Jody:
 	* Add MS OOX support to gsf-vba-dump.
 	* Extend the utility wrappers for GsfInfile.
 	* Be more forgiving of corrupt ole2.
+	* Add additional MS OpenPkg support to facilitate pivots.
+	* gtk-doc improvements.
 
 Morten:
 	* Use g_base64_-routines from glib when available.

@@ -3,7 +3,7 @@
  * gsf-open-pkg-utils.h: Utilities for handling Open Package zip files
  * 			from MS Office 2007 or XPS.
  *
- * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2008 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -30,25 +30,33 @@ G_BEGIN_DECLS
 
 typedef struct _GsfOpenPkgRel	GsfOpenPkgRel;
 typedef struct _GsfOpenPkgRels	GsfOpenPkgRels;
+typedef void   (*GsfOpenPkgIter)(GsfInput *opkg,
+				 GsfOpenPkgRel const *rel,
+				 gpointer    user_data);
 
 gboolean      gsf_open_pkg_rel_is_extern	(GsfOpenPkgRel const *rel);
 char const   *gsf_open_pkg_rel_get_target	(GsfOpenPkgRel const *rel);
 char const   *gsf_open_pkg_rel_get_type		(GsfOpenPkgRel const *rel);
 
-GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_type (GsfInput *in, char const *type);
-GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_id   (GsfInput *in, char const *id);
-
-GsfInput      *gsf_open_pkg_open_rel_by_type   (GsfInput *in, char const *type,
+GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type);
+GsfOpenPkgRel *gsf_open_pkg_lookup_rel_by_id   (GsfInput *opkg, char const *id);
+void	       gsf_open_pkg_foreach_rel	       (GsfInput *opkg,
+						GsfOpenPkgIter func,
+						gpointer       user_data);
+GsfInput      *gsf_open_pkg_open_rel	       (GsfInput *opkg, GsfOpenPkgRel const *rel,
 						GError **err);
-GsfInput      *gsf_open_pkg_open_rel_by_id     (GsfInput *in, char const *id,
+
+GsfInput      *gsf_open_pkg_open_rel_by_type   (GsfInput *opkg, char const *type,
+						GError **err);
+GsfInput      *gsf_open_pkg_open_rel_by_id     (GsfInput *opkg, char const *id,
 						GError **err);
 GError	      *gsf_open_pkg_parse_rel_by_id    (GsfXMLIn *xin, char const *id,
 						GsfXMLInNode const *dtd,
 						GsfXMLInNS const *ns);
 
 /* DEPRECATED in 1.14.6 */
-GsfInput      *gsf_open_pkg_get_rel_by_type    (GsfInput *in, char const *type);
-GsfInput      *gsf_open_pkg_get_rel_by_id      (GsfInput *in, char const *id);
+GsfInput      *gsf_open_pkg_get_rel_by_type    (GsfInput *opkg, char const *type);
+GsfInput      *gsf_open_pkg_get_rel_by_id      (GsfInput *opkg, char const *id);
 
 typedef struct _GsfOutfileOpenPkg GsfOutfileOpenPkg;
 

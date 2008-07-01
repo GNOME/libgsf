@@ -211,7 +211,7 @@ gsf_output_size (GsfOutput *output)
 
 /**
  * gsf_output_close :
- * @output:
+ * @output: #GsfOutput
  *
  * Close a stream.
  *
@@ -237,7 +237,7 @@ gsf_output_close (GsfOutput *output)
 
 /**
  * gsf_output_is_closed :
- * @output:
+ * @output: #GsfOutput
  *
  * Returns: %TRUE if @output has already been closed.
  **/
@@ -373,8 +373,8 @@ gsf_output_error (GsfOutput const *output)
 
 /**
  * gsf_output_set_name :
- * @output:
- * @name:
+ * @output: #GsfOutput
+ * @name: the new name
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -418,8 +418,8 @@ gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 
 /**
  * gsf_output_set_container :
- * @output:
- * @container:
+ * @output: #GsfOutput
+ * @container: #GsfOutfile
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -441,10 +441,10 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 
 /**
  * gsf_output_set_error :
- * @output:
- * @code:
- * @format:
- * @Varargs:
+ * @output: #GsfOutput
+ * @code: The error id
+ * @format: printf style format string
+ * @Varargs: arguments for @format
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>

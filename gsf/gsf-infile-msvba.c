@@ -89,13 +89,13 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 
 /**
  * vba_dir_read :
- * @vba :
+ * @vba : #GsfInfileMSVBA
  * @err : optionally NULL
  *
  * Read an VBA dirctory and its project file.
  * along the way.
  *
- * Return value: FALSE on error setting @err if it is supplied.
+ * Returns: %FALSE on error setting @err if it is supplied.
  **/
 static gboolean
 vba_dir_read (GsfInfileMSVBA *vba, GError **err)
@@ -276,13 +276,13 @@ fail_stream :
 #if 0
 /**
  * vba_project_read :
- * @vba :
+ * @vba : #GsfInfileMSVBA
  * @err : optionally NULL
  *
  * Read an VBA dirctory and its project file.
  * along the way.
  *
- * Return value: FALSE on error setting @err if it is supplied.
+ * Returns: %FALSE on error setting @err if it is supplied.
  **/
 static gboolean
 vba_project_read (GsfInfileMSVBA *vba, GError **err)

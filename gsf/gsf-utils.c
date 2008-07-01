@@ -672,8 +672,8 @@ base64_init(void)
  * This funcion should be called to when finished encoding everything, to
  * flush off the last little bit.
  *
- * Returns:
- */
+ * Returns: a count of the number of bytes in the final block.
+ **/
 size_t
 gsf_base64_encode_close (guint8 const *in, size_t inlen,
 			 gboolean break_lines, guint8 *out, int *state, unsigned int *save)

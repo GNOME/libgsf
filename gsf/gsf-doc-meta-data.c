@@ -98,7 +98,7 @@ gsf_doc_meta_data_lookup (GsfDocMetaData const *meta, char const *name)
 /**
  * gsf_doc_meta_data_insert :
  * @meta : #GsfDocMetaData
- * @name :
+ * @name : the id.
  * @value : #GValue
  *
  * Take ownership of @name and @value and insert a property into @meta.

@@ -60,8 +60,8 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
 
 /**
  * gsf_infile_child_by_index :
- * @infile :
- * @i :
+ * @infile : #GsfInfile
+ * @i : target index
  *
  * TODO : For 2.0 api will change to include a GError.
  * Returns: a newly created child which must be unrefed.
@@ -89,8 +89,8 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
 
 /**
  * gsf_infile_child_by_name :
- * @infile :
- * @name :
+ * @infile : #GsfInfile
+ * @name : target name
  *
  * TODO : For 2.0 api will change to include a GError.
  * Returns: a newly created child which must be unrefed.
@@ -166,8 +166,6 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 
 		infile = tmp = GSF_INFILE (child);
 	}
-	if (tmp != NULL)
-		g_object_unref (G_OBJECT (tmp));
 
 	return child;
 }

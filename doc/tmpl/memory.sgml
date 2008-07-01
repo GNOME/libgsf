@@ -79,14 +79,6 @@ memory
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_output_memory_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_output_memory_new ##### -->
 <para>
 

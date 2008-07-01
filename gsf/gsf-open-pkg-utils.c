@@ -150,26 +150,20 @@ gsf_open_pkg_rel_get_type (GsfOpenPkgRel const *rel)
 	return rel->type;
 }
 
-/**
- * gsf_open_pkg_get_rels :
- * @in : #GsfInput
- *
- * Returns: a hashtable of the relationships associated with @in
- **/
 static GsfOpenPkgRels *
-gsf_open_pkg_get_rels (GsfInput *in)
+gsf_open_pkg_get_rels (GsfInput *opkg)
 {
 	GsfOpenPkgRels *rels;
 
-	g_return_val_if_fail (in != NULL, NULL);
+	g_return_val_if_fail (opkg != NULL, NULL);
 
-	if (NULL == (rels = g_object_get_data (G_OBJECT (in), "OpenPkgRels"))) {
-		char const *part_name = gsf_input_name (in);
+	if (NULL == (rels = g_object_get_data (G_OBJECT (opkg), "OpenPkgRels"))) {
+		char const *part_name = gsf_input_name (opkg);
 		GsfXMLInDoc *rel_doc;
 		GsfInput *rel_stream;
 
 		if (NULL != part_name) {
-			GsfInfile *container = gsf_input_container (in);
+			GsfInfile *container = gsf_input_container (opkg);
 			char *rel_name;
 
 			g_return_val_if_fail (container != NULL, NULL);
@@ -178,7 +172,7 @@ gsf_open_pkg_get_rels (GsfInput *in)
 			rel_stream = gsf_infile_child_by_vname (container, "_rels", rel_name, NULL);
 			g_free (rel_name);
 		} else /* the root */
-			rel_stream = gsf_infile_child_by_vname (GSF_INFILE (in), "_rels", ".rels", NULL);
+			rel_stream = gsf_infile_child_by_vname (GSF_INFILE (opkg), "_rels", ".rels", NULL);
 
 		g_return_val_if_fail (rel_stream != NULL, NULL);
 
@@ -193,15 +187,23 @@ gsf_open_pkg_get_rels (GsfInput *in)
 		gsf_xml_in_doc_free (rel_doc);
 		g_object_unref (G_OBJECT (rel_stream));
 
-		g_object_set_data_full (G_OBJECT (in), "OpenPkgRels", rels,
+		g_object_set_data_full (G_OBJECT (opkg), "OpenPkgRels", rels,
 			(GDestroyNotify) gsf_open_pkg_rels_free);
 	}
 
 	return rels;
 }
 
-static GsfInput *
-gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel,
+/**
+ * gsf_open_pkg_open_rel :
+ * @opkg : #GsfInput
+ * @rel : #GsfOpenPkgRel
+ * @err : #GError.
+ *
+ * Returns: a new #GsfInput which the called needs to unref, or %NULL and sets @err
+ **/
+GsfInput *
+gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 		       G_GNUC_UNUSED GError **err /* just in case we need it one day */ )
 {
 	GsfInfile *container, *prev;
@@ -209,10 +211,10 @@ gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel,
 	unsigned i;
 
 	g_return_val_if_fail (rel != NULL, NULL);
-	g_return_val_if_fail (in != NULL, NULL);
+	g_return_val_if_fail (opkg != NULL, NULL);
 
-	container = gsf_input_name (in)
-		? gsf_input_container (in) : GSF_INFILE (in);
+	container = gsf_input_name (opkg)
+		? gsf_input_container (opkg) : GSF_INFILE (opkg);
 
 	/* parts can not have '/' in their names ? TODO : PROVE THIS
 	 * right now the only test is that worksheets can not have it
@@ -226,128 +228,165 @@ gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel,
 			g_return_val_if_fail (container != NULL, NULL);
 
 			g_object_ref (container);
-			in = NULL;
+			opkg = NULL;
 		} else if (0 == strcmp (elems[i], ".")) {
-			in = NULL; /* Be pedantic and ignore '.' */
+			opkg = NULL; /* Be pedantic and ignore '.' */
 			continue;
 		} else {
-			in = gsf_infile_child_by_name (container, elems[i]);
+			opkg = gsf_infile_child_by_name (container, elems[i]);
 
 			if (NULL != elems[i+1]) {
-				g_return_val_if_fail (GSF_IS_INFILE (in), NULL);
-				container = GSF_INFILE (in);
+				g_return_val_if_fail (GSF_IS_INFILE (opkg), NULL);
+				container = GSF_INFILE (opkg);
 			}
 		}
 		if (i > 0)
 			g_object_unref (G_OBJECT (prev));
-
 	}
 	g_strfreev (elems);
 
-	return in;
+	return opkg;
 }
 
 /**
  * gsf_open_pkg_lookup_rel_by_type :
- * @in : #GsfInput
- * @type :
+ * @opkg : #GsfInput
+ * @type : target
  *
  * New in 1.14.6
  *
- * Finds _a_ relation of @in with @type (no order is guaranteed)
+ * Finds _a_ relation of @opkg with @type (no order is guaranteed)
  *
  * Returns: A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
-gsf_open_pkg_lookup_rel_by_type (GsfInput *in, char const *type)
+gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
 {
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 	g_return_val_if_fail (rels != NULL, NULL);
 	return g_hash_table_lookup (rels->by_type, type);
 }
 
 /**
  * gsf_open_pkg_open_rel_by_id :
- * @in : #GsfInput
+ * @opkg : #GsfInput
  * @id :
  *
  * New in 1.14.6
  *
- * Finds @in's relation with @id
+ * Finds @opkg's relation with @id
  *
  * Returns: A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
-gsf_open_pkg_lookup_rel_by_id (GsfInput *in, char const *id)
+gsf_open_pkg_lookup_rel_by_id (GsfInput *opkg, char const *id)
 {
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 	g_return_val_if_fail (rels != NULL, NULL);
 	return g_hash_table_lookup (rels->by_id, id);
 }
 
+struct pkg_iter_data {
+	GsfInput *opkg;
+	GsfOpenPkgIter func;
+	gpointer user_data;
+};
+
+static void
+cb_foreach_rel (G_GNUC_UNUSED gpointer id,
+		GsfOpenPkgRel *rel,
+		struct pkg_iter_data *dat)
+{
+	(*dat->func) (dat->opkg, rel, dat->user_data);
+}
+
+/**
+ * gsf_open_pkg_foreach_rel:
+ * @opkg : #GsfInput
+ * @func : #GsfOpenPkgIter
+ * @user_data : gpointer
+ *
+ * Walks each relationship associated with @opkg and calls @func with @user_data.
+ **/
+void
+gsf_open_pkg_foreach_rel (GsfInput *opkg,
+			  GsfOpenPkgIter func,
+			  gpointer       user_data)
+{
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
+	struct pkg_iter_data dat;
+
+	g_return_if_fail (rels != NULL);
+
+	dat.opkg = opkg;
+	dat.func = func;
+	dat.user_data = user_data;
+	g_hash_table_foreach (rels->by_id, (GHFunc)&cb_foreach_rel, &dat);
+}
+
 /**
  * gsf_open_pkg_open_rel_by_id :
- * @in : #GsfInput
- * @id :
+ * @opkg : #GsfInput
+ * @id : target id
  * @err : optionally %NULL
  *
- * New in 1.15.0
+ * New in 1.14.7
  *
- * Open @in's relation @id
+ * Open @opkg's relation @id
  *
  * Returns: A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
-gsf_open_pkg_open_rel_by_id (GsfInput *in, char const *id, GError **err)
+gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
 {
 	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 
 	g_return_val_if_fail (rels != NULL, NULL);
 
 	if (NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
-		return gsf_open_pkg_open_rel (in, rel, err);
+		return gsf_open_pkg_open_rel (opkg, rel, err);
 	if (err)
 		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
 			_("Unable to find part id='%s' for '%s'"),
-			id, gsf_input_name (in) );
+			id, gsf_input_name (opkg) );
 	return NULL;
 }
 
 /**
  * gsf_open_pkg_open_rel_by_type :
- * @in : #GsfInput
- * @type :
+ * @opkg : #GsfInput
+ * @type : target type
  * @err : optionally %NULL
  *
- * New in 1.15.0
+ * New in 1.14.9
  *
- * Open one of @in's relationships with type=@type.
+ * Open one of @opkg's relationships with type=@type.
  *
  * Returns: A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
-gsf_open_pkg_open_rel_by_type (GsfInput *in, char const *type, GError **err)
+gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
 {
 	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 
 	g_return_val_if_fail (rels != NULL, NULL);
 
 	if (NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
-		return gsf_open_pkg_open_rel (in, rel, err);
+		return gsf_open_pkg_open_rel (opkg, rel, err);
 
 	if (err)
 		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
 			_("Unable to find part with type='%s' for '%s'"),
-			type, gsf_input_name (in) );
+			type, gsf_input_name (opkg) );
 	return NULL;
 }
 
 /**
  * gsf_open_pkg_parse_rel_by_id :
  * @xin : #GsfXMLIn
- * @id :
+ * @id : target id
  * @dtd : #GsfXMLInNode
  * @ns : #GsfXMLInNS
  *
@@ -390,8 +429,8 @@ gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,
 }
 
 /* DEPRECATED in 1.14.6 */
-GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type) { return gsf_open_pkg_open_rel_by_type (in, type, NULL); }
-GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *in, char const *id)   { return gsf_open_pkg_open_rel_by_id (in, id, NULL); }
+GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *opkg, char const *type) { return gsf_open_pkg_open_rel_by_type (opkg, type, NULL); }
+GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *opkg, char const *id)   { return gsf_open_pkg_open_rel_by_id (opkg, id, NULL); }
 
 /*************************************************************/
 
@@ -760,7 +799,7 @@ gsf_outfile_open_pkg_create_rel (GsfOutfileOpenPkg *parent,
  * gsf_outfile_open_pkg_relate:
  * @child : #GsfOutfileOpenPkg
  * @parent : #GsfOutfileOpenPkg
- * @type : 
+ * @type : target type
  *
  * Create a relationship between @child and @parent of @type.
  *
@@ -807,10 +846,10 @@ found:
 /**
  * gsf_outfile_open_pkg_add_rel:
  * @dir : #GsfOutfile
- * @name : 
+ * @name : target name
  * @content_type :
  * @parent : #GsfOutfile
- * @type :
+ * @type : target type
  *
  * A convenience wrapper to create a child in @dir of @content_type then create
  * a @type relation to @parent
@@ -835,8 +874,8 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
 /**
  * gsf_outfile_open_pkg_add_extern_rel :
  * @parent : #GsfOutfileOpenPkg
- * @target : 
- * @content_type : 
+ * @target : target type
+ * @content_type : target content
  *
  * Add an external relation to @parent.
  *

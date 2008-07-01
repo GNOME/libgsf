@@ -350,12 +350,12 @@ gsf_xml_parser_context (GsfInput *input)
 
 /**
  * gsf_xml_output_buffer_new :
- * @output:
+ * @output: #GsfOutput
  * @encoding: optionally %NULL.
  *
  * <note>This adds a reference to @output.</note>
  * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
- */
+ **/
 static xmlOutputBufferPtr
 gsf_xml_output_buffer_new (GsfOutput *output,
 			   xmlCharEncodingHandlerPtr handler)
@@ -990,7 +990,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * gsf_xml_in_push_state :
  * @xin : #GsfXMLIn
  * @doc : #GsfXMLInDoc
- * @new_state :
+ * @new_state : arbitrary content for the parser
  * @dtor : #GsfXMLInExtDtor
  * @attrs : array of xmlChar const *
  *
@@ -1023,7 +1023,7 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
  * gsf_xml_in_doc_parse :
  * @doc : #GsfXMLInDoc
  * @input : #GsfInput
- * @user_state :
+ * @user_state : arbitrary content stored in the parser
  *
  * Read an xml document from @input and parse based on the the descriptor in
  * @doc
@@ -1073,13 +1073,13 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
 /**
  * gsf_xml_in_check_ns :
  * @xin : #GsfXMLIn
- * @str :
- * @ns_id :
+ * @str : string to check
+ * @ns_id : the namespace id
  * 
  * According to @state is @str in the namespace @ns_id ?
  *
  * Returns: a pointer to @str after the namespace if successful,
- * 	otherwise NULL.
+ * 	otherwise %NULL.
  **/
 char const *
 gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)

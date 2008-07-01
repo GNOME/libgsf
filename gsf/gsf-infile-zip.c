@@ -291,12 +291,12 @@ zip_dup (GsfInfileZip const *src, GError **err)
 
 /**
  * zip_read_dirents:
- * @zip :
+ * @zip : #GsfInfileZip
  *
  * Read zip headers and do some sanity checking
  * along the way.
  *
- * Return value: TRUE on error setting zip->err.
+ * Returns: %TRUE on error setting zip->err.
  **/
 static gboolean
 zip_read_dirents (GsfInfileZip *zip)
@@ -365,12 +365,12 @@ zip_build_vdirs (GsfInfileZip *zip)
 
 /**
  * zip_init_info :
- * @zip :
+ * @zip : #GsfInfileZip
  *
  * Read zip headers and do some sanity checking
  * along the way.
  *
- * Return value: TRUE on error setting zip->err.
+ * Returns: TRUE on error setting zip->err.
  **/
 static gboolean
 zip_init_info (GsfInfileZip *zip)

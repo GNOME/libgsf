@@ -1,3 +1,8 @@
+2008-07-01  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel) : make public.
+	(gsf_open_pkg_foreach_rel) : new.
+
 2008-06-30  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile.c (gsf_infile_child_by_aname) : new.

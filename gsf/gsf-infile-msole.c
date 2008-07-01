@@ -105,7 +105,7 @@ static void ole_info_unref (MSOleInfo *info);
 /**
  * ole_get_block :
  * @ole: the infile
- * @block:
+ * @block: block number
  * @buffer: optionally NULL
  *
  * Read a block of data from the underlying input.
@@ -188,16 +188,9 @@ ols_bat_release (MSOleBAT *bat)
 	}
 }
 
-/**
- * ole_info_read_metabat :
- * @ole:
- * @bats:
- *
- * A small utility routine to read a set of references to bat blocks
+/* A small utility routine to read a set of references to bat blocks
  * either from the OLE header, or a meta-bat block.
- *
- * Returns: a pointer to the element after the last position filled.
- **/
+ * Returns: a pointer to the element after the last position filled. */
 static guint32 *
 ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max_bat,
 		       guint32 const *metabat, guint32 const *metabat_end)
@@ -228,14 +221,7 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max_bat,
 	return bats;
 }
 
-/**
- * gsf_ole_get_guint32s :
- * @dst:
- * @src:
- * @num_bytes:
- *
- * Copy some some raw data into an array of guint32.
- **/
+/* Copy some some raw data into an array of guint32. */
 static void
 gsf_ole_get_guint32s (guint32 *dst, guint8 const *src, int num_bytes)
 {
@@ -287,16 +273,8 @@ ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
 	return strcmp (b->collation_name, a->collation_name);
 }
 
-/**
- * ole_dirent_new :
- * @ole:
- * @entry:
- * @parent: optional
- *
- * Parse dirent number @entry and recursively handle its siblings and children.
- *
- * Returns: The dirent
- **/
+/* Parse dirent number @entry and recursively handle its siblings and children.
+ * parent is optional. */
 static MSOleDirent *
 ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		guint8 *seen_before)
@@ -482,16 +460,9 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	return dst;
 }
 
-/**
- * ole_init_info :
- * @ole:
- * @err: optionally NULL
- *
- * Read an OLE header and do some sanity checking
+/* Read an OLE header and do some sanity checking
  * along the way.
- *
- * Returns: TRUE on error setting @err if it is supplied.
- **/
+ * Returns: %TRUE on error setting @err if it is supplied. */
 static gboolean
 ole_init_info (GsfInfileMSOle *ole, GError **err)
 {
@@ -942,8 +913,8 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 
 /**
  * gsf_infile_msole_new :
- * @source:
- * @err:
+ * @source: #GsfInput
+ * @err: optional place to store an error
  *
  * Opens the root directory of an MS OLE file.
  * <note>This adds a reference to @source.</note>
