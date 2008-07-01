@@ -6,6 +6,7 @@ Dom:
 Jody:
 	* Add MS OOX support to gsf-vba-dump.
 	* Extend the utility wrappers for GsfInfile.
+	* Be more forgiving of corrupt ole2.
 
 Morten:
 	* Use g_base64_-routines from glib when available.
@@ -19,7 +20,6 @@ Jody:
 	* Add missing ODF presentation namespace.
 	* Only install win32 header for win32. [#459771]
 	* Fix XML enum export utils.
-	* Be more forgiving of corrupt ole2.
 
 Morten:
 	* Fix criticals for corrupted file.  [#485964]
