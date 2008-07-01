@@ -19,6 +19,7 @@ Jody:
 	* Add missing ODF presentation namespace.
 	* Only install win32 header for win32. [#459771]
 	* Fix XML enum export utils.
+	* Be more forgiving of corrupt ole2.
 
 Morten:
 	* Fix criticals for corrupted file.  [#485964]

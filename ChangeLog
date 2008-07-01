@@ -116,6 +116,11 @@
 	Fixes #513831.
 	(ole_init_info): Sanity check num_sbat too.
 
+2007-12-07  Jody Goldberg <jody@gnome.org>
+	* gsf/gsf-infile-msole.c (ole_make_bat) : be more forgiving of
+	  failure.  We do not need to abort completely on a cycle, just
+	  truncate.
+
 2007-11-22  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_enum) : ref/unref the type class.

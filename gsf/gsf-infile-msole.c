@@ -140,7 +140,7 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
  * table for the list starting in @block.
  *
  * Returns: TRUE on error.
- */
+ **/
 static gboolean
 ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 	      MSOleBAT *res)
@@ -155,7 +155,8 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 	if (block < metabat->num_blocks)
 		do {
 			/* Catch cycles in the bat list */
-			g_return_val_if_fail (0 == (used[block/8] & (1 << (block & 0x7))), TRUE);
+			if (used[block/8] & (1 << (block & 0x7)))
+				break;
 			used[block/8] |= 1 << (block & 0x7);
 
 			g_array_append_val (bat, block);
