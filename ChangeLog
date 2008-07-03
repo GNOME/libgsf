@@ -1,3 +1,12 @@
+2008-07-02  Morten Welinder  <terra@gnome.org>
+
+	* gsf-gnome/gsf-output-gnomevfs.c: Use gio, not gnomevfs, when
+	LIBGSF_GNOMEVFS_VIA_GIO is defined.
+
+	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new,
+	gsf_input_gnomevfs_new_uri): Call gsf_input_gio_new_for_uri, not
+	gsf_input_gio_new_for_path.
+
 2008-07-01  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel) : make public.

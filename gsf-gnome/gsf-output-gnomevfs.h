@@ -23,7 +23,13 @@
 #define GSF_OUTPUT_GNOMEVFS_H
 
 #include <gsf/gsf-output.h>
+#ifndef LIBGSF_GNOMEVFS_VIA_GIO
+/*
+ * The installed version will always do this.  For our emulation layer, we
+ * want to avoid it.
+ */
 #include <libgnomevfs/gnome-vfs.h>
+#endif
 
 G_BEGIN_DECLS
 

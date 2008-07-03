@@ -397,11 +397,11 @@ AC_ARG_WITH(gnome_vfs,
 	no) want_gnome_vfs=no;;
 	esac[]dnl
 ])
-if test $want_gnome_vfs = auto -a "DISABLED$want_gio" = yes; then
+if test $want_gnome_vfs = auto -a "$want_gio" = yes; then
    	want_gnome_vfs=yes
 fi
 if test $want_gnome_vfs = yes; then
-   	if test "DISABLED$want_gio" = yes; then
+   	if test "$want_gio" = yes; then
 	   	AC_DEFINE(LIBGSF_GNOMEVFS_VIA_GIO, 1, [Define if gio is used to implement gnome-vfs api])
 	else
 	        libgsf_gnome_reqs="$libgsf_gnome_reqs gnome-vfs-2.0 >= 2.2.0"

@@ -59,7 +59,7 @@ gsf_input_gnomevfs_get_type (void)
 GsfInput *
 gsf_input_gnomevfs_new (char const *uri, GError **error)
 {
-	return gsf_input_gio_new_for_path (uri, error);
+	return gsf_input_gio_new_for_uri (uri, error);
 }
 
 GsfInput *
@@ -84,8 +84,7 @@ gsf_input_gnomevfs_new_uri (GnomeVFSURI *uri, GError **error)
 
 	if (h_g_vfs_uri_to_string) {
 		char *uritxt = h_g_vfs_uri_to_string (uri, 0);
-		g_printerr ("uri=[%s]\n", uritxt);
-		GsfInput *res = gsf_input_gio_new_for_path (uritxt, error);
+		GsfInput *res = gsf_input_gio_new_for_uri (uritxt, error);
 		g_free (uritxt);
 		return res;
 	}
