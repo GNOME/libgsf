@@ -1,3 +1,8 @@
+2008-07-18  Dominic Lachowicz <domlachowicz@gmail.com>
+
+	* gsf/gsf-input-gio.c (gsf_input_gio_new): Don't leak @input if
+	we're going to make a local copy of the requested file
+	
 2008-07-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/gsf-output-gnomevfs.c: Use gio, not gnomevfs, when

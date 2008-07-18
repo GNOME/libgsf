@@ -126,20 +126,19 @@ gsf_input_gio_new (GFile *file, GError **err)
 	if (!can_seek (stream))
 		return make_local_copy (file, stream);
 
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
+	if (!info) 
+		return make_local_copy (file, stream);
+
 	input = g_object_new (GSF_INPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) {
 		g_input_stream_close (stream, NULL, NULL);
 		g_object_unref (G_OBJECT (stream));
 		return NULL;
 	}
-
-	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
-	if (info) {
-		gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
-		g_object_unref (G_OBJECT (info));
-	}
-	else
-		return make_local_copy (file, stream);
+	
+	gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
+	g_object_unref (G_OBJECT (info));
 
 	g_object_ref (G_OBJECT (file));
 
@@ -178,7 +177,6 @@ gsf_input_gio_new_for_path (char const *path, GError **err)
 	}
 
 	file = g_file_new_for_path (path);
-
 	input = gsf_input_gio_new (file, err);
 	g_object_unref (G_OBJECT (file));
 	
@@ -206,7 +204,6 @@ gsf_input_gio_new_for_uri (char const *uri, GError **err)
 	}
 
 	file = g_file_new_for_uri (uri);
-
 	input = gsf_input_gio_new (file, err);
 	g_object_unref (G_OBJECT (file));
 	
