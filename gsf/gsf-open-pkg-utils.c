@@ -153,7 +153,7 @@ gsf_open_pkg_rel_get_type (GsfOpenPkgRel const *rel)
 static GsfOpenPkgRels *
 gsf_open_pkg_get_rels (GsfInput *opkg)
 {
-	GsfOpenPkgRels *rels;
+	GsfOpenPkgRels *rels = NULL;
 
 	g_return_val_if_fail (opkg != NULL, NULL);
 
@@ -174,18 +174,18 @@ gsf_open_pkg_get_rels (GsfInput *opkg)
 		} else /* the root */
 			rel_stream = gsf_infile_child_by_vname (GSF_INFILE (opkg), "_rels", ".rels", NULL);
 
-		g_return_val_if_fail (rel_stream != NULL, NULL);
+		if (NULL != rel_stream) {
+			rels = g_new (GsfOpenPkgRels, 1);
+			rels->by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
+				NULL, (GDestroyNotify)gsf_open_pkg_rel_free);
+			rels->by_type = g_hash_table_new (g_str_hash, g_str_equal);
 
-		rels = g_new (GsfOpenPkgRels, 1);
-		rels->by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
-			NULL, (GDestroyNotify)gsf_open_pkg_rel_free);
-		rels->by_type = g_hash_table_new (g_str_hash, g_str_equal);
+			rel_doc = gsf_xml_in_doc_new (open_pkg_rel_dtd, open_pkg_ns);
+			(void) gsf_xml_in_doc_parse (rel_doc, rel_stream, rels);
 
-		rel_doc = gsf_xml_in_doc_new (open_pkg_rel_dtd, open_pkg_ns);
-		(void) gsf_xml_in_doc_parse (rel_doc, rel_stream, rels);
-
-		gsf_xml_in_doc_free (rel_doc);
-		g_object_unref (G_OBJECT (rel_stream));
+			gsf_xml_in_doc_free (rel_doc);
+			g_object_unref (G_OBJECT (rel_stream));
+		}
 
 		g_object_set_data_full (G_OBJECT (opkg), "OpenPkgRels", rels,
 			(GDestroyNotify) gsf_open_pkg_rels_free);
@@ -263,8 +263,7 @@ GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
 {
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
-	g_return_val_if_fail (rels != NULL, NULL);
-	return g_hash_table_lookup (rels->by_type, type);
+	return rels ? g_hash_table_lookup (rels->by_type, type) : NULL;
 }
 
 /**
@@ -282,8 +281,7 @@ GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_id (GsfInput *opkg, char const *id)
 {
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
-	g_return_val_if_fail (rels != NULL, NULL);
-	return g_hash_table_lookup (rels->by_id, id);
+	return rels ? g_hash_table_lookup (rels->by_id, id) : NULL;
 }
 
 struct pkg_iter_data {
@@ -306,6 +304,8 @@ cb_foreach_rel (G_GNUC_UNUSED gpointer id,
  * @func : #GsfOpenPkgIter
  * @user_data : gpointer
  *
+ * New in 1.14.9
+ *
  * Walks each relationship associated with @opkg and calls @func with @user_data.
  **/
 void
@@ -316,12 +316,12 @@ gsf_open_pkg_foreach_rel (GsfInput *opkg,
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 	struct pkg_iter_data dat;
 
-	g_return_if_fail (rels != NULL);
-
-	dat.opkg = opkg;
-	dat.func = func;
-	dat.user_data = user_data;
-	g_hash_table_foreach (rels->by_id, (GHFunc)&cb_foreach_rel, &dat);
+	if (NULL != rels) {
+		dat.opkg = opkg;
+		dat.func = func;
+		dat.user_data = user_data;
+		g_hash_table_foreach (rels->by_id, (GHFunc)&cb_foreach_rel, &dat);
+	}
 }
 
 /**
@@ -342,9 +342,7 @@ gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
 	GsfOpenPkgRel *rel = NULL;
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 
-	g_return_val_if_fail (rels != NULL, NULL);
-
-	if (NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
+	if (NULL != rels && NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
 		return gsf_open_pkg_open_rel (opkg, rel, err);
 	if (err)
 		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
@@ -371,9 +369,7 @@ gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
 	GsfOpenPkgRel *rel = NULL;
 	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
 
-	g_return_val_if_fail (rels != NULL, NULL);
-
-	if (NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
+	if (NULL != rels && NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
 		return gsf_open_pkg_open_rel (opkg, rel, err);
 
 	if (err)

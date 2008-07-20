@@ -1,3 +1,9 @@
+2008-07-19  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c : Some components do not have relations.
+	  Do not generate a warning. e.g. foreach_rel in an empty sheet.
+
+
 2008-07-18  Dominic Lachowicz <domlachowicz@gmail.com>
 
 	* gsf/gsf-input-gio.c (gsf_input_gio_new): Don't leak @input if
