@@ -24,6 +24,29 @@
         <long>Valid command plus arguments for the Microsoft PowerPoint thumbnailer</long>
       </locale>
     </schema>
+<!-- XML MS Powerpoint 2007 -->
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.presentationml.presentation/enable</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.presentationml.presentation/enable</applyto>
+      <owner>libgsf</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable thumbnailing of Microsoft PowerPoint 2007 presentations</short>
+        <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.presentationml.presentation/command</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.presentationml.presentation/command</applyto>
+      <owner>libgsf</owner>
+      <type>string</type>
+      <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+      <locale name="C">
+        <short>Thumbnail command for Microsoft PowerPoint 2007 presentations</short>
+        <long>Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer</long>
+      </locale>
+    </schema>
 <!-- MS Excel -->
     <schema>
       <key>/schemas/desktop/gnome/thumbnailers/application@vnd.ms-excel/enable</key>
@@ -47,6 +70,29 @@
         <long>Valid command plus arguments for the Microsoft Excel spreadsheets.</long>
       </locale>
     </schema>
+<!-- XML MS Excel 2007 -->
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.spreadsheetml.sheet/enable</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.spreadsheetml.sheet/enable</applyto>
+      <owner>libgsf</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable thumbnailing of Microsoft Excel 2007 spreadsheets</short>
+        <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.spreadsheetml.sheet/command</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.spreadsheetml.sheet/command</applyto>
+      <owner>libgsf</owner>
+      <type>string</type>
+      <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+      <locale name="C">
+        <short>Thumbnail command for Microsoft Excel 2007 spreadsheets</short>
+        <long>Valid command plus arguments for the Microsoft Excel 2007 spreadsheets.</long>
+      </locale>
+    </schema>
 <!-- MS Word -->
     <schema>
       <key>/schemas/desktop/gnome/thumbnailers/application@msword/enable</key>
@@ -68,6 +114,29 @@
       <locale name="C">
         <short>Thumbnail command for Microsoft Word documents</short>
         <long>Valid command plus arguments for the Microsoft Word thumbnailer</long>
+      </locale>
+    </schema>
+<!-- XML MS Word 2007 -->
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.wordprocessingml.document/enable</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.wordprocessingml.document/enable</applyto>
+      <owner>libgsf</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable thumbnailing of Microsoft Word 2007 documents</short>
+        <long>Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.wordprocessingml.document/command</key>
+      <applyto>/desktop/gnome/thumbnailers/application@vnd.openxmlformats-officedocument.wordprocessingml.document/command</applyto>
+      <owner>libgsf</owner>
+      <type>string</type>
+      <default>gsf-office-thumbnailer -i %i -o %o -s %s</default>
+      <locale name="C">
+        <short>Thumbnail command for Microsoft Word 2007 documents</short>
+        <long>Valid command plus arguments for the Microsoft Word 2007 thumbnailer</long>
       </locale>
     </schema>
 <!-- From http://framework.openoffice.org/documentation/mimetypes/mimetypes.html -->

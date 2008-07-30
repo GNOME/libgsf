@@ -1,3 +1,9 @@
+2008-07-28  Hubert Figuiere  <hfiguiere@novell.com>
+
+	* thumbnailer/gsf-office-thumbnailer.schemas.in:
+	* thumbnailer/main.c (zip_thumbnail): Add support for OpenPkg
+	(MS Office Open XML) thumbnailing.
+
 2008-07-19  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c : Some components do not have relations.

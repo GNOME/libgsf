@@ -28,6 +28,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-clip-data.h>
+#include <gsf/gsf-open-pkg-utils.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
@@ -125,6 +126,13 @@ zip_thumbnail (GsfInfile *infile, const char *out_filename, int thumb_size)
 		write_thumbnail (out_filename, data, len, thumb_size);
 		g_object_unref (thumbnail);
 	/* Check MS Office Open thumbnail */
+	} else if (NULL != (thumbnail = gsf_open_pkg_open_rel_by_type (GSF_INPUT(infile), 
+				"http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail",
+																   NULL))) {
+		gsf_off_t len = gsf_input_remaining (thumbnail);
+		guint8 const *data = gsf_input_read (thumbnail, len, NULL);
+		write_thumbnail (out_filename, data, len, thumb_size);
+		g_object_unref (thumbnail);
 	} else
 		show_error_string_and_exit ("Could not find thumbnail in zip file");
 }
