@@ -450,8 +450,8 @@ GSF_CLASS (GsfInfileAr, gsf_infile_ar,
 
 /**
  * gsf_infile_ar_new :
- * @source:
- * @err:
+ * @source: #GsfInput
+ * @err: #Gerror
  *
  * Opens the root directory of a Ar file.
  * <note>This adds a reference to @source.</note>

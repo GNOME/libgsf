@@ -425,15 +425,8 @@ ole_info_ref (MSOleInfo *info)
 	return info;
 }
 
-/**
- * ole_dup:
- * @src:
- *
- * Utility routine to _partially_ replicate a file.  It does NOT copy the bat
- * blocks, or init the dirent.
- *
- * Returns: the partial duplicate.
- **/
+/* Utility routine to _partially_ replicate a file.  It does NOT copy the bat
+ * blocks, or init the dirent. */
 static GsfInfileMSOle *
 ole_dup (GsfInfileMSOle const *src, GError **err)
 {

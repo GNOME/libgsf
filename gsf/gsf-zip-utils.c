@@ -25,6 +25,14 @@
 #include <string.h>
 #include "gsf-zip-impl.h"
 
+/**
+ * SECTION:zip
+ * @Short_description: Utilities for reading and writing ZIP/JAR files
+ * @Title: Zip files
+ *
+ * #GsfInfile and #GsfOutfile support for zip files.
+ **/
+
 /* Doesn't do much, but include for symmetry */
 GsfZipDirent*
 gsf_zip_dirent_new (void)

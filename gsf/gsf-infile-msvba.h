@@ -36,7 +36,12 @@ typedef struct _GsfInfileMSVBA GsfInfileMSVBA;
 GType gsf_infile_msvba_get_type      (void) G_GNUC_CONST;
 /* void  gsf_infile_msvba_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
-GsfInfile *gsf_infile_msvba_new (GsfInfile *source, GError **err);
+GsfInfile  *gsf_infile_msvba_new (GsfInfile *source, GError **err);
+GHashTable *gsf_infile_msvba_get_modules   (GsfInfileMSVBA const *vba_stream);
+GHashTable *gsf_infile_msvba_steal_modules (GsfInfileMSVBA       *vba_stream);
+
+/* Utility */
+GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError **err);
 
 G_END_DECLS
 

@@ -261,12 +261,7 @@ zip_info_unref (ZipInfo *info)
 	g_free (info);
 }
 
-/**
- * zip_dup :
- * @src :
- *
- * Return value: the partial duplicate.
- **/
+/* Returns a partial duplicate. */
 static GsfInfileZip *
 zip_dup (GsfInfileZip const *src, GError **err)
 {

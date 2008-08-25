@@ -843,7 +843,7 @@ found:
  * gsf_outfile_open_pkg_add_rel:
  * @dir : #GsfOutfile
  * @name : target name
- * @content_type :
+ * @content_type : non-%NULL content type
  * @parent : #GsfOutfile
  * @type : target type
  *

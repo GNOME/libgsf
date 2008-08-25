@@ -196,7 +196,10 @@ GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,
  * gsf_structured_blob_read :
  * @input: An input (potentially a GsfInfile) holding the blob
  *
- * Returns: a freshly created tree of blobs
+ * Create a tree of binary blobs with unknown content from a #GsfInput or
+ * #GsfInfile and store it in a newly created #GsfStructuredBlob.
+ *
+ * Returns: a new #GsfStructuredBlob object which the caller is responsible for.
  **/
 GsfStructuredBlob *
 gsf_structured_blob_read (GsfInput *input)

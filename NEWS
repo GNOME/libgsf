@@ -9,6 +9,7 @@ Jody:
 	* Be more forgiving of corrupt ole2.
 	* Add additional MS OpenPkg support to facilitate pivots.
 	* gtk-doc improvements.
+	* Make the VBA extractor more accessible.
 
 Morten:
 	* Use g_base64_-routines from glib when available.

@@ -371,6 +371,17 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 	return res;
 }
 
+/**
+ * gsf_xmlDocFormatDump :
+ * @output : #GsfOutput
+ * @cur : #xmlDocPtr
+ * @encoding : The encoding to use.
+ * @format : %TRUE to reformat the output.
+ *
+ * Dumps the document @cur into @output.
+ *
+ * Returns: status from xmlSaveFormatFileTo.
+ **/
 int
 gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, char const *encoding,
 		      gboolean format)
@@ -1108,6 +1119,9 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
  * @ns_id : The name space id to check
  * @name  : The target node name
  *
+ * Checks to see if @str is the same as @ns_id::@name with either an explicit
+ * namespace or the current default namespace.
+ *
  * Returns: %TRUE if @str == @ns_id:@name according to @state.
  **/
 gboolean
@@ -1758,6 +1772,14 @@ gsf_xml_out_add_base64 (GsfXMLOut *xout, char const *id,
 	g_free (tmp);
 }
 
+/**
+ * gsf_xml_out_get_output :
+ * @xout : #GsfXMLOut
+ *
+ * Get the #GsfInput we are parsing from.
+ *
+ * Returns: #GsfInput or %NULL.
+ **/
 GsfOutput *
 gsf_xml_out_get_output (GsfXMLOut const *xout)
 {

@@ -31,22 +31,15 @@
 #include <stdio.h>
 
 static void
-dump_vba (GsfInput *vba, char const *filename, GError **err)
+cb_dump_vba (char const *name, guint8 const *src_code)
 {
-	GsfInfile *vba_wrapper;
-
-	fprintf (stderr, "%s\n", filename);
-
-	vba_wrapper = gsf_infile_msvba_new (GSF_INFILE (vba), err);
-	if (vba_wrapper != NULL)
-		g_object_unref (G_OBJECT (vba_wrapper));
+	printf ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
 }
 
 static int
 test (int argc, char *argv[])
 {
-	GsfInput  *input, *vba;
-	GsfInfile *infile;
+	GsfInput  *input;
 	GError    *err = NULL;
 	int i;
 
@@ -54,50 +47,16 @@ test (int argc, char *argv[])
 		input = gsf_input_mmap_new (argv[i], NULL);
 		if (input == NULL)	/* Only report error if stdio fails too */
 			input = gsf_input_stdio_new (argv[i], &err);
+
 		if (input != NULL) {
-			if (NULL != (infile = gsf_infile_msole_new (input, &err))) {
-				// Try XLS first
-				vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
-
-				// Try DOC next
-				if (NULL == vba)
-					vba = gsf_infile_child_by_vname (infile, "Macros", "VBA", NULL);
-
-				// TODO : PPT is more complex
-
-				if (vba != NULL) {
-					dump_vba (vba, argv[1], &err);
-					g_object_unref (G_OBJECT (vba));
-				}
-				g_object_unref (G_OBJECT (infile));
-			} else if (NULL != (infile = gsf_infile_zip_new (input, NULL))) {
-				GsfInput *main_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (infile),
-					"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
-				if (NULL != err)  {
-					g_error_free (err);
-					err = NULL;
-				}
-
-				if (NULL != main_part) {
-					GsfInput *vba_stream = gsf_open_pkg_get_rel_by_type (main_part,
-						"http://schemas.microsoft.com/office/2006/relationships/vbaProject");
-					if (NULL != vba_stream) {
-						GsfInfile *ole = gsf_infile_msole_new (vba_stream, &err);
-						if (NULL != ole) {
-							vba = gsf_infile_child_by_vname (ole, "VBA", NULL);
-							if (NULL != vba) {
-								dump_vba (vba, argv[1], &err);
-								g_object_unref (G_OBJECT (vba));
-							}
-							g_object_unref (G_OBJECT (ole));
-						}
-						g_object_unref (G_OBJECT (vba_stream));
-					}
-					g_object_unref (G_OBJECT (main_part));
-				}
-				g_object_unref (G_OBJECT (infile));
+			GsfInfileMSVBA *vba = gsf_input_find_vba (input, &err);
+			if (NULL != vba) {
+				GHashTable *modules = gsf_infile_msvba_get_modules (vba);
+				if (NULL != modules)
+					g_hash_table_foreach (modules,
+						(GHFunc) cb_dump_vba, NULL);
+				g_object_unref (G_OBJECT (vba));
 			}
-
 			g_object_unref (G_OBJECT (input));
 		}
 

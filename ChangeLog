@@ -1,3 +1,13 @@
+2008-08-24  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msvba.c (gsf_input_find_vba) : move this here from
+	  tools/gsf-vba-dump.
+	(gsf_infile_msvba_get_modules) : new.
+	(vba_extract_module_source) : store the code rather than dumping it to stdout.
+
+	* tools/gsf-vba-dump.c (test) : use the new utilities.
+	(cb_dump_vba) : do the dumping here.
+
 2008-07-28  Hubert Figuiere  <hfiguiere@novell.com>
 
 	* thumbnailer/gsf-office-thumbnailer.schemas.in:

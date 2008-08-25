@@ -33,6 +33,9 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-msole-utils.h>
+#include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-zip.h>
+#include <gsf/gsf-open-pkg-utils.h>
 #include <gsf/gsf-utils.h>
 
 #include <stdio.h>
@@ -45,6 +48,8 @@ struct _GsfInfileMSVBA {
 
 	GsfInfile	*source;
 	GList		*children;
+
+	GHashTable	*modules;
 };
 typedef GsfInfileClass GsfInfileMSVBAClass;
 
@@ -67,7 +72,7 @@ static void
 vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_offset)
 {
 	GsfInput *module;
-	guint8 *src_code;
+	guint8 *code;
 	int inflated_size;
 
 	g_return_if_fail (name != NULL);
@@ -76,15 +81,16 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 	if (module == NULL)
 		return;
 
-	src_code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, TRUE);
-	if (src_code != NULL) {
-		printf ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
-		g_free (src_code);
+	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, TRUE);
+	if (code != NULL) {
+		if (NULL == vba->modules)
+			vba->modules = g_hash_table_new_full (g_str_hash, g_str_equal,
+				(GDestroyNotify)g_free, (GDestroyNotify)g_free);
+		g_hash_table_insert (vba->modules, g_strdup (name), code);
 	} else
 		g_warning ("Problems extracting the source for %s @ %u", name, src_offset);
 
 	g_object_unref (module);
-	module = NULL;
 }
 
 /**
@@ -391,6 +397,10 @@ gsf_infile_msvba_finalize (GObject *obj)
 {
 	GsfInfileMSVBA *vba = GSF_INFILE_MSVBA (obj);
 
+	if (NULL != vba->modules) {
+		g_hash_table_destroy (vba->modules);
+		vba->modules = NULL;
+	}
 	if (vba->source != NULL) {
 		g_object_unref (G_OBJECT (vba->source));
 		vba->source = NULL;
@@ -404,6 +414,7 @@ gsf_infile_msvba_init (GObject *obj)
 	GsfInfileMSVBA *vba = GSF_INFILE_MSVBA (obj);
 
 	vba->source		= NULL;
+	vba->modules		= NULL;
 	vba->children		= NULL;
 }
 
@@ -442,5 +453,89 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 				"Unable to parse VBA header");
 
 	g_object_unref (G_OBJECT (vba));
+	return NULL;
+}
+
+/**
+ * gsf_infile_msvba_get_modules :
+ * @vba_stream : #GsfInfile
+ *
+ * a collection of names and source code.
+ *
+ * Returns: %NULL, or a hashtable of names and source code (unknown encoding).
+ **/
+GHashTable *
+gsf_infile_msvba_get_modules (GsfInfileMSVBA const *vba_stream)
+{
+	g_return_val_if_fail (GSF_IS_INFILE_MSVBA (vba_stream), NULL);
+	return vba_stream->modules;
+}
+
+/**
+ * gsf_infile_msvba_steal_modules :
+ * @vba_stream : #GsfInfile
+ *
+ * A collection of names and source code which the caller is responsible for destroying.
+ *
+ * Returns: %NULL, or a hashtable of names and source code (unknown encoding).
+ **/
+GHashTable *
+gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
+{
+	GHashTable *res;
+	g_return_val_if_fail (GSF_IS_INFILE_MSVBA (vba_stream), NULL);
+	res = vba_stream->modules;
+	vba_stream->modules = NULL;
+	return res;
+}
+
+/**
+ * gsf_input_find_vba :
+ * @input : #GsfInput
+ * @err : #GError, optionally %NULL.
+ *
+ * A utility routine that attempts to find the VBA file withint a stream.
+ *
+ * Returns: a GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError *err);
+ **/
+GsfInfileMSVBA *
+gsf_input_find_vba (GsfInput *input, GError **err)
+{
+	GsfInput  *vba = NULL;
+	GsfInfile *infile;
+
+	if (NULL != (infile = gsf_infile_msole_new (input, NULL))) {
+		/* 1) Try XLS */
+		vba = gsf_infile_child_by_vname (infile, "_VBA_PROJECT_CUR", "VBA", NULL);
+		/* 2) DOC */
+		if (NULL == vba)
+			vba = gsf_infile_child_by_vname (infile, "Macros", "VBA", NULL);
+
+		/* TODO : PPT is more complex */
+
+		g_object_unref (G_OBJECT (infile));
+	} else if (NULL != (infile = gsf_infile_zip_new (input, NULL))) {
+		GsfInput *main_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (infile),
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
+
+		if (NULL != main_part) {
+			GsfInput *vba_stream = gsf_open_pkg_get_rel_by_type (main_part,
+				"http://schemas.microsoft.com/office/2006/relationships/vbaProject");
+			if (NULL != vba_stream) {
+				GsfInfile *ole = gsf_infile_msole_new (vba_stream, err);
+				if (NULL != ole) {
+					vba = gsf_infile_child_by_vname (ole, "VBA", NULL);
+					g_object_unref (G_OBJECT (ole));
+				}
+				g_object_unref (G_OBJECT (vba_stream));
+			}
+			g_object_unref (G_OBJECT (main_part));
+		}
+		g_object_unref (G_OBJECT (infile));
+	}
+
+	if (NULL != vba)
+	       return (GsfInfileMSVBA *)
+			gsf_infile_msvba_new (GSF_INFILE (vba), err);
 	return NULL;
 }
