@@ -10,6 +10,7 @@ Jody:
 	* Add additional MS OpenPkg support to facilitate pivots.
 	* gtk-doc improvements.
 	* Make the VBA extractor more accessible.
+	* Extensions for the xml parser to allow modularization.
 
 Morten:
 	* Use g_base64_-routines from glib when available.

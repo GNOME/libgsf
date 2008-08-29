@@ -86,6 +86,8 @@ gsf_infile_num_children
 gsf_infile_child_by_index
 gsf_infile_child_by_name
 gsf_infile_child_by_vname
+gsf_infile_child_by_aname
+gsf_infile_child_by_vaname
 gsf_infile_name_by_index
 <SUBSECTION Standard>
 GSF_INFILE_TYPE
@@ -642,6 +644,7 @@ GSF_XML_IN_NS_END
 
 gsf_xml_in_doc_new
 gsf_xml_in_doc_free
+gsf_xml_in_doc_add_nodes
 gsf_xml_in_doc_parse
 gsf_xml_in_doc_set_unknown_handler
 

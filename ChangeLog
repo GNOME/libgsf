@@ -1,3 +1,9 @@
+2008-08-28  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_doc_add_nodes) : new, split from
+	  gsf_xml_in_doc_new to facilitate splitting node sets so that they
+	  can be used in multiple situations.
+
 2008-08-24  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (gsf_input_find_vba) : move this here from

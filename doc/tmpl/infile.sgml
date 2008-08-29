@@ -62,6 +62,26 @@ Infile reading structed files
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_infile_child_by_aname ##### -->
+<para>
+
+</para>
+
+@infile: 
+@names: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_infile_child_by_vaname ##### -->
+<para>
+
+</para>
+
+@infile: 
+@names: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_infile_name_by_index ##### -->
 <para>
 

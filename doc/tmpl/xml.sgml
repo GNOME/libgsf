@@ -169,6 +169,15 @@ XML and libxml
 @doc: 
 
 
+<!-- ##### FUNCTION gsf_xml_in_doc_add_nodes ##### -->
+<para>
+
+</para>
+
+@doc: 
+@nodes: 
+
+
 <!-- ##### FUNCTION gsf_xml_in_doc_parse ##### -->
 <para>
 

@@ -915,8 +915,6 @@ GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 {
 	GsfXMLInDoc  *doc;
-	GsfXMLInNode const *e_node;
-	GsfXMLInNodeInternal *tmp, *node;
 
 	g_return_val_if_fail (nodes != NULL, NULL);
 
@@ -925,6 +923,33 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 	doc->symbols   = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gsf_xml_in_node_internal_free);
 	doc->ns        = ns;
+
+	gsf_xml_in_doc_add_nodes (doc, nodes);
+
+	if (NULL == doc->root_node) {
+		gsf_xml_in_doc_free (doc);
+		g_return_val_if_fail (NULL != doc->root_node, NULL);
+	}
+
+	return doc;
+}
+
+/**
+ * gsf_xml_in_doc_add_nodes :
+ * @doc : #GsfXMLInDoc
+ * @nodes : %NULL terminated array of #GsfXMLInNode
+ *
+ * Adds additional nodes to the structure of @doc
+ **/
+void
+gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
+			  GsfXMLInNode const *nodes)
+{
+	GsfXMLInNode const *e_node;
+	GsfXMLInNodeInternal *tmp, *node;
+
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (nodes != NULL);
 
 	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
 		node = g_hash_table_lookup (doc->symbols, e_node->id);
@@ -952,7 +977,7 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 			g_hash_table_insert (doc->symbols,
 				(gpointer)node->pub.id, node);
 		}
-		if (e_node == nodes) /* first valid node is the root */
+		if (NULL == doc->root_node && e_node == nodes) /* first valid node is the root */
 			doc->root_node = node;
 
 		/* NOTE : use e_node for parent_id rather than node
@@ -978,8 +1003,6 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 			continue;
 		}
 	}
-
-	return doc;
 }
 
 /**

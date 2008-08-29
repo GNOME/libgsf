@@ -112,6 +112,8 @@ GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const 
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
 gboolean     gsf_xml_in_doc_parse  (GsfXMLInDoc *doc, GsfInput *input,
 				    gpointer user_state);
+void	     gsf_xml_in_doc_add_nodes	(GsfXMLInDoc *doc,
+					 GsfXMLInNode const *nodes);
 void	     gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 						 GsfXMLInUnknownFunc handler);
 

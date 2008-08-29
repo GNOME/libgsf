@@ -39,7 +39,7 @@ char const *gsf_infile_name_by_index   (GsfInfile *infile, int i);
 GsfInput   *gsf_infile_child_by_index  (GsfInfile *infile, int i);
 GsfInput   *gsf_infile_child_by_name   (GsfInfile *infile, char const *name);
 GsfInput   *gsf_infile_child_by_vname  (GsfInfile *infile, ...);
-GsfInput   *gsf_infile_child_by_aname  (GsfInfile *infile, char const *name[]);
+GsfInput   *gsf_infile_child_by_aname  (GsfInfile *infile, char const *names[]);
 GsfInput   *gsf_infile_child_by_vaname (GsfInfile *infile, va_list names);
 
 G_END_DECLS
