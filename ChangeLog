@@ -1,3 +1,8 @@
+2008-08-28  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (GNOMEVFS_REQ, BONOBO_REQ): Define as needed.
+	* libgsf-gnome-1.pc.in: Use the above.
+
 2008-08-28  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_doc_add_nodes) : new, split from
@@ -24,7 +29,6 @@
 
 	* gsf/gsf-open-pkg-utils.c : Some components do not have relations.
 	  Do not generate a warning. e.g. foreach_rel in an empty sheet.
-
 
 2008-07-18  Dominic Lachowicz <domlachowicz@gmail.com>
 

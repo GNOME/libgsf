@@ -400,16 +400,17 @@ AC_ARG_WITH(gnome_vfs,
 if test $want_gnome_vfs = auto -a "$want_gio" = yes; then
    	want_gnome_vfs=yes
 fi
+GNOMEVFS_REQ=
 if test $want_gnome_vfs = yes; then
    	if test "$want_gio" = yes; then
 	   	AC_DEFINE(LIBGSF_GNOMEVFS_VIA_GIO, 1, [Define if gio is used to implement gnome-vfs api])
 	else
-	        libgsf_gnome_reqs="$libgsf_gnome_reqs gnome-vfs-2.0 >= 2.2.0"
-        	libgsf_gnome_reqs="$libgsf_gnome_reqs gnome-vfs-module-2.0 >= 2.2.0"
+                GNOMEVFS_REQ="gnome-vfs-2.0 >= 2.2.0 gnome-vfs-module-2.0 >= 2.2.0"
+	        libgsf_gnome_reqs="$libgsf_gnome_reqs $GNOMEVFS_REQ"
 	fi
    	want_gnome=yes
 fi
-
+AC_SUBST(GNOMEVFS_REQ)
 
 want_bonobo=no
 dnl check for bonobo
@@ -422,10 +423,13 @@ AC_ARG_WITH(bonobo,
     esac],
     [want_bonobo=yes]) dnl Default value
 
+BONOBO_REQ=
 if test $want_bonobo = yes; then
-    libgsf_gnome_reqs="$libgsf_gnome_reqs libbonobo-2.0 >= 2.0.0"
+    BONOBO_REQ="libbonobo-2.0 >= 2.0.0"
+    libgsf_gnome_reqs="$libgsf_gnome_reqs $BONOBO_REQ"   
     want_gnome=yes
 fi
+AC_SUBST(BONOBO_REQ)
 
 
 have_gnome=no
