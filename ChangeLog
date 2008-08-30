@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.9
+
 2008-08-28  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (GNOMEVFS_REQ, BONOBO_REQ): Define as needed.
