@@ -2,11 +2,11 @@ Source: libgsf
 Section: libs
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 4), dh-buildinfo,
+Build-Depends: debhelper (>= 7.0.0), dh-buildinfo,
  gtk-doc-tools (>= 1.2-1.2),
- libglib2.0-dev (>= 2.8.0), libxml2-dev (>= 2.6.10-1),
+ libglib2.0-dev (>= 2.16.1), libxml2-dev (>= 2.6.10-1),
  libbonobo2-dev (>= 2.6.0-2), libgnomevfs2-dev (>= 2.6.1.1-3),
- libbz2-dev
+ libbz2-dev, libgvfscommon-dev
 Vcs-Svn: svn://svn.gnome.org/svn/libgsf/trunk
 Vcs-Browser: http://svn.gnome.org/viewcvs/libgsf/trunk/
 Standards-Version: 3.7.3
@@ -20,7 +20,7 @@ Description: Structured File Library - development files for GNOME
  This package contains the development files used in building applications
  that use the GNOME Structured File Library.
  .
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats. It is actively being developed and its API is still likely to
  undergo significant changes (in particular, extensions).
@@ -43,7 +43,7 @@ Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Structured File Library - runtime version for GNOME
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats.
  .
@@ -54,7 +54,7 @@ Package: libgsf-1-114-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: libgsf-1-114 (= ${Source-Version})
+Depends: libgsf-1-114 (= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: Structured File Library - debugging files (basic version)
  This package contains the files for debugging (applications that use the)
  the core parts of the GNOME Structured File Library.
@@ -65,13 +65,14 @@ Description: Structured File Library - debugging files (basic version)
 Package: libgsf-1-dev
 Section: libdevel
 Architecture: any
-Depends: libgsf-1-114 (= ${Source-Version}), libglib2.0-dev (>= 2.4.1-2), libxml2-dev (>= 2.6.10-1), libbz2-dev
+Depends: libgsf-1-114 (= ${Source-Version}), libglib2.0-dev (>= 2.16.1), libxml2-dev (>= 2.6.10-1), libbz2-dev
+Replaces: libgsf-gnome-1-dev (<= 1.14.8-1)
 Recommends: pkg-config
 Description: Structured File Library - development files (basic version)
  This package contains the development files used in building applications
  that use the GNOME Structured File Library.
  .
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats. It is actively being developed and its API is still likely to
  undergo significant changes (in particular, extensions).
@@ -86,7 +87,7 @@ Architecture: any
 Depends: libgsf-1-common (>= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}
 Conflicts: gnumeric (<< 1.4.4)
 Description: Structured File Library - runtime version
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats.
  .
@@ -99,7 +100,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Replaces: libgsf-1 (<= 1.12.3-4)
 Description: Structured File Library - common files
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats.
  .
@@ -112,7 +113,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: libgsf-1 (<= 1.12.3-3), libgsf-gnome-1 (<= 1.12.3-4)
 Description: Structured File Library - programs
- The GNOME Structured File Library library aims to provide an efficient
+ The GNOME Structured File Library aims to provide an efficient
  extensible I/O abstraction for dealing with different structured file
  formats.
  .

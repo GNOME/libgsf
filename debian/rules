@@ -67,7 +67,8 @@ confflags +=	--prefix=/usr \
 confflags +=	--enable-compile-warnings=maximum
 
 # Features
-confflags +=	--with-gnome --with-bz2 --enable-gtk-doc --without-python
+confflags +=	--with-gnome --with-bz2 --enable-gtk-doc --without-python \
+		--with-gio --without-gnome-vfs
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 	confflags += --build $(DEB_HOST_GNU_TYPE)
@@ -92,6 +93,7 @@ source-updates:
 configure: config-stamp
 config-stamp:
 	dh_testdir
+	dh_prep
 
 	rm -rf build && mkdir build
 	# With current libtool (1.5.24-1), LDFLAGS ends up on the actual
@@ -117,12 +119,9 @@ build-stamp:  config-stamp
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f config-stamp build-stamp 
 
 	-$(MAKE) -C build distclean
 	rm -rf build
-	rm -f config.cache config.status
-	rm -f doc/html/*.png doc/html/*.html
 
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
 
@@ -143,7 +142,6 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
 	dh_installdirs
 
 	# Add here commands to install the package into debian/tmp
@@ -199,9 +197,8 @@ ifeq ($(DH_OPTIONS),-s)
 	# Unfortunately, "-s" overrides "-p" for dh_link messes things up.
 	env -u DH_OPTIONS dh_link -p$(p_libgsf_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_dbg)
 	env -u DH_OPTIONS dh_link -p$(p_libgsf_gnome_dbg) /usr/share/doc/$(p_libgsf)/ /usr/share/doc/$(p_libgsf_gnome_dbg)
-
 	# Make the documentation accessible through devhelp.
-	dh_link -s -p$(p_libgsf_dev) /usr/share/doc/$(p_libgsf_dev)/html/gsf/ /usr/share/gtk-doc/html/gsf
+	env -u DH_OPTIONS dh_link -p$(p_libgsf_dev) /usr/share/doc/$(p_libgsf_dev)/html/gsf/ /usr/share/gtk-doc/html/gsf
 endif
 	dh_installdocs
 	dh_installexamples
@@ -224,7 +221,7 @@ endif
 #	dh_perl
 #	dh_python
 ifeq ($(DH_OPTIONS),-s)
-	dh_strip -s -v -N $(p_libgsf_dbg) -N $(p_libgsf_gnome_dbg)
+	dh_strip -s -v
 
 	# Unfortunately, "-s" overrides "-p" for dh_makeshlibs and by acting
 	# on all architecture-dependent packages we would get wrong shlibs

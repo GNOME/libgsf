@@ -1,16 +1,38 @@
+libgsf (1.14.9-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/compat] Update to v7.
+  * [debian/clean] New.
+  * [debian/rules]
+    * Removed some cleanup that's now handled by debian/clean.
+    * Use "dh_prep" instead of "dh_clean -k".
+  * [debian/rules, debian/control]
+    * Enable gio support; bumped glib build and runtime dependencies
+      accordingly.
+    * Explicitly disable use of gnomevfs - use gio's implementation instead.
+    * Moved gtk-doc symlink from libgsf-gnome-1-dev to libgsf-1-dev.
+  * [debian/control]
+    * Fix dependencies of libgsf-1-114-dbg.
+    * Removed duplicate words.
+    * Updated debhelper build dependency.
+  * [debian/libgsf-bin.install] Add gsf-vba-dump manual page (new).
+  * [debian/libgsf-gnome-1-dev.install] Remove pattern that was not used.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Aug 2008 16:19:49 +0200
+
 libgsf (1.14.8-1) unstable; urgency=low
 
-   * New upstream release.
-   * [debian/rules] No longer exclude win32.h on dh_install; upstream now only
-     tries to install it on win32 platforms.
-   * [debian/control]
-     * Bumped debhelper build dependency to match compatibility level
-       specified in debian/compat.
-     * Updated Standards-Version.
-   * [doc/gsf-office-thumbnailer.1, doc/gsf.1] Fixed lintian warnings:
-     corrected font reference and switched to .URL for hyperlinks.
-   * [debian/libgsf-1-dev.doc-base] Changed section to fit in the new section
-     hierarchy.
+  * New upstream release.
+  * [debian/rules] No longer exclude win32.h on dh_install; upstream now only
+    tries to install it on win32 platforms.
+  * [debian/control]
+    * Bumped debhelper build dependency to match compatibility level
+      specified in debian/compat.
+    * Updated Standards-Version.
+  * [doc/gsf-office-thumbnailer.1, doc/gsf.1] Fixed lintian warnings:
+    corrected font reference and switched to .URL for hyperlinks.
+  * [debian/libgsf-1-dev.doc-base] Changed section to fit in the new section
+    hierarchy.
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 06 Mar 2008 07:57:05 +0100
 
