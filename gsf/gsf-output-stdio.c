@@ -34,6 +34,9 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef HAVE_SYS_STATFS_H
+#include <sys/statfs.h>
+#endif
 
 #ifdef G_OS_WIN32
 #include <wchar.h>
@@ -67,14 +70,33 @@ static int
 rename_wrapper (char const *oldfilename, char const *newfilename)
 {
 	int result = g_rename (oldfilename, newfilename);
-#ifdef G_OS_WIN32
-	if (result) {
-		/* Win32's rename does not unlink the target.  */
-		(void)g_unlink (newfilename);
-		result = g_rename (oldfilename, newfilename);
+	if (!result)
+		goto done;
+
+#ifdef HAVE_SYS_STATFS_H
+	/* The FUSE file system does not unlink the target.  */
+	if (errno == EPERM) {
+		int save_errno = errno;
+		struct statfs buf;
+		if (statfs (newfilename, &buf) == 0 &&
+		    memcmp (&buf.f_type, "FUse", 4) == 0)
+			goto unlink_and_retry;
+		errno = save_errno;
 	}
 #endif
+
+#ifdef G_OS_WIN32
+	/* Win32's rename does not unlink the target.  */
+	goto unlink_and_retry;
+#endif
+
+done:
 	return result;
+
+unlink_and_retry:
+	(void)g_unlink (newfilename);
+	result = g_rename (oldfilename, newfilename);
+	goto done;
 }
 
 static int

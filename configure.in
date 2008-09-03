@@ -161,7 +161,7 @@ if test $need_bsd1 = yes -o $need_bsd2 = yes; then
 fi
 
 AC_TYPE_MODE_T
-AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h)
+AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h)
 AC_FUNC_MMAP
 
 AC_CHECK_FUNCS(chown setrlimit)
