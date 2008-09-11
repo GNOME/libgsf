@@ -1,5 +1,8 @@
 libgsf 1.14.10
 
+Jody:
+	* Patch some coverity issues [189, 250, 251]
+
 Morten:
 	* Work around sshfs bug.  [#509883]
 

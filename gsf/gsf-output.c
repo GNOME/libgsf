@@ -609,6 +609,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 		output->printf_buf = g_strdup_vprintf (fmt, args2);
 		reslen = output->printf_buf_size = strlen (output->printf_buf);
 	}
+	va_end (args2);
 
 	if (reslen == 0 ||
 	    GET_CLASS (output)->Write (output, reslen, output->printf_buf))

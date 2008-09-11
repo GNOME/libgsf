@@ -1,3 +1,16 @@
+2008-09-11  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_read) : local variable shadowed a
+	  poorly named parameter.  It wasn't a bug, but it can't hurt to fix
+	  it. [Coverity #189]
+
+2008-09-10  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-output.c (gsf_output_real_vprintf) : add va_end after the
+	  G_VA_COPY. [Coverity #250]
+	* gsf/gsf-output-memory.c (gsf_output_memory_vprintf) : ditto.
+	  [Coverity #251]
+
 2008-09-03  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (rename_wrapper): Work around sshfs

@@ -975,7 +975,7 @@ msole_prop_read (GsfInput *in,
 
 	/* dictionary is magic */
 	if (props[i].id == 0) {
-		guint32 len, id, i, n;
+		guint32 len, id, j, n;
 		gsize gslen;
 		char *name;
 		guint8 const *start = data;
@@ -988,7 +988,7 @@ msole_prop_read (GsfInput *in,
 
 		d ({ g_print ("Dictionary = \n"); gsf_mem_dump (data-4, size); });
 		n = type;
-		for (i = 0 ; i < n ; i++) {
+		for (j = 0 ; j < n ; j++) {
 			id = GSF_LE_GET_GUINT32 (data);
 			len = GSF_LE_GET_GUINT32 (data + 4);
 
