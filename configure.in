@@ -55,9 +55,7 @@ AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 
 dnl Gettext/i18n stuff
 
-AC_PROG_INTLTOOL
-
-ALL_LINGUAS="es nb oc sv zh_HK zh_TW"
+IT_PROG_INTLTOOL([0.35.0])
 
 AM_GLIB_GNU_GETTEXT
 
