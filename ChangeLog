@@ -1,3 +1,9 @@
+2008-09-24  Morten Welinder  <terra@gnome.org>
+
+	* tools/gsf.c (open_archive): Also try tar file format.
+
+	* gsf/gsf-infile-tar.[ch]: New files.
+
 2008-09-14  Gil Forcada  <gforcada@gnome.org>
 
 	* configure.in:

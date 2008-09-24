@@ -48,6 +48,7 @@ libgsf_1_la_SOURCES =		\
 	gsf-infile-msole.c 	\
 	gsf-infile-msvba.c 	\
 	gsf-infile-stdio.c	\
+	gsf-infile-tar.c	\
 	gsf-infile-zip.c	\
 	\
 	gsf-output.c 		\
@@ -65,7 +66,6 @@ libgsf_1_la_SOURCES =		\
 	gsf-outfile-zip.c	\
 	\
 	gsf-shared-memory.c	\
-	gsf-shared-memory.h	\
 	gsf-structured-blob.c	\
 	gsf-blob.c		\
 	gsf-clip-data.c		\
@@ -105,6 +105,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-infile-msole.h 	\
 	gsf-infile-msvba.h 	\
 	gsf-infile-stdio.h	\
+	gsf-infile-tar.h	\
 	gsf-infile-zip.h	\
 	\
 	gsf-output.h		\
@@ -123,6 +124,7 @@ libgsf_1_include_HEADERS = 	\
 	gsf-outfile-stdio.h	\
 	gsf-outfile-zip.h	\
 	\
+	gsf-shared-memory.h	\
 	gsf-structured-blob.h   \
 	gsf-meta-names.h	\
 	gsf-blob.h		\

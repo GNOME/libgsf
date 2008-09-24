@@ -5,6 +5,7 @@ Jody:
 
 Morten:
 	* Work around sshfs bug.  [#509883]
+	* Support tar archives.
 
 --------------------------------------------------------------------------
 libgsf 1.14.9

@@ -1,6 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-tar.h>
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-input-stdio.h>
@@ -53,6 +54,10 @@ open_archive (char const *filename)
 		return infile;
 
 	infile = gsf_infile_msole_new (src, NULL);
+	if (infile)
+		return infile;
+
+	infile = gsf_infile_tar_new (src, NULL);
 	if (infile)
 		return infile;
 
