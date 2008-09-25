@@ -96,7 +96,7 @@ typedef struct {
 #define GSF_IS_INFILE_TAR_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_TAR_TYPE))
 
 static gsf_off_t
-unpack_octal (const char *s, size_t len)
+unpack_octal (GsfInfileTar *tar, const char *s, size_t len)
 {
 	gsf_off_t res = 0;
 
@@ -104,6 +104,11 @@ unpack_octal (const char *s, size_t len)
 		unsigned char c = *s++;
 		if (c == 0)
 			break;
+		if (c < '0' || c > '7') {
+			tar->err = g_error_new (gsf_input_error_id (), 0,
+						"Invalid tar header");
+			return 0;
+		}
 		res = (res << 3) + (c - '0');
 	}
 
@@ -219,7 +224,7 @@ tar_init_info (GsfInfileTar *tar)
 			pending_longname = NULL;
 		} else
 			name = g_strndup (header->name, sizeof (header->name));
-		length = unpack_octal (header->size, sizeof (header->size));
+		length = unpack_octal (tar, header->size, sizeof (header->size));
 		offset = gsf_input_tell (tar->source);
 
 #if 0

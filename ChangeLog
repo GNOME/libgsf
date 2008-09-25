@@ -1,5 +1,8 @@
 2008-09-24  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-tar.c (unpack_octal): Add error check. Fixes
+	#553655.
+
 	* tools/gsf.c (open_archive): Also try tar file format.
 
 	* gsf/gsf-infile-tar.[ch]: New files.
