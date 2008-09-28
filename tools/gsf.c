@@ -143,8 +143,11 @@ ls_R (GsfInput *input, char const *prefix)
 		int i;
 		for (i = 0 ; i < gsf_infile_num_children (infile) ; i++) {
 			GsfInput *child = gsf_infile_child_by_index (infile, i);
-			ls_R (child, new_prefix);
-			g_object_unref (child);
+			/* We can get NULL here in case of file corruption.  */
+			if (child) {
+				ls_R (child, new_prefix);
+				g_object_unref (child);
+			}
 		}
 	}
 

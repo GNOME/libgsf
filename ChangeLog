@@ -1,3 +1,7 @@
+2008-09-28  Morten Welinder  <terra@gnome.org>
+
+	* tools/gsf.c (ls_R): Handle NULL children.  Fixes #553861.
+
 2008-09-24  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-tar.c (unpack_octal): Add error check. Fixes
