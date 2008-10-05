@@ -7,6 +7,7 @@ Morten:
 	* Work around sshfs bug.  [#509883]
 	* Support tar archives.
 	* Improve gsf support for broken archives.  [#553861]
+	* Avoid a critical for bad ole2.  [#554848]
 
 --------------------------------------------------------------------------
 libgsf 1.14.9

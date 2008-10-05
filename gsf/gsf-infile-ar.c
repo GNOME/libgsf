@@ -301,7 +301,7 @@ ar_read_header (GsfInput *fp, ArHeader *header)
 	else if (len < AR_HEADER_LEN)
 		return AR_FAILURE;
 	else {
-		gsf_input_read (fp, AR_HEADER_LEN, header);
+		gsf_input_read (fp, AR_HEADER_LEN, (guint8*)header);
 		if (strncmp (header->fmag, AR_FMAG, 2))
 			return AR_FAILURE;
 		return AR_SUCCESS;
@@ -319,6 +319,9 @@ gsf_infile_ar_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 static gboolean
 gsf_infile_ar_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
+	(void)input;
+	(void)offset;
+	(void)whence;
 	return FALSE;
 }
 
@@ -478,5 +481,5 @@ gsf_infile_ar_new (GsfInput *source, GError **err)
 	}
 	ar->vdir = ar->info->vdir;
 
-	return ar;
+	return GSF_INFILE (ar);
 }

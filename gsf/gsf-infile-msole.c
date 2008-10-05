@@ -205,8 +205,11 @@ ole_info_read_metabat (GsfInfileMSOle *ole, guint32 *bats, guint32 max_bat,
 			end = bat + ole->info->bb.size;
 			for ( ; bat < end ; bat += BAT_INDEX_SIZE, bats++) {
 				*bats = GSF_LE_GET_GUINT32 (bat);
-				g_return_val_if_fail (*bats < max_bat ||
-						      *bats >= BAT_MAGIC_METABAT, NULL);
+				if (*bats >= max_bat && *bats < BAT_MAGIC_METABAT) {
+					g_warning ("Invalid metabat item %08x",
+						   *bats);
+					return NULL;
+				}
 			}
 		} else {
 			/* Looks like something in the wild sometimes creates
@@ -930,8 +933,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 
 	calling_pos = gsf_input_tell (source);
 	if (ole_init_info (ole, err)) {
-		/* It's not clear to me why we do this.  And if this
-		   fails, there's really nothing we can do.  */
+		/* We do this so other kinds of archives can be tried.  */
 		(void)gsf_input_seek (source, calling_pos, G_SEEK_SET);
 
 		g_object_unref (G_OBJECT (ole));

@@ -1,3 +1,8 @@
+2008-10-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_info_read_metabat): Use g_warning,
+	not g_return_val_if_fail.  Fixes #554848.
+
 2008-09-28  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (ls_R): Handle NULL children.  Fixes #553861.
