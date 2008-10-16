@@ -22,7 +22,6 @@
 #ifndef GSF_OUTPUT_GNOMEVFS_H
 #define GSF_OUTPUT_GNOMEVFS_H
 
-#include <gsf/gsf-output.h>
 #ifndef LIBGSF_GNOMEVFS_VIA_GIO
 /*
  * The installed version will always do this.  For our emulation layer, we

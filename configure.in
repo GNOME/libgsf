@@ -401,7 +401,7 @@ fi
 GNOMEVFS_REQ=
 if test $want_gnome_vfs = yes; then
    	if test "$want_gio" = yes; then
-	   	AC_DEFINE(LIBGSF_GNOMEVFS_VIA_GIO, 1, [Define if gio is used to implement gnome-vfs api])
+		CFLAGS="$CFLAGS -DLIBGSF_GNOMEVFS_VIA_GIO"
 	else
                 GNOMEVFS_REQ="gnome-vfs-2.0 >= 2.2.0 gnome-vfs-module-2.0 >= 2.2.0"
 	        libgsf_gnome_reqs="$libgsf_gnome_reqs $GNOMEVFS_REQ"

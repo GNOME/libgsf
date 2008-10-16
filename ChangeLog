@@ -1,3 +1,11 @@
+2008-10-16  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Define LIBGSF_GNOMEVFS_VIA_GIO via command line,
+	if needed.
+	* gsf-gnome/gsf-output-gnomevfs.h: Don't include config file.  Get
+	LIBGSF_GNOMEVFS_VIA_GIO from command line.
+	* gsf-gnome/gsf-input-gnomevfs.h: Ditto.
+
 2008-10-05  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_info_read_metabat): Use g_warning,
