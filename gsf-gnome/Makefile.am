@@ -8,9 +8,13 @@ libgsf_gnome_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
   libgsf_gnome_1_la_LDFLAGS += -no-undefined
 endif
-libgsf_gnome_1_la_SOURCES =	\
+libgsf_gnome_1_la_SOURCES =
+
+if WITH_LIBGSF_GNOMEVFS
+libgsf_gnome_1_la_SOURCES +=	\
 	gsf-input-gnomevfs.c 	\
 	gsf-output-gnomevfs.c
+endif
 
 if WITH_LIBGSF_BONOBO
 libgsf_gnome_1_la_SOURCES +=	\

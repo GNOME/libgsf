@@ -1,3 +1,8 @@
+2008-10-17  Morten Welinder  <terra@gnome.org>
+
+	* gsf-gnome/Makefile.am: Don't compile the gnomevfs part unless
+	asked to.
+
 2008-10-16  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Define LIBGSF_GNOMEVFS_VIA_GIO via command line,
