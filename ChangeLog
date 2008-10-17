@@ -1,3 +1,8 @@
+2008-10-17  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* gsf-gnome/gsf-input-gnomevfs.h: add #define if 
+	  LIBGSF_GNOMEVFS_VIA_GIO is defined
+
 2008-10-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/Makefile.am: Don't compile the gnomevfs part unless

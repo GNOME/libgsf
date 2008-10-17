@@ -28,6 +28,8 @@
  * want to avoid it.
  */
 #include <libgnomevfs/gnome-vfs.h>
+#else
+#define GnomeVFSURI void
 #endif
 
 G_BEGIN_DECLS
