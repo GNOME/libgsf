@@ -57,6 +57,7 @@ typedef struct {
  *
  * Returns: a new file or NULL.
  **/
+/* coverity[ -tainted_string_sink_content : arg-0 ] */
 GsfInput *
 gsf_input_stdio_new (char const *filename, GError **err)
 {

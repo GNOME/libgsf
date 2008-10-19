@@ -1,3 +1,7 @@
+2008-10-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.10
+
 2008-10-17  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* gsf-gnome/gsf-input-gnomevfs.h: add #define if 
@@ -39,6 +43,11 @@
 	* configure.in:
 	* po/LINGUAS:
 	Added support for po/LINGUAS file, closing #551577.
+
+2008-09-12  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_iconv_get_codepage_string_list) :
+	  We intentionally fallthrough to the next case.
 
 2008-09-11  Jody Goldberg <jody@gnome.org>
 

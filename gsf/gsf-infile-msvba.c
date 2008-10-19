@@ -180,8 +180,10 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		switch (tag) {
 		case 4:
 			name = g_strndup (ptr, len);
+#ifdef OLD_VBA_DUMP
 			puts ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			printf ("<project name=\"%s\">", name);
+#endif
 			g_free (name);
 			break;
 		case 9:
@@ -257,7 +259,9 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 
 fail_content :
 	g_free (inflated_data);
+#ifdef OLD_VBA_DUMP
 	puts ("</project>");
+#endif
 
 fail_compression :
 	g_object_unref (G_OBJECT (dir));

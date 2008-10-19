@@ -2218,6 +2218,8 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 		case 0x8001:
 			/* according to OOo docs 8001 is a synonym CP1252 */
 			codepage = 1252;
+			/* fallthrough */
+
 		default:
 			cp_list = g_slist_prepend (cp_list, g_strdup_printf ("CP%u", codepage));
 	}
