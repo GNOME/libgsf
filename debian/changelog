@@ -1,3 +1,10 @@
+libgsf (1.14.10-2) unstable; urgency=low
+
+  * [debian/rules] Reenable use of gnomevfs as the oldlibs version of goffice
+    relies on it. (Closes: #502971)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 22 Oct 2008 19:13:50 +0200
+
 libgsf (1.14.10-1) unstable; urgency=low
 
   * New upstream release.
