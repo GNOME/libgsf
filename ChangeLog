@@ -1,3 +1,10 @@
+2008-10-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/gsf-utils.c: Natural endian doubles aren't just used on VFP
+	enabled ARM, but on ARM with EABI as well. Adjust the logic for
+	defining G_FLOAT_BYTE_ORDER accordingly. Patch courtesy of Riku Voipio
+	<riku.voipio@iki.fi>. (Debian #503144)
+
 2008-10-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.14.10

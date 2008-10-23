@@ -73,7 +73,7 @@
  * mixture.
  */
 #define G_ARMFLOAT_ENDIAN 56781234
-#if defined(__arm__) && !defined(__vfp__) && (G_BYTE_ORDER == G_LITTLE_ENDIAN)
+#if defined(__arm__) && !defined(__ARM_EABI__) && (G_BYTE_ORDER == G_LITTLE_ENDIAN)
 #define G_FLOAT_BYTE_ORDER G_ARMFLOAT_ENDIAN
 #else
 #define G_FLOAT_BYTE_ORDER G_BYTE_ORDER
