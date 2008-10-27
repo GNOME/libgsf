@@ -45,6 +45,22 @@ libgsf (1.14.9-1) unstable; urgency=low
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Aug 2008 15:50:04 +0200
 
+libgsf (1.14.8-1lenny1) testing; urgency=medium
+
+   * Fix silent data corruption bug
+     http://bugzilla.gnome.org/show_bug.cgi?id=350973:
+     Gnumeric's import and export of floating point constants in xls files
+     was broken on Nokia 770 / armel:
+     [gsf/gsf-utils.c]
+     * Natural endian doubles aren't just used on VFP enabled ARM, but on
+       ARM with EABI as well. Adjust the logic for defining
+       G_FLOAT_BYTE_ORDER accordingly. Patch courtesy of Riku Voipio
+       <riku.voipio@iki.fi>. (Closes: #503144)
+     * Add self-check code for decoding of little endian doubles, taken from
+       newer upstream releases.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 27 Oct 2008 19:26:55 +0100
+
 libgsf (1.14.8-1) unstable; urgency=low
 
   * New upstream release.
