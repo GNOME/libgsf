@@ -411,9 +411,8 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	}
 
 	if (NULL != err) {
-		g_print (err);
 		if (errmsg != NULL)
-			*errmsg = g_error_new (gsf_input_error_id (), 0, err);
+			*errmsg = g_error_new_literal (gsf_input_error_id (), 0, err);
 		g_free (err);
 		return TRUE;
 	}

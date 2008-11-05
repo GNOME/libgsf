@@ -120,7 +120,7 @@ gsf_output_bonobo_write (GsfOutput *output,
 	CORBA_exception_init (&ev);
 	Bonobo_Stream_write (bonobo->stream, bsobuf, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning (bonobo_exception_get_text (&ev));
+		g_warning ("%s", bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}

@@ -57,7 +57,7 @@ gib_synch_shared_ptr (GsfInputBonobo *binput)
 	Bonobo_Stream_seek (binput->shared->stream, new_pos,
 			    Bonobo_Stream_SeekSet, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning (bonobo_exception_get_text (&ev));
+		g_warning ("%s", bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		return -1;
 	} else {
@@ -203,7 +203,7 @@ gsf_input_bonobo_read (GsfInput *input, size_t num_bytes,
 	Bonobo_Stream_read (binput->shared->stream, (CORBA_long) num_bytes,
 			    &bsibuf, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning (bonobo_exception_get_text (&ev));
+		g_warning ("%s", bonobo_exception_get_text (&ev));
 		return NULL;
 	} else {
 		memcpy (buffer, bsibuf->_buffer, bsibuf->_length);
@@ -260,7 +260,7 @@ gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	pos = Bonobo_Stream_seek
 		(binput->shared->stream, coffset, bwhence, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning (bonobo_exception_get_text (&ev));
+		g_warning ("%s", bonobo_exception_get_text (&ev));
 		return TRUE;
 	} else {
 		binput->shared->pos = pos;

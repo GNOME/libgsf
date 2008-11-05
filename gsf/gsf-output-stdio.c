@@ -74,6 +74,7 @@ rename_wrapper (char const *oldfilename, char const *newfilename)
 		goto done;
 
 #ifdef HAVE_SYS_STATFS_H
+#ifdef HAVE_2ARG_STATFS
 	/* The FUSE file system does not unlink the target.  */
 	if (errno == EPERM) {
 		int save_errno = errno;
@@ -83,6 +84,7 @@ rename_wrapper (char const *oldfilename, char const *newfilename)
 			goto unlink_and_retry;
 		errno = save_errno;
 	}
+#endif
 #endif
 
 #ifdef G_OS_WIN32
@@ -260,7 +262,7 @@ gsf_output_stdio_close (GsfOutput *output)
 			saved_errno = errno;
 		res = gsf_output_set_error (output,
 					    saved_errno,
-					    g_strerror (saved_errno));
+					    "%s", g_strerror (saved_errno));
 	} else {
 		/* Restore permissions.  There is not much error checking we
 		 * can do here, I'm afraid.  The final data is saved anyways.
@@ -341,7 +343,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	if (0 == fseek (stdio->file, loffset, stdio_whence))
 		return TRUE;
 #endif
-	return gsf_output_set_error (output, errno, g_strerror (errno));
+	return gsf_output_set_error (output, errno, "%s", g_strerror (errno));
 }
 
 static gboolean
@@ -361,7 +363,7 @@ gsf_output_stdio_write (GsfOutput *output,
 		written = fwrite (buffer + (num_bytes - remaining), 1, 
 				  remaining, stdio->file);
 		if ((written < remaining) && ferror (stdio->file) != 0)
-			return gsf_output_set_error (output, errno, g_strerror (errno));
+			return gsf_output_set_error (output, errno, "%s", g_strerror (errno));
 
 		remaining -= written;
 	}

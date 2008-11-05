@@ -269,7 +269,7 @@ fail_stream :
 
 	if (failed) {
 		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0, msg);
+			*err = g_error_new_literal (gsf_input_error_id (), 0, msg);
 		return FALSE;
 	}
 	return TRUE;

@@ -162,6 +162,16 @@ AC_TYPE_MODE_T
 AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h)
 AC_FUNC_MMAP
 
+AC_MSG_CHECKING([form of statfs])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+[[#ifdef HAVE_SYS_STATFS_H
+#include <sys/statfs.h>
+#endif]],
+[[struct statfs buf; (void)(2*statfs("xyz",&buf));]])],
+	[AC_MSG_RESULT([2-arg, linux-style])
+AC_DEFINE(HAVE_2ARG_STATFS, 1, [Define is you have two-argument statfs like linux])],
+	[AC_MSG_RESULT([none, or unknown])])
+
 AC_CHECK_FUNCS(chown setrlimit)
 
 AC_CHECK_FUNCS(gmtime_r, [],
