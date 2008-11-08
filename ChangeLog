@@ -1,3 +1,10 @@
+2008-11-08  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-bzip.c: Pretend to use args in the
+	don't-have-bzip case.
+	* gsf/gsf-intput-bzip.c: Pretend to use args in the
+	don't-have-bzip case.
+
 2008-11-05  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Fix problem with formats.  Based on patch from Hib Eris,

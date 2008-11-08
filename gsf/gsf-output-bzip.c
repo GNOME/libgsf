@@ -165,6 +165,9 @@ gsf_output_bzip_write (GsfOutput *output,
 
 	return TRUE;
 #else
+	(void)output;
+	(void)num_bytes;
+	(void)data;
 	return FALSE;
 #endif
 }
@@ -208,6 +211,8 @@ gsf_output_bzip_init (GObject *obj)
 	bzip->stream.avail_in	= bzip->stream.avail_out = 0;
 	bzip->buf		= NULL;
 	bzip->buf_size		= 0;
+#else
+	(void)obj;
 #endif
 }
 
@@ -258,6 +263,7 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 
 	return GSF_OUTPUT (bzip);
 #else
+	(void)sink;
 	if (err)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				    "BZ2 support not enabled");

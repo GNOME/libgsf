@@ -44,6 +44,7 @@ GsfInput *
 gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 {
 #ifndef HAVE_BZ2
+	(void)source;
 	if (err)
 		*err = g_error_new (gsf_input_error_id (), 0,
 				    "BZ2 support not enabled");
