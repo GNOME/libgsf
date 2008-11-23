@@ -3,6 +3,9 @@ libgsf 1.14.11
 Morten:
 	* Solaris compilation issue.  [#558253]
 
+Richard W.M. Jones
+	* MinGW configure fix for libbz2 detection.
+
 --------------------------------------------------------------------------
 libgsf 1.14.10
 

@@ -331,30 +331,36 @@ AC_ARG_WITH(bz2,
 
 with_bz2=false
 if test "x$test_bz2" = xtrue ; then
-   AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, 
-		bz2_ok=yes,
-		bz2_ok=no
-		AC_MSG_WARN(*** BZ2 support disabled (BZ2 library not found) ***))
+   dnl AC_CHECK_LIB doesn't work with the Windows port of libbz2 because
+   dnl it uses the __stdcall calling convention where the callee cleans
+   dnl up the stack.  You have to include <bzlib.h> in order to get the
+   dnl right calling convention, and the link fails if not.  Since we
+   dnl require both -lbz2 and <bzlib.h>, just test if a program which
+   dnl uses both can be compiled.
 
-   if test "$bz2_ok" = yes; then
-      AC_MSG_CHECKING([for bzlib.h])
-      AC_PREPROC_IFELSE(
-	[AC_LANG_SOURCE(
+   old_LIBS="$LIBS"
+   LIBS="-lbz2 $LIBS"
+   AC_LINK_IFELSE(
+     [AC_LANG_SOURCE(
 	[[#include <stdio.h>
-	#undef PACKAGE
-	#undef VERSION
-	#undef HAVE_STDLIB_H
-	#include <bzlib.h>]])],
-        bz2_ok=yes,
-        bz2_ok=no)
-      AC_MSG_RESULT($bz2_ok)
-   fi
+	  #undef PACKAGE
+	  #undef VERSION
+	  #undef HAVE_STDLIB_H
+	  #include <bzlib.h>
+          main ()
+          {
+            return BZ2_bzDecompressInit (NULL, 0, 0);
+          }
+        ]])],
+     bz2_ok=yes,
+     bz2_ok=no)
+   LIBS="$old_LIBS"
 
    if test "$bz2_ok" = yes; then
 	AC_DEFINE(HAVE_BZ2, 1, [Is bzip2 available and enabled])
 	BZ2_LIBS="-lbz2"
    else
-	AC_MSG_WARN(*** BZ2 support disabled (BZ2 header not found) ***)
+	AC_MSG_WARN(*** BZ2 support disabled (BZ2 header or library not found) ***)
    fi
 else
    AC_MSG_WARN([BZ2 support disabled, as requested (Use --with-bz2 to enable)])
