@@ -331,6 +331,8 @@ AC_ARG_WITH(bz2,
 
 with_bz2=false
 if test "x$test_bz2" = xtrue ; then
+   AC_MSG_CHECKING([usable libbz2])
+
    dnl AC_CHECK_LIB doesn't work with the Windows port of libbz2 because
    dnl it uses the __stdcall calling convention where the callee cleans
    dnl up the stack.  You have to include <bzlib.h> in order to get the
@@ -359,6 +361,7 @@ if test "x$test_bz2" = xtrue ; then
    if test "$bz2_ok" = yes; then
 	AC_DEFINE(HAVE_BZ2, 1, [Is bzip2 available and enabled])
 	BZ2_LIBS="-lbz2"
+	AC_MSG_RESULT($bz2_ok)
    else
 	AC_MSG_WARN(*** BZ2 support disabled (BZ2 header or library not found) ***)
    fi

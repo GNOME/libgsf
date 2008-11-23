@@ -84,11 +84,6 @@
 static void base64_init (void);
 #endif
 
-#ifdef G_OS_WIN32
-#include <windows.h>
-G_WIN32_DLLMAIN_FOR_DLL_NAME (static, dll_name)
-#endif
-
 #ifdef _GSF_GTYPE_THREADING_FIXED
 typedef GTypeModule      GsfDummyTypeModule;
 typedef GTypeModuleClass GsfDummyTypeModuleClass;
@@ -110,6 +105,19 @@ static GSF_CLASS (GsfDummyTypeModule, gsf_dummy_type_module,
 static GTypeModule *static_type_module = NULL;
 #endif
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+static HMODULE gsf_dll_hmodule;
+BOOL WINAPI
+DllMain (HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+BOOL WINAPI
+DllMain (HINSTANCE hinstDLL, DWORD fdwReason, G_GNUC_UNUSED LPVOID lpvReserved)
+{
+	if (fdwReason == DLL_PROCESS_ATTACH) gsf_dll_hmodule = hinstDLL;
+	return TRUE;
+}
+#endif
+
 /**
  * gsf_init :
  *
@@ -118,18 +126,23 @@ static GTypeModule *static_type_module = NULL;
 void
 gsf_init (void)
 {
+	static gboolean libgsf_initialized = FALSE;
+	if (libgsf_initialized)
+		return;
+
 #ifdef ENABLE_NLS
 #ifdef G_OS_WIN32
-#undef GNOMELOCALEDIR
-	gchar *prefix = g_win32_get_package_installation_directory (NULL, dll_name);
-	gchar *GNOMELOCALEDIR = g_build_filename (prefix, "lib/locale", NULL);
-	g_free (prefix);
+	{
+		char *pkg_dir	  = g_win32_get_package_installation_directory_of_module (gsf_dll_hmodule);
+		gchar *locale_dir = g_build_filename (pkg_dir, "lib/locale", NULL);
+		bindtextdomain (GETTEXT_PACKAGE, locale_dir);
+		g_free (locale_dir);
+		g_free (pkg_dir);
+	}
+#else
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
 #endif
-	bindtextdomain(GETTEXT_PACKAGE, GNOMELOCALEDIR);
-#ifdef G_OS_WIN32
-	g_free (GNOMELOCALEDIR);
-#endif
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 
 	g_type_init ();
