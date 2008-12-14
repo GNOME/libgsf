@@ -6,6 +6,9 @@ Jody:
 Morten:
 	* Solaris compilation issue.  [#558253]
 
+Pedro Fragoso:
+	* Clean up glib includes.  [#564004]
+
 Richard W.M. Jones
 	* MinGW configure fix for libbz2 detection.
 

@@ -24,7 +24,7 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
-#include <glib/gconvert.h>
+#include <glib.h>
 #include <string.h>
 
 static GObjectClass *parent_class;

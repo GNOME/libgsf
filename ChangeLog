@@ -1,3 +1,8 @@
+2008-12-14  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Clean up glib includes.  Patch from Pedro Fragoso.  Fixes
+	#564004.
+
 2008-11-23  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-utils.c (DllMain) : glib-2.18 deprecated

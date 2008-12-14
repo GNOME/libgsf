@@ -36,7 +36,7 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <glib/gdir.h>
+#include <glib.h>
 #include <string.h>
 
 static GObjectClass *parent_class;

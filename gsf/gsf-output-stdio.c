@@ -41,7 +41,7 @@
 #ifdef G_OS_WIN32
 #include <wchar.h>
 #include <direct.h>
-#include <glib/gwin32.h>
+#include <glib.h>
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
