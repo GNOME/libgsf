@@ -16,18 +16,19 @@
 
 2008-11-23  Jody Goldberg <jody@gnome.org>
 
-	* gsf/gsf-utils.c (DllMain) : glib-2.18 deprecated
-	  G_WIN32_DLLMAIN_FOR_DLL_NAME, create a DllMain ourselves to capture
-	  the dll handle.
-	(gsf_init) : use it here with g_win32_get_package_installation_directory_of_module.
+	* gsf/gsf-utils.c (DllMain): glib-2.18 deprecated
+	  G_WIN32_DLLMAIN_FOR_DLL_NAME, create a DllMain ourselves to
+	  capture the dll handle.
+	(gsf_init): use it here with
+	g_win32_get_package_installation_directory_of_module.
 
 	* configure.in : add MSGs for the preceding bz2 test.
 
 2008-11-23  Jody Goldberg <jody@gnome.org>
 
 	From : Richard W.M. Jones <rjones@redhat.com>
-	* configure.in : AC_CHECK_LIB doesn't work with the Windows port of libbz2 because
-	  dnl it uses the __stdcall calling convention.
+	* configure.in : AC_CHECK_LIB doesn't work with the Windows port
+	of libbz2 because dnl it uses the __stdcall calling convention.
 
 2008-11-08  Morten Welinder  <terra@gnome.org>
 
