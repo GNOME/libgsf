@@ -54,15 +54,15 @@ make_local_copy (GFile *file, GInputStream *stream)
 	GsfOutput *out;
 	GsfInput  *copy;
 	GFileInfo *info;
-	
+
 	out = gsf_output_memory_new ();
 
 	while (1) {
-		guint8 buf[1024];
+		guint8 buf[4096];
 		gssize nread;
-		
+
 		nread = g_input_stream_read (stream, buf, sizeof(buf), NULL, NULL);
-		
+
 		if (nread > 0) {
 			if (!gsf_output_write (out, nread, buf)) {
 				copy = NULL;
@@ -77,24 +77,25 @@ make_local_copy (GFile *file, GInputStream *stream)
 		}
 	}
 
-	copy = gsf_input_memory_new_clone (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (out)),
-					   gsf_output_size (out));
+	copy = gsf_input_memory_new_clone
+		(gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (out)),
+		 gsf_output_size (out));
 
 	if (copy != NULL) {
 		info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
 		if (info) {
 			gsf_input_set_name (GSF_INPUT (copy), g_file_info_get_name (info));
-			g_object_unref (G_OBJECT (info));
+			g_object_unref (info);
 		}
 	}
 
  cleanup_and_exit:
 
 	gsf_output_close (out);
-	g_object_unref (G_OBJECT (out));
-	
+	g_object_unref (out);
+
 	g_input_stream_close (stream, NULL, NULL);
-	g_object_unref (G_OBJECT (stream));
+	g_object_unref (stream);
 	return copy;
 }
 
@@ -112,12 +113,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 	GInputStream *stream;
 	GFileInfo    *info;
 
-	if (file == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0,
-					    "file is NULL");
-		return NULL;
-	}
+	g_return_val_if_fail (file != NULL, NULL);
 
 	stream = (GInputStream *)g_file_read (file, NULL, err);
 	if (stream == NULL)
@@ -127,18 +123,18 @@ gsf_input_gio_new (GFile *file, GError **err)
 		return make_local_copy (file, stream);
 
 	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
-	if (!info) 
+	if (!info)
 		return make_local_copy (file, stream);
 
 	input = g_object_new (GSF_INPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) {
 		g_input_stream_close (stream, NULL, NULL);
-		g_object_unref (G_OBJECT (stream));
+		g_object_unref (stream);
 		return NULL;
 	}
-	
+
 	gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
-	g_object_unref (G_OBJECT (info));
+	g_object_unref (info);
 
 	g_object_ref (G_OBJECT (file));
 
@@ -150,7 +146,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
 	if (info) {
 		gsf_input_set_name (GSF_INPUT (input), g_file_info_get_name (info));
-		g_object_unref (G_OBJECT (info));
+		g_object_unref (info);
 	}
 
 	return GSF_INPUT (input);
@@ -169,17 +165,12 @@ gsf_input_gio_new_for_path (char const *path, GError **err)
 	GFile *file;
 	GsfInput *input;
 
-	if (path == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0,
-					    "path is NULL");
-		return NULL;
-	}
+	g_return_val_if_fail (path != NULL, NULL);
 
 	file = g_file_new_for_path (path);
 	input = gsf_input_gio_new (file, err);
-	g_object_unref (G_OBJECT (file));
-	
+	g_object_unref (file);
+
 	return input;
 }
 
@@ -196,17 +187,12 @@ gsf_input_gio_new_for_uri (char const *uri, GError **err)
 	GFile *file;
 	GsfInput *input;
 
-	if (uri == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_input_error_id (), 0,
-					    "uri is NULL");
-		return NULL;
-	}
+	g_return_val_if_fail (uri != NULL, NULL);
 
 	file = g_file_new_for_uri (uri);
 	input = gsf_input_gio_new (file, err);
-	g_object_unref (G_OBJECT (file));
-	
+	g_object_unref (file);
+
 	return input;
 }
 
@@ -217,10 +203,10 @@ gsf_input_gio_finalize (GObject *obj)
 	GsfInputGio *input = (GsfInputGio *)obj;
 
 	g_input_stream_close (input->stream, NULL, NULL);
-	g_object_unref (G_OBJECT (input->stream));
+	g_object_unref (input->stream);
 	input->stream = NULL;
 
-	g_object_unref (G_OBJECT (input->file));
+	g_object_unref (input->file);
 	input->file = NULL;
 
 	if (input->buf != NULL) {
@@ -245,11 +231,14 @@ gsf_input_gio_dup (GsfInput *src_input, GError **err)
 
 	clone = g_file_dup (src->file);
 	if (clone != NULL) {
-		GsfInput *dst;
+		GsfInput *dst = gsf_input_gio_new (clone, err);
 
-		dst = gsf_input_gio_new (clone, err);
-	        g_object_unref (G_OBJECT (clone)); /* gsf_input_gio_new() adds a ref, or fails to create a new file. 
-						      in any case, we need to unref the clone */
+		/*
+		 * gsf_input_gio_new() adds a ref, or fails to create a new
+		 * file.  in any case, we need to unref the clone
+		 */
+	        g_object_unref (clone);
+
 		return dst;
 	}
 
@@ -257,8 +246,7 @@ gsf_input_gio_dup (GsfInput *src_input, GError **err)
 }
 
 static guint8 const *
-gsf_input_gio_read (GsfInput *input, size_t num_bytes,
-		     guint8 *buffer)
+gsf_input_gio_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInputGio *gio = GSF_INPUT_GIO (input);
 	size_t total_read = 0;
@@ -277,9 +265,9 @@ gsf_input_gio_read (GsfInput *input, size_t num_bytes,
 
 	while (1) {
 		gssize nread;
-		
+
 		nread = g_input_stream_read (gio->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
-		
+
 		if (nread >= 0) {
 			total_read += nread;
 			if ((size_t) total_read == num_bytes) {

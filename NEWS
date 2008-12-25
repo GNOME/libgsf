@@ -5,6 +5,7 @@ Jody:
 
 Morten:
 	* Solaris compilation issue.  [#558253]
+	* Handle non-seekable files in gsf_input_stdio_new.  [#154417]
 
 Pedro Fragoso:
 	* Clean up glib includes.  [#564004]

@@ -1,3 +1,14 @@
+2008-12-24  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-gio.c (make_local_copy): Use larger buffer.
+	(gsf_input_gio_new, gsf_input_gio_new_for_path,
+	gsf_input_gio_new_for_uri): Use g_return_val_if_fail as
+	appropriate.
+
+	* gsf/gsf-input-stdio.c (make_local_copy): New function.
+	(gsf_input_stdio_new, gsf_input_stdio_new_FILE): Use
+	make_local_copy for non-regular files.
+
 2008-12-14  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Clean up glib includes.  Patch from Pedro Fragoso.  Fixes

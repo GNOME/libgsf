@@ -24,6 +24,8 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
 #include <glib/gstdio.h>
 
 #include <stdio.h>
@@ -50,6 +52,58 @@ typedef struct {
 	GsfInputClass input_class;
 } GsfInputStdioClass;
 
+static GsfInput *
+make_local_copy (FILE *stream, const char *filename, GError **err)
+{
+	GsfOutput *out;
+	GsfInput *copy = NULL;
+
+	out = gsf_output_memory_new ();
+
+	while (1) {
+		guint8 buf[4096];
+		gssize nread;
+
+		nread = fread (buf, 1, sizeof(buf), stream);
+
+		if (nread > 0) {
+			if (!gsf_output_write (out, nread, buf))
+				goto error;
+		} else if (nread == 0)
+			break;
+		else
+			goto error;
+	}
+
+	copy = gsf_input_memory_new_clone
+		(gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (out)),
+		 gsf_output_size (out));
+
+	gsf_output_close (out);
+	g_object_unref (out);
+
+	if (filename)
+		gsf_input_set_name_from_filename (GSF_INPUT (copy), filename);
+
+	return copy;
+
+error:
+	if (err) {
+		char *utf8name = filename
+			? g_filename_display_name (filename)
+			: g_strdup ("?");
+		g_set_error (err, gsf_input_error_id (), 0,
+			     "%s: not a regular file",
+			     utf8name);
+		g_free (utf8name);
+	}
+
+	gsf_output_close (out);
+	g_object_unref (out);
+
+	return NULL;
+}
+
 /**
  * gsf_input_stdio_new :
  * @filename : in utf8.
@@ -69,7 +123,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	file = g_fopen (filename, "rb");
-	if (file == NULL || fstat (fileno (file), &st) < 0) {
+	if (file == NULL) {
 		if (err) {
 			int save_errno = errno;
 			char *utf8name = g_filename_display_name (filename);
@@ -80,20 +134,13 @@ gsf_input_stdio_new (char const *filename, GError **err)
 				     utf8name, g_strerror (save_errno));
 			g_free (utf8name);
 		}
-		if (file) fclose (file); /* Just in case.  */
 		return NULL;
 	}
 
-	if (!S_ISREG (st.st_mode)) {
-		if (err) {
-			char *utf8name = g_filename_display_name (filename);
-			g_set_error (err, gsf_input_error_id (), 0,
-				     "%s: not a regular file",
-				     utf8name);
-			g_free (utf8name);
-		}
+	if (fstat (fileno (file), &st) < 0 || !S_ISREG (st.st_mode)) {
+		GsfInput *res = make_local_copy (file, filename, err);
 		fclose (file);
-		return NULL;
+		return res;
 	}
 
 	size = st.st_size;
@@ -120,11 +167,11 @@ gsf_input_stdio_new (char const *filename, GError **err)
  * @file      : an existing stdio FILE *
  * @keep_open : Should @file be closed when the wrapper is closed
  *
- * Assumes ownership of @file.  If @keep_open is true, ownership reverts
- * to caller when the GsfObject is closed.
+ * Assumes ownership of @file when succeeding.  If @keep_open is true,
+ * ownership reverts to caller when the GsfObject is closed.
  *
- * Returns: a new GsfInput wrapper for @file.  Note: the file must be
- * 	seekable, so this will not work for stdin when that is a tty or pipe.
+ * Returns: a new GsfInput wrapper for @file.  Note that if the file is not
+ * 	seekable, this function will make a local copy of the entire file.
  **/
 GsfInput *
 gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
@@ -136,11 +183,10 @@ gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 	g_return_val_if_fail (filename != NULL, NULL);
 	g_return_val_if_fail (file != NULL, NULL);
 
-	if (fstat (fileno (file), &st) < 0)
-		return NULL;
-	if (!S_ISREG (st.st_mode))
-		/* It's not that we really care, but we need st.st_size to be sane.  */
-		return NULL;
+	if (fstat (fileno (file), &st) < 0 || !S_ISREG (st.st_mode)) {
+		return make_local_copy (file, filename, NULL);
+	}
+
 	size = st.st_size;
 
 	stdio = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
