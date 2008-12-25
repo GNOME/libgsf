@@ -1,5 +1,7 @@
 2008-12-25  Morten Welinder  <terra@gnome.org>
 
+	* configure.in (statfs): Fix detection for Darwin.  Fixes #565603.
+
 	* gsf-gnome/gsf-input-gnomevfs.h, gsf-gnome/gsf-output-gnomevfs.h:
 	Fix compilation in gnome case.  Fixes #565605.
 

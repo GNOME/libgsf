@@ -159,13 +159,19 @@ if test $need_bsd1 = yes -o $need_bsd2 = yes; then
 fi
 
 AC_TYPE_MODE_T
-AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h)
+AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h sys/param.h sys/mount.h)
 AC_FUNC_MMAP
 
 AC_MSG_CHECKING([form of statfs])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 [[#ifdef HAVE_SYS_STATFS_H
 #include <sys/statfs.h>
+#endif
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#ifdef HAVE_SYS_MOUNT_H
+#include <sys/mount.h>
 #endif]],
 [[struct statfs buf; (void)(2*statfs("xyz",&buf));]])],
 	[AC_MSG_RESULT([2-arg, linux-style])
