@@ -1,3 +1,8 @@
+2008-12-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf-gnome/gsf-input-gnomevfs.h, gsf-gnome/gsf-output-gnomevfs.h:
+	Fix compilation in gnome case.  Fixes #565605.
+
 2008-12-24  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-gio.c (make_local_copy): Use larger buffer.

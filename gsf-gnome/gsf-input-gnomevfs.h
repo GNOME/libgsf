@@ -22,6 +22,8 @@
 #ifndef GSF_INPUT_GNOMEVFS_H
 #define GSF_INPUT_GNOMEVFS_H
 
+#include <gsf/gsf-input.h>
+
 #ifndef LIBGSF_GNOMEVFS_VIA_GIO
 /*
  * The installed version will always do this.  For our emulation layer, we
