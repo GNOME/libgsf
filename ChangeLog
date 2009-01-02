@@ -1,3 +1,9 @@
+2009-01-02  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel) : clean up the
+	  logic to handle rels with empty components, leading '/', or '.'
+	  to deal with POI generated files.
+
 2008-12-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (statfs): Fix detection for Darwin.  Fixes #565603.

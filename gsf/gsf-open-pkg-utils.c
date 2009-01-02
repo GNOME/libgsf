@@ -206,46 +206,48 @@ GsfInput *
 gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 		       G_GNUC_UNUSED GError **err /* just in case we need it one day */ )
 {
-	GsfInfile *container, *prev;
+	GsfInput *res = NULL;
+	GsfInfile *parent, *prev_parent;
 	gchar **elems;
 	unsigned i;
 
 	g_return_val_if_fail (rel != NULL, NULL);
 	g_return_val_if_fail (opkg != NULL, NULL);
 
-	container = gsf_input_name (opkg)
+	/* References from the root use children of opkg
+	 * References from a child are relative to siblings of opkg */
+	parent = gsf_input_name (opkg)
 		? gsf_input_container (opkg) : GSF_INFILE (opkg);
+	g_object_ref (parent);
 
-	/* parts can not have '/' in their names ? TODO : PROVE THIS
-	 * right now the only test is that worksheets can not have it
-	 * in their names */
 	elems = g_strsplit (rel->target, "/", 0);
-	for (i = 0 ; elems[i] ; i++) {
-		prev = container;
+	for (i = 0 ; elems[i] && NULL != parent ; i++) {
+		if (0 == strcmp (elems[i], ".") || '\0' == *elems[i])
+			continue; /* ignore '.' and empty */
+
+		prev_parent = parent;
 		if (0 == strcmp (elems[i], "..")) {
-			container = gsf_input_container (GSF_INPUT (container));
-
-			g_return_val_if_fail (container != NULL, NULL);
-
-			g_object_ref (container);
-			opkg = NULL;
-		} else if (0 == strcmp (elems[i], ".")) {
-			opkg = NULL; /* Be pedantic and ignore '.' */
-			continue;
+			parent = gsf_input_container (GSF_INPUT (parent));
+			res = NULL;	/* only return newly created children */
+			if (NULL != parent) {
+				/* check for attempt to gain access outside the zip file */
+				if (G_OBJECT_TYPE (parent) == G_OBJECT_TYPE (prev_parent))
+					g_object_ref (G_OBJECT (parent));
+				else
+					parent = NULL;
+			}
 		} else {
-			opkg = gsf_infile_child_by_name (container, elems[i]);
-
+			res = gsf_infile_child_by_name (parent, elems[i]);
 			if (NULL != elems[i+1]) {
-				g_return_val_if_fail (GSF_IS_INFILE (opkg), NULL);
-				container = GSF_INFILE (opkg);
+				g_return_val_if_fail (GSF_IS_INFILE (res), NULL);
+				parent = GSF_INFILE (res);
 			}
 		}
-		if (i > 0)
-			g_object_unref (G_OBJECT (prev));
+		g_object_unref (G_OBJECT (prev_parent));
 	}
 	g_strfreev (elems);
 
-	return opkg;
+	return res;
 }
 
 /**
