@@ -40,6 +40,17 @@ int	       gsf_xmlDocFormatDump   (GsfOutput  *output,
 				       char const *encoding,
 				       gboolean    format);
 
+typedef gboolean (*GsfXMLProbeFunc) (const xmlChar *name,
+				     const xmlChar *prefix,
+				     const xmlChar *URI,
+				     int nb_namespaces,
+				     const xmlChar **namespaces,
+				     int nb_attributes,
+				     int nb_defaulted,
+				     const xmlChar **attributes);
+gboolean gsf_xml_probe (GsfInput *input,
+			GsfXMLProbeFunc startElement);
+
 /****************************************************************************/
 /* Simplified wrapper to SAX based xml import */
 typedef struct _GsfXMLIn		GsfXMLIn;

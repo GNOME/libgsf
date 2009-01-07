@@ -3,6 +3,7 @@ libgsf 1.14.11
 Jody:
 	* win32 build fix for glib-2.18 deprecation.
 	* Extend MS Office Open Pkg handling to accept POI files.
+	* Add libxml2 wrapper to simplify probing.
 
 Morten:
 	* Solaris compilation issue.  [#558253]
