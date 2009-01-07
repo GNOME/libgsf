@@ -1,3 +1,6 @@
+libgsf 1.14.12
+
+--------------------------------------------------------------------------
 libgsf 1.14.11
 
 Jody:
@@ -15,7 +18,7 @@ Paul:
 Pedro Fragoso:
 	* Clean up glib includes.  [#564004]
 
-Richard W.M. Jones
+Richard W.M. Jones:
 	* MinGW configure fix for libbz2 detection.
 
 --------------------------------------------------------------------------
