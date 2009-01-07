@@ -32,11 +32,7 @@ IGNORE_HFILES=			 \
 	gsf-infile-msvba.h	 \
 	gsf-io-context.h	 \
 	gsf-output-transaction.h \
-	gsf-infile-ar.h 	\
-	gsf-infile-tar.h 	\
-	gsf-infile-tar.c 	\
-	gsf-outfile-tar.h	\
-	gsf-outfile-tar.c
+	gsf-infile-ar.h
 
 EXTRA_HFILES = ../gsf-gnome/*.h
 

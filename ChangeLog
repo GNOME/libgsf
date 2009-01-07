@@ -1,3 +1,7 @@
+2009-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.14.11
+
 2009-01-02  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel) : clean up the
