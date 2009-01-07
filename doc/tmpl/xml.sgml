@@ -97,6 +97,22 @@ XML and libxml
 </para>
 
 
+<!-- ##### USER_FUNCTION GsfXMLProbeFunc ##### -->
+<para>
+
+</para>
+
+@name: 
+@prefix: 
+@URI: 
+@nb_namespaces: 
+@namespaces: 
+@nb_attributes: 
+@nb_defaulted: 
+@attributes: 
+@Returns: 
+
+
 <!-- ##### MACRO GSF_XML_IN_NODE_FULL ##### -->
 <para>
 
@@ -239,6 +255,16 @@ XML and libxml
 </para>
 
 @xin: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_xml_probe ##### -->
+<para>
+
+</para>
+
+@input: 
+@startElement: 
 @Returns: 
 
 

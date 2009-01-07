@@ -635,6 +635,7 @@ GsfXMLInExtDtor
 GsfXMLContent
 GsfXMLBlob
 GsfInputHTTP
+GsfXMLProbeFunc
 
 GSF_XML_IN_NODE_FULL
 GSF_XML_IN_NODE
@@ -653,6 +654,7 @@ gsf_xml_in_namecmp
 gsf_xml_in_check_ns
 gsf_xml_in_get_input
 
+gsf_xml_probe
 <SUBSECTION Creation>
 GsfXMLOut
 
