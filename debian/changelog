@@ -1,3 +1,9 @@
+libgsf (1.14.11-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 08 Jan 2009 11:55:29 +0100
+
 libgsf (1.14.10-3) unstable; urgency=low
 
   * [gsf/gsf-utils.c] Natural endian doubles aren't just used on VFP enabled
