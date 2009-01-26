@@ -829,6 +829,9 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 static void
 gsf_xml_in_characters (GsfXMLInInternal *state, xmlChar const *chars, int len)
 {
+	if (!state->initialized)
+		return;
+
 	if (state->pub.node->has_content != GSF_XML_NO_CONTENT)
 		g_string_append_len (state->pub.content, chars, len);
 }
@@ -881,8 +884,14 @@ gsf_xml_in_end_document (GsfXMLInInternal *state)
 		g_hash_table_destroy (state->ns_prefixes);
 		state->ns_prefixes = NULL;
 
-		g_return_if_fail (state->pub.node == &state->pub.doc->root_node->pub);
-		g_return_if_fail (state->unknown_depth == 0);
+		state->initialized = FALSE;
+
+		if (state->pub.node != &state->pub.doc->root_node->pub) {
+			g_warning ("Document likely damaged.");
+		}
+		if (state->unknown_depth > 0) {
+			g_warning ("Document likely damaged.");
+		}
 	}
 }
 

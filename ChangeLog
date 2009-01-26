@@ -1,3 +1,9 @@
+2009-01-26  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_characters): Handle the case where
+	we get here without being initialized.  See 568994.
+	(gsf_xml_in_end_document): Mark ourselves uninitialized here.
+
 2009-01-06  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
