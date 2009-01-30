@@ -1,3 +1,12 @@
+2009-01-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gsf/gsf-output-csv.c (gsf_output_csv_quoting_mode_get_type):
+	Declare "values" as static, as the second argument to
+	g_enum_register_static may not be stack-allocated, because GObject
+	keeps a reference to the data. This fixes a problem generating the
+	documentation in some environments; see
+	http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39015 .
+
 2009-01-26  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_characters): Handle the case where

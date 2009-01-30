@@ -182,7 +182,7 @@ gsf_output_csv_quoting_mode_get_type (void)
 	static GType gsf_output_csv_quoting_mode_type = 0;
 
 	if (gsf_output_csv_quoting_mode_type == 0) {
-		GEnumValue const values[] = {
+		static GEnumValue const values[] = {
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,  (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_NEVER",  (char *)"never" },
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,   (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_AUTO",   (char *)"auto" },
 		{ GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS, (char *)"GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS", (char *)"always" },

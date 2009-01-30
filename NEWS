@@ -1,5 +1,10 @@
 libgsf 1.14.12
 
+J.H.M. Dassen (Ray):
+	* Fix incorrect use of g_enum_register_static which broke
+	  documentation generation in some environments.
+	  [http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39015]
+
 Morten:
 	* Handle malformed xml better.  [#568994]
 
