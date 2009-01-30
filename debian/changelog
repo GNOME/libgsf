@@ -1,3 +1,10 @@
+libgsf (1.14.11-2) unstable; urgency=high
+
+  * [gsf/gsf-output-csv.c, ChangeLog] Backport fix for a code issue which
+    caused FTBFS in some environments. (Closes: #513594)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 30 Jan 2009 18:21:17 +0100
+
 libgsf (1.14.11-1) unstable; urgency=low
 
   * New upstream release.
