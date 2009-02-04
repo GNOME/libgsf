@@ -431,6 +431,7 @@ typedef struct {
 static void
 gsf_xml_probe_error (GsfXMLProbeState *state, char const *msg, ...)
 {
+	(void)msg;
 	state->func = NULL;
 	state->success = FALSE;
 }
@@ -1642,7 +1643,8 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 				gsf_output_write (xout->output, cur-start, start);
 			start = ++cur;
 			gsf_output_write (xout->output, 6, "&quot;");
-		} else if (*cur < 0x20 && id != NULL) {
+		} else if ((*cur == '\n' || *cur == '\r' || *cur == '\t') &&
+			   id != NULL) {
 			guint8 buf[8];
 			sprintf (buf, "&#%d;", *cur);
 
@@ -1651,8 +1653,8 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 			start = ++cur;
 
 			gsf_output_write (xout->output, strlen (buf), buf);
-		} else if (((*cur >= 0x20) && (*cur != 0x7f)) ||
-			   (*cur == '\n') || (*cur == '\r') || (*cur == '\t')) {
+		} else if ((*cur >= 0x20 && *cur != 0x7f) ||
+			   (*cur == '\n' || *cur == '\r' || *cur == '\t')) {
 			cur++;
 		} else {
 			/*
