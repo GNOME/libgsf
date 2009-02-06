@@ -58,6 +58,13 @@ libgsf (1.14.9-1) unstable; urgency=low
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Aug 2008 15:50:04 +0200
 
+libgsf (1.14.8-1lenny2) testing; urgency=high
+
+  * [gsf/gsf-output-csv.c, ChangeLog] Backport fix for a code issue which
+    caused FTBFS in some environments. (Closes: #513594)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 06 Feb 2009 20:01:27 +0100
+
 libgsf (1.14.8-1lenny1) testing; urgency=medium
 
    * Fix silent data corruption bug
