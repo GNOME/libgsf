@@ -27,7 +27,7 @@ gnomemodule_la_SOURCES = gsfgnomemodule.c
 nodist_gnomemodule_la_SOURCES = gsfgnome.c
 CLEANFILES += gsfgnome.c
 EXTRA_DIST += gsfgnome.defs gsfgnome.override  
-gsfgnome.c: gsfgnome.defs gsfgnome.override
+gsfgnome.c: gsfgnome.defs gsfgnome.override gsf-arg-types.py
 
 _gsfmodule_la_CFLAGS = 		\
 	-I$(top_srcdir)		\
@@ -38,7 +38,7 @@ _gsfmodule_la_SOURCES = gsfmodule.c
 nodist__gsfmodule_la_SOURCES = gsf.c
 CLEANFILES += gsf.c
 EXTRA_DIST += gsf.defs gsf.override  
-gsf.c: gsf.defs gsf.override
+gsf.c: gsf.defs gsf.override gsf-arg-types.py
 
 .defs.c:
 	(cd $(srcdir) \
