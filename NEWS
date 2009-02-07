@@ -20,6 +20,7 @@ Jody:
 Morten:
 	* Solaris compilation issue.  [#558253]
 	* Handle non-seekable files in gsf_input_stdio_new.  [#154417]
+	* Auto-detect bonobo.
 
 Paul:
 	* Fix various Mac compilation issues.  [#565603]  [#565605]

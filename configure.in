@@ -391,7 +391,7 @@ AC_ARG_WITH(gio,
 ])
 
 have_gio=no
-if  test $want_gio = no ; then 
+if test $want_gio = no ; then 
     AC_MSG_WARN([GIO support disabled, as requested (Use --with-gio to enable)])
 else
     PKG_CHECK_MODULES(LIBGSF_GIO, gio-2.0,
@@ -430,8 +430,8 @@ if test $want_gnome_vfs = yes; then
 	else
                 GNOMEVFS_REQ="gnome-vfs-2.0 >= 2.2.0 gnome-vfs-module-2.0 >= 2.2.0"
 	        libgsf_gnome_reqs="$libgsf_gnome_reqs $GNOMEVFS_REQ"
+		want_gnome=yes
 	fi
-   	want_gnome=yes
 fi
 AC_SUBST(GNOMEVFS_REQ)
 
@@ -444,13 +444,27 @@ AC_ARG_WITH(bonobo,
     no) want_bonobo=no ;;
     *) AC_MSG_ERROR(bad value ${withval} for --with-bonobo) ;;
     esac],
-    [want_bonobo=yes]) dnl Default value
+    [want_bonobo=auto]) dnl Default value
 
-BONOBO_REQ=
-if test $want_bonobo = yes; then
-    BONOBO_REQ="libbonobo-2.0 >= 2.0.0"
+BONOBO_REQ="libbonobo-2.0 >= 2.0.0"
+have_bonobo=no
+if test $want_bonobo = no ; then 
+    AC_MSG_WARN([Bonobo support disabled, as requested (Use --with-bonobo to enable)])
+else
+    PKG_CHECK_MODULES(LIBGSF_BONOBO, $BONOBO_REQ,
+	[have_bonobo=yes],
+	[if test $want_bonobo = yes; then
+	    AC_MSG_ERROR([Bonobo support requested, but not available.])
+	 else
+	    AC_MSG_WARN([Bonobo support disabled, unable to find required version])
+	 fi])
+fi
+
+if test $have_bonobo = yes; then
     libgsf_gnome_reqs="$libgsf_gnome_reqs $BONOBO_REQ"   
     want_gnome=yes
+else
+    BONOBO_REQ=
 fi
 AC_SUBST(BONOBO_REQ)
 
@@ -465,7 +479,7 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 AM_CONDITIONAL(WITH_LIBGSF_GNOMEVFS, test $want_gnome_vfs = yes)
-AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $want_bonobo = yes)
+AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $have_bonobo = yes)
 
 # ===================
 # GConf configuration
