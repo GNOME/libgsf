@@ -773,7 +773,7 @@ GsfTimestamp
 gsf_timestamp_copy
 gsf_timestamp_free
 gsf_timestamp_as_string
-gsf_timestamp_parse
+gsf_timestamp_from_string
 gsf_timestamp_hash
 gsf_timestamp_equal
 gsf_value_set_timestamp
@@ -781,6 +781,8 @@ VAL_IS_GSF_TIMESTAMP
 <SUBSECTION Standard>
 GSF_TIMESTAMP_TYPE
 gsf_timestamp_get_type
+<SUBSECTION Deprecated>
+gsf_timestamp_parse
 
 <SUBSECTION GObject>
 gsf_doc_prop_swap_val

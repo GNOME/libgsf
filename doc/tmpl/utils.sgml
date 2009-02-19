@@ -587,16 +587,6 @@ utils
 @Returns: 
 
 
-<!-- ##### FUNCTION gsf_timestamp_parse ##### -->
-<para>
-
-</para>
-
-@spec: 
-@stamp: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gsf_timestamp_hash ##### -->
 <para>
 
@@ -631,6 +621,16 @@ utils
 </para>
 
 @v: 
+
+
+<!-- ##### FUNCTION gsf_timestamp_parse ##### -->
+<para>
+
+</para>
+
+@spec: 
+@stamp: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gsf_doc_prop_swap_val ##### -->

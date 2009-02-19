@@ -71,8 +71,12 @@ typedef struct _GsfDocMetaData	GsfDocMetaData;
 
 /**
  * GsfTimestamp:
+ * @date :	#GDate in local timezone
+ * @seconds :	#glong number of seconds since @date.
+ * @time_zone :	possibly blank #GString of the timezone
+ * @timet : as from mktime.
  *
- * Class representing a point in time.
+ * A point in time.
  */
 typedef struct _GsfTimestamp	GsfTimestamp;
 

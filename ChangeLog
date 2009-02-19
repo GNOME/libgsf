@@ -1,3 +1,11 @@
+2009-02-19  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf.h : document the members of timestamp to avoid gtk-doc
+	  warnings.
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_from_string) : renamed from.
+	(gsf_timestamp_parse) : here, and this is deprecated.
+
 2009-02-18  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child) : Handle

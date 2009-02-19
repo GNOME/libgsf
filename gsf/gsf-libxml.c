@@ -259,7 +259,7 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 	default:
 		if (GSF_TIMESTAMP_TYPE == t) {
 			GsfTimestamp ts;
-			if (gsf_timestamp_parse (str, &ts)) {
+			if (gsf_timestamp_from_string (str, &ts)) {
 				gsf_value_set_timestamp (res, &ts);
 				break;
 			}

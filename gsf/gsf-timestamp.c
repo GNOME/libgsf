@@ -111,7 +111,7 @@ static time_t gmt_to_local_win32(void)
 #endif
 
 /**
- * gsf_timestamp_parse :
+ * gsf_timestamp_from_string :
  * @spec : The string to parse
  * @stamp : #GsfTimestamp
  *
@@ -119,13 +119,12 @@ static time_t gmt_to_local_win32(void)
  * 	'YYYY-MM-DDThh:mm:ss'
  * and does no bounds checking.
  *
- * ICK ICK ICK
- * This routine should be called _from_sting.
+ * Since: 1.14.12
  *
  * Returns: %TRUE on success
  **/
 int
-gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
+gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 {
 	struct tm	tm;
 
@@ -145,6 +144,25 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 		return TRUE;
 	}
 	return FALSE;
+}
+
+/**
+ * gsf_timestamp_parse :
+ * @spec : The string to parse
+ * @stamp : #GsfTimestamp
+ *
+ * Very simple parser for time stamps.  Currently requires a format of
+ * 	'YYYY-MM-DDThh:mm:ss'
+ * and does no bounds checking.
+ *
+ * Deprecated : Use gsf_timestamp_from_string
+ *
+ * Returns: %TRUE on success
+ **/
+int
+gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
+{
+	return gsf_timestamp_from_string (spec, stamp);
 }
 
 /**
