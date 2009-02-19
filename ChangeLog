@@ -1,3 +1,8 @@
+2009-02-18  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child) : Handle
+	  small-block files that are not block aligned. [#572290]
+
 2009-02-04  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Drop characters that

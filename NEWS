@@ -5,6 +5,11 @@ J.H.M. Dassen (Ray):
 	  documentation generation in some environments.
 	  [http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39015]
 
+Jody :
+	* Handle small-block files that are not block aligned. [#572290]
+	* Deprecate gsf_timestamp_parse and replace it with gsf_timestamp_from_string.
+	* Gtk-Doc fixes.
+
 Morten:
 	* Handle malformed xml better.  [#568994]
 	* Drop characters that xml 1.0 cannot represent.  [#568919]

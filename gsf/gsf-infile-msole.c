@@ -795,26 +795,34 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 	}
 
 	if (dirent->use_sb) {
-		unsigned i;
+		unsigned int i;
+		int remaining;
 		guint8 const *data;
 
 		g_return_val_if_fail (sb_file != NULL, NULL);
 
-		child->stream.buf_size = info->threshold;
-		child->stream.buf = g_new (guint8, info->threshold);
+		child->stream.buf_size = remaining = dirent->size;
+		child->stream.buf = g_new (guint8, child->stream.buf_size);
 
-		for (i = 0 ; i < child->bat.num_blocks; i++)
+		for (i = 0 ; remaining > 0 && i < child->bat.num_blocks; i++, remaining -= info->sb.size)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
 				(gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) < 0 ||
 			    (data = gsf_input_read (GSF_INPUT (sb_file),
-				info->sb.size, 
+				((unsigned int)remaining > info->sb.size) ? info->sb.size : remaining, 
 				child->stream.buf + (i << info->sb.shift))) == NULL) {
 
-				g_warning ("failure reading block %d", i);
-
+				g_warning ("failure reading block %d for '%s'", i, dirent->name);
+				if (err) *err = g_error_new (gsf_input_error_id (), 0, "failure reading block");
 				g_object_unref (G_OBJECT (child));
 				return NULL;
 			}
+
+		if (remaining > 0) {
+			if (err) *err = g_error_new (gsf_input_error_id (), 0, "insufficient blocks");
+			g_warning ("Small-block file '%s' has insufficient blocks (%u) for the stated size (%u)", dirent->name, child->bat.num_blocks, dirent->size);
+			g_object_unref (G_OBJECT (child));
+			return NULL;
+		}
 	}
 
 	return GSF_INPUT (child);
