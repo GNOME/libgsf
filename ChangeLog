@@ -1,3 +1,7 @@
+2009-02-07  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (bonobo): auto-detect.
+
 2009-02-19  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf.h : document the members of timestamp to avoid gtk-doc
