@@ -121,7 +121,9 @@ clean:
 	dh_testdir
 	dh_testroot
 
-	-$(MAKE) -C build distclean
+	if test -d build && test -f build/Makefile ; then \
+		$(MAKE) -C build distclean; \
+	fi
 	rm -rf build
 
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
