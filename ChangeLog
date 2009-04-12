@@ -1,3 +1,8 @@
+2009-04-11  Jody Goldberg <jody@gnome.org>
+
+	* gsf/gsf-libxml.c (lookup_child) : handle namespace uri being
+	  declared as both default and explict prefix.
+
 2009-02-07  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (bonobo): auto-detect.

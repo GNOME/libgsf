@@ -834,7 +834,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 
 
 /**
- * gsf_base64_decode_step: decode a chunk of base64 encoded data
+ * gsf_base64_decode_step:
  * @in: input stream
  * @len: max length of data to decode
  * @out: output stream
@@ -946,7 +946,7 @@ gsf_base64_decode_simple (guint8 *data, size_t len)
 
 /* Largely a copy of g_object_new_valist.  */
 /**
- * gsf_property_settings_collect_valist: collect property setting from a va_list.
+ * gsf_property_settings_collect_valist:
  * @object_type: the GType for which the properties are being set.
  * @p_n_params: a pointer to the number of properties collected.  (Used for
  *   both input and output.)

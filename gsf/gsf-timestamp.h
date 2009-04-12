@@ -44,13 +44,16 @@ GType gsf_timestamp_get_type      (void) G_GNUC_CONST;
 
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);
-int           gsf_timestamp_parse	(char const *spec, GsfTimestamp *stamp);
+int	      gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp);
 char 	     *gsf_timestamp_as_string	(GsfTimestamp const *stamp);
 guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
 gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
 					 GsfTimestamp const *b);
 
 void gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
+
+/* Deprecated */
+int           gsf_timestamp_parse	(char const *spec, GsfTimestamp *stamp);
 
 G_END_DECLS
 

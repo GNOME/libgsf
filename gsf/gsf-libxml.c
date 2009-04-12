@@ -615,24 +615,23 @@ lookup_child (GsfXMLInInternal *state, int default_ns_id,
 
 	for (ptr = groups ; ptr != NULL ; ptr = ptr->next) {
 		group = ptr->data;
-		/* does the namespace match */
-		if (group->ns_id >= 0 && group->ns_id != default_ns_id) {
-
-			if ((int)state->ns_by_id->len <= group->ns_id)
-				continue;
-
-			inst = g_ptr_array_index (state->ns_by_id, group->ns_id);
-			if (inst == NULL || 0 != strncmp (name, inst->tag, inst->taglen))
-				continue;
+		/* Is the node explicitly namespaced ? */
+		if (group->ns_id >= 0 &&
+		    group->ns_id < (int)state->ns_by_id->len &&
+		    NULL != (inst = g_ptr_array_index (state->ns_by_id, group->ns_id)) &&
+		    0 == strncmp (name, inst->tag, inst->taglen))
 			tmp = name + inst->taglen;
-		} else {
+		else if (group->ns_id < 0 ||			/* target is unqualified */
+			 group->ns_id == default_ns_id) {	/* target is in default ns */
 #if 0
 			g_return_val_if_fail ((int)state->ns_by_id->len > group->ns_id, FALSE);
 			inst = g_ptr_array_index (state->ns_by_id, group->ns_id);
 			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
 #endif
 			tmp = name;
-		}
+		} else
+			continue;
+
 		for (elem = group->elem ; elem != NULL ; elem = elem->next) {
 			node = elem->data;
 			if (node->name == NULL || !strcmp (tmp, node->name)) {

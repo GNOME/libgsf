@@ -9,6 +9,7 @@ Jody :
 	* Handle small-block files that are not block aligned. [#572290]
 	* Deprecate gsf_timestamp_parse and replace it with gsf_timestamp_from_string.
 	* Gtk-Doc fixes.
+	* Fix handling of namespace declared default and prefix. (SpreadsheetML-2003)
 
 Morten:
 	* Handle malformed xml better.  [#568994]

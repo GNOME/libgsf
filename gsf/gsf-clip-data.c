@@ -181,6 +181,12 @@ get_windows_clipboard_data_offset (GsfClipFormatWindows format)
 }
 
 /**
+ * check_format_windows:
+ * @format : #GsfClipFormatWindows
+ * @format_name : const char *
+ * @blob_size : #gsize
+ * @error :#GError
+ *
  * Checks that the specified blob size matches the expected size for the format.
  *
  * Returns: the same format if the size is correct, or

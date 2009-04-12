@@ -587,6 +587,16 @@ utils
 @Returns: 
 
 
+<!-- ##### FUNCTION gsf_timestamp_from_string ##### -->
+<para>
+
+</para>
+
+@spec: 
+@stamp: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_timestamp_hash ##### -->
 <para>
 

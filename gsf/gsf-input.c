@@ -561,12 +561,12 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
  * gsf_input_uncompress: maybe uncompress stream.
  * @src: stream to be uncompressed.
  *
- * Returns: A stream equivalent to the source stream, but uncompressed if
- * the source was compressed.
- *
  * This functions takes ownership of the incoming reference and yields a
  * new one as its output.
- */
+ *
+ * Returns: A stream equivalent to the source stream, but uncompressed if
+ * the source was compressed.
+ **/
 GsfInput *
 gsf_input_uncompress (GsfInput *src)
 {

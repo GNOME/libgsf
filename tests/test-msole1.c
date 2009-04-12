@@ -146,7 +146,7 @@ test (unsigned argc, char *argv[])
 		"Book",		"BOOK",		"book"
 	};
 
-	GsfInput  *input, *stream;
+	GsfInput  *input, *stream, *pcache_dir;
 	GsfInfile *infile;
 	GError    *err = NULL;
 	unsigned i, j;
@@ -240,6 +240,25 @@ test (unsigned argc, char *argv[])
 				break;
 			}
 		}
+
+#ifdef DUMP_CONTENT
+		pcache_dir = gsf_infile_child_by_name (infile, "_SX_DB_CUR");	/* Excel 97 */
+		if (NULL == pcache_dir)
+			pcache_dir = gsf_infile_child_by_name (infile, "_SX_DB");	/* Excel 95 */
+		if (NULL != pcache_dir) {
+			int i, n = gsf_infile_num_children (infile);
+			for (i = 0 ; i < n ; i++) {
+				stream = gsf_infile_child_by_index  (GSF_INFILE (pcache_dir), i);
+				if (stream != NULL) {
+					printf ("=================================================\nPivot cache '%04hX'\n\n", i);
+
+					dump_biff_stream (stream);
+					g_object_unref (G_OBJECT (stream));
+				}
+			}
+			g_object_unref (G_OBJECT (pcache_dir));
+		}
+#endif
 
 		g_object_unref (G_OBJECT (infile));
 		g_object_unref (G_OBJECT (input));
