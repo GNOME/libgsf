@@ -1,3 +1,11 @@
+2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (GsfOOMetaIn): added field
+	(od_meta_user_defined): implement
+	(od_meta_user_defined_end): new
+	(gsf_opendoc_meta_dtd): handle "user-defined" completely
+	(gsf_opendoc_metadata_read): initialize state.name
+
 2009-04-11  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (lookup_child) : handle namespace uri being

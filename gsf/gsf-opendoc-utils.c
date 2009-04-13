@@ -37,6 +37,7 @@ typedef struct {
 	GsfDocMetaData	 *md;
 	GsfDocPropVector *keywords;
 	GError		 *err;
+	char             *name;
 } GsfOOMetaIn;
 
 /* Generated based on:
@@ -141,9 +142,34 @@ od_meta_keyword (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_free (v);
 }
 
+#define CXML2C(s) ((char const *)(s))
+
 static void
-od_meta_user_defined (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 {
+	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if ((0 == strcmp (CXML2C (attrs[0]), "meta:name")) && (attrs[1]!= NULL))
+			mi->name = g_strdup (CXML2C (attrs[1]));
+}
+
+static void
+od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
+	
+	if (mi->name != NULL) {
+		GValue *res = g_new0 (GValue, 1);
+		if (gsf_xml_gvalue_from_str (res, G_TYPE_STRING, xin->content->str)) {
+			gsf_doc_meta_data_insert (mi->md, mi->name, res);
+			mi->name = NULL;
+		} else {
+			g_free (res);
+			g_free (mi->name);
+			mi->name = NULL;
+		}
+	}
 }
 
 #if 0
@@ -179,8 +205,8 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
     GSF_XML_IN_NODE (META, META_EDITING_CYCLES,	OO_NS_META, "editing-cycles", TRUE, NULL, &od_meta_editing_cycles),
     GSF_XML_IN_NODE (META, META_EDITING_DURATION, OO_NS_META, "editing-duration", TRUE, NULL, &od_meta_editing_duration),
 
-    GSF_XML_IN_NODE (META, META_USER_DEFINED,	OO_NS_META, "user-defined", TRUE, NULL, &od_meta_user_defined),
-  GSF_XML_IN_NODE_END
+  GSF_XML_IN_NODE (META, META_USER_DEFINED, OO_NS_META, "user-defined", GSF_XML_CONTENT, &od_meta_user_defined,  &od_meta_user_defined_end),
+   GSF_XML_IN_NODE_END
 };
 
 /**
@@ -202,6 +228,7 @@ gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
 	state.md  = md;
 	state.keywords = NULL;
 	state.err = NULL;
+	state.name = NULL;
 
 	doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd, gsf_ooo_ns);
 	gsf_xml_in_doc_parse (doc, input, &state);
