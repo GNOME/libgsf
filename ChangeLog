@@ -1,3 +1,8 @@
+2009-04-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_new_child): Fix a
+	couple of warnings.
+
 2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (GsfOOMetaIn): added field
