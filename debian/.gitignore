@@ -11,3 +11,4 @@ tmp
 *.pre*.debhelper
 *.post*.debhelper
 *.substvars
+*.debhelper.log
