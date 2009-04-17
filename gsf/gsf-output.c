@@ -462,13 +462,17 @@ gsf_output_set_error (GsfOutput  *output,
 	g_clear_error (&output->err);
 
 	if (format != NULL) {
+		char *message;
 		va_list args;
+
 		va_start (args, format);
-		output->err = g_new (GError, 1);
-		output->err->domain = gsf_output_error_id ();
-		output->err->code = code;
-		output->err->message = g_strdup_vprintf (format, args);
+		message = g_strdup_vprintf (format, args);
 		va_end (args);
+
+		output->err = g_error_new_literal (gsf_output_error_id (),
+		                                   code,
+		                                   message);
+		g_free (message);
 	}
 
 	return FALSE;
