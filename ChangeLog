@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.12
+
 2009-04-25  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-memory.c (gsf_input_memory_new_clone): Fix
