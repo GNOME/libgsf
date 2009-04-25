@@ -1,3 +1,9 @@
+2009-04-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-memory.c (gsf_input_memory_new_clone): Fix
+	preconditions.  Always allocate at least one byte.  Avoid cast.
+	Fixes #580228.
+
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output.c (gsf_output_set_error): Fix allocation method

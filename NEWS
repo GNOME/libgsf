@@ -1,7 +1,7 @@
 libgsf 1.14.12
 
 Andreas:
-	* also read user defined OpenDocument metadata
+	* Also read user defined OpenDocument metadata
 
 Christian Persch:
 	* Fix allocation method problem.  [#579155]
@@ -13,13 +13,16 @@ J.H.M. Dassen (Ray):
 
 Jody :
 	* Handle small-block files that are not block aligned. [#572290]
-	* Deprecate gsf_timestamp_parse and replace it with gsf_timestamp_from_string.
+	* Deprecate gsf_timestamp_parse and replace it with
+	  gsf_timestamp_from_string.
 	* Gtk-Doc fixes.
-	* Fix handling of namespace declared default and prefix. (SpreadsheetML-2003)
+	* Fix handling of namespace declared default and prefix.
+	  (Such as in SpreadsheetML-2003)
 
 Morten:
 	* Handle malformed xml better.  [#568994]
 	* Drop characters that xml 1.0 cannot represent.  [#568919]
+	* Fix problem loading zero-sized files.  [#580228]
 
 --------------------------------------------------------------------------
 libgsf 1.14.11

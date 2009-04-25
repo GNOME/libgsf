@@ -93,21 +93,21 @@ GsfInput *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 {
 	GsfInputMemory *mem = NULL;
-	guint8 *cpy;
+	void *cpy;
 
-	g_return_val_if_fail (buf != NULL, NULL);
-	g_return_val_if_fail (length > 0, NULL);
+	g_return_val_if_fail (buf != NULL || length == 0, NULL);
+	g_return_val_if_fail (length >= 0, NULL);
 
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	if (G_UNLIKELY (NULL == mem)) return NULL;
 
-	cpy = g_try_malloc (length * sizeof (guint8));
+	cpy = g_try_malloc (MAX (1, length) * sizeof (guint8));
 	if (cpy == NULL) {
 		g_object_unref (mem);
 		return NULL;
 	}
 	memcpy (cpy, buf, length);
-	mem->shared = gsf_shared_memory_new ((void *)cpy, length, TRUE);
+	mem->shared = gsf_shared_memory_new (cpy, length, TRUE);
 	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
 }
