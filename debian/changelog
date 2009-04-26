@@ -1,3 +1,9 @@
+libgsf (1.14.12-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 26 Apr 2009 13:57:16 +0200
+
 libgsf (1.14.11-3) unstable; urgency=medium
 
   * [debian/control]
