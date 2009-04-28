@@ -1,3 +1,7 @@
+2009-04-28  Emmanuel Pacaud <emmanuel@gnome.org>
+
+	Add doap file.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in : post release bump
