@@ -180,9 +180,8 @@ hl_behavior
 doc_stats
 #endif
 
-static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
-  GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (START, META, OO_NS_OFFICE, "meta", FALSE, NULL, NULL),
+static GsfXMLInNode const gsf_opendoc_meta_st_dtd[] = {
+  GSF_XML_IN_NODE (META, META, OO_NS_OFFICE, "meta", FALSE, NULL, NULL),
     /* OpenDocument TAGS */
     GSF_XML_IN_NODE (META, META_GENERATOR,	OO_NS_META, "generator", TRUE, NULL, &od_meta_generator),
     GSF_XML_IN_NODE (META, META_TITLE,		OO_NS_DC, "title", TRUE, NULL, &od_meta_title),
@@ -195,17 +194,80 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
     GSF_XML_IN_NODE (META, META_CREATION_DATE,	OO_NS_META, "creation-date", TRUE, NULL, &od_meta_date_created),
     GSF_XML_IN_NODE (META, META_DATE_MOD,	OO_NS_DC, "date", TRUE, NULL, &od_meta_date_modified),
     GSF_XML_IN_NODE (META, META_PRINT_DATE,	OO_NS_META, "print-date", TRUE, NULL, &od_meta_print_date),
-
     GSF_XML_IN_NODE (META, META_TEMPLATE,	OO_NS_META, "template", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (META, META_AUTO_RELOAD,	OO_NS_META, "auto-reload", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (META, META_HL_BEHAVIOUR,	OO_NS_META, "hyperlink-behaviour", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (META, META_DOCUMENT_STATS,	OO_NS_META, "document-statistic", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (META, META_LANGUAGE,	OO_NS_DC, "language", TRUE, NULL, &od_meta_language),
-
     GSF_XML_IN_NODE (META, META_EDITING_CYCLES,	OO_NS_META, "editing-cycles", TRUE, NULL, &od_meta_editing_cycles),
     GSF_XML_IN_NODE (META, META_EDITING_DURATION, OO_NS_META, "editing-duration", TRUE, NULL, &od_meta_editing_duration),
+    GSF_XML_IN_NODE (META, META_USER_DEFINED, OO_NS_META, "user-defined", GSF_XML_CONTENT, &od_meta_user_defined,  &od_meta_user_defined_end),
+   GSF_XML_IN_NODE_END
+};
 
-  GSF_XML_IN_NODE (META, META_USER_DEFINED, OO_NS_META, "user-defined", GSF_XML_CONTENT, &od_meta_user_defined,  &od_meta_user_defined_end),
+
+static void 
+gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_state)
+{
+	GsfOOMetaIn	 *state = old_state;
+
+	if (state->keywords) {
+		GValue *val = g_new0 (GValue, 1);
+		g_value_init (val, GSF_DOCPROP_VECTOR_TYPE);
+		g_value_set_object (val, state->keywords);
+		gsf_doc_meta_data_insert (state->md,
+					  g_strdup (GSF_META_NAME_KEYWORDS), val);
+		g_object_unref (state->keywords);
+	}
+
+	g_object_unref (G_OBJECT (state->md));
+	g_free (state);
+}
+
+static GsfXMLInDoc *doc_subtree = NULL;
+
+/**
+ * gsf_opendoc_metadata_subtree :
+ * @doc : #GsfXMLInDoc
+ * @md  : #GsfDocMetaData
+ *
+ * Extend @xin so that it can parse a subtree in OpenDoc metadata format
+ **/
+void
+gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
+{
+	GsfOOMetaIn	 *state = NULL;
+
+	g_return_if_fail (md != NULL);
+
+	if (NULL == doc_subtree)
+		doc_subtree = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
+
+	state = g_new0 (GsfOOMetaIn, 1);
+	state->md  = md;
+	g_object_ref (G_OBJECT (md));
+	gsf_xml_in_push_state (xin, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
+}
+
+/**
+ * gsf_opendoc_metadata_subtree_internal :
+ * @doc : #GsfXMLInDoc
+ *
+ * Extend @xin so that it can parse a subtree in OpenDoc metadata format
+ * The current user_state must be a  GsfOOMetaIn!
+ **/
+static void
+gsf_opendoc_metadata_subtree_internal (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	if (NULL == doc_subtree)
+		doc_subtree = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
+
+	gsf_xml_in_push_state (xin, doc_subtree, NULL, NULL, NULL);
+}
+
+static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
+  GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (START, META, OO_NS_OFFICE, "meta", FALSE, &gsf_opendoc_metadata_subtree_internal, NULL),
    GSF_XML_IN_NODE_END
 };
 
@@ -246,26 +308,6 @@ gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
 	return state.err;
 }
 
-static void
-gsf_opendoc_metadata_subtree_free (GsfXMLIn *xin, G_GNUC_UNUSED gpointer old_state)
-{
-	gsf_xml_in_doc_free (xin->user_state);
-}
-
-/**
- * gsf_opendoc_metadata_subtree :
- * @doc : #GsfXMLInDoc
- * @md  : #GsfDocMetaData
- *
- * Extend @xin so that it can parse a subtree in OpenDoc metadata format
- **/
-void
-gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
-{
-	GsfXMLInDoc *doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd+1, gsf_ooo_ns);
-	gsf_xml_in_push_state (xin, doc, md, &gsf_opendoc_metadata_subtree_free,
-		NULL);
-}
 
 static char const *
 od_map_prop_name (char const *name)

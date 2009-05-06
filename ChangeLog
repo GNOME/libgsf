@@ -1,3 +1,12 @@
+2009-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fixes #581530
+	* gsf/gsf-opendoc-utils.c (gsf_opendoc_meta_dtd): split into
+	  gsf_opendoc_meta_dtd and gsf_opendoc_meta_st_dtd
+	(gsf_opendoc_metadata_subtree_free): free the state not the doc
+	(gsf_opendoc_metadata_subtree): use your own dtd
+	(gsf_opendoc_metadata_subtree_internal): new
+
 2009-04-28  Emmanuel Pacaud <emmanuel@gnome.org>
 
 	Add doap file.
