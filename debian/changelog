@@ -1,3 +1,13 @@
+libgsf (1.14.13-1) unstable; urgency=high
+
+  * New upstream release.
+  * This version is needed by Gnumeric 1.9.7 which has a high priority
+    bugfix; setting urgency accordingly.
+  * [debian/rules] Removed "--with-gnome" from confflags as it is no longer
+    a separate option for the configure script.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 07 May 2009 08:26:42 +0200
+
 libgsf (1.14.12-1) unstable; urgency=low
 
   * New upstream release.
