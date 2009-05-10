@@ -1,5 +1,11 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gsf/gsf-opendoc-utils.h: add more new namespace enumeration
+	  constants
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add more new namespaces 
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gsf/gsf-opendoc-utils.h: add new namespace enumeration
 	  constants
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add new namespaces 

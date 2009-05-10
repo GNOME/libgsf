@@ -63,7 +63,22 @@ enum {
 	/* new in 3.0 */
 	OO_NS_RPT,
 	OO_NS_OF,
-	OO_NS_RDFA
+	OO_NS_RDFA,
+
+	/* Other OpenDocument 1.1 */
+	OO_NS_ANIM,
+	OO_NS_DATASTYLE,
+	OO_NS_MANIFEST,
+	OO_NS_SMIL,
+
+	/* Symphony 1.3 */
+	OO_LOTUS_NS_PRODTOOLS,
+
+	/* KOffice 1.6.3 */
+	OO_KDE_NS_KOFFICE,
+
+	/*CleverAge ODF Add-in for Microsoft Office 3.0.5224.0 (11.0.8302)*/
+	OO_CLEVERAGE_NS_DC
 };
 
 extern GsfXMLInNS gsf_ooo_ns[];

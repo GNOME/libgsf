@@ -42,6 +42,7 @@ typedef struct {
 
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
+/* and  OpenDocument-v1.1.pdf */
 GsfXMLInNS gsf_ooo_ns[] = {
 	/* OOo 1.0.x & 1.1.x */
 	GSF_XML_IN_NS (OO_NS_OFFICE,	"http://openoffice.org/2000/office"),
@@ -90,6 +91,23 @@ GsfXMLInNS gsf_ooo_ns[] = {
 
 	GSF_XML_IN_NS (OO_NS_RPT,       "http://openoffice.org/2005/report"),
 	GSF_XML_IN_NS (OO_NS_RDFA,      "http://docs.oasis-open.org/opendocument/meta/rdfa#"),
+
+	/* Other OpenDocument v 1.1 */
+	GSF_XML_IN_NS (OO_NS_CONFIG,    "urn:oasis:names:tc:opendocument:xmlns:config:1.0"),
+	GSF_XML_IN_NS (OO_NS_ANIM,      "urn:oasis:names:tc:opendocument:xmlns:animation:1.0"),
+	GSF_XML_IN_NS (OO_NS_DATASTYLE, "urn:oasis:names:tc:opendocument:xmlns:data style:1.0"),
+	GSF_XML_IN_NS (OO_NS_MANIFEST,  "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"),
+	GSF_XML_IN_NS (OO_NS_SMIL,      "urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0"),
+
+
+	/* Symphony 1.3 */
+	GSF_XML_IN_NS (OO_LOTUS_NS_PRODTOOLS, "http://www.ibm.com/xmlns/prodtools"),
+
+	/* CleverAge ODF Add-in for Microsoft Office 3.0.5224.0 (11.0.8302)*/
+	GSF_XML_IN_NS (OO_CLEVERAGE_NS_DC,	"http://purl.org/dc/terms/"), 
+
+	/* KOffice 1.6.3 */
+	GSF_XML_IN_NS (OO_KDE_NS_KOFFICE, "http://www.koffice.org/2005/"),
 	{ NULL, 0 }
 };
 
