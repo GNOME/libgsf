@@ -84,6 +84,12 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	GSF_XML_IN_NS (OO_NS_XFORMS,	"http://www.w3.org/2002/xforms"),
 	GSF_XML_IN_NS (OO_NS_XSD,	"http://www.w3.org/2001/XMLSchema"),
 	GSF_XML_IN_NS (OO_NS_XSI,	"http://www.w3.org/2001/XMLSchema-instance"),
+
+	/* OOo 3.0.x */
+	GSF_XML_IN_NS (OO_NS_OF,        "urn:oasis:names:tc:opendocument:xmlns:of:1.2"),
+
+	GSF_XML_IN_NS (OO_NS_RPT,       "http://openoffice.org/2005/report"),
+	GSF_XML_IN_NS (OO_NS_RDFA,      "http://docs.oasis-open.org/opendocument/meta/rdfa#"),
 	{ NULL, 0 }
 };
 

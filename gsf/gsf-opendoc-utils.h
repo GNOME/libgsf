@@ -58,7 +58,12 @@ enum {
 	OO_NS_XSD,
 	OO_NS_XSI,
 
-	OO_NS_PRESENT	/* added in gsf-1.14.8 */
+	OO_NS_PRESENT,	/* added in gsf-1.14.8 */
+
+	/* new in 3.0 */
+	OO_NS_RPT,
+	OO_NS_OF,
+	OO_NS_RDFA
 };
 
 extern GsfXMLInNS gsf_ooo_ns[];
