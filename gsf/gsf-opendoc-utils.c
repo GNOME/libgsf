@@ -291,7 +291,7 @@ gsf_opendoc_metadata_subtree_internal (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar cons
 
 static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
   GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (START, META, OO_NS_OFFICE, "meta", FALSE, &gsf_opendoc_metadata_subtree_internal, NULL),
+  GSF_XML_IN_NODE_FULL (START, META, OO_NS_OFFICE, "meta", FALSE, FALSE, TRUE, &gsf_opendoc_metadata_subtree_internal, NULL, 0),
    GSF_XML_IN_NODE_END
 };
 
