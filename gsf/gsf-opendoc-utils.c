@@ -108,6 +108,9 @@ GsfXMLInNS gsf_ooo_ns[] = {
 
 	/* KOffice 1.6.3 */
 	GSF_XML_IN_NS (OO_KDE_NS_KOFFICE, "http://www.koffice.org/2005/"),
+
+	/* Microsoft Excel Formulas in ODF */
+	GSF_XML_IN_NS (OO_MS_NS_MSOXL, "http://schemas.microsoft.com/office/excel/formula"),
 	{ NULL, 0 }
 };
 

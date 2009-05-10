@@ -78,7 +78,10 @@ enum {
 	OO_KDE_NS_KOFFICE,
 
 	/*CleverAge ODF Add-in for Microsoft Office 3.0.5224.0 (11.0.8302)*/
-	OO_CLEVERAGE_NS_DC
+	OO_CLEVERAGE_NS_DC,
+
+	/* Microsoft Excel Formulas */
+	OO_MS_NS_MSOXL
 };
 
 extern GsfXMLInNS gsf_ooo_ns[];

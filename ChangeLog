@@ -1,5 +1,11 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gsf/gsf-opendoc-utils.h: add namespace enumeration constant for 
+	  MSOXL
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add namespace for MSOXL
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gsf/gsf-opendoc-utils.c (gsf_opendoc_meta_dtd): scan meta's 
 	  children for more namespaces to handle CleverAge's files. 
 
