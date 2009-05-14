@@ -1441,7 +1441,6 @@ gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
 {
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (xout != NULL);
-	g_return_if_fail (xout->state != GSF_XML_OUT_CONTENT);
 
 	if (xout->needs_header) {
 		static char const header0[] =
@@ -1562,7 +1561,7 @@ gsf_xml_out_simple_float_element (GsfXMLOut *xout, char const *id,
 static void
 close_tag_if_neccessary (GsfXMLOut* xout)
 {
-	if (xout->state != GSF_XML_OUT_CONTENT) {
+	if (xout->state == GSF_XML_OUT_NOCONTENT) {
 		xout->state = GSF_XML_OUT_CONTENT;
 		gsf_output_write (xout->output, 1, ">");
 	}

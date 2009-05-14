@@ -1,3 +1,11 @@
+2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_start_element): remove erroneous
+	  g_return_if_fail. Note that some part of the code specifically 
+	  handles that situation.
+	(close_tag_if_neccessary): If we are in GSF_XML_OUT_CHILD we need
+	  not close the tag
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.h: add namespace enumeration constant for 

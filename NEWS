@@ -2,6 +2,8 @@ libgsf 1.14.14
 
 Andreas:
 	* Added namespaces used by openoffice 3.0, Lotus Symphony, etc.
+	* Fix gsf_xml_out_start_element to allow child elements mixed
+	  with other content
 
 --------------------------------------------------------------------------
 libgsf 1.14.13
