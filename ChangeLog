@@ -1,3 +1,10 @@
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.h: add namespace enumeration constant for
+	  new OOo and Gnumeric namespaces
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add new namespaces for OOo
+	  and Gnumeric
+
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_start_element): remove erroneous

@@ -64,6 +64,8 @@ enum {
 	OO_NS_RPT,
 	OO_NS_OF,
 	OO_NS_RDFA,
+	OO_NS_FIELD,
+	OO_NS_FORMX,
 
 	/* Other OpenDocument 1.1 */
 	OO_NS_ANIM,
@@ -81,7 +83,10 @@ enum {
 	OO_CLEVERAGE_NS_DC,
 
 	/* Microsoft Excel Formulas */
-	OO_MS_NS_MSOXL
+	OO_MS_NS_MSOXL,
+
+	/* Gnumeric ODF extensions */
+	OO_GNUM_NS_EXT
 };
 
 extern GsfXMLInNS gsf_ooo_ns[];
