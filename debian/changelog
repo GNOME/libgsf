@@ -1,4 +1,13 @@
-libgsf (1.14.13-1) unstable; urgency=high
+libgsf (1.14.14-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control] 
+    * Follow upstream VCS change: replaced Vcs-Svn by Vcs-git and updated
+      Vcs-Browser.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 24 May 2009 07:57:27 +0200
+
+libgsf (1.14.13-1) unstable; urgency=low
 
   * New upstream release.
   * This version is needed by Gnumeric 1.9.7 which has a high priority
