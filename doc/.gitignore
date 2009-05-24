@@ -8,6 +8,7 @@ gsf.hierarchy
 gsf.signals
 gsf-decl.txt
 gsf-decl-list.txt
+gsf-undeclared.txt
 gsf-undocumented.txt
 gsf-unused.txt
 gsf-scan.lo
