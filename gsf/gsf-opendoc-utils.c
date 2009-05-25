@@ -40,6 +40,8 @@ typedef struct {
 	char             *name;
 } GsfOOMetaIn;
 
+char const *gsf_odf_version_string = "1.1";
+
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
 /* and  OpenDocument-v1.1.pdf */
@@ -509,7 +511,7 @@ gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
 	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
 		"http://openoffice.org/2004/office");
-	gsf_xml_out_add_cstr_unchecked (output, "office:version", GSF_ODF_VERSION_STRING);
+	gsf_xml_out_add_cstr_unchecked (output, "office:version", gsf_odf_version_string);
 
 	gsf_xml_out_start_element (output, OFFICE "meta");
 	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);
