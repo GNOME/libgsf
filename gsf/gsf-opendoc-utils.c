@@ -509,7 +509,7 @@ gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
 	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
 		"http://openoffice.org/2004/office");
-	gsf_xml_out_add_cstr_unchecked (output, "office:version", "1.0");
+	gsf_xml_out_add_cstr_unchecked (output, "office:version", GSF_ODF_VERSION_STRING);
 
 	gsf_xml_out_start_element (output, OFFICE "meta");
 	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);

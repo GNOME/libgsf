@@ -91,6 +91,9 @@ enum {
 
 extern GsfXMLInNS gsf_ooo_ns[];
 
+#define GSF_ODF_VERSION 11
+#define GSF_ODF_VERSION_STRING "1.1"
+
 /* For 1.15.x s/opendoc/odf/ and s/ooo/odf/ */
 GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);
 void	 gsf_opendoc_metadata_subtree (GsfXMLIn *doc,    GsfDocMetaData *md);

@@ -1,3 +1,10 @@
+2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (gsf_opendoc_metadata_write): use
+	  GSF_ODF_VERSION_STRING
+	* gsf-opendoc-utils.h (GSF_ODF_VERSION): new and bump to 1.1
+	(GSF_ODF_VERSION_STRING): new
+
 2009-05-23  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Psot-release bump.
