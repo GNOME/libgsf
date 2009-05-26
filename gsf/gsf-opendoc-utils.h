@@ -89,14 +89,9 @@ enum {
 	OO_GNUM_NS_EXT
 };
 
-/* When we bump the GSF_ODF_VERSION we also need to change *\
-\* gsf_odf_version_string                                  */
-enum {
-	GSF_ODF_VERSION = 11
-};
-
 extern GsfXMLInNS gsf_ooo_ns[];
 extern char const *gsf_odf_version_string;
+extern float gsf_odf_version;
 
 /* For 1.15.x s/opendoc/odf/ and s/ooo/odf/ */
 GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);

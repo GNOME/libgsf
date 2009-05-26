@@ -41,6 +41,7 @@ typedef struct {
 } GsfOOMetaIn;
 
 char const *gsf_odf_version_string = "1.1";
+float gsf_odf_version = 1.1;
 
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */

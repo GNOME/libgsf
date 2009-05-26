@@ -1,5 +1,9 @@
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gsf/gsf-opendoc-utils.[ch]: replace GSF_ODF_VERSION with a variable
+
+2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gsf/gsf-opendoc-utils.[ch]: replace GSF_ODF_VERSION_STRING with the 
 	  varaible gsf_odf_version_string and turn GSF_ODF_VERSION into an 
 	  enum.
