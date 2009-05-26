@@ -1,3 +1,11 @@
+2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.h (gsf_odf_version): deleted
+	(gsf_odf_version_string): deleted
+	(get_gsf_ooo_ns): new
+	(get_gsf_odf_version_string): new
+	(get_gsf_odf_version): new
+
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.[ch]: replace GSF_ODF_VERSION with a variable

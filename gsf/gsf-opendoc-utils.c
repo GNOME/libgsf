@@ -31,6 +31,7 @@
 #include <gsf/gsf-docprop-vector.h>
 #include <string.h>
 
+
 #define OFFICE	 "office:"
 
 typedef struct {
@@ -40,8 +41,19 @@ typedef struct {
 	char             *name;
 } GsfOOMetaIn;
 
-char const *gsf_odf_version_string = "1.1";
-float gsf_odf_version = 1.1;
+G_MODULE_EXPORT char const *
+get_gsf_odf_version_string (void)
+{
+	return "1.1";
+}
+
+G_MODULE_EXPORT short 
+get_gsf_odf_version (void)
+{
+	return 101;
+}
+
+
 
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
@@ -121,6 +133,12 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	GSF_XML_IN_NS (OO_GNUM_NS_EXT, "http://www.gnumeric.org/odf-extension/1.0"),
 	{ NULL, 0 }
 };
+
+G_MODULE_EXPORT GsfXMLInNS *get_gsf_ooo_ns (void)
+{
+	return gsf_ooo_ns;
+}
+
 
 static void
 od_get_meta_prop (GsfXMLIn *xin, char const *prop_name, GType g_type)
@@ -512,8 +530,8 @@ gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
 	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
 		"http://openoffice.org/2004/office");
-	gsf_xml_out_add_cstr_unchecked (output, "office:version", gsf_odf_version_string);
-
+	gsf_xml_out_add_cstr_unchecked (output, "office:version", 
+					get_gsf_odf_version_string ());
 	gsf_xml_out_start_element (output, OFFICE "meta");
 	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);
 	gsf_xml_out_end_element (output); /* </office:meta> */

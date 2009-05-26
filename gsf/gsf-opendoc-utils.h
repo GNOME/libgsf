@@ -27,6 +27,7 @@
 
 #include <gsf/gsf.h>
 #include <gsf/gsf-libxml.h>
+#include <gmodule.h>
 
 G_BEGIN_DECLS
 
@@ -89,9 +90,11 @@ enum {
 	OO_GNUM_NS_EXT
 };
 
-extern GsfXMLInNS gsf_ooo_ns[];
-extern char const *gsf_odf_version_string;
-extern float gsf_odf_version;
+G_MODULE_EXPORT GsfXMLInNS *get_gsf_ooo_ns (void);
+G_MODULE_EXPORT char const *get_gsf_odf_version_string (void);
+G_MODULE_EXPORT short get_gsf_odf_version (void);
+
+extern GsfXMLInNS gsf_ooo_ns[]; /* use get_gsf_ooo_ns instead */
 
 /* For 1.15.x s/opendoc/odf/ and s/ooo/odf/ */
 GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);
