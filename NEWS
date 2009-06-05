@@ -3,6 +3,9 @@ libgsf 1.14.15
 Andreas:
 	* Bump ODF version to 1.1 and add enum to inform users. 
 
+Morten:
+	* Fix criticals when parsing bogus OLE properties.  [#584848]
+
 --------------------------------------------------------------------------
 libgsf 1.14.14
 

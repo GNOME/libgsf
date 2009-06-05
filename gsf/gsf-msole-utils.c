@@ -932,11 +932,13 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		d ({
 			char const *type_name = msole_vt_name (type);
 			if (type_name) {
-				g_print ("A '%s' property could not be parsed\n", type_name);
+				g_printerr ("A '%s' property could not be parsed\n", type_name);
 			} else {
-				g_print ("A %d property could not be parsed\n", type);
+				g_printerr ("A %d property could not be parsed\n", type);
 			}
 		});
+		g_free (res);
+		res = NULL;
 	}
 	return res;
 }
