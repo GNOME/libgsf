@@ -29,4 +29,4 @@ EXTRA_DIST = BUGS HACKING	\
 
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc --enable-schemas-install
