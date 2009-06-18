@@ -1,3 +1,13 @@
+2009-06-17  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Use gsf_timestamp_new
+	and gsf_timestamp_set_time.
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_from_string): Improve error
+	checking.
+	(gsf_timestamp_set_time): New function.
+	(gsf_timestamp_new): New function.
+
 2009-06-05  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): If parsing fails,

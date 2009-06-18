@@ -42,6 +42,8 @@ struct _GsfTimestamp {
 GType gsf_timestamp_get_type      (void) G_GNUC_CONST;
 /* void  gsf_timestamp_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
+GsfTimestamp *gsf_timestamp_new	(void);
+
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);
 int	      gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp);
@@ -49,6 +51,8 @@ char 	     *gsf_timestamp_as_string	(GsfTimestamp const *stamp);
 guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
 gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
 					 GsfTimestamp const *b);
+
+void          gsf_timestamp_set_time    (GsfTimestamp *stamp, guint64 t);
 
 void gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
 

@@ -774,7 +774,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	case VT_FILETIME : {
 		/* 64-bit FILETIME structure, as defined by Win32. */
 		guint64 ft;
-		GsfTimestamp ts;
+		GsfTimestamp *ts;
 
 		NEED_BYTES (8);
 
@@ -783,9 +783,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		ft /= 10000000; /* convert to seconds */
 		ft -= G_GINT64_CONSTANT (11644473600); /* move to Jan 1 1970 */
-		ts.timet = (time_t)ft;
+		ts = gsf_timestamp_new ();
+		gsf_timestamp_set_time (ts, ft);
 		g_value_init (res, GSF_TIMESTAMP_TYPE);
-		gsf_value_set_timestamp (res, &ts);
+		gsf_value_set_timestamp (res, ts);
+		gsf_timestamp_free (ts);
+
 		ADVANCE;
 		break;
 	}

@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix criticals when parsing bogus OLE properties.  [#584848]
+	* Start cleaning up timestamp code.
 
 --------------------------------------------------------------------------
 libgsf 1.14.14

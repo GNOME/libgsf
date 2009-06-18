@@ -51,6 +51,14 @@ gsf_timestamp_get_type (void)
 	return our_type;
 }
 
+GsfTimestamp *
+gsf_timestamp_new (void)
+{
+	GsfTimestamp *res = g_new0 (GsfTimestamp, 1);
+	res->timet = -1;
+	return res;
+}
+
 /**
  * gsf_timestamp_copy:
  * @stamp: timestamp to be copied
@@ -62,7 +70,7 @@ gsf_timestamp_get_type (void)
 GsfTimestamp *
 gsf_timestamp_copy (GsfTimestamp const *stamp)
 {
-	GsfTimestamp *res = g_new0 (GsfTimestamp, 1);
+	GsfTimestamp *res = gsf_timestamp_new ();
 	res->timet = stamp->timet;
 	return res;
 }
@@ -134,13 +142,19 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 	if (6 == sscanf (spec, "%d-%d-%dT%d:%d:%d",
 			 &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
 			 &tm.tm_hour, &tm.tm_min, &tm.tm_sec)) {
+		time_t t;
+
 		tm.tm_mon--; /* 0..11 */
 
 		/* err on the side of avoiding negatives */
 		if (tm.tm_year >= 1900)
 			tm.tm_year -= 1900;
 
-		stamp->timet = mktime (&tm) + GMTOFF(tm);
+		t = mktime (&tm);
+		if (t == -1)
+			return FALSE;
+
+		stamp->timet = t + GMTOFF(tm);
 		return TRUE;
 	}
 	return FALSE;
@@ -223,4 +237,10 @@ void
 gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp)
 {
 	g_value_set_boxed (value, stamp);
+}
+
+void
+gsf_timestamp_set_time (GsfTimestamp *stamp, guint64 t)
+{
+	stamp->timet = t;
 }

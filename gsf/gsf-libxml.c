@@ -258,11 +258,13 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 
 	default:
 		if (GSF_TIMESTAMP_TYPE == t) {
-			GsfTimestamp ts;
-			if (gsf_timestamp_from_string (str, &ts)) {
-				gsf_value_set_timestamp (res, &ts);
+			GsfTimestamp *ts = gsf_timestamp_new ();
+			gboolean ok = gsf_timestamp_from_string (str, ts);
+			if (ok)
+				gsf_value_set_timestamp (res, ts);
+			gsf_timestamp_free (ts);
+			if (ok)
 				break;
-			}
 		} else g_warning ("gsf_xml_gvalue_from_str(): Don't know how to handle type '%s'", g_type_name (t));
 
 		return FALSE;
