@@ -21,13 +21,9 @@ AC_SUBST(LIBGSF_MICRO_VERSION, libgsf_version_micro)
 
 dnl Version info for libraries = CURRENT:REVISION:AGE
 dnl
-dnl Within each x.y.*, ABI is maintained backward and _forward_ compatible.
-dnl (As a consequence, no exported function may be added.)
-dnl So it's enough to have one interface number per each x.y.* branch.
-dnl
-dnl OTOH, we are not able to keep ABI strictly backward compatible throughout
-dnl the whole x.*.*.
-dnl The easiest way is to declare no ABI compatibility, ie. AGE is always 0.
+dnl Within each x.y.*, ABI is maintained backward compatible.
+dnl We strive for forward compatibility too, except that we sometimes
+dnl add new functions.
 dnl
 m4_define([version_iface],
 	m4_eval(100 * libgsf_version_major + libgsf_version_minor))
