@@ -738,7 +738,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	if (state->unknown_depth++ > 0)
 		return;
 
-	g_print ("Unexpected element '%s' in state : \n\t", name);
+	g_printerr ("Unexpected element '%s' in state : \n\t", name);
 	ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 	if (ptr != NULL)	/* skip toplevel catch all */
 		ptr = ptr->next;
@@ -746,11 +746,11 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 		node = ptr->data;
 		if (node != NULL) {
 /* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
-			g_print ("%s -> ", node_name (&node->pub));
+			g_printerr ("%s -> ", node_name (&node->pub));
 		}
 	}
 	if (state->pub.node != NULL) {
-		g_print ("%s\n", node_name (state->pub.node));
+		g_printerr ("%s\n", node_name (state->pub.node));
 	}
 	state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 }
