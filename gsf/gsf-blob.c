@@ -102,11 +102,15 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
 	if (data_to_copy) {
 		data = g_try_malloc (size);
 		if (!data) {
+			gchar *size_str;
+
+			size_str = g_strdup_printf ("%" G_GSIZE_FORMAT, size);
 			g_set_error (error,
 				     GSF_ERROR,
 				     GSF_ERROR_OUT_OF_MEMORY,
-				     _("Not enough memory to copy %" G_GSIZE_FORMAT " bytes of data"),
-				     size);
+				     _("Not enough memory to copy %s bytes of data"),
+				     size_str);
+			g_free (size_str);
 			return NULL;
 		}
 

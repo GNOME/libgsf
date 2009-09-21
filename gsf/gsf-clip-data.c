@@ -144,13 +144,17 @@ gsf_clip_data_get_data_blob (GsfClipData *clip_data)
 static void
 set_error_missing_clipboard_data (GError **error, const char *format_name, gsize at_least_size)
 {
+	gchar *size_str;
+
+	size_str = g_strdup_printf ("%" G_GSIZE_FORMAT, at_least_size);
 	g_set_error (error,
 		     GSF_ERROR,
 		     GSF_ERROR_INVALID_DATA,
 		     _("The clip_data is in %s, but it is smaller than "
-		       "at least %" G_GSIZE_FORMAT " bytes"),
+		       "at least %s bytes"),
 		     format_name,
-		     at_least_size);
+		     size_str);
+	g_free (size_str);
 }
 
 static gsize

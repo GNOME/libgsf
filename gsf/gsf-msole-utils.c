@@ -305,14 +305,20 @@ msole_gsf_name_to_prop (char const *name)
 static void
 set_error_missing_data (GError **error, const char *property_name, gsize size_needed, gsize size_gotten)
 {
+	gchar *size_needed_str, *size_gotten_str;
+
+	size_needed_str = g_strdup_printf ("%" G_GSIZE_FORMAT, size_needed);
+	size_gotten_str = g_strdup_printf ("%" G_GSIZE_FORMAT, size_gotten);
 	g_set_error (error,
 		     GSF_ERROR,
 		     GSF_ERROR_INVALID_DATA,
-		     _("Missing data when reading the %s property; got %" G_GSIZE_FORMAT "bytes, "
-		       "but %" G_GSIZE_FORMAT " bytes at least are needed."),
+		     _("Missing data when reading the %s property; got %s bytes, "
+		       "but %s bytes at least are needed."),
 		     property_name,
-		     size_needed,
-		     size_gotten);
+		     size_needed_str,
+		     size_gotten_str);
+	g_free (size_needed_str);
+	g_free (size_gotten_str);
 }
 
 /* Can return errors from gsf_blob_new() and GSF_ERROR_INVALID_DATA */
@@ -351,12 +357,16 @@ parse_vt_cf (GValue *res, guint8 const **data, guint8 const *data_end, GError **
 	clip_size = GSF_LE_GET_GUINT32 (*data);
 
 	if (clip_size < 4) {	/* must emcompass int32 format plus data size */
+		gchar *size_str;
+
+		size_str = g_strdup_printf ("%" G_GSIZE_FORMAT, (gsize) clip_size);
 		g_set_error (error,
 			     GSF_ERROR,
 			     GSF_ERROR_INVALID_DATA,
 			     _("Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, "
-			       "but the data says it only has %" G_GSIZE_FORMAT " bytes available."),
-			     (gsize) clip_size);
+			       "but the data says it only has %s bytes available."),
+			     size_str);
+		g_free (size_str);
 		return FALSE;
 	}
 
