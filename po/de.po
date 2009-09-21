@@ -22,16 +22,14 @@ msgstr ""
 
 #: ../gsf/gsf-blob.c:111
 #, c-format
-#| msgid "Not enough memory to copy %"
 msgid "Not enough memory to copy %s bytes of data"
-msgstr "Nicht genug Speicher zum Kopieren von % Bytes an Daten."
+msgstr "Nicht genug Speicher zum Kopieren von %s Bytes an Daten."
 
 #: ../gsf/gsf-clip-data.c:153
 #, c-format
-#| msgid "The clip_data is in %s, but it is smaller than at least %"
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr ""
-"clip_data liegt im %s-Format vor, jedoch kleiner als die nötigen % Bytes"
+"clip_data liegt im %s-Format vor, jedoch kleiner als die nötigen %s Bytes"
 
 #: ../gsf/gsf-clip-data.c:247
 #, c-format
@@ -57,26 +55,22 @@ msgstr "Windows Enhanced-Metafile-Format"
 
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
-#| msgid "Missing data when reading the %s property; got %"
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
 msgstr ""
-"Fehlende Daten beim Lesen der Eigenschaft %s, erhalten wurden % Bytes, aber "
+"Fehlende Daten beim Lesen der Eigenschaft %s, erhalten wurden %s Bytes, aber "
 "mindestens %s Bytes sind erforderlich."
 
 #: ../gsf/gsf-msole-utils.c:366
 #, c-format
-#| msgid ""
-#| "Corrupt data in the VT_CF property; clipboard data length must be at "
-#| "least 4 bytes, but the data says it only has %"
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Beschädigte Daten in der Eigenschaft VT_CF. Länge der Daten in der "
 "Zwischenablage muss mindestens 4 Bytes sein, Daten verfügen jedoch nur über "
-"% Bytes."
+"%s Bytes."
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
