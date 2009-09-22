@@ -1,5 +1,8 @@
 libgsf 1.14.16
 
+Andreas:
+	* Add variant of OO_NS_FIELD.
+
 Morten:
 	* Fix problem with errors to stdout.  [#592471]
 

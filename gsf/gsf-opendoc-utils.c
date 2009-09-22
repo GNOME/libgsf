@@ -104,6 +104,7 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	/* OOo 3.0.x */
 	GSF_XML_IN_NS (OO_NS_OF,        "urn:oasis:names:tc:opendocument:xmlns:of:1.2"),
 	GSF_XML_IN_NS (OO_NS_FIELD,     "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0"),
+	GSF_XML_IN_NS (OO_NS_FIELD,     "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:field:1.0"),
 	GSF_XML_IN_NS (OO_NS_FORMX,     "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0"),
 
 	GSF_XML_IN_NS (OO_NS_RPT,       "http://openoffice.org/2005/report"),
