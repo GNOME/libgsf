@@ -1,3 +1,8 @@
+2009-09-25  Morten Welinder  <mwelinder@gmail.com>
+
+	* configure.in (libgsf_gnome_reqs): Remove gnome-vfs stuff.
+	Fixes #593480
+
 2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add variant of OO_NS_FIELD

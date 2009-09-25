@@ -6,6 +6,9 @@ Andreas:
 Morten:
 	* Fix problem with errors to stdout.  [#592471]
 
+Vincent Untz:
+	* Fix gnome-vfs dependency handling.  [#593480]
+
 --------------------------------------------------------------------------
 libgsf 1.14.15
 
