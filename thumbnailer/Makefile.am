@@ -1,7 +1,7 @@
 @INTLTOOL_SCHEMAS_RULE@
 
-AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
-LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(GDK_PIXBUF_CFLAGS) $(LIBXML_CFLAGS)
+LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS) $(GDK_PIXBUF_LIBS)
 
 bin_PROGRAMS = gsf-office-thumbnailer
 

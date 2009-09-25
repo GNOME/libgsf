@@ -32,6 +32,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
+#include <gsf-config.h>
+
+#ifdef HAVE_GDK_PIXBUF
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#endif
 
 #ifdef HAVE_SETRLIMI
 #include <sys/resource.h>
@@ -61,6 +66,22 @@ call_convert (const char *in_filename, const char *out_filename, int thumb_size)
 	char *cmd_line;
 	GError *error;
 	gint exit_status;
+
+#ifdef HAVE_GDK_PIXBUF
+	GdkPixbuf* pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_file_at_scale (in_filename,
+						    thumb_size, thumb_size,
+						    TRUE, NULL);
+	if (pixbuf) {
+		gboolean success = gdk_pixbuf_save (pixbuf,
+						    out_filename, "png",
+						    NULL, NULL);
+		g_object_unref (pixbuf);
+		if (success)
+			return;
+	}
+#endif
 
 	in_quote = g_shell_quote (in_filename);
 	out_quote = g_shell_quote (out_filename);

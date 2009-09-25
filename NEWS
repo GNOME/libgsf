@@ -3,6 +3,9 @@ libgsf 1.14.16
 Andreas:
 	* Add variant of OO_NS_FIELD.
 
+Caolan McNamara:
+        * Use gdk_pixbug for thumbnailing when available.  [#594359]
+
 Morten:
 	* Fix problem with errors to stdout.  [#592471]
 

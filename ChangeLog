@@ -1,3 +1,7 @@
+2009-09-25  Morten Welinder  <terra@gnome.org>
+
+	* thumbnailer/main.c (call_convert): Use gdk_pixbuf if available.
+
 2009-09-25  Morten Welinder  <mwelinder@gmail.com>
 
 	* configure.in (libgsf_gnome_reqs): Remove gnome-vfs stuff.

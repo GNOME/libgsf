@@ -462,6 +462,28 @@ else
 fi
 AC_SUBST(BONOBO_REQ)
 
+want_gdk_pixbuf=no
+dnl check for gdk_pixbuf
+AC_ARG_WITH(gdk_pixbuf,
+    AC_HELP_STRING([--without-gdk-pixbuf],[disable the use of gdk-pixbuf]),
+    [case "${withval}" in
+    yes) want_gdk_pixbuf=yes ;;
+    no) want_gdk_pixbuf=no ;;
+    *) AC_MSG_ERROR(bad value ${withval} for --with-gdk-pixbuf) ;;
+    esac],
+    [want_gdk_pixbuf=auto]) dnl Default value
+
+if test $want_gdk_pixbuf = no ; then
+    AC_MSG_WARN([gdk-pixbuf support disabled, as requested (Use --with-gdk-pixbuf to enable)])
+else
+    PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0,
+        [AC_DEFINE(HAVE_GDK_PIXBUF, 1, [Define if gdk-pixbuf is available])],
+	[if test $want_gdk_pixbuf = yes; then
+	    AC_MSG_ERROR([gdk-pixbuf support requested, but not available.])
+	 else
+	    AC_MSG_WARN([gdk-pixbuf support disabled, unable to find required version])
+	 fi])
+fi
 
 have_gnome=no
 if test $want_gnome = no ; then 
