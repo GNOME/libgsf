@@ -8,25 +8,29 @@ msgstr ""
 "Project-Id-Version: libgsf.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&component=General\n"
-"POT-Creation-Date: 2009-08-10 21:36+0000\n"
-"PO-Revision-Date: 2009-08-30 13:54+0200\n"
+"POT-Creation-Date: 2009-09-21 19:38+0000\n"
+"PO-Revision-Date: 2009-09-28 22:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: UTF-8\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:108
-msgid "Not enough memory to copy %"
-msgstr "No hay memoria suficiente para copiar %"
+#: ../gsf/gsf-blob.c:111
+#, c-format
+#| msgid "Not enough memory to copy %"
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "No hay memoria suficiente para copiar %s bytes de datos"
 
-#: ../gsf/gsf-clip-data.c:150
-msgid "The clip_data is in %s, but it is smaller than at least %"
-msgstr "El clip_data está en %s, pero es más pequeño de al menos %"
+#: ../gsf/gsf-clip-data.c:153
+#, c-format
+#| msgid "The clip_data is in %s, but it is smaller than at least %"
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "El clip_data está en %s, pero es más pequeño de al menos %s bytes"
 
-#: ../gsf/gsf-clip-data.c:243
+#: ../gsf/gsf-clip-data.c:247
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -35,30 +39,41 @@ msgstr ""
 "El clip_data está en el formato de Windows, pero es más pequeño de los 4 "
 "bytes requeridos."
 
-#: ../gsf/gsf-clip-data.c:254
+#: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
 msgstr "Formato de meta archivo de Windows"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:264
 msgid "Windows DIB or BITMAP format"
 msgstr "Formato DIB o BITMAP de Windows"
 
-#: ../gsf/gsf-clip-data.c:265
+#: ../gsf/gsf-clip-data.c:269
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato de meta archivo mejorado de Windows"
 
-#: ../gsf/gsf-msole-utils.c:311
-msgid "Missing data when reading the %s property; got %"
-msgstr "Faltan datos al leer la propiedad %s; se obtuvo %"
+#: ../gsf/gsf-msole-utils.c:315
+#, c-format
+#| msgid "Missing data when reading the %s property; got %"
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Faltan datos al leer la propiedad %s; se obtuvieron %s bytes pero se "
+"necesitan al menos %s bytes."
 
-#: ../gsf/gsf-msole-utils.c:357
+#: ../gsf/gsf-msole-utils.c:366
+#, c-format
+#| msgid ""
+#| "Corrupt data in the VT_CF property; clipboard data length must be at "
+#| "least 4 bytes, but the data says it only has %"
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
+"bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Datos corruptos en la propiedad VT_CF; la longitud del portapapeles debe ser "
-"de al menos 4 bytes, pero los datos dicen que sólo tiene %s"
+"de al menos 4 bytes, pero los datos dicen que sólo tiene %s bytes "
+"disponibles."
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
@@ -334,73 +349,61 @@ msgstr ""
 "Comando para generar miniaturas para plantillas de dibujos de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenDocument drawings"
 msgstr "Comando para generar miniaturas para dibujos de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenDocument formulas"
 msgstr "Comando para generar miniaturas para fórmulas de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenDocument images"
 msgstr "Comando para generar miniaturas para imágenes de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenDocument presentation templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de presentaciones de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenDocument presentations"
 msgstr "Comando para generar miniaturas para presentaciones de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenDocument spreadsheet templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de hojas de cálculo de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenDocument spreadsheets"
 msgstr "Comando para generar miniaturas para hojas de cálculo de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
-#| msgid "Thumbnail command for Microsoft PowerPoint documents"
 msgid "Thumbnail command for OpenDocument wordprocessing document templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de documentos de "
 "procesadores de texto de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenDocument wordprocessing documents"
 msgstr ""
 "Comando para generar miniaturas para documentos de procesadores de texto de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
-#| msgid "Thumbnail command for Microsoft PowerPoint documents"
 msgid "Thumbnail command for OpenDocument wordprocessing master documents"
 msgstr ""
 "Comando para generar miniaturas para documentos maestros de procesadores de "
 "texto de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
 msgstr ""
 "Comando para generar miniaturas para hojas de cálculo de OpenOffice 1.x Calc"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
-#| msgid "Thumbnail command for Microsoft PowerPoint documents"
 msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de OpenOffice 1.x Dibujos"
@@ -412,54 +415,44 @@ msgstr ""
 "OpenOffice 1.x Impress"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
 msgstr "Comando para generar miniaturas para presentaciones de OpenOffice 1.x"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenOffice 1.x Math documents"
 msgstr "Comando para generar miniaturas para documentos de OpenOffice 1.x Math"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
-#| msgid "Thumbnail command for Microsoft Excel documents"
 msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de OpenOffice 1.x Spreadsheet"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenOffice 1.x Writer documents"
 msgstr ""
 "Comando para generar miniaturas para documentos de OpenOffice 1.x writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas globales de OpenOffice 1.x "
 "writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
-#| msgid "Thumbnail command for Microsoft Word documents"
 msgid "Thumbnail command for OpenOffice 1.x Writer templates"
 msgstr ""
 "Comando para generar miniaturas para plantillas de OpenOffice 1.x writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
 msgstr ""
 "Comando válido y argumentos para hojas de cálculo de Microsoft Excel 2007."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
 msgstr "Comando válido y argumentos para hojas de cálculo de Microsoft Excel."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
 msgstr ""
@@ -467,36 +460,29 @@ msgstr ""
 "PowerPoint 2007"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de Microsoft "
 "PowerPoint"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de Microsoft "
 "Word 2007"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de Microsoft Word"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de gráficos de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument drawing template "
 "thumbnailer"
@@ -505,28 +491,24 @@ msgstr ""
 "dibujos de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de dibujos de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de fórmulas de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de imágenes de "
 "OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument presentation template "
 "thumbnailer"
@@ -535,7 +517,6 @@ msgstr ""
 "presentaciones de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument presentation thumbnailer"
 msgstr ""
@@ -543,7 +524,6 @@ msgstr ""
 "presentaciones de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument spreadsheet template "
 "thumbnailer"
@@ -552,7 +532,6 @@ msgstr ""
 "hojas de cálculo de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
 msgstr ""
@@ -560,7 +539,6 @@ msgstr ""
 "cálculo de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "template thumbnailer"
@@ -569,8 +547,6 @@ msgstr ""
 "documentos de procesadores de texto de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "thumbnailer"
@@ -579,8 +555,6 @@ msgstr ""
 "procesadores de texto de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing master "
 "document thumbnailer"
@@ -589,7 +563,6 @@ msgstr ""
 "maestros de procesadores de texto de OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Drawing template "
 "thumbnailer"
@@ -598,14 +571,12 @@ msgstr ""
 "OpenOffice 1.x Dibujos"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
 msgstr ""
 "Comando válido y argumentos para el generador de miniaturas de OpenOffice 1."
 "x Dibujos"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
 "template thumbnailer"
@@ -614,7 +585,6 @@ msgstr ""
 "presentaciones de OpenOffice 1.x Impress"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
 "thumbnailer"
@@ -623,8 +593,6 @@ msgstr ""
 "presentaciones de OpenOffice 1.x Impress"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
 msgstr ""
@@ -632,8 +600,6 @@ msgstr ""
 "OpenOffice 1.x Math"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-#| msgid ""
-#| "Valid command plus arguments for the Microsoft PowerPoint thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer document "
 "thumbnailer"
@@ -642,7 +608,6 @@ msgstr ""
 "OpenOffice 1.x writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer global template "
 "thumbnailer"
@@ -651,7 +616,6 @@ msgstr ""
 "globales de OpenOffice 1.x Writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-#| msgid "Valid command plus arguments for the Microsoft Excel thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer template "
 "thumbnailer"
@@ -660,7 +624,6 @@ msgstr ""
 "OpenOffice 1.x Writer"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-#| msgid "Valid command plus arguments for the Microsoft Word thumbnailer."
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
 msgstr ""
