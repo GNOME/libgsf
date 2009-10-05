@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&component=General\n"
-"POT-Creation-Date: 2009-08-30 11:55+0000\n"
-"PO-Revision-Date: 2009-09-13 23:17+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-10-05 16:31+0100\n"
+"PO-Revision-Date: 2009-10-03 20:55+0000\n"
 "Last-Translator: António Lima <amrlima@gmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -17,15 +16,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:108
-msgid "Not enough memory to copy %"
-msgstr "Memória insuficiente para copiar %"
+#: ../gsf/gsf-blob.c:111
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Memória insuficiente para copiar %s bytes de dados"
 
-#: ../gsf/gsf-clip-data.c:150
-msgid "The clip_data is in %s, but it is smaller than at least %"
-msgstr "clip_data está em %s, mas é mais pequeno do que pelo menos %"
+#: ../gsf/gsf-clip-data.c:153
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "clip_data está em %s, mas é mais pequeno do que pelo menos %s bytes"
 
-#: ../gsf/gsf-clip-data.c:243
+#: ../gsf/gsf-clip-data.c:247
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -34,30 +35,36 @@ msgstr ""
 "clip_data encontra-se no formato de área de transferência do Windows, mas é "
 "mais pequeno do que os 4 bytes requeridos."
 
-#: ../gsf/gsf-clip-data.c:254
+#: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
 msgstr "Formato de Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:264
 msgid "Windows DIB or BITMAP format"
 msgstr "Formato Windows DIB ou BITMAP"
 
-#: ../gsf/gsf-clip-data.c:265
+#: ../gsf/gsf-clip-data.c:269
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato Windows Enhanced Metafile"
 
-#: ../gsf/gsf-msole-utils.c:311
-msgid "Missing data when reading the %s property; got %"
-msgstr "Dados em falta ao ler a propriedade %s; obteve %"
+#: ../gsf/gsf-msole-utils.c:315
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Dados em falta ao ler a propriedade %s; obteve %s bytes, mas pelo menos %s "
+"são necessários."
 
-#: ../gsf/gsf-msole-utils.c:357
+#: ../gsf/gsf-msole-utils.c:366
+#, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
+"bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Dados corrompidos na propriedade VT_CF; dados da área de transferência têm "
-"de ter pelo menos 4 bytes, mas os dados dizem que têm apenas %"
+"de ter pelo menos 4 bytes, mas os dados dizem que tem apenas %s"
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
