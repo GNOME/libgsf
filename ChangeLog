@@ -1,3 +1,7 @@
+2009-10-11  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.16
+
 2009-09-25  Morten Welinder  <terra@gnome.org>
 
 	* thumbnailer/main.c (call_convert): Use gdk_pixbuf if available.
