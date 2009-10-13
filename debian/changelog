@@ -1,3 +1,16 @@
+libgsf (1.14.16-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control]
+    * Added libglib2.0-doc build dependency to generate cross-references for
+      glib symbols.
+    * Added libgtk2.0-dev build dependency to have gsf-office-thumbnailer
+      be able to use gdk-pixbuf functions.
+    * Added libgsf-bin Suggests: imagemagick as gsf-office-thumbnailer may
+      try to use "convert".
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 13 Oct 2009 21:30:58 +0200
+
 libgsf (1.14.15-1) unstable; urgency=low
 
   * New upstream release.
