@@ -448,8 +448,10 @@ gsf_xml_probe_element (GsfXMLProbeState *state,
 		       int nb_defaulted,
 		       const xmlChar **attributes)
 {
-	state->success = (state->func) (name, prefix, URI, nb_namespaces, namespaces,
-					nb_attributes, nb_defaulted, attributes);
+	state->success =
+		state->func &&
+		state->func (name, prefix, URI, nb_namespaces, namespaces,
+			     nb_attributes, nb_defaulted, attributes);
 	state->func = NULL;
 }
 
@@ -1134,7 +1136,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * @dtor : #GsfXMLInExtDtor
  * @attrs : array of xmlChar const *
  *
- * Take the first node from @doc as the current node and call it's start handler.
+ * Take the first node from @doc as the current node and call its start handler.
  **/
 void
 gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,

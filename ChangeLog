@@ -1,3 +1,8 @@
+2009-10-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_probe_element): Fix crash on documents
+	like <a:b xmlns:c="d://"/>
+
 2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.14.16
