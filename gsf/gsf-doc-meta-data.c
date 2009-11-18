@@ -24,6 +24,8 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-docprop-vector.h>
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
+#include <stdlib.h>
 
 struct _GsfDocMetaData {
 	GObject	base;
@@ -167,6 +169,19 @@ gsf_doc_meta_data_store (GsfDocMetaData *meta, GsfDocProp *prop)
 	g_hash_table_replace (meta->table, prop->name, prop);
 }
 
+static void
+cb_collect_pairs (char *prop_name, GsfDocProp *prop, GPtrArray *pairs)
+{
+	g_ptr_array_add (pairs, prop_name);
+	g_ptr_array_add (pairs, prop);
+}
+
+static int
+deref_strcmp (const char **a, const char **b)
+{
+	return strcmp (*a, *b);
+}
+
 /**
  * gsf_doc_meta_data_foreach :
  * @meta : the collection
@@ -178,8 +193,30 @@ gsf_doc_meta_data_store (GsfDocMetaData *meta, GsfDocProp *prop)
 void
 gsf_doc_meta_data_foreach (GsfDocMetaData const *meta, GHFunc func, gpointer user_data)
 {
+	GPtrArray *pairs;
+	unsigned ui;
+
 	g_return_if_fail (IS_GSF_DOC_META_DATA (meta));
-	g_hash_table_foreach (meta->table, func, user_data);
+
+	if (g_hash_table_size (meta->table) == 0)
+		return;
+
+	/* Sort the pairs by property name in order to generate consistent
+	   files. */
+	pairs = g_ptr_array_new ();
+	g_hash_table_foreach (meta->table, (GHFunc)cb_collect_pairs, pairs);
+
+	qsort (&g_ptr_array_index (pairs, 0),
+	       pairs->len / 2,
+	       2 * sizeof (gpointer),
+	       (GCompareFunc)deref_strcmp);
+
+	for (ui = 0; ui < pairs->len; ui += 2)
+		func (g_ptr_array_index (pairs, ui),
+		      g_ptr_array_index (pairs, ui + 1),
+		      user_data);
+
+	g_ptr_array_free (pairs, TRUE);
 }
 
 /**

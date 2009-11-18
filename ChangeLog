@@ -1,3 +1,8 @@
+2009-11-18  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_data_foreach): Sort the
+	key-value pairs.
+
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* autogen.sh: allow dirs on PATH to have spaces withou causing warning
