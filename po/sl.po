@@ -1,13 +1,13 @@
 # Copyright (C) 2009 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Matej Urbančič <mateju@svn.gnome.org>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&component=General\n"
 "POT-Creation-Date: 2009-10-29 14:55+0000\n"
-"PO-Revision-Date: 2010-01-01 10:13+0100\n"
+"PO-Revision-Date: 2010-01-01 10:34+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +26,12 @@ msgstr "Ni dovolj pomnilnika za kopiranje %s bajtov podatkov"
 #: ../gsf/gsf-clip-data.c:153
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
-msgstr ""
+msgstr "Clip_data je del %s, vendar je manjši kot %s bajtov"
 
 #: ../gsf/gsf-clip-data.c:247
 #, c-format
 msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
-msgstr ""
+msgstr "Clip_data je običajni Windows zapis odložišča, vendar je manjši od zahtevanih 4 bajtov."
 
 #: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
@@ -54,7 +54,7 @@ msgstr "Manjkajoči podatki med branjem lastnosti %s; dobljenih %s bajtov, venda
 #: ../gsf/gsf-msole-utils.c:366
 #, c-format
 msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %s bytes available."
-msgstr ""
+msgstr "Pokvarjeni podatki lastnosti VT_CF; velikost podatkov odložišča mora biti vsaj 4 bajte, podatki pa kažejo na le %s razpoložljive bajte."
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
@@ -83,12 +83,12 @@ msgstr "Pokaži različico programa"
 #: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
-msgstr "%s: Napaka ed odpiranjem %s: %s\n"
+msgstr "%s: Napaka med odpiranjem %s: %s\n"
 
 #: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr ""
+msgstr "%s: Napaka med prepoznavanjem datoteke %s kot vrste arhiva\n"
 
 #: ../tools/gsf.c:102
 #, c-format
@@ -98,41 +98,41 @@ msgstr "Razpoložljivi podrejeni ukazi so ...\n"
 #: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
-msgstr ""
+msgstr "* cat        izpis enega ali več datotek v arhivu\n"
 
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr ""
+msgstr "* dump       izpiši enega ali več datotek v arhivu v šestnajstiškem zapisu\n"
 
 #: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
-msgstr ""
+msgstr "* help       izpis podrejenih ukazov\n"
 
 #: ../tools/gsf.c:106
 #, c-format
 msgid "* list       list files in archive\n"
-msgstr ""
+msgstr "* list       izpis datotek v arhivu\n"
 
 #: ../tools/gsf.c:107
 #, c-format
 msgid "* listprops  list document properties in archive\n"
-msgstr ""
+msgstr "* listprops  izpis lastnosti dokumentov v arhivu\n"
 
 #: ../tools/gsf.c:108
 #, c-format
 msgid "* props      print specified document properties\n"
-msgstr ""
+msgstr "* props      natisne določene lastnosti dokumenta\n"
 
 #: ../tools/gsf.c:291
 #, c-format
 msgid "No property named %s\n"
-msgstr ""
+msgstr "Ni lastnosti z imenom %s\n"
 
 #: ../tools/gsf.c:364
 msgid "SUBCOMMAND ARCHIVE..."
-msgstr ""
+msgstr "Arhiv podrejenih ukazov ..."
 
 #: ../tools/gsf.c:371
 #, c-format
@@ -140,25 +140,27 @@ msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
+"%s\n"
+"Zaženite '%s --help' za izpis popolnega seznama ukazov na voljo.\n"
 
 #: ../tools/gsf.c:378
 #, c-format
 msgid "gsf version %d.%d.%d\n"
-msgstr ""
+msgstr "gsf različica %d.%d.%d\n"
 
 #: ../tools/gsf.c:384
 #, c-format
 msgid "Usage: %s %s\n"
-msgstr ""
+msgstr "Uporaba: %s %s\n"
 
 #: ../tools/gsf.c:405
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
-msgstr ""
+msgstr "Zaženite '%s help' za izpis seznama podrejenih ukazov.\n"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
 msgid "Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails"
-msgstr ""
+msgstr "Na voljo so logične Boolove možnosti. Izbrana možnost omogoči ustvarjanje sličic."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
 msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
@@ -270,217 +272,217 @@ msgstr "Omogoči ustvarjanje sličic za OpenDocument glavnih dokumentov"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
 msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft Excel 2007 razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:30
 msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft Excel razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:31
 msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft PowerPoint 2007 razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:32
 msgid "Thumbnail command for Microsoft PowerPoint presentations"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft PowerPoint razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:33
 msgid "Thumbnail command for Microsoft Word 2007 documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft Word 2007 razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:34
 msgid "Thumbnail command for Microsoft Word documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za Microsoft Word razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:35
 msgid "Thumbnail command for OpenDocument charts"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument grafe"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
 msgid "Thumbnail command for OpenDocument drawing templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument predloge risanja"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
 msgid "Thumbnail command for OpenDocument drawings"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument risbe"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
 msgid "Thumbnail command for OpenDocument formulas"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument formule"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
 msgid "Thumbnail command for OpenDocument images"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument slike"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
 msgid "Thumbnail command for OpenDocument presentation templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument predloge predstavitev"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
 msgid "Thumbnail command for OpenDocument presentations"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument predstavitve"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
 msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument predloge razpredelnic"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
 msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument razpredelnice"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
 msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument predloge besedilnih dokumentov"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
 msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument besedilne dokumente"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
 msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenDocument glavne besedilne dokumente"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
 msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Calc razpredelnice "
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
 msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x predloge risanja"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
 msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Impress predloge predstavitev"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
 msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Impress predstavitve"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
 msgid "Thumbnail command for OpenOffice 1.x Math documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Math dokumente"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
 msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x predloge razpredelnic"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
 msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Writer dokumente"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
 msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Writer splošne predloge"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
 msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-msgstr ""
+msgstr "Ukaz za ustvarjanje sličic za OpenOffice 1.x Writer predloge"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
 msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft Excel 2007 razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
 msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft Excel razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
 msgid "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft PowerPoint 2007 razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
 msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft PowerPoint razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
 msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft Word 2007 razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
 msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za Microsoft Word razpredelnice."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
 msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument grafov."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
 msgid "Valid command plus arguments for the OpenDocument drawing template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument predlog risanja."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
 msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument risb."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
 msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument formul."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
 msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument slik."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
 msgid "Valid command plus arguments for the OpenDocument presentation template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument predlog predstavitev."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
 msgid "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument predstavitev."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
 msgid "Valid command plus arguments for the OpenDocument spreadsheet template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument predlog razpredelnic."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
 msgid "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument razpredelnic."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
 msgid "Valid command plus arguments for the OpenDocument wordprocessing document template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument predlog besedilnih dokumentov."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
 msgid "Valid command plus arguments for the OpenDocument wordprocessing document thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument besedilnih dokumentov."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
 msgid "Valid command plus arguments for the OpenDocument wordprocessing master document thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenDocument glavnih besedilnih dokumentov."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x predlog risanja."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x risb. "
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
 msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x Impress predlog predstavitev."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
 msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x predstavitev."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
 msgid "Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x Math dokumente."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
 msgid "Valid command plus arguments for the OpenOffice 1.x Writer document thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x Writer dokumente."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
 msgid "Valid command plus arguments for the OpenOffice 1.x Writer global template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x Writer splošne predloge."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
 msgid "Valid command plus arguments for the OpenOffice 1.x Writer template thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x Writer predloge."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
 msgid "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr ""
+msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic OpenOffice 1.x razpredelnic."
 
