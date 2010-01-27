@@ -23,7 +23,9 @@ import gsf.Input as PyGsfInput_Type
 import gsf.Output as PyGsfOutput_Type
 %%
 init
+#ifndef LIBGSF_GNOMEVFS_VIA_GIO
   gnome_vfs_init();
+#endif
 %%
 ignore-glob
  _*

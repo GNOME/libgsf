@@ -3,6 +3,7 @@ libgsf 1.14.17
 Morten:
 	* Fix xml parser crash.
 	* Write meta-data values in name order.
+	* Don't call gnome_vfs_init in python binding.  [#599973]
 
 --------------------------------------------------------------------------
 libgsf 1.14.16
