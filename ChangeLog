@@ -1,5 +1,9 @@
 2010-02-13  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release-bump.
+
+2010-02-13  Morten Welinder <terra@gnome.org>
+
 	* Release 1.14.17
 
 2009-11-18  Morten Welinder  <terra@gnome.org>
@@ -32,7 +36,7 @@
 2009-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add variant of OO_NS_FIELD
-	
+
 2009-08-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element): Complain to stderr,
@@ -75,8 +79,8 @@
 
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gsf/gsf-opendoc-utils.[ch]: replace GSF_ODF_VERSION_STRING with the 
-	  varaible gsf_odf_version_string and turn GSF_ODF_VERSION into an 
+	* gsf/gsf-opendoc-utils.[ch]: replace GSF_ODF_VERSION_STRING with the
+	  varaible gsf_odf_version_string and turn GSF_ODF_VERSION into an
 	  enum.
 
 2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -104,33 +108,33 @@
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_start_element): remove erroneous
-	  g_return_if_fail. Note that some part of the code specifically 
+	  g_return_if_fail. Note that some part of the code specifically
 	  handles that situation.
 	(close_tag_if_neccessary): If we are in GSF_XML_OUT_CHILD we need
 	  not close the tag
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gsf/gsf-opendoc-utils.h: add namespace enumeration constant for 
+	* gsf/gsf-opendoc-utils.h: add namespace enumeration constant for
 	  MSOXL
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add namespace for MSOXL
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gsf/gsf-opendoc-utils.c (gsf_opendoc_meta_dtd): scan meta's 
-	  children for more namespaces to handle CleverAge's files. 
+	* gsf/gsf-opendoc-utils.c (gsf_opendoc_meta_dtd): scan meta's
+	  children for more namespaces to handle CleverAge's files.
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.h: add more new namespace enumeration
 	  constants
-	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add more new namespaces 
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add more new namespaces
 
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.h: add new namespace enumeration
 	  constants
-	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add new namespaces 
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add new namespaces
 
 2009-05-06  Morten Welinder <terra@gnome.org>
 
@@ -310,7 +314,7 @@
 
 2008-10-17  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
-	* gsf-gnome/gsf-input-gnomevfs.h: add #define if 
+	* gsf-gnome/gsf-input-gnomevfs.h: add #define if
 	  LIBGSF_GNOMEVFS_VIA_GIO is defined
 
 2008-10-17  Morten Welinder  <terra@gnome.org>
@@ -417,7 +421,7 @@
 
 	* gsf/gsf-input-gio.c (gsf_input_gio_new): Don't leak @input if
 	we're going to make a local copy of the requested file
-	
+
 2008-07-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/gsf-output-gnomevfs.c: Use gio, not gnomevfs, when
@@ -511,12 +515,12 @@
 	* Makefile.am:
 	* libgsf-gvfs-1.pc.in: Migrate names from "gvfs" to "gio";
 	move GIO code to gsf/ and get rid of gsf-gvfs/
-	
+
 2008-03-14  Dominic Lachowicz <domlachowicz@gmail.com>
 
 	* gsf-gvfs/gsf-input-gvfs.c:
 	* gsf-gvfs/gsf-output-gvfs.c: g_file_new() functions cannot fail
-	
+
 2008-03-14  Dominic Lachowicz <domlachowicz@gmail.com>
 
 	* tests/Makefile.am:
@@ -527,7 +531,7 @@
 	* gsf-gvfs/Makefile.am:
 	* configure.in:
 	* Makefile.am: Update GIO backend to use glib 2.16's API
-	
+
 2008-03-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* doc/gsf.1: Fixed typo in font setting.
@@ -613,7 +617,7 @@
 
 	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_child): Pass the va_list
 	to the child
-	
+
 2007-09-07  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
@@ -684,12 +688,12 @@
 
 2007-07-20  Dom Lachowicz <domlachowicz@gmail.com>
 
-	* gsf-gvfs/gsf-input-gvfs.c: Make a local copy of the stream if it's not 
+	* gsf-gvfs/gsf-input-gvfs.c: Make a local copy of the stream if it's not
 	seekable
-	* gsf-gvfs/gsf-output-gvfs.c: Use replace() instead of create() when creating 
-	streams. create() won't overwrite an existing file. Document limitations 
+	* gsf-gvfs/gsf-output-gvfs.c: Use replace() instead of create() when creating
+	streams. create() won't overwrite an existing file. Document limitations
 	regarding seeking.
-	
+
 2007-07-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: always initialize have_gvfs.
@@ -707,7 +711,7 @@
 
 	* tests/test-gvfs.c:
 	* tests/Makefile.am: Small test harness for the new GVFS-based backend
-	
+
 2007-07-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
@@ -860,12 +864,12 @@
 	* gsf/gsf-input-gzip.c: Ditto
 	* gsf/gsf-input-proxy.c: Ditto
 	* gsf/gsf-input-textline.c: Ditto
-	
+
 2006-12-15  Dom Lachowicz <domlachowicz@gmail.com>
 
 	* gsf/gsf-input-textline.c (gsf_input_textline_new): Set the input's
 	size based on its source sink's size.
-	
+
 2006-12-10  Jody Goldberg <jody@gnome.org>
 
 	Begin merging patch from Danny Milosavljevic (danny.milo@gmx.net)
@@ -1211,7 +1215,7 @@
 
 	* gsf/gsf-docprop-vector.c (gsf_docprop_vector_as_string) : no need
 	  to call g_value_unset () because g_value_array_get_nth () returns
-	  just a pointer to the value. 
+	  just a pointer to the value.
 
 2006-03-02  Luciano M. Wolf <luciano.wolf@indt.org.br>
 
@@ -1281,7 +1285,7 @@
 
 2006-02-15  Morten Welinder  <welinder@rentec.com>
 
-	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek): 
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_seek):
 
 2006-02-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
@@ -1299,10 +1303,10 @@
 
 2006-01-06  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-clip-data.c (gsf_clip_data_finalize): Bug 325989 - Memory 
-	leak in gsf_clip_data_finalize(). Based on a patch from Michal 
+	* gsf/gsf-clip-data.c (gsf_clip_data_finalize): Bug 325989 - Memory
+	leak in gsf_clip_data_finalize(). Based on a patch from Michal
 	Kowalczuk.
-	
+
 2006-01-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* doc/tmpl/*.sgml: Cleanup errors introduced by gtk-doc, #318666.
@@ -1638,7 +1642,7 @@
 	  we pass distcheck.
 	* acinclude.m4, acinclude.m4.am15: Partial cleanup of the comments;
 	  in particular, don't speak as if Automake 1.5 were something new.
-  
+
 2005-07-11  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output.c (gsf_output_set_name_from_filename): Make this
@@ -1659,7 +1663,7 @@
 
 	* gsf/gsf-msole-utilc.c (msole_prop_parse): Move some g_prints behind
 	  a debug macro.
-	
+
 2005-07-19  Federico Mena Quintero  <federico@ximian.com>
 
 	* thumbnailer/main.c (main): Oops, remove some leftover debugging code.
@@ -1784,7 +1788,7 @@
 2005-06-23  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* configure.in: Check for the existence of S_ISREG,
-	  if it is not defined (e.g. MS's PSDK), do 
+	  if it is not defined (e.g. MS's PSDK), do
 	  it ourself.
 
 2005-06-21  Ivan, Wong Yat Cheung  <email@ivanwong.info>
@@ -1875,7 +1879,7 @@
 
 	* gsf/gsf-outfile-zip.c (zip_flush): Check for Z_BUF_ERROR case.
 	This is the cause of AbiWord bug #7652
-	
+
 2005-06-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_float): Use "C" locale
@@ -2288,21 +2292,21 @@
 
 	* gsf/gsf-output-gnomevfs.c: A bit more robustness and documentation
 	for bug 159442.
-	
+
 2005-01-16  Dom Lachowicz <cinamod@hotmail.com>
 
-	* gsf/gsf-output-gnomevfs.c: This should fix bug 159442 by truncating 
+	* gsf/gsf-output-gnomevfs.c: This should fix bug 159442 by truncating
 	newly-created files whenever possible WHILE preserving file permissions.
-	
+
 2004-09-25  Stepan Kasal <kasal@ucw.cz>
 
 	* gsf/gsf-output-stdio.c: Use g_file_read_link() - (bug 149827)
-	
+
 2004-12-02  Dom Lachowicz <cinamod@hotmail.com>
-	
+
 	* gsf/gsf-input-memory.c: Add mmap support on win32 (bug #160294)
-	* gsf/gsf-shared-memory.c: Ditto 	
-	
+	* gsf/gsf-shared-memory.c: Ditto
+
 2004-12-06  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
@@ -2346,7 +2350,7 @@
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_close) : add a hook to
 	  accept existing FILE*
 	(gsf_output_stdio_new_FILE) : new.
-	
+
 2004-11-19  Veerapuram Varadhan <vvaradhan@novell.com>
 
 	* Add gsf/gsf-meta-names.h
@@ -2357,7 +2361,7 @@
 	GsfDocMetaData.  Caller should release the return value.
 
 	* gsf/Makefile.am : Add gsf-meta-names.h to the list of headers.
-	
+
 2004-11-16  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element) : Check the unknown
@@ -2420,7 +2424,7 @@
 	* gsf/gsf-input-stdio.c (gsf_input_stdio_new): Convert file name to UTF8
 	* gsf/gsf-output-stdio.c (gsf_output_stdio_new): Convert file name to UTF8
 	* BUGS: remove above
-	
+
 2004-09-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (zip_find_trailer): Fix gsf_input_seek
@@ -2558,7 +2562,7 @@
 
 2004-08-08  Jon K Hellan  <hellan@acm.org>
 
-	* gsf/gsf-output-stdio.c (follow_symlinks, gsf_output_stdio_new): 
+	* gsf/gsf-output-stdio.c (follow_symlinks, gsf_output_stdio_new):
 	Use g_error_new_literal, not g_error_new on strings which we do
 	not control.
 
@@ -2617,7 +2621,7 @@
 	(gsf_outfile_msole_close_root) : Clarify the metabat writing logic a
 	  bit and just in case add a CHAIN_END to the last incomplete metabat
 	(ole_bytes_left_in_block) : similar to Kasal's suggestion without the
-	  -1 % size + 1 
+	  -1 % size + 1
 	(bb_pad_zero) : use it here to make this safe to use when not at the
 	  end of the file.
 	(ole_pad_bat_unused) : and here to fix the mystery corruption when XL
@@ -2686,7 +2690,7 @@
 	  gsf_output_class->Vprintf.
 	* gsf/gsf-output-memory.c (parent_class): New static variable.
 	  (gsf_output_memory_vprintf): Use it too. Adapt to the new prototype.
-	
+
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
 
 	Make the two fseek() wrappers more consistent.
@@ -2697,7 +2701,7 @@
 	  before calling fseek().
 
 2004-07-21  Stepan Kasal  <kasal@ucw.cz>
-	
+
 	Gnomish autogen.sh uses ACLOCAL_FLAGS, if some of the macros are
 	in nonstandard places.  If you touch configure.in then, aclocal.m4
 	is regenerated, but without ACLOCAL_FLAGS.  This change ensures
@@ -2705,11 +2709,11 @@
 
 	* configure.in: AC_SUBST(ACLOCAL_FLAGS)
 	* Makefile.am: ACLOCAL_AMFLAGS = @ACLOCAL_FLAGS@
-	
+
 2004-07-20  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-output-stdio.c: Check for overflow
-	
+
 2004-07-09  Stepan Kasal  <kasal@ucw.cz>
 
 	* gsf/gsf-infile-zip.c (zip_find_trailer): Remove the
@@ -2791,7 +2795,7 @@
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Better
 	solution for Morten's problem.
-	
+
 2004-05-26  Morten Welinder  <terra@gnome.org>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new): Handle
@@ -2843,7 +2847,7 @@
 
 	* gsf/gsf-infile-stdio.c: Fix non-static definition of 'parent_class'
 	* gsf/gsf-outfile-stdio.c: Ditto
-	
+
 2004-05-07  James M. Cape <jcape@ignore-your.tv>
 
 	* doc/gsf-sections.txt: Hide type macros.
@@ -2884,9 +2888,9 @@
 	* gsf-gnome/gsf-output-gnomevfs.c (gsf_output_gnomevfs_new_uri): we
 	require random access.
 
-	* gsf-win32/gsf-input-win32.c: fix seek's return value in the win32 
+	* gsf-win32/gsf-input-win32.c: fix seek's return value in the win32
 	IStream input.
-	
+
 2004-04-28  Jody Goldberg <jody@gnome.org>
 
 	* gsf-gnome/gsf-input-gnomevfs.c (gsf_input_gnomevfs_new_uri) : we
@@ -2912,7 +2916,7 @@
 
 	* gsf/gsf-output-bzip.c (gsf_output_bzip_write): If the output
 	buffer turns full on the last deflate, empty the buffer.
-	
+
 2004-04-24  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_write): If the output
@@ -2957,7 +2961,7 @@
 
 	* tests/test-msvba-zip.c (decode_dir): impl.
 	a good run at enterpreting 'dir'.
-	
+
 	* tests/test-msvba-zip.c (do_compress): bin nasty
 	3 byte header store / restore and generate header
 	on the fly.
@@ -2999,7 +3003,7 @@
 	* libgsf-win32-1.pc.in: Ditto
 	* Makefile.am: Ditto
 	* gsf-win32/Makefile.am: Win32 build system
-	
+
 2004-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Fix typo.
@@ -3009,7 +3013,7 @@
 	* Makefile.am: Added "DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc"
 	  for force correct pass build documentation during "make dist"
 	  (like in many other GNOME projects).
-	  Added gtk-doc.make to EXTRA_DIST for generate correct tar ball on 
+	  Added gtk-doc.make to EXTRA_DIST for generate correct tar ball on
 	  "make dist".
 	* configure.in: Removed old on place defined gtk-doc suport and added use
 	  GTK_DOC_CHECK([1.0]).
@@ -3038,11 +3042,11 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* gsf/gsf-msole-utils.c: Country code for Albania is sq_AL not al_AL
 	* gsf-win32/*.c: Some work on the IStream input and output
-	
+
 2003-12-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/*.c: Documentation
-	
+
 2003-12-06  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-infile-msvba.c : Major work.
@@ -3103,11 +3107,11 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 2003-09-21  Tor Lillqvist  <tml@iki.fi>
 
 	* libgsf-zip.in: New file.
-	
+
 	* configure.in: Expand it.
 
 	* Makefile.am (EXTRA_DIST): Distribute it.
-	
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump to 1.8.3 for now.
@@ -3129,7 +3133,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 	* gsf/*: Some casts and ifdefs to let this puppy build on win32 using
 	MSVC. Also from Jeremy Davis, with some touch-up work by myself.
 	* configure.in: check for <io.h>
-	
+
 2003-08-03  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c : some initial work to define an interface
@@ -3233,13 +3237,13 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 2003-05-13  Dom Lachowicz <cinamod@hotmail.com>
 
-	* COPYING.LIB: update the the version of the LGPL license we're 
+	* COPYING.LIB: update the the version of the LGPL license we're
 	actually licensed under
-	
+
 2003-05-13  Dom Lachowicz <cinamod@hotmail.com>
 
 	* libgsf-1.spec.in: Updates from Rui
-	
+
 2003-05-12  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-gzip.c (gsf_output_gzip_finalize): Plug
@@ -3257,7 +3261,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* gsf-win32/gsf-input-istream.[ch]: IStream based input. Untested
 	* gsf-win32/gsf-output-istream.[ch]: IStream based output. Untested
-	
+
 2003-04-29  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c
@@ -3294,7 +3298,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 2003-03-20  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Better checks for bz2
-	
+
 2003-03-20  Morten Welinder  <terra@diku.dk>
 
 	* gsf/gsf-input-bzip.c (gsf_input_memory_new_from_bzip): Warning
@@ -3310,7 +3314,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* NEWS: update for correctness and mention AR infile
 	* README: typo police
-	
+
 2003-03-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-libxml.c : More morten  warnings
@@ -3334,26 +3338,26 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* gsf/gsf-zip-impl.h: s/off_t/gsf_off_t
 	* gsf/gsf-infile-ar.[ch]: AR infile. DOES NOT YET WORK
-	
+
 2003-02-23  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input.c (gsf_input_copy): remove == TRUE for Morten
-	
+
 2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input.c (gsf_input_uncompress): Support uncompressing BZ2
 	streams as well, optionally
-	
+
 2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-output-bzip.c: Restructure things so that it's possible to
 	build without bzip2 support
-	
+
 2003-02-22  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-textline.c: Replace g_realloc with g_renew
 	* gsf/gsf-output-memory.c: Ditto
-	
+
 2003-02-21  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-bzip.c: Implement this
@@ -3361,11 +3365,11 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 	* gsf/Makefile.am: Build bz2 importer, distribute header
 	* tests/test-bzip.c: New test
 	* tests/Makefile.am: Add new test
-	
+
 2003-02-20  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-bzip.[ch]: Stubs for a BZ2 input I'm working on
-	
+
 2003-02-18  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input.c (gsf_input_class_init): Install GObject properties
@@ -3375,13 +3379,13 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 	* gsf/gsf-output.c (gsf_output_class_init): Install GObject properties
 	(gsf_output_get_property): Ditto
 	(gsf_output_set_property): Ditto
-	
+
 2003-02-14  Dom Lachowicz <cinamod@hotmail.com>
 
 	* configure.in: Emit a warning instead of breaking if VFS and Bonobo
 	aren't found, but --without-gnome wasn't specified. Makes the KDE folk
 	happy.
-	
+
 2003-02-11  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : compartmentalize the bzip config tests, and trust
@@ -3400,24 +3404,24 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 	* gsf/Makefile.am: Ditto
 	* tests/Makefile.am: Ditto
 	* gsf/gsf-output-bzip2.c: Changes to optionally compile parts of this
-	
+
 2003-02-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* tests/test-out-bzip.c: Tester for new BZip2 output
 	* gsf/gsf-impl-utils.h: Correct typo
 	* gsf/gsf-output-gzip.c: Fix memory leak (leaked buffer)
 	* gsf/gsf-output-bzip.[ch]: New output class, not currently built
-	
+
 2003-02-09  Dom Lachoiwcz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-iochannel.[ch]: Rework as per Jody's suggestions. Now
 	it is a utility constructor.
-	
+
 2003-02-09  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-input-iochannel.c: Fixed iochannel. Unfortunately uses memory
 	backend because there's no way to query the size of an IOChannel
-	
+
 2003-02-07  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* gsf/gsf-input-iochannel.[ch]: new GIOChannel based input.
@@ -3425,7 +3429,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 2003-02-07  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-doc-meta-data.[ch]: Clean API a bit to include consts, gsize
-	
+
 2003-02-05  Jody Goldberg <jody@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close) : clip long names,
@@ -3433,9 +3437,9 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 2003-02-04  Dom Lachowicz <cinamod@hotmail.com>
 
-	* Changed below commit to use g_new instead of g_malloc + typecast, at 
+	* Changed below commit to use g_new instead of g_malloc + typecast, at
 	Jody's and Morten's request
-	
+
 2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-infile-msole.c
@@ -3449,24 +3453,24 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 	* gsf/gsf-utils.c
 	* gsf-gnome/gsf-input-bonobo.c
 	* gsf-gnome/gsf-input-gnomevfs.c: More castings needed
-	
+
 2003-02-01  Dom Lachowicz <cinamod@hotmail.com>
 
 	* gsf/gsf-infile-msole.c: Some castings to help things build using
 	MSVC++
 	* gsf/gsf-msole-utils.c: Ditto
-	
+
 2003-01-31  Dom Lachowicz <cinamod@hotmail.com>
 
 	* test/*.c: Correctness fixes in the testcases. No need to unref a null
 	object
-	
+
 2003-01-29  Dom Lachowicz <cinamod@hotmail.com>
 
 	* *: With Jody's permission, change all _new() calls to return the
 	derived/subclassed type, instead of the mix we had before
 	* tests/*: Updated to conform with above
-	
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
@@ -3531,7 +3535,7 @@ Wed Jan 28 00:43:36 2004  Matthias Clasen  <maclas@gmx.de>
 
 2003-01-20  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* configure.in: Check if -D_POSIX_SOURCE is needed for the fdopen() 
+	* configure.in: Check if -D_POSIX_SOURCE is needed for the fdopen()
 	prototype in a cleaner fashion; might fix problems on Mac OS X.
 
 2003-01-09  Morten Welinder  <terra@diku.dk>
