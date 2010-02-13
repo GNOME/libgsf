@@ -1,3 +1,7 @@
+2010-02-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.17
+
 2009-11-18  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_data_foreach): Sort the
