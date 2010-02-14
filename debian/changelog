@@ -1,3 +1,11 @@
+libgsf (1.14.17-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/source/format] Added - switch to source format 3.0 (quilt).
+  * [debian/control] Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 14 Feb 2010 16:37:02 +0100
+
 libgsf (1.14.16-1) unstable; urgency=low
 
   * New upstream release.
