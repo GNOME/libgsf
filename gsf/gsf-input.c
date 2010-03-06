@@ -558,7 +558,7 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
 /****************************************************************************/
 
 /**
- * gsf_input_uncompress: maybe uncompress stream.
+ * gsf_input_uncompress :
  * @src: stream to be uncompressed.
  *
  * This functions takes ownership of the incoming reference and yields a
