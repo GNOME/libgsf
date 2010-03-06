@@ -5,6 +5,16 @@
 
 G_BEGIN_DECLS
 
+/**
+ * GsfClipFormat:
+ * @GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD: Windows clipboard format
+ * @GSF_CLIP_FORMAT_MACINTOSH_CLIPBOARD: Macintosh clipboard format
+ * @GSF_CLIP_FORMAT_GUID: GUID that contains a format identifier
+ * @GSF_CLIP_FORMAT_NO_DATA: No clipboard data
+ * @GSF_CLIP_FORMAT_CLIPBOARD_FORMAT_NAME: Custom clipboard format
+ * @GSF_CLIP_FORMAT_UNKNOWN: Unknown clipboard type or invalid data
+ */
+
 typedef enum {
 	GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD = -1,
 	GSF_CLIP_FORMAT_MACINTOSH_CLIPBOARD = -2,

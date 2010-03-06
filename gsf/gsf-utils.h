@@ -318,6 +318,12 @@ void        gsf_property_settings_free (GParameter *params,
 
 #define GSF_ERROR (gsf_error_quark ())
 
+/**
+ * GsfError:
+ * @GSF_ERROR_OUT_OF_MEMORY: Memory allocation failed
+ * @GSF_ERROR_INVALID_DATA: Invalid data encountered (e.g. not enough data)
+ */
+
 typedef enum {
 	GSF_ERROR_OUT_OF_MEMORY,
 	GSF_ERROR_INVALID_DATA
