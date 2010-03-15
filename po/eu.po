@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-28 17:22+0200\n"
-"PO-Revision-Date: 2009-08-28 18:32+0200\n"
+"POT-Creation-Date: 2010-03-15 18:58+0100\n"
+"PO-Revision-Date: 2010-03-15 19:00+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,47 +17,56 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:108
-msgid "Not enough memory to copy %"
-msgstr "Ez dago nahikoa memoriarik kopiatzeko %"
+#: ../gsf/gsf-blob.c:111
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Ez dago nahikoa memoriarik datuen %s byte kopiatzeko"
 
-#: ../gsf/gsf-clip-data.c:150
-msgid "The clip_data is in %s, but it is smaller than at least %"
-msgstr "clip_data %s(e)n dago, honakoa baino txikiegia da ordea: %"
+#: ../gsf/gsf-clip-data.c:153
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "clip_data %s(e)n dago, honakoa baino txikiegia da ordea: %s byte"
 
-#: ../gsf/gsf-clip-data.c:243
+#: ../gsf/gsf-clip-data.c:247
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
-"clip_data Windows-eko arbeleko formatuan dago,  beharrezkoa den 4 byte "
-"baino txikiagoa da ordea."
+"clip_data Windows-eko arbeleko formatuan dago,  beharrezkoa den 4 byte baino "
+"txikiagoa da ordea."
 
-#: ../gsf/gsf-clip-data.c:254
+#: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
 msgstr "Windows-eko metafitxategi formatua"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:264
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB edo BITMAP formatua"
 
-#: ../gsf/gsf-clip-data.c:265
+#: ../gsf/gsf-clip-data.c:269
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows-eko hobetutako metafitxategi formatua"
 
-#: ../gsf/gsf-msole-utils.c:311
-msgid "Missing data when reading the %s property; got %"
-msgstr "Datuak falta dira %s(r)en propietateak irakurtzean. Lortutakoa: %"
+#: ../gsf/gsf-msole-utils.c:315
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Datuak falta dira %s(r)en propietateak irakurtzean. Lortutakoa: %s byte, "
+"baino gutxienez %s byte behar dira."
 
-#: ../gsf/gsf-msole-utils.c:357
+#: ../gsf/gsf-msole-utils.c:366
+#, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
+"bytes, but the data says it only has %s bytes available."
 msgstr ""
-"Hondatutako datuak VT_CF propietatean. Arbeleko datuen luzera gutxienez 4 byte-ekoa "
-"izna behar duen arren, datuek honakoa dutela diote: %"
+"Hondatutako datuak VT_CF propietatean. Arbeleko datuen luzera gutxienez 4 "
+"byte-ekoa izan behar duen arren, datuek honakoa dutela diote: erabilgarri "
+"%s byte"
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
@@ -106,7 +115,9 @@ msgstr "* cat        artxiboko fitxategi bate edo gehiago erakusten du\n"
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       artxiboko fitxategi bat edo gehiago iraultzen du hamaseitar gisa\n"
+msgstr ""
+"* dump       artxiboko fitxategi bat edo gehiago iraultzen du hamaseitar "
+"gisa\n"
 
 #: ../tools/gsf.c:105
 #, c-format
@@ -166,8 +177,8 @@ msgid ""
 "Boolean options available, true enables thumbnailing and false disables the "
 "creation of new thumbnails"
 msgstr ""
-"Aukera boolear erabilgarriak, TRUE (egia) ezartzeak koadro txikiak gaitzen ditu, eta FALSEk (faltsua) "
-"berriz koadro txiki berriak sortzea desgaitzen du."
+"Aukera boolear erabilgarriak, TRUE (egia) ezartzeak koadro txikiak gaitzen "
+"ditu, eta FALSEk (faltsua) berriz koadro txiki berriak sortzea desgaitzen du."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
 msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
@@ -179,7 +190,9 @@ msgstr "Gaitu koadro txikiak sortzea OpenOffice 1.x Draw txantiloientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
 msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr "Gaitu koadro txikiak sortzea OpenOffice 1.x Impress aurkezpeneko txantiloientzako"
+msgstr ""
+"Gaitu koadro txikiak sortzea OpenOffice 1.x Impress aurkezpeneko "
+"txantiloientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
 msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
@@ -339,7 +352,9 @@ msgstr "Koadro txikiak sortzeko komandoa OpenDocument kalkulu-orrientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
 msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr "Koadro txikiak sortzeko komandoa OpenDocument testu-dokumentuen txantiloientzako"
+msgstr ""
+"Koadro txikiak sortzeko komandoa OpenDocument testu-dokumentuen "
+"txantiloientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
 msgid "Thumbnail command for OpenDocument wordprocessing documents"
@@ -355,11 +370,15 @@ msgstr "Koadro txikiak sortzeko komandoa OpenOffice 1.x Calc kalkulu-orrientzako
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
 msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr "Koadro txikiak sortzeko komandoa OpenOffice 1.x Draw marrazkien txantiloientzako"
+msgstr ""
+"Koadro txikiak sortzeko komandoa OpenOffice 1.x Draw marrazkien "
+"txantiloientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
 msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr "Koadro txikiak sortzeko komandoa OpenOffice 1.x Impress aurkezpenen txantiloientzako"
+msgstr ""
+"Koadro txikiak sortzeko komandoa OpenOffice 1.x Impress aurkezpenen "
+"txantiloientzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
 msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
@@ -379,7 +398,9 @@ msgstr "Koadro txikiak sortzeko komandoa OpenOffice 1.x Writer dokumentuentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
 msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr "Koadro txikiak sortzeko komandoa OpenOffice 1.x Writer txantiloi globalentzako"
+msgstr ""
+"Koadro txikiak sortzeko komandoa OpenOffice 1.x Writer txantiloi "
+"globalentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
 msgid "Thumbnail command for OpenOffice 1.x Writer templates"
@@ -395,125 +416,175 @@ msgstr "Baliozko komandoa argumentuekin Microsoft Excel kalkulu-orrientzako."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
 msgid "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr "Baliozko komandoa argumentuekin Microsoft PowerPoint 2007 koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin Microsoft PowerPoint 2007 koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
 msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr "Baliozko komandoa argumentuekin Microsoft PowerPoint koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin Microsoft PowerPoint koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
 msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr "Baliozko komandoa argumentuekin Microsoft Word 2007 koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin Microsoft Word 2007 koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
 msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr "Baliozko komandoa argumentuekin Microsoft Word koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin Microsoft Word koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
 msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument diagramen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument diagramen koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
 msgid ""
 "Valid command plus arguments for the OpenDocument drawing template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument marrazkien txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument marrazkien txantiloien koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
 msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument marrazkien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument marrazkien koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
 msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument formulen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument formulen koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
 msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument irudien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument irudien koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
 msgid ""
 "Valid command plus arguments for the OpenDocument presentation template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument aurkezpenen txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument aurkezpenen txantiloien koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
 msgid "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument aurkezpenen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument aurkezpenen koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
 msgid ""
 "Valid command plus arguments for the OpenDocument spreadsheet template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument kalkulu-orrien txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument kalkulu-orrien txantiloien "
+"koadro txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
 msgid "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument kalkulu-orrien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument kalkulu-orrien koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "template thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument testu-dokumentuen txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument testu-dokumentuen txantiloien "
+"koadro txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument testu-dokumentuen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument testu-dokumentuen koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing master "
 "document thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenDocument testu-dokumentu maisuen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenDocument testu-dokumentu maisuen koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Drawing template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x marrazkien txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x marrazkien txantiloien koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x marrazkien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x marrazkien koadro txikien "
+"sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
 "template thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Impress aurkezpenen txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Impress aurkezpenen "
+"txantiloien koadro txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Impress aurkezpenen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Impress aurkezpenen koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
 msgid "Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Math dokumentuen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Math dokumentuen koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer document "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Writer dokumentuen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Writer dokumentuen koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer global template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Writer txantiloi globalen koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Writer txantiloi globalen "
+"koadro txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x Writer template "
 "thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x Writer txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x Writer txantiloien koadro "
+"txikien sortzailearentzako"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
 msgid "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr "Baliozko komandoa argumentuekin OpenOffice 1.x kalkulu-orrien txantiloien koadro txikien sortzailearentzako"
+msgstr ""
+"Baliozko komandoa argumentuekin OpenOffice 1.x kalkulu-orrien txantiloien "
+"koadro txikien sortzailearentzako"
 
