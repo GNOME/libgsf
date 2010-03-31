@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&component=General\n"
-"POT-Creation-Date: 2010-03-06 10:35+0000\n"
-"PO-Revision-Date: 2010-03-07 16:25+0100\n"
+"POT-Creation-Date: 2010-03-16 19:17+0000\n"
+"PO-Revision-Date: 2010-03-29 21:14+0100\n"
 "Last-Translator: Jachym Simak <xsimi@xsimi.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Nedostatek paměti pro kopírování %s bytů"
 #: ../gsf/gsf-clip-data.c:153
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
-msgstr ""
+msgstr "Clip_data je ve %s, ale je menší než potřebné %s byty."
 
 #: ../gsf/gsf-clip-data.c:247
 #, c-format
@@ -34,19 +34,20 @@ msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
+"Clip_data je ve formátu schránky Windows, ale je menší než potřebné 4 byty."
 
 #: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
-msgstr "Formát Windows Metafile"
+msgstr "formátu Windows Metafile"
 
 #. CF_BITMAP
 #: ../gsf/gsf-clip-data.c:264
 msgid "Windows DIB or BITMAP format"
-msgstr "Formát Windows DIB nebo BITMAP"
+msgstr "formátu Windows DIB nebo BITMAP"
 
 #: ../gsf/gsf-clip-data.c:269
 msgid "Windows Enhanced Metafile format"
-msgstr "Formát Windows Enhanced Metafile"
+msgstr "formátu Windows Enhanced Metafile"
 
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
@@ -63,6 +64,8 @@ msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
+"Poškozená data vlastnosti VT_CF; délka dat schránky musí být aspoň 4 byty, "
+"ale k dispozici je jen %s bytů."
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
@@ -273,15 +276,15 @@ msgstr "Povolit náhledy sešitů OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
 msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr ""
+msgstr "Povolit náhledy šablon dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
 msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr ""
+msgstr "Povolit náhledy dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:28
 msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr ""
+msgstr "Povolit náhledy hlavních dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
 msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
@@ -346,14 +349,16 @@ msgstr "Příkaz pro tvorbu náhledů sešitů OpenDocument"
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
 msgid "Thumbnail command for OpenDocument wordprocessing document templates"
 msgstr ""
+"Příkaz pro tvorbu náhledů šablon dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
 msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr ""
+msgstr "Příkaz pro tvorbu náhledů dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
 msgid "Thumbnail command for OpenDocument wordprocessing master documents"
 msgstr ""
+"Příkaz pro tvorbu náhledů hlavních dokumentů zpracování textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
 msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
@@ -468,18 +473,24 @@ msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "template thumbnailer"
 msgstr ""
+"Platný příkaz a argumenty pro tvorbu náhledů šablon dokumentů zpracování "
+"textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing document "
 "thumbnailer"
 msgstr ""
+"Platný příkaz a argumenty pro tvorbu náhledů dokumentů zpracování textu "
+"OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
 msgid ""
 "Valid command plus arguments for the OpenDocument wordprocessing master "
 "document thumbnailer"
 msgstr ""
+"Platný příkaz a argumenty pro tvorbu náhledů hlavních dokumentů zpracování "
+"textu OpenDocument"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
 msgid ""
@@ -538,3 +549,4 @@ msgstr ""
 msgid ""
 "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
 msgstr "Platný příkaz a argumenty pro tvorbu náhledů sešitů OpenOffice 1.x"
+
