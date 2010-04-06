@@ -1,3 +1,12 @@
+2010-04-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_header_write, zip_dirent_write): Use
+	dirent->flags for consistency.  Fixes #614968.
+	(zip_dirent_update_flags): New function.
+	(zip_dirent_new_out): Deduce dirent->flags.
+
+	* gsf/gsf-infile-zip.c (zip_dirent_new_in): Read dirent->flags.
+
 2010-04-05  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Fix win32 warning about

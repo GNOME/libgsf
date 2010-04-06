@@ -191,7 +191,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 		{ 'P', 'K', 0x01, 0x02 };
 	GsfZipDirent *dirent;
 	guint8 const *data;
-	guint16 name_len, extras_len, comment_len, compr_method;
+	guint16 name_len, extras_len, comment_len, compr_method, flags;
 	guint32 crc32, csize, usize, off;
 	gchar *name;
 
@@ -206,6 +206,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	extras_len =    GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_EXTRAS_SIZE);
 	comment_len =   GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMMENT_SIZE);
 
+	flags =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_FLAGS);
 	compr_method =  GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMPR_METHOD);
 	crc32 =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CRC32);
 	csize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CSIZE);
@@ -222,6 +223,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	dirent = gsf_zip_dirent_new ();
 	dirent->name = name;
 
+	dirent->flags = flags;
 	dirent->compr_method =  compr_method;
 	dirent->crc32 =         crc32;
 	dirent->csize =         csize;

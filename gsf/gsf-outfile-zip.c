@@ -157,7 +157,7 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 	memcpy (buf, dirent_signature, sizeof dirent_signature);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_ENCODER, 0x317); /* Unix */
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRACT, 0x14);
-	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_FLAGS, 0x08);
+	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_FLAGS, dirent->flags);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_COMPR_METHOD,
 			    dirent->compr_method);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_DOSTIME, dirent->dostime);
@@ -275,6 +275,15 @@ zip_time_make (time_t t)
 	return ztime;
 }
 
+static void
+zip_dirent_update_flags (GsfZipDirent *dirent)
+{
+	if (dirent->compr_method == GSF_ZIP_STORED)
+		dirent->flags &= ~8;
+	else
+		dirent->flags |= 8;
+}
+
 static GsfZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
@@ -282,6 +291,7 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 	dirent->name = stream_name_build (zip);
 	dirent->compr_method = zip->compression_method;
 	dirent->dostime = zip_time_make (time (NULL));
+	zip_dirent_update_flags (dirent);
 	return dirent;
 }
 
@@ -292,7 +302,6 @@ zip_header_write (GsfOutfileZip *zip)
 		{ 'P', 'K', 0x03, 0x04 };
 	guint8 hbuf[ZIP_HEADER_SIZE];
 	GsfZipDirent *dirent = zip->vdir->dirent;
-	guint16 flags = 0;
 	char *name = dirent->name;
 	int   nlen = strlen (name);
 	gboolean ret;
@@ -300,9 +309,7 @@ zip_header_write (GsfOutfileZip *zip)
 	memset (hbuf, 0, sizeof hbuf);
 	memcpy (hbuf, header_signature, sizeof header_signature);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_VERSION, 0x14);
-	if (dirent->compr_method == GSF_ZIP_DEFLATED)
-		flags = 0x08;
-	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, flags);
+	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, dirent->flags);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_COMP_METHOD,
 			    dirent->compr_method);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_TIME, dirent->dostime);

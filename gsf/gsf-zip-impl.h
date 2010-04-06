@@ -88,6 +88,7 @@ G_BEGIN_DECLS
 
 typedef struct {	
 	char                    *name;
+	guint16                  flags;
 	GsfZipCompressionMethod  compr_method;
 	guint32                  crc32;
 	size_t                   csize;
