@@ -1664,7 +1664,7 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 			 * allow certain characters to be encoded.  XML 1.1
 			 * does allow this, but libxml2 does not support it.
 			 */
-			g_warning ("Unknown char 0x%hhx in string", *cur);
+			g_warning ("Unknown char 0x%02x in string", *cur);
 
 			if (cur != start)
 				gsf_output_write (xout->output, cur-start, start);

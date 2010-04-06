@@ -1,3 +1,8 @@
+2010-04-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_cstr): Fix win32 warning about
+	format.
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release-bump.
