@@ -43,6 +43,105 @@ Output to unstructured files
 
 </para>
 
+<!-- ##### FUNCTION gsf_output_size ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_close ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_tell ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_seek ##### -->
+<para>
+
+</para>
+
+@output: 
+@offset: 
+@whence: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_write ##### -->
+<para>
+
+</para>
+
+@output: 
+@num_bytes: 
+@data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_puts ##### -->
+<para>
+
+</para>
+
+@output: 
+@line: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_printf ##### -->
+<para>
+
+</para>
+
+@output: 
+@format: 
+@Varargs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_vprintf ##### -->
+<para>
+
+</para>
+
+@output: 
+@format: 
+@args: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_container ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_name ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gsf_output_set_name_from_filename ##### -->
 <para>
 
@@ -50,6 +149,64 @@ Output to unstructured files
 
 @output: 
 @filename: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_error_id ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_set_error ##### -->
+<para>
+
+</para>
+
+@output: 
+@code: 
+@format: 
+@Varargs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_error ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_is_closed ##### -->
+<para>
+
+</para>
+
+@output: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_wrap ##### -->
+<para>
+
+</para>
+
+@wrapper: 
+@wrapee: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_output_unwrap ##### -->
+<para>
+
+</para>
+
+@wrapper: 
+@wrapee: 
 @Returns: 
 
 
