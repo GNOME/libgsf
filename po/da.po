@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-10 12:01+0200\n"
-"PO-Revision-Date: 2010-03-01 18:29+0200\n"
+"POT-Creation-Date: 2010-05-16 17:51+0200\n"
+"PO-Revision-Date: 2010-05-12 18:29+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -257,7 +257,7 @@ msgstr "Aktiver miniaturebilleder til OpenDocument tegninger"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
 msgid "Enable thumbnailing of OpenDocument formulas"
-msgstr "Aktiver miniaturebilleder til OpenDocument formularer"
+msgstr "Aktiver miniaturebilleder til OpenDocument formler"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
 msgid "Enable thumbnailing of OpenDocument images"
@@ -331,7 +331,7 @@ msgstr "Miniaturebilledkommando til OpenDocument tegninger"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
 msgid "Thumbnail command for OpenDocument formulas"
-msgstr "Miniaturebilledkommando til OpenDocument formularer"
+msgstr "Miniaturebilledkommando til OpenDocument formler"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
 msgid "Thumbnail command for OpenDocument images"
