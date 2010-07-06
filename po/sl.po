@@ -1,6 +1,8 @@
+# Slovenian translations for libgsf.
 # Copyright (C) 2009 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Matej Urbančič <mateju@svn.gnome.org>, 2009.
+#
+# Matej Urbančič <mateju@svn.gnome.org>, 2009 - 2010.
 #
 msgid ""
 msgstr ""
@@ -485,4 +487,3 @@ msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic predlog OpenOffice 1.x
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
 msgid "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
 msgstr "Veljaven ukaz in argumenti za ustvarjanje sličic razpredelnic OpenOffice 1.x"
-
