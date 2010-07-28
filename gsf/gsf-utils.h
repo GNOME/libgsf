@@ -251,9 +251,10 @@ void gsf_init (void);
 void gsf_shutdown (void);
 void gsf_init_dynamic	  (GTypeModule *module);
 void gsf_shutdown_dynamic (GTypeModule *module);
+gboolean gsf_debug_flag (const char *flag);
 
 /* Debugging utilities */
- void gsf_mem_dump   (guint8 const *ptr, size_t len);
+void gsf_mem_dump   (guint8 const *ptr, size_t len);
 void gsf_input_dump (GsfInput *input, gboolean dump_as_hex);
 
 /* base64 encoding utilities */

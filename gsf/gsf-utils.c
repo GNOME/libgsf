@@ -79,6 +79,16 @@
 #define G_FLOAT_BYTE_ORDER G_BYTE_ORDER
 #endif
 
+gboolean
+gsf_debug_flag (const char *flag)
+{
+	GDebugKey key;
+	key.key = (char *)flag;
+	key.value = 1;
+
+	return g_parse_debug_string (g_getenv ("GSF_DEBUG"), &key, 1) != 0;
+}
+
 
 #ifndef HAVE_G_BASE64_ENCODE
 static void base64_init (void);

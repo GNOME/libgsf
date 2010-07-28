@@ -703,7 +703,8 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 			}
 
 			if (NULL == tmp) {
-				g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
+				if (gsf_debug_flag ("ns"))
+					g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
 			}
 		}
 	}
