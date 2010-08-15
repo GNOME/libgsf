@@ -87,7 +87,12 @@ enum {
 	OO_MS_NS_MSOXL,
 
 	/* Gnumeric ODF extensions */
-	OO_GNUM_NS_EXT
+	OO_GNUM_NS_EXT,
+
+	/* New in ODF 3.2 */
+	OO_NS_GRDDL,
+	OO_NS_XHTML,
+	OO_NS_TABLE_OOO
 };
 
 G_MODULE_EXPORT GsfXMLInNS *get_gsf_ooo_ns (void);

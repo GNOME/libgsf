@@ -110,6 +110,11 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	GSF_XML_IN_NS (OO_NS_RPT,       "http://openoffice.org/2005/report"),
 	GSF_XML_IN_NS (OO_NS_RDFA,      "http://docs.oasis-open.org/opendocument/meta/rdfa#"),
 
+	/* OOo 3.2.x */
+	GSF_XML_IN_NS (OO_NS_GRDDL,     "http://www.w3.org/2003/g/data-view#"),
+	GSF_XML_IN_NS (OO_NS_XHTML,     "http://www.w3.org/1999/xhtml"),
+	GSF_XML_IN_NS (OO_NS_TABLE_OOO, "http://openoffice.org/2009/table"),
+
 	/* Other OpenDocument v 1.1 */
 	GSF_XML_IN_NS (OO_NS_CONFIG,    "urn:oasis:names:tc:opendocument:xmlns:config:1.0"),
 	GSF_XML_IN_NS (OO_NS_ANIM,      "urn:oasis:names:tc:opendocument:xmlns:animation:1.0"),

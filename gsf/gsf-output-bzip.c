@@ -180,10 +180,10 @@ gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
 	return FALSE;
 }
 
+#ifdef HAVE_BZ2
 static gboolean
 gsf_output_bzip_close (GsfOutput *output)
 {
-#ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 	gboolean rt;
 
@@ -191,10 +191,14 @@ gsf_output_bzip_close (GsfOutput *output)
 	BZ2_bzCompressEnd (&bzip->stream);
 
 	return rt;
-#else
-	return FALSE;
-#endif
 }
+#else
+static gboolean
+gsf_output_bzip_close (G_GNUC_UNUSED GsfOutput *output)
+{
+	return FALSE;
+}
+#endif
 
 static void
 gsf_output_bzip_init (GObject *obj)

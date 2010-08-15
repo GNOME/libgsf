@@ -1,3 +1,9 @@
+2009-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add some more of OOo's namespaces
+	* gsf/gsf-opendoc-utils.h: add new enum values to support above name spaces)
+	* gsf/gsf-output-bzip.c (gsf_output_bzip_close): quieten compile
+
 2010-07-28  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_debug_flag): New function.
