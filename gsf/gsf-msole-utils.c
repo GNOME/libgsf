@@ -1526,6 +1526,8 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 	} else
 		i = 1;
 
+	offsets[i].offset = gsf_output_tell (state->out);
+
 	/* 2) props */
 	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {
 		offsets[i].offset = gsf_output_tell (state->out);
