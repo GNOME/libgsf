@@ -1541,7 +1541,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		} else {
 			map = msole_gsf_name_to_prop (name);
 			if (map == NULL) {
-				g_warning ("Missing map for builting property '%s'", name);
+				g_warning ("Missing map for built-in property '%s'", name);
 				continue;
 			}
 			offsets[i].id = map->id;
