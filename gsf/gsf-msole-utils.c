@@ -1528,6 +1528,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 
 	/* 2) props */
 	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {
+		offsets[i].offset = gsf_output_tell (state->out);
 		prop = ptr->data;
 		name = gsf_doc_prop_get_name (prop);
 		if (user) {
@@ -1546,7 +1547,6 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 			offsets[i].id = map->id;
 		}
 
-		offsets[i].offset = gsf_output_tell (state->out);
 		msole_metadata_write_prop (state, name,
 			gsf_doc_prop_get_val  (prop), FALSE);
 		if (gsf_doc_prop_get_link (prop)) {
