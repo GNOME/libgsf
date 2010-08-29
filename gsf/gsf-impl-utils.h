@@ -106,7 +106,7 @@ GType prefix ## _get_type (void);					\
 void  prefix ## _register_type (GTypeModule *module);			\
 									\
 GType									\
-prefix ## _get_type ()							\
+prefix ## _get_type (void)						\
 {									\
 	g_return_val_if_fail (prefix ## _type != 0, 0); 		\
 	return prefix ## _type;						\

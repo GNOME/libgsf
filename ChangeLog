@@ -1,7 +1,17 @@
+2010-08-28  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Don't use C89 argument
+	lists.
+
+	* gsf/gsf-output-bzip.c (gsf_output_bzip_close): Rework previous
+	change.  We do not want two prototypes.
+
 2009-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add some more of OOo's namespaces
-	* gsf/gsf-opendoc-utils.h: add new enum values to support above name spaces)
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add some more of OOo's
+	namespaces
+	* gsf/gsf-opendoc-utils.h: add new enum values to support above
+	name spaces)
 	* gsf/gsf-output-bzip.c (gsf_output_bzip_close): quieten compile
 
 2010-07-28  Morten Welinder  <terra@gnome.org>
