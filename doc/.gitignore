@@ -2,7 +2,6 @@ Makefile
 Makefile.in
 html
 xml
-.libs
 gsf.args
 gsf.hierarchy
 gsf.signals
@@ -18,3 +17,4 @@ version.xml
 *.stamp
 *.lo
 .libs
+*.bak
