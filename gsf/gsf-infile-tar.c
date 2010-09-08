@@ -238,7 +238,6 @@ tar_init_info (GsfInfileTar *tar)
 			const char *n = name, *s;
 			TarChild c;
 
-			n = name;
 			/* This is deliberately slash-only.  */
 			while ((s = strchr (n, '/')))
 				n = s + 1;
