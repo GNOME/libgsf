@@ -1,7 +1,7 @@
 libgsf 1.14.19
 
 Andreas:
-	* Add some more OOo 3.2 namespaces.
+	* Add some more OOo 3.2 and 3.3 namespaces.
 
 Morten:
 	* Quiet xml parsing a bit.
