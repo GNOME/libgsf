@@ -1,3 +1,10 @@
+2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add another one of OOo's
+	namespaces
+	* gsf/gsf-opendoc-utils.h: add new enum value to support above
+	name spaces)
+
 2010-08-28  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Don't use C89 argument
@@ -6,7 +13,7 @@
 	* gsf/gsf-output-bzip.c (gsf_output_bzip_close): Rework previous
 	change.  We do not want two prototypes.
 
-2009-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2010-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add some more of OOo's
 	namespaces
