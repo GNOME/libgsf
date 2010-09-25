@@ -17,6 +17,9 @@ XML and libxml
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT GsfXMLIn ##### -->
 <para>
 
@@ -474,6 +477,7 @@ XML and libxml
 
 </para>
 
+@void: 
 @Returns: 
 
 

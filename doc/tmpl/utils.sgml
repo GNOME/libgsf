@@ -17,11 +17,15 @@ utils
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### FUNCTION gsf_init ##### -->
 <para>
 
 </para>
 
+@void: 
 
 
 <!-- ##### FUNCTION gsf_shutdown ##### -->
@@ -29,6 +33,7 @@ utils
 
 </para>
 
+@void: 
 
 
 <!-- ##### FUNCTION gsf_init_dynamic ##### -->
@@ -214,6 +219,7 @@ utils
 
 </para>
 
+@void: 
 @Returns: 
 
 

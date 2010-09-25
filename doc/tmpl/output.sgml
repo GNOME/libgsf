@@ -17,6 +17,9 @@ Output to unstructured files
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT GsfOutput ##### -->
 <para>
 
@@ -157,6 +160,7 @@ Output to unstructured files
 
 </para>
 
+@void: 
 @Returns: 
 
 

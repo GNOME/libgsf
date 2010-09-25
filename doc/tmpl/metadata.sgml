@@ -17,6 +17,9 @@ metadata
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT GsfDocMetaData ##### -->
 <para>
 
@@ -28,6 +31,7 @@ metadata
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -193,6 +197,7 @@ metadata
 
 </para>
 
+@void: 
 @Returns: 
 
 

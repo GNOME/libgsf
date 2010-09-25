@@ -17,6 +17,9 @@ Input from unstructured files
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT GsfInput ##### -->
 <para>
 
@@ -130,6 +133,7 @@ Input from unstructured files
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -149,6 +153,7 @@ Input from unstructured files
 
 </para>
 
+@void: 
 @Returns: 
 
 
