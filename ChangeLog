@@ -1,3 +1,7 @@
+2010-09-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.19
+
 2010-09-25  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_start_element): Don't complain over
