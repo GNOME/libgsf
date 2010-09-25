@@ -1,3 +1,8 @@
+2010-09-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element): Don't complain over
+	elements in unknown namespaces.
+
 2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add another one of OOo's

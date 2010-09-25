@@ -541,6 +541,7 @@ typedef struct {
 	GSList	 	 *ns_stack;
 	GHashTable	 *ns_prefixes;
 	GPtrArray	 *ns_by_id;
+	GHashTable	 *ns_unknowns;
 	GSList	 	 *contents_stack;
 	gboolean          initialized;
 	gint	  	  unknown_depth; /* handle recursive unknown tags */
@@ -658,6 +659,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	GSList *ptr;
 	char const *tmp;
 	int i;
+	gboolean complain = TRUE;
 
 	/* Scan for namespace declarations.  Yes it is ugly to have the api
 	 * flag that its children can declare namespaces. However, given that a
@@ -703,6 +705,8 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 			}
 
 			if (NULL == tmp) {
+				char *s = g_strdup (ns_ptr[0] + 6);
+				g_hash_table_replace (state->ns_unknowns, s, s);
 				if (gsf_debug_flag ("ns"))
 					g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
 			}
@@ -739,6 +743,17 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	}
 
 	if (state->unknown_depth++ > 0)
+		return;
+
+	tmp = strchr (name, ':');
+	if (tmp) {
+		char *nsstr = g_strndup (name, tmp - (const char *)name);
+		if (g_hash_table_lookup (state->ns_unknowns, nsstr))
+			complain = FALSE;
+		g_free (nsstr);
+	}
+
+	if (!complain)
 		return;
 
 	g_printerr ("Unexpected element '%s' in state : \n\t", name);
@@ -872,6 +887,9 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->ns_prefixes	= g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		g_free, (GDestroyNotify) gsf_free_xmlinnsinstance);
+	state->ns_unknowns	= g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		g_free, NULL);
 	state->contents_stack	= NULL;
 	state->from_unknown_handler = FALSE;
 }
@@ -888,6 +906,9 @@ gsf_xml_in_end_document (GsfXMLInInternal *state)
 
 		g_hash_table_destroy (state->ns_prefixes);
 		state->ns_prefixes = NULL;
+
+		g_hash_table_destroy (state->ns_unknowns);
+		state->ns_unknowns = NULL;
 
 		state->initialized = FALSE;
 
