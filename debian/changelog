@@ -1,3 +1,10 @@
+libgsf (1.14.19-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control] Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 26 Sep 2010 20:56:04 +0200
+
 libgsf (1.14.18-1) unstable; urgency=low
 
   * New upstream release.
