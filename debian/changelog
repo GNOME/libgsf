@@ -1,3 +1,13 @@
+libgsf (1.14.19-2) unstable; urgency=low
+
+  * [debian/libgsf-1-114.symbols, debian/libgsf-gnome-1-114.symbols] New.
+    Symbols going back to lenny.
+  * [debian/rules]
+    * Default to strict dpkg-gensymbols checks.
+    * Generate a .pot file as requested for Ubuntu. (Closes: #587359)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 16 Oct 2010 12:36:48 +0200
+
 libgsf (1.14.19-1) unstable; urgency=low
 
   * New upstream release.

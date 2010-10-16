@@ -1,0 +1,13 @@
+libgsf-gnome-1.so.114 libgsf-gnome-1-114 #MINVER#
+ gsf_input_bonobo_get_type@Base 1.14.8
+ gsf_input_bonobo_new@Base 1.14.8
+ gsf_input_gnomevfs_get_type@Base 1.14.11
+ gsf_input_gnomevfs_new@Base 1.14.11
+ gsf_input_gnomevfs_new_uri@Base 1.14.11
+ gsf_output_bonobo_get_type@Base 1.14.8
+ gsf_output_bonobo_new@Base 1.14.8
+ gsf_output_gnomevfs_get_type@Base 1.14.11
+ gsf_output_gnomevfs_new@Base 1.14.11
+ gsf_output_gnomevfs_new_uri@Base 1.14.11
+ gsf_shared_bonobo_stream_get_type@Base 1.14.8
+ gsf_shared_bonobo_stream_new@Base 1.14.8
