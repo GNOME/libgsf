@@ -894,8 +894,13 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		error = NULL;
 		if (!parse_vt_cf (res, data, data_end, &error)) {
 			/* suck, we can't propagate the error upwards */
-			g_warning ("error: %s", error->message);
-			g_error_free (error);
+			if (error) {
+				g_warning ("error: %s", error->message);
+				g_error_free (error);
+			}
+			else {
+				g_warning ("unknown error parsing vt_cf");
+			}
 			g_free (res);
 			res = NULL;
 		}
