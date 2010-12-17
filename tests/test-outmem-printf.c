@@ -63,19 +63,25 @@ test (int argc, char *argv[])
 
 	output = gsf_output_memory_new ();
 	for (i = 1; i <= 100; i++) {
-		if (!gsf_output_printf (output, "=== Round %d ===\n", i))
-		    return 1;
-		if (!test_write_once (output))
-		    return 1;
+		if (!gsf_output_printf (output, "=== Round %d ===\n", i)) {
+			res = 1;
+			goto out;
+		}
+		if (!test_write_once (output)) {
+			res = 1;
+			goto out;
+		}
 	}
 
 	buf = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output));
 	size = gsf_output_size (output);
-	res = fwrite (buf, size, 1, fout);
+	res = fwrite (buf, size, 1, fout) == 1 ? 0 : 1;
+
+ out:
 	fclose (fout);
 	gsf_output_close (output);
 	g_object_unref (output);
-	return (res == 1);
+	return res;
 }
 
 int
