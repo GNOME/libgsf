@@ -94,7 +94,7 @@ gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
 		(bonobo->stream, offset, bwhence, &ev);
 	if (BONOBO_EX (&ev)) {
 		gsf_output_set_error (output, 0,
-			bonobo_exception_get_text (&ev));
+			"%s", bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
