@@ -1,0 +1,21 @@
+commit eb38dfc2b7337e1a729f6e250c421b79dc52e38b
+Author: J.H.M. Dassen (Ray) <jdassen@debian.org>
+Date:   Sat Feb 19 10:20:36 2011 +0100
+
+    Fix gsf_output_set_error call
+    gsf_output_set_error uses printf-style formats. This change fixes an "error:
+    format not a string literal and no format arguments" during hardened builds.
+
+diff --git a/gsf-gnome/gsf-output-bonobo.c b/gsf-gnome/gsf-output-bonobo.c
+index 87831e1..e88a345 100644
+--- a/gsf-gnome/gsf-output-bonobo.c
++++ b/gsf-gnome/gsf-output-bonobo.c
+@@ -94,7 +94,7 @@ gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
+ 		(bonobo->stream, offset, bwhence, &ev);
+ 	if (BONOBO_EX (&ev)) {
+ 		gsf_output_set_error (output, 0,
+-			bonobo_exception_get_text (&ev));
++			"%s", bonobo_exception_get_text (&ev));
+ 		CORBA_exception_free (&ev);
+ 		return FALSE;
+ 	}
