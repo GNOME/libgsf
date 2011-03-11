@@ -1,3 +1,11 @@
+2011-03-11  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-opendoc-utils.c (od_meta_user_defined_end): Create a
+	value of the requested type.
+	(od_meta_user_defined): Handle the meta:type attribute.
+	(GsfOOMetaIn): Add new member "typ".
+	(meta_write_props): Fix typo.
+
 2010-12-17  Morten Welinder  <terra@gnome.org>
 
 	* tests/test-outmem-printf.c (test): Attempt a leak fix.

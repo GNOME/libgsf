@@ -1,7 +1,10 @@
 libgsf 1.14.20
 
 Caolan McNamara:
-       * Fix msole reading crash.
+	* Fix msole reading crash.
+
+Morten:
+	* Improve loading on metadata.  [#644217]
 
 --------------------------------------------------------------------------
 libgsf 1.14.19

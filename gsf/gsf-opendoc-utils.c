@@ -39,6 +39,7 @@ typedef struct {
 	GsfDocPropVector *keywords;
 	GError		 *err;
 	char             *name;
+	GType            typ;
 } GsfOOMetaIn;
 
 G_MODULE_EXPORT char const *
@@ -211,9 +212,28 @@ od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 {
 	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if ((0 == strcmp (CXML2C (attrs[0]), "meta:name")) && (attrs[1]!= NULL))
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (CXML2C (attrs[0]), "meta:name"))
 			mi->name = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "meta:type")) {
+			if (!strcmp (CXML2C (attrs[1]), "boolean")) {
+				mi->typ = G_TYPE_BOOLEAN;
+			} else if (!strcmp (CXML2C (attrs[1]), "float")) {
+				mi->typ = G_TYPE_DOUBLE;
+			} else if (!strcmp (CXML2C (attrs[1]), "string")) {
+				mi->typ = G_TYPE_STRING;
+			} else if (!strcmp (CXML2C (attrs[1]), "date") ||
+				   !strcmp (CXML2C (attrs[1]), "data")) {
+				/*
+				 * "data" is a typo on the write side that was
+				 * fixed on 20110311.
+				 */
+				mi->typ = GSF_TIMESTAMP_TYPE;
+			} else {
+				/* What? */
+			}
+		}
+	}
 }
 
 static void
@@ -223,7 +243,9 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	
 	if (mi->name != NULL) {
 		GValue *res = g_new0 (GValue, 1);
-		if (gsf_xml_gvalue_from_str (res, G_TYPE_STRING, xin->content->str)) {
+		GType t = mi->typ;
+		if (t == G_TYPE_NONE) t = G_TYPE_STRING;
+		if (gsf_xml_gvalue_from_str (res, t, xin->content->str)) {
 			gsf_doc_meta_data_insert (mi->md, mi->name, res);
 			mi->name = NULL;
 		} else {
@@ -271,7 +293,7 @@ static GsfXMLInNode const gsf_opendoc_meta_st_dtd[] = {
 static void 
 gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_state)
 {
-	GsfOOMetaIn	 *state = old_state;
+	GsfOOMetaIn *state = old_state;
 
 	if (state->keywords) {
 		GValue *val = g_new0 (GValue, 1);
@@ -298,7 +320,7 @@ static GsfXMLInDoc *doc_subtree = NULL;
 void
 gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 {
-	GsfOOMetaIn	 *state = NULL;
+	GsfOOMetaIn *state = NULL;
 
 	g_return_if_fail (md != NULL);
 
@@ -306,7 +328,8 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 		doc_subtree = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
 
 	state = g_new0 (GsfOOMetaIn, 1);
-	state->md  = md;
+	state->md = md;
+	state->typ = G_TYPE_NONE;
 	g_object_ref (G_OBJECT (md));
 	gsf_xml_in_push_state (xin, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
 }
@@ -489,7 +512,8 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 			return;
 		}
 
-		switch ((t = G_VALUE_TYPE (val))) {
+		t = G_VALUE_TYPE (val);
+		switch (t) {
 		case G_TYPE_CHAR:
 		case G_TYPE_UCHAR:
 		case G_TYPE_STRING:
@@ -511,7 +535,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 		default:
 			if (GSF_TIMESTAMP_TYPE == t)
-				type_name = "data";
+				type_name = "date";
 		}
 		if (NULL != type_name)
 			gsf_xml_out_add_cstr (output, "meta:type", type_name);
