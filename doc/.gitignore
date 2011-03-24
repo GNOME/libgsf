@@ -10,11 +10,12 @@ gsf-decl-list.txt
 gsf-undeclared.txt
 gsf-undocumented.txt
 gsf-unused.txt
-gsf-scan.lo
+gsf-scan.c
 gsf.interfaces
 gsf.prerequisites
 version.xml
 *.stamp
 *.lo
+*.o
 .libs
 *.bak
