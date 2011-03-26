@@ -1,3 +1,10 @@
+libgsf (1.14.20-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/patches/git-eb38dfc] Removed, integrated upstream.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 25 Mar 2011 08:32:52 +0100
+
 libgsf (1.14.19-3) unstable; urgency=low
 
   * [debian/control, debian/rules] Harden build.

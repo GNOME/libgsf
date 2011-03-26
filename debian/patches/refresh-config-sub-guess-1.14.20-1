@@ -1,6 +1,6 @@
-diff -ru libgsf-1.14.19.orig/config.guess libgsf-1.14.19/config.guess
---- libgsf-1.14.19.orig/config.guess	2010-09-25 18:53:56.000000000 +0200
-+++ libgsf-1.14.19/config.guess	2010-09-26 19:28:15.000000000 +0200
+diff -ru libgsf-1.14.20.orig/config.guess libgsf-1.14.20/config.guess
+--- libgsf-1.14.20.orig/config.guess	2011-03-25 00:33:50.000000000 +0100
++++ libgsf-1.14.20/config.guess	2011-03-25 08:15:10.000000000 +0100
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -409,9 +409,9 @@ diff -ru libgsf-1.14.19.orig/config.guess libgsf-1.14.19/config.guess
  	exit ;;
      *:*VMS:*:*)
      	UNAME_MACHINE=`(uname -p) 2>/dev/null`
-diff -ru libgsf-1.14.19.orig/config.sub libgsf-1.14.19/config.sub
---- libgsf-1.14.19.orig/config.sub	2010-09-25 18:53:56.000000000 +0200
-+++ libgsf-1.14.19/config.sub	2010-09-26 19:28:15.000000000 +0200
+diff -ru libgsf-1.14.20.orig/config.sub libgsf-1.14.20/config.sub
+--- libgsf-1.14.20.orig/config.sub	2011-03-25 00:33:50.000000000 +0100
++++ libgsf-1.14.20/config.sub	2011-03-25 08:15:10.000000000 +0100
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Configuration validation subroutine script.
