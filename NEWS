@@ -1,7 +1,8 @@
 libgsf 1.14.21
 
 Gilles Dartiguelongue:
-	* Implement --without-gconf for explicit dependency control.
+	* Implement --without-gconf for explicit dependency control.  [#645775]
+	* Fix python compilation problem.  [#645778]
 
 --------------------------------------------------------------------------
 libgsf 1.14.20

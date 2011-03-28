@@ -27,6 +27,8 @@
 extern PyMethodDef pygsfgnome_functions[];
 extern DL_EXPORT(void) initgnome (void);
 
+extern void pygsfgnome_register_classes(PyObject *d);
+
 DL_EXPORT(void)
 initgnome (void)
 {
