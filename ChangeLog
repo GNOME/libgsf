@@ -1,3 +1,8 @@
+2011-03-28  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Implement --without-gconf (as opposed to looking
+	for gconftool-2.
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.14.20

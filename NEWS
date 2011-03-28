@@ -1,5 +1,8 @@
 libgsf 1.14.21
 
+Gilles Dartiguelongue:
+	* Implement --without-gconf for explicit dependency control.
+
 --------------------------------------------------------------------------
 libgsf 1.14.20
 

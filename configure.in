@@ -501,21 +501,32 @@ AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $have_bonobo = yes)
 
 # ===================
 # GConf configuration
+AC_ARG_WITH([gconf],
+    AC_HELP_STRING([--without-gconf],[disable the use of gconf (default: auto)]),
+    [],
+    [with_gconf=auto])
 
-dnl The following conditional is set in AM_GCONF_SOURCE_2.
-dnl Because we may skip its execution, we have to set a default here.
-AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+AS_IF([test "$with_gconf" != "no"], [
+    PKG_CHECK_EXISTS([gconf-2.0 >= 2.24.0],[
+        AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
+        AS_IF([test "$GCONFTOOL" = "no"], [
+            AC_MSG_WARN([thumbnailer will not be built, unable to find gconftool-2])
+            have_gconf=no
+            ], [
+            have_gconf=yes
+            ])
+        ],[have_gconf=no])
+    ], [have_gconf=no])
 
-dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
-m4_pattern_allow([^AM_GCONF_SOURCE_2$])
-GCONFTOOL=
-AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
-if test "x$GCONFTOOL" = "xno"; then
-    AC_MSG_WARN([thumbnailer will not be built, unable to find gconftool-2])
-else
-    AM_GCONF_SOURCE_2
-fi
-AM_CONDITIONAL(WITH_GCONF, test "x$GCONFTOOL" != "xno")
+AS_IF([test "$have_gconf" = "yes"], [], [
+    AS_IF([test "$with_gconf" = "yes"],
+        [AC_MSG_ERROR([gconf support requested, but not available.])])
+    ])
+
+AM_GCONF_SOURCE_2
+AM_CONDITIONAL(WITH_GCONF, test "$have_gconf" = "yes")
+
+# ===================
 
 LDFLAGS="-no-undefined $LDFLAGS"
 
