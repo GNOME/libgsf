@@ -1,3 +1,7 @@
+2011-05-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gsf/gsf-impl-utils.h: fix GSF_DYNAMIC_CLASS_FULL to make gcc-4.6 happy.
+
 2011-04-05  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am: ${ACLOCAL_FLAGS}, not $(ACLOCAL_FLAGS) which seems

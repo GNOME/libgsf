@@ -130,7 +130,7 @@ prefix ## _register_type (GTypeModule *module)				\
 									\
 	g_return_if_fail (prefix ## _type == 0); 			\
 									\
-	type = prefix ## _type = g_type_module_register_type (module,	\
+	prefix ## _type = type = g_type_module_register_type (module,	\
 		parent_type, #name, &type_info, (GTypeFlags) abstract);	\
 	interface_decl							\
 }
