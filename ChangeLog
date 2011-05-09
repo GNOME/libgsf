@@ -1,3 +1,8 @@
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): initialize type
+	and name.
+
 2011-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gsf/gsf-impl-utils.h: fix GSF_DYNAMIC_CLASS_FULL to make gcc-4.6 happy.

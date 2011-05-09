@@ -211,6 +211,8 @@ static void
 od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 {
 	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
+	mi->typ = G_TYPE_STRING;
+	mi->name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (CXML2C (attrs[0]), "meta:name"))
@@ -234,6 +236,8 @@ od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 			}
 		}
 	}
+	if (mi->name == NULL) /* This should not happen */
+		mi->name = g_strdup ("");
 }
 
 static void

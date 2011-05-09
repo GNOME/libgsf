@@ -1,5 +1,9 @@
 libgsf 1.14.21
 
+Andreas:
+	* Fix crash on encountering user defined meta data of default 
+	type. [649827]
+
 Gilles Dartiguelongue:
 	* Implement --without-gconf for explicit dependency control.  [#645775]
 	* Fix python compilation problem.  [#645778]
