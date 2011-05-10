@@ -5,6 +5,7 @@ Andreas:
 	type. [649827]
 	* Write/read the correct attribute name for the value-type of user
 	defined meta-data. 
+	* Move ODF version to 1.2.
 
 Gilles Dartiguelongue:
 	* Implement --without-gconf for explicit dependency control.  [#645775]

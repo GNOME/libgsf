@@ -45,13 +45,13 @@ typedef struct {
 G_MODULE_EXPORT char const *
 get_gsf_odf_version_string (void)
 {
-	return "1.1";
+	return "1.2";
 }
 
 G_MODULE_EXPORT short 
 get_gsf_odf_version (void)
 {
-	return 101;
+	return 102;
 }
 
 

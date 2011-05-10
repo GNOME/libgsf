@@ -1,3 +1,8 @@
+2011-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (get_gsf_odf_version_string): bump to 1.2
+	(get_gsf_odf_version): bump to 1.2
+
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): check for all ODF defined
