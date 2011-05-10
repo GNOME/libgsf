@@ -1,5 +1,11 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): check for all ODF defined
+	value types and use the correct attribute name
+	(meta_write_props): use the correct attribute name
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): initialize type
 	and name.
 

@@ -217,7 +217,13 @@ od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (CXML2C (attrs[0]), "meta:name"))
 			mi->name = g_strdup (CXML2C (attrs[1]));
-		else if (!strcmp (CXML2C (attrs[0]), "meta:type")) {
+		else if (!strcmp (CXML2C (attrs[0]), "meta:value-type") ||
+			 !strcmp (CXML2C (attrs[0]), "meta:type")) {
+				/*
+				 * "meta:type" is a typo on the write 
+				 * side that was
+				 * fixed on 20110509.
+				 */
 			if (!strcmp (CXML2C (attrs[1]), "boolean")) {
 				mi->typ = G_TYPE_BOOLEAN;
 			} else if (!strcmp (CXML2C (attrs[1]), "float")) {
@@ -231,6 +237,9 @@ od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 				 * fixed on 20110311.
 				 */
 				mi->typ = GSF_TIMESTAMP_TYPE;
+			} else if (!strcmp (CXML2C (attrs[1]), "time")) {
+				mi->typ = G_TYPE_STRING;
+				/* We should be able to do better */
 			} else {
 				/* What? */
 			}
@@ -542,7 +551,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 				type_name = "date";
 		}
 		if (NULL != type_name)
-			gsf_xml_out_add_cstr (output, "meta:type", type_name);
+			gsf_xml_out_add_cstr (output, "meta:value-type", type_name);
 	} else
 		gsf_xml_out_start_element (output, mapped_name);
 	if (NULL != val)
