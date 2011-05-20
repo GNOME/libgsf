@@ -1,3 +1,7 @@
+2011-05-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.21
+
 2011-03-28  Morten Welinder  <terra@gnome.org>
 
 	* gsfgnomemodule.c: declare pygsfgnome_register_classes.  Fixes
