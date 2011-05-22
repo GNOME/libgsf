@@ -55,7 +55,7 @@ gsf_output_istream_set_error (GsfOutput * output, HRESULT hr)
 
 		msg = gsf_win32_hresult_to_utf8 (hr);
 		if (msg) {
-			gsf_output_set_error (output, 0, msg);
+			gsf_output_set_error (output, 0, "%s", msg);
 			g_free (msg);
 		} /* "else" case should never happen */
 

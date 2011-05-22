@@ -1,3 +1,9 @@
+2011-05-21  Morten Welinder  <terra@gnome.org>
+
+	* gsf-win32/gsf-output-win32.c (gsf_output_istream_set_error): Use
+	proper format string.
+	* gsf-win32/gsf-input-win32.c (hresult_to_gerror): Ditto.
+
 2011-05-20  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

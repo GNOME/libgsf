@@ -79,7 +79,7 @@ hresult_to_gerror (HRESULT hr, GError ** err)
 		msg = gsf_win32_hresult_to_utf8 (hr);
 
 		if (msg) {
-			*err = g_error_new (gsf_input_error_id (), 0, msg);
+			*err = g_error_new (gsf_input_error_id (), 0, "%s", msg);
 			g_free (msg);
 		}
 	}
