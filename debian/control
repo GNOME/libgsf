@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 7.0.0), dh-buildinfo, hardening-includes,
  libbz2-dev, zlib1g-dev
 Vcs-git: git://git.gnome.org/libgsf
 Vcs-Browser: http://git.gnome.org/cgit/libgsf/
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 
 Package: libgsf-gnome-1-dev
 Section: libdevel
