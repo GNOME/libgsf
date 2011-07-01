@@ -51,7 +51,12 @@ GTKDOC_CFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS)
 GTKDOC_LIBS = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
 manpagedir   = $(mandir)/man1
-manpage_DATA = gsf-office-thumbnailer.1 gsf-vba-dump.1 gsf.1
+manpage_DATA = gsf-vba-dump.1 gsf.1
+
+# gst-office-thumbnailer is not compiled without gconf
+if WITH_GCONF
+manpage_DATA += gsf-office-thumbnailer.1
+endif
 
 if GTK_DOC_INSTALLED
 include $(top_srcdir)/gtk-doc.make
