@@ -1,7 +1,11 @@
 libgsf 1.14.22
 
+Damien Lespiau:
+	* Fix thumbnailer manual install problem.
+
 Morten:
 	* Fix error messages on win32.
+	* Fix resource limiting in thumbnailer.
 
 --------------------------------------------------------------------------
 libgsf 1.14.21

@@ -1,3 +1,7 @@
+2011-07-01  Morten Welinder  <terra@gnome.org>
+
+	* thumbnailer/main.c (set_resource_limits): Fix conditional.
+
 2011-05-21  Morten Welinder  <terra@gnome.org>
 
 	* gsf-win32/gsf-output-win32.c (gsf_output_istream_set_error): Use

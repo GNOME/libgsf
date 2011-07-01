@@ -38,7 +38,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #endif
 
-#ifdef HAVE_SETRLIMI
+#ifdef HAVE_SETRLIMIT
 #include <sys/resource.h>
 #endif
 
@@ -250,7 +250,7 @@ read_thumbnail_and_write (const char *in_filename, const char *out_filename, int
 static void
 set_resource_limits (void)
 {
-#ifdef HAVE_SETRLIMI
+#ifdef HAVE_SETRLIMIT
 	struct rlimit limit;
 
 	/* We call convert(1) from ImageMagick, which is especially scary when converting
