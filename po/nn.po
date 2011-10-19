@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf 0.9\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2011-07-21 18:00+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-19 18:16+0200\n"
 "PO-Revision-Date: 2011-08-12 11:49+0100\n"
 "Last-Translator: Alexander Mackinnon Jansen <alexander.jansen@hesbynett.no>\n"
 "Language-Team: Norsk <kmaraas@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,8 +28,12 @@ msgstr "clip_dataet er i %s, men det er mindre en minst %s byte"
 
 #: ../gsf/gsf-clip-data.c:247
 #, c-format
-msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
-msgstr "Clip_dataet er i Windows utklippstavleformat, men det er mindre enn trong 4 byte."
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"Clip_dataet er i Windows utklippstavleformat, men det er mindre enn trong 4 "
+"byte."
 
 #: ../gsf/gsf-clip-data.c:258
 msgid "Windows Metafile format"
@@ -45,13 +50,21 @@ msgstr "Windows Enhanced Metafile format"
 
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
-msgid "Missing data when reading the %s property; got %s bytes, but %s bytes at least are needed."
-msgstr "Månglande data då eg las %s eigenskapen; fekk %s byte, men trong minst %s byte."
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Månglande data då eg las %s eigenskapen; fekk %s byte, men trong minst %s "
+"byte."
 
 #: ../gsf/gsf-msole-utils.c:366
 #, c-format
-msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %s bytes available."
-msgstr "Øydelagd data i VT_CF eigenskapa; lengda på utklipstavledataet må verte minst 4 byte, men dataet seier at det kun har %s byte tilgjengeleg."
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"Øydelagd data i VT_CF eigenskapa; lengda på utklipstavledataet må verte "
+"minst 4 byte, men dataet seier at det kun har %s byte tilgjengeleg."
 
 #: ../gsf/gsf-open-pkg-utils.c:351
 #, c-format
@@ -138,7 +151,8 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Kjøyr '%s --hjelp' for å sjå ei full liste over tilgjengelege kommandolinjeval.\n"
+"Kjøyr '%s --hjelp' for å sjå ei full liste over tilgjengelege "
+"kommandolinjeval.\n"
 
 #: ../tools/gsf.c:378
 #, c-format
@@ -156,8 +170,12 @@ msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Kjøyr '%s hjelp' for å sjå ei listeunderkommandoar.\n"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid "Boolean options available, true enables thumbnailing and false disables the creation of new thumbnails"
-msgstr "Boolean instillingar tilgjengelege, ekte tillatar miniatyrar og falsk deaktiverar laging av nye miniatyrbilete"
+msgid ""
+"Boolean options available, true enables thumbnailing and false disables the "
+"creation of new thumbnails"
+msgstr ""
+"Boolean instillingar tilgjengelege, ekte tillatar miniatyrar og falsk "
+"deaktiverar laging av nye miniatyrbilete"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
 msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
@@ -384,8 +402,10 @@ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
 msgstr "Gyldeg kommando pluss argument for Microsoft Excel reknearka."
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr "Gyldeg kommando pluss argument for Microsoft PowerPoint 2007 miniatyraren"
+msgid ""
+"Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for Microsoft PowerPoint 2007 miniatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
 msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
@@ -404,7 +424,9 @@ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice diagramminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid "Valid command plus arguments for the OpenDocument drawing template thumbnailer"
+msgid ""
+"Valid command plus arguments for the OpenDocument drawing template "
+"thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice teikningsmalminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
@@ -420,66 +442,108 @@ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice bileteminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid "Valid command plus arguments for the OpenDocument presentation template thumbnailer"
+msgid ""
+"Valid command plus arguments for the OpenDocument presentation template "
+"thumbnailer"
 msgstr ""
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice presentasjonsmalminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenDocument presentation thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice presentasjonsmalminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid "Valid command plus arguments for the OpenDocument spreadsheet template thumbnailer"
+msgid ""
+"Valid command plus arguments for the OpenDocument spreadsheet template "
+"thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice reknearkmalminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
+msgid ""
+"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice reknearkminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid "Valid command plus arguments for the OpenDocument wordprocessing document template thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice tekstbehandlingsdokumentmalminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenDocument wordprocessing document "
+"template thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice "
+"tekstbehandlingsdokumentmalminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid "Valid command plus arguments for the OpenDocument wordprocessing document thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice tekstbehandlingsdokumentminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenDocument wordprocessing document "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice "
+"tekstbehandlingsdokumentminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid "Valid command plus arguments for the OpenDocument wordprocessing master document thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenDokument tekstbehandlingsmeisterdokumentminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenDocument wordprocessing master "
+"document thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenDokument "
+"tekstbehandlingsmeisterdokumentminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-msgid "Valid command plus arguments for the OpenOffice 1.x Drawing template thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Drawing malminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Drawing template "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Drawing malminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
 msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
 msgstr "Gyldeg kommando pluss argumenr for OpenOffice 1.x Drawing miniatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation template thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Impress presentasjonsmalminiatyren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+"template thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
+"presentasjonsmalminiatyren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-msgid "Valid command plus arguments for the OpenOffice 1.x Impress presentation thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Impress presentasjonsminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
+"presentasjonsminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-msgid "Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Math dokumentminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Math dokumentminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-msgid "Valid command plus arguments for the OpenOffice 1.x Writer document thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Writer dokumentminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Writer document "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Writer dokumentminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-msgid "Valid command plus arguments for the OpenOffice 1.x Writer global template thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Writer global malminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Writer global template "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Writer global "
+"malminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-msgid "Valid command plus arguments for the OpenOffice 1.x Writer template thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x Writer malminiatyraren"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x Writer template "
+"thumbnailer"
+msgstr ""
+"Gyldeg kommando pluss argument for OpenOffice 1.x Writer malminiatyraren"
 
 #: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-msgid "Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
+msgid ""
+"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
 msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x reknearkminiatyraren"
-
