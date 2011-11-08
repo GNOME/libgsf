@@ -48,6 +48,17 @@ can_seek (GInputStream *stream)
 	return g_seekable_can_seek (G_SEEKABLE (stream));
 }
 
+static void
+set_name_from_file (GsfInput *input, GFile *file)
+{
+	GFileInfo *info = g_file_query_info
+		(file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
+	if (info) {
+		gsf_input_set_name (input, g_file_info_get_name (info));
+		g_object_unref (info);
+	}
+}
+
 static GsfInput *
 make_local_copy (GFile *file, GInputStream *stream)
 {
@@ -96,6 +107,9 @@ make_local_copy (GFile *file, GInputStream *stream)
 
 	g_input_stream_close (stream, NULL, NULL);
 	g_object_unref (stream);
+
+	set_name_from_file (copy, file);
+
 	return copy;
 }
 
@@ -143,12 +157,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 	input->buf  = NULL;
 	input->buf_size = 0;
 
-	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, NULL);
-	if (info) {
-		gsf_input_set_name (GSF_INPUT (input), g_file_info_get_name (info));
-		g_object_unref (info);
-	}
-
+	set_name_from_file (GSF_INPUT (input), file);
 	return GSF_INPUT (input);
 }
 
@@ -263,21 +272,25 @@ gsf_input_gio_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		buffer = gio->buf;
 	}
 
-	while (1) {
-		gssize nread;
+	while (total_read < num_bytes) {
+		gssize try_to_read = MIN (G_MAXSSIZE, num_bytes - total_read);
+		gssize nread = g_input_stream_read (gio->stream,
+						    buffer + total_read,
+						    try_to_read,
+						    NULL, NULL);
 
-		nread = g_input_stream_read (gio->stream, (buffer + total_read), (num_bytes - total_read), NULL, NULL);
-
-		if (nread >= 0) {
+		if (nread > 0) {
 			total_read += nread;
-			if ((size_t) total_read == num_bytes) {
-				return buffer;
-			}
-		} else
-			break;
+		} else {
+			/*
+			 * Getting zero means EOF which ins't supposed to
+			 * happen.   Negative means error.
+			 */
+			return NULL;
+		}
 	}
 
-	return NULL;
+	return buffer;
 }
 
 static gboolean
