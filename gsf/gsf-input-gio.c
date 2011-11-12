@@ -125,7 +125,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 {
 	GsfInputGio *input;
 	GInputStream *stream;
-	GFileInfo    *info;
+	gsf_off_t filesize;
 
 	g_return_val_if_fail (file != NULL, NULL);
 
@@ -136,9 +136,16 @@ gsf_input_gio_new (GFile *file, GError **err)
 	if (!can_seek (stream))
 		return make_local_copy (file, stream);
 
-	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, NULL);
-	if (!info)
-		return make_local_copy (file, stream);
+	{
+		GFileInfo *info =
+			g_file_query_info (file,
+					   G_FILE_ATTRIBUTE_STANDARD_SIZE,
+					   0, NULL, NULL);
+		if (!info)
+			return make_local_copy (file, stream);
+		filesize = g_file_info_get_size (info);
+		g_object_unref (info);
+	}
 
 	input = g_object_new (GSF_INPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) {
@@ -147,8 +154,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 		return NULL;
 	}
 
-	gsf_input_set_size (GSF_INPUT (input), g_file_info_get_size (info));
-	g_object_unref (info);
+	gsf_input_set_size (GSF_INPUT (input), filesize);
 
 	g_object_ref (G_OBJECT (file));
 
@@ -283,7 +289,7 @@ gsf_input_gio_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			total_read += nread;
 		} else {
 			/*
-			 * Getting zero means EOF which ins't supposed to
+			 * Getting zero means EOF which isn't supposed to
 			 * happen.   Negative means error.
 			 */
 			return NULL;
