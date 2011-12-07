@@ -188,7 +188,6 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $LIBGSF_CFLAGS"
 LIBS="$LIBGSF_LIBS $LIBS"
-AC_CHECK_FUNCS(g_base64_encode)
 AC_MSG_CHECKING([for g_chmod])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chmod("/xxx",0777);]])],
                [AC_DEFINE(HAVE_G_CHMOD, 1, [Define if g_chmod is available as macro or function])

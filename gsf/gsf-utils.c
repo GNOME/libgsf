@@ -90,10 +90,6 @@ gsf_debug_flag (const char *flag)
 }
 
 
-#ifndef HAVE_G_BASE64_ENCODE
-static void base64_init (void);
-#endif
-
 #ifdef _GSF_GTYPE_THREADING_FIXED
 typedef GTypeModule      GsfDummyTypeModule;
 typedef GTypeModuleClass GsfDummyTypeModuleClass;
@@ -156,9 +152,6 @@ gsf_init (void)
 #endif
 
 	g_type_init ();
-#ifndef HAVE_G_BASE64_ENCODE
-	base64_init ();
-#endif
 
 #ifdef _GSF_GTYPE_THREADING_FIXED
 	if (NULL == static_type_module) {
@@ -173,7 +166,7 @@ gsf_init (void)
 
 	{
 		/* Little-endian representation of M_PI.  */
-		static guint8 pibytes[8] = {
+		static const guint8 pibytes[8] = {
 			0x18, 0x2d, 0x44, 0x54, 0xfb, 0x21, 0x09, 0x40
 		};
 
@@ -635,54 +628,6 @@ gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 	return result;
 }
 
-#ifndef HAVE_G_BASE64_ENCODE
-/***************************************************************************/
-/* some code taken from evolution/camel/camel-mime-utils.c */
-
-/*
- *  Copyright (C) 2000 Ximian Inc.
- *
- *  Authors: Michael Zucchi <notzed@ximian.com>
- *           Jeffrey Stedfast <fejj@ximian.com>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU Lesser General Public
- * License as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
- * Boston, MA  02110-1301  USA
- */
-
-/* dont touch this file without my permission - Michael */
-static guint8 camel_mime_base64_rank[256];
-static char const *base64_alphabet =
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-#define d(x)
-
-/* Line length for base64 encoding.  Must be a multiple of 4. */
-enum { BASE64_LINE_LEN = 76 };
-
-static void
-base64_init(void)
-{
-	int i;
-
-	memset(camel_mime_base64_rank, 0xff, sizeof(camel_mime_base64_rank));
-	for (i=0;i<64;i++) {
-		camel_mime_base64_rank[(unsigned int)base64_alphabet[i]] = i;
-	}
-	camel_mime_base64_rank['='] = 0;
-}
-#endif
-
 /**
  * gsf_base64_encode_close :
  * @in : Data to be encoded
@@ -702,47 +647,10 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 			 gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
 	guint8 *outptr = out;
-#ifdef HAVE_G_BASE64_ENCODE
 	if (inlen > 0)
 		outptr += gsf_base64_encode_step (in, inlen, break_lines,
 						  outptr, state, save);
 	outptr += g_base64_encode_close (break_lines, outptr, state, save);
-#else
-	int c1, c2;
-
-	if (inlen>0)
-		outptr += gsf_base64_encode_step(in, inlen, break_lines, outptr, state, save);
-
-	c1 = ((guint8 *)save)[1];
-	c2 = ((guint8 *)save)[2];
-
-	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
-		 (int)((char *)save)[0],
-		 (int)((char *)save)[1],
-		 (int)((char *)save)[2]));
-
-	switch (((char *)save)[0]) {
-	case 2:
-		outptr[2] = base64_alphabet[ ( (c2 &0x0f) << 2 ) ];
-		g_assert(outptr[2] != 0);
-		goto skip;
-	case 1:
-		outptr[2] = '=';
-	skip:
-		outptr[0] = base64_alphabet[ c1 >> 2 ];
-		outptr[1] = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 )];
-		outptr[3] = '=';
-		outptr += 4;
-		++*state;
-		break;
-	}
-	if (break_lines && *state > 0)
-		*outptr++ = '\n';
-
-	*save = 0;
-	*state = 0;
-
-#endif
 	return outptr-out;
 }
 
@@ -765,81 +673,7 @@ size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
 			gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
-#ifdef HAVE_G_BASE64_ENCODE
 	return g_base64_encode_step (in, len, break_lines, out, state, save);
-#else
-	register guint8 const *inptr;
-	register guint8 *outptr;
-
-	if (len<=0)
-		return 0;
-
-	inptr = in;
-	outptr = out;
-
-	d(printf("we have %d chars, and %d saved chars\n", len, ((char *)save)[0]));
-
-	if (len + ((char *)save)[0] > 2) {
-		guint8 const *inend = in+len-2;
-		register int c1, c2, c3;
-		register int already;
-
-		already = *state;
-
-		switch (((char *)save)[0]) {
-		case 1:	c1 = ((guint8 *)save)[1]; goto skip1;
-		case 2:	c1 = ((guint8 *)save)[1];
-			c2 = ((guint8 *)save)[2]; goto skip2;
-		}
-
-		/* yes, we jump into the loop, no i'm not going to change it, it's beautiful! */
-		while (inptr < inend) {
-			c1 = *inptr++;
-		skip1:
-			c2 = *inptr++;
-		skip2:
-			c3 = *inptr++;
-			*outptr++ = base64_alphabet[ c1 >> 2 ];
-			*outptr++ = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 ) ];
-			*outptr++ = base64_alphabet[ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
-			*outptr++ = base64_alphabet[ c3 & 0x3f ];
-			/* this is a bit ugly ... */
-			if (break_lines && (++already) * 4 >= BASE64_LINE_LEN) {
-				*outptr++='\n';
-				already = 0;
-			}
-		}
-
-		((char *)save)[0] = 0;
-		len = 2-(inptr-inend);
-		*state = already;
-	}
-
-	d(printf("state = %d, len = %d\n",
-		 (int)((char *)save)[0],
-		 len));
-
-	if (len>0) {
-		register char *saveout;
-
-		/* points to the slot for the next char to save */
-		saveout = & (((char *)save)[1]) + ((char *)save)[0];
-
-		/* len can only be 0 1 or 2 */
-		switch(len) {
-		case 2:	*saveout++ = *inptr++;
-		case 1:	*saveout++ = *inptr++;
-		}
-		((char *)save)[0]+=len;
-	}
-
-	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
-		 (int)((char *)save)[0],
-		 (int)((char *)save)[1],
-		 (int)((char *)save)[2]));
-
-	return outptr-out;
-#endif
 }
 
 
@@ -859,54 +693,7 @@ size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 			int *state, guint *save)
 {
-#ifdef HAVE_G_BASE64_ENCODE
 	return g_base64_decode_step (in, len, out, state, save);
-#else
-	register guint8 const *inptr;
-	register guint8 *outptr, c;
-	register unsigned int v;
-	guint8 const *inend;
-	int i;
-
-	inend = in+len;
-	outptr = out;
-
-	/* convert 4 base64 bytes to 3 normal bytes */
-	v=*save;
-	i=*state;
-	inptr = in;
-	while (inptr<inend) {
-		c = camel_mime_base64_rank[*inptr++];
-		if (c != 0xff) {
-			v = (v<<6) | c;
-			i++;
-			if (i==4) {
-				*outptr++ = v>>16;
-				*outptr++ = v>>8;
-				*outptr++ = v;
-				i=0;
-			}
-		}
-	}
-
-	*save = v;
-	*state = i;
-
-	/* quick scan back for '=' on the end somewhere */
-	/* fortunately we can drop 1 output char for each trailing = (upto 2) */
-	i=2;
-	while (inptr>in && i) {
-		inptr--;
-		if (camel_mime_base64_rank[*inptr] != 0xff) {
-			if (*inptr == '=' && outptr>out)
-				outptr--;
-			i--;
-		}
-	}
-
-	/* if i!= 0 then there is a truncation error! */
-	return outptr-out;
-#endif
 }
 
 /**

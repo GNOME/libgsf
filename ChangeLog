@@ -1,5 +1,7 @@
 2011-12-07  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-utils.c: Assume HAVE_G_BASE64_ENCODE.
+
 	* gsf/*.c: Eliminate pointless G_OBJECT casts.
 
 	* configure.in: Require glib 2.16 for g_strcmp0.
