@@ -18,15 +18,15 @@
       <foaf:name>Jody Goldberg</foaf:name>
       <gnome:userid>jody</gnome:userid>
     </foaf:Person>
-   </maintainer>
+  </maintainer>
   <maintainer>
-   <foaf:Person>
+    <foaf:Person>
       <foaf:name>Morten Welinder</foaf:name>
       <gnome:userid>mortenw</gnome:userid>
     </foaf:Person>
   </maintainer>
- <maintainer>
-     <foaf:Person>
+  <maintainer>
+    <foaf:Person>
       <foaf:name>Dom Lachowicz</foaf:name>
       <gnome:userid>doml</gnome:userid>
     </foaf:Person>
