@@ -146,8 +146,7 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, char const *name)
 
 	/* TODO: connect signals if wrapped is a GsfOutputTransaction for cascade-effect?? */
 
-	trans->wrapped = wrapped;
-	g_object_ref (trans->wrapped);
+	trans->wrapped = g_object_ref  (wrapped);
 
 	return GSF_OUTPUT (trans);
 }

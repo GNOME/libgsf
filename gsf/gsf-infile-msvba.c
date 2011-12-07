@@ -443,8 +443,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 	vba = g_object_new (GSF_INFILE_MSVBA_TYPE, NULL);
 	if (G_UNLIKELY (NULL == vba)) return NULL;
 
-	g_object_ref (source);
-	vba->source = source;
+	vba->source = g_object_ref (source);
 
 	/* vba_project_read (vba, err); */
 

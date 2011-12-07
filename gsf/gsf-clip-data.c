@@ -325,5 +325,5 @@ gsf_clip_data_peek_real_data (GsfClipData *clip_data, gsize *ret_size, GError **
 		offset = 0;
 
 	*ret_size = gsf_blob_get_size (priv->data_blob) - offset;
-	return (char *) data + offset; /* cast to avoid warning about void pointer arithmetic */
+	return (char *) data + offset;
 }

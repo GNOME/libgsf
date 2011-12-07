@@ -69,10 +69,9 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 	GsfStructuredBlob *dst = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
 	if (G_UNLIKELY (NULL == dst)) return NULL;
 
-	if (src->data != NULL) {
-		dst->data = src->data;
-		g_object_ref (dst->data);
-	}
+	if (src->data != NULL)
+		dst->data = g_object_ref (src->data);
+
 	if (src->children != NULL) {
 		unsigned i;
 		gpointer child;

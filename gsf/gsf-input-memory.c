@@ -118,8 +118,7 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	if (G_UNLIKELY (NULL == dst)) return NULL;
 
-	dst->shared = src->shared;
-	g_object_ref (dst->shared);
+	dst->shared = g_object_ref (src->shared);
 	gsf_input_set_size (GSF_INPUT (dst), src->shared->size);
 
 	return GSF_INPUT (dst);

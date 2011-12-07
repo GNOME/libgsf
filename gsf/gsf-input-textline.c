@@ -64,9 +64,8 @@ gsf_input_textline_new (GsfInput *source)
 	input = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
 	if (G_UNLIKELY (NULL == input)) return NULL;
 
-	g_object_ref (source);
-	input->source = source;
-	input->buf  = NULL;
+	input->source = g_object_ref (source);
+	input->buf = NULL;
 	input->buf_size = 0;
 	gsf_input_set_size (GSF_INPUT (input), gsf_input_size (source));
 	gsf_input_set_name (GSF_INPUT (input), gsf_input_name (source));
@@ -97,8 +96,7 @@ gsf_input_textline_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 	GsfInputTextline *dst = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
 	if (G_UNLIKELY (NULL == dst)) return NULL;
 
-	dst->source = src->source;
-	g_object_ref (dst->source);
+	dst->source = g_object_ref (src->source);
 	gsf_input_set_size (GSF_INPUT (dst), gsf_input_size (src_input));
 
 	return GSF_INPUT (dst);
