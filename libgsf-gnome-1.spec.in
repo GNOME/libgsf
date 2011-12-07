@@ -18,7 +18,7 @@ URL: http://www.gnumeric.org
 Requires: libgsf-1 >= 1.3.0 gnome-vfs >= 2.0.0
 
 %description
-GNOME specific extensions to support bonobo and gnome-vfs
+GNOME specific extensions to support gnome-vfs
 
 %package devel
 Summary: Support files necessary to compile applications with libgsf-gnome.

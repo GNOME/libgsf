@@ -430,39 +430,6 @@ if test $want_gnome_vfs = yes; then
 fi
 AC_SUBST(GNOMEVFS_REQ)
 
-want_bonobo=no
-dnl check for bonobo
-AC_ARG_WITH(bonobo,
-    AC_HELP_STRING([--without-bonobo],[disable the use of bonobo]),
-    [case "${withval}" in
-    yes) want_bonobo=yes ;;
-    no) want_bonobo=no ;;
-    *) AC_MSG_ERROR(bad value ${withval} for --with-bonobo) ;;
-    esac],
-    [want_bonobo=auto]) dnl Default value
-
-BONOBO_REQ="libbonobo-2.0 >= 2.0.0"
-have_bonobo=no
-if test $want_bonobo = no ; then 
-    AC_MSG_WARN([Bonobo support disabled, as requested (Use --with-bonobo to enable)])
-else
-    PKG_CHECK_MODULES(LIBGSF_BONOBO, $BONOBO_REQ,
-	[have_bonobo=yes],
-	[if test $want_bonobo = yes; then
-	    AC_MSG_ERROR([Bonobo support requested, but not available.])
-	 else
-	    AC_MSG_WARN([Bonobo support disabled, unable to find required version])
-	 fi])
-fi
-
-if test $have_bonobo = yes; then
-    libgsf_gnome_reqs="$libgsf_gnome_reqs $BONOBO_REQ"   
-    want_gnome=yes
-else
-    BONOBO_REQ=
-fi
-AC_SUBST(BONOBO_REQ)
-
 want_gdk_pixbuf=no
 dnl check for gdk_pixbuf
 AC_ARG_WITH(gdk_pixbuf,
@@ -488,7 +455,7 @@ fi
 
 have_gnome=no
 if test $want_gnome = no ; then 
-    AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome-vfs and/or --with-bonobo to enable)])
+    AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome-vfs to enable)])
 else
     PKG_CHECK_MODULES(LIBGSF_GNOME, $libgsf_gnome_reqs,
 	[have_gnome=yes],
@@ -496,7 +463,6 @@ else
 fi
 AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
 AM_CONDITIONAL(WITH_LIBGSF_GNOMEVFS, test $want_gnome_vfs = yes)
-AM_CONDITIONAL(WITH_LIBGSF_BONOBO, test $have_bonobo = yes)
 
 # ===================
 # GConf configuration
