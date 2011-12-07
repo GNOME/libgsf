@@ -10,6 +10,9 @@ Morten:
 	* Cleanup old code.
 	* Drop support for gnome-vfs and bonobo.
 
+Vincent Untz:
+	* New installation method for thumbnailer.  [#651187]
+
 --------------------------------------------------------------------------
 libgsf 1.14.21
 

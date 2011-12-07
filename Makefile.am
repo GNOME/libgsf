@@ -7,13 +7,10 @@ if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
 
-SUBDIRS = po gsf gsf-win32 doc tools tests m4
+SUBDIRS = po gsf gsf-win32 doc tools tests m4 thumbnailer
 
 if WITH_PYTHON
   SUBDIRS += python
-endif
-if WITH_GCONF
-  SUBDIRS += thumbnailer
 endif
 
 EXTRA_DIST = BUGS HACKING	\
