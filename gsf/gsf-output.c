@@ -88,19 +88,15 @@ gsf_output_dispose (GObject *obj)
 		gsf_output_close (output);
 	}
 
-	g_free (output->name);
-	output->name = NULL;
+	gsf_output_set_container (output, NULL);
+	gsf_output_set_name (output, NULL);
+
 	g_free (output->printf_buf);
 	output->printf_buf = NULL;
 
 	g_clear_error (&output->err);
 
-	if (output->container != NULL) {
-		g_object_unref (G_OBJECT (output->container));
-		output->container = NULL;
-	}
-
-	G_OBJECT_CLASS (parent_class)->dispose (obj);
+	parent_class->dispose (obj);
 }
 
 static void
@@ -384,13 +380,14 @@ gsf_output_error (GsfOutput const *output)
 gboolean
 gsf_output_set_name (GsfOutput *output, char const *name)
 {
-	char *buf;
-
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
-	buf = g_strdup (name);
-	g_free (output->name);
-	output->name = buf;
+	if (g_strcmp0 (name, output->name)) {
+		g_free (output->name);
+		output->name = g_strdup (name);
+		g_object_notify (G_OBJECT (output), "name");
+	}
+
 	return TRUE;
 }
 
@@ -407,13 +404,17 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 gboolean
 gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 {
+	char *name;
+	gboolean res;
+
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
-	g_free (output->name);
-	output->name = filename
+	name = filename
 		? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL)
 		: NULL;
-	return TRUE;
+	res = gsf_output_set_name (output, name);
+	g_free (name);
+	return res;
 }
 
 /**
@@ -432,9 +433,9 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
 
 	if (container != NULL)
-		g_object_ref (G_OBJECT (container));
+		g_object_ref (container);
 	if (output->container != NULL)
-		g_object_unref (G_OBJECT (output->container));
+		g_object_unref (output->container);
 	output->container = container;
 	return TRUE;
 }
@@ -502,8 +503,8 @@ gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
 		return FALSE;
 	}
 
-	g_object_weak_ref (G_OBJECT (wrapper),
-		(GWeakNotify) cb_output_unwrap, wrapee);
+	g_object_weak_ref (wrapper,
+			   (GWeakNotify) cb_output_unwrap, wrapee);
 	wrapee->wrapped_by = wrapper;
 	return TRUE;
 }
@@ -522,8 +523,8 @@ gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)
 	g_return_val_if_fail (wrapee->wrapped_by == wrapper, FALSE);
 
 	wrapee->wrapped_by = NULL;
-	g_object_weak_unref (G_OBJECT (wrapper),
-		(GWeakNotify) cb_output_unwrap, wrapee);
+	g_object_weak_unref (wrapper,
+			     (GWeakNotify) cb_output_unwrap, wrapee);
 	return TRUE;
 }
 

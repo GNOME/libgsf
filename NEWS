@@ -6,6 +6,7 @@ Damien Lespiau:
 Morten:
 	* Fix error messages on win32.
 	* Fix resource limiting in thumbnailer.
+	* Ensure GsfOutput::name and GsfInput::name notifications.
 
 --------------------------------------------------------------------------
 libgsf 1.14.21

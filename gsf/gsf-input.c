@@ -88,17 +88,14 @@ gsf_input_get_property (GObject     *object,
 }
 
 static void
-gsf_input_finalize (GObject *obj)
+gsf_input_dispose (GObject *obj)
 {
 	GsfInput *input = GSF_INPUT (obj);
 
-	g_free (input->name);
-	input->name = NULL;
-	if (input->container != NULL) {
-		g_object_unref (G_OBJECT (input->container));
-		input->container = NULL;
-	}
-	parent_class->finalize (obj);
+	gsf_input_set_container (input, NULL);
+	gsf_input_set_name (input, NULL);
+
+	parent_class->dispose (obj);
 }
 
 static void
@@ -117,7 +114,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 {
 	parent_class = g_type_class_peek_parent (gobject_class);
 
-	gobject_class->finalize     = gsf_input_finalize;
+	gobject_class->dispose = gsf_input_dispose;
 	/* gobject_class->set_property = gsf_input_set_property; */
 	gobject_class->get_property = gsf_input_get_property;
 
@@ -224,11 +221,10 @@ gsf_input_dup (GsfInput *input, GError **err)
 			return NULL;
 		}
 
-		if (input->name != NULL)
-			gsf_input_set_name (dst, input->name);
+		gsf_input_set_name (dst, input->name);
 		dst->container = input->container;
 		if (dst->container != NULL)
-			g_object_ref (G_OBJECT (dst->container));
+			g_object_ref (dst->container);
 	}
 	return dst;
 }
@@ -398,13 +394,14 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 gboolean
 gsf_input_set_name (GsfInput *input, char const *name)
 {
-	char *buf;
-
 	g_return_val_if_fail (input != NULL, FALSE);
 
-	buf = g_strdup (name);
-	g_free (input->name);
-	input->name = buf;
+	if (g_strcmp0 (name, input->name)) {
+		g_free (input->name);
+		input->name = g_strdup (name);
+		g_object_notify (G_OBJECT (input), "name");
+	}
+
 	return TRUE;
 }
 
@@ -441,9 +438,9 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 	g_return_val_if_fail (input != NULL, FALSE);
 
 	if (container != NULL)
-		g_object_ref (G_OBJECT (container));
+		g_object_ref (container);
 	if (input->container != NULL)
-		g_object_unref (G_OBJECT (input->container));
+		g_object_unref (input->container);
 	input->container = container;
 	return TRUE;
 }
@@ -588,7 +585,7 @@ gsf_input_uncompress (GsfInput *src)
 		if (memcmp (gzip_sig, data, sizeof (gzip_sig)) == 0) {
 			GsfInput *res = gsf_input_gzip_new (src, NULL);
 			if (res) {
-				g_object_unref (G_OBJECT (src));
+				g_object_unref (src);
 				return gsf_input_uncompress (res);
 			} 
 		}
@@ -602,7 +599,7 @@ gsf_input_uncompress (GsfInput *src)
 		if (memcmp (bzip_sig, data, strlen (bzip_sig)) == 0) {
 			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);
 			if (res) {
-				g_object_unref (G_OBJECT (src));
+				g_object_unref (src);
 				return gsf_input_uncompress (res);
 			}
 		}

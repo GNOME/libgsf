@@ -1,3 +1,15 @@
+2011-12-07  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Require glib 2.16 for g_strcmp0.
+
+	* gsf/gsf-input.c (gsf_input_dispose): Rename from
+	gsf_input_finalize and hook up accordingly.
+	(gsf_input_set_name): Notify the property if changed.
+
+	* gsf/gsf-output.c (gsf_output_set_name): Notify the property if
+	changed.
+	(gsf_output_set_name_from_filename): Base of gsf_output_set_name.
+
 2011-11-08  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-gio.c (gsf_input_gio_read): Handle unexpected EOF
