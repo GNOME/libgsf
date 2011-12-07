@@ -1,5 +1,8 @@
 2011-12-07  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input-memory.c: Drop HAVE_BROKEN_MMAP -- FreeBSD was
+	fixed 8+ years ago, so this code isn't being run.
+
 	* gsf/gsf-utils.c: Assume HAVE_G_BASE64_ENCODE.
 
 	* gsf/*.c: Eliminate pointless G_OBJECT casts.

@@ -28,16 +28,7 @@
 #include <gsf/gsf-shared-memory.h>
 #include <glib/gstdio.h>
 
-#ifdef HAVE_MMAP
-
-#if defined(FREEBSD) || defined(__FreeBSD__)
-/* We must keep the file open while pages are mapped.  */
-/* http://www.freebsd.org/cgi/query-pr.cgi?pr=48291 */
-#define HAVE_BROKEN_MMAP
-#endif /* defined(FREEBSD) || defined(__FreeBSD__) */
-
-#elif defined(G_OS_WIN32)
-
+#ifdef G_OS_WIN32
 #include <windows.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -46,7 +37,7 @@
 #include <fcntl.h>
 
 #define MAP_FAILED NULL
-#endif /* HAVE_MMAP */
+#endif
 
 #ifndef O_BINARY
 #define O_BINARY 0
@@ -57,9 +48,6 @@ static GObjectClass *parent_class;
 struct _GsfInputMemory {
 	GsfInput parent;
 	GsfSharedMemory *shared;
-#ifdef HAVE_BROKEN_MMAP
-	int fd;
-#endif
 };
 typedef GsfInputClass GsfInputMemoryClass;
 
@@ -120,11 +108,6 @@ gsf_input_memory_finalize (GObject *obj)
 	if (mem->shared)
 		g_object_unref (mem->shared);
 
-#ifdef HAVE_BROKEN_MMAP
-	if (mem->fd != -1)
-		close (mem->fd);
-#endif
-
 	parent_class->finalize (obj);
 }
 
@@ -138,11 +121,6 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 	dst->shared = src->shared;
 	g_object_ref (dst->shared);
 	gsf_input_set_size (GSF_INPUT (dst), src->shared->size);
-
-#ifdef HAVE_BROKEN_MMAP
-	if (src->fd != -1)
-		dst->fd = dup (src->fd);
-#endif
 
 	return GSF_INPUT (dst);
 }
@@ -175,9 +153,6 @@ gsf_input_memory_init (GObject *obj)
 {
 	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 	mem->shared = NULL;
-#ifdef HAVE_BROKEN_MMAP
-	mem->fd = -1;
-#endif
 }
 
 static void
@@ -305,11 +280,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	gsf_input_set_size (GSF_INPUT (mem), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (mem), filename);
 
-#ifdef HAVE_BROKEN_MMAP
-	mem->fd = fd;
-#else
 	close (fd);
-#endif
 
 	return GSF_INPUT (mem);
 #else
