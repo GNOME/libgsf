@@ -146,7 +146,7 @@ gsf_init (void)
 		g_free (pkg_dir);
 	}
 #else
-	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
+	bindtextdomain (GETTEXT_PACKAGE, GSFLOCALEDIR);
 #endif
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif

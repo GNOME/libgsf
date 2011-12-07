@@ -11,7 +11,7 @@ Release: %{release}
 Group: System Environment/Libraries
 License: LGPL
 
-Source: ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libgsf/%{name}-%{version}.tar.gz
+Source: http://ftp.gnome.org/pub/GNOME/sources/libgsf/%{name}-%{version}.tar.gz
 Buildroot: /var/tmp/%{name}-%{version}-%{release}-root
 URL: http://www.gnumeric.org
 

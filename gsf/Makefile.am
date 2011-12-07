@@ -1,5 +1,6 @@
-AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(Z_CPPFLAGS) $(LIBGSF_GIO_CFLAGS) \
-	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) \
+	$(Z_CPPFLAGS) $(LIBGSF_GIO_CFLAGS) \
+	-DGSFLOCALEDIR=\"$(datadir)/locale\"
 
 lib_LTLIBRARIES = libgsf-1.la
 
