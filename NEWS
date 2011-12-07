@@ -7,6 +7,7 @@ Morten:
 	* Fix error messages on win32.
 	* Fix resource limiting in thumbnailer.
 	* Ensure GsfOutput::name and GsfInput::name notifications.
+	* Cleanup old code.
 
 --------------------------------------------------------------------------
 libgsf 1.14.21
