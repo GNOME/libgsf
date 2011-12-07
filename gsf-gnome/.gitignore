@@ -1,9 +1,0 @@
-Makefile
-Makefile.in
-ID
-.deps
-.libs
-*.lo
-*.o
-*.la
-*.a

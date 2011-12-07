@@ -68,20 +68,13 @@ ifelse([
   second argument (the module list).
   As a handy workaround, we use shell variables.
 ])
-dnl Modules common to libgsf and libgsf-gnome
-common_reqs="
-    gobject-2.0 >= 2.16.0
-    glib-2.0 >= 2.16.0
-"
 dnl Modules required for libgsf
 libgsf_reqs="
-    $common_reqs
+    gobject-2.0 >= 2.16.0
+    glib-2.0 >= 2.16.0
     libxml-2.0 >= 2.4.16
 "
-dnl Modules required for libgsf-gnome
-libgsf_gnome_reqs="
-    $common_reqs
-"
+
 PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
 
 ## this should come after `AC_PROG_CC'
@@ -402,34 +395,6 @@ want_gio=$have_gio
 
 dnl ****************************************************************************
 
-dnl gnome
-dnl
-
-want_gnome=no
-
-want_gnome_vfs=auto
-AC_ARG_WITH(gnome_vfs,
-	[--{with,without}-gnome-vfs   Build wrappers for GNOME-VFS],
-	[case $withval in
-	yes) want_gnome_vfs=yes;;
-	no) want_gnome_vfs=no;;
-	esac[]dnl
-])
-if test $want_gnome_vfs = auto -a "$want_gio" = yes; then
-   	want_gnome_vfs=yes
-fi
-GNOMEVFS_REQ=
-if test $want_gnome_vfs = yes; then
-   	if test "$want_gio" = yes; then
-		CFLAGS="$CFLAGS -DLIBGSF_GNOMEVFS_VIA_GIO"
-	else
-                GNOMEVFS_REQ="gnome-vfs-2.0 >= 2.2.0 gnome-vfs-module-2.0 >= 2.2.0"
-	        libgsf_gnome_reqs="$libgsf_gnome_reqs $GNOMEVFS_REQ"
-		want_gnome=yes
-	fi
-fi
-AC_SUBST(GNOMEVFS_REQ)
-
 want_gdk_pixbuf=no
 dnl check for gdk_pixbuf
 AC_ARG_WITH(gdk_pixbuf,
@@ -452,17 +417,6 @@ else
 	    AC_MSG_WARN([gdk-pixbuf support disabled, unable to find required version])
 	 fi])
 fi
-
-have_gnome=no
-if test $want_gnome = no ; then 
-    AC_MSG_WARN([GNOME support disabled, as requested (Use --with-gnome-vfs to enable)])
-else
-    PKG_CHECK_MODULES(LIBGSF_GNOME, $libgsf_gnome_reqs,
-	[have_gnome=yes],
-	[AC_MSG_ERROR([GNOME support requested, but not available.])])
-fi
-AM_CONDITIONAL(WITH_LIBGSF_GNOME, test $have_gnome = yes)
-AM_CONDITIONAL(WITH_LIBGSF_GNOMEVFS, test $want_gnome_vfs = yes)
 
 # ===================
 # GConf configuration
@@ -500,7 +454,6 @@ Makefile
 m4/Makefile
 doc/Makefile
 gsf/Makefile
-gsf-gnome/Makefile
 gsf-win32/Makefile
 tests/Makefile
 tools/Makefile
@@ -511,8 +464,6 @@ gsf/version.c
 doc/version.xml
 libgsf-1.pc
 libgsf-1.spec
-libgsf-gnome-1.pc
-libgsf-gnome-1.spec
 libgsf-win32-1.pc
 libgsf-zip
 ])

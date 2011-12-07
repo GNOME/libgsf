@@ -8,6 +8,7 @@ Morten:
 	* Fix resource limiting in thumbnailer.
 	* Ensure GsfOutput::name and GsfInput::name notifications.
 	* Cleanup old code.
+	* Drop support for gnome-vfs and bonobo.
 
 --------------------------------------------------------------------------
 libgsf 1.14.21
