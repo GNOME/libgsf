@@ -3,8 +3,7 @@
 [encoding: UTF-8]
 gsf/gsf-blob.c
 gsf/gsf-clip-data.c
-gsf/gsf-msole-utils.c
 gsf/gsf-input-http.c
+gsf/gsf-msole-utils.c
 gsf/gsf-open-pkg-utils.c
 tools/gsf.c
-thumbnailer/gsf-office-thumbnailer.schemas.in
