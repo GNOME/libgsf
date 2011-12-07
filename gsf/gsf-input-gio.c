@@ -156,7 +156,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 
 	gsf_input_set_size (GSF_INPUT (input), filesize);
 
-	g_object_ref (G_OBJECT (file));
+	g_object_ref (file);
 
 	input->stream = stream;
 	input->file = file;

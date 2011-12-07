@@ -673,24 +673,35 @@ gsf_infile_zip_num_children (GsfInfile *infile)
 }
 
 static void
+gsf_infile_zip_set_source (GsfInfileZip *zip, GsfInput *src)
+{
+	if (src)
+		src = gsf_input_proxy_new (src);
+	if (zip->source)
+		g_object_unref (zip->source);
+	zip->source = src;
+}
+
+static void
 gsf_infile_zip_finalize (GObject *obj)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (obj);
 
-	if (zip->source != NULL) {
-		g_object_unref (G_OBJECT (zip->source));
-		zip->source = NULL;
-	}
 	if (zip->info != NULL) {
 		zip_info_unref (zip->info);
 		zip->info = NULL;
 	}
 
-	if (zip->stream)
+	if (zip->stream) {
 		(void) inflateEnd (zip->stream);
-	g_free (zip->stream);
-	g_free (zip->buf);
+		g_free (zip->stream);
+		zip->stream = NULL;
+	}
 
+	g_free (zip->buf);
+	zip->buf = NULL;
+
+	gsf_infile_zip_set_source (zip, NULL);
 	g_clear_error (&zip->err);
 
 	parent_class->finalize (obj);
@@ -758,16 +769,6 @@ gsf_infile_zip_get_property (GObject     *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
-}
-
-static void
-gsf_infile_zip_set_source (GsfInfileZip *zip, GsfInput *src)
-{
-	if (src)
-		src = gsf_input_proxy_new (src);
-	if (zip->source)
-		g_object_unref (zip->source);
-	zip->source = src;
 }
 
 static void

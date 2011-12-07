@@ -143,7 +143,7 @@ gsf_output_gzip_finalize (GObject *obj)
 	GsfOutputGZip *gzip = (GsfOutputGZip *)obj;
 
 	if (gzip->sink != NULL) {
-		g_object_unref (G_OBJECT (gzip->sink));
+		g_object_unref (gzip->sink);
 		gzip->sink = NULL;
 	}
 

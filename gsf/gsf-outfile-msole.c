@@ -84,7 +84,7 @@ gsf_outfile_msole_finalize (GObject *obj)
 		gsf_output_close (output);
 
 	if (ole->sink != NULL) {
-		g_object_unref (G_OBJECT (ole->sink));
+		g_object_unref (ole->sink);
 		ole->sink = NULL;
 	}
 	switch (ole->type) {
@@ -456,7 +456,7 @@ recalc_bat_bat :
 
 	/* free the children */
 	for (i = 0 ; i < elem->len ; i++)
-		g_object_unref (G_OBJECT (g_ptr_array_index (elem, i)));
+		g_object_unref (g_ptr_array_index (elem, i));
 	g_ptr_array_free (elem, TRUE);
 	ole->content.dir.root_order = NULL;
 
@@ -557,7 +557,7 @@ static void
 ole_register_child (GsfOutfileMSOle *root, GsfOutfileMSOle *child)
 {
 	child->root = root;
-	g_object_ref (G_OBJECT (child));
+	g_object_ref (child);
 	child->child_index = root->content.dir.root_order->len;
 	g_ptr_array_add (root->content.dir.root_order, child);
 }
@@ -615,7 +615,7 @@ gsf_outfile_msole_new_child (GsfOutfile *parent,
 		child->type = MSOLE_SMALL_BLOCK;
 		child->content.small_block.buf = g_new0 (guint8, OLE_DEFAULT_THRESHOLD);
 	}
-	g_object_ref (G_OBJECT (ole_parent->sink));
+	g_object_ref (ole_parent->sink);
 	child->sink   = ole_parent->sink;
 	child->root   = ole_parent->root;
 	gsf_outfile_msole_set_block_shift (child,
@@ -712,7 +712,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 	ole = g_object_new (GSF_OUTFILE_MSOLE_TYPE, NULL);
 	if (G_UNLIKELY (NULL == ole)) return NULL;
 
-	g_object_ref (G_OBJECT (sink));
+	g_object_ref (sink);
 	ole->sink = sink;
 	ole->type = MSOLE_DIR;
 	ole->content.dir.root_order = g_ptr_array_new ();

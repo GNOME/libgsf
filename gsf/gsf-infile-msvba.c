@@ -264,7 +264,7 @@ fail_content :
 #endif
 
 fail_compression :
-	g_object_unref (G_OBJECT (dir));
+	g_object_unref (dir);
 fail_stream :
 
 	if (failed) {
@@ -406,7 +406,7 @@ gsf_infile_msvba_finalize (GObject *obj)
 		vba->modules = NULL;
 	}
 	if (vba->source != NULL) {
-		g_object_unref (G_OBJECT (vba->source));
+		g_object_unref (vba->source);
 		vba->source = NULL;
 	}
 	parent_class->finalize (obj);
@@ -443,7 +443,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 	vba = g_object_new (GSF_INFILE_MSVBA_TYPE, NULL);
 	if (G_UNLIKELY (NULL == vba)) return NULL;
 
-	g_object_ref (G_OBJECT (source));
+	g_object_ref (source);
 	vba->source = source;
 
 	/* vba_project_read (vba, err); */
@@ -456,7 +456,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 		*err = g_error_new (gsf_input_error_id (), 0,
 				"Unable to parse VBA header");
 
-	g_object_unref (G_OBJECT (vba));
+	g_object_unref (vba);
 	return NULL;
 }
 
@@ -517,7 +517,7 @@ gsf_input_find_vba (GsfInput *input, GError **err)
 
 		/* TODO : PPT is more complex */
 
-		g_object_unref (G_OBJECT (infile));
+		g_object_unref (infile);
 	} else if (NULL != (infile = gsf_infile_zip_new (input, NULL))) {
 		GsfInput *main_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (infile),
 			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
@@ -529,13 +529,13 @@ gsf_input_find_vba (GsfInput *input, GError **err)
 				GsfInfile *ole = gsf_infile_msole_new (vba_stream, err);
 				if (NULL != ole) {
 					vba = gsf_infile_child_by_vname (ole, "VBA", NULL);
-					g_object_unref (G_OBJECT (ole));
+					g_object_unref (ole);
 				}
-				g_object_unref (G_OBJECT (vba_stream));
+				g_object_unref (vba_stream);
 			}
-			g_object_unref (G_OBJECT (main_part));
+			g_object_unref (main_part);
 		}
-		g_object_unref (G_OBJECT (infile));
+		g_object_unref (infile);
 	}
 
 	if (NULL != vba)

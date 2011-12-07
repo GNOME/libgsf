@@ -118,7 +118,7 @@ gsf_input_memory_finalize (GObject *obj)
 	GsfInputMemory *mem = (GsfInputMemory *) (obj);
 
 	if (mem->shared)
-		g_object_unref (G_OBJECT (mem->shared));
+		g_object_unref (mem->shared);
 
 #ifdef HAVE_BROKEN_MMAP
 	if (mem->fd != -1)
@@ -136,7 +136,7 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	dst->shared = src->shared;
-	g_object_ref (G_OBJECT (dst->shared));
+	g_object_ref (dst->shared);
 	gsf_input_set_size (GSF_INPUT (dst), src->shared->size);
 
 #ifdef HAVE_BROKEN_MMAP

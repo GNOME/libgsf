@@ -412,7 +412,7 @@ gsf_infile_ar_finalize (GObject *obj)
 	GsfInfileAr *ar = GSF_INFILE_AR (obj);
 
 	if (ar->input != NULL) {
-		g_object_unref (G_OBJECT (ar->input));
+		g_object_unref (ar->input);
 		ar->input = NULL;
 	}
 	g_free (ar->buf);
@@ -471,12 +471,12 @@ gsf_infile_ar_new (GsfInput *source, GError **err)
 	ar = g_object_new (GSF_INFILE_AR_TYPE, NULL);
 	if (G_UNLIKELY (NULL == ar)) return NULL;
 
-	g_object_ref (G_OBJECT (source));
+	g_object_ref (source);
 	ar->input = source;
 	gsf_input_set_size (GSF_INPUT (ar), 0);
 
 	if (ar_init_info (ar, err)) {
-		g_object_unref (G_OBJECT (ar));
+		g_object_unref (ar);
 		return NULL;
 	}
 	ar->vdir = ar->info->vdir;

@@ -58,7 +58,7 @@ gsf_output_bzip_finalize (GObject *obj)
 	GsfOutputBzip *bzip = (GsfOutputBzip *)obj;
 
 	if (bzip->sink != NULL) {
-		g_object_unref (G_OBJECT (bzip->sink));
+		g_object_unref (bzip->sink);
 		bzip->sink = NULL;
 	}
 	g_free (bzip->buf);
@@ -254,11 +254,11 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 	bzip = g_object_new (GSF_OUTPUT_BZIP_TYPE, NULL);
 	if (G_UNLIKELY (NULL == bzip)) return NULL;
 
-	g_object_ref (G_OBJECT (sink));
+	g_object_ref (sink);
 	bzip->sink = sink;
 
 	if (!init_bzip (bzip, err)) {
-		g_object_unref (G_OBJECT (bzip));
+		g_object_unref (bzip);
 		return NULL;
 	}
 

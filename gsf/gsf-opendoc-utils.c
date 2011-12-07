@@ -317,7 +317,7 @@ gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_sta
 		g_object_unref (state->keywords);
 	}
 
-	g_object_unref (G_OBJECT (state->md));
+	g_object_unref (state->md);
 	g_free (state);
 }
 
@@ -343,7 +343,7 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 	state = g_new0 (GsfOOMetaIn, 1);
 	state->md = md;
 	state->typ = G_TYPE_NONE;
-	g_object_ref (G_OBJECT (md));
+	g_object_ref (md);
 	gsf_xml_in_push_state (xin, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
 }
 

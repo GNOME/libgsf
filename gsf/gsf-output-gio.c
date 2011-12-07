@@ -76,7 +76,7 @@ gsf_output_gio_new (GFile *file)
 	output = g_object_new (GSF_OUTPUT_GIO_TYPE, NULL);
 	if (G_UNLIKELY (NULL == output)) {
 		g_output_stream_close (stream, NULL, NULL);
-		g_object_unref (G_OBJECT (stream));
+		g_object_unref (stream);
 		return NULL;
 	}
 
@@ -110,7 +110,7 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 	file = g_file_new_for_path (path);
 
 	output = gsf_output_gio_new (file);
-	g_object_unref (G_OBJECT (file));
+	g_object_unref (file);
 	
 	return output;
 }
@@ -138,7 +138,7 @@ gsf_output_gio_new_for_uri (char const *uri, GError **err)
 	file = g_file_new_for_uri (uri);
 
 	output = gsf_output_gio_new (file);
-	g_object_unref (G_OBJECT (file));
+	g_object_unref (file);
 	
 	return output;
 }
@@ -150,10 +150,10 @@ gsf_output_gio_close (GsfOutput *output)
 
 	if (gio->stream != NULL) {
 		g_output_stream_close (gio->stream, NULL, NULL);
-		g_object_unref (G_OBJECT (gio->stream));
+		g_object_unref (gio->stream);
 		gio->stream = NULL;
 		
-		g_object_unref (G_OBJECT (gio->file));
+		g_object_unref (gio->file);
 		gio->file = NULL;
 
 		return TRUE;

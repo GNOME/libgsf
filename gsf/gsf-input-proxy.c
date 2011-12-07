@@ -110,7 +110,7 @@ gsf_input_proxy_finalize (GObject *obj)
 	GsfInputProxy *proxy = (GsfInputProxy *)obj;
 
 	if (proxy->source != NULL) {
-		g_object_unref (G_OBJECT (proxy->source));
+		g_object_unref (proxy->source);
 		proxy->source = NULL;
 	}
 

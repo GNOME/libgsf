@@ -415,7 +415,7 @@ ole_info_unref (MSOleInfo *info)
 		info->root_dir = NULL;
 	}
 	if (info->sb_file != NULL)  {
-		g_object_unref (G_OBJECT (info->sb_file));
+		g_object_unref (info->sb_file);
 		info->sb_file = NULL;
 	}
 	g_free (info);
@@ -626,7 +626,7 @@ gsf_infile_msole_finalize (GObject *obj)
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (obj);
 
 	if (ole->input != NULL) {
-		g_object_unref (G_OBJECT (ole->input));
+		g_object_unref (ole->input);
 		ole->input = NULL;
 	}
 	if (ole->info != NULL &&
@@ -782,7 +782,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
 						    "Failed to access child");
-			g_object_unref (G_OBJECT (child));
+			g_object_unref (child);
 			return NULL;
 		}
 	} else {
@@ -790,7 +790,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 		size_guess = dirent->size >> info->bb.shift;
 	}
 	if (ole_make_bat (metabat, size_guess + 1, dirent->first_block, &child->bat)) {
-		g_object_unref (G_OBJECT (child));
+		g_object_unref (child);
 		return NULL;
 	}
 
@@ -813,14 +813,14 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 				g_warning ("failure reading block %d for '%s'", i, dirent->name);
 				if (err) *err = g_error_new (gsf_input_error_id (), 0, "failure reading block");
-				g_object_unref (G_OBJECT (child));
+				g_object_unref (child);
 				return NULL;
 			}
 
 		if (remaining > 0) {
 			if (err) *err = g_error_new (gsf_input_error_id (), 0, "insufficient blocks");
 			g_warning ("Small-block file '%s' has insufficient blocks (%u) for the stated size (%lu)", dirent->name, child->bat.num_blocks, (long)dirent->size);
-			g_object_unref (G_OBJECT (child));
+			g_object_unref (child);
 			return NULL;
 		}
 	}
@@ -944,7 +944,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 		/* We do this so other kinds of archives can be tried.  */
 		(void)gsf_input_seek (source, calling_pos, G_SEEK_SET);
 
-		g_object_unref (G_OBJECT (ole));
+		g_object_unref (ole);
 		return NULL;
 	}
 

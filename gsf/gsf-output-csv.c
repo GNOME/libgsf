@@ -52,7 +52,7 @@ gsf_output_csv_finalize (GObject *obj)
 	GsfOutputCsv *csv = (GsfOutputCsv *)obj;
 
 	if (csv->sink != NULL)
-		g_object_unref (G_OBJECT (csv->sink));
+		g_object_unref (csv->sink);
 	g_free (csv->quote);
 	g_free (csv->quoting_triggers);
 	g_free (csv->eol);

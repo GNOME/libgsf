@@ -48,7 +48,7 @@ blob_finalize (GObject *obj)
 	GsfStructuredBlob *blob = GSF_STRUCTURED_BLOB (obj);
 
 	if (blob->data != NULL) {
-		g_object_unref (G_OBJECT (blob->data));
+		g_object_unref (blob->data);
 		blob->data = NULL;
 	}
 
@@ -71,7 +71,7 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 
 	if (src->data != NULL) {
 		dst->data = src->data;
-		g_object_ref (G_OBJECT (dst->data));
+		g_object_ref (dst->data);
 	}
 	if (src->children != NULL) {
 		unsigned i;
@@ -221,7 +221,7 @@ gsf_structured_blob_read (GsfInput *input)
 			g_warning ("Failed attempting to allocate %" GSF_OFF_T_FORMAT " bytes",
 				   content_size);
 
-			g_object_unref (G_OBJECT (blob));
+			g_object_unref (blob);
 			return NULL;
 		}
 
@@ -242,7 +242,7 @@ gsf_structured_blob_read (GsfInput *input)
 		while (i-- > 0) {
 			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
 			child_blob = gsf_structured_blob_read (child);
-			g_object_unref (G_OBJECT (child));
+			g_object_unref (child);
 
 			g_ptr_array_index (blob->children, i) = child_blob;
 #if 0
@@ -297,7 +297,7 @@ gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 	if (blob->data != NULL)
 		gsf_output_write (output, blob->data->size, blob->data->buf);
 	gsf_output_close (output);
-	g_object_unref (G_OBJECT (output));
+	g_object_unref (output);
 
 	return TRUE;
 }

@@ -419,28 +419,28 @@ static void
 gsf_infile_tar_finalize (GObject *obj)
 {
 	GsfInfileTar *tar = GSF_INFILE_TAR (obj);
+	g_array_free (tar->children, TRUE);
+	parent_class->finalize (obj);
+}
 
-	if (tar->source != NULL) {
-		g_object_unref (G_OBJECT (tar->source));
-		tar->source = NULL;
-	}
+static void
+gsf_infile_tar_dispose (GObject *obj)
+{
+	GsfInfileTar *tar = GSF_INFILE_TAR (obj);
+	unsigned ui;
 
-	if (tar->children) {
-		unsigned ui;
-		for (ui = 0; ui < tar->children->len; ui++) {
-			TarChild *c = &g_array_index (tar->children,
-						      TarChild,
-						      ui);
-			g_free (c->name);
-			if (c->dir)
-				g_object_unref (c->dir);
-		}
-		g_array_free (tar->children, TRUE);
-	}
-
+	gsf_infile_tar_set_source (tar, NULL);
 	g_clear_error (&tar->err);
 
-	parent_class->finalize (obj);
+	for (ui = 0; ui < tar->children->len; ui++) {
+		TarChild *c = &g_array_index (tar->children, TarChild, ui);
+		g_free (c->name);
+		if (c->dir)
+			g_object_unref (c->dir);
+	}
+	g_array_set_size (tar->children, 0);
+
+	parent_class->dispose (obj);
 }
 
 static GObject*
@@ -523,6 +523,7 @@ gsf_infile_tar_class_init (GObjectClass *gobject_class)
 
 	gobject_class->constructor      = gsf_infile_tar_constructor;
 	gobject_class->finalize		= gsf_infile_tar_finalize;
+	gobject_class->dispose		= gsf_infile_tar_dispose;
 	gobject_class->get_property     = gsf_infile_tar_get_property;
 	gobject_class->set_property     = gsf_infile_tar_set_property;
 

@@ -184,7 +184,7 @@ gsf_open_pkg_get_rels (GsfInput *opkg)
 			(void) gsf_xml_in_doc_parse (rel_doc, rel_stream, rels);
 
 			gsf_xml_in_doc_free (rel_doc);
-			g_object_unref (G_OBJECT (rel_stream));
+			g_object_unref (rel_stream);
 		}
 
 		g_object_set_data_full (G_OBJECT (opkg), "OpenPkgRels", rels,
@@ -232,7 +232,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 			if (NULL != parent) {
 				/* check for attempt to gain access outside the zip file */
 				if (G_OBJECT_TYPE (parent) == G_OBJECT_TYPE (prev_parent))
-					g_object_ref (G_OBJECT (parent));
+					g_object_ref (parent);
 				else
 					parent = NULL;
 			}
@@ -243,7 +243,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 				parent = GSF_INFILE (res);
 			}
 		}
-		g_object_unref (G_OBJECT (prev_parent));
+		g_object_unref (prev_parent);
 	}
 	g_strfreev (elems);
 
@@ -421,7 +421,7 @@ gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,
 				gsf_input_name (cur_stream) );
 		gsf_xml_in_doc_free (doc);
 
-		g_object_unref (G_OBJECT (part_stream));
+		g_object_unref (part_stream);
 	}
 	return res;
 }

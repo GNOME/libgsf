@@ -277,8 +277,8 @@ gsf_output_transaction_finalize (GObject *object)
 
 	g_return_if_fail (GSF_IS_OUTPUT_TRANSACTION (object));
 
-	g_object_unref (G_OBJECT (me->proxy));
-	g_object_unref (G_OBJECT (me->wrapped));
+	g_object_unref (me->proxy);
+	g_object_unref (me->wrapped);
 
 	parent_class->finalize (object);
 }

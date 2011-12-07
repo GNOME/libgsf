@@ -89,7 +89,7 @@ gsf_output_iconv_finalize (GObject *obj)
 	GsfOutputIconv *ic = (GsfOutputIconv *)obj;
 
 	if (ic->sink != NULL)
-		g_object_unref (G_OBJECT (ic->sink));
+		g_object_unref (ic->sink);
 	g_free (ic->input_charset);
 	g_free (ic->output_charset);
 	g_free (ic->buf);

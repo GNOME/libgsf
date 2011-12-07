@@ -299,7 +299,7 @@ gsf_libxml_write (void *context, char const *buffer, int len)
 static int
 gsf_libxml_close (void *context)
 {
-	g_object_unref (G_OBJECT (context));
+	g_object_unref (context);
 	return TRUE;
 }
 
@@ -315,7 +315,7 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 	if (gzip != NULL)
 		input = gzip;
 	else
-		g_object_ref (G_OBJECT (input));
+		g_object_ref (input);
 
 	res = xmlCreateIOParserCtxt (
 		sax, user,
@@ -364,7 +364,7 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 {
 	xmlOutputBufferPtr res = xmlAllocOutputBuffer (handler);
 	if (res != NULL) {
-		g_object_ref (G_OBJECT (output));
+		g_object_ref (output);
 		res->context = (void *)output;
 		res->writecallback = gsf_libxml_write;
 		res->closecallback = gsf_libxml_close;

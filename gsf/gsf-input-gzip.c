@@ -185,6 +185,17 @@ init_zip (GsfInputGZip *gzip, GError **err)
 	return FALSE;
 }
 
+static void
+gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
+{
+	if (source)
+		g_object_ref (GSF_INPUT (source));
+	if (gzip->source)
+		g_object_unref (gzip->source);
+	gzip->source = source;
+}
+
+
 /**
  * gsf_input_gzip_new :
  * @source : The underlying data source.
@@ -222,10 +233,7 @@ gsf_input_gzip_finalize (GObject *obj)
 {
 	GsfInputGZip *gzip = (GsfInputGZip *)obj;
 
-	if (gzip->source != NULL) {
-		g_object_unref (G_OBJECT (gzip->source));
-		gzip->source = NULL;
-	}
+	gsf_input_gzip_set_source (gzip, NULL);
 
 	g_free (gzip->buf);
 
@@ -421,16 +429,6 @@ gsf_input_gzip_get_property (GObject     *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
-}
-
-static void
-gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
-{
-	if (source)
-		g_object_ref (GSF_INPUT (source));
-	if (gzip->source)
-		g_object_unref (gzip->source);
-	gzip->source = source;
 }
 
 static void

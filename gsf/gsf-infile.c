@@ -160,7 +160,7 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 		if (child == NULL)
 			break;
 		if (tmp != NULL)
-			g_object_unref (G_OBJECT (tmp));
+			g_object_unref (tmp);
 
 		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
 
@@ -191,7 +191,7 @@ gsf_infile_child_by_aname (GsfInfile *infile, char const *names[])
 	for (;*names ; names++) {
 		child = gsf_infile_child_by_name (infile, *names);
 		if (tmp != NULL)
-			g_object_unref (G_OBJECT (tmp));
+			g_object_unref (tmp);
 		if (child == NULL)
 			break;
 
