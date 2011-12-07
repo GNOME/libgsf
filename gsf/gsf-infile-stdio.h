@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-infile-stdio.h: 
+ * gsf-infile-stdio.h:
  *
  * Copyright (C) 2004-2006 Novell, Inc.
  *

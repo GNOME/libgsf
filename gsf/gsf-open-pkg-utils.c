@@ -763,7 +763,7 @@ gsf_outfile_open_pkg_set_sink (GsfOutfileOpenPkg *open_pkg, GsfOutput *sink)
 /**
  * gsf_outfile_open_pkg_set_content_type :
  * @open_pkg : #GsfOutfileOpenPkg
- * @content_type : 
+ * @content_type :
  *
  **/
 void
@@ -812,7 +812,7 @@ gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
 	GString *path;
 	int up = -1;
 	GsfOutfile *child_dir, *parent_dir;
-	
+
 	/* Calculate the path from @child to @parent */
 	parent_dir = parent->is_dir ? GSF_OUTFILE (parent)
 		: gsf_output_container (GSF_OUTPUT (parent));

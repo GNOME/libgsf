@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-outfile-msole.c: 
+ * gsf-outfile-msole.c:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -218,7 +218,7 @@ ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 static void
 ole_pad_bat_unused (GsfOutfileMSOle *ole, unsigned residual)
 {
-	ole_write_const (ole->sink, BAT_MAGIC_UNUSED, 
+	ole_write_const (ole->sink, BAT_MAGIC_UNUSED,
 		(ole_bytes_left_in_block (ole) / BAT_INDEX_SIZE) - residual);
 }
 
@@ -513,7 +513,7 @@ gsf_outfile_msole_write (GsfOutput *output,
 			g_warning ("File too big");
 			return FALSE;
 		}
-		
+
 		ole->first_block = ole_cur_block (ole);
 		ole->type = MSOLE_BIG_BLOCK;
 		wsize = output->cur_size;
@@ -619,7 +619,7 @@ gsf_outfile_msole_new_child (GsfOutfile *parent,
 	child->sink   = ole_parent->sink;
 	child->root   = ole_parent->root;
 	gsf_outfile_msole_set_block_shift (child,
-		ole_parent->bb.shift, ole_parent->sb.shift); 
+		ole_parent->bb.shift, ole_parent->sb.shift);
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 
@@ -640,7 +640,7 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->root   = NULL;
 	ole->type   = MSOLE_DIR;
 
-	gsf_outfile_msole_set_block_shift (ole, 
+	gsf_outfile_msole_set_block_shift (ole,
 		OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
 
 	ole->content.dir.children = NULL;
@@ -771,7 +771,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)
 {
-	return gsf_outfile_msole_new_full (sink, 
+	return gsf_outfile_msole_new_full (sink,
 		OLE_DEFAULT_BB_SIZE, OLE_DEFAULT_SB_SIZE);
 }
 

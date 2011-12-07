@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-timestamp.c: 
+ * gsf-timestamp.c:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -110,10 +110,10 @@ static time_t gmt_to_local_win32(void)
 
     if (dwStandardDaylight == TIME_ZONE_ID_STANDARD)
         bias += tzinfo.StandardBias;
-    
+
     if (dwStandardDaylight == TIME_ZONE_ID_DAYLIGHT)
         bias += tzinfo.DaylightBias;
-    
+
     return (- bias * 60);
 }
 #endif

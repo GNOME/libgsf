@@ -38,7 +38,7 @@ ls_R (GsfInput *input)
 	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 	/* Please see the comment on is_dir in test-cp-msole.c. */
-	
+
 	printf ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		(name != NULL) ? name : "",

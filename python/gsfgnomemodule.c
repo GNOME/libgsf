@@ -18,7 +18,7 @@
  * USA
  */
 
-/* 
+/*
  * Python bindings for gnome extensions to libgsf.
  */
 
@@ -40,7 +40,7 @@ initgnome (void)
 	d = PyModule_GetDict (m);
 
 	pygsfgnome_register_classes (d);
-	
+
 	if (PyErr_Occurred ()) {
 		Py_FatalError ((char *) "can't initialise module gsf.gnome");
 	}

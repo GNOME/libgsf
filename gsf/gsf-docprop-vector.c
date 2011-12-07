@@ -57,7 +57,7 @@ GsfDocPropVector *
 gsf_value_get_docprop_vector (GValue const *value)
 {
 	g_return_val_if_fail (VAL_IS_GSF_DOCPROP_VECTOR (value), NULL);
-	
+
 	return (GsfDocPropVector *) g_value_get_object (value);
 }
 
@@ -100,11 +100,11 @@ gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 
 	rstring    = g_new0 (gchar, 1);
 	num_values = vector->gva->n_values;
-	
+
 	for (i = 0; i < num_values; i++) {
 		char    *str;
 		GValue	*v;
-		
+
 		v = g_value_array_get_nth (vector->gva, i);
 		str = g_strdup_value_contents (v);
 		rstring = g_strconcat (rstring, str, ",", NULL);

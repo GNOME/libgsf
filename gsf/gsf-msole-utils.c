@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-msole-utils.c: 
+ * gsf-msole-utils.c:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2002-2006 Dom Lachowicz (cinamod@hotmail.com)
@@ -235,7 +235,7 @@ msole_vt_name (GsfMSOleVariantType type)
 		"VT_I8",	"VT_UI8",	"VT_INT",	"VT_UINT",	"VT_VOID",
 		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",	"VT_USERDEFINED",
 		"VT_LPSTR",	"VT_LPWSTR",
-	};	
+	};
 	static char const *names2[] = {
 		"VT_FILETIME",
 		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
@@ -616,7 +616,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_DATE :
-		/* 
+		/*
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
 		 */
@@ -714,7 +714,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_LPSTR :
-		/* 
+		/*
 		 * This is the representation of many strings.  It is stored in
 		 * the same representation as VT_BSTR.  Note that the serialized
 		 * representation of VP_LPSTR has a preceding byte count, whereas
@@ -1106,8 +1106,8 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 	GsfMSOleMetaDataSection *sections;
 	GsfMSOleMetaDataProp	*props;
 	GsfDocProp		*prop;
-	
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=352055 
+
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=352055
 	 * psiwin generates files with empty property sections */
 	if (gsf_input_size (in) <= 0)
 		return NULL;
@@ -1560,7 +1560,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 			i++;
 			offsets[i].id     = offsets[i-1].id | 0x1000000;
 			offsets[i].offset = gsf_output_tell (state->out);
-			g_value_set_static_string (&scratch, 
+			g_value_set_static_string (&scratch,
 				gsf_doc_prop_get_link (prop));
 			msole_metadata_write_prop (state, NULL, &scratch, FALSE);
 		}
@@ -1703,19 +1703,19 @@ static struct {
 	{ "sq_AL",  0x041c }, /* Albanian */
 	{ "ar_SA",  0x0401 }, /* Arabic (Saudi) */
 	{ "ar_IQ",  0x0801 }, /* Arabic (Iraq) */
-	{ "ar_EG",  0x0c01 }, /* Arabic (Egypt) */		
+	{ "ar_EG",  0x0c01 }, /* Arabic (Egypt) */
 	{ "ar_LY",  0x1001 }, /* Arabic (Libya) */
 	{ "ar_DZ",  0x1401 }, /* Arabic (Algeria) */
 	{ "ar_MA",  0x1801 }, /* Arabic (Morocco) */
 	{ "ar_TN",  0x1c01 }, /* Arabic (Tunisia) */
 	{ "ar_OM",  0x2001 }, /* Arabic (Oman) */
-	{ "ar_YE",  0x2401 }, /* Arabic (Yemen) */		
+	{ "ar_YE",  0x2401 }, /* Arabic (Yemen) */
 	{ "ar_SY",  0x2801 }, /* Arabic (Syria) */
 	{ "ar_JO",  0x2c01 }, /* Arabic (Jordan) */
 	{ "ar_LB",  0x3001 }, /* Arabic (Lebanon) */
 	{ "ar_KW",  0x3401 }, /* Arabic (Kuwait) */
 	{ "ar_AE",  0x3801 }, /* Arabic (United Arab Emirates) */
-	{ "ar_BH",  0x3c01 }, /* Arabic (Bahrain) */		
+	{ "ar_BH",  0x3c01 }, /* Arabic (Bahrain) */
 	{ "ar_QA",  0x4001 }, /* Arabic (Qatar) */
 	{ "as",     0x044d }, /* Assamese */
 	{ "az",     0x042c }, /* Azerbaijani */
@@ -1723,20 +1723,20 @@ static struct {
 	{ "az",     0x044c }, /* Azeri (Latin) az_ */
 	{ "az",     0x082c }, /* Azeri (Cyrillic) az_ */
 	{ "eu_ES",  0x042d }, /* Basque */
-	{ "be_BY",  0x0423 }, /* Belarussian */		
+	{ "be_BY",  0x0423 }, /* Belarussian */
 	{ "bn",     0x0445 }, /* Bengali bn_ */
 	{ "bg_BG",  0x0402 }, /* Bulgarian */
 	{ "ca_ES",  0x0403 }, /* Catalan */
 	{ "zh_TW",  0x0404 }, /* Chinese (Taiwan) */
 	{ "zh_CN",  0x0804 }, /* Chinese (PRC) */
-	{ "zh_HK",  0x0c04 }, /* Chinese (Hong Kong) */		
+	{ "zh_HK",  0x0c04 }, /* Chinese (Hong Kong) */
 	{ "zh_SG",  0x1004 }, /* Chinese (Singapore) */
 	{ "ch_MO",  0x1404 }, /* Chinese (Macau SAR) */
 	{ "hr_HR",  0x041a }, /* Croatian */
 	{ "cs_CZ",  0x0405 }, /* Czech */
 	{ "da_DK",  0x0406 }, /* Danish */
 	{ "div",    0x465 }, /* Divehi div_*/
-	{ "nl_NL",  0x0413 }, /* Dutch (Netherlands) */		
+	{ "nl_NL",  0x0413 }, /* Dutch (Netherlands) */
 	{ "nl_BE",  0x0813 }, /* Dutch (Belgium) */
 	{ "en_US",  0x0409 }, /* English (USA) */
 	{ "en_GB",  0x0809 }, /* English (UK) */
@@ -1748,19 +1748,19 @@ static struct {
 	{ "en_JM",  0x2009 }, /* English (Jamaica) */
 	{ "en",     0x2409 }, /* English (Caribbean) */
 	{ "en_BZ",  0x2809 }, /* English (Belize) */
-	{ "en_TT",  0x2c09 }, /* English (Trinidad) */		
+	{ "en_TT",  0x2c09 }, /* English (Trinidad) */
 	{ "en_ZW",  0x3009 }, /* English (Zimbabwe) */
 	{ "en_PH",  0x3409 }, /* English (Phillipines) */
 	{ "et_EE",  0x0425 }, /* Estonian */
 	{ "fo",     0x0438 }, /* Faeroese fo_ */
 	{ "fa_IR",  0x0429 }, /* Farsi */
-	{ "fi_FI",  0x040b }, /* Finnish */		
+	{ "fi_FI",  0x040b }, /* Finnish */
 	{ "fr_FR",  0x040c }, /* French (France) */
 	{ "fr_BE",  0x080c }, /* French (Belgium) */
 	{ "fr_CA",  0x0c0c }, /* French (Canada) */
 	{ "fr_CH",  0x100c }, /* French (Switzerland) */
 	{ "fr_LU",  0x140c }, /* French (Luxembourg) */
-	{ "fr_MC",  0x180c }, /* French (Monaco) */		
+	{ "fr_MC",  0x180c }, /* French (Monaco) */
 	{ "gl",     0x0456 }, /* Galician gl_ */
 	{ "ga_IE",  0x083c }, /* Irish Gaelic */
 	{ "gd_GB",  0x100c }, /* Scottish Gaelic */
@@ -1776,7 +1776,7 @@ static struct {
 	{ "he_IL",  0x040d }, /* Hebrew */
 	{ "hi_IN",  0x0439 }, /* Hindi */
 	{ "hu_HU",  0x040e }, /* Hungarian */
-	{ "is_IS",  0x040f }, /* Icelandic */		
+	{ "is_IS",  0x040f }, /* Icelandic */
 	{ "id_ID",  0x0421 }, /* Indonesian */
 	{ "iu",     0x045d }, /* Inkutitut */
 	{ "it_IT",  0x0410 }, /* Italian (Italy) */
@@ -1792,7 +1792,7 @@ static struct {
 	{ "la",     0x0476 }, /* Latin */
 	{ "lo",     0x0454 }, /* Laothian */
 	{ "lv_LV",  0x0426 }, /* Latvian */
-	{ "lt_LT",  0x0427 }, /* Lithuanian */		
+	{ "lt_LT",  0x0427 }, /* Lithuanian */
 	{ "lt_LT",  0x0827 }, /* Lithuanian (Classic) */
 	{ "mk",     0x042f }, /* FYRO Macedonian */
 	{ "my_MY",  0x043e }, /* Malaysian */
@@ -1807,39 +1807,39 @@ static struct {
 	{ "nn_NO",  0x0814 }, /* Norwegian (Nynorsk) */
 	{ "or",     0x0448 }, /* Oriya or_ */
 	{ "om",     0x0472 }, /* Oromo (Afan, Galla) */
-	{ "pl_PL",  0x0415 }, /* Polish */		
+	{ "pl_PL",  0x0415 }, /* Polish */
 	{ "pt_BR",  0x0416 }, /* Portuguese (Brazil) */
 	{ "pt_PT",  0x0816 }, /* Portuguese (Portugal) */
 	{ "pa",     0x0446 }, /* Punjabi pa_ */
 	{ "ps",     0x0463 }, /* Pashto (Pushto) */
 	{ "rm",     0x0417 }, /* Rhaeto_Romanic rm_ */
 	{ "ro_RO",  0x0418 }, /* Romanian */
-	{ "ro_MD",  0x0818 }, /* Romanian (Moldova) */		
+	{ "ro_MD",  0x0818 }, /* Romanian (Moldova) */
 	{ "ru_RU",  0x0419 }, /* Russian */
 	{ "ru_MD",  0x0819 }, /* Russian (Moldova) */
 	{ "se",     0x043b }, /* Sami (Lappish) se_ */
 	{ "sa",     0x044f }, /* Sanskrit sa_ */
 	{ "sr",     0x0c1a }, /* Serbian (Cyrillic) sr_ */
-	{ "sr",     0x081a }, /* Serbian (Latin) sr_ */		
+	{ "sr",     0x081a }, /* Serbian (Latin) sr_ */
 	{ "sd",     0x0459 }, /* Sindhi sd_ */
 	{ "sk_SK",  0x041b }, /* Slovak */
 	{ "sl_SI",  0x0424 }, /* Slovenian */
 	{ "wen",    0x042e }, /* Sorbian wen_ */
 	{ "so",     0x0477 }, /* Somali */
 	{ "es_ES",  0x040a }, /* Spanish (Spain, Traditional) */
-	{ "es_MX",  0x080a }, /* Spanish (Mexico) */		
+	{ "es_MX",  0x080a }, /* Spanish (Mexico) */
 	{ "es_ES",  0x0c0a }, /* Spanish (Modern) */
 	{ "es_GT",  0x100a }, /* Spanish (Guatemala) */
 	{ "es_CR",  0x140a }, /* Spanish (Costa Rica) */
 	{ "es_PA",  0x180a }, /* Spanish (Panama) */
 	{ "es_DO",  0x1c0a }, /* Spanish (Dominican Republic) */
-	{ "es_VE",  0x200a }, /* Spanish (Venezuela) */		
+	{ "es_VE",  0x200a }, /* Spanish (Venezuela) */
 	{ "es_CO",  0x240a }, /* Spanish (Colombia) */
 	{ "es_PE",  0x280a }, /* Spanish (Peru) */
 	{ "es_AR",  0x2c0a }, /* Spanish (Argentina) */
 	{ "es_EC",  0x300a }, /* Spanish (Ecuador) */
 	{ "es_CL",  0x340a }, /* Spanish (Chile) */
-	{ "es_UY",  0x380a }, /* Spanish (Uruguay) */		
+	{ "es_UY",  0x380a }, /* Spanish (Uruguay) */
 	{ "es_PY",  0x3c0a }, /* Spanish (Paraguay) */
 	{ "es_BO",  0x400a }, /* Spanish (Bolivia) */
 	{ "es_SV",  0x440a }, /* Spanish (El Salvador) */
@@ -1861,7 +1861,7 @@ static struct {
 	{ "tg",     0x0428 }, /* Tajik */
 	{ "bo",     0x0451 }, /* Tibetan */
 	{ "ti",     0x0473 }, /* Tigrinya */
-	{ "uk_UA",  0x0422 }, /* Ukrainian */		
+	{ "uk_UA",  0x0422 }, /* Ukrainian */
 	{ "ur_PK",  0x0420 }, /* Urdu (Pakistan) */
 	{ "ur_IN",  0x0820 }, /* Urdu (India) */
 	{ "uz",     0x0443 }, /* Uzbek (Latin) uz_ */
@@ -1897,7 +1897,7 @@ gsf_msole_lid_for_language (char const *lang)
 	for (i = 0 ; i < G_N_ELEMENTS(gsf_msole_language_ids); i++)
 		if (!strncmp (lang, gsf_msole_language_ids[i].tag, len))
 			return gsf_msole_language_ids[i].lid;
-	
+
 	return 0x0400 ;   /* return -none- */
 }
 
@@ -1913,11 +1913,11 @@ char const *
 gsf_msole_language_for_lid (guint lid)
 {
 	guint i = 0 ;
-	
+
 	for (i = 0 ; i < G_N_ELEMENTS(gsf_msole_language_ids); i++)
 		if (gsf_msole_language_ids[i].lid == lid)
 			return gsf_msole_language_ids[i].tag;
-	
+
 	return "-none-"; /* default */
 }
 
@@ -1992,7 +1992,7 @@ gsf_msole_lid_to_codepage (guint lid)
 		case 0x1404:		/* Chinese (Macau SAR) */
 		case 0x0c04:		/* Chinese (Hong Kong SAR, PRC) */
 			return 950;
-			
+
 		case 0x0804:		/* Chinese (PRC) */
 			return 936;
 		default :
@@ -2142,7 +2142,7 @@ gsf_msole_lid_to_codepage (guint lid)
 		return 0;
 
 #if 0
-		/****************************************************************** 
+		/******************************************************************
 		 * Below this line is untested, unproven, and are just guesses.   *
 		 * Insert above and use at your own risk                          *
 		 ******************************************************************/
@@ -2162,7 +2162,7 @@ gsf_msole_lid_to_codepage (guint lid)
 		return 0; /* UNKNOWN, believed to be Unicode only */
 #endif
 	};
-	
+
 	/* This is just a guess, but it will be a frequent guess */
 	return 1252;
 }
@@ -2170,7 +2170,7 @@ gsf_msole_lid_to_codepage (guint lid)
 /**
  * gsf_msole_lid_to_codepage_str
  * @lid :
- * 
+ *
  * Returns: the Iconv codepage string for the given LID.
  * 	Return value must be g_free ()'d
  **/
@@ -2245,7 +2245,7 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 		default:
 			cp_list = g_slist_prepend (cp_list, g_strdup_printf ("CP%u", codepage));
 	}
-	
+
 	return cp_list;
 }
 
@@ -2357,9 +2357,9 @@ gsf_msole_iconv_open_for_export (void)
  * gsf_msole_inflate:
  * @input: stream to read from
  * @offset: offset into it for start byte of compresse stream
- * 
+ *
  * Decompresses an LZ compressed stream.
- * 
+ *
  * Return value: A GByteArray that the caller is responsible for freeing
  **/
 GByteArray *

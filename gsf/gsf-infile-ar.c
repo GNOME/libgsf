@@ -40,7 +40,7 @@
 
 static GObjectClass *parent_class;
 
-typedef struct {	
+typedef struct {
 	char                 *name;
 	size_t                usize;
 	gsf_off_t             offset;
@@ -207,7 +207,7 @@ ar_vdir_child_by_name (ArVDir *vdir, char const * name)
 {
 	GSList *l;
 	ArVDir *child;
-	
+
 	for (l = vdir->children; l; l = l->next) {
 		child = (ArVDir *) l->data;
 		if (strcmp (child->name, name) == 0)
@@ -220,7 +220,7 @@ static ArVDir *
 ar_vdir_child_by_index (ArVDir *vdir, int target)
 {
 	GSList *l;
-	
+
 	for (l = vdir->children; l; l = l->next)
 		if (target-- <= 0)
 			return (ArVDir *) l->data;
@@ -233,7 +233,7 @@ ar_vdir_insert (ArVDir *vdir, char const * name, ArDirent *dirent)
 	char const *p;
 	char *dirname;
 	ArVDir *child;
-	
+
 	p = strchr (name, AR_NAME_SEPARATOR);
 	if (p) {	/* A directory */
 		dirname = g_strndup (name, (gsize) (p - name));
@@ -292,7 +292,7 @@ ar_read_header (GsfInput *fp, ArHeader *header)
 
 	if (fp == NULL || header == NULL)
 		return AR_FAILURE;
-	
+
 	memset(header, 0, AR_HEADER_LEN);
 
 	len = gsf_input_remaining (fp);
@@ -425,7 +425,7 @@ gsf_infile_ar_init (GObject *obj)
 	GsfInfileAr *ar = (GsfInfileAr *)obj;
 	ar->input       = NULL;
 	ar->vdir        = NULL;
-	ar->buf         = NULL;	
+	ar->buf         = NULL;
 	ar->buf_size    = 0;
 }
 

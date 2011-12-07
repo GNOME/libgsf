@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-shared-memory.c: 
+ * gsf-shared-memory.c:
  *
  * Copyright (C) 2002-2006 Morten Welinder (terra@diku.dk)
  *
@@ -71,7 +71,7 @@ static void
 gsf_shared_memory_finalize (GObject *obj)
 {
 	GsfSharedMemory *mem = (GsfSharedMemory *) (obj);
-	
+
 	if (mem->buf != NULL) {
 		if (mem->needs_free)
 			g_free (mem->buf);

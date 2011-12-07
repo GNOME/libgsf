@@ -303,7 +303,7 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	 * Either NULL or a UTF-8 string (representable in the target encoding)
 	 * to convert and output in place of characters that cannot be represented
 	 * in the target encoding.  NULL means use \u1234 or \U12345678 format.
-	 */  
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FALLBACK,

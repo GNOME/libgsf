@@ -35,7 +35,7 @@ ls_R (GsfInput *input)
 	char const *name = gsf_input_name (GSF_INPUT (input));
 	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
-	
+
 	printf ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		(name != NULL) ? name : "",

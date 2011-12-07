@@ -90,7 +90,7 @@ glade_flags_from_string (GType type, const char *string)
 	gboolean eos;
 
 	eos = flagstr [i] == '\0';
-	
+
 	if (eos || flagstr [i] == '|') {
 	    GFlagsValue *fv;
 	    const char  *flag;
@@ -140,7 +140,7 @@ glade_flags_from_string (GType type, const char *string)
 		break;
 	}
     }
-    
+
     g_free (flagstr);
 
     g_type_class_unref(fclass);
@@ -161,7 +161,7 @@ glade_string_from_flags (GType type, guint flags)
     if (flags_class->n_values)
       {
 	GFlagsValue *fval;
-      
+
 	for (fval = flags_class->values; fval->value_name; fval++)
 	  {
 	    /* We have to be careful as some flags include 0 values, e.g.
@@ -223,7 +223,7 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 		g_value_set_uchar (res, (guchar)str[0]);
 		break;
 	case G_TYPE_BOOLEAN:
-		g_value_set_boolean (res, 
+		g_value_set_boolean (res,
 			g_ascii_tolower (str[0]) == 't' ||
 			g_ascii_tolower (str[0]) == 'y' ||
 			strtol (str, NULL, 0));
@@ -239,7 +239,7 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 		break;
 	case G_TYPE_ULONG:
 		g_value_set_ulong (res, strtoul (str, NULL, 0));
-		break; 
+		break;
 	case G_TYPE_ENUM:
 		g_value_set_enum (res, glade_enum_from_string (G_VALUE_TYPE (res), str));
 		break;
@@ -319,7 +319,7 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 
 	res = xmlCreateIOParserCtxt (
 		sax, user,
-		(xmlInputReadCallback) gsf_libxml_read, 
+		(xmlInputReadCallback) gsf_libxml_read,
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
 
@@ -1167,7 +1167,7 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 {
 	GsfXMLInInternal *state = (GsfXMLInInternal *)xin;
 	GsfXMLInExtension *ext;
-	
+
 	g_return_if_fail (xin != NULL);
 	g_return_if_fail (doc != NULL);
 	g_return_if_fail (doc->root_node != NULL);
@@ -1239,7 +1239,7 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
  * @xin : #GsfXMLIn
  * @str : string to check
  * @ns_id : the namespace id
- * 
+ *
  * According to @state is @str in the namespace @ns_id ?
  *
  * Returns: a pointer to @str after the namespace if successful,
@@ -1868,7 +1868,7 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 		break;
 	case G_TYPE_ULONG:
 		gsf_xml_out_add_uint (xout, id, g_value_get_ulong (val));
-		break; 
+		break;
 	case G_TYPE_ENUM:
 		gsf_xml_out_add_cstr (xout, id,
 			glade_string_from_enum (t, g_value_get_enum (val)));

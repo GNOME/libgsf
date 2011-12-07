@@ -77,12 +77,12 @@ GSF_CLASS (GsfBlob, gsf_blob,
  * @size: Size of the data in bytes.
  * @data_to_copy: Data which will be copied into the blob, or %NULL if @size is zero.
  * @error: location to store error, or %NULL.
- * 
+ *
  * Creates a new #GsfBlob object to hold the specified data.  The blob can then
  * be used as a facility for reference-counting for the data.  The data is
  * copied internally, so the blob does not hold references to external chunks
  * of memory.
- * 
+ *
  * Return value: A newly-created #GsfBlob, or %NULL if the data could not be copied.
  *
  * Error domain: #GSF_ERROR
@@ -132,9 +132,9 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
 /**
  * gsf_blob_get_size:
  * @blob: A #GsfBlob.
- * 
+ *
  * Queries the size in bytes of the data stored in the blob.
- * 
+ *
  * Return value: Size in bytes, or 0 if the data is %NULL.
  **/
 gsize
@@ -151,11 +151,11 @@ gsf_blob_get_size (GsfBlob const *blob)
 /**
  * gsf_blob_peek_data:
  * @blob: A #GsfBlob.
- * 
+ *
  * Queries a pointer to the data stored in the blob.  This does not copy the data
  * for you; it returns a pointer to the actual buffer which the blob uses internally,
  * so you should not free this buffer on your own.
- * 
+ *
  * Return value: Pointer to the data stored in the blob, or %NULL if the size
  * of the data is zero.
  **/

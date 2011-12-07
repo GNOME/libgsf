@@ -283,7 +283,7 @@ tar_init_info (GsfInfileTar *tar)
 
 		/* Round up to block size */
 		length = (length + (BLOCK_SIZE - 1)) / BLOCK_SIZE * BLOCK_SIZE;
-		
+
 		if (!tar->err &&
 		    gsf_input_seek (tar->source, offset + length, G_SEEK_SET)) {
 			tar->err = g_error_new (gsf_input_error_id (), 0,

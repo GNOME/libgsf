@@ -235,7 +235,7 @@ gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 		if (gib_synch_shared_ptr (binput) != 0)
 			return TRUE;
 	}
-	
+
 	switch (whence) {
 	case G_SEEK_SET :
 		bwhence =  Bonobo_Stream_SeekSet;
@@ -249,7 +249,7 @@ gsf_input_bonobo_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	default:
 		return TRUE;
 	}
-	
+
 
 	coffset = offset;
 	if ((gsf_off_t) coffset != offset) { /* Check for overflow */

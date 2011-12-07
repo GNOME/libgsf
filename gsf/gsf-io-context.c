@@ -139,7 +139,7 @@ void
 gsf_io_context_update_progress (GsfIOContext *ioc, gdouble value)
 {
 	gdouble *new_range;
-	
+
 	g_return_if_fail (GSF_IS_IO_CONTEXT (ioc));
 
 	/* check value */

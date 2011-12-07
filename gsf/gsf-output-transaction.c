@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-output-transaction.c: 
+ * gsf-output-transaction.c:
  *
  * Copyright (C) 2004-2006 Dom Lachowicz (cinamod@hotmail.com)
  *
@@ -36,10 +36,10 @@ struct _GsfOutputTransaction
 	gboolean    aborted;
 };
 
-struct _GsfOutputTransactionClass 
+struct _GsfOutputTransactionClass
 {
 	GsfOutputClass parent;
-	
+
 	/* signals */
 	void (* updated)   (GsfOutputTransaction * me);
 	void (* committed) (GsfOutputTransaction * me);
@@ -83,9 +83,9 @@ gsf_output_transaction_commit (GsfOutputTransaction * output)
 		g_warning ("Attempting to commit to an aborted transaction");
 		return FALSE;
 	}
-	
+
 	/* write the proxy's bytes to the wrapped class */
-	result = gsf_output_write (output->wrapped, 
+	result = gsf_output_write (output->wrapped,
 				   gsf_output_size (GSF_OUTPUT (output->proxy)),
 				   gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output->proxy)));
 
@@ -96,7 +96,7 @@ gsf_output_transaction_commit (GsfOutputTransaction * output)
 	}
 	else
 		gsf_output_transaction_abort (output);
-	
+
 	return result;
 }
 
@@ -114,10 +114,10 @@ gsf_output_transaction_abort (GsfOutputTransaction * output)
 	g_return_if_fail (GSF_IS_OUTPUT_TRANSACTION (output));
 
 	output->aborted = TRUE;
-	
+
 	/* close the underlying proxy - we can no longer take place in any transactions */
 	gsf_output_close (GSF_OUTPUT (output));
-	
+
 	g_signal_emit (G_OBJECT (output), transaction_signals[ABORTED], 0);
 }
 
@@ -143,12 +143,12 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, char const *name)
 	gsf_output_set_name (GSF_OUTPUT (trans), name);
 
 	trans->proxy = gsf_output_memory_new ();
-	
+
 	/* TODO: connect signals if wrapped is a GsfOutputTransaction for cascade-effect?? */
-	
+
 	trans->wrapped = wrapped;
 	g_object_ref (trans->wrapped);
-	
+
 	return GSF_OUTPUT (trans);
 }
 
@@ -185,7 +185,7 @@ static gboolean
 gsf_output_trans_seek (GsfOutput *output, gsf_off_t offset,
 		       GSeekType whence)
 {
-	GsfOutputTransaction * trans = (GsfOutputTransaction *)output;	
+	GsfOutputTransaction * trans = (GsfOutputTransaction *)output;
 	gboolean result;
 
 	g_return_val_if_fail (output != NULL, FALSE);
@@ -216,18 +216,18 @@ gsf_output_trans_write (GsfOutput *output,
 
 	g_return_val_if_fail (output != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_OUTPUT_TRANSACTION (output), FALSE);
-	
+
 	if (trans->aborted) {
 		g_warning ("Attempting to write to an aborted transaction");
 		return FALSE;
 	}
-	
+
 	result = gsf_output_write (trans->proxy, num_bytes, buffer);
 	if (result)
 		g_signal_emit (G_OBJECT (trans), transaction_signals[UPDATED], 0);
 	else
 		gsf_output_transaction_abort (trans);
-	
+
 	return result;
 }
 
@@ -243,18 +243,18 @@ gsf_output_trans_vprintf (GsfOutput *output, char const *format, va_list args)
 
 	g_return_val_if_fail (output != NULL, FALSE);
 	g_return_val_if_fail (GSF_IS_OUTPUT_TRANSACTION (output), FALSE);
-	
+
 	if (trans->aborted) {
 		g_warning ("Attempting to write to an aborted transaction");
 		return FALSE;
 	}
-	
+
 	result = proxy_class->Vprintf (trans->proxy, format, args);
 	if (result >= 0)
 		g_signal_emit (G_OBJECT (trans), transaction_signals[UPDATED], 0);
 	else
 		gsf_output_transaction_abort (trans);
-	
+
 	return result;
 }
 

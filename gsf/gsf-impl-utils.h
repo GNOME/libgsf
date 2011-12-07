@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-impl-utils.h: 
+ * gsf-impl-utils.h:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *

@@ -1,5 +1,5 @@
 /*
- * gsf-infile-tar.h: 
+ * gsf-infile-tar.h:
  *
  * Copyright (C) 2008 Morten Welinder (terra@gnome.org)
  *

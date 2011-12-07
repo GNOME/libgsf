@@ -36,7 +36,7 @@ struct _GsfStructuredBlob {
 
 	GsfSharedMemory *data;
 	GPtrArray *children;
-}; 
+};
 typedef struct {
 	GsfInfileClass base;
 } GsfStructuredBlobClass;

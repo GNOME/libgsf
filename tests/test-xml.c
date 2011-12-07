@@ -60,7 +60,7 @@ test (char *argv[])
 		rval = 1;
 		err = (GError*) gsf_output_error (output);
 		if (err != NULL) {
-			g_warning ("'%s' error: %s\n", argv[2], err->message);	
+			g_warning ("'%s' error: %s\n", argv[2], err->message);
 		}
 	}
 

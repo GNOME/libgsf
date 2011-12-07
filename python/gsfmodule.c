@@ -18,7 +18,7 @@
  * USA
  */
 
-/* 
+/*
  * Python bindings for libgsf.
  */
 
@@ -40,7 +40,7 @@ init_gsf (void)
 	d = PyModule_GetDict (m);
 
 	pygsf_register_classes (d);
-	
+
 	if (PyErr_Occurred ()) {
 		Py_FatalError ((char *) "can't initialise module gsf");
 	}

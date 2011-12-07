@@ -154,7 +154,7 @@
  *
  * (Vector of strings) Names of the 'interesting' parts of the document.  In
  * spreadsheets this is a list of the sheet names, and the named expressions.
- * From MSOLE 
+ * From MSOLE
  */
 #define GSF_META_NAME_DOCUMENT_PARTS			"gsf:document-parts"
 
@@ -163,7 +163,7 @@
  *
  * (Vector of string value pairs stored in alternating elements) Store the
  * counts of objects in the document as names 'worksheet' and count '4'
- * From MSOLE 
+ * From MSOLE
  */
 #define GSF_META_NAME_HEADING_PAIRS			"gsf:heading-pairs"
 
@@ -220,7 +220,7 @@
 /**
  * GSF_META_NAME_SCALE:
  *
- * (Boolean) ????? 
+ * (Boolean) ?????
  */
 #define GSF_META_NAME_SCALE				"gsf:scale"
 
@@ -392,7 +392,7 @@
  * GSF_META_NAME_EDITING_DURATION:
  *
  * (Date as ISO String) The total-time taken until the last modification.
- * Moved from "gsf" to "meta". This way can be used correctly by OpenDocument 
+ * Moved from "gsf" to "meta". This way can be used correctly by OpenDocument
  * and Gnumeric.
  */
 #define GSF_META_NAME_EDITING_DURATION			"meta:editing-duration"

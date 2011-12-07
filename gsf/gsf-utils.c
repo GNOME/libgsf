@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-utils.c: 
+ * gsf-utils.c:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -189,7 +189,7 @@ gsf_init (void)
 
 /**
  * gsf_shutdown:
- * 
+ *
  * De-intializes the GSF library
  * Currently does nothing.
  **/
@@ -267,7 +267,7 @@ gsf_init_dynamic (GTypeModule *module)
 
 /**
  * gsf_shutdown:
- * 
+ *
  * De-intializes the GSF library from a type module.
  * Currently does nothing.
  **/
@@ -581,7 +581,7 @@ char const *
 gsf_extension_pointer (char const *path)
 {
 	char const *s, *end;
-	
+
 	g_return_val_if_fail (path != NULL, NULL);
 
 	end = path + strlen (path);
@@ -715,7 +715,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 
 	c1 = ((guint8 *)save)[1];
 	c2 = ((guint8 *)save)[2];
-	
+
 	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
 		 (int)((char *)save)[0],
 		 (int)((char *)save)[1],
@@ -791,7 +791,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 		case 2:	c1 = ((guint8 *)save)[1];
 			c2 = ((guint8 *)save)[2]; goto skip2;
 		}
-		
+
 		/* yes, we jump into the loop, no i'm not going to change it, it's beautiful! */
 		while (inptr < inend) {
 			c1 = *inptr++;

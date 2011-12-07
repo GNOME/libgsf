@@ -78,7 +78,7 @@ gsf_output_bonobo_seek (GsfOutput *output, gsf_off_t offset,
 	CORBA_long	  pos;
 	CORBA_Environment ev;
 
-	g_return_val_if_fail (bonobo->stream != CORBA_OBJECT_NIL, 
+	g_return_val_if_fail (bonobo->stream != CORBA_OBJECT_NIL,
 		gsf_output_set_error (output, 0, "missing stream"));
 
 	switch (whence) {

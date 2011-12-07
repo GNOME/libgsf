@@ -71,7 +71,7 @@ static gboolean
 init_bzip (GsfOutputBzip *bzip, GError **err)
 {
 	int ret;
-	
+
 	ret = BZ2_bzCompressInit (&bzip->stream, 6, 0, 0);
 
 	if (ret != BZ_OK) {
@@ -81,7 +81,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 		return FALSE;
 	}
 	if (!bzip->buf) {
-		bzip->buf_size = BZ_BUFSIZE; 
+		bzip->buf_size = BZ_BUFSIZE;
 		bzip->buf = g_new (guint8, bzip->buf_size);
 	}
 	bzip->stream.next_out  = bzip->buf;
@@ -94,7 +94,7 @@ static gboolean
 bzip_output_block (GsfOutputBzip *bzip)
 {
 	size_t num_bytes = bzip->buf_size - bzip->stream.avail_out;
-	
+
 	if (!gsf_output_write (bzip->sink, num_bytes, bzip->buf))
 		return FALSE;
 
@@ -141,7 +141,7 @@ gsf_output_bzip_write (GsfOutput *output,
 
 	bzip->stream.next_in  = (unsigned char *) data;
 	bzip->stream.avail_in = num_bytes;
-	
+
 	while (bzip->stream.avail_in > 0) {
 		int zret;
 
@@ -176,7 +176,7 @@ static gboolean
 gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
 		      G_GNUC_UNUSED gsf_off_t offset,
 		      G_GNUC_UNUSED GSeekType whence)
-{	
+{
 	return FALSE;
 }
 

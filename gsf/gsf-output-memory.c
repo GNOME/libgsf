@@ -47,7 +47,7 @@ typedef struct {
 GsfOutput *
 gsf_output_memory_new (void)
 {
-	return g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);	
+	return g_object_new (GSF_OUTPUT_MEMORY_TYPE, NULL);
 }
 
 static gboolean
@@ -61,7 +61,7 @@ static void
 gsf_output_memory_finalize (GObject *obj)
 {
 	GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (obj);
-	
+
 	g_free (mem->buffer);
 	mem->buffer = NULL;
 
@@ -82,7 +82,7 @@ gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t needed)
 {
 	gsf_off_t capacity = MAX (mem->capacity, MIN_BLOCK);
 	gsize lcapacity;
-	
+
 	/* If we need >= MAX_STEP, align to a next multiple of MAX_STEP.
 	 * Since MAX_STEP is probably a power of two, this computation
 	 * should reduce to "dec, shr, inc, shl", which is probably
@@ -102,7 +102,7 @@ gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t needed)
 	}
 	mem->buffer   = g_renew (guint8, mem->buffer, lcapacity);
 	mem->capacity = capacity;
-	
+
 	return TRUE;
 }
 
@@ -112,9 +112,9 @@ gsf_output_memory_write (GsfOutput *output,
 			 guint8 const *buffer)
 {
 	GsfOutputMemory *mem = GSF_OUTPUT_MEMORY (output);
-	
+
 	g_return_val_if_fail (mem != NULL, FALSE);
-	
+
 	if (!mem->buffer) {
 		mem->buffer   = g_new (guint8, MIN_BLOCK);
 		mem->capacity = MIN_BLOCK;
@@ -123,8 +123,8 @@ gsf_output_memory_write (GsfOutput *output,
 		if (!gsf_output_memory_expand (mem, output->cur_offset + num_bytes))
 			return FALSE;
 	}
-	
-	memcpy (mem->buffer + output->cur_offset, buffer, num_bytes);	
+
+	memcpy (mem->buffer + output->cur_offset, buffer, num_bytes);
 	return TRUE;
 }
 
@@ -174,7 +174,7 @@ static void
 gsf_output_memory_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
-	
+
 	gobject_class->finalize = gsf_output_memory_finalize;
 	output_class->Close     = gsf_output_memory_close;
 	output_class->Seek      = gsf_output_memory_seek;
@@ -187,7 +187,7 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
 /**
  * gsf_output_memory_get_bytes :
  * @mem : the output device.
- * 
+ *
  * Returns: The data that has been written to @mem, or %null
  **/
 const guint8 *

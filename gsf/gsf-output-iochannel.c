@@ -47,7 +47,7 @@ gsf_output_iochannel_new (GIOChannel *channel)
 
 	g_return_val_if_fail (channel != NULL, NULL);
 
-	output = g_object_new (GSF_OUTPUT_IOCHANNEL_TYPE, NULL);	
+	output = g_object_new (GSF_OUTPUT_IOCHANNEL_TYPE, NULL);
 	if (G_UNLIKELY (NULL == output)) return NULL;
 
 	output->channel = channel;
@@ -61,7 +61,7 @@ gsf_output_iochannel_close (GsfOutput *output)
 
 	if (parent_class->Close)
 		parent_class->Close (output);
-	
+
 	return TRUE;
 }
 
@@ -119,7 +119,7 @@ static void
 gsf_output_iochannel_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
-	
+
 	gobject_class->finalize = gsf_output_iochannel_finalize;
 	output_class->Close     = gsf_output_iochannel_close;
 	output_class->Seek      = gsf_output_iochannel_seek;

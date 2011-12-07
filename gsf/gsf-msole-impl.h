@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-msole-impl.h: 
+ * gsf-msole-impl.h:
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *

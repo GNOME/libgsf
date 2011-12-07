@@ -48,7 +48,7 @@ get_gsf_odf_version_string (void)
 	return "1.2";
 }
 
-G_MODULE_EXPORT short 
+G_MODULE_EXPORT short
 get_gsf_odf_version (void)
 {
 	return 102;
@@ -131,7 +131,7 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	GSF_XML_IN_NS (OO_LOTUS_NS_PRODTOOLS, "http://www.ibm.com/xmlns/prodtools"),
 
 	/* CleverAge ODF Add-in for Microsoft Office 3.0.5224.0 (11.0.8302)*/
-	GSF_XML_IN_NS (OO_CLEVERAGE_NS_DC,	"http://purl.org/dc/terms/"), 
+	GSF_XML_IN_NS (OO_CLEVERAGE_NS_DC,	"http://purl.org/dc/terms/"),
 
 	/* KOffice 1.6.3 */
 	GSF_XML_IN_NS (OO_KDE_NS_KOFFICE, "http://www.koffice.org/2005/"),
@@ -220,7 +220,7 @@ od_meta_user_defined (GsfXMLIn *xin,  xmlChar const **attrs)
 		else if (!strcmp (CXML2C (attrs[0]), "meta:value-type") ||
 			 !strcmp (CXML2C (attrs[0]), "meta:type")) {
 				/*
-				 * "meta:type" is a typo on the write 
+				 * "meta:type" is a typo on the write
 				 * side that was
 				 * fixed on 20110509.
 				 */
@@ -253,7 +253,7 @@ static void
 od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
-	
+
 	if (mi->name != NULL) {
 		GValue *res = g_new0 (GValue, 1);
 		GType t = mi->typ;
@@ -303,7 +303,7 @@ static GsfXMLInNode const gsf_opendoc_meta_st_dtd[] = {
 };
 
 
-static void 
+static void
 gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_state)
 {
 	GsfOOMetaIn *state = old_state;
@@ -413,7 +413,7 @@ od_map_prop_name (char const *name)
 	/* shared by all instances and never freed */
 	static GHashTable *od_prop_name_map = NULL;
 
-	if (NULL == od_prop_name_map) 
+	if (NULL == od_prop_name_map)
 	{
 		static struct {
 			char const *gsf_key;
@@ -544,7 +544,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 		case G_TYPE_FLOAT:
 		case G_TYPE_DOUBLE:
 			type_name = "float";
-			break; 
+			break;
 
 		default:
 			if (GSF_TIMESTAMP_TYPE == t)
@@ -576,7 +576,7 @@ gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
 		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
 	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
 		"http://openoffice.org/2004/office");
-	gsf_xml_out_add_cstr_unchecked (output, "office:version", 
+	gsf_xml_out_add_cstr_unchecked (output, "office:version",
 					get_gsf_odf_version_string ());
 	gsf_xml_out_start_element (output, OFFICE "meta");
 	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);

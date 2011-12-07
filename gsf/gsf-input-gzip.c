@@ -518,7 +518,7 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	 * The size that the data will have after uncompression.
 	 * The is mandatory for raw streams and if the uncompressed size is
 	 * larger than 4GB.
-	 */  
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_UNCOMPRESSED_SIZE,

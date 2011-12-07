@@ -52,8 +52,8 @@ clone (GsfInput *input, GsfOutput *output)
 				return;
 			}
 		}
-	} 
-	
+	}
+
 	/* See test-cp-msole.c for explanation how to distinct directories
 	 * from regular files.
 	 */

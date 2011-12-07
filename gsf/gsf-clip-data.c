@@ -283,14 +283,14 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
  * @clip_data: A #GsfClipData.
  * @ret_size: Location to return the size of the returned data buffer.
  * @error: Location to store error, or %NULL.
- * 
+ *
  * Queries a pointer directly to the clipboard data of a #GsfClipData.  The
  * resulting pointer is not necessarily the same data pointer that was passed to
  * gsf_blob_new() prior to creating the @clip_data.  For example, if the data is
  * in #GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD format, then it will have extra header
  * bytes in front of the actual metafile data.  This function will skip over
  * those header bytes if necessary and return a pointer to the "real" data.
- * 
+ *
  * Return value: Pointer to the real clipboard data.  The size in bytes of this
  * buffer is returned in the @ret_size argument.
  **/

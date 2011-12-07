@@ -97,7 +97,7 @@ output_data (CompressBuf *buf, guint8 *data, gboolean compressed)
 		gsf_output_write (buf->output, 1, &buf->mask);
 		gsf_output_write (buf->output, buf->outstr->len, buf->outstr->str);
 
-#ifdef DEBUG		
+#ifdef DEBUG
 		fprintf (stderr, "Block: 0x%x '", buf->mask);
 		for (i = 0; i < buf->outstr->len; i++)
 			fprintf (stderr, "%c", byte_to_char (buf->outstr->str[i]));
@@ -126,7 +126,7 @@ output_match (CompressBuf *buf, guint cur_pos, guint pos, guint len)
 	data[0] = token & 0xff;
 	data[1] = token >> 8;
 
-#ifdef DEBUG		
+#ifdef DEBUG
 	fprintf (stderr, "shift %d, [0x%x(%d) - %d], len %d, distance %d bytes %.2x %.2x\n",
 		 shift, cur_pos, cur_pos, pos, len, distance,
 		 data[0], data[1]);
@@ -249,7 +249,7 @@ decode_dir (GsfInput *input)
 			fprintf (stderr, "** Quirk fix **\n");
 			length += 2;
 		}
-		
+
 		/* Special nasties / up-stream bugs */
 		switch (op) {
 		case 0x4:
@@ -365,7 +365,7 @@ main (int argc, char *argv[])
 				 input, output, error ? error->message : "<NoMsg>");
 			return 1;
 		}
-		
+
 		if (compress)
 			do_compress (input, output);
 		else

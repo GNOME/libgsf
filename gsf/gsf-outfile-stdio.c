@@ -60,7 +60,7 @@ gsf_outfile_stdio_new_child (GsfOutfile *parent,
 	char *path = g_build_filename (ofs->root, name, NULL);
 
 	if (is_dir)
-		child = (GsfOutput *)gsf_outfile_stdio_new_valist (path, NULL, 
+		child = (GsfOutput *)gsf_outfile_stdio_new_valist (path, NULL,
 								   first_property_name, args);
 	else
 		child = gsf_output_stdio_new_valist (path, NULL,
@@ -157,7 +157,7 @@ gsf_outfile_stdio_new_full (char const *root, GError **err,
 {
 	GsfOutfile *res;
 	va_list var_args;
-	
+
 	va_start (var_args, first_property_name);
 	res = gsf_outfile_stdio_new_valist (root, err, first_property_name, var_args);
 	va_end (var_args);

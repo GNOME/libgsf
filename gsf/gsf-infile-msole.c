@@ -374,8 +374,8 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 			dirent, (GCompareFunc)ole_dirent_cmp);
 
 	/* NOTE : These links are a tree, not a linked list */
-	ole_dirent_new (ole, prev, parent, seen_before); 
-	ole_dirent_new (ole, next, parent, seen_before); 
+	ole_dirent_new (ole, prev, parent, seen_before);
+	ole_dirent_new (ole, next, parent, seen_before);
 
 	if (dirent->is_directory)
 		ole_dirent_new (ole, child, dirent, seen_before);
@@ -734,7 +734,7 @@ gsf_infile_msole_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
 
-	(void) offset; 
+	(void) offset;
 	(void) whence;
 
 	ole->cur_block = BAT_MAGIC_UNUSED;
@@ -890,7 +890,7 @@ gsf_infile_msole_init (GObject *obj)
 	ole->bat.num_blocks	= 0;
 	ole->cur_block		= BAT_MAGIC_UNUSED;
 	ole->stream.buf		= NULL;
-	ole->stream.buf_size	= 0; 
+	ole->stream.buf_size	= 0;
 }
 
 static void

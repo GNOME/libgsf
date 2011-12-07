@@ -15,7 +15,7 @@
 
 static gboolean show_version;
 
-static GOptionEntry const gsf_options [] = { 
+static GOptionEntry const gsf_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &show_version,
@@ -25,7 +25,7 @@ static GOptionEntry const gsf_options [] = {
 
 	/* ---------------------------------------- */
 
-	{ NULL, 0, 0, 0, NULL, NULL, NULL} 
+	{ NULL, 0, 0, 0, NULL, NULL, NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -34,7 +34,7 @@ static GsfInfile *
 open_archive (char const *filename)
 {
 	GsfInfile *infile;
-	GError *error = NULL;	
+	GError *error = NULL;
 	GsfInput *src;
 	char *display_name;
 
@@ -347,7 +347,7 @@ int
 main (int argc, char **argv)
 {
 	GOptionContext *ocontext;
-	GError *error = NULL;	
+	GError *error = NULL;
 	char const *usage;
 	char const *cmd;
 	char const *me = (argv[0] ? argv[0] : "gsf");

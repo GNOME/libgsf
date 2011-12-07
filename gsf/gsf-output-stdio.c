@@ -315,7 +315,7 @@ gsf_output_stdio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	off_t loffset;
 #endif
 
-	g_return_val_if_fail (stdio->file != NULL, 
+	g_return_val_if_fail (stdio->file != NULL,
 			      gsf_output_set_error (output, 0, "missing file"));
 
 	loffset = offset;
@@ -360,7 +360,7 @@ gsf_output_stdio_write (GsfOutput *output,
 	remaining = num_bytes;
 
 	while (remaining > 0) {
-		written = fwrite (buffer + (num_bytes - remaining), 1, 
+		written = fwrite (buffer + (num_bytes - remaining), 1,
 				  remaining, stdio->file);
 		if ((written < remaining) && ferror (stdio->file) != 0)
 			return gsf_output_set_error (output, errno, "%s", g_strerror (errno));
@@ -533,7 +533,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
  * @filename : name of file to create or replace.
  * @err	     : optionally %NULL.
  * @first_property_name : %NULL terminated list of properties
- * @Varargs : 
+ * @Varargs :
  *
  * Returns: a new file or %NULL.
  **/
@@ -543,7 +543,7 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
 {
 	GsfOutput *res;
 	va_list var_args;
-	
+
 	va_start (var_args, first_property_name);
 	res = gsf_output_stdio_new_valist (filename, err, first_property_name, var_args);
 	va_end (var_args);

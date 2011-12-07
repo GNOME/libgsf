@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #include <gsf-config.h>
 #include <gsf/gsf-input-http.h>
 #include <gsf/gsf-input-impl.h>
@@ -141,9 +141,9 @@ gsf_input_http_set_property (GObject *object,
 {
         GsfInputHTTP *input;
         char *old;
-        
+
         input = GSF_INPUT_HTTP (object);
-        
+
         switch (property_id) {
         case PROP_URL:
                 old = input->url;
@@ -203,7 +203,7 @@ gsf_input_http_get_url (GsfInputHTTP *input)
 /**
  * gsf_input_http_get_content_type :
  * @input: #GsfInputHTTP
- * 
+ *
  * Returns: an allocated string containing the Content-Type field of the HTTP response.
  **/
 gchar *
@@ -236,14 +236,14 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
                 return NULL;
 
         obj = g_object_new (GSF_INPUT_HTTP_TYPE,
-		"url",		url, 
+		"url",		url,
 		"content-type", content_type,
 		NULL);
 	if (G_UNLIKELY (NULL == obj)) return NULL;
-        
+
         gsf_input_set_size (GSF_INPUT (obj), xmlNanoHTTPContentLength (ctx));
         GSF_INPUT_HTTP (obj)->ctx = ctx;
-        
+
         return GSF_INPUT (obj);
 }
 
@@ -279,7 +279,7 @@ gsf_input_http_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 }
 
 static gboolean
-gsf_input_http_seek (GsfInput *input G_GNUC_UNUSED, 
+gsf_input_http_seek (GsfInput *input G_GNUC_UNUSED,
 		     gsf_off_t offset G_GNUC_UNUSED, GSeekType whence G_GNUC_UNUSED)
 {
         return FALSE;

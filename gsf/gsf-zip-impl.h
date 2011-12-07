@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gsf-zip-impl.h: 
+ * gsf-zip-impl.h:
  *
  * Copyright (C) 2002-2006 Tambet Ingo (tambet@ximian.com)
  *
@@ -86,7 +86,7 @@ G_BEGIN_DECLS
 #define ZZIP_IS_COMPRLEVEL(p)  (((*(unsigned char*)p)>>1)&3)
 #define ZZIP_IS_STREAMED(p)    (((*(unsigned char*)p)>>3)&1)
 
-typedef struct {	
+typedef struct {
 	char                    *name;
 	guint16                  flags;
 	GsfZipCompressionMethod  compr_method;

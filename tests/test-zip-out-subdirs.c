@@ -73,7 +73,7 @@ test (int argc, char *argv[])
 	if (!gsf_output_close ((GsfOutput *) dir1))
 		return 1;
 	ch3  = gsf_outfile_new_child  (dir2, "simply.pve", FALSE);
-	
+
 	if (!test_write_once (ch1))
 		return 1;
 	if (!gsf_output_close ((GsfOutput *) ch1))

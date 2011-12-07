@@ -110,7 +110,7 @@ void
 gsf_doc_meta_data_insert (GsfDocMetaData *meta, char *name, GValue *value)
 {
 	GsfDocProp *prop;
-	
+
 	g_return_if_fail (IS_GSF_DOC_META_DATA (meta));
 	g_return_if_fail (name != NULL);
 	prop = g_new (GsfDocProp, 1);
@@ -139,7 +139,7 @@ gsf_doc_meta_data_remove (GsfDocMetaData *meta, char const *name)
 /**
  * gsf_doc_meta_data_store :
  * @meta : #GsfDocMetaData
- * @name : 
+ * @name :
  *
  **/
 GsfDocProp *

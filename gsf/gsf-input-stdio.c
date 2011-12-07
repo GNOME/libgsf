@@ -246,7 +246,7 @@ gsf_input_stdio_read (GsfInput *input, size_t num_bytes,
 	}
 
 	while (total_read < num_bytes) {
-		nread = fread (buffer + total_read, 1, 
+		nread = fread (buffer + total_read, 1,
 			       num_bytes - total_read, stdio->file);
 		total_read += nread;
 		if (total_read < num_bytes &&

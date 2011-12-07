@@ -492,7 +492,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
  *
  * Returns: A utility quark to flag a GError as being an input problem.
  */
-GQuark 
+GQuark
 gsf_input_error_id (void)
 {
 	static GQuark quark;
@@ -508,7 +508,7 @@ gsf_input_error_id (void)
  *
  * Returns: A utility quark to flag a GError as being an input problem.
  */
-GQuark 
+GQuark
 gsf_input_error (void)
 {
 	return gsf_input_error_id ();
@@ -587,7 +587,7 @@ gsf_input_uncompress (GsfInput *src)
 			if (res) {
 				g_object_unref (src);
 				return gsf_input_uncompress (res);
-			} 
+			}
 		}
 	}
 
@@ -639,11 +639,11 @@ gsf_input_new_for_uri (char const * uri, GError ** err)
 #if HAVE_GNOME
 		/* have gnome, let GnomeVFS deal with this */
 		input = gsf_input_gnomevfs_new (uri, err);
-#else		
+#else
 		if (len > 7 && !strncmp (uri, "file:/", 6)) {
 			/* dumb attempt to translate this into a local path */
 			input = gsf_input_stdio_new (uri+7, err);
-		} 
+		}
 		/* else: unknown or unhandled protocol - bail */
 #endif
 	}

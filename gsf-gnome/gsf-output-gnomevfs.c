@@ -128,8 +128,8 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 	}
 
 	if (gnome_vfs_uri_exists (uri)) {
-		/* see bug 159442 - if the file exists, we want to do our best to preserve existing 
-		 * pemissions AND truncate the file. that is, we want to emulate truncate() in case 
+		/* see bug 159442 - if the file exists, we want to do our best to preserve existing
+		 * pemissions AND truncate the file. that is, we want to emulate truncate() in case
 		 * a gnomevfs backend doesn't support it */
 		GnomeVFSFileInfo *info;
 
@@ -140,7 +140,7 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 
 		if ((res == GNOME_VFS_OK) && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_PERMISSIONS)) {
 			perms = info->permissions;
-		} 
+		}
 
 		gnome_vfs_file_info_unref (info);
 	}
@@ -154,7 +154,7 @@ gsf_output_gnomevfs_new_uri (GnomeVFSURI * uri, GError **err)
 			res = gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM, FALSE, 0644);
 		}
 	} else {
-		/* we got the permissions, so let's call create() with the existing permissions instead of open() since 
+		/* we got the permissions, so let's call create() with the existing permissions instead of open() since
 		 * create() will truncate the file for us. */
 		res = gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE|GNOME_VFS_OPEN_RANDOM, FALSE, perms);
 
@@ -221,7 +221,7 @@ gsf_output_gnomevfs_seek (GsfOutput *output, gsf_off_t offset,
 	GnomeVFSSeekPosition	vfs_whence = 0; /* make compiler shut up */
 	GnomeVFSResult	 	res;
 
-	g_return_val_if_fail (vfs->handle != NULL, 
+	g_return_val_if_fail (vfs->handle != NULL,
 		gsf_output_set_error (output, 0, "missing handle"));
 
 	switch (whence) {

@@ -40,7 +40,7 @@
  *
  * Returns: a new #GsfInputMemory or %NULL.
  */
-GsfInput * 
+GsfInput *
 gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 {
 #ifndef HAVE_BZ2
@@ -76,7 +76,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 			bzstm.avail_in = (unsigned int)MIN (gsf_input_remaining (source), BZ_BUFSIZ);
 			bzstm.next_in  = (char *)gsf_input_read (source, bzstm.avail_in, NULL);
 		}
-		
+
 		bzerr = BZ2_bzDecompress (&bzstm);
 		if (bzerr != BZ_OK && bzerr != BZ_STREAM_END) {
 			if (err)
@@ -87,14 +87,14 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 			g_object_unref (sink);
 			return NULL;
 		}
-		
+
 		gsf_output_write (sink, BZ_BUFSIZ - bzstm.avail_out, out_buf);
 		if (bzerr == BZ_STREAM_END)
 			break;
 	}
 
 	gsf_output_close (sink);
-	
+
 	if (BZ_OK != BZ2_bzDecompressEnd (&bzstm)) {
 		if (err)
 			*err = g_error_new (gsf_input_error_id (), 0,
@@ -104,7 +104,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	}
 
 	mem = gsf_input_memory_new_clone (
-		gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (sink)), 
+		gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (sink)),
 		gsf_output_size (sink));
 
 	if (mem != NULL)

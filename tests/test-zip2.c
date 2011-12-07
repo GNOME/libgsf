@@ -35,7 +35,7 @@ dump_child (GsfInfile *infile, char const *childname)
 	GsfInputTextline *textinput;
 	unsigned char *res;
 	int len = 0;
-	
+
 	if (child == NULL) {
 		printf ("not an OpenOffice document\n");
 		return;
@@ -96,7 +96,7 @@ test (int argc, char *argv[])
 	}
 	g_object_unref (G_OBJECT (infile));
 	g_object_unref (G_OBJECT (input));
-	
+
 	return 0;
 }
 

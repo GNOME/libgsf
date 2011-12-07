@@ -111,7 +111,7 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 
 	output = gsf_output_gio_new (file);
 	g_object_unref (file);
-	
+
 	return output;
 }
 
@@ -139,7 +139,7 @@ gsf_output_gio_new_for_uri (char const *uri, GError **err)
 
 	output = gsf_output_gio_new (file);
 	g_object_unref (file);
-	
+
 	return output;
 }
 
@@ -152,7 +152,7 @@ gsf_output_gio_close (GsfOutput *output)
 		g_output_stream_close (gio->stream, NULL, NULL);
 		g_object_unref (gio->stream);
 		gio->stream = NULL;
-		
+
 		g_object_unref (gio->file);
 		gio->file = NULL;
 
@@ -210,7 +210,7 @@ gsf_output_gio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 
 	g_return_val_if_fail (gio != NULL, FALSE);
 	g_return_val_if_fail (gio->stream != NULL, FALSE);
-	
+
 	if (!can_seek (gio->stream))
 		return FALSE;
 

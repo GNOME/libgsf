@@ -271,7 +271,7 @@ gsf_output_tell	(GsfOutput *output)
  * Reposition in output stream @output. @whence specifies what the offset is
  * relative to: the beginning of the stream (%G_SEEK_SET), current position in
  * the stream (%G_SEEK_CUR) or the end of the stream (%G_SEEK_END).
- * This function is similar to 
+ * This function is similar to
  * <citerefentry><refentrytitle>fseek</refentrytitle>
  * <manvolnum>3</manvolnum></citerefentry>.
  *
@@ -628,7 +628,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
  * @output: A #GsfOutput
  * @line: %null terminated string to write
  *
- * Like fputs, this assumes that the line already ends with a newline 
+ * Like fputs, this assumes that the line already ends with a newline
  *
  * Returns: %TRUE if successful, %FALSE if not
  **/

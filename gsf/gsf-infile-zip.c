@@ -63,7 +63,7 @@ struct _GsfInfileZip {
 	z_stream  *stream;
 	guint32   restlen;
 	guint32   crestlen;
-	
+
 	guint8   *buf;
 	size_t    buf_size;
 	gsf_off_t seek_skipped;
@@ -104,7 +104,7 @@ vdir_insert (GsfZipVDir *vdir, char const * name, GsfZipDirent *dirent)
 	char const *p;
 	char *dirname;
 	GsfZipVDir *child;
-	
+
 	p = strchr (name, ZIP_NAME_SEPARATOR);
 	if (p) {	/* A directory */
 		dirname = g_strndup (name, (gsize) (p - name));
@@ -153,7 +153,7 @@ zip_find_trailer (GsfInfileZip *zip)
 			return -1;
 
 		p = (guchar *) data;
-        
+
 		for (s = p + maplen - 1; (s >= p); s--, trailer_offset--) {
 			if ((*s == 'P') &&
 			    (p + maplen - 1 - s > ZIP_TRAILER_SIZE - 2) &&
@@ -161,7 +161,7 @@ zip_find_trailer (GsfInfileZip *zip)
 				return --trailer_offset;
 			}
 		}
-        
+
 		/* not found in currently mapped block, so update it if
 		 * there is some room in before. The requirements are..
 		 * (a) mappings should overlap so that trailer can cross BUFSIZ-boundary
@@ -373,7 +373,7 @@ static gboolean
 zip_init_info (GsfInfileZip *zip)
 {
 	gboolean ret;
-	
+
 	ret = zip_read_dirents (zip);
 	if (ret != FALSE)
 		return ret;
@@ -471,7 +471,7 @@ zip_update_stream_in (GsfInfileZip *zip)
 	guint32 read_now;
 	guint8 const *data;
 	gsf_off_t pos;
-	
+
 	if (zip->crestlen == 0)
 		return FALSE;
 
@@ -532,7 +532,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			startlen = zip->stream->total_out;
 			err = inflate(zip->stream, Z_NO_FLUSH);
 
-			if (err == Z_STREAM_END) 
+			if (err == Z_STREAM_END)
 				zip->restlen = 0;
 			else if (err == Z_OK)
 				zip->restlen -= (zip->stream->total_out - startlen);
