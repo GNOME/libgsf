@@ -34,8 +34,6 @@ IGNORE_HFILES=			 \
 	gsf-output-transaction.h \
 	gsf-infile-ar.h
 
-EXTRA_HFILES = ../gsf-gnome/*.h
-
 # Images to copy into HTML directory
 HTML_IMAGES =
 

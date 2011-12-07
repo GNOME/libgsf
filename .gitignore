@@ -17,8 +17,6 @@ gsf-config.h.in
 gsf-config.h
 libgsf-1.spec
 libgsf-1.pc
-libgsf-gnome-1.spec
-libgsf-gnome-1.pc
 libgsf-win32-1.pc
 libgsf-zip
 compile

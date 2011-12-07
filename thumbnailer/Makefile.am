@@ -8,3 +8,5 @@ gsf_office_thumbnailer_SOURCES =	\
 
 thumbnailerdir = $(datadir)/thumbnailers
 thumbnailer_DATA = gsf-office.thumbnailer
+
+EXTRA_DIST = $(thumbnailer_DATA)

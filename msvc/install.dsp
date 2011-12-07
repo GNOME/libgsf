@@ -125,36 +125,5 @@ InputPath="..\gsf-win32\Makefile.am"
 
 # End Source File
 # End Group
-# Begin Group "libgsf_gnome"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE="..\gsf-gnome\Makefile.am"
-
-!IF  "$(CFG)" == "install - Win32 Release"
-
-# Begin Custom Build
-InputPath="..\gsf-gnome\Makefile.am"
-
-"libgsf_gnome_1_install.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	perl install.pl --lname libgsf-gnome-1-1 --srcdir ../gsf-gnome
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "install - Win32 Debug"
-
-# Begin Custom Build
-InputPath="..\gsf-gnome\Makefile.am"
-
-"libgsf_gnome_1_install.stamp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	perl install.pl --lname libgsf-gnome-1-1 --srcdir ../gsf-gnome
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# End Group
 # End Target
 # End Project
