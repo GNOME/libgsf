@@ -29,6 +29,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-impl.h>
+#include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-input-proxy.h>
 
 #include <string.h>
@@ -46,7 +47,7 @@ typedef struct {
 
 typedef struct {
 	char	 *name;
-	char	 *collation_name;
+	GsfMSOleSortingKey *key;
 	int	  index;
 	size_t    size;
 	gboolean  use_sb;
@@ -267,13 +268,7 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 static gint
 ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
 {
-	g_return_val_if_fail (a, 0);
-	g_return_val_if_fail (b, 0);
-
-	g_return_val_if_fail (a->collation_name, 0);
-	g_return_val_if_fail (b->collation_name, 0);
-
-	return strcmp (b->collation_name, a->collation_name);
+	return gsf_msole_sorting_key_cmp (a->key, b->key);
 }
 
 /* Parse dirent number @entry and recursively handle its siblings and children.
@@ -361,7 +356,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	/* be really anal in the face of screwups */
 	if (dirent->name == NULL)
 		dirent->name = g_strdup ("");
-	dirent->collation_name = g_utf8_collate_key (dirent->name, -1);
+	dirent->key = gsf_msole_sorting_key_new (dirent->name);
 
 #if 0
 	printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
@@ -392,7 +387,7 @@ ole_dirent_free (MSOleDirent *dirent)
 	g_return_if_fail (dirent != NULL);
 
 	g_free (dirent->name);
-	g_free (dirent->collation_name);
+	gsf_msole_sorting_key_free (dirent->key);
 
 	for (tmp = dirent->children; tmp; tmp = tmp->next)
 		ole_dirent_free ((MSOleDirent *)tmp->data);

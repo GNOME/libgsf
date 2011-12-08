@@ -1,5 +1,8 @@
 2011-12-08  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-msole.c (ole_dirent_cmp): Use
+	gsf_msole_sorting_key_cmp.
+
 	* gsf/gsf-msole-utils.c (gsf_msole_sorting_key_new)
 	(gsf_msole_sorting_key_free, gsf_msole_sorting_key_cmp): New
 	functions.
