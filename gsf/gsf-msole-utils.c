@@ -2434,3 +2434,73 @@ gsf_msole_inflate (GsfInput *input, gsf_off_t offset)
 		g_byte_array_append (res, buffer, pos % VBA_COMPRESSION_WINDOW);
 	return res;
 }
+
+
+struct GsfMSOleSortingKey_ {
+	gunichar2 *name;
+	size_t len;
+};
+
+GsfMSOleSortingKey *
+gsf_msole_sorting_key_new (const char *name)
+{
+	GsfMSOleSortingKey *res = g_new (GsfMSOleSortingKey, 1);
+	size_t name_len;
+	const char *p;
+
+	if (!name)
+		name = "";
+	name_len = strlen (name);
+
+	res->name = g_new (gunichar2, name_len + 1);
+	res->len = 0;
+
+	/* This code is a bit like g_utf8_to_utf16.  */
+
+	for (p = name; *p; p = g_utf8_next_char (p)) {
+		gunichar wc =
+			g_utf8_get_char_validated (p, name_len - (p - name));
+		if (wc & 0x80000000)
+			break; /* Something invalid or incomplete */
+		if (wc < 0x10000) {
+			wc = g_unichar_toupper (wc);
+			/* Let's hope no uppercase char is above 0xffff! */
+			res->name[res->len++] = wc;
+		} else {
+			res->name[res->len++] =	(wc - 0x10000) / 0x400 + 0xd800;
+			res->name[res->len++] =	(wc - 0x10000) % 0x400 + 0xdc00;
+		}
+	}
+	res->name[res->len] = 0;
+
+	return res;
+}
+
+void
+gsf_msole_sorting_key_free (GsfMSOleSortingKey *sk)
+{
+	if (sk) {
+		g_free (sk->name);
+		g_free (sk);
+	}
+}
+
+int
+gsf_msole_sorting_key_cmp (const GsfMSOleSortingKey *a,
+			   const GsfMSOleSortingKey *b)
+{
+	long diff;
+	/* According to the docs length is more important than lexical order */
+	if (a->len != b->len)
+		diff = a->len - b->len;
+	else {
+		const gunichar2 *pa = a->name;
+		const gunichar2 *pb = b->name;
+		while (*pa == *pb && *pa)
+			pa++, pb++;
+		diff = *pa - *pb;
+	}
+
+	/* Note, that diff might not fit "int" */
+	return diff > 0 ? +1 : (diff < 0 ? -1 : 0);
+}

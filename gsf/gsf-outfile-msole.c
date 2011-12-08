@@ -24,6 +24,7 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-msole-impl.h>
+#include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-utils.h>
 
 #include <string.h>
@@ -47,6 +48,8 @@ struct _GsfOutfileMSOle {
 
 	GsfOutput    	*sink;
 	GsfOutfileMSOle	*root;
+
+	GsfMSOleSortingKey *key;
 
 	MSOleOutfileType type;
 	unsigned	 first_block;
@@ -80,6 +83,9 @@ gsf_outfile_msole_finalize (GObject *obj)
 	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (obj);
 	GsfOutput *output = GSF_OUTPUT (obj);
 
+	gsf_msole_sorting_key_free (ole->key);
+	ole->key = NULL;
+
 	if (!gsf_output_is_closed (output))
 		gsf_output_close (output);
 
@@ -105,6 +111,7 @@ gsf_outfile_msole_finalize (GObject *obj)
 	default :
 		g_warning ("Unknown file type");
 	}
+
 	parent_class->finalize (obj);
 }
 
@@ -565,23 +572,17 @@ ole_register_child (GsfOutfileMSOle *root, GsfOutfileMSOle *child)
 static gint
 ole_name_cmp (GsfOutfileMSOle const *a, GsfOutfileMSOle const *b)
 {
-	/* According to the docs length is more important than lexical order */
-	char const *a_name = gsf_output_name ((GsfOutput const *)a);
-	char const *b_name = gsf_output_name ((GsfOutput const *)b);
+	return gsf_msole_sorting_key_cmp (a->key, b->key);
+}
 
-	/* be anal */
-	if (a_name == NULL)
-		return (b_name == NULL) ? 0 : -1;
-	else if (b_name == NULL)
-		return 1;
-	else {
-		unsigned a_len = g_utf8_strlen (a_name, -1);
-		unsigned b_len = g_utf8_strlen (b_name, -1);
-
-		if (a_len != b_len)
-			return a_len - b_len;
-		return g_utf8_collate (a_name, b_name);
-	}
+static void
+make_sorting_name (GsfOutfileMSOle *ole,
+		   G_GNUC_UNUSED GParamSpec *pspec,
+		   G_GNUC_UNUSED gpointer user)
+{
+	const char *name = gsf_output_name (GSF_OUTPUT (ole));
+	gsf_msole_sorting_key_free (ole->key);
+	ole->key = gsf_msole_sorting_key_new (name);
 }
 
 static void
@@ -648,6 +649,22 @@ gsf_outfile_msole_init (GObject *obj)
 	memset (ole->clsid, 0, sizeof (ole->clsid));
 }
 
+static GObject*
+gsf_outfile_msole_constructor (GType                  type,
+			       guint                  n_construct_properties,
+			       GObjectConstructParam *construct_params)
+{
+	GObject *obj = parent_class->constructor (type,
+						  n_construct_properties,
+						  construct_params);
+	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)obj;
+	g_signal_connect (obj,
+			  "notify::name",
+			  G_CALLBACK (make_sorting_name), NULL);
+	make_sorting_name (ole, NULL, NULL);
+	return obj;
+}
+
 static void
 gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 {
@@ -655,6 +672,7 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_outfile_msole_finalize;
+	gobject_class->constructor	= gsf_outfile_msole_constructor;
 	output_class->Close		= gsf_outfile_msole_close;
 	output_class->Seek		= gsf_outfile_msole_seek;
 	output_class->Write		= gsf_outfile_msole_write;

@@ -49,6 +49,12 @@ GIConv	    gsf_msole_iconv_open_codepage_for_export  (int codepage_to);
 
 GByteArray *gsf_msole_inflate (GsfInput *input, gsf_off_t offset);
 
+typedef struct GsfMSOleSortingKey_ GsfMSOleSortingKey;
+GsfMSOleSortingKey *gsf_msole_sorting_key_new (const char *name);
+void gsf_msole_sorting_key_free (GsfMSOleSortingKey *sk);
+int gsf_msole_sorting_key_cmp (const GsfMSOleSortingKey *a,
+			       const GsfMSOleSortingKey *b);
+
 G_END_DECLS
 
 #endif /* GSF_MSOLE_UTILS_H */

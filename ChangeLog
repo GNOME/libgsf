@@ -1,3 +1,15 @@
+2011-12-08  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (gsf_msole_sorting_key_new)
+	(gsf_msole_sorting_key_free, gsf_msole_sorting_key_cmp): New
+	functions.
+
+	* gsf/gsf-outfile-msole.c (make_sorting_name): New function.
+	(gsf_outfile_msole_constructor): New function.
+	(gsf_outfile_msole_class_init): Hook up constructor.
+	(GsfOutfileMSOle): Add a key member.
+	(ole_name_cmp): Use gsf_msole_sorting_key_cmp.  Fixes #665712.
+
 2011-12-07  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-memory.c: Drop HAVE_BROKEN_MMAP -- FreeBSD was

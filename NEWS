@@ -9,6 +9,7 @@ Morten:
 	* Ensure GsfOutput::name and GsfInput::name notifications.
 	* Cleanup old code.
 	* Drop support for gnome-vfs and bonobo.
+	* Fix ole2 entry sorting based on patch from Junping Zhang.  [#665712]
 
 Vincent Untz:
 	* New installation method for thumbnailer.  [#651187]
