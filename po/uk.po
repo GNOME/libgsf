@@ -1,4 +1,4 @@
-d # Ukrainian translation for libgsf.
+# Ukrainian translation for libgsf.
 # Copyright (C) 2011 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
 # AlexandrToorchyn <ilex@mail.ua>, 2011.
@@ -114,19 +114,19 @@ msgstr "Доступні підкоманди…\n"
 #: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
-msgstr "* cat        виводить один або декілька файлів в архіві"
+msgstr "* cat        виводить один або декілька файлів в архіві\n"
 
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       дамп одного або декількох файлів в архіві в шістнадцятковому "
-"вигляді"
+"вигляді\n"
 
 #: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
-msgstr "* help       список підкоманд"
+msgstr "* help       список підкоманд\n"
 
 #: ../tools/gsf.c:106
 #, c-format
