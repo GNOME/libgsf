@@ -25,11 +25,20 @@
 
 G_BEGIN_DECLS
 
+/**
+ * GsfOutputCsvQuotingMode:
+ * @GSF_OUTPUT_CSV_QUOTING_MODE_NEVER: never add quotes around fields
+ * @GSF_OUTPUT_CSV_QUOTING_MODE_AUTO: add quotes around fields when needed
+ * @GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS: always add quotes around fields
+ *
+ * Controls when to add quotes around fields.
+ */
 typedef enum {
 	GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,
 	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,
 	GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS
 } GsfOutputCsvQuotingMode;
+
 GType gsf_output_csv_quoting_mode_get_type      (void) G_GNUC_CONST;
 /* void  gsf_output_csv_quoting_mode_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
