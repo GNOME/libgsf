@@ -10,9 +10,7 @@
 <!ENTITY GsfStdio		SYSTEM "xml/stdio.xml">
 <!ENTITY GsfMemory		SYSTEM "xml/memory.xml">
 <!ENTITY GsfIOChannel		SYSTEM "xml/iochannel.xml">
-<!ENTITY GsfGnomevfs		SYSTEM "xml/gnome-vfs.xml">
 <!ENTITY GsfGIO                 SYSTEM "xml/gio.xml">
-<!ENTITY GsfBonobo		SYSTEM "xml/bonobo.xml">
 
 <!ENTITY GsfMetadata		SYSTEM "xml/metadata.xml">
 <!ENTITY GsfMsole		SYSTEM "xml/msole.xml">
@@ -118,28 +116,6 @@ additional requirements:
 <variablelist>
 
 <varlistentry>
-<term>libbonobo-2.0</term>
-<listitem><para>
-<ulink
-url="http://developer.gnome.org/arch/component/bonobo.html">Bonobo</ulink>
-is the GNOME architecture for creating reusable software components and
-compound documents.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>gnome-vfs-2.0</term>
-<listitem><para>
-<ulink
-url="http://developer.gnome.org/doc/API/2.0/gnome-vfs-2.0/">GnomeVFS</ulink>
-is a filesystem abstraction library that allows applications plugable
-transparent access to a variety of "real" filesystems, including networked
-filesystems like WebDAV, storage on devices like digital cameras, to the
-local filesystem.
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
 <term>gio-2.0</term>
 <listitem><para>
 <ulink
@@ -223,9 +199,7 @@ data and a set of parsers for various structured types of data streams.
     &GsfStdio;
     &GsfMemory;
     &GsfIOChannel;
-    &GsfGnomevfs;
     &GsfGIO;
-    &GsfBonobo;
   </chapter>
   <chapter id="parsers">
     <title>Stream Parsers</title>

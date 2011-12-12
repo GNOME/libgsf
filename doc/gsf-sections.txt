@@ -192,29 +192,6 @@ gsf_shared_memory_mmapped_new
 </SECTION>
 
 <SECTION>
-<TITLE>GnomeVFS</TITLE>
-<FILE>gnome-vfs</FILE>
-GsfInputGnomeVFS
-gsf_input_gnomevfs_new
-gsf_input_gnomevfs_new_uri
-gsf_input_gnomevfs_needs_local_copy
-
-GsfOutputGnomeVFS
-gsf_output_gnomevfs_new
-gsf_output_gnomevfs_new_uri
-<SUBSECTION Standard>
-GSF_INPUT_GNOMEVFS_TYPE
-GSF_INPUT_GNOMEVFS
-GSF_IS_INPUT_GNOMEVFS
-gsf_input_gnomevfs_get_type
-
-GSF_OUTPUT_GNOMEVFS_TYPE
-GSF_OUTPUT_GNOMEVFS
-GSF_IS_OUTPUT_GNOMEVFS
-gsf_output_gnomevfs_get_type
-</SECTION>
-
-<SECTION>
 <TITLE>GIO</TITLE>
 <FILE>gio</FILE>
 GsfInputGio
@@ -391,6 +368,11 @@ BAT_MAGIC_BAT
 BAT_INDEX_SIZE
 BAT_MAGIC_END_OF_CHAIN
 BAT_MAGIC_UNUSED
+
+gsf_msole_sorting_key_cmp
+gsf_msole_sorting_key_free
+gsf_msole_sorting_key_new
+GsfMSOleSortingKey
 </SECTION>
 
 <SECTION>
@@ -497,6 +479,20 @@ gsf_clip_data_get_type
 </SECTION>
 
 <SECTION>
+<TITLE>Tar</TITLE>
+<FILE>tar</FILE>
+GsfInfileTar
+gsf_infile_tar_get_type
+gsf_infile_tar_new
+
+<SUBSECTION Standard>
+GSF_INFILE_TAR
+GSF_INFILE_TAR_TYPE
+GSF_IS_INFILE_TAR
+
+</SECTION>
+
+<SECTION>
 <TITLE>Zip</TITLE>
 <FILE>zip</FILE>
 GsfInfileZip
@@ -592,34 +588,6 @@ GSF_OUTPUT_IOCHANNEL_TYPE
 GSF_OUTPUT_IOCHANNEL
 GSF_IS_OUTPUT_IOCHANNEL
 gsf_output_iochannel_get_type
-</SECTION>
-
-<SECTION>
-<TITLE>Bononbo</TITLE>
-<FILE>bonobo</FILE>
-GsfInputBonobo
-gsf_input_bonobo_new
-
-GsfOutputBonobo
-gsf_output_bonobo_new
-
-GsfSharedBonoboStream
-gsf_shared_bonobo_stream_new
-<SUBSECTION Standard>
-GSF_INPUT_BONOBO_TYPE
-GSF_INPUT_BONOBO
-GSF_IS_INPUT_BONOBO
-gsf_input_bonobo_get_type
-
-GSF_OUTPUT_BONOBO_TYPE
-GSF_OUTPUT_BONOBO
-GSF_IS_OUTPUT_BONOBO
-gsf_output_bonobo_get_type
-
-GSF_SHARED_BONOBO_STREAM_TYPE
-GSF_SHARED_BONOBO_STREAM
-GSF_IS_SHARED_BONOBO_STREAM
-gsf_shared_bonobo_stream_get_type
 </SECTION>
 
 <SECTION>
@@ -729,6 +697,7 @@ gsf_error_quark
 <SUBSECTION Debugging>
 gsf_mem_dump
 gsf_input_dump
+gsf_debug_flag
 <SUBSECTION Types>
 GSF_OFF_T_FORMAT
 gsf_off_t
@@ -770,6 +739,8 @@ gsf_le_set_double
 
 <SUBSECTION TimeStamps>
 GsfTimestamp
+gsf_timestamp_new
+gsf_timestamp_set_time
 gsf_timestamp_copy
 gsf_timestamp_free
 gsf_timestamp_as_string

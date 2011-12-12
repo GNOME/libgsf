@@ -22,24 +22,19 @@
 Structured Blobs
 
 
-<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Long_Description ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### SECTION ./tmpl/gnomevfs.sgml:See_Also ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Short_Description ##### -->
+<para>
 
-
-
-<!-- ##### SECTION ./tmpl/gnomevfs.sgml:Title ##### -->
-GnomeVFS
+</para>
 
 
 <!-- ##### SECTION ./tmpl/gsf-blob.sgml:Long_Description ##### -->
@@ -134,113 +129,6 @@ gsf-opendoc-utils
 gsf
 
 
-<!-- ##### STRUCT GsfInputBonobo ##### -->
 <para>
 
 </para>
-
-
-<!-- ##### STRUCT GsfInputGnomeVFS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GsfOutputBonobo ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GsfOutputGnomeVFS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GsfSharedBonoboStream ##### -->
-<para>
-
-</para>
-
-@g_object: 
-@stream: 
-@pos: 
-
-<!-- ##### FUNCTION gsf_input_bonobo_new ##### -->
-<para>
-
-</para>
-
-@stream: 
-@err: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_input_gnomevfs_needs_local_copy ##### -->
-<para>
-
-</para>
-
-@vfs_input: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_input_gnomevfs_new ##### -->
-<para>
-
-</para>
-
-@uri: 
-@error: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_input_gnomevfs_new_uri ##### -->
-<para>
-
-</para>
-
-@uri: 
-@error: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_output_bonobo_new ##### -->
-<para>
-
-</para>
-
-@stream: 
-@err: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_output_gnomevfs_new ##### -->
-<para>
-
-</para>
-
-@filename: 
-@err: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_output_gnomevfs_new_uri ##### -->
-<para>
-
-</para>
-
-@uri: 
-@err: 
-@Returns: 
-
-<!-- ##### FUNCTION gsf_output_memory_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION gsf_shared_bonobo_stream_new ##### -->
-<para>
-
-</para>
-
-@stream: 
-@Returns: 
-

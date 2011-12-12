@@ -241,6 +241,15 @@ utils
 @dump_as_hex: 
 
 
+<!-- ##### FUNCTION gsf_debug_flag ##### -->
+<para>
+
+</para>
+
+@flag: 
+@Returns: 
+
+
 <!-- ##### MACRO GSF_OFF_T_FORMAT ##### -->
 <para>
 
@@ -566,6 +575,24 @@ utils
 @seconds: 
 @time_zone: 
 @timet: 
+
+<!-- ##### FUNCTION gsf_timestamp_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gsf_timestamp_set_time ##### -->
+<para>
+
+</para>
+
+@stamp: 
+@t: 
+
 
 <!-- ##### FUNCTION gsf_timestamp_copy ##### -->
 <para>
