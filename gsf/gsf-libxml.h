@@ -58,6 +58,16 @@ typedef struct _GsfXMLInDoc		GsfXMLInDoc;
 typedef struct _GsfXMLInNode		GsfXMLInNode;
 typedef struct _GsfXMLInNS		GsfXMLInNS;
 typedef struct _GsfXMLBlob		GsfXMLBlob;
+
+/**
+ * GsfXMLContent:
+ * @GSF_XML_NO_CONTENT: node has no cstr contents
+ * @GSF_XML_CONTENT: node has cstr contents
+ * @GSF_XML_SHARED_CONTENT: node has contents that is shared with children
+ *
+ * Controls the handling of character data within a parser node.
+ */
+
 typedef enum {
 	GSF_XML_NO_CONTENT = FALSE,
 	GSF_XML_CONTENT,
