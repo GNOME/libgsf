@@ -40,6 +40,9 @@
 
 #ifdef HAVE_SETRLIMIT
 #include <sys/resource.h>
+#if !defined(RLIMIT_AS)
+#define RLIMIT_AS	RLIMIT_DATA
+#endif
 #endif
 
 G_GNUC_NORETURN static void
