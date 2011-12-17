@@ -1,5 +1,8 @@
 libgsf 1.14.23
 
+Antoine Jacoutot:
+	* OpenBSD portability fix.
+
 --------------------------------------------------------------------------
 libgsf 1.14.22
 
