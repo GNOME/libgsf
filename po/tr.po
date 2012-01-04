@@ -1,0 +1,174 @@
+# Turkish translation for libgsf.
+# Copyright (C) 2012 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+#
+# Muhammet Kara <muhammet.k@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2011-12-18 13:50+0000\n"
+"PO-Revision-Date: 2012-01-04 09:45+0000\n"
+"Last-Translator: Muhammet Kara <muhammet.k@gmail.com>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: tr\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: ../gsf/gsf-blob.c:111
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "%s bayt veri kopyalamak için yeterli bellek yok"
+
+#: ../gsf/gsf-clip-data.c:153
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "clip_data %s'de ama, en az büyüklük olan %s bayttan daha küçük"
+
+#: ../gsf/gsf-clip-data.c:247
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"clip_data, Windows pano biçiminde, ama gerekli büyüklük olan 4 bayttan "
+"daha küçük."
+
+#: ../gsf/gsf-clip-data.c:258
+msgid "Windows Metafile format"
+msgstr "Windows Metafile biçimi"
+
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:264
+msgid "Windows DIB or BITMAP format"
+msgstr "Windows DIB ya da BITMAP biçimi"
+
+#: ../gsf/gsf-clip-data.c:269
+msgid "Windows Enhanced Metafile format"
+msgstr "Windows Zengin Metafile biçimi"
+
+#: ../gsf/gsf-msole-utils.c:315
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"%s özelliğini okurken eksik veri; %s byte alındı ancak en az %s byte gerekli."
+
+#: ../gsf/gsf-msole-utils.c:366
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"VT_CF özelliğinde bozuk veri; pano veri uzunluğu en az 4 byte olmalı; fakat "
+"veri, kullanılabilir %s byte olduğunu söylüyor."
+
+#: ../gsf/gsf-open-pkg-utils.c:351
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "'%2$s' için id='%1$s' olan bölüm bulunamadı"
+
+#: ../gsf/gsf-open-pkg-utils.c:379
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "'%2$s' için type='%1$s' olan bölüm bulunamadı"
+
+#: ../gsf/gsf-open-pkg-utils.c:409
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "'%s'deki bölümün kimliği eksik"
+
+#: ../gsf/gsf-open-pkg-utils.c:418
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "'%3$s'den '%2$s'in '%1$s' bölümü bozuk!"
+
+#: ../tools/gsf.c:22
+msgid "Display program version"
+msgstr "Program sürümünü görüntüle"
+
+#: ../tools/gsf.c:44
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: %s açılamadı: %s\n"
+
+#: ../tools/gsf.c:65
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: %s'in arşiv olarak tanınması başarısız oldu\n"
+
+#: ../tools/gsf.c:102
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr "Kullanılabilir alt komutlar:...\n"
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        arşivdeki bir ya da daha fazla dosyayı çıktı ver\n"
+
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr ""
+"* dump       bir ya da daha fazla dosyayı onaltılı olarak arşive ekle\n"
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr "* help       alt komutları listele\n"
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr "* list       arşivdeki dosyaları listele\n"
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr "* listprops  arşivdeki belge özelliklerini listele\n"
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr "* props      belirtilen belge özelliklerini ekrana yaz\n"
+
+#: ../tools/gsf.c:291
+#, c-format
+msgid "No property named %s\n"
+msgstr "%s adlı bir özellik yok\n"
+
+#: ../tools/gsf.c:364
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "ALTKOMUT ARŞİVİ..."
+
+#: ../tools/gsf.c:371
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"Kullanılabilir komut satırı seçeneklerinin tam listesini görmek için '%s "
+"--help' çalıştırın.\n"
+
+#: ../tools/gsf.c:378
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "gsf sürümü %d.%d.%d\n"
+
+#: ../tools/gsf.c:384
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "Kullanımı: %s %s\n"
+
+#: ../tools/gsf.c:405
+#, c-format
+msgid "Run '%s help' to see a list subcommands.\n"
+msgstr "Alt komutların listesini görmek için '%s help' çalıştırın.\n"
+
