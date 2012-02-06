@@ -1,3 +1,9 @@
+2012-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: apply patch from Alan Knowles to add gobject introspection
+	support. [#610340]
+	* gsf/Makefile.am:
+
 2011-12-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

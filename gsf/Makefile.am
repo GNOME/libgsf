@@ -149,3 +149,38 @@ gsf-1.lib: libgsf-1.la lib.def
 CLEANFILES = gsf-1.exp gsf-1.lib
 endif
 
+BUILT_GIRSOURCES = Gsf-1.gir
+
+Gsf-1.gir: $(libgsf_1_include_HEADERS)
+Gsf-1.gir: $(NOINST_H_FILES)
+Gsf-1.gir: $(libgsf_1_la_SOURCES)
+Gsf-1.gir: libgsf-1.la
+Gsf-1.gir: $(G_IR_SCANNER) Makefile
+	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace Gsf --nsversion=1 \
+	    --add-include-path=$(srcdir) --add-include-path=. \
+	    --include=GObject-2.0 \
+	    --include=Gio-2.0 \
+	    --include=libxml2-2.0 \
+	    --library=libgsf-1.la \
+	    --libtool="$(LIBTOOL)" \
+	    --output $@ \
+	    --pkg libgsf-1 \
+	    -I$(top_srcdir) \
+	    $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES)
+
+if HAVE_INTROSPECTION
+
+girdir = $(GIRDIR)
+gir_DATA = $(BUILT_GIRSOURCES)
+
+typelibsdir = $(TYPELIBDIR)
+typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+%.typelib: %.gir $(G_IR_COMPILER)
+	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
+
+endif # HAVE_INTROSPECTION
+
+
+
+
