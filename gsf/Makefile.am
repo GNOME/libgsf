@@ -164,7 +164,6 @@ Gsf-1.gir: $(G_IR_SCANNER) Makefile
 	    --library=libgsf-1.la \
 	    --libtool="$(LIBTOOL)" \
 	    --output $@ \
-	    --pkg libgsf-1 \
 	    -I$(top_srcdir) \
 	    $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES)
 

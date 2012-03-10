@@ -1,3 +1,8 @@
+2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gsf/Makefile.am: make introspection work when libgsf is not installed.
+	[#671698]
+
 2012-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: apply patch from Alan Knowles to add gobject introspection
