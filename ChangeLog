@@ -1,3 +1,8 @@
+2012-03-20  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_from_string): Reimplement
+	based on glib's GDateTime.  Fixes time-shift part of #671860.
+
 2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gsf/Makefile.am: make introspection work when libgsf is not installed.

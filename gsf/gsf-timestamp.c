@@ -134,30 +134,22 @@ static time_t gmt_to_local_win32(void)
 int
 gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 {
-	struct tm	tm;
-
-	memset (&tm, 0, sizeof (struct tm));
+	int year, month, day, hour, minute, second;
+	GDateTime *dt;
 
 	/* 'YYYY-MM-DDThh:mm:ss' */
-	if (6 == sscanf (spec, "%d-%d-%dT%d:%d:%d",
-			 &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
-			 &tm.tm_hour, &tm.tm_min, &tm.tm_sec)) {
-		time_t t;
+	if (6 != sscanf (spec, "%d-%d-%dT%d:%d:%d",
+			 &year, &month, &day, &hour, &minute, &second))
+		return FALSE;
 
-		tm.tm_mon--; /* 0..11 */
+	dt = g_date_time_new_utc (year, month, day, hour, minute, second);
+	if (!dt)
+		return FALSE;
 
-		/* err on the side of avoiding negatives */
-		if (tm.tm_year >= 1900)
-			tm.tm_year -= 1900;
+	stamp->timet = g_date_time_to_unix (dt);
 
-		t = mktime (&tm);
-		if (t == -1)
-			return FALSE;
-
-		stamp->timet = t + GMTOFF(tm);
-		return TRUE;
-	}
-	return FALSE;
+	g_date_time_unref (dt);
+	return TRUE;
 }
 
 /**

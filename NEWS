@@ -9,6 +9,9 @@ Antoine Jacoutot:
 Jean Brefort:
 	* Make introspection work when libgsf is not installed.	[#671698]
 
+Morten:
+	* Fix time stamp drift problem.  [Part of #671860]
+
 --------------------------------------------------------------------------
 libgsf 1.14.22
 
