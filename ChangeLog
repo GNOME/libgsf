@@ -1,5 +1,7 @@
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
+	* configure.in (libgsf_reqs): Fix glib dependency.
+
 	* gsf/gsf-timestamp.c (gsf_timestamp_from_string): Reimplement
 	based on glib's GDateTime.  Fixes time-shift part of #671860.
 
