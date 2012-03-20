@@ -83,6 +83,7 @@ struct _GsfXMLIn {
 	GString		   *content;
 	GsfXMLInDoc  const *doc;
 	GsfXMLInNode const *node;	/* current node (not on the stack) */
+	/*< private >*/
 	GSList	 	   *node_stack;	/* stack of GsfXMLInNode */
 };
 

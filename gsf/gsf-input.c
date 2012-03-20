@@ -132,9 +132,14 @@ gsf_input_class_init (GObjectClass *gobject_class)
 							     0, G_MAXINT64, 0,
 							     GSF_PARAM_STATIC |
 							     G_PARAM_READABLE));
+	/**
+	 * GsfInput:eof:
+	 *
+	 * True if the end of the file has been reached.
+	 */
 	g_object_class_install_property (gobject_class,
 					 PROP_EOF,
-					 g_param_spec_boolean ("eof", "OEF",
+					 g_param_spec_boolean ("eof", "EOF",
 							       "End Of File",
 							       FALSE,
 							       GSF_PARAM_STATIC |

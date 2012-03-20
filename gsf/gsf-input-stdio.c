@@ -164,7 +164,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 /**
  * gsf_input_stdio_new_FILE :
  * @filename  : The filename corresponding to @file.
- * @file      : an existing stdio FILE *
+ * @file      : an existing stdio <type>FILE</type> *
  * @keep_open : Should @file be closed when the wrapper is closed
  *
  * Assumes ownership of @file when succeeding.  If @keep_open is true,

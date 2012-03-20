@@ -824,6 +824,12 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * GsfInfileZip:compression-level:
+	 *
+	 * Controls the level of compression used for new members.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_COMPRESSION_LEVEL,
