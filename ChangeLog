@@ -1,5 +1,16 @@
 2012-03-21  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-opendoc-utils.h (GsfODFOut): New object class.
+
+	* gsf/gsf-opendoc-utils.c (gsf_opendoc_metadata_write): change
+	output argument type to "gpointer" so we can take either GsfXMLOut
+	or GsfODFOut.  Get the odf version from the output if that happens
+	to be a GsfODFOut.
+
+	* gsf/gsf-libxml.c (gsf_xml_out_class_init): Install new property
+	"sink".
+	(gsf_xml_out_new): Just call g_object_new.
+
 	* gsf/gsf-libxml.h (GsfXMLOut): Make this just public enough that
 	we can derive from it.
 

@@ -27,6 +27,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-timestamp.h>
+#include <glib/gi18n-lib.h>
 
 #include <math.h>
 #include <string.h>
@@ -1301,7 +1302,8 @@ gsf_xml_in_namecmp (GsfXMLIn const *xin, char const *str,
 
 enum {
 	PROP_0,
-	PROP_PRETTY_PRINT
+	PROP_PRETTY_PRINT,
+	PROP_SINK
 };
 
 typedef enum {
@@ -1320,6 +1322,13 @@ typedef struct _GsfXMLOutPrivate {
 } GsfXMLOutPrivate;
 
 static void
+gsf_xml_out_set_output (GsfXMLOut *xout, GsfOutput *output)
+{
+	if (gsf_output_wrap (G_OBJECT (xout), output))
+		xout->output = output;
+}
+
+static void
 gsf_xml_out_set_property (GObject      *object,
 			  guint         property_id,
 			  GValue const *value,
@@ -1331,6 +1340,9 @@ gsf_xml_out_set_property (GObject      *object,
 	switch (property_id) {
 	case PROP_PRETTY_PRINT:
 		priv->pretty_print = g_value_get_boolean (value);
+		break;
+	case PROP_SINK:
+		gsf_xml_out_set_output (xout, g_value_get_object (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1350,6 +1362,9 @@ gsf_xml_out_get_property (GObject     *object,
 	switch (property_id) {
 	case PROP_PRETTY_PRINT:
 		g_value_set_boolean (value, priv->pretty_print);
+		break;
+	case PROP_SINK:
+		g_value_set_object (value, xout->output);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1390,10 +1405,22 @@ gsf_xml_out_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property = gsf_xml_out_get_property;
 	gobject_class->set_property = gsf_xml_out_set_property;
 
-	g_object_class_install_property (gobject_class, PROP_PRETTY_PRINT,
-		 g_param_spec_boolean ("pretty-print", "Pretty print",
-			"Should the output auto-indent elements to make reading easier",
+	g_object_class_install_property
+		(gobject_class, PROP_PRETTY_PRINT,
+		 g_param_spec_boolean ("pretty-print",
+				       _("Pretty print"),
+				       _("Should the output auto-indent elements to make reading easier?"),
 			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_SINK,
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("The destination for writes"),
+				      GSF_OUTPUT_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
 
 	g_type_class_add_private (gobject_class, sizeof (GsfXMLOutPrivate));
 }
@@ -1413,12 +1440,11 @@ GSF_CLASS (GsfXMLOut, gsf_xml_out,
 GsfXMLOut *
 gsf_xml_out_new (GsfOutput *output)
 {
-	GsfXMLOut *xout = g_object_new (GSF_XML_OUT_TYPE, NULL);
-	if (G_UNLIKELY (NULL == xout)) return NULL;
-	if (!gsf_output_wrap (G_OBJECT (xout), output))
-		return NULL;
-	xout->output = output;
-	return xout;
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), NULL);
+
+	return g_object_new (GSF_XML_OUT_TYPE,
+			     "sink", output,
+			     NULL);
 }
 
 /**

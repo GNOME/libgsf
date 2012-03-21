@@ -29,7 +29,9 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-timestamp.h>
 #include <gsf/gsf-docprop-vector.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 
 #define OFFICE	 "office:"
@@ -560,29 +562,145 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 }
 
 gboolean
-gsf_opendoc_metadata_write (GsfXMLOut *output, GsfDocMetaData const *md)
+gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)
 {
+	char *ver_str;
+	GsfXMLOut *xout;
+	GsfODFOut *oout;
+
 	if (output == NULL)
 		return FALSE;
 
-	gsf_xml_out_start_element (output, OFFICE "document-meta");
-	gsf_xml_out_add_cstr_unchecked (output, "xmlns:office",
-		"urn:oasis:names:tc:opendocument:xmlns:office:1.0");
-	gsf_xml_out_add_cstr_unchecked (output, "xmlns:xlink",
-		"http://www.w3.org/1999/xlink");
-	gsf_xml_out_add_cstr_unchecked (output, "xmlns:dc",
-		"http://purl.org/dc/elements/1.1/");
-	gsf_xml_out_add_cstr_unchecked (output, "xmlns:meta",
-		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
-	gsf_xml_out_add_cstr_unchecked (output, "xmlns:ooo",
-		"http://openoffice.org/2004/office");
-	gsf_xml_out_add_cstr_unchecked (output, "office:version",
-					get_gsf_odf_version_string ());
-	gsf_xml_out_start_element (output, OFFICE "meta");
-	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, output);
-	gsf_xml_out_end_element (output); /* </office:meta> */
+	/* For compatibility we take a GsfXMLOut argument.  It really
+	   ought to be a GsfODFOut.  */
+	xout = GSF_XML_OUT (output);
+	oout = GSF_IS_ODF_OUT (xout) ? GSF_ODF_OUT (xout) : NULL;
 
-	gsf_xml_out_end_element (output); /* </office:document-meta> */
+	ver_str = oout
+		? gsf_odf_out_get_version_string (oout)
+		: g_strdup (get_gsf_odf_version_string ());
+
+	gsf_xml_out_start_element (xout, OFFICE "document-meta");
+	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:office",
+		"urn:oasis:names:tc:opendocument:xmlns:office:1.0");
+	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:xlink",
+		"http://www.w3.org/1999/xlink");
+	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:dc",
+		"http://purl.org/dc/elements/1.1/");
+	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:meta",
+		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0");
+	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:ooo",
+		"http://openoffice.org/2004/office");
+	gsf_xml_out_add_cstr_unchecked (xout, "office:version", ver_str);
+	gsf_xml_out_start_element (xout, OFFICE "meta");
+	gsf_doc_meta_data_foreach (md, (GHFunc) meta_write_props, xout);
+	gsf_xml_out_end_element (xout); /* </office:meta> */
+
+	gsf_xml_out_end_element (xout); /* </office:document-meta> */
+
+	g_free (ver_str);
 
 	return TRUE;
+}
+
+/****************************************************************************/
+
+typedef struct _GsfODFOutPrivate {
+	int odf_version;
+} GsfODFOutPrivate;
+
+enum {
+	PROP_0,
+	PROP_ODF_VERSION
+};
+
+static GObjectClass *parent_class;
+
+static void
+gsf_odf_out_set_property (GObject      *object,
+			  guint         property_id,
+			  GValue const *value,
+			  GParamSpec   *pspec)
+{
+	GsfODFOut *xout = (GsfODFOut *)object;
+	GsfODFOutPrivate *priv = xout->priv;
+
+	switch (property_id) {
+	case PROP_ODF_VERSION:
+		priv->odf_version = g_value_get_int (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_odf_out_get_property (GObject     *object,
+			  guint        property_id,
+			  GValue      *value,
+			  GParamSpec  *pspec)
+{
+	GsfODFOut const *xout = (GsfODFOut const *)object;
+	GsfODFOutPrivate const *priv = xout->priv;
+
+	switch (property_id) {
+	case PROP_ODF_VERSION:
+		g_value_set_int (value, priv->odf_version);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_odf_out_init (GObject *obj)
+{
+	GsfODFOut *xout = GSF_ODF_OUT (obj);
+	GsfODFOutPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE
+		(obj, GSF_ODF_OUT_TYPE, GsfODFOutPrivate);
+	xout->priv = priv;
+	priv->odf_version = 100;
+}
+
+static void
+gsf_odf_out_class_init (GObjectClass *gobject_class)
+{
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->get_property = gsf_odf_out_get_property;
+	gobject_class->set_property = gsf_odf_out_set_property;
+
+	g_object_class_install_property
+		(gobject_class, PROP_ODF_VERSION,
+		 g_param_spec_int ("odf-version",
+				   _("ODF version"),
+				   _("The ODF version this object is targeting as an integer like 100"),
+				   0,
+				   G_MAXINT,
+				   100,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE | 
+				   G_PARAM_CONSTRUCT_ONLY));
+
+	g_type_class_add_private (gobject_class, sizeof (GsfODFOutPrivate));
+}
+
+GSF_CLASS (GsfODFOut, gsf_odf_out,
+	   gsf_odf_out_class_init, gsf_odf_out_init,
+	   GSF_XML_OUT_TYPE)
+
+int
+gsf_odf_out_get_version (GsfODFOut *oout)
+{
+	g_return_val_if_fail (GSF_IS_ODF_OUT (oout), 100);
+	return oout->priv->odf_version;
+}
+
+char *
+gsf_odf_out_get_version_string (GsfODFOut *oout)
+{
+	int ver = gsf_odf_out_get_version (oout);
+	return g_strdup_printf ("%d.%d", ver / 100, ver % 100);
 }

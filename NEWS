@@ -11,6 +11,7 @@ Jean Brefort:
 
 Morten:
 	* Fix time stamp drift problem.  [Part of #671860]
+	* New GsfODFOut class.
 
 --------------------------------------------------------------------------
 libgsf 1.14.22

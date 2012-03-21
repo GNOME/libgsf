@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-opendoc-utils.h:  Handle the application neutral portions of OpenDocument
  *
@@ -30,6 +29,36 @@
 #include <gmodule.h>
 
 G_BEGIN_DECLS
+
+/****************************************************************************/
+
+typedef struct {
+	GsfXMLOutClass base;
+
+	/*< private >*/
+	/* Padding for future expansion */
+	void (*_gsf_reserved1) (void);
+	void (*_gsf_reserved2) (void);
+	void (*_gsf_reserved3) (void);
+	void (*_gsf_reserved4) (void);
+} GsfODFOutClass;
+
+typedef struct _GsfODFOut {
+	GsfXMLOut base;
+	/*< private >*/
+	struct _GsfODFOutPrivate *priv;
+} GsfODFOut;
+
+#define GSF_ODF_OUT_TYPE	(gsf_odf_out_get_type ())
+#define GSF_ODF_OUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_ODF_OUT_TYPE, GsfODFOut))
+#define GSF_IS_ODF_OUT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_ODF_OUT_TYPE))
+
+GType gsf_odf_out_get_type      (void) G_GNUC_CONST;
+
+int gsf_odf_out_get_version     (GsfODFOut *oout);
+char *gsf_odf_out_get_version_string (GsfODFOut *oout);
+
+/****************************************************************************/
 
 enum {
 	OO_NS_OFFICE,
@@ -105,9 +134,9 @@ G_MODULE_EXPORT short get_gsf_odf_version (void);
 extern GsfXMLInNS gsf_ooo_ns[]; /* use get_gsf_ooo_ns instead */
 
 /* For 1.15.x s/opendoc/odf/ and s/ooo/odf/ */
-GError	*gsf_opendoc_metadata_read    (GsfInput *input,  GsfDocMetaData *md);
-void	 gsf_opendoc_metadata_subtree (GsfXMLIn *doc,    GsfDocMetaData *md);
-gboolean gsf_opendoc_metadata_write   (GsfXMLOut *output, GsfDocMetaData const *md);
+GError	*gsf_opendoc_metadata_read    (GsfInput *input, GsfDocMetaData *md);
+void	 gsf_opendoc_metadata_subtree (GsfXMLIn *doc,   GsfDocMetaData *md);
+gboolean gsf_opendoc_metadata_write   (gpointer output, GsfDocMetaData const *md);
 
 G_END_DECLS
 
