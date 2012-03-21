@@ -1310,21 +1310,14 @@ typedef enum {
 	GSF_XML_OUT_CONTENT
 } GsfXMLOutState;
 
-struct _GsfXMLOut {
-	GObject	   base;
-
-	GsfOutput	 *output;
+typedef struct _GsfXMLOutPrivate {
 	char		 *doc_type;
 	GSList		 *stack;
 	GsfXMLOutState	  state;
 	unsigned   	  indent;
 	gboolean	  needs_header;
 	gboolean	  pretty_print;
-};
-
-typedef struct {
-	GObjectClass  base;
-} GsfXMLOutClass;
+} GsfXMLOutPrivate;
 
 static void
 gsf_xml_out_set_property (GObject      *object,
@@ -1333,10 +1326,11 @@ gsf_xml_out_set_property (GObject      *object,
 			  GParamSpec   *pspec)
 {
 	GsfXMLOut *xout = (GsfXMLOut *)object;
+	GsfXMLOutPrivate *priv = xout->priv;
 
 	switch (property_id) {
 	case PROP_PRETTY_PRINT:
-		xout->pretty_print = g_value_get_boolean (value);
+		priv->pretty_print = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1351,10 +1345,11 @@ gsf_xml_out_get_property (GObject     *object,
 			  GParamSpec  *pspec)
 {
 	GsfXMLOut const *xout = (GsfXMLOut const *)object;
+	GsfXMLOutPrivate const *priv = xout->priv;
 
 	switch (property_id) {
 	case PROP_PRETTY_PRINT:
-		g_value_set_boolean (value, xout->pretty_print);
+		g_value_set_boolean (value, priv->pretty_print);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1366,9 +1361,7 @@ static void
 gsf_xml_out_finalize (GObject *obj)
 {
 	GsfXMLOut *xout = GSF_XML_OUT (obj);
-
-	g_free (xout->doc_type);
-
+	g_free (xout->priv->doc_type);
 	parent_class->finalize (obj);
 }
 
@@ -1376,13 +1369,16 @@ static void
 gsf_xml_out_init (GObject *obj)
 {
 	GsfXMLOut *xout = GSF_XML_OUT (obj);
+	GsfXMLOutPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE
+		(obj, GSF_XML_OUT_TYPE, GsfXMLOutPrivate);
 	xout->output = NULL;
-	xout->stack  = NULL;
-	xout->state  = GSF_XML_OUT_CHILD;
-	xout->indent = 0;
-	xout->needs_header = TRUE;
-	xout->doc_type = NULL;
-	xout->pretty_print = TRUE;
+	xout->priv = priv;
+	priv->stack  = NULL;
+	priv->state  = GSF_XML_OUT_CHILD;
+	priv->indent = 0;
+	priv->needs_header = TRUE;
+	priv->doc_type = NULL;
+	priv->pretty_print = TRUE;
 }
 
 static void
@@ -1398,6 +1394,8 @@ gsf_xml_out_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("pretty-print", "Pretty print",
 			"Should the output auto-indent elements to make reading easier",
 			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_type_class_add_private (gobject_class, sizeof (GsfXMLOutPrivate));
 }
 
 GSF_CLASS (GsfXMLOut, gsf_xml_out,
@@ -1433,13 +1431,15 @@ gsf_xml_out_new (GsfOutput *output)
 void
 gsf_xml_out_set_doc_type (GsfXMLOut *xout, char const *type)
 {
-	g_free (xout->doc_type);
-	xout->doc_type = g_strdup (type);
+	GsfXMLOutPrivate *priv = xout->priv;
+	g_free (priv->doc_type);
+	priv->doc_type = g_strdup (type);
 }
 
 static inline void
 gsf_xml_out_indent (GsfXMLOut *xout)
 {
+	GsfXMLOutPrivate *priv = xout->priv;
 	static char const spaces [] =
 		"                                        "
 		"                                        "
@@ -1447,9 +1447,9 @@ gsf_xml_out_indent (GsfXMLOut *xout)
 		"                                        "
 		"                                        "
 		"                                        ";
-	if (xout->pretty_print) {
+	if (priv->pretty_print) {
 		unsigned i;
-		for (i = xout->indent ; i > (sizeof (spaces)/2) ; i -= sizeof (spaces)/2)
+		for (i = priv->indent ; i > (sizeof (spaces)/2) ; i -= sizeof (spaces)/2)
 			gsf_output_write (xout->output, sizeof (spaces) - 1, spaces);
 		gsf_output_write (xout->output, i*2, spaces);
 	}
@@ -1465,19 +1465,22 @@ gsf_xml_out_indent (GsfXMLOut *xout)
 void
 gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
 {
+	GsfXMLOutPrivate *priv;
+
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (xout != NULL);
+	priv = xout->priv;
 
-	if (xout->needs_header) {
+	if (priv->needs_header) {
 		static char const header0[] =
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		gsf_output_write (xout->output, sizeof (header0) - 1, header0);
-		if (xout->doc_type != NULL)
-			gsf_output_puts (xout->output, xout->doc_type);
-		xout->needs_header = FALSE;
+		if (priv->doc_type != NULL)
+			gsf_output_puts (xout->output, priv->doc_type);
+		priv->needs_header = FALSE;
 	}
-	if (xout->state == GSF_XML_OUT_NOCONTENT) {
-		if (xout->pretty_print)
+	if (priv->state == GSF_XML_OUT_NOCONTENT) {
+		if (priv->pretty_print)
 			gsf_output_write (xout->output, 2, ">\n");
 		else
 			gsf_output_write (xout->output, 1, ">");
@@ -1486,9 +1489,9 @@ gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
 	gsf_xml_out_indent (xout);
 	gsf_output_printf (xout->output, "<%s", id);
 
-	xout->stack = g_slist_prepend (xout->stack, (gpointer)id);
-	xout->indent++;
-	xout->state = GSF_XML_OUT_NOCONTENT;
+	priv->stack = g_slist_prepend (priv->stack, (gpointer)id);
+	priv->indent++;
+	priv->state = GSF_XML_OUT_NOCONTENT;
 }
 
 /**
@@ -1503,16 +1506,18 @@ char const *
 gsf_xml_out_end_element (GsfXMLOut *xout)
 {
 	char const *id;
+	GsfXMLOutPrivate *priv;
 
 	g_return_val_if_fail (xout != NULL, NULL);
-	g_return_val_if_fail (xout->stack != NULL, NULL);
+	priv = xout->priv;
+	g_return_val_if_fail (priv->stack != NULL, NULL);
 
-	id = xout->stack->data;
-	xout->stack = g_slist_remove (xout->stack, id);
-	xout->indent--;
-	switch (xout->state) {
+	id = priv->stack->data;
+	priv->stack = g_slist_remove (priv->stack, id);
+	priv->indent--;
+	switch (priv->state) {
 	case GSF_XML_OUT_NOCONTENT :
-		if (xout->pretty_print)
+		if (priv->pretty_print)
 			gsf_output_write (xout->output, 3, "/>\n");
 		else
 			gsf_output_write (xout->output, 2, "/>");
@@ -1522,12 +1527,12 @@ gsf_xml_out_end_element (GsfXMLOut *xout)
 		gsf_xml_out_indent (xout);
 	/* fall through */
 	case GSF_XML_OUT_CONTENT :
-		if (xout->pretty_print)
+		if (priv->pretty_print)
 			gsf_output_printf (xout->output, "</%s>\n", id);
 		else
 			gsf_output_printf (xout->output, "</%s>", id);
 	}
-	xout->state = GSF_XML_OUT_CHILD;
+	priv->state = GSF_XML_OUT_CHILD;
 	return id;
 }
 
@@ -1587,8 +1592,9 @@ gsf_xml_out_simple_float_element (GsfXMLOut *xout, char const *id,
 static void
 close_tag_if_neccessary (GsfXMLOut* xout)
 {
-	if (xout->state == GSF_XML_OUT_NOCONTENT) {
-		xout->state = GSF_XML_OUT_CONTENT;
+	GsfXMLOutPrivate *priv = xout->priv;
+	if (priv->state == GSF_XML_OUT_NOCONTENT) {
+		priv->state = GSF_XML_OUT_CONTENT;
 		gsf_output_write (xout->output, 1, ">");
 	}
 }

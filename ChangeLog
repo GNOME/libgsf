@@ -1,3 +1,8 @@
+2012-03-21  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.h (GsfXMLOut): Make this just public enough that
+	we can derive from it.
+
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (libgsf_reqs): Fix glib dependency.

@@ -152,7 +152,24 @@ gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *xin, char const *str,
 /****************************************************************************/
 /* Simplified GSF based xml export (does not use libxml) */
 
-typedef struct _GsfXMLOut	GsfXMLOut;
+typedef struct {
+	GObjectClass  base;
+
+	/*< private >*/
+	/* Padding for future expansion */
+	void (*_gsf_reserved1) (void);
+	void (*_gsf_reserved2) (void);
+	void (*_gsf_reserved3) (void);
+	void (*_gsf_reserved4) (void);
+} GsfXMLOutClass;
+
+typedef struct _GsfXMLOut {
+	GObject	   base;
+	GsfOutput *output;
+
+	/*< private >*/
+	struct _GsfXMLOutPrivate *priv;
+} GsfXMLOut;
 
 #define GSF_XML_OUT_TYPE	(gsf_xml_out_get_type ())
 #define GSF_XML_OUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_XML_OUT_TYPE, GsfXMLOut))
