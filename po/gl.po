@@ -2,19 +2,21 @@
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the libgsf package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# Fran Dieguez <frandieguez@gnome.org>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-12 12:40+0200\n"
-"PO-Revision-Date: 2011-04-13 06:35+0000\n"
-"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2012-03-22 01:15+0100\n"
+"PO-Revision-Date: 2012-03-22 01:16+0100\n"
+"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../gsf/gsf-blob.c:111
 #, c-format
@@ -47,6 +49,23 @@ msgstr "Formato DIB ou BITMAP de Windows"
 #: ../gsf/gsf-clip-data.c:269
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato de meta ficheiro mellorado de Windows"
+
+#: ../gsf/gsf-libxml.c:1411
+msgid "Pretty print"
+msgstr "Impresión bonita"
+
+#: ../gsf/gsf-libxml.c:1412
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr ""
+"Debería a saída autoindentar os elementos para facer a lectura máis doada?"
+
+#: ../gsf/gsf-libxml.c:1418
+msgid "Sink"
+msgstr "Sumideiro"
+
+#: ../gsf/gsf-libxml.c:1419
+msgid "The destination for writes"
+msgstr "O destino das escrituras"
 
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
@@ -85,6 +104,14 @@ msgstr "Falta un ID para unha parte en «%s»"
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "A parte «%s» en «%s» de «%s» está estragada."
+
+#: ../gsf/gsf-opendoc-utils.c:678
+msgid "ODF version"
+msgstr "Versión de ODF"
+
+#: ../gsf/gsf-opendoc-utils.c:679
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "A versió de ODF na que está este obxeto como un enteiro como 100"
 
 #: ../tools/gsf.c:22
 msgid "Display program version"
@@ -171,448 +198,383 @@ msgstr "Uso: %s %s\n"
 msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Execute «%s help» para ver unha lista das sub ordes\n"
 
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid ""
-"Boolean options available, true enables thumbnailing and false disables the "
-"creation of new thumbnails"
-msgstr ""
-"Opcións booleanas dispoñíbeis: «true» activa as miniaturas e «false» "
-"desactiva a creación de novas miniaturas"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
-msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-msgstr "Activar miniaturas para follas de cálculo de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:3
-msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-msgstr "Activar miniaturas para modelos de debuxos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
-msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Activar miniaturas para modelos de presentacións Impress de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
-msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-msgstr "Activar miniaturas para presentacións Impress de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:6
-msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-msgstr ""
-"Activar miniaturas para documentos de matemáticas de Math de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:7
-msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-msgstr "Activar miniaturas para modelos de follas de cálculo de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:8
-msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-msgstr ""
-"Activar miniaturas para documentos do procesador de textos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:9
-msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-msgstr ""
-"Activar miniaturas para modelos globais do procesador de textos OpenOffice 1."
-"x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:10
-msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-msgstr ""
-"Activar miniaturas para modelos do procesador de textos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:11
-msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-msgstr "Activar miniaturas para follas de cálculo de Microsoft Excel 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:12
-msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-msgstr "Activar miniaturas para follas de cálculo de Microsoft Excel"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:13
-msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-msgstr "Activar miniaturas para presentacións de Microsoft PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:14
-msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-msgstr "Activar miniaturas para presentacións de Microsoft PowerPoint"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:15
-msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-msgstr "Activar miniaturas para documentos de Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:16
-msgid "Enable thumbnailing of Microsoft Word documents"
-msgstr "Activar miniaturas para documentos de Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:17
-msgid "Enable thumbnailing of OpenDocument charts"
-msgstr "Activar miniaturas para gráficas de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:18
-msgid "Enable thumbnailing of OpenDocument drawing templates"
-msgstr "Activar miniaturas para modelos de debuxo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:19
-msgid "Enable thumbnailing of OpenDocument drawings"
-msgstr "Activar miniaturas para debuxos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
-msgid "Enable thumbnailing of OpenDocument formulas"
-msgstr "Activar miniaturas para fórmulas de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
-msgid "Enable thumbnailing of OpenDocument images"
-msgstr "Activar miniaturas para axes OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:22
-msgid "Enable thumbnailing of OpenDocument presentation templates"
-msgstr "Activar miniaturas para modelos de presentacións de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:23
-msgid "Enable thumbnailing of OpenDocument presentations"
-msgstr "Activar miniaturas para presentacións de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:24
-msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-msgstr "Activar miniaturas para modelos de folla de cálculo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:25
-msgid "Enable thumbnailing of OpenDocument spreadsheets"
-msgstr "Activar miniaturas para follas de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
-msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr ""
-"Activar miniaturas para modelos de documentos do procesador de textos de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
-msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr ""
-"Activar miniaturas para documentos do procesador de textos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:28
-msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr ""
-"Activar miniaturas para documentos mestre do procesador de textos de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
-msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-msgstr ""
-"Orde para xerar miniaturas para documentos de follas de cálculo de Microsoft "
-"Excel 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:30
-msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr ""
-"Orde para xerar miniaturas para documentos de follas de cálculo de Microsoft "
-"Excel"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:31
-msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-msgstr ""
-"Orde para xerar miniaturas para presentacións de Microsoft PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:32
-msgid "Thumbnail command for Microsoft PowerPoint presentations"
-msgstr "Orde para xerar miniaturas para presentacións de Microsoft PowerPoint"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:33
-msgid "Thumbnail command for Microsoft Word 2007 documents"
-msgstr "Orde para xerar miniaturas para documentos de Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:34
-msgid "Thumbnail command for Microsoft Word documents"
-msgstr "Orde para xerar miniaturas para documentos de Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:35
-msgid "Thumbnail command for OpenDocument charts"
-msgstr "Orde para xerar miniaturas para gráficas de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
-msgid "Thumbnail command for OpenDocument drawing templates"
-msgstr "Orde para xerar miniaturas para modelos de debuxo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
-msgid "Thumbnail command for OpenDocument drawings"
-msgstr "Orde para xerar miniaturas para debuxos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
-msgid "Thumbnail command for OpenDocument formulas"
-msgstr "Orde para xerar miniaturas para fórmulas de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
-msgid "Thumbnail command for OpenDocument images"
-msgstr "Orde para xerar miniaturas para imaxes de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
-msgid "Thumbnail command for OpenDocument presentation templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de presentacións de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
-msgid "Thumbnail command for OpenDocument presentations"
-msgstr "Orde para xerar miniaturas para presentacións de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
-msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de follas de cálculo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
-msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr "Orde para xerar miniaturas para follas de cálculo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
-msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de documentos de procesadores de "
-"texto de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
-msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr ""
-"Orde para xerar miniaturas para documentos de procesadores de texto de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
-msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr ""
-"Orde para xerar miniaturas para documentos mestre de procesadores de texto "
-"de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
-msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
-"Orde para xerar miniaturas para follas de cálculo de OpenOffice 1.x Calc"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
-msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de debuxos de Draw de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
-msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de presentacións de Impress de "
-"OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
-msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-msgstr ""
-"Orde para xerar miniaturas para presentacións de Impress de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
-msgid "Thumbnail command for OpenOffice 1.x Math documents"
-msgstr "Orde para xerar miniaturas para documentos de Math de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
-msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos de follas de cálculo de OpenOffice 1."
-"x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
-msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-msgstr ""
-"Orde para xerar miniaturas para documentos do procesador de texto de "
-"OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos globais do procesador de texto de "
-"OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
-msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-msgstr ""
-"Orde para xerar miniaturas para modelos do procesador de texto de OpenOffice "
-"1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
-msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-msgstr ""
-"Orde válida e argumentos para follas de cálculo de Microsoft Excel 2007."
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
-msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr "Orde válida e argumentos para follas de cálculo de Microsoft Excel."
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid ""
-"Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de Microsoft "
-"PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de Microsoft PowerPo"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de gráficos de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid ""
-"Valid command plus arguments for the OpenDocument drawing template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de debuxo "
-"de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de debuxos de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de fórmulas "
-"de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
-msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de imaxes de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"presentacións de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de presentacións de "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de follas "
-"de cálculo de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de follas de cálculo "
-"de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"template thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"documentos do procesador de textos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de documentos do "
-"procesador de textos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing master "
-"document thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"documentos mestre do procesador de textos de OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Drawing template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de debuxos "
-"de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
-msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de debuxos de "
-"OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"template thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"presentacións de Impress de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de presentacións de "
-"Impress de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"documentos de Math de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer document "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos de "
-"documentos do procesador de textos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer global template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos globais do "
-"procesador de textos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer template "
-"thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de modelos do "
-"procesador de textos de OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr ""
-"Orde válida e argumentos para o xerador de miniaturas de follas de cálculo "
-"de OpenOffice 1.x"
+#~ msgid ""
+#~ "Boolean options available, true enables thumbnailing and false disables "
+#~ "the creation of new thumbnails"
+#~ msgstr ""
+#~ "Opcións booleanas dispoñíbeis: «true» activa as miniaturas e «false» "
+#~ "desactiva a creación de novas miniaturas"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr "Activar miniaturas para follas de cálculo de OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
+#~ msgstr "Activar miniaturas para modelos de debuxos de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr ""
+#~ "Activar miniaturas para modelos de presentacións Impress de OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
+#~ msgstr "Activar miniaturas para presentacións Impress de OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
+#~ msgstr ""
+#~ "Activar miniaturas para documentos de matemáticas de Math de OpenOffice 1."
+#~ "x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr ""
+#~ "Activar miniaturas para modelos de follas de cálculo de OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
+#~ msgstr ""
+#~ "Activar miniaturas para documentos do procesador de textos de OpenOffice "
+#~ "1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
+#~ msgstr ""
+#~ "Activar miniaturas para modelos globais do procesador de textos "
+#~ "OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
+#~ msgstr ""
+#~ "Activar miniaturas para modelos do procesador de textos de OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
+#~ msgstr "Activar miniaturas para follas de cálculo de Microsoft Excel 2007"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
+#~ msgstr "Activar miniaturas para follas de cálculo de Microsoft Excel"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
+#~ msgstr "Activar miniaturas para presentacións de Microsoft PowerPoint 2007"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
+#~ msgstr "Activar miniaturas para presentacións de Microsoft PowerPoint"
+
+#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
+#~ msgstr "Activar miniaturas para documentos de Microsoft Word 2007"
+
+#~ msgid "Enable thumbnailing of Microsoft Word documents"
+#~ msgstr "Activar miniaturas para documentos de Microsoft Word"
+
+#~ msgid "Enable thumbnailing of OpenDocument charts"
+#~ msgstr "Activar miniaturas para gráficas de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
+#~ msgstr "Activar miniaturas para modelos de debuxo de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawings"
+#~ msgstr "Activar miniaturas para debuxos de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument formulas"
+#~ msgstr "Activar miniaturas para fórmulas de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument images"
+#~ msgstr "Activar miniaturas para axes OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
+#~ msgstr "Activar miniaturas para modelos de presentacións de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentations"
+#~ msgstr "Activar miniaturas para presentacións de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
+#~ msgstr "Activar miniaturas para modelos de folla de cálculo de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
+#~ msgstr "Activar miniaturas para follas de cálculo OpenDocument"
+
+#~ msgid ""
+#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
+#~ msgstr ""
+#~ "Activar miniaturas para modelos de documentos do procesador de textos de "
+#~ "OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
+#~ msgstr ""
+#~ "Activar miniaturas para documentos do procesador de textos de OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
+#~ msgstr ""
+#~ "Activar miniaturas para documentos mestre do procesador de textos de "
+#~ "OpenDocument"
+
+#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos de follas de cálculo de "
+#~ "Microsoft Excel 2007"
+
+#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos de follas de cálculo de "
+#~ "Microsoft Excel"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para presentacións de Microsoft PowerPoint 2007"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para presentacións de Microsoft PowerPoint"
+
+#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
+#~ msgstr "Orde para xerar miniaturas para documentos de Microsoft Word 2007"
+
+#~ msgid "Thumbnail command for Microsoft Word documents"
+#~ msgstr "Orde para xerar miniaturas para documentos de Microsoft Word"
+
+#~ msgid "Thumbnail command for OpenDocument charts"
+#~ msgstr "Orde para xerar miniaturas para gráficas de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument drawing templates"
+#~ msgstr "Orde para xerar miniaturas para modelos de debuxo de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument drawings"
+#~ msgstr "Orde para xerar miniaturas para debuxos de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument formulas"
+#~ msgstr "Orde para xerar miniaturas para fórmulas de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument images"
+#~ msgstr "Orde para xerar miniaturas para imaxes de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument presentation templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de presentacións de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument presentations"
+#~ msgstr "Orde para xerar miniaturas para presentacións de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de follas de cálculo de "
+#~ "OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheets"
+#~ msgstr "Orde para xerar miniaturas para follas de cálculo de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de documentos de procesadores de "
+#~ "texto de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos de procesadores de texto de "
+#~ "OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos mestre de procesadores de "
+#~ "texto de OpenDocument"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para follas de cálculo de OpenOffice 1.x Calc"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de debuxos de Draw de OpenOffice "
+#~ "1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de presentacións de Impress de "
+#~ "OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para presentacións de Impress de OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos de Math de OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos de follas de cálculo de "
+#~ "OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para documentos do procesador de texto de "
+#~ "OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos globais do procesador de texto de "
+#~ "OpenOffice 1.x"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
+#~ msgstr ""
+#~ "Orde para xerar miniaturas para modelos do procesador de texto de "
+#~ "OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
+#~ msgstr ""
+#~ "Orde válida e argumentos para follas de cálculo de Microsoft Excel 2007."
+
+#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
+#~ msgstr "Orde válida e argumentos para follas de cálculo de Microsoft Excel."
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de Microsoft "
+#~ "PowerPoint 2007"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de Microsoft PowerPo"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de Microsoft Word "
+#~ "2007"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de Microsoft Word"
+
+#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de gráficos de "
+#~ "OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "debuxo de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de debuxos de "
+#~ "OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "fórmulas de OpenDocument"
+
+#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de imaxes de "
+#~ "OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument presentation template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "presentacións de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de presentacións de "
+#~ "OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "follas de cálculo de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de follas de "
+#~ "cálculo de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "documentos do procesador de textos de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de documentos do "
+#~ "procesador de textos de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
+#~ "document thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "documentos mestre do procesador de textos de OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "debuxos de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de debuxos de "
+#~ "OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "presentacións de Impress de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de presentacións de "
+#~ "Impress de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "documentos de Math de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos de "
+#~ "documentos do procesador de textos de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos globais "
+#~ "do procesador de textos de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de modelos do "
+#~ "procesador de textos de OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Orde válida e argumentos para o xerador de miniaturas de follas de "
+#~ "cálculo de OpenOffice 1.x"
