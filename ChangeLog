@@ -1,3 +1,8 @@
+2012-03-25  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (test_python): Disable by default.  Patch from
+	Alban Browaeys in #672663.
+
 2012-03-21  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-opendoc-utils.h (GsfODFOut): New object class.

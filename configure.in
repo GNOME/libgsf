@@ -298,11 +298,11 @@ LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
 
-test_python=true
+test_python=false
 AC_ARG_WITH(python,
 	[--{with,without}-python   Build with the python support],
-	if test "x$withval" = xno; then
-		test_python=false
+	if test "x$withval" = xyes; then
+		test_python=true
 	fi
 )
 
