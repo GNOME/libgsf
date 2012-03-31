@@ -2,14 +2,14 @@
 # Copyright (C) 2009 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2009 - 2010.
+# Matej Urbančič <mateju@svn.gnome.org>, 2009 - 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-03-22 10:46+0000\n"
-"PO-Revision-Date: 2012-03-22 19:50+0100\n"
+"POT-Creation-Date: 2012-03-31 18:40+0000\n"
+"PO-Revision-Date: 2012-03-31 22:33+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -95,11 +95,16 @@ msgstr "Manjkajoči id za del v '%s'"
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del '%s' v '%s' iz '%s' je pokvarjen!"
 
-#: ../gsf/gsf-opendoc-utils.c:678
+#: ../gsf/gsf-opendoc-utils.c:290
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Lastnost \"%s\" je uporabljena za več vrst!"
+
+#: ../gsf/gsf-opendoc-utils.c:742
 msgid "ODF version"
 msgstr "Različica ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:679
+#: ../gsf/gsf-opendoc-utils.c:743
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Različica ODF, na katerega cilja predmet, določena kot celo število; na primer 100"
 
