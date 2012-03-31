@@ -1,5 +1,8 @@
 libgsf 1.14.23
 
+Andreas:
+	* Fix read/write of GSF_DOCPROP_VECTOR_TYPE meta data [Part of #672716]
+
 Alan Knowles:
 	* Add gobject introspection support. [#610340]
 

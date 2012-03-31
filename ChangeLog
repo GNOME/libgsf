@@ -1,3 +1,14 @@
+2012-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): default to
+	G_TYPE_NONE
+	(od_meta_user_defined_end): Check for "GSF_DOCPROP_VECTOR:" and
+	handle accordingly
+	(meta_write_props_user_defined): code extracted from
+	meta_write_props
+	(meta_write_props): use meta_write_props_user_defined and handle
+	GSF_DOCPROP_VECTOR_TYPE
+
 2012-03-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (test_python): Disable by default.  Patch from
