@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 01:15+0100\n"
-"PO-Revision-Date: 2012-03-22 01:16+0100\n"
+"POT-Creation-Date: 2012-04-02 16:43+0200\n"
+"PO-Revision-Date: 2012-04-02 16:44+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -105,11 +105,16 @@ msgstr "Falta un ID para unha parte en «%s»"
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "A parte «%s» en «%s» de «%s» está estragada."
 
-#: ../gsf/gsf-opendoc-utils.c:678
+#: ../gsf/gsf-opendoc-utils.c:290
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "A propiedade %s úsase para varios tipos."
+
+#: ../gsf/gsf-opendoc-utils.c:742
 msgid "ODF version"
 msgstr "Versión de ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:679
+#: ../gsf/gsf-opendoc-utils.c:743
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "A versió de ODF na que está este obxeto como un enteiro como 100"
 
