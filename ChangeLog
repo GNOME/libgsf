@@ -1,3 +1,7 @@
+2012-04-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.23
+
 2012-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-opendoc-utils.c (od_meta_user_defined): default to
