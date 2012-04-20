@@ -156,6 +156,10 @@ Gsf-1.gir: $(NOINST_H_FILES)
 Gsf-1.gir: $(libgsf_1_la_SOURCES)
 Gsf-1.gir: libgsf-1.la
 Gsf-1.gir: $(G_IR_SCANNER) Makefile
+	(TMP= ; \
+	for i in $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES); do \
+	  TMP="$$TMP $(srcdir)/$$i" ; \
+	done ;\
 	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace Gsf --nsversion=1 \
 	    --add-include-path=$(srcdir) --add-include-path=. \
 	    --include=GObject-2.0 \
@@ -165,7 +169,7 @@ Gsf-1.gir: $(G_IR_SCANNER) Makefile
 	    --libtool="$(LIBTOOL)" \
 	    --output $@ \
 	    -I$(top_srcdir) \
-	    $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES)
+	    $$TMP)
 
 if HAVE_INTROSPECTION
 
