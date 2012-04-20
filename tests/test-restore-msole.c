@@ -32,7 +32,7 @@
 #include <stdio.h>
 
 static void
-clone (GsfInput *input, GsfOutput *output)
+clone_ (GsfInput *input, GsfOutput *output)
 {
 	guint8 const *data;
 	size_t len;
@@ -72,7 +72,7 @@ clone (GsfInput *input, GsfOutput *output)
 			dst = gsf_outfile_new_child  (out,
 				gsf_infile_name_by_index (in, i),
 				is_dir);
-			clone (src, dst);
+			clone_ (src, dst);
 		}
 	}
 
@@ -111,7 +111,7 @@ test (char *argv[])
 
 	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	clone (GSF_INPUT (infile), GSF_OUTPUT (outfile));
+	clone_ (GSF_INPUT (infile), GSF_OUTPUT (outfile));
 
 	return 0;
 }

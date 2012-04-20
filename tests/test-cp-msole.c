@@ -34,7 +34,7 @@
 static void clone_dir (GsfInfile *in, GsfOutfile *out);
 
 static void
-clone (GsfInput *input, GsfOutput *output)
+clone_ (GsfInput *input, GsfOutput *output)
 {
 	if (gsf_input_size (input) > 0) {
 		guint8 const *data;
@@ -87,7 +87,7 @@ clone_dir (GsfInfile *in, GsfOutfile *out)
 				gsf_infile_name_by_index  (in, i),
 				is_dir);
 
-		clone (new_input, new_output);
+		clone_ (new_input, new_output);
 	}
 	/* An observation: when you think about the explanation to is_dir
 	 * above, you realize that clone_dir is called even for regular files.
@@ -137,7 +137,7 @@ test (char *argv[])
 
 	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	clone (GSF_INPUT (infile), GSF_OUTPUT (outfile));
+	clone_ (GSF_INPUT (infile), GSF_OUTPUT (outfile));
 
 	return 0;
 }

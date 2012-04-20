@@ -32,7 +32,7 @@
 #include <stdio.h>
 
 static void
-clone (GsfInfile *in, GsfOutfile *out)
+clone_ (GsfInfile *in, GsfOutfile *out)
 {
 	GsfInput *input = GSF_INPUT (in);
 	GsfOutput *output = GSF_OUTPUT (out);
@@ -85,7 +85,7 @@ clone (GsfInfile *in, GsfOutfile *out)
 			output = gsf_outfile_new_child_full  (out, name, is_dir,
 							      "compression-level", level,
 							      NULL);
-			clone (GSF_INFILE (input), GSF_OUTFILE (output));
+			clone_ (GSF_INFILE (input), GSF_OUTFILE (output));
 		}
 	}
 	gsf_output_close (GSF_OUTPUT (out));
@@ -137,7 +137,7 @@ test (char *argv[])
 
 	outfile = gsf_outfile_zip_new (output, &err);
 	g_object_unref (G_OBJECT (output));
-	clone (infile, outfile);
+	clone_ (infile, outfile);
 
 	return 0;
 }
