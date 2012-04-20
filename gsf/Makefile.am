@@ -1,8 +1,9 @@
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) \
 	$(Z_CPPFLAGS) $(LIBGSF_GIO_CFLAGS) \
 	-DGSFLOCALEDIR=\"$(datadir)/locale\"
-
 lib_LTLIBRARIES = libgsf-1.la
+
+include $(top_srcdir)/gsf.mk
 
 if WITH_GIO
 gioc=gsf-input-gio.c gsf-output-gio.c
@@ -135,9 +136,9 @@ libgsf_1_include_HEADERS = 	\
 #	gsf-command-context.h	\
 #	gsf-io-context.h
 
-include $(top_srcdir)/gsf.mk
 CPP_CFLAGS = -DGLIB_CHECK_VERSION\(x,y,z\)
 LIB_PUBLIC_HDRS = $(libgsf_1_include_HEADERS)
+
 
 if HAVE_LIBEXE
 gsf_mslibdir = $(DESTDIR)$(libdir)
@@ -146,7 +147,7 @@ gsf_mslib_DATA = gsf-1.lib
 gsf-1.lib: libgsf-1.la lib.def
 	lib -name:libgsf-1-$(CURRENT_MINUS_AGE).dll -def:lib.def -out:$@
 
-CLEANFILES = gsf-1.exp gsf-1.lib
+CLEANFILES += gsf-1.exp gsf-1.lib
 endif
 
 BUILT_GIRSOURCES = Gsf-1.gir
@@ -156,10 +157,6 @@ Gsf-1.gir: $(NOINST_H_FILES)
 Gsf-1.gir: $(libgsf_1_la_SOURCES)
 Gsf-1.gir: libgsf-1.la
 Gsf-1.gir: $(G_IR_SCANNER) Makefile
-	(TMP= ; \
-	for i in $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES); do \
-	  TMP="$$TMP $(srcdir)/$$i" ; \
-	done ;\
 	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace Gsf --nsversion=1 \
 	    --add-include-path=$(srcdir) --add-include-path=. \
 	    --include=GObject-2.0 \
@@ -169,15 +166,17 @@ Gsf-1.gir: $(G_IR_SCANNER) Makefile
 	    --libtool="$(LIBTOOL)" \
 	    --output $@ \
 	    -I$(top_srcdir) \
-	    $$TMP)
+	    `for i in $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES); do echo "$(srcdir)/$$i"; done`
 
 if HAVE_INTROSPECTION
 
-girdir = $(GIRDIR)
+girdir = $(datadir)/gir-1.0
 gir_DATA = $(BUILT_GIRSOURCES)
 
-typelibsdir = $(TYPELIBDIR)
+typelibsdir = $(libdir)/girepository-1.0
 typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 
 %.typelib: %.gir $(G_IR_COMPILER)
 	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)

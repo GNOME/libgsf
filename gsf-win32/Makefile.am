@@ -32,6 +32,6 @@ gsf_win32_mslib_DATA = gsf-win32-1.lib
 gsf-win32-1.lib: libgsf-win32-1.la lib.def
 	lib -name:libgsf-win32-1-$(CURRENT_MINUS_AGE).dll -def:lib.def -out:$@
 
-CLEANFILES = gsf-win32-1.exp gsf-win32-1.lib
+CLEANFILES += gsf-win32-1.exp gsf-win32-1.lib
 endif
 

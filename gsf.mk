@@ -1,3 +1,4 @@
+CLEANFILES=
 if WITH_WIN32
 
 noinst_DATA = lib.def
@@ -26,6 +27,6 @@ stamp-lib.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
 	&& rm -f xgen-libdef.1 xgen-libdef.2 \
 	&& echo timestamp > $@	
 
-CLEANFILES = lib.def stamp-lib.def
+CLEANFILES += lib.def stamp-lib.def
 
 endif
