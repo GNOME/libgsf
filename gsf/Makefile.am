@@ -4,6 +4,13 @@ AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) \
 lib_LTLIBRARIES = libgsf-1.la
 
 include $(top_srcdir)/gsf.mk
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = \
+	-v
+INTROSPECTION_COMPILER_ARGS = \
+	--includedir=$(srcdir) \
+    --includedir=.
 
 if WITH_GIO
 gioc=gsf-input-gio.c gsf-output-gio.c
@@ -150,39 +157,23 @@ gsf-1.lib: libgsf-1.la lib.def
 CLEANFILES += gsf-1.exp gsf-1.lib
 endif
 
-BUILT_GIRSOURCES = Gsf-1.gir
-
-Gsf-1.gir: $(libgsf_1_include_HEADERS)
-Gsf-1.gir: $(NOINST_H_FILES)
-Gsf-1.gir: $(libgsf_1_la_SOURCES)
-Gsf-1.gir: libgsf-1.la
-Gsf-1.gir: $(G_IR_SCANNER) Makefile
-	$(AM_V_GEN) $(G_IR_SCANNER) -v --namespace Gsf --nsversion=1 \
-	    --add-include-path=$(srcdir) --add-include-path=. \
-	    --include=GObject-2.0 \
-	    --include=Gio-2.0 \
-	    --include=libxml2-2.0 \
-	    --library=libgsf-1.la \
-	    --libtool="$(LIBTOOL)" \
-	    --output $@ \
-	    -I$(top_srcdir) \
-	    `for i in $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES); do echo "$(srcdir)/$$i"; done`
-
 if HAVE_INTROSPECTION
 
-girdir = $(datadir)/gir-1.0
-gir_DATA = $(BUILT_GIRSOURCES)
+INTROSPECTION_GIRS += Gsf-1.gir
 
-typelibsdir = $(libdir)/girepository-1.0
-typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+Gsf-1.gir: $(INTROSPECTION_SCANNER) libgsf-1.la Makefile
+Gsf_1_gir_INCLUDES = GObject-2.0 Gio-2.0 libxml2-2.0
+Gsf_1_gir_CFLAGS = $(AM_CPPFLAGS)
+Gsf_1_gir_LIBS = libgsf-1.la
+Gsf_1_gir_FILES = $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES)
+
+
+girdir = $(GIRDIR)
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibsdir = $(TYPELIBDIR)
+typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 
-%.typelib: %.gir $(G_IR_COMPILER)
-	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(G_IR_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
-
 endif # HAVE_INTROSPECTION
-
-
-
-

@@ -64,22 +64,33 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 
 
 # GObject Introspection
-have_introspection=false
-PKG_CHECK_MODULES(INTROSPECTION, gobject-introspection-1.0 >= 0.6.4, have_introspection=true, have_introspection=false)
-AM_CONDITIONAL(HAVE_INTROSPECTION, $have_introspection)
 
-G_IR_SCANNER=
-G_IR_COMPILER=
-G_IR_GENERATE=
-if $have_introspection; then
-   G_IR_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-   G_IR_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-   G_IR_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-fi
-AC_SUBST(G_IR_SCANNER)
-AC_SUBST(G_IR_COMPILER)
-AC_SUBST(G_IR_GENERATE)
-
+GOBJECT_INTROSPECTION_CHECK(1.0)
+dnl we need to change the install directories for distcheck
+AC_ARG_WITH([gir-dir],
+	AS_HELP_STRING(
+		[--with-gir-dir],
+		[
+		 path to gir repository
+		 (automatically detected via pkg-config)
+		]
+	),
+	[GIRDIR=$withval],
+	[GIRDIR=$INTROSPECTION_GIRDIR]
+)
+AC_SUBST(GIRDIR)
+AC_ARG_WITH([typelib-dir],
+	AS_HELP_STRING(
+		[--with-typelib-dir],
+		[
+		 path to typelibs repository
+		 (automatically detected via pkg-config)
+		]
+	),
+	[TYPELIBDIR=$withval],
+	[TYPELIBDIR=$INTROSPECTION_TYPELIBDIR]
+)
+AC_SUBST(TYPELIBDIR)
 
 dnl Checks for libraries.
 ifelse([

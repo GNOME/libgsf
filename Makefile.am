@@ -22,4 +22,9 @@ EXTRA_DIST = BUGS HACKING	\
 
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc --enable-schemas-install
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc \
+	--enable-schemas-install \
+	--enable-introspection=auto \
+	--with-gir-dir=\$${datadir}/gir-1.0 \
+	--with-typelib-dir=\$${libdir}/girepository-1.0
+

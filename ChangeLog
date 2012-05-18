@@ -1,3 +1,9 @@
+2012-05-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: enhance introspection build support.
+	* configure.in: ditto.
+	* gsf/Makefile.am: ditto.
+
 2012-04-19  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
