@@ -61,11 +61,78 @@ GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 
+dnl Checks for libraries.
+ifelse([
+  If we defined the module lists on the M4 level, we could have problems
+  with PKG_CHECK_MODULES from pkgconfig 0.16.0, which double quotes its
+  second argument (the module list).
+  As a handy workaround, we use shell variables.
+])
+dnl Modules required for libgsf
+libgsf_reqs="
+    gobject-2.0 >= 2.16.0
+    glib-2.0 >= 2.26.0
+    libxml-2.0 >= 2.4.16
+"
 
-
+PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
 # GObject Introspection
+GIR_REQ=1.0.0
+AC_ARG_ENABLE(introspection,
+          AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
+                         [Enable introspection for this build]),, 
+                         [enable_introspection=no])
 
-GOBJECT_INTROSPECTION_CHECK(1.0)
+AC_MSG_CHECKING([for gobject-introspection])
+
+dnl presence/version checking
+AS_CASE([$enable_introspection],
+[no], [
+    found_introspection="no (disabled, use --enable-introspection to enable)"
+],
+[yes],[
+    PKG_CHECK_EXISTS([gobject-introspection-1.0],,
+                     AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
+    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ],
+                     found_introspection=yes,
+                     AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
+],
+[auto],[
+    PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $GIR_REQ], found_introspection=yes, found_introspection=no)
+dnl Canonicalize enable_introspection
+enable_introspection=$found_introspection
+],
+[	
+    AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
+])
+
+AC_MSG_RESULT([$found_introspection])
+
+INTROSPECTION_SCANNER=
+INTROSPECTION_COMPILER=
+INTROSPECTION_GENERATE=
+INTROSPECTION_GIRDIR=
+INTROSPECTION_TYPELIBDIR=
+if test "x$found_introspection" = "xyes"; then
+   INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+   INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+   INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
+   INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
+   INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+   INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
+   INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
+   INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+fi
+AC_SUBST(INTROSPECTION_SCANNER)
+AC_SUBST(INTROSPECTION_COMPILER)
+AC_SUBST(INTROSPECTION_GENERATE)
+AC_SUBST(INTROSPECTION_GIRDIR)
+AC_SUBST(INTROSPECTION_TYPELIBDIR)
+AC_SUBST(INTROSPECTION_CFLAGS)
+AC_SUBST(INTROSPECTION_LIBS)
+AC_SUBST(INTROSPECTION_MAKEFILE)
+
+AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
 dnl we need to change the install directories for distcheck
 AC_ARG_WITH([gir-dir],
 	AS_HELP_STRING(
@@ -91,22 +158,6 @@ AC_ARG_WITH([typelib-dir],
 	[TYPELIBDIR=$INTROSPECTION_TYPELIBDIR]
 )
 AC_SUBST(TYPELIBDIR)
-
-dnl Checks for libraries.
-ifelse([
-  If we defined the module lists on the M4 level, we could have problems
-  with PKG_CHECK_MODULES from pkgconfig 0.16.0, which double quotes its
-  second argument (the module list).
-  As a handy workaround, we use shell variables.
-])
-dnl Modules required for libgsf
-libgsf_reqs="
-    gobject-2.0 >= 2.16.0
-    glib-2.0 >= 2.26.0
-    libxml-2.0 >= 2.4.16
-"
-
-PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
