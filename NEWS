@@ -5,6 +5,7 @@ libgsf 1.14.23
 
 Andreas:
 	* Fix read/write of GSF_DOCPROP_VECTOR_TYPE meta data [Part of #672716]
+	* Fix writing of boolean values in ODF files. [#676604]
 
 Alan Knowles:
 	* Add gobject introspection support. [#610340]

@@ -1,3 +1,9 @@
+2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (gsf_xml_out_add_gvalue_for_odf): new
+	(meta_write_props_user_defined): use gsf_xml_out_add_gvalue_for_odf
+	(meta_write_props): use gsf_xml_out_add_gvalue_for_odf
+
 2012-05-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: copied code from introspection.m4

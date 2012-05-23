@@ -517,6 +517,19 @@ meta:object-count
 	GSF_META_NAME_OBJECT_COUNT:
 #endif
 
+/* ODF does not like "t" and "f" which we use normally */
+static void
+gsf_xml_out_add_gvalue_for_odf (GsfXMLOut *xout, char const *id, GValue const *val)
+{
+		if (G_VALUE_TYPE (val) == G_TYPE_BOOLEAN) 
+			gsf_xml_out_add_cstr 
+				(xout, id,
+				 g_value_get_boolean (val) ? "true" : "false");
+			else
+				gsf_xml_out_add_gvalue (xout, id, val);	
+}
+
+
 static void
 meta_write_props_user_defined (char const *prop_name, GValue const *val, GsfXMLOut *output)
 {
@@ -559,7 +572,7 @@ meta_write_props_user_defined (char const *prop_name, GValue const *val, GsfXMLO
 	if (NULL != type_name)
 		gsf_xml_out_add_cstr (output, "meta:value-type", type_name);
 	if (NULL != val)
-		gsf_xml_out_add_gvalue (output, NULL, val);
+		gsf_xml_out_add_gvalue_for_odf (output, NULL, val);
 	gsf_xml_out_end_element (output);
 }
 
@@ -621,7 +634,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 	/* Standardized  ODF meta items*/
 	gsf_xml_out_start_element (output, mapped_name);
 	if (NULL != val)
-		gsf_xml_out_add_gvalue (output, NULL, val);
+		gsf_xml_out_add_gvalue_for_odf (output, NULL, val);
 	gsf_xml_out_end_element (output);
 }
 
