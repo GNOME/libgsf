@@ -126,7 +126,7 @@ gsf_clip_data_get_format (GsfClipData *clip_data)
  *
  * Queries the data blob that actually stores a #GsfClipData's binary data.
  *
- * Return value: A new reference to the #GsfBlob that stores this @clip_data's
+ * Return value: (transfer full): A new reference to the #GsfBlob that stores this @clip_data's
  * binary data.  You must use g_object_unref() to dispose of that data blob when
  * you are done with it.
  **/
@@ -186,10 +186,10 @@ get_windows_clipboard_data_offset (GsfClipFormatWindows format)
 
 /**
  * check_format_windows:
- * @format : #GsfClipFormatWindows
- * @format_name : const char *
- * @blob_size : #gsize
- * @error :#GError
+ * @format: #GsfClipFormatWindows
+ * @format_name: const char *
+ * @blob_size: #gsize
+ * @error: #GError
  *
  * Checks that the specified blob size matches the expected size for the format.
  *
@@ -291,7 +291,7 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
  * bytes in front of the actual metafile data.  This function will skip over
  * those header bytes if necessary and return a pointer to the "real" data.
  *
- * Return value: Pointer to the real clipboard data.  The size in bytes of this
+ * Return value: (transfer none): Pointer to the real clipboard data.  The size in bytes of this
  * buffer is returned in the @ret_size argument.
  **/
 gconstpointer

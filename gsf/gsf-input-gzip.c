@@ -197,9 +197,9 @@ gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
 
 
 /**
- * gsf_input_gzip_new :
- * @source : The underlying data source.
- * @err	   : optionally %NULL.
+ * gsf_input_gzip_new:
+ * @source: The underlying data source.
+ * @err: optionally %NULL.
  *
  * Adds a reference to @source.
  *

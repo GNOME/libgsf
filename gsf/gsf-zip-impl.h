@@ -105,9 +105,13 @@ typedef struct {
 	GSList *children, *last_child;
 } GsfZipVDir;
 
+GType         gsf_zip_dirent_get_type (void);
 GsfZipDirent *gsf_zip_dirent_new  (void);
 void          gsf_zip_dirent_free (GsfZipDirent *dirent);
 
+GType       gsf_zip_vdir_get_type (void);
+GsfZipVDir *gsf_zip_vdir_new	(char const *name, gboolean is_directory,
+				 GsfZipDirent *dirent);
 GsfZipVDir *gsf_vdir_new	(char const *name, gboolean is_directory,
 				 GsfZipDirent *dirent);
 void	    gsf_vdir_free	(GsfZipVDir *vdir, gboolean free_dirent);

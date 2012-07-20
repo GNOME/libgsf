@@ -186,7 +186,7 @@ gsf_input_http_get_property (GObject *object,
 }
 
 /**
- * gsf_input_http_get_url :
+ * gsf_input_http_get_url:
  * @input: #GsfInputHTTP
  *
  * Returns: an allocated string containing the URL used for input.
@@ -201,7 +201,7 @@ gsf_input_http_get_url (GsfInputHTTP *input)
 }
 
 /**
- * gsf_input_http_get_content_type :
+ * gsf_input_http_get_content_type:
  * @input: #GsfInputHTTP
  *
  * Returns: an allocated string containing the Content-Type field of the HTTP response.
@@ -216,7 +216,7 @@ gsf_input_http_get_content_type (GsfInputHTTP *input)
 }
 
 /**
- * gsf_input_http_new :
+ * gsf_input_http_new:
  * @url: A string containing the URL to retrieve
  * @error: Holds any errors encountered when establishing the HTTP connection
  *

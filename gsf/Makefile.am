@@ -7,7 +7,7 @@ include $(top_srcdir)/gsf.mk
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = \
-	-v
+	-v --warn-all --accept-unprefixed
 INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
     --includedir=.

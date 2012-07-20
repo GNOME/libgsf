@@ -452,7 +452,7 @@ GSF_CLASS (GsfInfileAr, gsf_infile_ar,
 	   GSF_INFILE_TYPE)
 
 /**
- * gsf_infile_ar_new :
+ * gsf_infile_ar_new:
  * @source: #GsfInput
  * @err: #Gerror
  *

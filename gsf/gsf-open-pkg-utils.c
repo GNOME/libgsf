@@ -112,8 +112,8 @@ GSF_XML_IN_NODE_END
 };
 
 /**
- * gsf_open_pkg_rel_is_extern :
- * @rel : #GsfOpenPkgRel
+ * gsf_open_pkg_rel_is_extern:
+ * @rel: #GsfOpenPkgRel
  *
  * Returns: %TRUE if @rel has mode 'External'
  **/
@@ -125,8 +125,8 @@ gsf_open_pkg_rel_is_extern (GsfOpenPkgRel const *rel)
 }
 
 /**
- * gsf_open_pkg_rel_get_target :
- * @rel : #GsfOpenPkgRel
+ * gsf_open_pkg_rel_get_target:
+ * @rel: #GsfOpenPkgRel
  *
  * Returns: const pointer to @rel's target.
  **/
@@ -138,9 +138,9 @@ gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
 }
 
 /**
- * gsf_open_pkg_rel_get_type :
- * @rel : #GsfOpenPkgRel
- *
+ * gsf_open_pkg_rel_get_type:
+ * @rel: #GsfOpenPkgRel
+ * 
  * Returns: const pointer to @rel's type.
  **/
 char const *
@@ -195,12 +195,12 @@ gsf_open_pkg_get_rels (GsfInput *opkg)
 }
 
 /**
- * gsf_open_pkg_open_rel :
- * @opkg : #GsfInput
- * @rel : #GsfOpenPkgRel
- * @err : #GError.
+ * gsf_open_pkg_open_rel:
+ * @opkg: #GsfInput
+ * @rel: #GsfOpenPkgRel
+ * @err: #GError.
  *
- * Returns: a new #GsfInput which the called needs to unref, or %NULL and sets @err
+ * Returns: (transfer full): a new #GsfInput which the called needs to unref, or %NULL and sets @err
  **/
 GsfInput *
 gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
@@ -251,15 +251,17 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 }
 
 /**
- * gsf_open_pkg_lookup_rel_by_type :
- * @opkg : #GsfInput
- * @type : target
+ * gsf_open_pkg_lookup_rel_by_type: (skip)
+ * @opkg: #GsfInput
+ * @type: target
  *
  * New in 1.14.6
  *
  * Finds _a_ relation of @opkg with @type (no order is guaranteed)
+ * 
+ * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
- * Returns: A #GsfOpenPkgRel or %NULL
+ * Returns: (transfer none): A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
@@ -269,15 +271,17 @@ gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
 }
 
 /**
- * gsf_open_pkg_open_rel_by_id :
- * @opkg : #GsfInput
- * @id :
+ * gsf_open_pkg_lookup_rel_by_id: (skip)
+ * @opkg: #GsfInput
+ * @id: identifier.
  *
  * New in 1.14.6
  *
  * Finds @opkg's relation with @id
+ * 
+ * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
- * Returns: A #GsfOpenPkgRel or %NULL
+ * Returns: (transfer none): A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_id (GsfInput *opkg, char const *id)
@@ -302,9 +306,9 @@ cb_foreach_rel (G_GNUC_UNUSED gpointer id,
 
 /**
  * gsf_open_pkg_foreach_rel:
- * @opkg : #GsfInput
- * @func : #GsfOpenPkgIter
- * @user_data : gpointer
+ * @opkg: #GsfInput
+ * @func: (scope call): #GsfOpenPkgIter
+ * @user_data: gpointer
  *
  * New in 1.14.9
  *
@@ -327,16 +331,16 @@ gsf_open_pkg_foreach_rel (GsfInput *opkg,
 }
 
 /**
- * gsf_open_pkg_open_rel_by_id :
- * @opkg : #GsfInput
- * @id : target id
- * @err : optionally %NULL
+ * gsf_open_pkg_open_rel_by_id:
+ * @opkg: #GsfInput
+ * @id: target id
+ * @err: optionally %NULL
  *
  * New in 1.14.7
  *
  * Open @opkg's relation @id
  *
- * Returns: A new GsfInput or %NULL, and sets @err if possible.
+ * Returns: (transfer full): A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
 gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
@@ -354,16 +358,16 @@ gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
 }
 
 /**
- * gsf_open_pkg_open_rel_by_type :
- * @opkg : #GsfInput
- * @type : target type
- * @err : optionally %NULL
+ * gsf_open_pkg_open_rel_by_type:
+ * @opkg: #GsfInput
+ * @type: target type
+ * @err: optionally %NULL
  *
  * New in 1.14.9
  *
  * Open one of @opkg's relationships with type=@type.
  *
- * Returns: A new GsfInput or %NULL, and sets @err if possible.
+ * Returns: (transfer full): A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
 gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
@@ -382,11 +386,11 @@ gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
 }
 
 /**
- * gsf_open_pkg_parse_rel_by_id :
- * @xin : #GsfXMLIn
- * @id : target id
- * @dtd : #GsfXMLInNode
- * @ns : #GsfXMLInNS
+ * gsf_open_pkg_parse_rel_by_id:
+ * @xin: #GsfXMLIn
+ * @id: target id
+ * @dtd: #GsfXMLInNode
+ * @ns: #GsfXMLInNS
  *
  * Convenience function to parse a related part.
  *
@@ -427,7 +431,15 @@ gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,
 }
 
 /* DEPRECATED in 1.14.6 */
+/**
+ * gsf_open_pkg_get_rel_by_type: (skip) (Deprecated: 1.14.6)
+ *
+ */
 GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *opkg, char const *type) { return gsf_open_pkg_open_rel_by_type (opkg, type, NULL); }
+/**
+ * gsf_open_pkg_get_rel_by_id: (skip) (Deprecated: 1.14.6)
+ *
+ */
 GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *opkg, char const *id)   { return gsf_open_pkg_open_rel_by_id (opkg, id, NULL); }
 
 /*************************************************************/
@@ -728,8 +740,8 @@ GSF_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,
 	   GSF_OUTFILE_TYPE)
 
 /**
- * gsf_outfile_open_pkg_new :
- * @sink : #GsfOutfile
+ * gsf_outfile_open_pkg_new:
+ * @sink: #GsfOutfile
  *
  * Convenience routine to create a GsfOutfileOpenPkg inside @sink.
  *
@@ -744,9 +756,9 @@ gsf_outfile_open_pkg_new (GsfOutfile *sink)
 }
 
 /**
- * gsf_outfile_open_pkg_set_sink :
- * @open_pkg : #GsfOutfileOpenPkg
- * @sink : #GsfOutput
+ * gsf_outfile_open_pkg_set_sink:
+ * @open_pkg: #GsfOutfileOpenPkg
+ * @sink: #GsfOutput
  *
  * Assigns a GsfOutput (@sink) to store the package into.
  **/
@@ -761,9 +773,9 @@ gsf_outfile_open_pkg_set_sink (GsfOutfileOpenPkg *open_pkg, GsfOutput *sink)
 }
 
 /**
- * gsf_outfile_open_pkg_set_content_type :
- * @open_pkg : #GsfOutfileOpenPkg
- * @content_type :
+ * gsf_outfile_open_pkg_set_content_type:
+ * @open_pkg: #GsfOutfileOpenPkg
+ * @content_type:
  *
  **/
 void
@@ -795,9 +807,9 @@ gsf_outfile_open_pkg_create_rel (GsfOutfileOpenPkg *parent,
 
 /**
  * gsf_outfile_open_pkg_relate:
- * @child : #GsfOutfileOpenPkg
- * @parent : #GsfOutfileOpenPkg
- * @type : target type
+ * @child: #GsfOutfileOpenPkg
+ * @parent: #GsfOutfileOpenPkg
+ * @type: target type
  *
  * Create a relationship between @child and @parent of @type.
  *
@@ -843,16 +855,16 @@ found:
 
 /**
  * gsf_outfile_open_pkg_add_rel:
- * @dir : #GsfOutfile
- * @name : target name
- * @content_type : non-%NULL content type
- * @parent : #GsfOutfile
- * @type : target type
+ * @dir: #GsfOutfile
+ * @name: target name
+ * @content_type: non-%NULL content type
+ * @parent: #GsfOutfile
+ * @type: target type
  *
  * A convenience wrapper to create a child in @dir of @content_type then create
  * a @type relation to @parent
  *
- * Returns: the new part.
+ * Returns: (transfer full): the new part.
  **/
 GsfOutput *
 gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
@@ -870,14 +882,14 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
 }
 
 /**
- * gsf_outfile_open_pkg_add_extern_rel :
- * @parent : #GsfOutfileOpenPkg
- * @target : target type
- * @content_type : target content
+ * gsf_outfile_open_pkg_add_extern_rel:
+ * @parent: #GsfOutfileOpenPkg
+ * @target: target type
+ * @content_type: target content
  *
  * Add an external relation to @parent.
  *
- * Returns: The id of the relation.  The string is managed by the parent and
+ * Returns: (transfer none): The id of the relation.  The string is managed by the parent and
  * 	should not be changed or freed by the caller.
  **/
 char const *

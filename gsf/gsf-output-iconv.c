@@ -52,10 +52,10 @@ enum {
 };
 
 /**
- * gsf_output_iconv_new :
- * @sink : The underlying data source.
- * @dst : The target character set.
- * @src : The source character set.
+ * gsf_output_iconv_new:
+ * @sink: The underlying data source.
+ * @dst: The target character set.
+ * @src: The source character set.
  *
  * Adds a reference to @sink.
  *

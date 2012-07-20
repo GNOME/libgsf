@@ -38,6 +38,7 @@ struct _GsfDocProp {
 	char   *name;
 	GValue *val;
 	char   *linked_to; /* optionally NULL */
+	unsigned ref_count;
 };
 
 static GObjectClass *parent_class;
@@ -71,9 +72,9 @@ GSF_CLASS(GsfDocMetaData, gsf_doc_meta_data,
 /**********************************************************************/
 
 /**
- * gsf_doc_meta_data_new :
+ * gsf_doc_meta_data_new:
  *
- * Returns: a new metadata property collection
+ * Returns: (transfer full): a new metadata property collection
  **/
 GsfDocMetaData *
 gsf_doc_meta_data_new (void)
@@ -82,9 +83,9 @@ gsf_doc_meta_data_new (void)
 }
 
 /**
- * gsf_doc_meta_data_lookup :
- * @meta : #GsfDocMetaData
- * @name :
+ * gsf_doc_meta_data_lookup:
+ * @meta: #GsfDocMetaData
+ * @name:
  *
  * Returns: the property with name @id in @meta.  The caller can modify the
  * property value and link but not the name.
@@ -98,10 +99,10 @@ gsf_doc_meta_data_lookup (GsfDocMetaData const *meta, char const *name)
 }
 
 /**
- * gsf_doc_meta_data_insert :
- * @meta : #GsfDocMetaData
- * @name : the id.
- * @value : #GValue
+ * gsf_doc_meta_data_insert:
+ * @meta: #GsfDocMetaData
+ * @name: the id.
+ * @value: #GValue
  *
  * Take ownership of @name and @value and insert a property into @meta.
  * If a property exists with @name, it is replaced (The link is lost)
@@ -121,9 +122,9 @@ gsf_doc_meta_data_insert (GsfDocMetaData *meta, char *name, GValue *value)
 }
 
 /**
- * gsf_doc_meta_data_remove :
- * @meta : the collection
- * @name : the non-null string name of the property
+ * gsf_doc_meta_data_remove:
+ * @meta: the collection
+ * @name: the non-null string name of the property
  *
  * If @name does not exist in the collection, do nothing. If @name does exist,
  * remove it and its value from the collection
@@ -137,9 +138,9 @@ gsf_doc_meta_data_remove (GsfDocMetaData *meta, char const *name)
 }
 
 /**
- * gsf_doc_meta_data_store :
- * @meta : #GsfDocMetaData
- * @name :
+ * gsf_doc_meta_data_steal:
+ * @meta: #GsfDocMetaData
+ * @name:
  *
  **/
 GsfDocProp *
@@ -155,9 +156,9 @@ gsf_doc_meta_data_steal (GsfDocMetaData *meta, char const *name)
 }
 
 /**
- * gsf_doc_meta_data_store :
- * @meta : #GsfDocMetaData
- * @prop : #GsfDocProp
+ * gsf_doc_meta_data_store:
+ * @meta: #GsfDocMetaData
+ * @prop: #GsfDocProp
  *
  **/
 void
@@ -183,10 +184,10 @@ deref_strcmp (const char **a, const char **b)
 }
 
 /**
- * gsf_doc_meta_data_foreach :
- * @meta : the collection
- * @func : the function called once for each element in the collection
- * @user_data : any supplied user data or %NULL
+ * gsf_doc_meta_data_foreach:
+ * @meta: the collection
+ * @func: (scope call): the function called once for each element in the collection
+ * @user_data: any supplied user data or %NULL
  *
  * Iterate through each (key, value) pair in this collection
  **/
@@ -220,8 +221,8 @@ gsf_doc_meta_data_foreach (GsfDocMetaData const *meta, GHFunc func, gpointer use
 }
 
 /**
- * gsf_doc_meta_data_size :
- * @meta : the collection
+ * gsf_doc_meta_data_size:
+ * @meta: the collection
  *
  * Returns: the number of items in this collection
  **/
@@ -246,8 +247,8 @@ cb_print_property (G_GNUC_UNUSED char const *name,
 }
 
 /**
- * gsf_doc_meta_dump :
- * @meta : #GsfDocMetaData
+ * gsf_doc_meta_dump:
+ * @meta: #GsfDocMetaData
  *
  * A debugging utility to dump the content of @meta via g_print
  **/
@@ -261,8 +262,8 @@ gsf_doc_meta_dump (GsfDocMetaData const *meta)
 /**********************************************************************/
 
 /**
- * gsf_doc_prop_new :
- * @name :
+ * gsf_doc_prop_new:
+ * @name:
  *
  * Returns: a new #GsfDocProp which the caller is responsible for freeing.
  * Takes ownership of @name.
@@ -283,8 +284,8 @@ gsf_doc_prop_new  (char *name)
 }
 
 /**
- * gsf_doc_prop_free :
- * @prop : #GsfDocProp
+ * gsf_doc_prop_free:
+ * @prop: #GsfDocProp
  *
  * If @prop is non %NULL free the memory associated with it
  **/
@@ -292,20 +293,44 @@ void
 gsf_doc_prop_free (GsfDocProp *prop)
 {
 	if (NULL != prop) {
-		g_free (prop->linked_to);
+		prop->ref_count--;
+		if (prop->ref_count == 0) {
+			g_free (prop->linked_to);
 
-		if (prop->val) {
-			g_value_unset (prop->val);
-			g_free (prop->val);
+			if (prop->val) {
+				g_value_unset (prop->val);
+				g_free (prop->val);
+			}
+			g_free (prop->name);
+			g_free (prop);
 		}
-		g_free (prop->name);
-		g_free (prop);
 	}
+		
+}
+
+static GsfDocProp *
+gsf_doc_prop_ref (GsfDocProp *prop) {
+	prop->ref_count++;
+	return prop;
+}
+
+GType
+gsf_doc_prop_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfDocProp",
+	     (GBoxedCopyFunc) gsf_doc_prop_ref,
+	     (GBoxedFreeFunc) gsf_doc_prop_free);
+
+    return type;
 }
 
 /**
- * gsf_doc_prop_get_name :
- * @prop : #GsfDocProp
+ * gsf_doc_prop_get_name:
+ * @prop: #GsfDocProp
  *
  * Returns: the name of the property, the caller should not modify the result.
  **/
@@ -317,8 +342,8 @@ gsf_doc_prop_get_name (GsfDocProp const *prop)
 }
 
 /**
- * gsf_doc_prop_get_val :
- * @prop : the property
+ * gsf_doc_prop_get_val:
+ * @prop: the property
  *
  * Returns: the value of the property, the caller should not modify the result.
  **/
@@ -330,9 +355,9 @@ gsf_doc_prop_get_val (GsfDocProp const *prop)
 }
 
 /**
- * gsf_doc_prop_set_val :
- * @prop : #GsfDocProp
- * @val  : #GValue
+ * gsf_doc_prop_set_val:
+ * @prop: #GsfDocProp
+ * @val: #GValue
  *
  * Assigns @val to @prop, and unsets and frees the current value.
  **/
@@ -351,9 +376,9 @@ gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 }
 
 /**
- * gsf_doc_prop_swap_val :
- * @prop : #GsfDocProp
- * @val  : #GValue
+ * gsf_doc_prop_swap_val:
+ * @prop: #GsfDocProp
+ * @val: #GValue
  *
  * Returns: the current value of @prop, and replaces it with @val
  * 	Caller is responsible for unsetting and freeing the result.
@@ -370,8 +395,8 @@ gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
 }
 
 /**
- * gsf_doc_prop_get_link :
- * @prop : #GsfDocProp
+ * gsf_doc_prop_get_link:
+ * @prop: #GsfDocProp
  *
  * Returns: the current link descriptor of @prop.  The result should not be
  * 	freed or modified.
@@ -384,9 +409,9 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
 }
 
 /**
- * gsf_doc_prop_set_link :
- * @prop : #GsfDocProp
- * @link : optionally %NULL
+ * gsf_doc_prop_set_link:
+ * @prop: #GsfDocProp
+ * @link: optionally %NULL
  *
  * Sets @prop's link to @link
  **/
@@ -402,8 +427,8 @@ gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 }
 
 /**
- * gsf_doc_prop_dump :
- * @prop : #GsfDocProp
+ * gsf_doc_prop_dump:
+ * @prop: #GsfDocProp
  *
  * A debugging utility to dump @prop as text via g_print
  * New in 1.14.2

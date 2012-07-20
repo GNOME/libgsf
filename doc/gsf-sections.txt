@@ -244,6 +244,10 @@ GSF_OUTPUT_BZIP_TYPE
 GSF_OUTPUT_BZIP
 GSF_IS_OUTPUT_BZIP
 gsf_output_bzip_get_type
+<SUBSECTION Private>
+gsf_zip_dirent_get_type
+gsf_zip_vdir_get_type
+gsf_zip_vdir_new
 </SECTION>
 
 <SECTION>
@@ -383,6 +387,16 @@ GsfMSOleSortingKey
 gsf_opendoc_metadata_read
 gsf_opendoc_metadata_subtree
 gsf_opendoc_metadata_write
+gsf_doc_prop_get_type
+gsf_odf_out_get_version
+gsf_odf_out_get_version_string
+<SUBSECTION Standard>
+GsfODFOut
+GSF_IS_ODF_OUT
+GSF_ODF_OUT
+GSF_ODF_OUT_TYPE
+GsfODFOutClass
+gsf_odf_out_get_type
 </SECTION>
 
 <SECTION>
@@ -669,6 +683,10 @@ GSF_INPUT_HTTP
 GSF_INPUT_HTTP_TYPE
 GSF_IS_INPUT_HTTP
 gsf_input_http_new
+GsfXMLOutClass
+<SUBSECTION Private>
+gsf_xml_in_doc_get_type
+gsf_xml_in_ns_get_type
 </SECTION>
 
 <SECTION>
@@ -855,6 +873,7 @@ GSF_DOC_META_DATA_TYPE
 GSF_DOC_META_DATA
 IS_GSF_DOC_META_DATA
 gsf_doc_meta_data_get_type
+gsf_msole_sorting_key_get_type
 
 GSF_DOCPROP_VECTOR
 GSF_DOCPROP_VECTOR_TYPE

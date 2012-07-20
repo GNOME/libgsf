@@ -857,7 +857,7 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
 	   GSF_INFILE_TYPE)
 
 /**
- * gsf_infile_zip_new :
+ * gsf_infile_zip_new:
  * @source: A base #GsfInput
  * @err: A #GError, optionally %null
  *

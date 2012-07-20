@@ -192,13 +192,13 @@ GSF_CLASS (GsfStructuredBlob, gsf_structured_blob,
 	   GSF_INFILE_TYPE)
 
 /**
- * gsf_structured_blob_read :
+ * gsf_structured_blob_read:
  * @input: An input (potentially a GsfInfile) holding the blob
  *
  * Create a tree of binary blobs with unknown content from a #GsfInput or
  * #GsfInfile and store it in a newly created #GsfStructuredBlob.
  *
- * Returns: a new #GsfStructuredBlob object which the caller is responsible for.
+ * Returns: (transfer full): a new #GsfStructuredBlob object which the caller is responsible for.
  **/
 GsfStructuredBlob *
 gsf_structured_blob_read (GsfInput *input)
@@ -259,7 +259,7 @@ gsf_structured_blob_read (GsfInput *input)
 }
 
 /**
- * gsf_structured_blob_write :
+ * gsf_structured_blob_write:
  * @blob: #GsfStructuredBlob
  * @container: #GsfOutfile
  *

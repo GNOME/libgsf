@@ -61,7 +61,7 @@ static GsfOutputClass *parent_class;
 /********************************************************************************/
 
 /**
- * gsf_output_transaction_commit :
+ * gsf_output_transaction_commit:
  * @output: the transaction you wish to commit
  *
  * "Atomically" commits your data changes. After committing, it closes the
@@ -101,7 +101,7 @@ gsf_output_transaction_commit (GsfOutputTransaction * output)
 }
 
 /**
- * gsf_output_transaction_commit :
+ * gsf_output_transaction_commit:
  * @output: the transaction you wish to abort. After aborting, it closes the
  * output. No more writes, seeks, etc... are valid on this object.
  *
@@ -122,7 +122,7 @@ gsf_output_transaction_abort (GsfOutputTransaction * output)
 }
 
 /**
- * gsf_output_transaction_new_named :
+ * gsf_output_transaction_new_named:
  * @wrapped: The sink you want to write to
  * @name: The non-null name for this transaction
  *
@@ -152,7 +152,7 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, char const *name)
 }
 
 /**
- * gsf_output_transaction_new :
+ * gsf_output_transaction_new:
  * @wrapped: The sink you want to write to
  *
  * Returns: The new anonymous transaction output object

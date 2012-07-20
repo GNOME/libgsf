@@ -76,8 +76,8 @@ gsf_timestamp_copy (GsfTimestamp const *stamp)
 }
 
 /**
- * gsf_timestamp_free :
- * @stamp : timestamp to be freed
+ * gsf_timestamp_free:
+ * @stamp: timestamp to be freed
  *
  * Releases the memory in use for @stamp (if any).
  **/
@@ -119,9 +119,9 @@ static time_t gmt_to_local_win32(void)
 #endif
 
 /**
- * gsf_timestamp_from_string :
- * @spec : The string to parse
- * @stamp : #GsfTimestamp
+ * gsf_timestamp_from_string:
+ * @spec: The string to parse
+ * @stamp: #GsfTimestamp
  *
  * Very simple parser for time stamps.  Currently requires a format of
  * 	'YYYY-MM-DDThh:mm:ss'
@@ -153,9 +153,9 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 }
 
 /**
- * gsf_timestamp_parse :
- * @spec : The string to parse
- * @stamp : #GsfTimestamp
+ * gsf_timestamp_parse: (skip) (Deprecated)
+ * @spec: The string to parse
+ * @stamp: #GsfTimestamp
  *
  * Very simple parser for time stamps.  Currently requires a format of
  * 	'YYYY-MM-DDThh:mm:ss'
@@ -172,7 +172,7 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 }
 
 /**
- * gsf_timestamp_as_string :
+ * gsf_timestamp_as_string:
  * @stamp: timestamp to be converted.
  *
  * Produce a string representation (ISO 8601 format) of @stamp.
@@ -210,7 +210,7 @@ gsf_timestamp_hash (GsfTimestamp const *stamp)
 }
 
 /**
- * gsf_timestamp_equal :
+ * gsf_timestamp_equal:
  * @a: a timestamp
  * @b: another timestamp
  *

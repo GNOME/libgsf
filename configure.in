@@ -307,10 +307,10 @@ AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != "xno")
 # Checks for gtk-doc and docbook-tools
 ##################################################
 gtk_doc_installed=true
-#ifdef([GTK_DOC_CHECK],[GTK_DOC_CHECK([1.0])],[gtk_doc_installed=false])
+#ifdef([GTK_DOC_CHECK],[GTK_DOC_CHECK([1.12])],[gtk_doc_installed=false])
 # I would have liked to conditionalize this, but 
 # that appears to break other things http://bugzilla.gnome.org/show_bug.cgi?id=156399
-GTK_DOC_CHECK([1.0])
+GTK_DOC_CHECK([1.12])
 AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 dnl ***********************************************************************************

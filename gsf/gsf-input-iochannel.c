@@ -25,9 +25,9 @@
 #include <gsf-input-memory.h>
 
 /**
- * gsf_input_memory_new_from_iochannel :
- * @channel : a #GIOChannel.
- * @error : a #GError
+ * gsf_input_memory_new_from_iochannel:
+ * @channel: a #GIOChannel.
+ * @error: a #GError
  *
  * Returns: a new #GsfInputMemory or NULL.
  **/

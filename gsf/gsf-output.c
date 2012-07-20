@@ -162,7 +162,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
 		    G_TYPE_OBJECT)
 
 /**
- * gsf_output_name :
+ * gsf_output_name:
  * @output: #GsfOutput
  *
  * Give the name of @output.
@@ -177,10 +177,10 @@ gsf_output_name (GsfOutput const *output)
 }
 
 /**
- * gsf_output_container :
- * @output :
+ * gsf_output_container:
+ * @output:
  *
- * Returns: but does not add a reference to @output's container.
+ * Returns: (transfer none): but does not add a reference to @output's container.
  * 	Potentially %NULL
  **/
 GsfOutfile *
@@ -191,7 +191,7 @@ gsf_output_container (GsfOutput const *output)
 }
 
 /**
- * gsf_output_size :
+ * gsf_output_size:
  * @output: #GsfOutput
  *
  * Determine the size of the output stream @output.
@@ -206,7 +206,7 @@ gsf_output_size (GsfOutput *output)
 }
 
 /**
- * gsf_output_close :
+ * gsf_output_close:
  * @output: #GsfOutput
  *
  * Close a stream.
@@ -232,7 +232,7 @@ gsf_output_close (GsfOutput *output)
 }
 
 /**
- * gsf_output_is_closed :
+ * gsf_output_is_closed:
  * @output: #GsfOutput
  *
  * Returns: %TRUE if @output has already been closed.
@@ -245,8 +245,8 @@ gsf_output_is_closed (GsfOutput const *output)
 }
 
 /**
- * gsf_output_tell :
- * @output : #GsfOutput
+ * gsf_output_tell:
+ * @output: #GsfOutput
  *
  * Tell the current position in @output, similar to
  * <citerefentry><refentrytitle>ftell</refentrytitle>
@@ -263,10 +263,10 @@ gsf_output_tell	(GsfOutput *output)
 }
 
 /**
- * gsf_output_seek :
- * @output : #GsfOutput
- * @offset : Relative amount to reposition
- * @whence : What the offset is relative to.
+ * gsf_output_seek:
+ * @output: #GsfOutput
+ * @offset: Relative amount to reposition
+ * @whence: What the offset is relative to.
  *
  * Reposition in output stream @output. @whence specifies what the offset is
  * relative to: the beginning of the stream (%G_SEEK_SET), current position in
@@ -330,10 +330,10 @@ gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
 }
 
 /**
- * gsf_output_write :
- * @output : Output stream
- * @num_bytes : Number of bytes to write
- * @data : Data to write.
+ * gsf_output_write:
+ * @output: Output stream
+ * @num_bytes: Number of bytes to write
+ * @data: Data to write.
  *
  * Write @num_bytes of @data to @output.
  *
@@ -355,7 +355,7 @@ gsf_output_write (GsfOutput *output,
 }
 
 /**
- * gsf_output_error :
+ * gsf_output_error:
  * @output:
  *
  * Returns: the last error logged on the output, or %NULL.
@@ -368,7 +368,7 @@ gsf_output_error (GsfOutput const *output)
 }
 
 /**
- * gsf_output_set_name :
+ * gsf_output_set_name:
  * @output: #GsfOutput
  * @name: the new name
  *
@@ -392,9 +392,9 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 }
 
 /**
- * gsf_output_set_name_from_filename :
- * @output : the output stream
- * @filename : the (fs-sys encoded) filename
+ * gsf_output_set_name_from_filename:
+ * @output: the output stream
+ * @filename: the (fs-sys encoded) filename
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -418,7 +418,7 @@ gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 }
 
 /**
- * gsf_output_set_container :
+ * gsf_output_set_container:
  * @output: #GsfOutput
  * @container: #GsfOutfile
  *
@@ -441,11 +441,11 @@ gsf_output_set_container (GsfOutput *output, GsfOutfile *container)
 }
 
 /**
- * gsf_output_set_error :
+ * gsf_output_set_error:
  * @output: #GsfOutput
  * @code: The error id
  * @format: printf style format string
- * @Varargs: arguments for @format
+ * @...: arguments for @format
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -486,7 +486,7 @@ cb_output_unwrap (GsfOutput *wrapee, G_GNUC_UNUSED GObject *wrapper)
 }
 
 /**
- * gsf_output_wrap :
+ * gsf_output_wrap:
  * @wrapper:
  * @wrapee:
  *
@@ -510,7 +510,7 @@ gsf_output_wrap (GObject *wrapper, GsfOutput *wrapee)
 }
 
 /**
- * gsf_output_unwrap :
+ * gsf_output_unwrap:
  * @wrapper:
  * @wrapee:
  *
@@ -538,10 +538,10 @@ gsf_output_error_id (void)
 }
 
 /**
- * gsf_output_printf :
- * @output : A #GsfOutput
- * @format : The printf-style format string
- * @Varargs : the arguments for @format
+ * gsf_output_printf:
+ * @output: A #GsfOutput
+ * @format: The printf-style format string
+ * @...: the arguments for @format
  *
  * Output @Varargs to @output using the format string @format, similar to
  * <citerefentry><refentrytitle>printf</refentrytitle>
@@ -562,10 +562,10 @@ gsf_output_printf (GsfOutput *output, char const *format, ...)
 }
 
 /**
- * gsf_output_vprintf :
- * @output : A #GsfOutput
- * @format : The printf-style format string
- * @args : the arguments for @format
+ * gsf_output_vprintf:
+ * @output: A #GsfOutput
+ * @format: The printf-style format string
+ * @args: the arguments for @format
  *
  * Output @args to @output using the format string @format, similar to
  * <citerefentry><refentrytitle>vprintf</refentrytitle>

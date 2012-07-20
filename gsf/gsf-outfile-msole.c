@@ -698,10 +698,10 @@ compute_shift (unsigned value)
 }
 
 /**
- * gsf_outfile_msole_new_full :
- * @sink : a #GsfOutput to hold the OLE2 file.
- * @bb_size : size of large blocks.
- * @sb_size : size of small blocks.
+ * gsf_outfile_msole_new_full:
+ * @sink: a #GsfOutput to hold the OLE2 file.
+ * @bb_size: size of large blocks.
+ * @sb_size: size of small blocks.
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
@@ -776,8 +776,8 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 }
 
 /**
- * gsf_outfile_msole_new :
- * @sink : a #GsfOutput to hold the OLE2 file
+ * gsf_outfile_msole_new:
+ * @sink: a #GsfOutput to hold the OLE2 file
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
@@ -794,7 +794,7 @@ gsf_outfile_msole_new (GsfOutput *sink)
 }
 
 /**
- * gsf_outfile_msole_set_class_id :
+ * gsf_outfile_msole_set_class_id:
  * @ole: a #GsfOutfileMSOle
  * @clsid: 16 byte identifier (often a GUID in MS Windows apps)
  *

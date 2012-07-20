@@ -34,9 +34,9 @@
 #endif
 
 /**
- * gsf_input_memory_new_from_bzip :
- * @source : a #GsfInput
- * @err    : a #GError
+ * gsf_input_memory_new_from_bzip:
+ * @source: a #GsfInput
+ * @err: a #GError
  *
  * Returns: a new #GsfInputMemory or %NULL.
  */

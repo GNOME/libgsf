@@ -4,7 +4,7 @@
 DOC_MODULE=gsf
 
 # The top-level SGML file.
-DOC_MAIN_SGML_FILE=gsf-docs.sgml
+DOC_MAIN_SGML_FILE=gsf-docs.xml
 
 # The directory containing the source code. Relative to $(srcdir)
 DOC_SOURCE_DIR=../gsf
@@ -16,7 +16,7 @@ SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="gsf_init ()"
 SCAN_OPTIONS=
 
 # Extra options to supply to gtkdoc-mkdb
-MKDB_OPTIONS=--sgml-mode --output-format=xml
+MKDB_OPTIONS=--xml-mode --output-format=xml
 
 # Extra options to supply to gtkdoc-fixref
 FIXXREF_OPTIONS=

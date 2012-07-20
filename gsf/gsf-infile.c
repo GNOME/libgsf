@@ -28,8 +28,8 @@
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INFILE_TYPE, GsfInfileClass)
 
 /**
- * gsf_infile_num_children :
- * @infile : the structured storage
+ * gsf_infile_num_children:
+ * @infile: the structured storage
  *
  * Returns: the number of children the storage has, or -1 if the storage can not
  * 	have children.
@@ -43,9 +43,9 @@ gsf_infile_num_children (GsfInfile *infile)
 }
 
 /**
- * gsf_infile_name_by_index :
- * @infile :
- * @i      :
+ * gsf_infile_name_by_index:
+ * @infile:
+ * @i:
  *
  * Returns: the utf8 encoded name of the @i-th child
  * 	<emphasis>DO NOT FREE THE STRING.</emphasis>
@@ -59,12 +59,12 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
 }
 
 /**
- * gsf_infile_child_by_index :
- * @infile : #GsfInfile
- * @i : target index
+ * gsf_infile_child_by_index:
+ * @infile: #GsfInfile
+ * @i: target index
  *
  * TODO : For 2.0 api will change to include a GError.
- * Returns: a newly created child which must be unrefed.
+ * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_index (GsfInfile *infile, int i)
@@ -88,12 +88,12 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
 }
 
 /**
- * gsf_infile_child_by_name :
- * @infile : #GsfInfile
- * @name : target name
+ * gsf_infile_child_by_name:
+ * @infile: #GsfInfile
+ * @name: target name
  *
  * TODO : For 2.0 api will change to include a GError.
- * Returns: a newly created child which must be unrefed.
+ * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
@@ -118,11 +118,11 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 }
 
 /**
- * gsf_infile_child_by_vname :
- * @infile :
- * @Varargs : A %NULL terminated list of names
+ * gsf_infile_child_by_vname:
+ * @infile:
+ * @...: A %NULL terminated list of names
  *
- * Returns: a newly created child which must be unrefed.
+ * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_vname (GsfInfile *infile,  ...)
@@ -138,13 +138,13 @@ gsf_infile_child_by_vname (GsfInfile *infile,  ...)
 }
 
 /**
- * gsf_infile_child_by_vaname :
- * @infile : #GsfInfile
- * @names : A %NULL terminated array of names (e.g. from g_strsplit)
+ * gsf_infile_child_by_vaname:
+ * @infile: #GsfInfile
+ * @names: A %NULL terminated array of names (e.g. from g_strsplit)
  *
  * New in 1.14.9.
  *
- * Returns: a newly created child which must be unrefed.
+ * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
@@ -171,13 +171,13 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 }
 
 /**
- * gsf_infile_child_by_aname :
- * @infile : #GsfInfile
- * @names : A %NULL terminated array of names (e.g. from g_strsplit)
+ * gsf_infile_child_by_aname:
+ * @infile: #GsfInfile
+ * @names: A %NULL terminated array of names (e.g. from g_strsplit)
  *
  * New in 1.14.9.
  *
- * Returns: a newly created child which must be unrefed.
+ * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_aname (GsfInfile *infile, char const *names[])

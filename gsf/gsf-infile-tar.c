@@ -554,7 +554,7 @@ GSF_CLASS (GsfInfileTar, gsf_infile_tar,
 	   GSF_INFILE_TYPE)
 
 /**
- * gsf_infile_tar_new :
+ * gsf_infile_tar_new:
  * @source: A base #GsfInput
  * @err: A #GError, optionally %null
  *

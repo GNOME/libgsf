@@ -45,13 +45,13 @@ gsf_value_get_docprop_varray (GValue const *value)
 }
 
 /**
- * gsf_docprop_value_get_vector
+ * gsf_value_get_docprop_vector:
  * @value: A GValue of type #GsfDocPropVector.
  *
  * This function returns a pointer to the GsfDocPropVector structure in @value.
  * No additional references are created.
  *
- * Returns: A pointer to the #GsfDocPropVector structure in @value
+ * Returns: (transfer none): A pointer to the #GsfDocPropVector structure in @value
  **/
 GsfDocPropVector *
 gsf_value_get_docprop_vector (GValue const *value)
@@ -62,7 +62,7 @@ gsf_value_get_docprop_vector (GValue const *value)
 }
 
 /**
- * gsf_docprop_vector_append
+ * gsf_docprop_vector_append:
  * @vector: The vector to which the GValue will be added
  * @value:  The GValue to add to @vector
  *
@@ -79,7 +79,7 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
 }
 
 /**
- * gsf_docprop_vector_as_string
+ * gsf_docprop_vector_as_string:
  * @vector: The #GsfDocPropVector from which GValues will be extracted.
  *
  * This function returns a string which represents all the GValues in @vector.
@@ -143,7 +143,7 @@ GSF_CLASS (GsfDocPropVector, gsf_docprop_vector,
 	   G_TYPE_OBJECT)
 
 /**
- * gsf_docprop_vector_new
+ * gsf_docprop_vector_new:
  *
  * This function creates a new gsf_docprop_vector object.
  *

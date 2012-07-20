@@ -47,8 +47,8 @@ typedef struct {
 } GsfInputTextlineClass;
 
 /**
- * gsf_input_textline_new :
- * @source : in some combination of ascii and utf8
+ * gsf_input_textline_new:
+ * @source: in some combination of ascii and utf8
  *
  * <note>This adds a reference to @source.</note>
  *
@@ -149,8 +149,8 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
 	   GSF_INPUT_TYPE)
 
 /**
- * gsf_input_textline_ascii_gets :
- * @textline : #GsfInputTextline
+ * gsf_input_textline_ascii_gets:
+ * @textline: #GsfInputTextline
  *
  * A utility routine to read things line by line from the underlying source.
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
@@ -236,8 +236,8 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 }
 
 /**
- * gsf_input_textline_utf8_gets :
- * @textline : #GsfInputTextline
+ * gsf_input_textline_utf8_gets:
+ * @textline: #GsfInputTextline
  *
  * A utility routine to read things line by line from the underlying source.
  * Trailing newlines and carriage returns are stripped, and the resultant buffer

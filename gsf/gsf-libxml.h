@@ -49,7 +49,7 @@ typedef gboolean (*GsfXMLProbeFunc) (const xmlChar *name,
 				     int nb_defaulted,
 				     const xmlChar **attributes);
 gboolean gsf_xml_probe (GsfInput *input,
-			GsfXMLProbeFunc startElement);
+			GsfXMLProbeFunc func);
 
 /****************************************************************************/
 /* Simplified wrapper to SAX based xml import */
@@ -130,6 +130,7 @@ struct _GsfXMLInNS {
 #define GSF_XML_IN_NODE_END	\
 	{ NULL, 0, NULL, NULL, NULL, NULL, { 0 }, GSF_XML_NO_CONTENT, FALSE, FALSE }
 
+GType	     gsf_xml_in_doc_get_type (void);
 GsfXMLInDoc *gsf_xml_in_doc_new	   (GsfXMLInNode const *nodes, GsfXMLInNS const *ns);
 void	     gsf_xml_in_doc_free   (GsfXMLInDoc *doc);
 gboolean     gsf_xml_in_doc_parse  (GsfXMLInDoc *doc, GsfInput *input,
@@ -149,8 +150,12 @@ char const  *gsf_xml_in_check_ns   (GsfXMLIn const *xin, char const *str,
 gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id, char const *name);
 
+GType	     gsf_xml_in_ns_get_type (void);
+
 /****************************************************************************/
 /* Simplified GSF based xml export (does not use libxml) */
+
+typedef struct _GsfXMLOut		GsfXMLOut;
 
 typedef struct {
 	GObjectClass  base;
@@ -163,13 +168,13 @@ typedef struct {
 	void (*_gsf_reserved4) (void);
 } GsfXMLOutClass;
 
-typedef struct _GsfXMLOut {
+struct _GsfXMLOut {
 	GObject	   base;
 	GsfOutput *output;
 
 	/*< private >*/
 	struct _GsfXMLOutPrivate *priv;
-} GsfXMLOut;
+};
 
 #define GSF_XML_OUT_TYPE	(gsf_xml_out_get_type ())
 #define GSF_XML_OUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_XML_OUT_TYPE, GsfXMLOut))

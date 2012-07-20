@@ -26,12 +26,12 @@
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTFILE_TYPE, GsfOutfileClass)
 
 /**
- * gsf_outfile_new_child :
- * @outfile : A #GsfOutfile
- * @name : The name of the new child to create
- * @is_dir : %TRUE to create a directory, %FALSE to create a plain file
+ * gsf_outfile_new_child:
+ * @outfile: A #GsfOutfile
+ * @name: The name of the new child to create
+ * @is_dir: %TRUE to create a directory, %FALSE to create a plain file
  *
- * Returns: a newly created child
+ * Returns: (transfer full): a newly created child
  **/
 GsfOutput *
 gsf_outfile_new_child (GsfOutfile *outfile,
@@ -41,14 +41,14 @@ gsf_outfile_new_child (GsfOutfile *outfile,
 }
 
 /**
- * gsf_outfile_new_child_full :
- * @outfile : A #GsfOutfile
- * @name : The name of the new child to create
- * @is_dir : TRUE to create a directory, FALSE to create a plain file
- * @first_property_name :
- * @Varargs :
+ * gsf_outfile_new_child_full:
+ * @outfile: A #GsfOutfile
+ * @name: The name of the new child to create
+ * @is_dir: TRUE to create a directory, FALSE to create a plain file
+ * @first_property_name:
+ * @...:
  *
- * Returns: a newly created child
+ * Returns: (transfer full): a newly created child
  **/
 GsfOutput *
 gsf_outfile_new_child_full (GsfOutfile *outfile,
@@ -69,6 +69,16 @@ gsf_outfile_new_child_full (GsfOutfile *outfile,
 	return res;
 }
 
+/**
+ * gsf_outfile_new_child_varg:
+ * @outfile: A #GsfOutfile
+ * @name: The name of the new child to create
+ * @is_dir: TRUE to create a directory, FALSE to create a plain file
+ * @first_property_name:
+ * @args:
+ *
+ * Returns: (transfer full): a newly created child
+ **/
 GsfOutput *
 gsf_outfile_new_child_varg (GsfOutfile *outfile,
 			    char const *name, gboolean is_dir,

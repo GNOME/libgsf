@@ -52,6 +52,7 @@ void		gsf_doc_meta_data_foreach (GsfDocMetaData const *meta,
 gsize		gsf_doc_meta_data_size	  (GsfDocMetaData const *meta);
 void		gsf_doc_meta_dump	  (GsfDocMetaData const *meta);
 
+GType	      gsf_doc_prop_get_type (void);
 GsfDocProp   *gsf_doc_prop_new	    (char *name);
 void	      gsf_doc_prop_free	    (GsfDocProp *prop);
 char const   *gsf_doc_prop_get_name (GsfDocProp const *prop);

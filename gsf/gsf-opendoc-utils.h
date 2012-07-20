@@ -43,11 +43,12 @@ typedef struct {
 	void (*_gsf_reserved4) (void);
 } GsfODFOutClass;
 
-typedef struct _GsfODFOut {
+typedef struct _GsfODFOut GsfODFOut;
+struct _GsfODFOut {
 	GsfXMLOut base;
 	/*< private >*/
 	struct _GsfODFOutPrivate *priv;
-} GsfODFOut;
+};
 
 #define GSF_ODF_OUT_TYPE	(gsf_odf_out_get_type ())
 #define GSF_ODF_OUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_ODF_OUT_TYPE, GsfODFOut))

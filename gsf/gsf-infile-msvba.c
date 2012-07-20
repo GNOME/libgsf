@@ -94,9 +94,9 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 }
 
 /**
- * vba_dir_read :
- * @vba : #GsfInfileMSVBA
- * @err : optionally NULL
+ * vba_dir_read:
+ * @vba: #GsfInfileMSVBA
+ * @err: optionally NULL
  *
  * Read an VBA dirctory and its project file.
  * along the way.
@@ -285,9 +285,9 @@ fail_stream :
 
 #if 0
 /**
- * vba_project_read :
- * @vba : #GsfInfileMSVBA
- * @err : optionally NULL
+ * vba_project_read:
+ * @vba: #GsfInfileMSVBA
+ * @err: optionally NULL
  *
  * Read an VBA dirctory and its project file.
  * along the way.
@@ -460,12 +460,12 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 }
 
 /**
- * gsf_infile_msvba_get_modules :
- * @vba_stream : #GsfInfile
+ * gsf_infile_msvba_get_modules:
+ * @vba_stream: #GsfInfile
  *
  * a collection of names and source code.
  *
- * Returns: %NULL, or a hashtable of names and source code (unknown encoding).
+ * Returns: (transfer none): %NULL, or a hashtable of names and source code (unknown encoding).
  **/
 GHashTable *
 gsf_infile_msvba_get_modules (GsfInfileMSVBA const *vba_stream)
@@ -475,12 +475,12 @@ gsf_infile_msvba_get_modules (GsfInfileMSVBA const *vba_stream)
 }
 
 /**
- * gsf_infile_msvba_steal_modules :
- * @vba_stream : #GsfInfile
+ * gsf_infile_msvba_steal_modules:
+ * @vba_stream: #GsfInfile
  *
  * A collection of names and source code which the caller is responsible for destroying.
  *
- * Returns: %NULL, or a hashtable of names and source code (unknown encoding).
+ * Returns: (transfer full): %NULL, or a hashtable of names and source code (unknown encoding).
  **/
 GHashTable *
 gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
@@ -493,13 +493,13 @@ gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
 }
 
 /**
- * gsf_input_find_vba :
- * @input : #GsfInput
- * @err : #GError, optionally %NULL.
+ * gsf_input_find_vba:
+ * @input: #GsfInput
+ * @err: #GError, optionally %NULL.
  *
  * A utility routine that attempts to find the VBA file withint a stream.
  *
- * Returns: a GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError *err);
+ * Returns: (transfer full): a GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError *err);
  **/
 GsfInfileMSVBA *
 gsf_input_find_vba (GsfInput *input, GError **err)

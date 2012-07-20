@@ -911,7 +911,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 	   GSF_INFILE_TYPE)
 
 /**
- * gsf_infile_msole_new :
+ * gsf_infile_msole_new:
  * @source: #GsfInput
  * @err: optional place to store an error
  *
@@ -947,7 +947,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 }
 
 /**
- * gsf_infile_msole_get_class_id :
+ * gsf_infile_msole_get_class_id:
  * @ole: a #GsfInfileMSOle
  * @res: 16 byte identifier (often a GUID in MS Windows apps)
  *

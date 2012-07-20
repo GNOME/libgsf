@@ -35,7 +35,7 @@ typedef struct {
 } GsfOutputIOChannelClass;
 
 /**
- * gsf_output_iochannel_new :
+ * gsf_output_iochannel_new:
  * @channel: A #GIOChannel
  *
  * Returns: a new file or NULL.

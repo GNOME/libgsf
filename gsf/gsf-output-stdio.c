@@ -529,11 +529,11 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 }
 
 /**
- * gsf_output_stdio_new_full :
- * @filename : name of file to create or replace.
- * @err	     : optionally %NULL.
- * @first_property_name : %NULL terminated list of properties
- * @Varargs :
+ * gsf_output_stdio_new_full:
+ * @filename: name of file to create or replace.
+ * @err: optionally %NULL.
+ * @first_property_name: %NULL terminated list of properties
+ * @...:
  *
  * Returns: a new file or %NULL.
  **/
@@ -552,9 +552,9 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
 }
 
 /**
- * gsf_output_stdio_new :
- * @filename : name of file to create or replace.
- * @err	     : optionally %NULL.
+ * gsf_output_stdio_new:
+ * @filename: name of file to create or replace.
+ * @err: optionally %NULL.
  *
  * Returns: a new file or %NULL.
  **/
@@ -565,10 +565,10 @@ gsf_output_stdio_new (char const *filename, GError **err)
 }
 
 /**
- * gsf_output_stdio_new_FILE :
- * @filename  : The filename corresponding to @file.
- * @file      : an existing stdio <type>FILE</type> *
- * @keep_open : Should @file be closed when the wrapper is closed
+ * gsf_output_stdio_new_FILE:
+ * @filename: The filename corresponding to @file.
+ * @file: an existing stdio <type>FILE</type> *
+ * @keep_open: Should @file be closed when the wrapper is closed
  *
  * Assumes ownership of @file.  If @keep_open is true, ownership reverts
  * to caller when the GsfObject is closed.

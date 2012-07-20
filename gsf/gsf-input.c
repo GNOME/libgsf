@@ -165,7 +165,7 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
 		    G_TYPE_OBJECT)
 
 /**
- * gsf_input_name :
+ * gsf_input_name:
  * @input: the input stream
  *
  * The name of the input stream.
@@ -180,10 +180,10 @@ gsf_input_name (GsfInput *input)
 }
 
 /**
- * gsf_input_container :
+ * gsf_input_container:
  * @input: the input stream
  *
- * Returns: but does not add a reference to @input's container.
+ * Returns: (transfer none): but does not add a reference to @input's container.
  * 	Potentially %NULL
  **/
 GsfInfile *
@@ -194,13 +194,13 @@ gsf_input_container (GsfInput *input)
 }
 
 /**
- * gsf_input_dup :
+ * gsf_input_dup:
  * @input: The input to duplicate
  * @err: optionally %NULL
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
- * Returns: the duplicate, or %NULL on error
+ * Returns: (transfer full): the duplicate, or %NULL on error
  **/
 GsfInput *
 gsf_input_dup (GsfInput *input, GError **err)
@@ -235,8 +235,10 @@ gsf_input_dup (GsfInput *input, GError **err)
 }
 
 /**
- * gsf_input_open_sibling :
+ * gsf_input_sibling:
  * @input: The input
+ * @name: name.
+ * @err: #GError
  *
  * UNIMPLEMENTED BY ANY BACKEND
  * 	and it is probably unnecessary.   gsf_input_get_container provides
@@ -245,7 +247,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  * Attempts to open a 'sibling' of @input.  The caller is responsible for
  * managing the resulting object.
  *
- * Returns:  A related #GsfInput or %NULL on failure.
+ * Returns: (transfer full): A related #GsfInput or %NULL on failure.
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
@@ -256,7 +258,7 @@ gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
 }
 
 /**
- * gsf_input_size :
+ * gsf_input_size:
  * @input: The input
  *
  * Looks up and caches the number of bytes in the input
@@ -271,7 +273,7 @@ gsf_input_size (GsfInput *input)
 }
 
 /**
- * gsf_input_eof :
+ * gsf_input_eof:
  * @input: the input
  *
  * Are we at the end of the file ?
@@ -287,7 +289,7 @@ gsf_input_eof (GsfInput *input)
 }
 
 /**
- * gsf_input_read :
+ * gsf_input_read:
  * @input: the input stream
  * @num_bytes: number of bytes to read
  * @optional_buffer: %NULL, or pointer to destination memory area
@@ -318,7 +320,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 /**
- * gsf_input_remaining :
+ * gsf_input_remaining:
  * @input: the input stream
  *
  * Returns: the number of bytes left in the file.
@@ -332,7 +334,7 @@ gsf_input_remaining (GsfInput *input)
 }
 
 /**
- * gsf_input_tell :
+ * gsf_input_tell:
  * @input: the input stream
  *
  * Returns: the current offset in the file.
@@ -346,7 +348,7 @@ gsf_input_tell (GsfInput *input)
 }
 
 /**
- * gsf_input_seek :
+ * gsf_input_seek:
  * @input: the input stream
  * @offset: target offset
  * @whence: determines whether the offset is relative to the beginning or
@@ -388,7 +390,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 }
 
 /**
- * gsf_input_set_name :
+ * gsf_input_set_name:
  * @input: the input stream
  * @name: the new name of the stream, or %NULL.
  *
@@ -411,7 +413,7 @@ gsf_input_set_name (GsfInput *input, char const *name)
 }
 
 /**
- * gsf_input_set_name_from_filename :
+ * gsf_input_set_name_from_filename:
  * @input: the input stream
  * @filename: the (fs-sys encoded) filename
  *
@@ -431,7 +433,7 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
 
 
 /**
- * gsf_input_set_container :
+ * gsf_input_set_container:
  * @input: the input stream
  * @container:
  *
@@ -451,7 +453,7 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
 }
 
 /**
- * gsf_input_set_size :
+ * gsf_input_set_size:
  * @input: the input stream
  * @size: the size of the stream
  *
@@ -468,7 +470,7 @@ gsf_input_set_size (GsfInput *input, gsf_off_t size)
 }
 
 /**
- * gsf_input_seek_emulate :
+ * gsf_input_seek_emulate:
  * @input: stream to emulate seek for
  * @pos: absolute position to seek to
  *
@@ -493,7 +495,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 /****************************************************************************/
 
 /**
- * gsf_input_error_id :
+ * gsf_input_error_id:
  *
  * Returns: A utility quark to flag a GError as being an input problem.
  */
@@ -507,7 +509,7 @@ gsf_input_error_id (void)
 }
 
 /**
- * gsf_input_error :
+ * gsf_input_error:
  *
  * Deprecated as of GSF 1.12.0; use gsf_input_error_id() instead.
  *
@@ -524,7 +526,7 @@ gsf_input_error (void)
 #define GSF_READ_BUFSIZE (1024 * 4)
 
 /**
- * gsf_input_copy :
+ * gsf_input_copy:
  * @input: a non-null #GsfInput
  * @output: a non-null #GsfOutput
  *
@@ -560,13 +562,13 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
 /****************************************************************************/
 
 /**
- * gsf_input_uncompress :
- * @src: stream to be uncompressed.
+ * gsf_input_uncompress:
+ * @src: (transfer full): stream to be uncompressed.
  *
  * This functions takes ownership of the incoming reference and yields a
  * new one as its output.
  *
- * Returns: A stream equivalent to the source stream, but uncompressed if
+ * Returns: (transfer full): A stream equivalent to the source stream, but uncompressed if
  * the source was compressed.
  **/
 GsfInput *

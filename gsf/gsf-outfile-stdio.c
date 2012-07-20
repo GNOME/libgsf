@@ -105,9 +105,9 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
 	   GSF_OUTFILE_TYPE)
 
 /**
- * gsf_outfile_stdio_new_valist :
- * @root : root directory in utf8.
- * @err	 : optionally NULL.
+ * gsf_outfile_stdio_new_valist:
+ * @root: root directory in utf8.
+ * @err: optionally NULL.
  * @first_property_name: name of first property to set
  * @var_args: a %NULL-terminated #va_list
  *
@@ -141,11 +141,11 @@ gsf_outfile_stdio_new_valist (char const *root, GError **err,
 }
 
 /**
- * gsf_outfile_stdio_new_full :
- * @root : root directory in utf8.
- * @err	 : optionally NULL.
+ * gsf_outfile_stdio_new_full:
+ * @root: root directory in utf8.
+ * @err: optionally NULL.
  * @first_property_name: name of first property to set
- * @Varargs: value of first property, followed by more properties,
+ * @...: value of first property, followed by more properties,
  * 		%NULL-terminated
  *
  * Returns: a new outfile or NULL.
@@ -166,9 +166,9 @@ gsf_outfile_stdio_new_full (char const *root, GError **err,
 }
 
 /**
- * gsf_outfile_stdio_new :
- * @root : root directory in utf8.
- * @err	 : optionally NULL.
+ * gsf_outfile_stdio_new:
+ * @root: root directory in utf8.
+ * @err: optionally NULL.
  *
  * Returns: a new outfile or NULL.
  **/

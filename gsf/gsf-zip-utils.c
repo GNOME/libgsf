@@ -51,8 +51,40 @@ gsf_zip_dirent_free (GsfZipDirent *dirent)
 	g_free (dirent);
 }
 
+static GsfZipDirent *
+gsf_zip_dirent_copy (GsfZipDirent *dirent)
+{
+	GsfZipDirent *res = g_new0 (GsfZipDirent, 1);
+	memcpy (res, dirent, sizeof (GsfZipDirent));
+	if (dirent->name)
+		res->name = g_strdup (dirent->name);
+	return res;
+}
+
+GType
+gsf_zip_dirent_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfZipDirent",
+	     (GBoxedCopyFunc) gsf_zip_dirent_copy,
+	     (GBoxedFreeFunc) gsf_zip_dirent_free);
+
+    return type;
+}
+
+/**
+ * gsf_zip_vdir_new:
+ * @name:
+ * @is_directory:
+ * @dirent:
+ * 
+ * Returns: the newly created #GsfZipVDir.
+ */
 GsfZipVDir *
-gsf_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
+gsf_zip_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 {
 	GsfZipVDir *vdir = g_new (GsfZipVDir, 1);
 
@@ -61,6 +93,20 @@ gsf_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 	vdir->dirent = dirent;
 	vdir->children = NULL;
 	return vdir;
+}
+
+/**
+ * gsf_vdir_new: (skip) (Deprecated: 1.14.24)
+ * @name:
+ * @is_directory:
+ * @dirent:
+ * 
+ * Returns: the newly created #GsfZipVDir.
+ */
+GsfZipVDir *
+gsf_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
+{
+	return gsf_zip_vdir_new (name, is_directory, dirent);
 }
 
 void
@@ -79,6 +125,43 @@ gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 	if (free_dirent && vdir->dirent)
 		gsf_zip_dirent_free (vdir->dirent);
 	g_free (vdir);
+}
+
+static GsfZipVDir *
+gsf_vdir_copy (GsfZipVDir *vdir)
+{
+	GsfZipVDir *res = g_new0 (GsfZipVDir, 1);
+	GSList *l;
+	/* it is not possible to add a ref_count without breaking the API,
+	 * so we need to really copy everything */
+	if (vdir->name)
+		res->name = g_strdup (vdir->name);
+	res->is_directory = vdir->is_directory;
+	if (vdir->dirent)
+		res->dirent = gsf_zip_dirent_copy (vdir->dirent);
+	for (l = vdir->children; l; l = l->next)
+		gsf_vdir_add_child (res, gsf_vdir_copy ((GsfZipVDir *)l->data));
+	return res;
+}
+
+static void
+gsf_vdir_destroy (GsfZipVDir *vdir)
+{
+	gsf_vdir_free (vdir, TRUE);
+}
+
+GType
+gsf_zip_vdir_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfZipVDir",
+	     (GBoxedCopyFunc) gsf_vdir_copy,
+	     (GBoxedFreeFunc) gsf_vdir_destroy);
+
+    return type;
 }
 
 void

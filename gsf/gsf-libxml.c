@@ -188,10 +188,10 @@ glade_string_from_flags (GType type, guint flags)
 }
 
 /**
- * gsf_xml_gvalue_from_str :
- * @res : Result value
- * @t : Type of data
- * @str : Value string
+ * gsf_xml_gvalue_from_str:
+ * @res: Result value
+ * @t: Type of data
+ * @str: Value string
  *
  * Try to parse @str as a value of type @t into @res.
  *
@@ -333,8 +333,8 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 }
 
 /**
- * gsf_xml_parser_context :
- * @input : #GsfInput
+ * gsf_xml_parser_context: (skip)
+ * @input: #GsfInput
  *
  * Create a libxml2 pull style parser context wrapper around gsf input @input.
  * This signature will probably change to supply a SAX structure.
@@ -342,6 +342,8 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
  * <note>This adds a reference to @input.</note>
  * <note>A simple wrapper around a cleaner implementation that will fold in
  * when we add other api changes.  Its not worth bumping just for this.</note>
+ *
+ * NOTE: skipped since xmlParserCtxt is not exported to introspection.
  *
  * Returns: A parser context or %NULL
  **/
@@ -352,7 +354,7 @@ gsf_xml_parser_context (GsfInput *input)
 }
 
 /**
- * gsf_xml_output_buffer_new :
+ * gsf_xml_output_buffer_new:
  * @output: #GsfOutput
  * @encoding: optionally %NULL.
  *
@@ -375,11 +377,11 @@ gsf_xml_output_buffer_new (GsfOutput *output,
 }
 
 /**
- * gsf_xmlDocFormatDump :
- * @output : #GsfOutput
- * @cur : #xmlDocPtr
- * @encoding : The encoding to use.
- * @format : %TRUE to reformat the output.
+ * gsf_xmlDocFormatDump:
+ * @output: #GsfOutput
+ * @cur: #xmlDocPtr
+ * @encoding: The encoding to use.
+ * @format: %TRUE to reformat the output.
  *
  * Dumps the document @cur into @output.
  *
@@ -456,6 +458,13 @@ gsf_xml_probe_element (GsfXMLProbeState *state,
 	state->func = NULL;
 }
 
+/**
+ * gsf_xml_probe:
+ * @input: #GsfInput
+ * @func: (scope call): #GsfXMLProbeFunc
+ *
+ * Returns: TRUE on success.
+ */
 gboolean
 gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
 {
@@ -533,6 +542,7 @@ struct _GsfXMLInDoc {
 	GHashTable      *symbols; /* GsfXMLInNodeInternal hashed by id */
 	GsfXMLInNS const*ns;
 	GsfXMLInUnknownFunc	unknown_handler;
+	unsigned ref_count;
 };
 typedef struct {
 	GsfXMLIn	pub;
@@ -1012,29 +1022,32 @@ gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
 }
 
 /**
- * gsf_xml_in_doc_free :
- * @doc : #GsfXMLInDoc
+ * gsf_xml_in_doc_free:
+ * @doc: #GsfXMLInDoc
  *
  * Free up resources
  **/
 void
 gsf_xml_in_doc_free (GsfXMLInDoc *doc)
 {
-	g_return_if_fail (doc != NULL);
-	g_return_if_fail (doc->symbols != NULL);
+	doc->ref_count--;
+	if (doc->ref_count == 0) {
+		g_return_if_fail (doc != NULL);
+		g_return_if_fail (doc->symbols != NULL);
 
-	g_hash_table_destroy (doc->symbols);
+		g_hash_table_destroy (doc->symbols);
 
-	/* poison the well just in case */
-	doc->symbols   = NULL;
-	doc->root_node = NULL;
-	g_free (doc);
+		/* poison the well just in case */
+		doc->symbols   = NULL;
+		doc->root_node = NULL;
+		g_free (doc);
+	}
 }
 
 /**
- * gsf_xml_in_doc_new :
- * @nodes : an array of node descriptors
- * @ns : an array of namespace identifiers
+ * gsf_xml_in_doc_new:
+ * @nodes: an array of node descriptors
+ * @ns: an array of namespace identifiers
  *
  * Combine the nodes in the %NULL terminated array starting at @nodes with the
  * name spaces in the %NULL terminated array starting at @ns.  Prepare the
@@ -1061,14 +1074,35 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 		gsf_xml_in_doc_free (doc);
 		g_return_val_if_fail (NULL != doc->root_node, NULL);
 	}
+	doc->ref_count = 1;
 
 	return doc;
 }
 
+static GsfXMLInDoc *
+gsf_xml_in_doc_ref (GsfXMLInDoc *doc) {
+	doc->ref_count++;
+	return doc;
+}
+
+GType
+gsf_xml_in_doc_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfXMLInDoc",
+	     (GBoxedCopyFunc) gsf_xml_in_doc_ref,
+	     (GBoxedFreeFunc) gsf_xml_in_doc_free);
+
+    return type;
+}
+
 /**
- * gsf_xml_in_doc_add_nodes :
- * @doc : #GsfXMLInDoc
- * @nodes : %NULL terminated array of #GsfXMLInNode
+ * gsf_xml_in_doc_add_nodes:
+ * @doc: #GsfXMLInDoc
+ * @nodes: %NULL terminated array of #GsfXMLInNode
  *
  * Adds additional nodes to the structure of @doc
  **/
@@ -1138,8 +1172,8 @@ gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
 
 /**
  * gsf_xml_in_doc_set_unknown_handler:
- * @doc : #GsfXMLInDoc
- * @handler : The function to call
+ * @doc: #GsfXMLInDoc
+ * @handler: (scope call): The function to call
  *
  * Call the function @handler when an unexpected child node is found
  **/
@@ -1152,12 +1186,12 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
 }
 
 /**
- * gsf_xml_in_push_state :
- * @xin : #GsfXMLIn
- * @doc : #GsfXMLInDoc
- * @new_state : arbitrary content for the parser
- * @dtor : #GsfXMLInExtDtor
- * @attrs : array of xmlChar const *
+ * gsf_xml_in_push_state:
+ * @xin: #GsfXMLIn
+ * @doc: #GsfXMLInDoc
+ * @new_state: arbitrary content for the parser
+ * @dtor: (scope call): #GsfXMLInExtDtor
+ * @attrs: array of xmlChar const *
  *
  * Take the first node from @doc as the current node and call its start handler.
  **/
@@ -1185,10 +1219,10 @@ gsf_xml_in_push_state (GsfXMLIn *xin, GsfXMLInDoc const *doc,
 }
 
 /**
- * gsf_xml_in_doc_parse :
- * @doc : #GsfXMLInDoc
- * @input : #GsfInput
- * @user_state : arbitrary content stored in the parser
+ * gsf_xml_in_doc_parse:
+ * @doc: #GsfXMLInDoc
+ * @input: #GsfInput
+ * @user_state: arbitrary content stored in the parser
  *
  * Read an xml document from @input and parse based on the the descriptor in
  * @doc
@@ -1220,13 +1254,35 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 	return res;
 }
 
+static GsfXMLInNS *
+gsf_xml_in_ns_copy (GsfXMLInNS *ns) {
+	GsfXMLInNS *res = g_new (GsfXMLInNS, 1);
+	res->uri = ns->uri;
+	res->ns_id = ns->ns_id;
+	return res;
+}
+
+GType
+gsf_xml_in_ns_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfXMLInNS",
+	     (GBoxedCopyFunc) gsf_xml_in_ns_copy,
+	     (GBoxedFreeFunc) g_free);
+
+    return type;
+}
+
 /**
- * gsf_xml_in_get_input :
- * @xin : #GsfXMLIn
+ * gsf_xml_in_get_input:
+ * @xin: #GsfXMLIn
  *
  * (New in 1.14.2)
  *
- * Returns: (but does not reference) the stream being parsed.
+ * Returns: (transfer none): (but does not reference) the stream being parsed.
  **/
 GsfInput *
 gsf_xml_in_get_input (GsfXMLIn const *xin)
@@ -1236,10 +1292,10 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
 }
 
 /**
- * gsf_xml_in_check_ns :
- * @xin : #GsfXMLIn
- * @str : string to check
- * @ns_id : the namespace id
+ * gsf_xml_in_check_ns:
+ * @xin: #GsfXMLIn
+ * @str: string to check
+ * @ns_id: the namespace id
  *
  * According to @state is @str in the namespace @ns_id ?
  *
@@ -1267,11 +1323,11 @@ gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
 }
 
 /**
- * gsf_xml_in_namecmp :
- * @xin   : The #GsfXMLIn we are reading from.
- * @str   : The potentially namespace qualified node name.
- * @ns_id : The name space id to check
- * @name  : The target node name
+ * gsf_xml_in_namecmp:
+ * @xin: The #GsfXMLIn we are reading from.
+ * @str: The potentially namespace qualified node name.
+ * @ns_id: The name space id to check
+ * @name: The target node name
  *
  * Checks to see if @str is the same as @ns_id::@name with either an explicit
  * namespace or the current default namespace.
@@ -1430,8 +1486,8 @@ GSF_CLASS (GsfXMLOut, gsf_xml_out,
 	   G_TYPE_OBJECT)
 
 /**
- * gsf_xml_out_new :
- * @output : #GsfOutput
+ * gsf_xml_out_new:
+ * @output: #GsfOutput
  *
  * Create an XML output stream.
  *
@@ -1448,9 +1504,9 @@ gsf_xml_out_new (GsfOutput *output)
 }
 
 /**
- * gsf_xml_out_set_doc_type :
- * @xout : #GsfXMLOut
- * @type : the document type declaration
+ * gsf_xml_out_set_doc_type:
+ * @xout: #GsfXMLOut
+ * @type: the document type declaration
  *
  * Store some optional some &lt;!DOCTYPE .. &gt; content
  **/
@@ -1482,9 +1538,9 @@ gsf_xml_out_indent (GsfXMLOut *xout)
 }
 
 /**
- * gsf_xml_out_start_element :
- * @xout : #GsfXMLOut
- * @id  : Element name
+ * gsf_xml_out_start_element:
+ * @xout: #GsfXMLOut
+ * @id: Element name
  *
  * Output a start element @id, if necessary preceeded by an XML declaration.
  */
@@ -1521,8 +1577,8 @@ gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
 }
 
 /**
- * gsf_xml_out_end_element :
- * @xout : #GsfXMLOut
+ * gsf_xml_out_end_element:
+ * @xout: #GsfXMLOut
  *
  * Closes/ends an XML element.
  *
@@ -1563,10 +1619,10 @@ gsf_xml_out_end_element (GsfXMLOut *xout)
 }
 
 /**
- * gsf_xml_out_simple_element :
- * @xout : #GsfXMLOut
- * @id  : Element name
- * @content : Content of the element
+ * gsf_xml_out_simple_element:
+ * @xout: #GsfXMLOut
+ * @id: Element name
+ * @content: Content of the element
  *
  * Convenience routine to output a simple @id element with content @content.
  **/
@@ -1581,10 +1637,10 @@ gsf_xml_out_simple_element (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_simple_int_element :
- * @xout : #GsfXMLOut
- * @id  : Element name
- * @val : Element value
+ * gsf_xml_out_simple_int_element:
+ * @xout: #GsfXMLOut
+ * @id: Element name
+ * @val: Element value
  *
  * Convenience routine to output an element @id with integer value @val.
  **/
@@ -1597,11 +1653,11 @@ gsf_xml_out_simple_int_element (GsfXMLOut *xout, char const *id, int val)
 }
 
 /**
- * gsf_xml_out_simple_float_element :
- * @xout : #GsfXMLOut
- * @id  : Element name
- * @val : Element value
- * @precision : the number of significant digits to use, -1 meaning "enough".
+ * gsf_xml_out_simple_float_element:
+ * @xout: #GsfXMLOut
+ * @id: Element name
+ * @val: Element value
+ * @precision: the number of significant digits to use, -1 meaning "enough".
  *
  * Convenience routine to output an element @id with float value @val using
  * @precision significant digits.
@@ -1626,10 +1682,10 @@ close_tag_if_neccessary (GsfXMLOut* xout)
 }
 
 /**
- * gsf_xml_out_add_cstr_unchecked :
- * @xout : #GsfXMLOut
- * @id : optionally NULL for content
- * @val_utf8 : a utf8 encoded string to export
+ * gsf_xml_out_add_cstr_unchecked:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val_utf8: a utf8 encoded string to export
  *
  * dump @val_utf8 to an attribute named @id without checking to see if the
  * content needs escaping.  A useful performance enhancement when the
@@ -1653,10 +1709,10 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_cstr :
- * @xout : #GsfXMLOut
- * @id : optionally NULL for content
- * @val_utf8 : a utf8 encoded string
+ * gsf_xml_out_add_cstr:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val_utf8: a utf8 encoded string
  *
  * dump @val_utf8 to an attribute named @id or as the nodes content escaping
  * characters as necessary.  If @val_utf8 is NULL do nothing (no warning, no
@@ -1732,10 +1788,10 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_bool :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @val : a boolean
+ * gsf_xml_out_add_bool:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val: a boolean
  *
  * dump boolean value @val to an attribute named @id or as the nodes content
  * Use '1' or '0' to simplify import
@@ -1749,10 +1805,10 @@ gsf_xml_out_add_bool (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_int :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @val : the value
+ * gsf_xml_out_add_int:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val: the value
  *
  * dump integer value @val to an attribute named @id or as the nodes content
  **/
@@ -1766,10 +1822,10 @@ gsf_xml_out_add_int (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_uint :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @val : the value
+ * gsf_xml_out_add_uint:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val: the value
  *
  * dump unsigned integer value @val to an attribute named @id or as the nodes
  * content
@@ -1784,11 +1840,11 @@ gsf_xml_out_add_uint (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_float :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @val : the value
- * @precision : the number of significant digits to use, -1 meaning "enough".
+ * gsf_xml_out_add_float:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val: the value
+ * @precision: the number of significant digits to use, -1 meaning "enough".
  *
  * dump float value @val to an attribute named @id or as the nodes
  * content with precision @precision.  The number will be formattted
@@ -1810,12 +1866,12 @@ gsf_xml_out_add_float (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_color :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @r : Red value
- * @g : Green value
- * @b : Blue value
+ * gsf_xml_out_add_color:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @r: Red value
+ * @g: Green value
+ * @b: Blue value
  *
  * dump Color @r.@g.@b to an attribute named @id or as the nodes content
  **/
@@ -1829,11 +1885,11 @@ gsf_xml_out_add_color (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_add_enum :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @etype : #GType
- * @val : enum element number
+ * gsf_xml_out_add_enum:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @etype: #GType
+ * @val: enum element number
  *
  * Output the name of value @val of enumeration type @etype.
  **/
@@ -1852,10 +1908,10 @@ gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
 }
 
 /**
- * gsf_xml_out_add_gvalue :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @val : #GValue
+ * gsf_xml_out_add_gvalue:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @val: #GValue
  *
  * Output the value of @val as a string.  Does NOT store any type information
  * with the string, just thevalue.
@@ -1933,11 +1989,11 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 }
 
 /**
- * gsf_xml_out_add_base64 :
- * @xout : #GsfXMLOut
- * @id  : optionally NULL for content
- * @data : Data to be written
- * @len : Length of data
+ * gsf_xml_out_add_base64:
+ * @xout: #GsfXMLOut
+ * @id: optionally NULL for content
+ * @data: Data to be written
+ * @len: Length of data
  *
  * dump @len bytes in @data into the content of node @id using base64
  **/
@@ -1958,12 +2014,12 @@ gsf_xml_out_add_base64 (GsfXMLOut *xout, char const *id,
 }
 
 /**
- * gsf_xml_out_get_output :
- * @xout : #GsfXMLOut
+ * gsf_xml_out_get_output:
+ * @xout: #GsfXMLOut
  *
  * Get the #GsfInput we are parsing from.
  *
- * Returns: #GsfInput or %NULL.
+ * Returns: (transfer none): #GsfInput or %NULL.
  **/
 GsfOutput *
 gsf_xml_out_get_output (GsfXMLOut const *xout)

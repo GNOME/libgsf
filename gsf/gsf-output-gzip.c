@@ -106,9 +106,9 @@ gzip_output_header (GsfOutputGZip *gzip)
 }
 
 /**
- * gsf_output_gzip_new :
- * @sink : The underlying data source.
- * @err	   : optionally %NULL.
+ * gsf_output_gzip_new:
+ * @sink: The underlying data source.
+ * @err: optionally %NULL.
  *
  * Adds a reference to @sink.
  *

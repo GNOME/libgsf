@@ -1087,9 +1087,9 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 }
 
 /**
- * gsf_msole_metadata_read :
- * @in    : #GsfInput
- * @accum : #GsfDocMetaData
+ * gsf_msole_metadata_read:
+ * @in: #GsfInput
+ * @accum: #GsfDocMetaData
  *
  * Read a stream formated as a set of MS OLE properties from @in and store the
  * results in @accum.
@@ -1614,10 +1614,10 @@ cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
 }
 
 /**
- * gsf_msole_metadata_write :
- * @out : #GsfOutput
- * @meta_data : #GsfDocMetaData
- * @doc_not_component : a kludge to differentiate DocumentSummary from Summary
+ * gsf_msole_metadata_write:
+ * @out: #GsfOutput
+ * @meta_data: #GsfDocMetaData
+ * @doc_not_component: a kludge to differentiate DocumentSummary from Summary
  *
  * Returns: %TRUE on success;
  **/
@@ -1877,8 +1877,8 @@ static struct {
 };
 
 /**
- * gsf_msole_lid_for_language
- * @lang :
+ * gsf_msole_lid_for_language:
+ * @lang:
  *
  * Returns: the LID (Language Identifier) for the input language.
  * 	If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
@@ -1902,8 +1902,8 @@ gsf_msole_lid_for_language (char const *lang)
 }
 
 /**
- * gsf_msole_language_for_lid :
- * @lid :
+ * gsf_msole_language_for_lid:
+ * @lid:
  *
  * Returns: the xx_YY style string (can be just xx or xxx) for the given LID.
  * 	Return value must not be freed. If the LID is not found, is set to
@@ -1922,9 +1922,9 @@ gsf_msole_language_for_lid (guint lid)
 }
 
 /**
- * gsf_msole_locale_to_lid :
+ * gsf_msole_locale_to_lid:
  *
- * Covert the the codepage into an applicable LID
+ * Convert the the codepage into an applicable LID
  **/
 guint
 gsf_msole_codepage_to_lid (int codepage)
@@ -1967,8 +1967,8 @@ gsf_msole_codepage_to_lid (int codepage)
 }
 
 /**
- * gsf_msole_lid_to_codepage
- * @lid :
+ * gsf_msole_lid_to_codepage:
+ * @lid:
  *
  * Returns: our best guess at the codepage for the given language id
  **/
@@ -2168,8 +2168,8 @@ gsf_msole_lid_to_codepage (guint lid)
 }
 
 /**
- * gsf_msole_lid_to_codepage_str
- * @lid :
+ * gsf_msole_lid_to_codepage_str:
+ * @lid:
  *
  * Returns: the Iconv codepage string for the given LID.
  * 	Return value must be g_free ()'d
@@ -2187,7 +2187,7 @@ gsf_msole_lid_to_codepage_str (guint lid)
 }
 
 /**
- * gsf_msole_iconv_win_codepage :
+ * gsf_msole_iconv_win_codepage:
  *
  * Returns: our best guess at the applicable windows code page based on an
  * 	environment variable or the current locale.
@@ -2250,9 +2250,11 @@ gsf_msole_iconv_get_codepage_string_list (int codepage)
 }
 
 /**
- * gsf_msole_iconv_open_codepage_for_import :
- * @to:
- * @codepage :
+ * gsf_msole_iconv_open_codepage_for_import: (skip)
+ * @to: the target encoding.
+ * @codepage: the source code page.
+ *
+ * NOTE: skipped since GIConv is not exported to introspection.
  *
  * Returns: an iconv converter for @codepage -> utf8.
  **/
@@ -2281,8 +2283,10 @@ gsf_msole_iconv_open_codepage_for_import (char const *to, int codepage)
 }
 
 /**
- * gsf_msole_iconv_open_for_import :
- * @codepage :
+ * gsf_msole_iconv_open_for_import: (skip)
+ * @codepage: the source code page.
+ *
+ * NOTE: skipped since GIConv is not exported to introspection.
  *
  * Returns: an iconv converter for single byte encodings @codepage -> utf8.
  * 	Attempt to handle the semantics of a specification for multibyte encodings
@@ -2295,9 +2299,11 @@ gsf_msole_iconv_open_for_import (int codepage)
 }
 
 /**
- * gsf_msole_iconv_open_codepages_for_export :
- * @codepage_to :
- * @from :
+ * gsf_msole_iconv_open_codepages_for_export: (skip)
+ * @codepage_to: the target code page.
+ * @from: the source encoding.
+ *
+ * NOTE: skipped since GIConv is not exported to introspection.
  *
  * Returns: an iconv converter to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
@@ -2327,8 +2333,10 @@ gsf_msole_iconv_open_codepages_for_export (int codepage_to, char const *from)
 }
 
 /**
- * gsf_msole_iconv_open_codepage_for_export :
- * @codepage_to:
+ * gsf_msole_iconv_open_codepage_for_export: (skip)
+ * @codepage_to: the target code page.
+ *
+ * NOTE: skipped since GIConv is not exported to introspection.
  *
  * Returns: an iconv converter to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
@@ -2340,7 +2348,9 @@ gsf_msole_iconv_open_codepage_for_export (int codepage_to)
 }
 
 /**
- * gsf_msole_iconv_open_for_export :
+ * gsf_msole_iconv_open_for_export: (skip)
+ *
+ * NOTE: skipped since GIConv is not exported to introspection.
  *
  * Returns: an iconv convert to go from utf8 -> to our best guess at a useful
  * 	windows codepage.
@@ -2360,7 +2370,7 @@ gsf_msole_iconv_open_for_export (void)
  *
  * Decompresses an LZ compressed stream.
  *
- * Return value: A GByteArray that the caller is responsible for freeing
+ * Return value: (transfer full): A GByteArray that the caller is responsible for freeing
  **/
 GByteArray *
 gsf_msole_inflate (GsfInput *input, gsf_off_t offset)
@@ -2483,6 +2493,30 @@ gsf_msole_sorting_key_free (GsfMSOleSortingKey *sk)
 		g_free (sk->name);
 		g_free (sk);
 	}
+}
+
+static GsfMSOleSortingKey *
+gsf_ms_ole_sorting_key_copy (GsfMSOleSortingKey *sk)
+{
+	GsfMSOleSortingKey *res = g_new (GsfMSOleSortingKey, 1);
+	res->len = sk->len;
+	res->name = g_new (gunichar2, sk->len + 1);
+	memcpy (res->name, sk->name, (sk->len + 1) * sizeof (gunichar2));
+	return res;
+}
+
+GType
+gsf_msole_sorting_key_get_type (void)
+{
+    static GType type = 0;
+
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("GsfMSOleSortingKey",
+	     (GBoxedCopyFunc) gsf_ms_ole_sorting_key_copy,
+	     (GBoxedFreeFunc) gsf_msole_sorting_key_free);
+
+    return type;
 }
 
 int

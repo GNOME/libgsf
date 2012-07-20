@@ -235,9 +235,9 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 	   GSF_OUTPUT_TYPE)
 
 /**
- * gsf_output_bzip_new :
- * @sink : The underlying data source.
- * @err	   : optionally %NULL.
+ * gsf_output_bzip_new:
+ * @sink: The underlying data source.
+ * @err: optionally %NULL.
  *
  * Adds a reference to @sink.
  *

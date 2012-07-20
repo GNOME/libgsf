@@ -40,10 +40,10 @@ typedef struct {
 
 
 /**
- * gsf_input_proxy_new_section :
- * @source : The underlying data source.
- * @offset : Offset into source for start of section.
- * @size : Length of section.
+ * gsf_input_proxy_new_section:
+ * @source: The underlying data source.
+ * @offset: Offset into source for start of section.
+ * @size: Length of section.
  *
  * This creates a new proxy to a section of the given source.  The new
  * object will have its own current position, but any operation on it
@@ -90,8 +90,8 @@ gsf_input_proxy_new_section (GsfInput *source,
 }
 
 /**
- * gsf_input_proxy_new :
- * @source : The underlying data source.
+ * gsf_input_proxy_new:
+ * @source: The underlying data source.
  *
  * This creates a new proxy to the entire, given input source.  See
  * gsf_input_proxy_new_section for details.

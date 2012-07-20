@@ -264,7 +264,7 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			if (g_str_has_prefix (mi->name, "GSF_DOCPROP_VECTOR:")) {
 				gchar *true_name = strchr (mi->name + 19, ':');
 				if (true_name != NULL && *(++true_name) != 0) {
-					GsfDocProp *prop = gsf_doc_meta_data_lookup 
+					GsfDocProp *prop = gsf_doc_meta_data_lookup
 						(mi->md, true_name);
 					if (prop == NULL) {
 						GsfDocPropVector *vector = gsf_docprop_vector_new ();
@@ -286,13 +286,13 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 							vector = gsf_value_get_docprop_varray (new);
 							g_value_array_append (vector, res);
 							gsf_doc_prop_set_val (prop, new);
-						} else 
+						} else
 							g_printerr (_("Property \"%s\" used for "
 								      "multiple types!"), true_name);
 						g_value_unset (res);
-						g_free (res);						
+						g_free (res);
 					}
-				
+
 					g_free (mi->name);
 					mi->name = NULL;
 					return;
@@ -362,9 +362,9 @@ gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_sta
 static GsfXMLInDoc *doc_subtree = NULL;
 
 /**
- * gsf_opendoc_metadata_subtree :
- * @doc : #GsfXMLInDoc
- * @md  : #GsfDocMetaData
+ * gsf_opendoc_metadata_subtree:
+ * @doc: #GsfXMLInDoc
+ * @md: #GsfDocMetaData
  *
  * Extend @xin so that it can parse a subtree in OpenDoc metadata format
  **/
@@ -386,8 +386,8 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 }
 
 /**
- * gsf_opendoc_metadata_subtree_internal :
- * @doc : #GsfXMLInDoc
+ * gsf_opendoc_metadata_subtree_internal:
+ * @doc: #GsfXMLInDoc
  *
  * Extend @xin so that it can parse a subtree in OpenDoc metadata format
  * The current user_state must be a  GsfOOMetaIn!
@@ -408,9 +408,9 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
 };
 
 /**
- * gsf_opendoc_metadata_read :
- * @input : #GsfInput
- * @md    : #GsfDocMetaData
+ * gsf_opendoc_metadata_read:
+ * @input: #GsfInput
+ * @md: #GsfDocMetaData
  *
  * Read an OpenDocument metadata stream from @input and store the properties
  * into @md.  Overwrite any existing properties with the same id.
@@ -521,12 +521,12 @@ meta:object-count
 static void
 gsf_xml_out_add_gvalue_for_odf (GsfXMLOut *xout, char const *id, GValue const *val)
 {
-		if (G_VALUE_TYPE (val) == G_TYPE_BOOLEAN) 
-			gsf_xml_out_add_cstr 
+		if (G_VALUE_TYPE (val) == G_TYPE_BOOLEAN)
+			gsf_xml_out_add_cstr
 				(xout, id,
 				 g_value_get_boolean (val) ? "true" : "false");
 			else
-				gsf_xml_out_add_gvalue (xout, id, val);	
+				gsf_xml_out_add_gvalue (xout, id, val);
 }
 
 
@@ -535,15 +535,15 @@ meta_write_props_user_defined (char const *prop_name, GValue const *val, GsfXMLO
 {
 	GType t;
 	char const *type_name = NULL;
-	
+
 	gsf_xml_out_start_element (output, "meta:user-defined");
 	gsf_xml_out_add_cstr (output, "meta:name", prop_name);
-	
+
 	if (NULL == val) {
 			gsf_xml_out_end_element (output);
 			return;
 	}
-	
+
 	t = G_VALUE_TYPE (val);
 	switch (t) {
 	case G_TYPE_CHAR:
@@ -564,7 +564,7 @@ meta_write_props_user_defined (char const *prop_name, GValue const *val, GsfXMLO
 	case G_TYPE_DOUBLE:
 		type_name = "float";
 		break;
-		
+
 	default:
 		if (GSF_TIMESTAMP_TYPE == t)
 			type_name = "date";
@@ -619,9 +619,9 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 			for (i = 0; i < num_values; i++) {
 				GValue	*v;
-				char    *new_name = g_strdup_printf 
+				char    *new_name = g_strdup_printf
 					("GSF_DOCPROP_VECTOR:%.4i:%s", i, prop_name);
-				
+
 				v = g_value_array_get_nth (vector, i);
 				meta_write_props_user_defined (new_name, v, output);
 				g_free (new_name);
@@ -758,7 +758,7 @@ gsf_odf_out_class_init (GObjectClass *gobject_class)
 				   G_MAXINT,
 				   100,
 				   GSF_PARAM_STATIC |
-				   G_PARAM_READWRITE | 
+				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
 
 	g_type_class_add_private (gobject_class, sizeof (GsfODFOutPrivate));

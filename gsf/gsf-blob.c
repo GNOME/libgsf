@@ -156,7 +156,7 @@ gsf_blob_get_size (GsfBlob const *blob)
  * for you; it returns a pointer to the actual buffer which the blob uses internally,
  * so you should not free this buffer on your own.
  *
- * Return value: Pointer to the data stored in the blob, or %NULL if the size
+ * Return value: (transfer none): Pointer to the data stored in the blob, or %NULL if the size
  * of the data is zero.
  **/
 gconstpointer

@@ -737,7 +737,7 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 	   GSF_OUTFILE_TYPE)
 
 /**
- * gsf_outfile_zip_new :
+ * gsf_outfile_zip_new:
  * @sink: a #GsfOutput to hold the ZIP file
  * @err: Location to store error, or %NULL; currently unused.
  *

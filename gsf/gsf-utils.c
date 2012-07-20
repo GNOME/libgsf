@@ -125,7 +125,7 @@ DllMain (HINSTANCE hinstDLL, DWORD fdwReason, G_GNUC_UNUSED LPVOID lpvReserved)
 #endif
 
 /**
- * gsf_init :
+ * gsf_init:
  *
  * Initializes the GSF library
  **/
@@ -204,8 +204,8 @@ gsf_shutdown (void)
 #endif
 
 /**
- * gsf_init_dynamic :
- * @module : #GTypeModule.
+ * gsf_init_dynamic:
+ * @module: #GTypeModule.
  *
  * Initializes the GSF library and associates it with a type module @mod.
  **/
@@ -301,7 +301,7 @@ gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 }
 
 /**
- * gsf_mem_dump :
+ * gsf_mem_dump:
  * @ptr: memory area to be dumped.
  * @len: how many bytes will be dumped.
  *
@@ -314,7 +314,7 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 }
 
 /**
- * gsf_input_dump :
+ * gsf_input_dump:
  * @input: a #GsfInput
  * @dump_as_hex: If %TRUE, dump in hexidecmal format
  *
@@ -391,7 +391,7 @@ gsf_le_get_guint64 (void const *p)
 }
 
 /**
- * gsf_le_get_float :
+ * gsf_le_get_float:
  * @p: pointer to storage
  *
  * Interpret binary data as a float in little endian order.
@@ -435,7 +435,7 @@ gsf_le_get_float (void const *p)
 }
 
 /**
- * gsf_le_set_float :
+ * gsf_le_set_float:
  * @p: pointer to storage
  * @f: float to be stored
  *
@@ -472,7 +472,7 @@ gsf_le_set_float (void *p, float f)
 }
 
 /**
- * gsf_le_get_double :
+ * gsf_le_get_double:
  * @p: pointer to storage
  *
  * Interpret binary data as a double in little endian order.
@@ -520,7 +520,7 @@ gsf_le_get_double (void const *p)
 }
 
 /**
- * gsf_le_set_double :
+ * gsf_le_set_double:
  * @p: pointer to storage
  * @d: double to be stored
  *
@@ -590,8 +590,8 @@ gsf_extension_pointer (char const *path)
 }
 
 /**
- * gsf_iconv_close :
- * @handle : handle to be closed.
+ * gsf_iconv_close:
+ * @handle: handle to be closed.
  *
  * A utility wrapper to safely close an iconv handle.
  **/
@@ -629,11 +629,11 @@ gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 }
 
 /**
- * gsf_base64_encode_close :
- * @in : Data to be encoded
- * @inlen : Length of data to be encoded
- * @break_lines : Whether to use line breaks
- * @out : Encoded data.
+ * gsf_base64_encode_close:
+ * @in: Data to be encoded
+ * @inlen: Length of data to be encoded
+ * @break_lines: Whether to use line breaks
+ * @out: Encoded data.
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been decoded
  *
@@ -655,13 +655,13 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 }
 
 /**
- * gsf_base64_encode_step :
- * @in : input stream
- * @len : max length of data to decode
- * @break_lines : Whether to use line breaks
- * @out : output stream
- * @state : holds the number of bits that are stored in @save
- * @save : leftover bits that have not yet been decoded
+ * gsf_base64_encode_step:
+ * @in: input stream
+ * @len: max length of data to decode
+ * @break_lines: Whether to use line breaks
+ * @out: output stream
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been decoded
  *
  * Performs an 'encode step', only encodes blocks of 3 characters from @in into
  * the output @out at a time, saves left-over state in @state and @save
@@ -697,9 +697,9 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 }
 
 /**
- * gsf_base64_encode_simple :
- * @data : data stream
- * @len : max length of data to encode
+ * gsf_base64_encode_simple:
+ * @data: data stream
+ * @len: max length of data to encode
  *
  * Encodes data from @data back into @data using base64 encoding.
  *
@@ -724,9 +724,9 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 }
 
 /**
- * gsf_base64_decode_simple :
- * @data : data stream
- * @len : max length of data to decode
+ * gsf_base64_decode_simple:
+ * @data: data stream
+ * @len: max length of data to decode
  *
  * Decodes a chunk of base64 encoded data from @data back into @data.
  *
