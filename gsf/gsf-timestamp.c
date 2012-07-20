@@ -153,7 +153,7 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 }
 
 /**
- * gsf_timestamp_parse: (skip) (Deprecated)
+ * gsf_timestamp_parse: (skip)
  * @spec: The string to parse
  * @stamp: #GsfTimestamp
  *
@@ -161,7 +161,7 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
  * 	'YYYY-MM-DDThh:mm:ss'
  * and does no bounds checking.
  *
- * Deprecated : Use gsf_timestamp_from_string
+ * Deprecated: Use gsf_timestamp_from_string
  *
  * Returns: %TRUE on success
  **/

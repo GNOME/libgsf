@@ -432,13 +432,15 @@ gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,
 
 /* DEPRECATED in 1.14.6 */
 /**
- * gsf_open_pkg_get_rel_by_type: (skip) (Deprecated: 1.14.6)
+ * gsf_open_pkg_get_rel_by_type: (skip)
  *
+ * Deprecated: 1.14.6
  */
 GsfInput *gsf_open_pkg_get_rel_by_type (GsfInput *opkg, char const *type) { return gsf_open_pkg_open_rel_by_type (opkg, type, NULL); }
 /**
- * gsf_open_pkg_get_rel_by_id: (skip) (Deprecated: 1.14.6)
+ * gsf_open_pkg_get_rel_by_id: (skip)
  *
+ * Deprecated: 1.14.6
  */
 GsfInput *gsf_open_pkg_get_rel_by_id   (GsfInput *opkg, char const *id)   { return gsf_open_pkg_open_rel_by_id (opkg, id, NULL); }
 

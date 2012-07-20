@@ -96,11 +96,12 @@ gsf_zip_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 }
 
 /**
- * gsf_vdir_new: (skip) (Deprecated: 1.14.24)
+ * gsf_vdir_new: (skip)
  * @name:
  * @is_directory:
  * @dirent:
- * 
+ *
+ * Deprecated: 1.14.24
  * Returns: the newly created #GsfZipVDir.
  */
 GsfZipVDir *
