@@ -124,7 +124,7 @@ gsf_outfile_zip_constructor (GType                  type,
 					    construct_params));
 
 	if (!zip->entry_name) {
-		zip->vdir = gsf_vdir_new ("", TRUE, NULL);
+		zip->vdir = gsf_zip_vdir_new ("", TRUE, NULL);
 		zip->root_order = g_ptr_array_new ();
 		zip->root = zip;
 
@@ -592,7 +592,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 						params);
 	gsf_property_settings_free (params, n_params);
 
-	child->vdir = gsf_vdir_new (name, is_dir, NULL);
+	child->vdir = gsf_zip_vdir_new (name, is_dir, NULL);
 
 	/* FIXME: It isn't clear what encoding name is in.  */
 	display_name = g_filename_display_name (name);
