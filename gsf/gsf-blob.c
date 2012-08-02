@@ -28,6 +28,10 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+struct _GsfBlobClass {
+	GObjectClass parent_class;
+};
+
 /* Private part of the GsfBlob structure */
 struct _GsfBlobPrivate {
 	gsize size;

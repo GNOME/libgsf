@@ -80,7 +80,9 @@ gsf_zip_dirent_get_type (void)
  * @name:
  * @is_directory:
  * @dirent:
- * 
+ *
+ * Since: 1.14.24
+ *
  * Returns: the newly created #GsfZipVDir.
  */
 GsfZipVDir *
@@ -113,13 +115,19 @@ gsf_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 void
 gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 {
+	gsf_zip_vdir_free (vdir, free_dirent);
+}
+
+void
+gsf_zip_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
+{
 	GSList *l;
 
 	if (!vdir)
 		return;
 
 	for (l = vdir->children; l; l = l->next)
-		gsf_vdir_free ((GsfZipVDir *)l->data, free_dirent);
+		gsf_zip_vdir_free ((GsfZipVDir *)l->data, free_dirent);
 
 	g_slist_free (vdir->children);
 	g_free (vdir->name);
@@ -129,7 +137,7 @@ gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 }
 
 static GsfZipVDir *
-gsf_vdir_copy (GsfZipVDir *vdir)
+gsf_zip_vdir_copy (GsfZipVDir *vdir)
 {
 	GsfZipVDir *res = g_new0 (GsfZipVDir, 1);
 	GSList *l;
@@ -141,14 +149,14 @@ gsf_vdir_copy (GsfZipVDir *vdir)
 	if (vdir->dirent)
 		res->dirent = gsf_zip_dirent_copy (vdir->dirent);
 	for (l = vdir->children; l; l = l->next)
-		gsf_vdir_add_child (res, gsf_vdir_copy ((GsfZipVDir *)l->data));
+		gsf_zip_vdir_add_child (res, gsf_zip_vdir_copy ((GsfZipVDir *)l->data));
 	return res;
 }
 
 static void
-gsf_vdir_destroy (GsfZipVDir *vdir)
+gsf_zip_vdir_destroy (GsfZipVDir *vdir)
 {
-	gsf_vdir_free (vdir, TRUE);
+	gsf_zip_vdir_free (vdir, TRUE);
 }
 
 GType
@@ -159,14 +167,20 @@ gsf_zip_vdir_get_type (void)
     if (type == 0)
 	type = g_boxed_type_register_static
 	    ("GsfZipVDir",
-	     (GBoxedCopyFunc) gsf_vdir_copy,
-	     (GBoxedFreeFunc) gsf_vdir_destroy);
+	     (GBoxedCopyFunc) gsf_zip_vdir_copy,
+	     (GBoxedFreeFunc) gsf_zip_vdir_destroy);
 
     return type;
 }
 
 void
 gsf_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
+{
+	gsf_zip_vdir_add_child(vdir, child);
+}
+
+void
+gsf_zip_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
 {
 	GSList *tail = g_slist_append (NULL, child);
 	if (vdir->children)

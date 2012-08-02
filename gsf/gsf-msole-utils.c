@@ -796,7 +796,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ts = gsf_timestamp_new ();
 		gsf_timestamp_set_time (ts, ft);
 		g_value_init (res, GSF_TIMESTAMP_TYPE);
-		gsf_value_set_timestamp (res, ts);
+		gsf_timestamp_to_value (ts, res);
 		gsf_timestamp_free (ts);
 
 		ADVANCE;
@@ -1087,17 +1087,19 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 }
 
 /**
- * gsf_msole_metadata_read:
- * @in: #GsfInput
+ * gsf_doc_meta_data_read_from_msole:
  * @accum: #GsfDocMetaData
+ * @in: #GsfInput
  *
  * Read a stream formated as a set of MS OLE properties from @in and store the
  * results in @accum.
  *
+ * Since: 1.14.24
+ *
  * Returns: GError which the caller must free on error.
  **/
 GError *
-gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
+gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 {
 	guint8 const *data;
 	guint16 version;
@@ -1299,6 +1301,24 @@ gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
 			g_hash_table_destroy (sections[i].dict);
 	}
 	return NULL;
+}
+
+/**
+ * gsf_msole_metadata_read: (skip)
+ * @in: #GsfInput
+ * @accum: #GsfDocMetaData
+ *
+ * Read a stream formated as a set of MS OLE properties from @in and store the
+ * results in @accum.
+ *
+ * Deprecated: 1.14.24, use gsf_doc_meta_data_read_from_msole
+ *
+ * Returns: GError which the caller must free on error.
+ **/
+GError *
+gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)
+{
+	return gsf_doc_meta_data_read_from_msole (accum, in);
 }
 
 /****************************************************************************/
@@ -1614,17 +1634,19 @@ cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
 }
 
 /**
- * gsf_msole_metadata_write:
+ * gsf_doc_meta_data_write_to_msole:
  * @out: #GsfOutput
  * @meta_data: #GsfDocMetaData
  * @doc_not_component: a kludge to differentiate DocumentSummary from Summary
  *
+ * Since: 1.14.24
+ *
  * Returns: %TRUE on success;
  **/
 gboolean
-gsf_msole_metadata_write (GsfOutput *out,
-			  GsfDocMetaData const *meta_data,
-			  gboolean doc_not_component)
+gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
+                                  GsfOutput *out,
+				  gboolean doc_not_component)
 {
 	static guint8 const header[] = {
 		0xfe, 0xff,	/* byte order */
@@ -1690,6 +1712,24 @@ err :
 	if (state.dict != NULL)
 		g_hash_table_destroy (state.dict);
 	return success;
+}
+
+/**
+ * gsf_msole_metadata_write: (skip)
+ * @out: #GsfOutput
+ * @meta_data: #GsfDocMetaData
+ * @doc_not_component: a kludge to differentiate DocumentSummary from Summary
+ *
+ * Deprecated: 1.14.24, use gsf_doc_meta_data_write_to_msole
+ *
+ * Returns: %TRUE on success;
+ **/
+gboolean
+gsf_msole_metadata_write (GsfOutput *out,
+			  GsfDocMetaData const *meta_data,
+			  gboolean doc_not_component)
+{
+	return gsf_doc_meta_data_write_to_msole (meta_data, out, doc_not_component);
 }
 
 static struct {

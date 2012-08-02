@@ -99,6 +99,12 @@ typedef gint64 gsf_off_t;
  */
 #define GSF_OFF_T_FORMAT	G_GINT64_FORMAT
 
+#if GLIB_CHECK_VERSION(2,32,0)
+#define GSF_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f)
+#else
+#define GSF_DEPRECATED_FOR(f)
+#endif
+
 G_END_DECLS
 
 #endif /* GSF_H */

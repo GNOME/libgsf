@@ -118,21 +118,22 @@ static time_t gmt_to_local_win32(void)
 }
 #endif
 
+
 /**
- * gsf_timestamp_from_string:
- * @spec: The string to parse
+ * gsf_timestamp_load_from_string:
  * @stamp: #GsfTimestamp
+ * @spec: The string to parse
  *
  * Very simple parser for time stamps.  Currently requires a format of
  * 	'YYYY-MM-DDThh:mm:ss'
  * and does no bounds checking.
  *
- * Since: 1.14.12
+ * Since: 1.14.24
  *
  * Returns: %TRUE on success
  **/
 int
-gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
+gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
 {
 	int year, month, day, hour, minute, second;
 	GDateTime *dt;
@@ -153,6 +154,25 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
 }
 
 /**
+ * gsf_timestamp_from_string: (skip)
+ * @spec: The string to parse
+ * @stamp: #GsfTimestamp
+ *
+ * Very simple parser for time stamps.  Currently requires a format of
+ * 	'YYYY-MM-DDThh:mm:ss'
+ * and does no bounds checking.
+ *
+ * Deprecated: 1.14.24, use gsf_timestamp_load_from_string
+ *
+ * Returns: %TRUE on success
+ **/
+int
+gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
+{
+	return gsf_timestamp_load_from_string (stamp, spec);
+}
+
+/**
  * gsf_timestamp_parse: (skip)
  * @spec: The string to parse
  * @stamp: #GsfTimestamp
@@ -161,14 +181,14 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
  * 	'YYYY-MM-DDThh:mm:ss'
  * and does no bounds checking.
  *
- * Deprecated: Use gsf_timestamp_from_string
+ * Deprecated: Use gsf_timestamp_load_from_string
  *
  * Returns: %TRUE on success
  **/
 int
 gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 {
-	return gsf_timestamp_from_string (spec, stamp);
+	return gsf_timestamp_load_from_string (stamp, spec);
 }
 
 /**
@@ -225,6 +245,28 @@ gsf_timestamp_equal (GsfTimestamp const *a, GsfTimestamp const *b)
 	return a->timet == b->timet;
 }
 
+/**
+ * gsf_timestamp_to_value:
+ * @stamp: #GsfTimestamp
+ * @value: #GValue
+ *
+ * Calls g_value_set_box (value, stamp);
+ *
+ * Since: 1.14.24
+ **/
+void
+gsf_timestamp_to_value (GsfTimestamp const *stamp, GValue *value)
+{
+	g_value_set_boxed (value, stamp);
+}
+
+/**
+ * gsf_value_set_timestamp: (skip)
+ * @value: #GValue
+ * @stamp: #GsfTimestamp
+ *
+ * Deprecated: 1.14.24, use gsf_timestamp_to_value.
+ **/
 void
 gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp)
 {

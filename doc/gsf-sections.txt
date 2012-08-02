@@ -247,7 +247,6 @@ gsf_output_bzip_get_type
 <SUBSECTION Private>
 gsf_zip_dirent_get_type
 gsf_zip_vdir_get_type
-gsf_zip_vdir_new
 </SECTION>
 
 <SECTION>
@@ -384,6 +383,9 @@ GsfMSOleSortingKey
 <SECTION>
 <TITLE>OASIS Open Document</TITLE>
 <FILE>opendoc</FILE>
+gsf_odf_get_ns
+gsf_odf_get_version
+gsf_odf_get_version_string
 gsf_opendoc_metadata_read
 gsf_opendoc_metadata_subtree
 gsf_opendoc_metadata_write
@@ -397,6 +399,10 @@ GSF_ODF_OUT
 GSF_ODF_OUT_TYPE
 GsfODFOutClass
 gsf_odf_out_get_type
+<SUBSECTION Deprecated>
+get_gsf_odf_version
+get_gsf_odf_version_string
+get_gsf_ooo_ns
 </SECTION>
 
 <SECTION>
@@ -535,6 +541,9 @@ gsf_zip_dirent_new
 gsf_zip_dirent_free
 
 GsfZipVDir
+gsf_zip_vdir_new
+gsf_zip_vdir_free
+gsf_zip_vdir_add_child
 gsf_vdir_free
 gsf_vdir_new
 gsf_vdir_add_child
@@ -765,9 +774,11 @@ gsf_timestamp_set_time
 gsf_timestamp_copy
 gsf_timestamp_free
 gsf_timestamp_as_string
+gsf_timestamp_load_from_string
 gsf_timestamp_from_string
 gsf_timestamp_hash
 gsf_timestamp_equal
+gsf_timestamp_to_value
 gsf_value_set_timestamp
 VAL_IS_GSF_TIMESTAMP
 <SUBSECTION Standard>
@@ -795,6 +806,11 @@ gsf_doc_meta_data_store
 gsf_doc_meta_data_foreach
 gsf_doc_meta_data_size
 gsf_doc_meta_dump
+gsf_doc_meta_data_odf_subtree
+gsf_doc_meta_data_read_from_odf
+gsf_doc_meta_data_write_to_odf
+gsf_doc_meta_data_read_from_msole
+gsf_doc_meta_data_write_to_msole
 
 GsfDocProp
 gsf_doc_prop_new

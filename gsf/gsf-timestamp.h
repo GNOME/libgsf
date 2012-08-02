@@ -46,7 +46,7 @@ GsfTimestamp *gsf_timestamp_new	(void);
 
 GsfTimestamp *gsf_timestamp_copy	(GsfTimestamp const *stamp);
 void          gsf_timestamp_free	(GsfTimestamp       *stamp);
-int	      gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp);
+int	      gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec);
 char 	     *gsf_timestamp_as_string	(GsfTimestamp const *stamp);
 guint         gsf_timestamp_hash	(GsfTimestamp const *stamp);
 gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
@@ -54,10 +54,17 @@ gboolean      gsf_timestamp_equal	(GsfTimestamp const *a,
 
 void          gsf_timestamp_set_time    (GsfTimestamp *stamp, guint64 t);
 
-void gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
+void gsf_timestamp_to_value (GsfTimestamp const *stamp, GValue *value);
 
 /* Deprecated */
+#ifndef GSF_DISABLE_DEPRECATED
+GSF_DEPRECATED_FOR(gsf_timestamp_to_value)
+void gsf_value_set_timestamp (GValue *value, GsfTimestamp const *stamp);
+GSF_DEPRECATED_FOR(gsf_timestamp_load_from_string)
+int	      gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp);
+GSF_DEPRECATED_FOR(gsf_timestamp_load_from_string)
 int           gsf_timestamp_parse	(char const *spec, GsfTimestamp *stamp);
+#endif
 
 G_END_DECLS
 

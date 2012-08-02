@@ -1,3 +1,44 @@
+2012-08-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* doc/Makefile.am: fixed as many introspection and gtk-doc issues as
+	possible.
+	* doc/gsf-sections.txt: ditto.
+	* gsf/Makefile.am: ditto.
+	* gsf/gsf-blob.c: ditto.
+	* gsf/gsf-blob.h: ditto.
+	* gsf/gsf-clip-data.c: ditto.
+	* gsf/gsf-clip-data.h: ditto.
+	* gsf/gsf-infile-msvba.c (gsf_input_find_vba): ditto.
+	* gsf/gsf-infile-zip.c (vdir_insert), (zip_info_unref): ditto.
+	* gsf/gsf-libxml.c (gsf_xml_gvalue_from_str),
+	(gsf_xml_out_get_output): ditto.
+	* gsf/gsf-msole-utils.c (msole_prop_parse),
+	(gsf_doc_meta_data_read_from_msole), (gsf_msole_metadata_read),
+	(gsf_doc_meta_data_write_to_msole), (gsf_msole_metadata_write):
+	* gsf/gsf-msole-utils.h: ditto.
+	* gsf/gsf-open-pkg-utils.h: ditto.
+	* gsf/gsf-opendoc-utils.c (gsf_odf_get_version_string),
+	(gsf_odf_get_version), (get_gsf_odf_version), (gsf_odf_get_ns),
+	(get_gsf_ooo_ns), (gsf_doc_meta_data_odf_subtree),
+	(gsf_opendoc_metadata_subtree), (gsf_doc_meta_data_read_from_odf),
+	(gsf_opendoc_metadata_read), (gsf_doc_meta_data_write_to_odf),
+	(gsf_opendoc_metadata_write): ditto.
+	* gsf/gsf-opendoc-utils.h: ditto.
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_finalize),
+	(gsf_outfile_zip_new_child): ditto.
+	* gsf/gsf-timestamp.c (gsf_timestamp_load_from_string),
+	(gsf_timestamp_from_string), (gsf_timestamp_parse),
+	(gsf_timestamp_to_value): ditto.
+	* gsf/gsf-timestamp.h: ditto.
+	* gsf/gsf-utils.c (gsf_init_dynamic): ditto.
+	* gsf/gsf-zip-impl.h: ditto.
+	* gsf/gsf-zip-utils.c (gsf_vdir_free), (gsf_zip_vdir_free),
+	(gsf_zip_vdir_copy), (gsf_zip_vdir_destroy),
+	(gsf_zip_vdir_get_type), (gsf_vdir_add_child),
+	(gsf_zip_vdir_add_child): ditto.
+	* gsf/gsf.h: ditto.
+	* thumbnailer/main.c (msole_thumbnail): ditto.
+
 2012-07-20  Jean Brefort  <jean.brefort@normalesup.org>
 	* all files: fix introspection and gtk-doc warnings.
 

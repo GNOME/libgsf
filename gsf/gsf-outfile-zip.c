@@ -108,7 +108,7 @@ gsf_outfile_zip_finalize (GObject *obj)
 	g_free (zip->buf);
 
 	if (zip == zip->root)
-		gsf_vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
+		gsf_zip_vdir_free (zip->vdir, TRUE); /* Frees vdirs recursively */
 
 	parent_class->finalize (obj);
 }
@@ -600,7 +600,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 	g_free (display_name);
 
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
-	gsf_vdir_add_child (zip_parent->vdir, child->vdir);
+	gsf_zip_vdir_add_child (zip_parent->vdir, child->vdir);
 	root_register_child (zip_parent->root, child);
 
 	return GSF_OUTPUT (child);

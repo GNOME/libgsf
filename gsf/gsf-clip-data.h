@@ -49,10 +49,6 @@ struct _GsfClipData {
 	GsfClipDataPrivate *priv;
 };
 
-struct _GsfClipDataClass {
-	GObjectClass parent_class;
-};
-
 GType gsf_clip_data_get_type      (void) G_GNUC_CONST;
 /* void  gsf_clip_data_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 

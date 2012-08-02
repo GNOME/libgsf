@@ -25,10 +25,6 @@ struct _GsfBlob {
 	GsfBlobPrivate *priv;
 };
 
-struct _GsfBlobClass {
-	GObjectClass parent_class;
-};
-
 GType gsf_blob_get_type (void) G_GNUC_CONST;
 /* void  gsf_blob_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 

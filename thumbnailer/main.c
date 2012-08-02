@@ -179,7 +179,7 @@ msole_thumbnail (GsfInfile *infile, const char *out_filename, int thumb_size)
 		show_error_string_and_exit ("Could not find the SummaryInformation stream");
 
 	meta_data = gsf_doc_meta_data_new ();
-	error = gsf_msole_metadata_read (summary_stream, meta_data);
+	error = gsf_doc_meta_data_read_from_msole (meta_data, summary_stream);
 	if (error)
 		show_error_and_exit (error);
 

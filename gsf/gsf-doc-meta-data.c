@@ -305,7 +305,7 @@ gsf_doc_prop_free (GsfDocProp *prop)
 			g_free (prop);
 		}
 	}
-		
+
 }
 
 static GsfDocProp *

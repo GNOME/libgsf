@@ -44,19 +44,61 @@ typedef struct {
 	GType            typ;
 } GsfOOMetaIn;
 
-G_MODULE_EXPORT char const *
+/**
+ * gsf_odf_get_version_string:
+ * Gives the ODF version used by libgsf when writing Open Document files.
+ *
+ * Since: 1.14.24
+ *
+ * Returns: the ODF version as a string: "1.2".
+ **/
+char const *
+gsf_odf_get_version_string (void)
+{
+	return "1.2";
+}
+
+/**
+ * get_gsf_odf_version_string: (skip)
+ * Gives the ODF version used by libgsf when writing Open Document files.
+ *
+ * Deprecated: 1.14.24, use gsf_odf_get_version_string
+ *
+ * Returns: the ODF version as a string: "1.2".
+ **/
+char const *
 get_gsf_odf_version_string (void)
 {
 	return "1.2";
 }
 
-G_MODULE_EXPORT short
-get_gsf_odf_version (void)
+/**
+ * gsf_odf_get_version:
+ * Gives the ODF version used by libgsf when writing Open Document files.
+ *
+ * Since: 1.14.24
+ *
+ * Returns: the ODF version: 102.
+ **/
+short
+gsf_odf_get_version (void)
 {
 	return 102;
 }
 
-
+/**
+ * get_gsf_odf_version: (skip)
+ * Gives the ODF version used by libgsf when writing Open Document files.
+ *
+ * Deprecated: 1.14.24, use gsf_odf_get_version
+ *
+ * Returns: the ODF version: 102.
+ **/
+short
+get_gsf_odf_version (void)
+{
+	return 102;
+}
 
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
@@ -146,7 +188,28 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	{ NULL, 0 }
 };
 
-G_MODULE_EXPORT GsfXMLInNS *get_gsf_ooo_ns (void)
+/**
+ * gsf_odf_get_ns:
+ *
+ * Since: 1.14.24
+ *
+ * Returns: the used ODF namespace
+ **/
+GsfXMLInNS const *
+gsf_odf_get_ns (void)
+{
+	return gsf_ooo_ns;
+}
+
+/**
+ * get_gsf_ooo_ns: (skip)
+ *
+ * Deprecated: 1.14.24, use gsf_odf_get_ns
+ *
+ * Returns: the used ODF namespace
+ **/
+GsfXMLInNS *
+get_gsf_ooo_ns (void)
 {
 	return gsf_ooo_ns;
 }
@@ -362,14 +425,16 @@ gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_sta
 static GsfXMLInDoc *doc_subtree = NULL;
 
 /**
- * gsf_opendoc_metadata_subtree:
- * @doc: #GsfXMLInDoc
+ * gsf_doc_meta_data_odf_subtree:
  * @md: #GsfDocMetaData
+ * @doc: #GsfXMLInDoc
  *
  * Extend @xin so that it can parse a subtree in OpenDoc metadata format
+ *
+ * Since: 1.14.24
  **/
 void
-gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
+gsf_doc_meta_data_odf_subtree (GsfDocMetaData *md, GsfXMLIn *doc)
 {
 	GsfOOMetaIn *state = NULL;
 
@@ -382,7 +447,22 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 	state->md = md;
 	state->typ = G_TYPE_NONE;
 	g_object_ref (md);
-	gsf_xml_in_push_state (xin, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
+	gsf_xml_in_push_state (doc, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
+}
+
+/**
+ * gsf_opendoc_metadata_subtree: (skip)
+ * @doc: #GsfXMLInDoc
+ * @md: #GsfDocMetaData
+ *
+ * Deprecated: 1.14.24, use gsf_doc_meta_data_odf_subtree
+ *
+ * Extend @xin so that it can parse a subtree in OpenDoc metadata format
+ **/
+void
+gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
+{
+	gsf_doc_meta_data_odf_subtree (md, xin);
 }
 
 /**
@@ -408,17 +488,19 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
 };
 
 /**
- * gsf_opendoc_metadata_read:
- * @input: #GsfInput
+ * gsf_doc_meta_data_read_from_odf:
  * @md: #GsfDocMetaData
+ * @input: #GsfInput
  *
  * Read an OpenDocument metadata stream from @input and store the properties
  * into @md.  Overwrite any existing properties with the same id.
  *
+ * Since: 1.14.24
+ *
  * Returns: a GError if there is a problem.
  **/
-GError *
-gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
+GError	*
+gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
 	GsfOOMetaIn	 state;
@@ -444,6 +526,23 @@ gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
 	return state.err;
 }
 
+/**
+ * gsf_opendoc_metadata_read: (skip)
+ * @input: #GsfInput
+ * @md: #GsfDocMetaData
+ *
+ * Read an OpenDocument metadata stream from @input and store the properties
+ * into @md.  Overwrite any existing properties with the same id.
+ *
+ * Deprecated: 1.14.24, use gsf_doc_meta_data_read_from_odf
+ *
+ * Returns: a GError if there is a problem.
+ **/
+GError *
+gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
+{
+	return gsf_doc_meta_data_read_from_odf (md, input);
+}
 
 static char const *
 od_map_prop_name (char const *name)
@@ -638,8 +737,17 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 	gsf_xml_out_end_element (output);
 }
 
+/**
+ * gsf_doc_meta_data_write_to_odf:
+ * @md: #GsfDocMetaData
+ * @output: a pointer to a #GsfOutput.
+ *
+ * Since: 1.14.24
+ *
+ * Returns: TRUE if no error occured.
+ **/
 gboolean
-gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)
+gsf_doc_meta_data_write_to_odf (GsfDocMetaData const *md, gpointer output)
 {
 	char *ver_str;
 	GsfXMLOut *xout;
@@ -655,7 +763,7 @@ gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)
 
 	ver_str = oout
 		? gsf_odf_out_get_version_string (oout)
-		: g_strdup (get_gsf_odf_version_string ());
+		: g_strdup (gsf_odf_get_version_string ());
 
 	gsf_xml_out_start_element (xout, OFFICE "document-meta");
 	gsf_xml_out_add_cstr_unchecked (xout, "xmlns:office",
@@ -678,6 +786,21 @@ gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)
 	g_free (ver_str);
 
 	return TRUE;
+}
+
+/**
+ * gsf_opendoc_metadata_write: (skip)
+ * @output: a pointer to a #GsfOutput.
+ * @md: #GsfDocMetaData
+ *
+ * Deprecated: 1.14.24, use gsf_doc_meta_data_write_to_odf
+ *
+ * Returns: TRUE if no error occured.
+ **/
+gboolean
+gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)
+{
+	return gsf_doc_meta_data_write_to_odf (md, output);
 }
 
 /****************************************************************************/

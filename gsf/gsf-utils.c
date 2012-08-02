@@ -256,6 +256,12 @@ gsf_init_dynamic (GTypeModule *module)
 	REGISTER (gsf_clip_data);
 	REGISTER (gsf_doc_meta_data);
 	REGISTER (gsf_docprop_vector);
+
+#ifndef _GSF_GTYPE_THREADING_FIXED
+	/* add a test to avoid a set but unused variable warning */
+	if (t == 0)
+		g_warning ("Failed to register objects types");
+#endif
 }
 
 /**

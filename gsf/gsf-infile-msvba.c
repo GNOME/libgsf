@@ -518,12 +518,14 @@ gsf_input_find_vba (GsfInput *input, GError **err)
 
 		g_object_unref (infile);
 	} else if (NULL != (infile = gsf_infile_zip_new (input, NULL))) {
-		GsfInput *main_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (infile),
-			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
+		GsfInput *main_part = gsf_open_pkg_open_rel_by_type (GSF_INPUT (infile),
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument",
+		        NULL);
 
 		if (NULL != main_part) {
-			GsfInput *vba_stream = gsf_open_pkg_get_rel_by_type (main_part,
-				"http://schemas.microsoft.com/office/2006/relationships/vbaProject");
+			GsfInput *vba_stream = gsf_open_pkg_open_rel_by_type (main_part,
+				"http://schemas.microsoft.com/office/2006/relationships/vbaProject",
+			        NULL);
 			if (NULL != vba_stream) {
 				GsfInfile *ole = gsf_infile_msole_new (vba_stream, err);
 				if (NULL != ole) {

@@ -13,7 +13,7 @@ DOC_SOURCE_DIR=../gsf
 SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="gsf_init ()" 
 
 # Extra options to supply to gtkdoc-scan
-SCAN_OPTIONS=
+SCAN_OPTIONS=--deprecated-guards="GSF_DISABLE_DEPRECATED"
 
 # Extra options to supply to gtkdoc-mkdb
 MKDB_OPTIONS=--xml-mode --output-format=xml

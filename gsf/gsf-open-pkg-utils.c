@@ -140,7 +140,7 @@ gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
 /**
  * gsf_open_pkg_rel_get_type:
  * @rel: #GsfOpenPkgRel
- * 
+ *
  * Returns: const pointer to @rel's type.
  **/
 char const *
@@ -258,7 +258,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
  * New in 1.14.6
  *
  * Finds _a_ relation of @opkg with @type (no order is guaranteed)
- * 
+ *
  * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
  * Returns: (transfer none): A #GsfOpenPkgRel or %NULL
@@ -278,7 +278,7 @@ gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
  * New in 1.14.6
  *
  * Finds @opkg's relation with @id
- * 
+ *
  * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
  * Returns: (transfer none): A #GsfOpenPkgRel or %NULL

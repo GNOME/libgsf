@@ -25,6 +25,19 @@
 #include "gsf-utils.h"
 #include "gsf-impl-utils.h"
 
+/**
+ * GsfClipFormatWindows:
+ * @GSF_CLIP_FORMAT_WINDOWS_ERROR: error
+ * @GSF_CLIP_FORMAT_WINDOWS_UNKNOWN: unknown
+ * @GSF_CLIP_FORMAT_WINDOWS_METAFILE: CF_METAFILEPICT
+ * @GSF_CLIP_FORMAT_WINDOWS_DIB: CF_DIB
+ * @GSF_CLIP_FORMAT_WINDOWS_ENHANCED_METAFILE: CF_ENHMETAFILE
+**/
+
+struct _GsfClipDataClass {
+	GObjectClass parent_class;
+};
+
 /* Private part of the GsfClipData structure */
 struct _GsfClipDataPrivate {
 	GsfClipFormat format;

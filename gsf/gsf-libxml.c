@@ -260,9 +260,9 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 	default:
 		if (GSF_TIMESTAMP_TYPE == t) {
 			GsfTimestamp *ts = gsf_timestamp_new ();
-			gboolean ok = gsf_timestamp_from_string (str, ts);
+			gboolean ok = gsf_timestamp_load_from_string (ts, str);
 			if (ok)
-				gsf_value_set_timestamp (res, ts);
+				gsf_timestamp_to_value (ts, res);
 			gsf_timestamp_free (ts);
 			if (ok)
 				break;
@@ -530,6 +530,32 @@ gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
 }
 
 /***************************************************************************/
+
+/**
+ * GsfXMLInNS:
+ * @uri: URI
+ **/
+
+/**
+ * GsfXMLIn:
+ * @user_state: user data
+ * @content: the current node content
+ * @doc: #GsfXMLInDoc
+ * @node: current node (not on the stack)
+ **/
+
+/**
+ * GsfXMLInNode:
+ * @id: identifier unique in the entire tree
+ * @ns_id: namespace identifier
+ * @name: node name
+ * @parent_id: parent node identifier
+ * @start: callback for the node opening
+ * @end: callback for node end
+ * @has_content: whether the node has content
+ * @check_children_for_ns: whetehr to check namespace for children
+ * @share_children_with_parent: whether to share children with parent.
+ **/
 
 typedef struct {
 	GsfXMLInNode pub;
@@ -2027,4 +2053,3 @@ gsf_xml_out_get_output (GsfXMLOut const *xout)
 	g_return_val_if_fail (xout != NULL, NULL);
 	return xout->output;
 }
-
