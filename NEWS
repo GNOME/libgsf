@@ -1,5 +1,9 @@
 libgsf 1.14.24
 
+Jean Brefort:
+	* Fix namespace issues. [#672512]
+	* Fix build after introspection implementation. [#673029]
+
 --------------------------------------------------------------------------
 libgsf 1.14.23
 
