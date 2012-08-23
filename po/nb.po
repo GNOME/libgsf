@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf 1.14.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-18 15:52+0200\n"
-"PO-Revision-Date: 2011-07-18 16:02+0200\n"
+"POT-Creation-Date: 2012-08-23 09:13+0200\n"
+"PO-Revision-Date: 2012-08-23 09:15+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norsk bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -16,69 +16,102 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Ikke nok minne til å kopiere %s byte med data"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:166
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
-msgstr ""
+msgstr "clip_data er i %s, men er mindre enn minst %s bytes"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:260
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
-msgstr ""
+msgstr "clip_data er i Windows utklippstavleformat, men er mindre enn de obligatoriske 4 bytes."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:271
 msgid "Windows Metafile format"
 msgstr "Windows Metafile-format"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:277
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB- eller BITMAP-format"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:282
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile-format"
+
+#: ../gsf/gsf-libxml.c:1493
+msgid "Pretty print"
+msgstr ""
+
+#: ../gsf/gsf-libxml.c:1494
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr ""
+
+#: ../gsf/gsf-libxml.c:1500
+msgid "Sink"
+msgstr ""
+
+#: ../gsf/gsf-libxml.c:1501
+msgid "The destination for writes"
+msgstr "Mål for skriveoperasjoner"
 
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
-msgstr "Mangler data ved lesing av egenskap %s; fikk %s byte, men må ha minst %s bytes."
+msgstr ""
+"Mangler data ved lesing av egenskap %s; fikk %s byte, men må ha minst %s "
+"bytes."
 
 #: ../gsf/gsf-msole-utils.c:366
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
-msgstr "Korrupte data i VT_CF-egenskap; datalengde for utklippstavledata må være minst 4 byte, men data sier at kun %s byte er tilgjengelig."
+msgstr ""
+"Korrupte data i VT_CF-egenskap; datalengde for utklippstavledata må være "
+"minst 4 byte, men data sier at kun %s byte er tilgjengelig."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-open-pkg-utils.c:355
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Kan ikke finne del med id='%s' for «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:383
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Kan ikke finne del med type='%s' for «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Mangler id for del i «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:422
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del «%s» i «%s» fra «%s» er korrupt!"
+
+#: ../gsf/gsf-opendoc-utils.c:353
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Egenskap «%s» blir brukt for flere typer!"
+
+#: ../gsf/gsf-opendoc-utils.c:878
+msgid "ODF version"
+msgstr "ODF-versjon"
+
+#: ../gsf/gsf-opendoc-utils.c:879
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "ODF-versjon dette objektet har som mål som et heltall. f.eks. 100"
 
 #: ../tools/gsf.c:22
 msgid "Display program version"
@@ -145,7 +178,8 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Kjør «%s --help» for å se en full liste med tilgjengelige kommandolinjeflagg.\n"
+"Kjør «%s --help» for å se en full liste med tilgjengelige "
+"kommandolinjeflagg.\n"
 
 #: ../tools/gsf.c:378
 #, c-format
@@ -161,362 +195,3 @@ msgstr "Bruk: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Kjøre «%s help» for å se en liste med underkommandoer.\n"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid ""
-"Boolean options available, true enables thumbnailing and false disables the "
-"creation of new thumbnails"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
-msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:3
-msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
-msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
-msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:6
-msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:7
-msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:8
-msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:9
-msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:10
-msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:11
-msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:12
-msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:13
-msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:14
-msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:15
-msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:16
-msgid "Enable thumbnailing of Microsoft Word documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:17
-msgid "Enable thumbnailing of OpenDocument charts"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:18
-msgid "Enable thumbnailing of OpenDocument drawing templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:19
-msgid "Enable thumbnailing of OpenDocument drawings"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
-msgid "Enable thumbnailing of OpenDocument formulas"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
-msgid "Enable thumbnailing of OpenDocument images"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:22
-msgid "Enable thumbnailing of OpenDocument presentation templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:23
-msgid "Enable thumbnailing of OpenDocument presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:24
-msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:25
-msgid "Enable thumbnailing of OpenDocument spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
-msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
-msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:28
-msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
-msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:30
-msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:31
-msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:32
-msgid "Thumbnail command for Microsoft PowerPoint presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:33
-msgid "Thumbnail command for Microsoft Word 2007 documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:34
-msgid "Thumbnail command for Microsoft Word documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:35
-msgid "Thumbnail command for OpenDocument charts"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
-msgid "Thumbnail command for OpenDocument drawing templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
-msgid "Thumbnail command for OpenDocument drawings"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
-msgid "Thumbnail command for OpenDocument formulas"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
-msgid "Thumbnail command for OpenDocument images"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
-msgid "Thumbnail command for OpenDocument presentation templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
-msgid "Thumbnail command for OpenDocument presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
-msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
-msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
-msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
-msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
-msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
-msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
-msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
-msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
-msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
-msgid "Thumbnail command for OpenOffice 1.x Math documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
-msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
-msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
-msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
-msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
-msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid ""
-"Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid ""
-"Valid command plus arguments for the OpenDocument drawing template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
-msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"template thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing master "
-"document thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Drawing template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
-msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"template thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer document "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer global template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr ""
