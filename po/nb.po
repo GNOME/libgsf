@@ -1,14 +1,14 @@
 # Norwegian bokmål translation of libgsf.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2008-2011.
+# Kjartan Maraas <kmaraas@gnome.org>, 2008-2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libgsf 1.14.22\n"
+"Project-Id-Version: libgsf 1.14.24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-23 09:13+0200\n"
-"PO-Revision-Date: 2012-08-23 09:15+0200\n"
+"PO-Revision-Date: 2012-08-23 09:16+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norsk bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
