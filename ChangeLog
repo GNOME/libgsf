@@ -1,3 +1,7 @@
+2012-09-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.24
+
 2012-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* doc/Makefile.am: fixed as many introspection and gtk-doc issues as
