@@ -12,7 +12,8 @@ USE_GNOME2_MACROS=1
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-ACLOCAL_FLAGS="-I `pwd`/$srcdir/m4 $ACLOCAL_FLAGS"
+abs_srcdir=`cd $srcdir && pwd`
+ACLOCAL_FLAGS="-I $abs_srcdir/m4 $ACLOCAL_FLAGS"
 
 (test -f $srcdir/configure.in \
   && test -d $srcdir/gsf \
