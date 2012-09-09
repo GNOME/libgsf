@@ -4,11 +4,11 @@
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
 "&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-02-06 19:44+0000\n"
-"PO-Revision-Date: 2012-03-04 09:11+0200\n"
+"POT-Creation-Date: 2012-03-31 18:40+0000\n"
+"PO-Revision-Date: 2012-09-10 00:03+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -51,6 +51,22 @@ msgstr "Oblik Vindouzove DIB ili BITMAP-e"
 msgid "Windows Enhanced Metafile format"
 msgstr "Oblik Vindouzove poboljšane meta-datoteke"
 
+#: ../gsf/gsf-libxml.c:1411
+msgid "Pretty print"
+msgstr "Ulepšano štampanje"
+
+#: ../gsf/gsf-libxml.c:1412
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "Da li izlaz treba da sam uvuče elemente kako bi olakšao čitanje?"
+
+#: ../gsf/gsf-libxml.c:1418
+msgid "Sink"
+msgstr "Usaglasi"
+
+#: ../gsf/gsf-libxml.c:1419
+msgid "The destination for writes"
+msgstr "Odredište za zapisivanja"
+
 #: ../gsf/gsf-msole-utils.c:315
 #, c-format
 msgid ""
@@ -89,6 +105,19 @@ msgstr "Nedostaje ib za deo u „%s“"
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Deo „%s“ u „%s“ iz „%s“ je oštećen!"
 
+#: ../gsf/gsf-opendoc-utils.c:290
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Svojstvo „%s“ je korišćeno za više vrsta!"
+
+#: ../gsf/gsf-opendoc-utils.c:742
+msgid "ODF version"
+msgstr "ODF izdanje"
+
+#: ../gsf/gsf-opendoc-utils.c:743
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "ODF izdanje ovaj objekat označava kao ceo broj kao 100"
+
 #: ../tools/gsf.c:22
 msgid "Display program version"
 msgstr "Prikazuje izdanje programa"
@@ -116,7 +145,8 @@ msgstr "* cat        ispisuje jednu ili više datoteka u arhivu\n"
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* cat        potiskuje jednu ili više datoteka u arhivu kao heksadecimal\n"
+msgstr ""
+"* cat        potiskuje jednu ili više datoteka u arhivu kao heksadecimal\n"
 
 #: ../tools/gsf.c:105
 #, c-format
