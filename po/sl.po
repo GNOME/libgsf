@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-03-31 18:40+0000\n"
-"PO-Revision-Date: 2012-03-31 22:33+0100\n"
+"POT-Creation-Date: 2012-10-16 17:52+0000\n"
+"PO-Revision-Date: 2012-10-16 20:11+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -21,47 +21,47 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Ni dovolj pomnilnika za kopiranje %s bajtov podatkov"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:166
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "Clip_data je del %s, vendar je manjši kot %s bajtov"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:260
 #, c-format
 msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
 msgstr "Clip_data je običajni Windows zapis odložišča, vendar je manjši od zahtevanih 4 bajtov."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:271
 msgid "Windows Metafile format"
 msgstr "Zapis Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:277
 msgid "Windows DIB or BITMAP format"
 msgstr "Zapis Windows DIB ali BITMAP"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:282
 msgid "Windows Enhanced Metafile format"
 msgstr "Zapis Windows Enhanced Metafile"
 
-#: ../gsf/gsf-libxml.c:1411
+#: ../gsf/gsf-libxml.c:1493
 msgid "Pretty print"
 msgstr "Oblikovno izrisovanje"
 
-#: ../gsf/gsf-libxml.c:1412
+#: ../gsf/gsf-libxml.c:1494
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Ali naj se v odvodu predmeti samodejno zamaknejo za lažje branje?"
 
-#: ../gsf/gsf-libxml.c:1418
+#: ../gsf/gsf-libxml.c:1500
 msgid "Sink"
 msgstr "Ponor"
 
-#: ../gsf/gsf-libxml.c:1419
+#: ../gsf/gsf-libxml.c:1501
 msgid "The destination for writes"
 msgstr "Cilj za izvozne datoteke"
 
@@ -75,98 +75,113 @@ msgstr "Manjkajoči podatki med branjem lastnosti %s; dobljenih %s bajtov, venda
 msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %s bytes available."
 msgstr "Pokvarjeni podatki lastnosti VT_CF; velikost podatkov odložišča mora biti vsaj 4 bajte, podatki pa kažejo na le %s razpoložljive bajte."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-open-pkg-utils.c:355
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Ni mogoče najti dela id='%s' za '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:383
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Ni mogoče najti dela vrsta='%s' za '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Manjkajoči id za del v '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:422
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del '%s' v '%s' iz '%s' je pokvarjen!"
 
-#: ../gsf/gsf-opendoc-utils.c:290
+#: ../gsf/gsf-opendoc-utils.c:353
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Lastnost \"%s\" je uporabljena za več vrst!"
 
-#: ../gsf/gsf-opendoc-utils.c:742
+#: ../gsf/gsf-opendoc-utils.c:878
 msgid "ODF version"
 msgstr "Različica ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:743
+#: ../gsf/gsf-opendoc-utils.c:879
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Različica ODF, na katerega cilja predmet, določena kot celo število; na primer 100"
 
-#: ../tools/gsf.c:22
+#: ../tools/gsf.c:27
 msgid "Display program version"
 msgstr "Pokaži različico programa"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:54
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: napaka med odpiranjem %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:75
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: napaka med prepoznavanjem datoteke %s kot vrste arhiva\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:112
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Razpoložljivi podrejeni ukazi so ...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        izpis enega ali več datotek v arhivu\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       izpiši enega ali več datotek v arhivu v šestnajstiškem zapisu\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       izpis podrejenih ukazov\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       izpis datotek v arhivu\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  izpis lastnosti dokumentov v arhivu\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      natisne določene lastnosti dokumenta\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:119
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  ustvari arhiv OLE\n"
+
+#: ../tools/gsf.c:120
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  ustvari arhiv ZIP\n"
+
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Ni lastnosti z imenom %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: napaka med obravnavo datoteke %s: %s\n"
+
+#: ../tools/gsf.c:526
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "Arhiv podrejenih ukazov ..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:533
 #, c-format
 msgid ""
 "%s\n"
@@ -175,17 +190,17 @@ msgstr ""
 "%s\n"
 "Zaženite '%s --help' za izpis popolnega seznama ukazov na voljo.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:540
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf različica %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:546
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Uporaba: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:571
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Zaženite '%s help' za izpis seznama podrejenih ukazov.\n"
