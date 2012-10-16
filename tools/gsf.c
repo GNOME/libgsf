@@ -5,10 +5,15 @@
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-outfile.h>
+#include <gsf/gsf-outfile-msole.h>
+#include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-msole-utils.h>
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 #include <string.h>
 
 #define GETTEXT_PACKAGE NULL /* FIXME */
@@ -27,6 +32,11 @@ static GOptionEntry const gsf_options [] = {
 
 	{ NULL, 0, 0, 0, NULL, NULL, NULL}
 };
+
+typedef enum {
+	GSF_OUTFILE_TYPE_MSOLE,
+	GSF_OUTFILE_TYPE_ZIP
+} GsfOutfileType;
 
 /* ------------------------------------------------------------------------- */
 
@@ -106,6 +116,8 @@ gsf_help (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char **argv)
 	g_print (_("* list       list files in archive\n"));
 	g_print (_("* listprops  list document properties in archive\n"));
 	g_print (_("* props      print specified document properties\n"));
+	g_print (_("* createole  create OLE archive\n"));
+	g_print (_("* createzip  create ZIP archive\n"));
 	return 0;
 }
 
@@ -342,6 +354,156 @@ gsf_list_props (int argc, char **argv)
 }
 
 /* ------------------------------------------------------------------------- */
+static void
+show_error (char const *name, GError *error)
+{
+	char *display_name;
+	display_name = g_filename_display_name (name);
+	g_printerr (_("%s: Error processing file %s: %s\n"),
+		    g_get_prgname (),
+		    display_name,
+		    error->message);
+	g_free (display_name);
+}
+
+/* Walks "path" directory structure while loading it in "outfile" */
+static void
+load_recursively (GsfOutfile *outfile, char const *path)
+{
+	GError *error = NULL;
+	GFile *file;
+	GFileType type;
+	goffset size;
+	gsize bytes_read;
+	char *buffer;
+
+	file = g_file_new_for_path (path);
+	type = g_file_query_file_type (file, G_FILE_QUERY_INFO_NONE, NULL);
+
+	switch (type) {
+	case G_FILE_TYPE_DIRECTORY: {
+		char *buffer = g_file_get_basename (file);
+		GFileEnumerator *enumerator;
+		GsfOutfile *dir;
+
+		dir = GSF_OUTFILE (gsf_outfile_new_child (outfile, buffer, TRUE));
+		g_free (buffer);
+		enumerator = g_file_enumerate_children (file, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
+		while (1) {
+			char *childname;
+			GFileInfo *info;
+
+			info = g_file_enumerator_next_file (enumerator, NULL, &error);
+			if (!info)
+				break;
+
+			childname = g_build_filename (path, g_file_info_get_name (info), NULL);
+			load_recursively (dir, childname);
+			g_free (childname);
+			g_object_unref (info);
+		}
+		g_object_unref (enumerator);
+		g_object_unref (dir);
+		break;
+	}
+	case G_FILE_TYPE_SYMBOLIC_LINK:
+		// do nothing
+		break;
+	default: {
+		char *base;
+		GFileInfo *info;
+		GFileInputStream *stream;
+		GsfOutput *output;
+
+		stream = g_file_read (file, NULL, &error);
+		if (error) {
+			show_error (path, error);
+			return;
+		}
+		info = g_file_input_stream_query_info(stream, "standard::*", NULL, &error);
+		if (error) {
+			show_error (path, error);
+			return;
+		}
+		size = g_file_info_get_size (info);
+		g_object_unref (info);
+
+		g_print ("f %10" GSF_OFF_T_FORMAT " %s\n", size, path);
+
+		buffer = g_new (gchar, size);
+		g_input_stream_read_all ((GInputStream *)stream, buffer, size, &bytes_read, NULL, &error);
+		if (error) {
+			show_error (path, error);
+			return;
+		}
+
+		base = g_file_get_basename (file);
+		output = gsf_outfile_new_child (outfile, base, FALSE);
+		gsf_output_write (output, size, buffer);
+		gsf_output_close (output);
+		g_object_unref (output);
+		g_free (base);
+
+		g_free (buffer);
+		g_object_unref (stream);
+		break;
+	}
+
+	}
+
+	g_object_unref (file);
+}
+
+static int
+gsf_create (int argc, char **argv, GsfOutfileType type)
+{
+	char const *filename;
+	GError *error = NULL;
+	GsfOutput *dest;
+	GsfOutfile *outfile;
+	int i;
+
+	if (argc < 2)
+		return 1;
+
+	filename = argv[0];
+	dest = gsf_output_stdio_new (filename, &error);
+	if (error) {
+		show_error (filename, error);
+		return 1;
+	}
+
+	switch (type) {
+	case GSF_OUTFILE_TYPE_MSOLE:
+		outfile = gsf_outfile_msole_new (dest);
+		break;
+	case GSF_OUTFILE_TYPE_ZIP:
+		outfile = gsf_outfile_zip_new (dest, &error);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	if (error) {
+		show_error (filename, error);
+		return 1;
+	}
+
+	for (i = 1; i < argc; i++) {
+		GFile *file = g_file_new_for_commandline_arg (argv[i]);
+		char *path = g_file_get_path (file);
+		load_recursively (outfile, path);
+		g_free (path);
+		g_object_unref (file);
+	}
+
+	gsf_output_close (GSF_OUTPUT (outfile));
+	g_object_unref (dest);
+	g_object_unref (outfile);
+	return 0;
+}
+
+/* ------------------------------------------------------------------------- */
 
 int
 main (int argc, char **argv)
@@ -401,6 +563,10 @@ main (int argc, char **argv)
 		return gsf_dump_props (argc - 2, argv + 2);
 	if (strcmp (cmd, "listprops") == 0)
 		return gsf_list_props (argc - 2, argv + 2);
+	if (strcmp (cmd, "createole") == 0)
+		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_MSOLE);
+	if (strcmp (cmd, "createzip") == 0)
+		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_ZIP);
 
 	g_printerr (_("Run '%s help' to see a list subcommands.\n"), me);
 	return 1;

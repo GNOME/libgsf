@@ -1,3 +1,8 @@
+2012-10-16  Morten Welinder  <terra@gnome.org>
+
+	* tools/gsf.c (main): Add commands to create zip and ole files.
+	Patch from jorilx@gmail.com, see bug 683788.
+
 2012-09-03  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
