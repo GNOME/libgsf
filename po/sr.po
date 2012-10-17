@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
 "&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-03-31 18:40+0000\n"
-"PO-Revision-Date: 2012-09-10 00:03+0200\n"
+"POT-Creation-Date: 2012-10-16 17:52+0000\n"
+"PO-Revision-Date: 2012-10-17 11:11+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -19,17 +19,17 @@ msgstr ""
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Нема довољно меморије да умножим %s бајтова података"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:166
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "Податак оставе је у „%s“, али је мањи барем за %s бајта"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:260
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -38,32 +38,32 @@ msgstr ""
 "Податак оставе је у облику Виндоузове оставе, али је мањи од захтевана 4 "
 "бајта."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:271
 msgid "Windows Metafile format"
 msgstr "Облик Виндоузове мета-датотеке"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:277
 msgid "Windows DIB or BITMAP format"
 msgstr "Облик Виндоузове ДИБ или БИТМАП-е"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:282
 msgid "Windows Enhanced Metafile format"
 msgstr "Облик Виндоузове побољшане мета-датотеке"
 
-#: ../gsf/gsf-libxml.c:1411
+#: ../gsf/gsf-libxml.c:1493
 msgid "Pretty print"
 msgstr "Улепшано штампање"
 
-#: ../gsf/gsf-libxml.c:1412
+#: ../gsf/gsf-libxml.c:1494
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Да ли излаз треба да сам увуче елементе како би олакшао читање?"
 
-#: ../gsf/gsf-libxml.c:1418
+#: ../gsf/gsf-libxml.c:1500
 msgid "Sink"
 msgstr "Усагласи"
 
-#: ../gsf/gsf-libxml.c:1419
+#: ../gsf/gsf-libxml.c:1501
 msgid "The destination for writes"
 msgstr "Одредиште за записивања"
 
@@ -85,119 +85,134 @@ msgstr ""
 "Оштећени подаци у ВТ_ЦФ својству; дужина података из оставе мора бити барем "
 "4 бајта, али подаци говоре о томе да има доступних само %s бајта."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-open-pkg-utils.c:355
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Не могу да пронађем део иб=„%s“ за „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:383
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Не могу да пронађем део са врстом=„%s“ за „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Недостаје иб за део у „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:422
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Део „%s“ у „%s“ из „%s“ је оштећен!"
 
-#: ../gsf/gsf-opendoc-utils.c:290
+#: ../gsf/gsf-opendoc-utils.c:353
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Својство „%s“ је коришћено за више врста!"
 
-#: ../gsf/gsf-opendoc-utils.c:742
+#: ../gsf/gsf-opendoc-utils.c:878
 msgid "ODF version"
 msgstr "ОДФ издање"
 
-#: ../gsf/gsf-opendoc-utils.c:743
+#: ../gsf/gsf-opendoc-utils.c:879
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "ОДФ издање овај објекат означава као цео број као 100"
 
-#: ../tools/gsf.c:22
+#: ../tools/gsf.c:27
 msgid "Display program version"
 msgstr "Приказује издање програма"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:54
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Не могу да отворим %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:75
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Не могу да препознам %s као архиву\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:112
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Доступне поткоманде су...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        исписује једну или више датотека у архиву\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* cat        потискује једну или више датотека у архиву као хексадецимал\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       прави списак поткоманди\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       прави списак датоетека у архиви\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  прави списак својстава документа у архиви\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      штампа својства наведеног документа\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:119
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  прави ОЛЕ архиву\n"
+
+#: ../tools/gsf.c:120
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  прави ЗИП архиву\n"
+
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Нема својства под називом %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Грешка у обради датотеке %s: %s\n"
+
+#: ../tools/gsf.c:526
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "АРХИВА ПОТКОМАНДИ..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:533
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Покрените „%s --help“ да видите потпуну листу доступних опција командне "
-"линије.\n"
+"Покрените „%s --help“ да ​​видите потпун списак доступних опција линије "
+"наредби.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:540
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "гсф издање %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:546
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Употреба: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:571
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Покрените „%s help“ да видите списак поткоманди.\n"
