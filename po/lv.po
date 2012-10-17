@@ -5,9 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-24 14:51+0300\n"
-"PO-Revision-Date: 2012-06-24 14:50+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2012-10-16 17:52+0000\n"
+"PO-Revision-Date: 2012-10-17 15:54+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -16,55 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Nepietiek atmiņas, lai kopētu %s datu baitus"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:166
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data atrodas iekš %s, bet tas ir mazāks kā %s baiti"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:260
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
 "clip_data ir Windows starpliktuves formātā, bet ir mazāks kā nepieciešamie 4 "
-"bait."
+"baiti."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:271
 msgid "Windows Metafile format"
 msgstr "Windows Metafile formāts"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:277
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB vai BITMAP formāts"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:282
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile formāts"
 
-#: ../gsf/gsf-libxml.c:1411
+#: ../gsf/gsf-libxml.c:1493
 msgid "Pretty print"
 msgstr "Noformēt"
 
-#: ../gsf/gsf-libxml.c:1412
+#: ../gsf/gsf-libxml.c:1494
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Vai vajadzētu automātiski likt atkāpes izvades elementiem, lai tos būtu "
 "vieglāk lasīt?"
 
-#: ../gsf/gsf-libxml.c:1418
+#: ../gsf/gsf-libxml.c:1500
 msgid "Sink"
-msgstr "Savācējs"
+msgstr "Saņēmējs"
 
-#: ../gsf/gsf-libxml.c:1419
+#: ../gsf/gsf-libxml.c:1501
 msgid "The destination for writes"
 msgstr "Rakstītāju mērķis"
 
@@ -86,119 +87,137 @@ msgstr ""
 "Bojāti dati VT_CF īpašībā. Starpliktuves datu garumam ir jābūt vismaz 4 "
 "baitiem, bet dati norāda, ka ir pieejami tikai %s baiti."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-open-pkg-utils.c:355
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Nevar atrast daļas id=“%s” priekš “%s”"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:383
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Nevar atrast daļu ar tipu=“%s” priekš “%s”"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Trūkst id daļai iekš “%s”"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:422
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Daļa “%s” iekš “%s” no “%s” ir bojāta!"
 
-#: ../gsf/gsf-opendoc-utils.c:290
+#: ../gsf/gsf-opendoc-utils.c:353
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Īpašība “%s” ir lietota vairākiem tipiem!"
 
-#: ../gsf/gsf-opendoc-utils.c:755
+#: ../gsf/gsf-opendoc-utils.c:878
 msgid "ODF version"
 msgstr "ODF versija"
 
-#: ../gsf/gsf-opendoc-utils.c:756
+#: ../gsf/gsf-opendoc-utils.c:879
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Objektam paredzētā ODF versija, izteikts kā vesels skaitlis, piemēram, 100"
 
-#: ../tools/gsf.c:22
+#: ../tools/gsf.c:27
 msgid "Display program version"
 msgstr "Rādīt programmas versiju"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:54
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: neizdevās atvērt %s — %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:75
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: neizdevās atvērt %s kā arhīvu\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:112
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Pieejamās apakškomandas ir...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* cat        output one or more files in archive\n"
-msgstr "* cat        izvada vienu vai vairākus failus arhīvā\n"
+msgstr "* cat        izvada vienu vai vairākas datnes arhīvā\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       parādīt vienu vai vairākus failus arhīvā kā hex\n"
+msgstr "* dump       parādīt vienu vai vairākas datnes arhīvā kā hex\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       uzskaitīt apakškomandas\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* list       list files in archive\n"
-msgstr "* list       uzskaitīt failus arhīvā\n"
+msgstr "* list       uzskaitīt datnes arhīvā\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  uzskaitīt dokumentu īpašības arhīvā\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      izdrukāt norādītās dokumenta īpašības\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:119
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  izveidot OLE arhīvu\n"
+
+#: ../tools/gsf.c:120
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  izveidot ZIP arhīvu\n"
+
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Nav īpašības ar nosaukumu %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: kļūda apstrādājot datni %s — %s\n"
+
+#: ../tools/gsf.c:526
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "APAKŠKOMANDA ARHĪVS..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:533
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Palaidiet '%s --help', lai redzētu pilnu sarakstu ar pieejamajām "
+"Palaidiet “%s --help”, lai redzētu pilnu sarakstu ar pieejamajām "
 "komandrindas opcijām.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:540
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versija %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:546
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Lietošana: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:571
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
-msgstr "Palaidiet '%s help', lai redzētu apakškomandu sarakstu.\n"
+msgstr ""
+"Palaidiet “%s --help”, lai redzētu pilnu pieejamo komandrindas opciju "
+"sarakstu\n"
+
