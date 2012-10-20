@@ -3,32 +3,32 @@
 # This file is distributed under the same license as the libgsf package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 # Fran Dieguez <frandieguez@gnome.org>, 2012.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 16:43+0200\n"
-"PO-Revision-Date: 2012-04-02 16:44+0200\n"
+"POT-Creation-Date: 2012-10-20 13:17+0200\n"
+"PO-Revision-Date: 2012-10-20 13:19+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
+"Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Non hai memoria abondo para copiar %s bytes de datos"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:166
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "O clip_data está en %s, mais é máis pequeno que, polo menos, %s bytes"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:260
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -37,33 +37,33 @@ msgstr ""
 "o clip_data está no formato de Windows, mais é máis pequenos dos 4 bytes "
 "requiridos."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:271
 msgid "Windows Metafile format"
 msgstr "Formato de meta ficheiro de Windows"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:277
 msgid "Windows DIB or BITMAP format"
 msgstr "Formato DIB ou BITMAP de Windows"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:282
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato de meta ficheiro mellorado de Windows"
 
-#: ../gsf/gsf-libxml.c:1411
+#: ../gsf/gsf-libxml.c:1493
 msgid "Pretty print"
 msgstr "Impresión bonita"
 
-#: ../gsf/gsf-libxml.c:1412
+#: ../gsf/gsf-libxml.c:1494
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Debería a saída autoindentar os elementos para facer a lectura máis doada?"
 
-#: ../gsf/gsf-libxml.c:1418
+#: ../gsf/gsf-libxml.c:1500
 msgid "Sink"
 msgstr "Sumideiro"
 
-#: ../gsf/gsf-libxml.c:1419
+#: ../gsf/gsf-libxml.c:1501
 msgid "The destination for writes"
 msgstr "O destino das escrituras"
 
@@ -85,100 +85,115 @@ msgstr ""
 "Datos estragados na propiedade VT_CF; a lonxitude do portapapeis debe ser de "
 "polo menos 4 bytes, mais os datos din que só ten %s bytes dispoñíbeis."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-open-pkg-utils.c:355
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Non foi posíbel atopar a parte co ID=«%s» para «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:383
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Non foi posíbel atopar a parte a co tipo=«%s» para «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Falta un ID para unha parte en «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:422
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "A parte «%s» en «%s» de «%s» está estragada."
 
-#: ../gsf/gsf-opendoc-utils.c:290
+#: ../gsf/gsf-opendoc-utils.c:353
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "A propiedade %s úsase para varios tipos."
 
-#: ../gsf/gsf-opendoc-utils.c:742
+#: ../gsf/gsf-opendoc-utils.c:878
 msgid "ODF version"
 msgstr "Versión de ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:743
+#: ../gsf/gsf-opendoc-utils.c:879
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "A versió de ODF na que está este obxeto como un enteiro como 100"
 
-#: ../tools/gsf.c:22
+#: ../tools/gsf.c:27
 msgid "Display program version"
 msgstr "Mostrar a versión do aplicativo"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:54
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: non foi posíbel abrir %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:75
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: non foi posíbel recoñecer %s como un arquivo\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:112
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "As sub ordes dispoñíbeis son...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        mostra a saída dun ou máis ficheiros no arquivo\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       envorca un ou máis ficheiros nun arquivo como datos "
 "hexadecimais\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       lista as sub ordes\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       lista os ficheiros no arquivo\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  lista as propiedades dos documentos no arquivo\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      imprime as propiedades do documento especificado\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:119
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  crea un arquivo OLE\n"
+
+#: ../tools/gsf.c:120
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  crea un arquivo ZIP\n"
+
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Non existe a propiedade nomeada %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Produciuse un erro ao procesar o ficheiro %s: %s\n"
+
+#: ../tools/gsf.c:526
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUB ORDE ARQUIVO..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:533
 #, c-format
 msgid ""
 "%s\n"
@@ -188,17 +203,17 @@ msgstr ""
 "Execute «%s --help» para ver unha lista completa das opcións de liña de "
 "ordes dispoñíbeis.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:540
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "Versión de gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:546
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Uso: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:571
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
 msgstr "Execute «%s help» para ver unha lista das sub ordes\n"
