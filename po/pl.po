@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 18:35+0200\n"
-"PO-Revision-Date: 2012-09-04 18:37+0200\n"
+"POT-Creation-Date: 2012-10-26 17:32+0200\n"
+"PO-Revision-Date: 2012-10-26 17:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -123,87 +123,102 @@ msgstr "Wersja ODF"
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Wersja ODF tego obiektu jako liczba całkowita, taka jak 100"
 
-#: ../tools/gsf.c:22
+#: ../tools/gsf.c:27
 msgid "Display program version"
 msgstr "Wyświetla wersję programu"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:54
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: otwarcie %s się nie powiodło: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:75
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s rozpoznanie %s jako archiwum się nie powiodło\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:112
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Dostępne podpolecenia to...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        wyświetla jeden lub więcej plików w archiwum\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       zrzuca jeden lub więcej plików w archiwum w postaci "
 "szesnastkowej\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       wyświetla listę podpoleceń\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       wyświetla listę plików w archiwum\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  wyświetla listę właściwości dokumentu w archiwum\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      wyświetla podane właściwości dokumentu\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:119
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  tworzy archiwum OLE\n"
+
+#: ../tools/gsf.c:120
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  tworzy archiwum ZIP\n"
+
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Brak właściwości o nazwie %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: błąd podczas przetwarzania pliku %s: %s\n"
+
+#: ../tools/gsf.c:526
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "PODPOLECENIE ARCHIWUM..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:533
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Polecenie \"%s --help\" wyświetli listę wszystkich dostępnych opcji wiersza "
-"poleceń.\n"
+"Wykonanie polecenia \"%s --help\" wyświetli listę wszystkich dostępnych "
+"opcji wiersza poleceń.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:540
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf wersja %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:546
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Użycie: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:571
 #, c-format
 msgid "Run '%s help' to see a list subcommands.\n"
-msgstr "Polecenie \"%s help\" wyświetli listę podpoleceń.\n"
+msgstr "Wykonanie polecenia \"%s help\" wyświetli listę podpoleceń.\n"
