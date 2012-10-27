@@ -1,3 +1,8 @@
+2012-10-27  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_data_insert): Initialize
+	->ref_count.
+
 2012-10-16  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (main): Add commands to create zip and ole files.

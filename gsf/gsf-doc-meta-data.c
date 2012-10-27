@@ -118,6 +118,7 @@ gsf_doc_meta_data_insert (GsfDocMetaData *meta, char *name, GValue *value)
 	prop->name = name;
 	prop->val  = value;
 	prop->linked_to = NULL;
+	prop->ref_count = 1;
 	g_hash_table_replace (meta->table, prop->name, prop);
 }
 
@@ -309,7 +310,8 @@ gsf_doc_prop_free (GsfDocProp *prop)
 }
 
 static GsfDocProp *
-gsf_doc_prop_ref (GsfDocProp *prop) {
+gsf_doc_prop_ref (GsfDocProp *prop)
+{
 	prop->ref_count++;
 	return prop;
 }

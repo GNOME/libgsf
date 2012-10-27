@@ -3,6 +3,9 @@ libgsf 1.14.25
 jorilx@gmail.com:
 	* Enhance gsf tool to create archives.
 
+Morten:
+	* Fix memory management problem with document properties.
+
 --------------------------------------------------------------------------
 libgsf 1.14.24
 
