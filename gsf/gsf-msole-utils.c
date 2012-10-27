@@ -268,7 +268,7 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *li
 		res = g_hash_table_lookup (section->dict, GINT_TO_POINTER (id));
 
 		if (res != NULL) {
-			d (g_print (res););
+			d (g_print ("%s", res););
 			return res;
 		}
 	}
@@ -278,11 +278,11 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *li
 	while (i-- > 0)
 		if (map[i].id == id &&
 		    (map[i].section == COMMON_PROP || map[i].section == section->type)) {
-			d (g_print (map[i].gsf_name););
+			d (g_print ("%s\n", map[i].gsf_name););
 			return map[i].gsf_name;
 		}
 
-	d (g_print ("_UNKNOWN_(0x%x %d)", id, id););
+	d (g_print ("_UNKNOWN_(0x%x %d)\n", id, id););
 
 	return NULL;
 }
@@ -416,6 +416,14 @@ parse_vt_cf (GValue *res, guint8 const **data, guint8 const *data_end, GError **
 	g_object_unref (clip_data);
 
 	return TRUE;
+}
+
+static unsigned
+msole_codepage_char_size (int codepage)
+{
+	return (codepage == 1200 || codepage == 1201
+		? 2
+		: 1);
 }
 
 /*
@@ -1013,6 +1021,7 @@ msole_prop_read (GsfInput *in,
 			len = GSF_LE_GET_GUINT32 (data + 4);
 
 			g_return_val_if_fail (len < 0x10000, FALSE);
+			g_return_val_if_fail (len <= size - (data - start), FALSE);
 
 			gslen = 0;
 			name = g_convert_with_iconv (data + 8,
@@ -1028,7 +1037,8 @@ msole_prop_read (GsfInput *in,
 			/* MS documentation blows goats !
 			 * The docs claim there are padding bytes in the dictionary.
 			 * Their examples show padding bytes.
-			 * In reality non-unicode strings do not see to have padding.
+			 * In reality non-unicode strings do not seem to 
+			 * have padding.
 			 */
 			if (section->char_size != 1 && (data - start) % 4)
 				data += 4 - ((data - start) % 4);
@@ -1272,8 +1282,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 						int codepage = g_value_get_int (val);
 						sections[i].iconv_handle =
 							gsf_msole_iconv_open_for_import (codepage);
-						if (codepage == 1200 || codepage == 1201)
-							sections[i].char_size = 2;
+						sections[i].char_size = msole_codepage_char_size (codepage);
 					}
 				}
 			}
@@ -1334,6 +1343,8 @@ typedef struct {
 	} builtin, user;
 
 	unsigned codepage;
+	GIConv iconv_handle;
+	unsigned char_size;
 } WritePropState;
 
 static GsfMSOleVariantType
@@ -1388,6 +1399,33 @@ gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 	return VT_UNKNOWN;
 }
 
+static gboolean
+msole_metadata_write_string (WritePropState *state, const char *txt)
+{
+	guint8 buf[4];
+	guint32 len;
+	gchar *ctxt;
+	gsize bytes_written;
+	gboolean res;
+
+	if (!txt) txt = "";
+	len = strlen (txt);
+	ctxt = g_convert_with_iconv (txt, len, state->iconv_handle,
+				     NULL, &bytes_written, NULL);
+
+	GSF_LE_SET_GUINT32 (buf, len + 1);
+	res = gsf_output_write (state->out, 4, buf);
+
+	res = res && gsf_output_write (state->out, bytes_written, ctxt);
+
+	GSF_LE_SET_GUINT32 (buf, 0);
+	res = res && gsf_output_write (state->out, state->char_size, buf);
+
+	g_free (ctxt);
+	return res;
+}
+
+
 /* Returns: TRUE on success */
 static gboolean
 msole_metadata_write_prop (WritePropState *state,
@@ -1395,7 +1433,6 @@ msole_metadata_write_prop (WritePropState *state,
 			   GValue const *value,
 			   gboolean suppress_type)
 {
-	static guint8 const zero[1] = { '\0' };
 	GsfMSOleMetaDataPropMap const *map =
 		(name != NULL) ? msole_gsf_name_to_prop (name) : NULL;
 	GsfMSOleVariantType type;
@@ -1420,10 +1457,12 @@ msole_metadata_write_prop (WritePropState *state,
 
 		GSF_LE_SET_GINT32 (buf, n);
 		res = gsf_output_write (state->out, 4, buf);
-		for (i = 0; i < n; i++)
+		for (i = 0; i < n; i++) {
+			gboolean suppress = type != (VT_VECTOR | VT_VARIANT);
 			res &= msole_metadata_write_prop (state, NULL,
 				g_value_array_get_nth (vector, i),
-				type != (VT_VECTOR | VT_VARIANT));
+				suppress);
+		}
 		return res;
 	}
 
@@ -1455,15 +1494,8 @@ msole_metadata_write_prop (WritePropState *state,
 		GSF_LE_SET_DOUBLE (buf, g_value_get_double (value));
 		return gsf_output_write (state->out, 8, buf);
 
-	case VT_LPSTR : {
-/* FIXME FIXME FIXME  TODO : use iconv from codepage */
-		char const *txt = g_value_get_string (value);
-		unsigned len = (NULL != txt) ? strlen (txt) : 0;
-		GSF_LE_SET_GUINT32 (buf, len+1);
-		return  gsf_output_write (state->out, 4, buf) &&
-			gsf_output_write (state->out, len, txt) &&
-			gsf_output_write (state->out, 1, zero);
-	}
+	case VT_LPSTR:
+		return msole_metadata_write_string (state, g_value_get_string (value));
 
 	case VT_FILETIME : {
 		GsfTimestamp const *ts = g_value_get_boxed (value);
@@ -1491,14 +1523,11 @@ msole_metadata_write_prop (WritePropState *state,
 static void
 cb_write_dict (char const *name, gpointer id, WritePropState *state)
 {
-	static guint8 const zero[1] = { '\0' };
-	guint8	  buf [8];
-	unsigned  len = strlen (name) + 1;
+	guint8 buf[4];
+
 	GSF_LE_SET_GUINT32 (buf, GPOINTER_TO_UINT (id));
-	GSF_LE_SET_GUINT32 (buf+4, len+1);
-	gsf_output_write (state->out, 8, buf);
-	gsf_output_write (state->out, len, name);
-	gsf_output_write (state->out, 1, zero);
+	gsf_output_write (state->out, 4, buf);
+	msole_metadata_write_string (state, name);
 }
 
 static gboolean
@@ -1661,6 +1690,8 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 	WritePropState	state;
 
 	state.codepage		= 1252;
+	state.iconv_handle      = (GIConv)-1;
+	state.char_size         = 1;
 	state.out		= out;
 	state.dict		= NULL;
 	state.builtin.count     = 1; /* codepage */
@@ -1672,6 +1703,9 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 		(GHFunc) cb_count_props, &state);
 	d (g_print ("Done\n"
 		    "================================\n"););
+
+	state.iconv_handle = gsf_msole_iconv_open_codepage_for_export (state.codepage);
+	state.char_size = msole_codepage_char_size (state.codepage);
 
 	/* Write stream header */
 	GSF_LE_SET_GUINT32 (buf, (state.dict != NULL) ? 2 : 1);
@@ -1707,6 +1741,7 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 
 	success = TRUE;
 err :
+	gsf_iconv_close (state.iconv_handle);
 	g_slist_free (state.builtin.props);
 	g_slist_free (state.user.props);
 	if (state.dict != NULL)

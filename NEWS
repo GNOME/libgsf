@@ -5,6 +5,7 @@ jorilx@gmail.com:
 
 Morten:
 	* Fix memory management problem with document properties.
+	* Fix writing of OLE2 properties for multi-byte codepages.  [#627696]
 
 --------------------------------------------------------------------------
 libgsf 1.14.24

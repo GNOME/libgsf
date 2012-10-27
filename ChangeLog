@@ -1,5 +1,10 @@
 2012-10-27  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-msole-utils.c (msole_metadata_write_string): New
+	function to take codepage into account.
+	(msole_metadata_write_prop, cb_write_dict): Use
+	msole_metadata_write_string.
+
 	* gsf/gsf-doc-meta-data.c (gsf_doc_meta_data_insert): Initialize
 	->ref_count.
 
