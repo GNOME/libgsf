@@ -1421,6 +1421,14 @@ msole_metadata_write_string (WritePropState *state, const char *txt)
 	GSF_LE_SET_GUINT32 (buf, 0);
 	res = res && gsf_output_write (state->out, state->char_size, buf);
 
+	if (state->char_size > 1) {
+		unsigned padding = 4 - (bytes_written + state->char_size) % 4;
+		if (padding < 4) {
+			g_printerr ("Padding string %s\n", txt);
+			res = res && gsf_output_write (state->out, padding, buf);
+		}
+	}
+
 	g_free (ctxt);
 	return res;
 }
