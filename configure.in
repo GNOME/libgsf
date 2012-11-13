@@ -72,6 +72,7 @@ dnl Modules required for libgsf
 libgsf_reqs="
     gobject-2.0 >= 2.16.0
     glib-2.0 >= 2.26.0
+    gio-2.0 >= 2.26.0
     libxml-2.0 >= 2.4.16
 "
 
@@ -446,34 +447,6 @@ else
 fi
 
 AC_SUBST(BZ2_LIBS)
-
-dnl ****************************************************************************
-
-dnl gio
-dnl
-want_gio=auto
-AC_ARG_WITH(gio,
-	[--{with,without}-gio   Build additional wrappers for GIO],
-	[case $withval in
-	yes) want_gio=yes;;
-	no) want_gio=no;;
-	esac[]dnl
-])
-
-have_gio=no
-if test $want_gio = no ; then 
-    AC_MSG_WARN([GIO support disabled, as requested (Use --with-gio to enable)])
-else
-    PKG_CHECK_MODULES(LIBGSF_GIO, gio-2.0,
-	[have_gio=yes],
-	[if test $want_gio = yes; then
-	    AC_MSG_ERROR([GIO support requested, but not available.])
-	 else
-	    AC_MSG_WARN([GIO support disabled, unable to find required version of GIO])
-	 fi])
-fi
-AM_CONDITIONAL(WITH_GIO, test $have_gio = yes)
-want_gio=$have_gio
 
 dnl ****************************************************************************
 

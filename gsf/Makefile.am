@@ -1,5 +1,5 @@
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) \
-	$(Z_CPPFLAGS) $(LIBGSF_GIO_CFLAGS) \
+	$(Z_CPPFLAGS) \
 	-DGSFLOCALEDIR=\"$(datadir)/locale\"
 lib_LTLIBRARIES = libgsf-1.la
 
@@ -12,18 +12,7 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
     --includedir=.
 
-if WITH_GIO
-gioc=gsf-input-gio.c gsf-output-gio.c
-gioh=gsf-input-gio.h gsf-output-gio.h
-giola=$(LIBGSF_GIO_LIBS)
-else
-gioc=
-gioh=
-giola=
-endif
-
-
-libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS) $(giola)
+libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS)
 libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
   libgsf_1_la_DEPENDENCIES = lib.def
@@ -79,7 +68,9 @@ libgsf_1_la_SOURCES =		\
 	gsf-blob.c		\
 	gsf-clip-data.c		\
 	\
-	$(gioc)			\
+	gsf-input-gio.c		\
+	gsf-output-gio.c	\
+	\
 	version.c
 #	gsf-output-transaction.c	\
 #	gsf-command-context.c	\
@@ -139,7 +130,8 @@ libgsf_1_include_HEADERS = 	\
 	gsf-blob.h		\
 	gsf-clip-data.h		\
 	\
-	$(gioh)
+	gsf-input-gio.h		\
+	gsf-output-gio.h
 #	gsf-command-context.h	\
 #	gsf-io-context.h
 

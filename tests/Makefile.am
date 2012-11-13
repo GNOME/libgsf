@@ -9,9 +9,4 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-out-gzip1 test-out-gzip2 test-gzip1 test-gzip2	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
-		 test-http # test-xml
-
-if WITH_GIO
-check_PROGRAMS += test-gio
-test_gio_LDADD = $(top_builddir)/gsf/libgsf-1.la $(LDADD) $(LIBGSF_GIO_LIBS)
-endif
+		 test-http test-gio # test-xml

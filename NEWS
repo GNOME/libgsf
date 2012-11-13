@@ -7,6 +7,9 @@ Morten:
 	* Fix memory management problem with document properties.
 	* Fix writing of OLE2 properties for multi-byte codepages.  [#627696]
 
+Ryan Lortie:
+	* Unconditionally require gio.  [#687753]
+
 --------------------------------------------------------------------------
 libgsf 1.14.24
 
