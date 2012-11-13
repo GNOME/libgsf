@@ -4,6 +4,7 @@ Makefile.in
 *.o
 *~
 .deps
+.libs
 ID
 test-bzip
 test-cat-zip
@@ -11,9 +12,10 @@ test-cp
 test-cp-msole
 test-cp-zip
 test-dump-msole
+test-gio
 test-gzip1
 test-gzip2
-test-out-gzip
+test-http
 test-input1
 test-ls-zip
 test-msole-printf
@@ -22,6 +24,7 @@ test-msole2
 test-msvba
 test-msvba-zip
 test-out-bzip
+test-out-gzip
 test-out-gzip1
 test-out-gzip2
 test-out-printf
