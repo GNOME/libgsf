@@ -23,15 +23,21 @@ libgsf-1.so.114 libgsf-1-114 #MINVER#
  gsf_doc_meta_data_insert@Base 1.14.8
  gsf_doc_meta_data_lookup@Base 1.14.8
  gsf_doc_meta_data_new@Base 1.14.8
+ gsf_doc_meta_data_odf_subtree@Base 1.14.24
+ gsf_doc_meta_data_read_from_msole@Base 1.14.24
+ gsf_doc_meta_data_read_from_odf@Base 1.14.24
  gsf_doc_meta_data_remove@Base 1.14.8
  gsf_doc_meta_data_size@Base 1.14.8
  gsf_doc_meta_data_steal@Base 1.14.8
  gsf_doc_meta_data_store@Base 1.14.8
+ gsf_doc_meta_data_write_to_msole@Base 1.14.24
+ gsf_doc_meta_data_write_to_odf@Base 1.14.24
  gsf_doc_meta_dump@Base 1.14.8
  gsf_doc_prop_dump@Base 1.14.8
  gsf_doc_prop_free@Base 1.14.8
  gsf_doc_prop_get_link@Base 1.14.8
  gsf_doc_prop_get_name@Base 1.14.8
+ gsf_doc_prop_get_type@Base 1.14.24
  gsf_doc_prop_get_val@Base 1.14.8
  gsf_doc_prop_new@Base 1.14.8
  gsf_doc_prop_set_link@Base 1.14.8
@@ -136,6 +142,16 @@ libgsf-1.so.114 libgsf-1-114 #MINVER#
  gsf_msole_lid_to_codepage_str@Base 1.14.8
  gsf_msole_metadata_read@Base 1.14.8
  gsf_msole_metadata_write@Base 1.14.8
+ gsf_msole_sorting_key_cmp@Base 1.14.22
+ gsf_msole_sorting_key_free@Base 1.14.22
+ gsf_msole_sorting_key_get_type@Base 1.14.24
+ gsf_msole_sorting_key_new@Base 1.14.22
+ gsf_odf_get_ns@Base 1.14.24
+ gsf_odf_get_version@Base 1.14.24
+ gsf_odf_get_version_string@Base 1.14.24
+ gsf_odf_out_get_type@Base 1.14.23
+ gsf_odf_out_get_version@Base 1.14.23
+ gsf_odf_out_get_version_string@Base 1.14.23
  gsf_ooo_ns@Base 1.14.8
  gsf_open_pkg_error_id@Base 1.14.8
  gsf_open_pkg_foreach_rel@Base 1.14.9
@@ -237,9 +253,11 @@ libgsf-1.so.114 libgsf-1-114 #MINVER#
  gsf_timestamp_from_string@Base 1.14.12
  gsf_timestamp_get_type@Base 1.14.8
  gsf_timestamp_hash@Base 1.14.8
+ gsf_timestamp_load_from_string@Base 1.14.24
  gsf_timestamp_new@Base 1.14.15
  gsf_timestamp_parse@Base 1.14.8
  gsf_timestamp_set_time@Base 1.14.15
+ gsf_timestamp_to_value@Base 1.14.24
  gsf_value_get_docprop_varray@Base 1.14.8
  gsf_value_get_docprop_vector@Base 1.14.8
  gsf_value_set_timestamp@Base 1.14.8
@@ -251,11 +269,13 @@ libgsf-1.so.114 libgsf-1-114 #MINVER#
  gsf_xml_in_check_ns@Base 1.14.8
  gsf_xml_in_doc_add_nodes@Base 1.14.9
  gsf_xml_in_doc_free@Base 1.14.8
+ gsf_xml_in_doc_get_type@Base 1.14.24
  gsf_xml_in_doc_new@Base 1.14.8
  gsf_xml_in_doc_parse@Base 1.14.8
  gsf_xml_in_doc_set_unknown_handler@Base 1.14.8
  gsf_xml_in_get_input@Base 1.14.8
  gsf_xml_in_namecmp@Base 1.14.8
+ gsf_xml_in_ns_get_type@Base 1.14.24
  gsf_xml_in_push_state@Base 1.14.8
  gsf_xml_out_add_base64@Base 1.14.8
  gsf_xml_out_add_bool@Base 1.14.8
@@ -279,7 +299,12 @@ libgsf-1.so.114 libgsf-1-114 #MINVER#
  gsf_xml_parser_context@Base 1.14.8
  gsf_xml_probe@Base 1.14.11
  gsf_zip_dirent_free@Base 1.14.8
+ gsf_zip_dirent_get_type@Base 1.14.24
  gsf_zip_dirent_new@Base 1.14.8
+ gsf_zip_vdir_add_child@Base 1.14.24
+ gsf_zip_vdir_free@Base 1.14.24
+ gsf_zip_vdir_get_type@Base 1.14.24
+ gsf_zip_vdir_new@Base 1.14.24
  libgsf_major_version@Base 1.14.8
  libgsf_micro_version@Base 1.14.8
  libgsf_minor_version@Base 1.14.8

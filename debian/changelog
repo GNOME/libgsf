@@ -1,3 +1,39 @@
+libgsf (1.14.25-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #678456)
+  * [debian/patches/po-from-git, debian/patches/series] Incorporate
+    post-release translation updates.
+  * [debian/rules]
+    * Really harden build.
+    * Drop "--with-gnome-vfs" and Gnome package related bits.
+    * Add "build-arch" and "build-indep" targets.
+    * Enable building with introspection.
+    * Fix docs installation.
+    * Put PHONY target declaration near target.
+  * [debian/control]
+    * Bonobo and gnome-vfs use was dropped upstream; drop build dependencies
+      and the Gnome packages accordingly. Update descriptions as well.
+    * Add libgirepository1.0-dev and gobject-introspection build
+      dependencies.
+    * Add introspection package.
+    * Remove VCS fields. (Closes: #676832)
+    * Updated Standards-Version.
+  * [debian/gir1.2-libgsf-1*] New.
+  * [debian/libgsf-bin.install]
+    * There are no gconf schemas to install any more.
+    * Install thumbnailer desktop entry.
+  * [debian/libgsf-1-dev.install, debian/libgsf-1-dev.dirs] Update.
+  * [debian/libgsf-1-114.symbols] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 18 Nov 2012 17:05:26 +0100
+
+libgsf (1.14.21-2) unstable; urgency=low
+
+  * [debian/control] Fix dependencies to allow binNMUs. Thanks Konstantinos
+    Margaritis <markos@genesi-usa.com>. (Closes: #636189)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 28 Aug 2011 11:33:34 +0200
+
 libgsf (1.14.21-1) unstable; urgency=low
 
   * New upstream release.
