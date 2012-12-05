@@ -2,6 +2,7 @@ AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
 check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
+		 test-msole-dup						\
 		 test-zip1 test-input1 test-cp				\
 		 test-textline test-ls-zip test-cat-zip test-zip2 	\
 		 test-cp-zip test-out-printf test-outmem-printf   	\

@@ -640,20 +640,9 @@ static GsfInput *
 gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 {
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
-	GsfInfileMSOle *dst = ole_dup (src, err);
+	GsfInfileMSOle *parent = GSF_INFILE_MSOLE (gsf_input_container (src_input));
 
-	if (dst == NULL)
-		return NULL;
-
-	if (src->bat.block != NULL) {
-		dst->bat.block = g_new (guint32, src->bat.num_blocks),
-		memcpy (dst->bat.block, src->bat.block,
-			sizeof (guint32) * src->bat.num_blocks);
-	}
-	dst->bat.num_blocks = src->bat.num_blocks;
-	dst->dirent = src->dirent;
-
-	return GSF_INPUT (dst);
+	return gsf_infile_msole_new_child (parent, src->dirent, err);
 }
 
 static guint8 const *
@@ -801,7 +790,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 		for (i = 0 ; remaining > 0 && i < child->bat.num_blocks; i++, remaining -= info->sb.size)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-				(gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) < 0 ||
+					    (gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) < 0 ||
 			    (data = gsf_input_read (GSF_INPUT (sb_file),
 						    MIN (remaining, (int)info->sb.size),
 						    child->stream.buf + (i << info->sb.shift))) == NULL) {
@@ -829,10 +818,12 @@ gsf_infile_msole_child_by_index (GsfInfile *infile, int target, GError **err)
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
 
-	for (p = ole->dirent->children; p != NULL ; p = p->next)
+	for (p = ole->dirent->children; p != NULL ; p = p->next) {
+		MSOleDirent *dirent = p->data;
 		if (target-- <= 0)
-			return gsf_infile_msole_new_child (ole,
-				(MSOleDirent *)p->data, err);
+			return gsf_infile_msole_new_child
+				(ole, dirent, err);
+	}
 	return NULL;
 }
 
@@ -842,9 +833,11 @@ gsf_infile_msole_name_by_index (GsfInfile *infile, int target)
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
 
-	for (p = ole->dirent->children; p != NULL ; p = p->next)
+	for (p = ole->dirent->children; p != NULL ; p = p->next) {
+		MSOleDirent *dirent = p->data;
 		if (target-- <= 0)
-			return ((MSOleDirent *)p->data)->name;
+			return dirent->name;
+	}
 	return NULL;
 }
 

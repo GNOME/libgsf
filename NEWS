@@ -1,5 +1,8 @@
 libgsf 1.14.26
 
+Paolo Bonzini:
+	* Fix gsf_input_dep for msole streams.  [#689706]
+
 --------------------------------------------------------------------------
 libgsf 1.14.25
 
