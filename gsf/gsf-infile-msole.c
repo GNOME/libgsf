@@ -706,14 +706,10 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		count = ole->info->bb.size - offset;
 		if (count > num_bytes)
 			count = num_bytes;
-		if (!ole_seek_block (ole, ole->bat.block [i], 0))
+		if (!ole_seek_block (ole, ole->bat.block [i], offset))
 			return NULL;
-		data = gsf_input_read (ole->input, count, NULL);
-		if (data == NULL)
+		if (!gsf_input_read (ole->input, count, ptr))
 			return NULL;
-
-		/* TODO : this could be optimized to avoid the copy */
-		memcpy (ptr, data + offset, count);
 		offset = 0;
 	}
 	ole->cur_block = BAT_MAGIC_UNUSED;
