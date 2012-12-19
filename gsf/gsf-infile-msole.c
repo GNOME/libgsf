@@ -706,7 +706,9 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		count = ole->info->bb.size - offset;
 		if (count > num_bytes)
 			count = num_bytes;
-		data = ole_get_block (ole, ole->bat.block [i], NULL);
+		if (!ole_seek_block (ole, ole->bat.block [i], 0))
+			return NULL;
+		data = gsf_input_read (ole->input, count, NULL);
 		if (data == NULL)
 			return NULL;
 
