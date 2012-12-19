@@ -518,7 +518,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->threshold	     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
         info->sbat_start     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
         info->num_sbat       = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
-	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE) / info->bb.size;
+	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE + info->bb.size -1) / info->bb.size;
 	info->sb_file	     = NULL;
 
 	if (info->num_sbat == 0 &&
