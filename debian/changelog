@@ -1,3 +1,13 @@
+libgsf (1.14.25-2) unstable; urgency=medium
+
+  * [debian/*] Fix introspection packaging. (Closes: #695599)
+    * Gir package name fix: gir1.2-libgsf-1 -> gir1.2-gsf-1 .
+    * Add runtime dependency of -dev on gir package.
+    * Added Conflicts:/Replaces: accordingly to ensure smooth upgrades.
+  * [debian/watch] Upstream has switched to .xz tarballs.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 19 Dec 2012 19:02:34 +0100
+
 libgsf (1.14.25-1) unstable; urgency=low
 
   * New upstream release. (Closes: #678456)

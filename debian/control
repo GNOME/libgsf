@@ -21,8 +21,9 @@ Description: Structured File Library - debugging files (basic version)
 Package: libgsf-1-dev
 Section: libdevel
 Architecture: any
-Depends: libgsf-1-114 (= ${binary:Version}), libglib2.0-dev (>= 2.16.1), libxml2-dev (>= 2.6.10-1), libbz2-dev, ${misc:Depends}
-Replaces: libgsf-gnome-1-dev (<= 1.14.8-1)
+Depends: libgsf-1-114 (= ${binary:Version}), gir1.2-gsf-1 (= ${binary:Version}), libglib2.0-dev (>= 2.16.1), libxml2-dev (>= 2.6.10-1), libbz2-dev, ${misc:Depends}
+Conflicts: gir1.2-libgsf-1
+Replaces: libgsf-gnome-1-dev (<= 1.14.8-1), gir1.2-libgsf-1
 Recommends: pkg-config
 Description: Structured File Library - development files
  This package contains the development files used in building applications
@@ -33,9 +34,11 @@ Description: Structured File Library - development files
  formats. It is actively being developed and its API is still likely to
  undergo significant changes (in particular, extensions).
 
-Package: gir1.2-libgsf-1
+Package: gir1.2-gsf-1
 Section: introspection
 Architecture: any
+Conflicts: gir1.2-libgsf-1
+Replaces: gir1.2-libgsf-1
 Depends: ${gir:Depends}, ${misc:Depends}
 Description: GObject introspection data for the Structured File Library
  This package contains introspection data for the Structured File Library.

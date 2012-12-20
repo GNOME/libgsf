@@ -56,7 +56,7 @@ p_libgsf_common=libgsf-1-common
 p_libgsf_bin=libgsf-bin
 p_libgsf_dev=libgsf-1-dev
 p_libgsf_dbg=libgsf-1-$(so_version_major)-dbg
-p_libgsf_gir=gir1.2-libgsf-1
+p_libgsf_gir=gir1.2-gsf-1
 
 # Build up the options for "./configure"
 confflags :=	-v
