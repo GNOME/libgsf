@@ -19,8 +19,9 @@
  * USA
  */
 
-/* Lots of useful information in
- *   http://www.aafassociation.org/html/specs/aafcontainerspec-v1.0.1.pdf
+/*
+ * [MS-CFB]: Compound File Binary File Format
+ * http://msdn.microsoft.com/en-us/library/dd942138.aspx
  */
 
 #include <gsf-config.h>
