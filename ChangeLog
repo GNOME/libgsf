@@ -1,3 +1,8 @@
+2012-12-20  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
+
+	* gsf/gsf-infile-msole.c (ole_seek_block): Factor out from
+	gsf_infile_msole_read.
+
 2012-12-05  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_child_by_index)

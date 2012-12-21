@@ -104,6 +104,21 @@ static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 					     MSOleDirent *dirent, GError **err);
 static void ole_info_unref (MSOleInfo *info);
 
+static gboolean
+ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
+{
+	g_return_val_if_fail (block < ole->info->max_block, FALSE);
+
+	/* OLE_HEADER_SIZE is fixed at 512, but the sector containing the
+	 * header is padded out to bb.size (sector size) when bb.size > 512. */
+	if (gsf_input_seek (ole->input,
+		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)) + offset,
+		G_SEEK_SET) < 0)
+		return FALSE;
+
+	return TRUE;
+}
+
 /**
  * ole_get_block :
  * @ole: the infile
@@ -119,13 +134,7 @@ static void ole_info_unref (MSOleInfo *info);
 static guint8 const *
 ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
 {
-	g_return_val_if_fail (block < ole->info->max_block, NULL);
-
-	/* OLE_HEADER_SIZE is fixed at 512, but the sector containing the
-	 * header is padded out to bb.size (sector size) when bb.size > 512. */
-	if (gsf_input_seek (ole->input,
-		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)),
-		G_SEEK_SET) < 0)
+	if (!ole_seek_block (ole, block, 0))
 		return NULL;
 
 	return gsf_input_read (ole->input, ole->info->bb.size, buffer);
@@ -677,9 +686,7 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	if (i > last_block) {
 		/* optimization don't seek if we don't need to */
 		if (ole->cur_block != first_block) {
-			if (gsf_input_seek (ole->input,
-				(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (ole->bat.block [first_block] << ole->info->bb.shift) + offset),
-				G_SEEK_SET) < 0)
+			if (!ole_seek_block (ole, ole->bat.block [first_block], offset))
 				return NULL;
 		}
 		ole->cur_block = last_block;
