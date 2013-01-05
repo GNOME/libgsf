@@ -5,6 +5,7 @@ Frob:
 
 Morten:
 	* Deal with G_TYPE_CHAR signedness.
+	* Fix error handling of gsf_output_gio_new_for_uri.
 
 Paolo Bonzini:
 	* Fix gsf_input_dep for msole streams.  [#689706]

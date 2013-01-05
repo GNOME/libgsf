@@ -45,9 +45,10 @@ can_seek (GOutputStream *stream)
 }
 
 static GsfOutput *
-wrap_if_not_seekable (GsfOutputGio *output)
+wrap_if_not_seekable (GsfOutputGio *output, GError **err)
 {
 	if (!can_seek (output->stream)) {
+		(void)err;
 		/* todo: return a wrapper around the output that's seekable */
 	}
 
@@ -60,15 +61,15 @@ wrap_if_not_seekable (GsfOutputGio *output)
  *
  * Returns: A new #GsfOutputGio or NULL
  */
-GsfOutput *
-gsf_output_gio_new (GFile *file)
+static GsfOutput *
+gsf_output_gio_new_full (GFile *file, GError **err)
 {
 	GsfOutputGio *output;
 	GOutputStream *stream;
 
 	g_return_val_if_fail (file != NULL, NULL);
 
-	stream = (GOutputStream *)g_file_replace (file, NULL, 0, FALSE, NULL, NULL);
+	stream = (GOutputStream *)g_file_replace (file, NULL, 0, FALSE, NULL, err);
 	if (stream == NULL) {
 		return NULL;
 	}
@@ -84,7 +85,19 @@ gsf_output_gio_new (GFile *file)
 	output->stream = stream;
 	g_object_ref (output->file);
 
-	return wrap_if_not_seekable (output);
+	return wrap_if_not_seekable (output, err);
+}
+
+/**
+ * gsf_input_gio_new:
+ * @file: an existing GFile
+ *
+ * Returns: A new #GsfOutputGio or NULL
+ */
+GsfOutput *
+gsf_output_gio_new (GFile *file)
+{
+	return gsf_output_gio_new_full (file, NULL);
 }
 
 /**
@@ -109,7 +122,7 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 
 	file = g_file_new_for_path (path);
 
-	output = gsf_output_gio_new (file);
+	output = gsf_output_gio_new_full (file, err);
 	g_object_unref (file);
 
 	return output;
@@ -131,7 +144,7 @@ gsf_output_gio_new_for_uri (char const *uri, GError **err)
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	file = g_file_new_for_uri (uri);
-	output = gsf_output_gio_new (file);
+	output = gsf_output_gio_new_full (file, err);
 	g_object_unref (file);
 
 	return output;

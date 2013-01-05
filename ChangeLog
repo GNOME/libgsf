@@ -1,7 +1,14 @@
 2013-01-05  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-gio.c (gsf_output_gio_new_full): New function
+	factored out from gsf_output_gio_new.
+	(gsf_output_gio_new_for_path, gsf_output_gio_new_for_uri): Use
+	gsf_output_gio_new_full for proper error handling.
+
+2013-01-05  Morten Welinder  <terra@gnome.org>
+
 	* gsf/gsf-output-gio.c (gsf_output_gio_new_for_uri): Use
-	proconditions for programming errors.
+	preconditions for programming errors.
 	(gsf_output_gio_write): Drop unneeded cast.
 
 	* gsf/gsf-libxml.c (gsf_xml_out_add_gvalue): Deal with G_TYPE_CHAR

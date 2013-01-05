@@ -32,6 +32,14 @@
 #include <math.h>
 #include <string.h>
 
+/* Dead kittens.  */
+#ifndef HAVE_G_VALUE_SET_SCHAR
+#define g_value_set_schar(v_,sc_) g_value_set_char((v_),(char)(sc_))
+#endif
+#ifndef HAVE_G_VALUE_GET_SCHAR
+#define g_value_get_schar(v_) (signed char)g_value_get_char((v_))
+#endif
+
 static GObjectClass *parent_class;
 
 static gint
