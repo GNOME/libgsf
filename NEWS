@@ -1,5 +1,8 @@
 libgsf 1.14.26
 
+Frob:
+	* Fix vba stream problem.  [#656531]
+
 Morten:
 	* Deal with G_TYPE_CHAR signedness.
 

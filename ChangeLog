@@ -12,7 +12,7 @@
 2013-01-05  Valek Filippov  <frob@df.ru>
 
 	* gsf/gsf-infile-msvba.c,.h (gsf_vba_inflate): Fix based on
-	 [MS-OVBA] and test files.
+	 [MS-OVBA] and test files.  Fixes #656531.
 
 2012-12-20  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
 
