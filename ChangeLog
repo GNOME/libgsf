@@ -1,3 +1,10 @@
+2013-01-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_out_add_gvalue): Deal with G_TYPE_CHAR
+	always being signed char.
+	(gsf_xml_gvalue_from_str): Ditto.
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Ditto.
+
 2013-01-05  Valek Filippov  <frob@df.ru>
 
 	* gsf/gsf-infile-msvba.c,.h (gsf_vba_inflate): Fix based on

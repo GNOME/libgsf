@@ -1,5 +1,8 @@
 libgsf 1.14.26
 
+Morten:
+	* Deal with G_TYPE_CHAR signedness.
+
 Paolo Bonzini:
 	* Fix gsf_input_dep for msole streams.  [#689706]
 

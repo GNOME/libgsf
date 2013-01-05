@@ -682,10 +682,10 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 
 	case VT_I1 :
-		/* 1-byte unsigned integer */
+		/* 1-byte signed integer */
 		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_CHAR);
-		g_value_set_char (res, GSF_LE_GET_GINT8 (*data));
+		g_value_set_schar (res, GSF_LE_GET_GINT8 (*data));
 		ADVANCE;
 		break;
 

@@ -218,7 +218,7 @@ gsf_xml_gvalue_from_str (GValue *res, GType t, char const *str)
 
 	switch (t) {
 	case G_TYPE_CHAR:
-		g_value_set_char (res, str[0]);
+		g_value_set_schar (res, (signed char)(str[0]));
 		break;
 	case G_TYPE_UCHAR:
 		g_value_set_uchar (res, (guchar)str[0]);
@@ -1953,7 +1953,7 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 	switch (t) {
 	case G_TYPE_CHAR: {
 		char c[2] = { 0, 0 };
-		c[0] = g_value_get_char (val);
+		c[0] = (char)g_value_get_schar (val);
 		/* FIXME: What if we are in 0x80-0xff? */
 		gsf_xml_out_add_cstr (xout, id, c);
 		break;
