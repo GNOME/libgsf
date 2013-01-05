@@ -39,6 +39,7 @@ GType gsf_infile_msvba_get_type      (void) G_GNUC_CONST;
 GsfInfile  *gsf_infile_msvba_new (GsfInfile *source, GError **err);
 GHashTable *gsf_infile_msvba_get_modules   (GsfInfileMSVBA const *vba_stream);
 GHashTable *gsf_infile_msvba_steal_modules (GsfInfileMSVBA       *vba_stream);
+guint8 *gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null_terminator);
 
 /* Utility */
 GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError **err);

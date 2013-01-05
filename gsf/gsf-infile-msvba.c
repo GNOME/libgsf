@@ -31,6 +31,7 @@
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-infile-impl.h>
 #include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-input-proxy.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-infile-msole.h>
@@ -56,10 +57,61 @@ typedef GsfInfileClass GsfInfileMSVBAClass;
 #define GSF_INFILE_MSVBA_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_MSVBA_TYPE, GsfInfileMSVBAClass))
 #define GSF_IS_INFILE_MSVBA_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_MSVBA_TYPE))
 
-static guint8 *
+/**
+ * gsf_vba_inflate:
+ * @input: stream to read from
+ * @offset: offset into it for start byte of compressed stream
+ * @size: size of the returned array
+ * @add_null_terminator: whenever add or not null at the end of array
+ * 
+ * Decompresses VBA stream.
+ * 
+ * Return value: A pointer to guint8 array
+ **/
+guint8 *
 gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null_terminator)
 {
-	GByteArray *res = gsf_msole_inflate (input, offset + 3);
+	guint8  sig;
+	guint8 const *tmp;
+	GByteArray *res;
+	GByteArray *tmpres;
+	GsfInput *chunk;
+	guint16 chunk_hdr;
+	gsf_off_t length;
+
+	res = g_byte_array_new();
+
+	gsf_input_read (input, 1, &sig);
+	if (1 != sig) /* should start with 0x01 */
+		return NULL;
+	offset++;
+
+	length = gsf_input_size (input);
+	while (offset < length) {
+
+		if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
+			break;
+
+		chunk_hdr = GSF_LE_GET_GUINT16 (tmp);
+		offset += 2;
+
+		if (0xB000 == (chunk_hdr&0xF000) && (chunk_hdr&0xFFF) > 0 && (length - offset < 4096)){
+			if (gsf_input_size (input) < offset +  (chunk_hdr&0xFFF))
+				break;
+			chunk = gsf_input_proxy_new_section (input, offset, (gsf_off_t) (chunk_hdr&0xFFF));
+			offset += (chunk_hdr&0xFFF);
+		} else {
+			if (gsf_input_size (input) < offset + 4094)
+				break;
+			chunk = gsf_input_proxy_new_section (input, offset, 4094);
+			offset += 4094;
+		}
+		tmpres = gsf_msole_inflate (chunk,0);
+		gsf_input_seek (input,offset,G_SEEK_CUR);
+		g_byte_array_append (res, tmpres->data, tmpres->len);
+		g_byte_array_free (tmpres, FALSE);
+	}
+
 	if (res == NULL)
 		return NULL;
 	*size = res->len;
@@ -81,7 +133,7 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 	if (module == NULL)
 		return;
 
-	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, TRUE);
+	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, FALSE);
 	if (code != NULL) {
 		if (NULL == vba->modules)
 			vba->modules = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -123,7 +175,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 	}
 
 	/* 1. decompress it */
-	ptr = inflated_data = gsf_vba_inflate (dir, 0, &inflated_size, FALSE);
+	ptr = inflated_data = gsf_vba_inflate (dir, 0, &inflated_size, TRUE);
 	if (inflated_data == NULL)
 		goto fail_compression;
 	end = inflated_data + inflated_size;
