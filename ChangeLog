@@ -1,5 +1,9 @@
 2013-01-05  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-gio.c (gsf_output_gio_new_for_uri): Use
+	proconditions for programming errors.
+	(gsf_output_gio_write): Drop unneeded cast.
+
 	* gsf/gsf-libxml.c (gsf_xml_out_add_gvalue): Deal with G_TYPE_CHAR
 	always being signed char.
 	(gsf_xml_gvalue_from_str): Ditto.

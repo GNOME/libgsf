@@ -128,15 +128,9 @@ gsf_output_gio_new_for_uri (char const *uri, GError **err)
 	GFile *file;
 	GsfOutput *output;
 
-	if (uri == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_output_error_id (), 0,
-					    "uri is NULL");
-		return NULL;
-	}
+	g_return_val_if_fail (uri != NULL, NULL);
 
 	file = g_file_new_for_uri (uri);
-
 	output = gsf_output_gio_new (file);
 	g_object_unref (file);
 
@@ -193,7 +187,7 @@ gsf_output_gio_write (GsfOutput *output,
 
 		if (nwritten >= 0) {
 			total_written += nwritten;
-			if ((size_t)total_written == num_bytes)
+			if (total_written == num_bytes)
 				return TRUE;
 		} else {
 			return FALSE;
