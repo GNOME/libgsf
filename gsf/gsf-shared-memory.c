@@ -59,6 +59,7 @@ gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size)
 		return NULL;
 	} else {
 		GsfSharedMemory *mem = gsf_shared_memory_new (buf, size, FALSE);
+		if (G_UNLIKELY (NULL == mem)) return NULL;
 		mem->needs_unmap = TRUE;
 		return mem;
 	}
