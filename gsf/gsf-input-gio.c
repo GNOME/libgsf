@@ -148,11 +148,6 @@ gsf_input_gio_new (GFile *file, GError **err)
 	}
 
 	input = g_object_new (GSF_INPUT_GIO_TYPE, NULL);
-	if (G_UNLIKELY (NULL == input)) {
-		g_input_stream_close (stream, NULL, NULL);
-		g_object_unref (stream);
-		return NULL;
-	}
 
 	gsf_input_set_size (GSF_INPUT (input), filesize);
 

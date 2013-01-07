@@ -63,8 +63,6 @@ GsfInput *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 {
 	GsfInputMemory *mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-	if (G_UNLIKELY (NULL == mem)) return NULL;
-
 	mem->shared = gsf_shared_memory_new ((void *)buf, length, needs_free);
 	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
@@ -87,8 +85,6 @@ gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 	g_return_val_if_fail (length >= 0, NULL);
 
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-	if (G_UNLIKELY (NULL == mem)) return NULL;
-
 	cpy = g_try_malloc (MAX (1, length) * sizeof (guint8));
 	if (cpy == NULL) {
 		g_object_unref (mem);
@@ -116,7 +112,6 @@ gsf_input_memory_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
 	GsfInputMemory const *src = (GsfInputMemory *) (src_input);
 	GsfInputMemory *dst = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	dst->shared = g_object_ref (src->shared);
 	gsf_input_set_size (GSF_INPUT (dst), src->shared->size);
@@ -211,7 +206,6 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	size_t size;
 
 	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-	if (G_UNLIKELY (NULL == mem)) return NULL;
 
 	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
 	if (fd < 0 || fstat (fd, &st) < 0) {

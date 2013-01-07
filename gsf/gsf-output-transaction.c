@@ -138,7 +138,6 @@ gsf_output_transaction_new_named (GsfOutput *wrapped, char const *name)
 	g_return_val_if_fail (name != NULL, NULL);
 
 	trans = g_object_new (GSF_OUTPUT_TRANSACTION_TYPE, NULL);
-	if (G_UNLIKELY (NULL == trans)) return NULL;
 
 	gsf_output_set_name (GSF_OUTPUT (trans), name);
 

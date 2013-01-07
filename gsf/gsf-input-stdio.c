@@ -145,11 +145,6 @@ gsf_input_stdio_new (char const *filename, GError **err)
 
 	size = st.st_size;
 	input = (GsfInputStdio *)g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
-	if (G_UNLIKELY (NULL == input)) {
-		fclose (file);
-		return NULL;
-	}
-
 	input->file = file;
 	input->filename = g_strdup (filename);
 	input->buf  = NULL;
@@ -190,7 +185,6 @@ gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 	size = st.st_size;
 
 	stdio = g_object_new (GSF_INPUT_STDIO_TYPE, NULL);
-	if (G_UNLIKELY (NULL == stdio)) return NULL;
 	stdio->file = file;
 	stdio->keep_open = keep_open;
 	stdio->filename = g_strdup (filename);

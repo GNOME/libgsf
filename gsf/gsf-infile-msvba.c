@@ -493,8 +493,6 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 	g_return_val_if_fail (GSF_IS_INFILE (source), NULL);
 
 	vba = g_object_new (GSF_INFILE_MSVBA_TYPE, NULL);
-	if (G_UNLIKELY (NULL == vba)) return NULL;
-
 	vba->source = g_object_ref (source);
 
 	/* vba_project_read (vba, err); */

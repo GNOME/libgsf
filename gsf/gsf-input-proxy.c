@@ -72,7 +72,6 @@ gsf_input_proxy_new_section (GsfInput *source,
 	g_return_val_if_fail (size <= source_size - offset, NULL);
 
 	proxy = g_object_new (GSF_INPUT_PROXY_TYPE, NULL);
-	if (G_UNLIKELY (NULL == proxy)) return NULL;
 
 	proxy->offset = offset;
 	gsf_input_set_size (GSF_INPUT (proxy), size);

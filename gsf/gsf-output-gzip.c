@@ -123,7 +123,6 @@ gsf_output_gzip_new (GsfOutput *sink, GError **err)
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
 	output = g_object_new (GSF_OUTPUT_GZIP_TYPE, "sink", sink, NULL);
-	if (G_UNLIKELY (NULL == output)) return NULL;
 
 	con_err = gsf_output_error (output);
 

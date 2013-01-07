@@ -103,7 +103,6 @@ gsf_clip_data_new (GsfClipFormat format, GsfBlob *data_blob)
 	g_return_val_if_fail (GSF_IS_BLOB (data_blob), NULL);
 
 	clip_data = g_object_new (GSF_TYPE_CLIP_DATA, NULL);
-	if (G_UNLIKELY (NULL == clip_data)) return NULL;
 
 	priv = clip_data->priv;
 

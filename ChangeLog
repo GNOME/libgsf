@@ -1,3 +1,7 @@
+2013-01-07  Morten Welinder  <terra@gnome.org>
+
+	* gsf/*.c: Stop pretending that g_object_new can return NULL.
+
 2013-01-05  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-gio.c (gsf_output_gio_new_full): New function

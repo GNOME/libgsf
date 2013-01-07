@@ -67,7 +67,6 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 {
 	GsfStructuredBlob const *src = (GsfStructuredBlob *) input;
 	GsfStructuredBlob *dst = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
-	if (G_UNLIKELY (NULL == dst)) return NULL;
 
 	if (src->data != NULL)
 		dst->data = g_object_ref (src->data);
@@ -210,7 +209,6 @@ gsf_structured_blob_read (GsfInput *input)
 	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
 
 	blob = g_object_new (GSF_STRUCTURED_BLOB_TYPE, NULL);
-	if (G_UNLIKELY (NULL == blob)) return NULL;
 
 	content_size = gsf_input_remaining (input);
 	if (content_size > 0) {

@@ -587,8 +587,6 @@ gsf_output_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 	g_return_val_if_fail (file != NULL, NULL);
 
 	stdio = g_object_new (GSF_OUTPUT_STDIO_TYPE, NULL);
-	if (G_UNLIKELY (NULL == stdio)) return NULL;
-
 	stdio->file = file;
 	stdio->keep_open = keep_open;
 	stdio->real_filename = stdio->temp_filename = NULL;

@@ -75,12 +75,6 @@ gsf_output_gio_new_full (GFile *file, GError **err)
 	}
 
 	output = g_object_new (GSF_OUTPUT_GIO_TYPE, NULL);
-	if (G_UNLIKELY (NULL == output)) {
-		g_output_stream_close (stream, NULL, NULL);
-		g_object_unref (stream);
-		return NULL;
-	}
-
 	output->file = file;
 	output->stream = stream;
 	g_object_ref (output->file);

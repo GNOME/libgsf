@@ -452,8 +452,6 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	}
 
 	dst = (GsfInfileMSOle *)g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	if (G_UNLIKELY (NULL == dst)) return NULL;
-
 	dst->input = input;
 	dst->info  = ole_info_ref (src->info);
 	/* buf and buf_size are initialized to NULL */
@@ -930,8 +928,6 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	ole = (GsfInfileMSOle *)g_object_new (GSF_INFILE_MSOLE_TYPE, NULL);
-	if (G_UNLIKELY (NULL == ole)) return NULL;
-
 	ole->input = gsf_input_proxy_new (source);
 	gsf_input_set_size (GSF_INPUT (ole), 0);
 
