@@ -418,6 +418,9 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 		return TRUE;
 	}
 
+	/* Throw clang a bone.  */
+	g_assert (data != NULL);
+
 	name_len =   GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_NAME_SIZE);
 	extras_len = GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_EXTRAS_SIZE);
 

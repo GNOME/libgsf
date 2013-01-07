@@ -1,5 +1,8 @@
 2013-01-07  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (zip_child_init): Attempt working around
+	another clang false positive.
+
 	* gsf/gsf-input-memory.c (gsf_input_memory_new_clone): For around
 	a clang false positive.
 
