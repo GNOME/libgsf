@@ -90,7 +90,8 @@ gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
 		g_object_unref (mem);
 		return NULL;
 	}
-	memcpy (cpy, buf, length);
+	if (buf)
+		memcpy (cpy, buf, length);
 	mem->shared = gsf_shared_memory_new (cpy, length, TRUE);
 	gsf_input_set_size (GSF_INPUT (mem), length);
 	return GSF_INPUT (mem);
