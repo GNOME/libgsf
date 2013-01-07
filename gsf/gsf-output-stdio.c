@@ -101,25 +101,17 @@ unlink_and_retry:
 	goto done;
 }
 
+#ifdef HAVE_CHOWN
 static int
-chmod_wrapper (const char *filename, mode_t mode)
+chown_wrapper (const char *filename, uid_t owner, gid_t group)
 {
-#ifdef HAVE_G_CHMOD
-	return g_chmod (filename, mode);
+#ifdef HAVE_G_CHOWN
+	return g_chown (filename, owner, group);
 #else
-	return chmod (filename, mode);
+	return chown (filename, owner, group);
 #endif
 }
-
-static int
-access_wrapper (char const *filename, int what)
-{
-#ifdef HAVE_G_ACCESS
-	return g_access (filename, what);
-#else
-	return access (filename, what);
 #endif
-}
 
 #define GSF_MAX_LINK_LEVEL 256
 
@@ -268,16 +260,16 @@ gsf_output_stdio_close (GsfOutput *output)
 		 * can do here, I'm afraid.  The final data is saved anyways.
 		 * Note the order: mode, uid+gid, gid, uid, mode.
 		 */
-		chmod_wrapper (stdio->real_filename, stdio->st.st_mode);
+		g_chmod (stdio->real_filename, stdio->st.st_mode);
 #ifdef HAVE_CHOWN
-		if (chown (stdio->real_filename,
-			   stdio->st.st_uid,
-			   stdio->st.st_gid)) {
+		if (chown_wrapper (stdio->real_filename,
+				   stdio->st.st_uid,
+				   stdio->st.st_gid)) {
 			/* We cannot set both.  Maybe we can set one.  */
-			chown (stdio->real_filename, -1, stdio->st.st_gid);
-			chown (stdio->real_filename, stdio->st.st_uid, -1);
+			chown_wrapper (stdio->real_filename, -1, stdio->st.st_gid);
+			chown_wrapper (stdio->real_filename, stdio->st.st_uid, -1);
 		}
-		chmod_wrapper (stdio->real_filename, stdio->st.st_mode);
+		g_chmod (stdio->real_filename, stdio->st.st_mode);
 #endif
 	}
 
@@ -442,7 +434,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 		}
 
 		/* FIXME? Race conditions en masse.  */
-		if (access_wrapper (real_filename, W_OK) == -1) {
+		if (g_access (real_filename, W_OK) == -1) {
 			if (err != NULL) {
 				int save_errno = errno;
 				char *dname = g_filename_display_name

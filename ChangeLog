@@ -1,5 +1,12 @@
 2013-01-07  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-stdio.c (chown_wrapper): New function.
+	(chmod_wrapper, access_wrapper): Eliminate in favour of g_chmod
+	and g_access.
+
+	* configure.in: Check for g_chown instead of g_chmod and g_access
+	which we can now assume.
+
 	* gsf/gsf-infile-zip.c (zip_child_init): Attempt working around
 	another clang false positive.
 
