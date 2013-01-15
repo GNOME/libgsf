@@ -15,7 +15,7 @@ test -z "$srcdir" && srcdir=.
 abs_srcdir=`cd $srcdir && pwd`
 ACLOCAL_FLAGS="-I $abs_srcdir/m4 $ACLOCAL_FLAGS"
 
-(test -f $srcdir/configure.in \
+(test -f $srcdir/configure.ac \
   && test -d $srcdir/gsf \
   && test -f $srcdir/gsf/gsf.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"

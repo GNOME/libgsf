@@ -44,8 +44,8 @@ AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_MAKE_SET
-AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
+LT_PREREQ([2.2.6])
+LT_INIT([win32-dll])
 
 AC_FUNC_FSEEKO
 AC_SYS_LARGEFILE
@@ -449,7 +449,7 @@ dnl ****************************************************************************
 want_gdk_pixbuf=no
 dnl check for gdk_pixbuf
 AC_ARG_WITH(gdk_pixbuf,
-    AC_HELP_STRING([--without-gdk-pixbuf],[disable the use of gdk-pixbuf]),
+    [AS_HELP_STRING([--without-gdk-pixbuf],[disable the use of gdk-pixbuf])],
     [case "${withval}" in
     yes) want_gdk_pixbuf=yes ;;
     no) want_gdk_pixbuf=no ;;
