@@ -1,3 +1,7 @@
+2013-01-19  Valek Filippov  <frob@df.ru>
+
+	* gsf/gsf-infile-msvba.c,.h (gsf_vba_inflate): Fix for short streams.
+
 2013-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.ac: renamed configure.in and update obsolete macros.

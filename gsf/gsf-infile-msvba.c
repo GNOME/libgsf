@@ -95,28 +95,32 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 		chunk_hdr = GSF_LE_GET_GUINT16 (tmp);
 		offset += 2;
 
-		if (0xB000 == (chunk_hdr&0xF000) && (chunk_hdr&0xFFF) > 0 && (length - offset < 4096)){
-			if (gsf_input_size (input) < offset +  (chunk_hdr&0xFFF))
+		if (0xB000 == (chunk_hdr&0xF000) && (chunk_hdr&0xFFF) > 0 && (length - offset < 4094)){
+			if (length < offset + (chunk_hdr&0xFFF))
 				break;
-			chunk = gsf_input_proxy_new_section (input, offset, (gsf_off_t) (chunk_hdr&0xFFF));
-			offset += (chunk_hdr&0xFFF);
+			chunk = gsf_input_proxy_new_section (input, offset, (gsf_off_t) (chunk_hdr&0xFFF) + 1);
+			offset += (chunk_hdr&0xFFF) + 1;
 		} else {
-			if (gsf_input_size (input) < offset + 4094)
-				break;
-			chunk = gsf_input_proxy_new_section (input, offset, 4094);
-			offset += 4094;
+			if (length < offset + 4094){
+				chunk = gsf_input_proxy_new_section (input, offset, length-offset);
+				offset = length;
+			} else {
+				chunk = gsf_input_proxy_new_section (input, offset, 4094);
+				offset += 4094;
+			}
 		}
 		tmpres = gsf_msole_inflate (chunk,0);
 		gsf_input_seek (input,offset,G_SEEK_CUR);
 		g_byte_array_append (res, tmpres->data, tmpres->len);
 		g_byte_array_free (tmpres, FALSE);
 	}
-
+	
 	if (res == NULL)
 		return NULL;
-	*size = res->len;
 	if (add_null_terminator)
 		g_byte_array_append (res, "", 1);
+	*size = res->len;
+
 	return g_byte_array_free (res, FALSE);
 }
 
@@ -132,8 +136,8 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 	module = gsf_infile_child_by_name (vba->source, name);
 	if (module == NULL)
 		return;
-
 	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, FALSE);
+
 	if (code != NULL) {
 		if (NULL == vba->modules)
 			vba->modules = g_hash_table_new_full (g_str_hash, g_str_equal,
