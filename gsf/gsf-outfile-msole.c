@@ -40,6 +40,8 @@ typedef enum { MSOLE_DIR, MSOLE_SMALL_BLOCK, MSOLE_BIG_BLOCK } MSOleOutfileType;
 
 /* The most common values */
 #define OLE_DEFAULT_THRESHOLD	 0x1000
+#define OLE_DEFAULT_SB_SHIFT	 6
+#define OLE_DEFAULT_BB_SHIFT	 9
 #define OLE_DEFAULT_BB_SIZE	 (1 << OLE_DEFAULT_BB_SHIFT)
 #define OLE_DEFAULT_SB_SIZE	 (1 << OLE_DEFAULT_SB_SHIFT)
 

@@ -33,9 +33,6 @@ typedef struct _GsfOutfileMSOle GsfOutfileMSOle;
 #define GSF_OUTFILE_MSOLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_MSOLE_TYPE, GsfOutfileMSOle))
 #define GSF_IS_OUTFILE_MSOLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_MSOLE_TYPE))
 
-#define OLE_DEFAULT_SB_SHIFT	 6
-#define OLE_DEFAULT_BB_SHIFT	 9
-
 GType gsf_outfile_msole_get_type      (void) G_GNUC_CONST;
 /* void  gsf_outfile_msole_register_type (GTypeModule *module); glib dynamic types are not thread safe */
 
