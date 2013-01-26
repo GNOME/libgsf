@@ -1,3 +1,8 @@
+2013-01-26  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (ole_write_bat, ole_write_const): Bunch
+	things up as large writes instead of piles of little ones.
+
 2013-01-19  Valek Filippov  <frob@df.ru>
 
 	* gsf/gsf-infile-msvba.c,.h (gsf_vba_inflate): Fix for short streams.

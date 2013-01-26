@@ -197,32 +197,41 @@ ole_pad_zero (GsfOutfileMSOle *ole)
 		gsf_output_write (ole->sink, len, zero_buf);
 }
 
+#define CHUNK_SIZE 1024u
+#define FLUSH do { if (bufi) gsf_output_write (sink, bufi * BAT_INDEX_SIZE, buf); bufi = 0; } while (0)
+#define ADD_ITEM(i_) do { GSF_LE_SET_GUINT32 (buf + bufi * BAT_INDEX_SIZE, (i_)); bufi++; if (bufi == CHUNK_SIZE) FLUSH; } while (0)
+
 /* Utility routine to generate a BAT for a file known to be sequential and
  * continuous. */
 static void
 ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
-	guint8 buf [BAT_INDEX_SIZE];
+	guint8 buf[BAT_INDEX_SIZE * CHUNK_SIZE];
+	guint bufi = 0;
 
-/* FIXME FIXME FIXME  optimize this to dump a buffer in 1 step */
 	while (blocks-- > 1) {
 		block++;
-		GSF_LE_SET_GUINT32 (buf, block);
-		gsf_output_write (sink, BAT_INDEX_SIZE, buf);
+		ADD_ITEM (block);
 	}
-	GSF_LE_SET_GUINT32 (buf, BAT_MAGIC_END_OF_CHAIN);
-	gsf_output_write (sink, BAT_INDEX_SIZE, buf);
+	ADD_ITEM (BAT_MAGIC_END_OF_CHAIN);
+	FLUSH;
 }
 
 static void
 ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 {
-	guint8 buf [BAT_INDEX_SIZE];
+	guint8 buf[BAT_INDEX_SIZE * CHUNK_SIZE];
+	guint bufi = 0;
 
-	GSF_LE_SET_GUINT32 (buf, value);
 	while (n-- > 0)
-		gsf_output_write (sink, BAT_INDEX_SIZE, buf);
+		ADD_ITEM(value);
+
+	FLUSH;
 }
+
+#undef CHUNK_SIZE
+#undef FLUSH
+#undef ADD_ITEM
 
 static void
 ole_pad_bat_unused (GsfOutfileMSOle *ole, unsigned residual)
