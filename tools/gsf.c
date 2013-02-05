@@ -247,7 +247,7 @@ get_meta_data (GsfInfile *infile, const char *filename)
 
 		in = gsf_infile_child_by_name (infile, "\05SummaryInformation");
 		if (NULL != in) {
-			err = gsf_msole_metadata_read (in, meta_data);
+			err = gsf_doc_meta_data_read_from_msole (meta_data, in);
 			if (err != NULL) {
 				g_warning ("'%s' error: %s", filename, err->message);
 				g_error_free (err);
@@ -258,7 +258,7 @@ get_meta_data (GsfInfile *infile, const char *filename)
 
 		in = gsf_infile_child_by_name (infile, "\05DocumentSummaryInformation");
 		if (NULL != in) {
-			err = gsf_msole_metadata_read (in, meta_data);
+			err = gsf_doc_meta_data_read_from_msole (meta_data, in);
 			if (err != NULL) {
 				g_warning ("'%s' error: %s", filename, err->message);
 				g_error_free (err);

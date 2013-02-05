@@ -790,6 +790,9 @@ gsf_doc_prop_swap_val
 gsf_property_settings_collect
 gsf_property_settings_collect_valist
 gsf_property_settings_free
+
+<SUBSECTION Private>
+GSF_DEPRECATED_FOR
 </SECTION>
 
 <SECTION>

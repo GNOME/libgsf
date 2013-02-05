@@ -46,6 +46,7 @@ typedef struct {
 
 /**
  * gsf_odf_get_version_string:
+ *
  * Gives the ODF version used by libgsf when writing Open Document files.
  *
  * Since: 1.14.24
@@ -60,6 +61,7 @@ gsf_odf_get_version_string (void)
 
 /**
  * get_gsf_odf_version_string: (skip)
+ *
  * Gives the ODF version used by libgsf when writing Open Document files.
  *
  * Deprecated: 1.14.24, use gsf_odf_get_version_string
@@ -74,6 +76,7 @@ get_gsf_odf_version_string (void)
 
 /**
  * gsf_odf_get_version:
+ *
  * Gives the ODF version used by libgsf when writing Open Document files.
  *
  * Since: 1.14.24
@@ -88,6 +91,7 @@ gsf_odf_get_version (void)
 
 /**
  * get_gsf_odf_version: (skip)
+ *
  * Gives the ODF version used by libgsf when writing Open Document files.
  *
  * Deprecated: 1.14.24, use gsf_odf_get_version

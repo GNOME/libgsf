@@ -1,3 +1,9 @@
+2013-02-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* doc/gsf-sections.txt: fix gtk-doc warnings.
+	* gsf/gsf-opendoc-utils.c: ditto.
+	* tools/gsf.c (get_meta_data): don't use deprecated symbols.
+
 2013-01-26  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-msole.c (ole_write_bat, ole_write_const): Bunch
