@@ -256,7 +256,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 #endif]],
 [[struct statfs buf; (void)(2*statfs("xyz",&buf));]])],
 	[AC_MSG_RESULT([2-arg, linux-style])
-AC_DEFINE(HAVE_2ARG_STATFS, 1, [Define is you have two-argument statfs like linux])],
+AC_DEFINE(HAVE_2ARG_STATFS, 1, [Define if you have two-argument statfs like linux])],
 	[AC_MSG_RESULT([none, or unknown])])
 
 AC_CHECK_FUNCS(chown setrlimit)
