@@ -164,8 +164,17 @@ AC_SUBST(TYPELIBDIR)
 ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
 CFLAGS="$CFLAGS $WARN_CFLAGS -DG_DISABLE_DEPRECATED"
 if test "$GCC" = "yes"; then
-	for option in -Wno-system-headers -Wfloat-equal -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat=2 -Wnested-externs -Winline -Wdeclaration-after-statement -Wundef -W -Wmissing-noreturn -Wmissing-format-attribute -Wno-pointer-sign \
-	-Wbitwise -Wcast-to-as -Wdefault-bitfield-sign -Wdo-while -Wparen-string -Wptr-subtraction-blows -Wreturn-void -Wtypesign ; do
+	warning_options="-Wsign-compare -Wpointer-arith -Wnested-externs \
+			 -Wchar-subscripts -Wwrite-strings \
+			 -Wdeclaration-after-statement -Wnested-externs \
+			 -Wmissing-noreturn -Wmissing-prototypes \
+			 -Werror=missing-prototypes -Werror=nested-externs \
+			 -Werror=implicit-function-declaration \
+			 -Wmissing-declarations -Wno-pointer-sign \
+			 -Werror=format-security -Wbitwise -Wcast-to-as \
+			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign"
+	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
