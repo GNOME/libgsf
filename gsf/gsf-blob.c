@@ -73,7 +73,7 @@ gsf_blob_init (GsfBlob *blob)
 
 GSF_CLASS (GsfBlob, gsf_blob,
 	   gsf_blob_class_init, gsf_blob_init,
-	   G_TYPE_OBJECT);
+	   G_TYPE_OBJECT)
 
 
 /**

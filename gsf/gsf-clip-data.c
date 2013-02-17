@@ -81,7 +81,7 @@ gsf_clip_data_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GsfClipData, gsf_clip_data,
 	   gsf_clip_data_class_init, gsf_clip_data_init,
-	   G_TYPE_OBJECT);
+	   G_TYPE_OBJECT)
 
 /**
  * gsf_clip_data_new:

@@ -235,7 +235,7 @@ gsf_doc_meta_data_size (GsfDocMetaData const *meta)
 }
 
 static void
-cb_print_property (G_GNUC_UNUSED char const *name,
+cb_print_property (char const *name,
 		   GsfDocProp const *prop)
 {
 	if (gsf_doc_prop_get_link (prop) != NULL)
