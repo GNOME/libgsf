@@ -1626,6 +1626,17 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		}
 	}
 
+	while (i < count) {
+		static gboolean warned = FALSE;
+		if (!warned) {
+			warned = TRUE;
+			g_warning ("Something strange in msole_metadata_write_section");
+		}
+		offsets[i].id = 0;
+		offsets[i].offset = offsets[i - 1].offset;
+		i++;
+	}
+
 	len = gsf_output_tell (state->out) - base;
 	gsf_output_seek (state->out, base, G_SEEK_SET);
 	GSF_LE_SET_GUINT32 (buf, len);
