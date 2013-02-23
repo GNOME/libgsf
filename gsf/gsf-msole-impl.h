@@ -1,4 +1,5 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* THIS IS NOT INSTALLED */
+
 /*
  * gsf-msole-impl.h:
  *
@@ -22,7 +23,7 @@
 #ifndef GSF_MSOLE_IMPL_H
 #define GSF_MSOLE_IMPL_H
 
-#include <gsf/gsf.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

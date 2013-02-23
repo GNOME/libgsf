@@ -21,8 +21,7 @@
 #ifndef GSF_COMMAND_CONTEXT_H
 #define GSF_COMMAND_CONTEXT_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

@@ -22,8 +22,9 @@
 #ifndef GSF_OUTPUT_GIO_H
 #define GSF_OUTPUT_GIO_H
 
-#include <gsf/gsf-output.h>
+#include <gsf/gsf-fwd.h>
 #include <gio/gio.h>
+#include <gsf/gsf-output.h>
 
 G_BEGIN_DECLS
 

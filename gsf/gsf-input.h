@@ -22,10 +22,8 @@
 #ifndef GSF_INPUT_H
 #define GSF_INPUT_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 #include <sys/types.h>
-#include <gsf/gsf-output.h>
 
 G_BEGIN_DECLS
 

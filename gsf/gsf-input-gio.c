@@ -21,10 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-input-gio.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-output-memory.h>
-#include <gsf/gsf-input-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 
 struct _GsfInputGio {

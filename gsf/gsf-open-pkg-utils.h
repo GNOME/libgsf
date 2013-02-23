@@ -23,8 +23,7 @@
 #ifndef GSF_OPEN_PKG_UTILS_H
 #define GSF_OPEN_PKG_UTILS_H
 
-#include <gsf/gsf.h>
-#include <gsf/gsf-libxml.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

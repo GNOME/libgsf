@@ -20,11 +20,8 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-output.h>
-#include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-output-transaction.h>
-#include <gsf/gsf-output-memory.h>
+#include <gsf/gsf.h>
 
 struct _GsfOutputTransaction
 {

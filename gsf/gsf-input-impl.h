@@ -22,9 +22,7 @@
 #ifndef GSF_INPUT_IMPL_H
 #define GSF_INPUT_IMPL_H
 
-#include <gsf/gsf.h>
-#include <gsf/gsf-input.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

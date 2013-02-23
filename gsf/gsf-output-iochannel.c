@@ -20,8 +20,7 @@
  */
 #include <gsf-config.h>
 #include <gsf/gsf-output-iochannel.h>
-#include <gsf/gsf-output-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
 
 static GsfOutputClass *parent_class;
 

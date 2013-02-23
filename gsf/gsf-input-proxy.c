@@ -21,9 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-input-proxy.h>
-#include <gsf/gsf-input-impl.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
+#include <gsf/gsf.h>
 
 static GObjectClass *parent_class;
 

@@ -22,7 +22,7 @@
 
 #include <gsf-config.h>
 #include <gsf-input-iochannel.h>
-#include <gsf-input-memory.h>
+#include <gsf.h>
 
 /**
  * gsf_input_memory_new_from_iochannel:

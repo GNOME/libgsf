@@ -22,8 +22,7 @@
 #ifndef GSF_MSOLE_UTILS_H
 #define GSF_MSOLE_UTILS_H
 
-#include <gsf/gsf.h>
-#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

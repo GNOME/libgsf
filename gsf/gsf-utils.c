@@ -21,52 +21,12 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-utils.h>
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-doc-meta-data.h>
-#include <gsf/gsf-docprop-vector.h>
-#include <gsf/gsf-impl-utils.h>
-
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-infile-msvba.h>
-#include <gsf/gsf-infile-stdio.h>
-#include <gsf/gsf-infile-tar.h>
-#include <gsf/gsf-infile-zip.h>
-
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-input-gzip.h>
-#include <gsf/gsf-input-http.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-proxy.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-input-textline.h>
-
-#include <gsf/gsf-output.h>
-#include <gsf/gsf-output-bzip.h>
-#include <gsf/gsf-output-csv.h>
-#include <gsf/gsf-output-gzip.h>
-#include <gsf/gsf-output-iconv.h>
-#include <gsf/gsf-output-iochannel.h>
-#include <gsf/gsf-output-memory.h>
-#include <gsf/gsf-output-stdio.h>
-
-#include <gsf/gsf-outfile.h>
-#include <gsf/gsf-outfile-msole.h>
-#include <gsf/gsf-outfile-stdio.h>
-#include <gsf/gsf-outfile-zip.h>
-
-#include <gsf/gsf-libxml.h>
-#include <gsf/gsf-blob.h>
-#include <gsf/gsf-structured-blob.h>
-#include <gsf/gsf-shared-memory.h>
-#include <gsf/gsf-clip-data.h>
-#include <gsf/gsf-open-pkg-utils.h>
+#include <gsf/gsf.h>
 
 #include <gobject/gvaluecollector.h>
 #include <glib/gi18n-lib.h>
 
 #include <ctype.h>
-#include <stdio.h>
 #include <string.h>
 
 /*

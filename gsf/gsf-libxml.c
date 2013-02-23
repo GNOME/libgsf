@@ -21,12 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-libxml.h>
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-output.h>
-#include <gsf/gsf-input-gzip.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-timestamp.h>
+#include <gsf/gsf.h>
+
 #include <glib/gi18n-lib.h>
 
 #include <math.h>

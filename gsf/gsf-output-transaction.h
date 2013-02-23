@@ -22,6 +22,9 @@
 #ifndef GSF_OUTPUT_TRANSACTION_H
 #define GSF_OUTPUT_TRANSACTION_H
 
+#include <gsf/gsf-fwd.h>
+#include <gsf/gsf-output.h>
+
 G_BEGIN_DECLS
 
 #define GSF_OUTPUT_TRANSACTION_TYPE        (gsf_output_transaction_get_type ())

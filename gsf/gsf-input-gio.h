@@ -22,8 +22,9 @@
 #ifndef GSF_INPUT_GIO_H
 #define GSF_INPUT_GIO_H
 
-#include <gsf/gsf-input.h>
+#include <gsf/gsf-fwd.h>
 #include <gio/gio.h>
+#include <gsf/gsf-input.h>
 
 G_BEGIN_DECLS
 

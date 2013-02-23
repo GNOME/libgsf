@@ -21,9 +21,10 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-timestamp.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 #include <time.h>
-#include <stdio.h>
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif

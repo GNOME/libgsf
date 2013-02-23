@@ -20,13 +20,12 @@
  */
 
 #include <gsf-config.h>
-#include <string.h>
 #include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-impl.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-shared-memory.h>
+#include <gsf/gsf.h>
+
 #include <glib/gstdio.h>
+
+#include <string.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>

@@ -24,12 +24,10 @@ libgsf_1_la_SOURCES =		\
 	gsf-libxml.c		\
 	gsf-doc-meta-data.c	\
 	gsf-docprop-vector.c	\
-	gsf-msole-impl.h	\
 	gsf-msole-utils.c	\
 	gsf-open-pkg-utils.c	\
 	gsf-opendoc-utils.c	\
 	gsf-timestamp.c		\
-	gsf-zip-impl.h		\
 	gsf-zip-utils.c		\
 	\
 	gsf-input.c		\
@@ -79,6 +77,7 @@ libgsf_1_la_SOURCES =		\
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
 	gsf.h			\
+	gsf-fwd.h		\
 	gsf-utils.h		\
 	gsf-libxml.h		\
 	gsf-impl-utils.h	\
@@ -134,6 +133,11 @@ libgsf_1_include_HEADERS = 	\
 	gsf-output-gio.h
 #	gsf-command-context.h	\
 #	gsf-io-context.h
+
+noinst_HEADERS = \
+	gsf-msole-impl.h	\
+	gsf-zip-impl.h
+
 
 CPP_CFLAGS = -DGLIB_CHECK_VERSION\(x,y,z\)
 LIB_PUBLIC_HDRS = $(libgsf_1_include_HEADERS)

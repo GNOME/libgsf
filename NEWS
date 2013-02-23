@@ -12,6 +12,7 @@ Morten:
 	* Clean out mistaken null checks from g_object_new.
 	* Clean out old glib tests.
 	* Speed up ole writing a bit.
+	* Header cleanup.  gsf/gsf.h is now main header.  [#684608]
 
 Paolo Bonzini:
 	* Fix gsf_input_dep for msole streams.  [#689706]

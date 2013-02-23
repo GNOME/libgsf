@@ -19,11 +19,9 @@
  * USA
  */
 
-#include "gsf-config.h"
-#include "gsf-blob.h"
-
-#include "gsf-utils.h"
-#include "gsf-impl-utils.h"
+#include <gsf-config.h>
+#include <gsf/gsf-blob.h>
+#include <gsf/gsf.h>
 
 #include <glib/gi18n-lib.h>
 #include <string.h>

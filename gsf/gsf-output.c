@@ -20,8 +20,9 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-output-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 
 static gsf_off_t gsf_output_real_vprintf (GsfOutput *output,

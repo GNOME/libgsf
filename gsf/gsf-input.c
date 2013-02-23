@@ -20,10 +20,8 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-input-impl.h>
-#include <gsf/gsf-input-gzip.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-input-bzip.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf.h>
 
 #include <string.h>
 

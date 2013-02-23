@@ -22,20 +22,12 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-docprop-vector.h>
 #include <gsf/gsf-msole-utils.h>
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-output.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-timestamp.h>
-#include <gsf/gsf-meta-names.h>
-#include <gsf/gsf-doc-meta-data.h>
-#include <gsf/gsf-clip-data.h>
+#include <gsf/gsf.h>
 
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <time.h>
 #include <glib/gi18n-lib.h>
 

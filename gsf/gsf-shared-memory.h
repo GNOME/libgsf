@@ -22,8 +22,7 @@
 #ifndef GSF_SHARED_MEMORY_H
 #define GSF_SHARED_MEMORY_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

@@ -21,12 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-structured-blob.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-infile-impl.h>
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-outfile.h>
-#include <gsf/gsf-output.h>
-#include <gsf/gsf-shared-memory.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 
 static GObjectClass *parent_class;

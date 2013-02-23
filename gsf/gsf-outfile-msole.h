@@ -22,8 +22,8 @@
 #ifndef GSF_OUTFILE_MSOLE_H
 #define GSF_OUTFILE_MSOLE_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
+#include <gsf/gsf-outfile.h>
 
 G_BEGIN_DECLS
 

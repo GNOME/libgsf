@@ -22,12 +22,10 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-open-pkg-utils.h>
-#include <gsf/gsf-input.h>
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-outfile-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
 
 #include <glib/gi18n-lib.h>
+
 #include <string.h>
 
 #undef G_LOG_DOMAIN

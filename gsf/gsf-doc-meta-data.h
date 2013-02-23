@@ -23,9 +23,7 @@
 #ifndef GSF_DOC_META_DATA_H
 #define GSF_DOC_META_DATA_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
-#include <sys/types.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

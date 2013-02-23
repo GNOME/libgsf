@@ -20,15 +20,11 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-outfile-impl.h>
 #include <gsf/gsf-outfile-msole.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
 #include <gsf/gsf-msole-impl.h>
-#include <gsf/gsf-msole-utils.h>
-#include <gsf/gsf-utils.h>
 
 #include <string.h>
-#include <stdio.h>
 
 static GObjectClass *parent_class;
 static GsfOutputClass *gsf_output_class;

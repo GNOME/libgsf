@@ -19,20 +19,11 @@
  * USA
  */
 
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-infile-zip.h>
-#include <gsf/gsf-meta-names.h>
-#include <gsf/gsf-msole-utils.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-clip-data.h>
-#include <gsf/gsf-open-pkg-utils.h>
+#include <gsf-config.h>
+#include <gsf/gsf.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
-#include <gsf-config.h>
 
 #ifdef HAVE_GDK_PIXBUF
 #include <gdk-pixbuf/gdk-pixbuf.h>

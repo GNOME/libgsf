@@ -20,10 +20,11 @@
  */
 
 #include <gsf-config.h>
+#include <gsf/gsf-zip-impl.h>
 #include <gsf/gsf.h>
+
 #include <sys/types.h>
 #include <string.h>
-#include "gsf-zip-impl.h"
 
 /**
  * SECTION:zip

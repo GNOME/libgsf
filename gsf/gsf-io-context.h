@@ -22,7 +22,7 @@
 #ifndef GSF_IO_CONTEXT_H
 #define GSF_IO_CONTEXT_H
 
-#include <gsf/gsf-command-context.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

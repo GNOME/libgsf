@@ -22,6 +22,7 @@
 #ifndef GSF_OUTPUT_STDIO_H
 #define GSF_OUTPUT_STDIO_H
 
+#include <gsf/gsf-fwd.h>
 #include <gsf/gsf-output.h>
 #include <stdio.h>
 

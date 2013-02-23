@@ -22,8 +22,7 @@
 #ifndef GSF_UTILS_H
 #define GSF_UTILS_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

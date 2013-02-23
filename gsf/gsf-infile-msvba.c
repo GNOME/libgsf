@@ -29,17 +29,8 @@
  */
 #include <gsf-config.h>
 #include <gsf/gsf-infile-msvba.h>
-#include <gsf/gsf-infile-impl.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-proxy.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-msole-utils.h>
-#include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-infile-zip.h>
-#include <gsf/gsf-open-pkg-utils.h>
-#include <gsf/gsf-utils.h>
+#include <gsf/gsf.h>
 
-#include <stdio.h>
 #include <string.h>
 
 static GObjectClass *parent_class;

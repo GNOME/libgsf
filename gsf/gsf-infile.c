@@ -20,8 +20,8 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-infile-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-infile.h>
+#include <gsf/gsf.h>
 
 #include <stdarg.h>
 

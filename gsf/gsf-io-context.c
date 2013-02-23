@@ -20,8 +20,8 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-io-context.h>
+#include <gsf/gsf.h>
 
 struct _GsfIOContext {
 	GsfCommandContext object;

@@ -21,7 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-shared-memory.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
 
 #ifdef HAVE_MMAP
 #include <sys/types.h>

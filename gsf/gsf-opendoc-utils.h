@@ -24,9 +24,8 @@
 #ifndef GSF_OPENDOC_UTILS_H
 #define GSF_OPENDOC_UTILS_H
 
-#include <gsf/gsf.h>
+#include <gsf/gsf-fwd.h>
 #include <gsf/gsf-libxml.h>
-#include <gmodule.h>
 
 G_BEGIN_DECLS
 

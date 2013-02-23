@@ -1,8 +1,7 @@
 #ifndef GSF_BLOB_H
 #define GSF_BLOB_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 
@@ -16,7 +15,6 @@ G_BEGIN_DECLS
 /* Deprecated old typo */
 #define GSF_TYPE_BLOB			(gsf_blob_get_type ())
 
-typedef struct _GsfBlob GsfBlob;
 typedef struct _GsfBlobClass GsfBlobClass;
 typedef struct _GsfBlobPrivate GsfBlobPrivate;
 

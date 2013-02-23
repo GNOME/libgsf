@@ -19,8 +19,8 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-command-context.h>
+#include <gsf/gsf.h>
 
 static void gsf_command_context_class_init (GsfCommandContextClass *klass);
 static void gsf_command_context_init       (GsfCommandContext *cc, GsfCommandContextClass *klass);

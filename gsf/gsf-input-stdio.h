@@ -22,7 +22,9 @@
 #ifndef GSF_INPUT_STDIO_H
 #define GSF_INPUT_STDIO_H
 
+#include <gsf/gsf-fwd.h>
 #include <gsf/gsf-input.h>
+
 #include <stdio.h>
 
 G_BEGIN_DECLS

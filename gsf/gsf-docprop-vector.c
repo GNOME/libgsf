@@ -21,8 +21,7 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-docprop-vector.h>
-#include <gsf/gsf-impl-utils.h>
-#include <stdio.h>
+#include <gsf/gsf.h>
 
 struct _GsfDocPropVector {
 	GObject      parent;

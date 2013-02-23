@@ -22,8 +22,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-doc-meta-data.h>
-#include <gsf/gsf-docprop-vector.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 #include <stdlib.h>
 

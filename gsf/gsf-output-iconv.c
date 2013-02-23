@@ -21,10 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-output-iconv.h>
-#include <gsf/gsf-output-impl.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
-#include <glib.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 
 #define BUF_SIZE 0x400

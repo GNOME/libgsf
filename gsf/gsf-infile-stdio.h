@@ -22,8 +22,8 @@
 #ifndef GSF_INFILE_STDIO_H
 #define GSF_INFILE_STDIO_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
+#include <gsf/gsf-infile.h>
 
 G_BEGIN_DECLS
 

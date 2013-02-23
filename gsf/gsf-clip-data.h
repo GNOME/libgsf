@@ -1,7 +1,7 @@
 #ifndef GSF_CLIP_DATA_H
 #define GSF_CLIP_DATA_H
 
-#include <gsf/gsf-blob.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

@@ -22,8 +22,7 @@
 #ifndef GSF_LIBXML_H
 #define GSF_LIBXML_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 #include <libxml/tree.h>
 
 G_BEGIN_DECLS
@@ -53,11 +52,6 @@ gboolean gsf_xml_probe (GsfInput *input,
 
 /****************************************************************************/
 /* Simplified wrapper to SAX based xml import */
-typedef struct _GsfXMLIn		GsfXMLIn;
-typedef struct _GsfXMLInDoc		GsfXMLInDoc;
-typedef struct _GsfXMLInNode		GsfXMLInNode;
-typedef struct _GsfXMLInNS		GsfXMLInNS;
-typedef struct _GsfXMLBlob		GsfXMLBlob;
 
 /**
  * GsfXMLContent:
@@ -155,9 +149,7 @@ GType	     gsf_xml_in_ns_get_type (void);
 /****************************************************************************/
 /* Simplified GSF based xml export (does not use libxml) */
 
-typedef struct _GsfXMLOut		GsfXMLOut;
-
-typedef struct {
+struct GsfXMLOutClass_ {
 	GObjectClass  base;
 
 	/*< private >*/
@@ -166,7 +158,7 @@ typedef struct {
 	void (*_gsf_reserved2) (void);
 	void (*_gsf_reserved3) (void);
 	void (*_gsf_reserved4) (void);
-} GsfXMLOutClass;
+};
 
 struct _GsfXMLOut {
 	GObject	   base;

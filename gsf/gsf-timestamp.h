@@ -23,8 +23,7 @@
 #ifndef GSF_TIMESTAMP_H
 #define GSF_TIMESTAMP_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

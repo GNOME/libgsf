@@ -22,6 +22,7 @@
 #ifndef GSF_OUTPUT_ICONV_H
 #define GSF_OUTPUT_ICONV_H
 
+#include <gsf/gsf-fwd.h>
 #include <gsf/gsf-output.h>
 
 G_BEGIN_DECLS

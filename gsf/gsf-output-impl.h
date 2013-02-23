@@ -22,9 +22,7 @@
 #ifndef GSF_OUTPUT_IMPL_H
 #define GSF_OUTPUT_IMPL_H
 
-#include <gsf/gsf.h>
-#include <gsf/gsf-output.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
 

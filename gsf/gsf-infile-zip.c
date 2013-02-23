@@ -21,12 +21,9 @@
  */
 
 #include <gsf-config.h>
-#include <gsf/gsf-infile-impl.h>
 #include <gsf/gsf-infile-zip.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
+#include <gsf/gsf.h>
 #include <gsf/gsf-zip-impl.h>
-#include <gsf/gsf-input-proxy.h>
 
 #include <string.h>
 #include <zlib.h>

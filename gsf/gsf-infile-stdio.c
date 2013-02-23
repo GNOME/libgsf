@@ -21,14 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-infile.h>
-#include <gsf/gsf-infile-impl.h>
-#include <gsf/gsf-infile-stdio.h>
-#include <gsf/gsf-input-impl.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
+#include <gsf/gsf.h>
 
-#include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #ifdef HAVE_UNISTD_H
@@ -36,7 +30,6 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <glib.h>
 #include <string.h>
 
 static GObjectClass *parent_class;

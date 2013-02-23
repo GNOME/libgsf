@@ -21,8 +21,8 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf-output-gio.h>
-#include <gsf/gsf-output-impl.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf.h>
+
 #include <string.h>
 
 struct _GsfOutputGio {

@@ -22,8 +22,8 @@
 #ifndef GSF_INPUT_BZIP_H
 #define GSF_INPUT_BZIP_H
 
-#include <gsf/gsf.h>
-#include <glib-object.h>
+#include <gsf/gsf-fwd.h>
+#include <gsf/gsf-input.h>
 
 G_BEGIN_DECLS
 

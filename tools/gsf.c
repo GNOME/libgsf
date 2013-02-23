@@ -1,22 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-#include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-infile-tar.h>
-#include <gsf/gsf-infile-zip.h>
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-output-stdio.h>
-#include <gsf/gsf-outfile.h>
-#include <gsf/gsf-outfile-msole.h>
-#include <gsf/gsf-outfile-zip.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-doc-meta-data.h>
-#include <gsf/gsf-msole-utils.h>
+#include <gsf-config.h>
+#include <gsf/gsf.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include <string.h>
-
-#define GETTEXT_PACKAGE NULL /* FIXME */
 
 static gboolean show_version;
 

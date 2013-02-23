@@ -22,6 +22,7 @@
 #ifndef __GSF_INPUT_HTTP_H__
 #define __GSF_INPUT_HTTP_H__
 
+#include <gsf/gsf-fwd.h>
 #include <gsf/gsf-input.h>
 
 G_BEGIN_DECLS

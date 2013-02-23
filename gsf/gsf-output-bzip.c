@@ -21,15 +21,10 @@
  */
 
 #include <gsf-config.h>
-
 #include <gsf/gsf-output-bzip.h>
-#include <gsf/gsf-output-impl.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-utils.h>
+#include <gsf/gsf.h>
 
 #ifdef HAVE_BZ2
-/* For getting FILE.  Don't ask.  */
-#include <stdio.h>
 #include <bzlib.h>
 #define BZ_BUFSIZE 1024
 #endif
