@@ -1,5 +1,9 @@
 2013-02-23  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile.c (gsf_infile_child_by_name)
+	(gsf_infile_child_by_vname, gsf_infile_child_by_vaname)
+	(gsf_infile_child_by_aname): Doc improvements.
+
 	* gsf/gsf-input.c (gsf_input_uncompress): Avoid HAVE_BZ2
 	conditionals.
 

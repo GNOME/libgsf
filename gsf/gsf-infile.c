@@ -92,8 +92,14 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
  * @infile: #GsfInfile
  * @name: target name
  *
+ * The function returns a named child of the given infile.  This only
+ * works for an immediate child.  If you need to go several levels
+ * down use gsf_infile_child_by_aname, for example.
+ *
  * TODO : For 2.0 api will change to include a GError.
- * Returns: (transfer full): a newly created child which must be unrefed.
+ *
+ * Returns: (transfer full): a newly created child which must be
+ * unrefed.
  **/
 GsfInput *
 gsf_infile_child_by_name (GsfInfile *infile, char const *name)
@@ -122,6 +128,9 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
  * @infile:
  * @...: A %NULL terminated list of names
  *
+ * Apart from the way arguments are specified, this is the same as
+ * gsf_infile_child_by_aname.  Please see the documentation there.
+ *
  * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
@@ -142,6 +151,8 @@ gsf_infile_child_by_vname (GsfInfile *infile,  ...)
  * @infile: #GsfInfile
  * @names: A %NULL terminated array of names (e.g. from g_strsplit)
  *
+ * Apart from argument types, this is the same as gsf_infile_child_by_aname.
+ * Please see the documentation there.
  * New in 1.14.9.
  *
  * Returns: (transfer full): a newly created child which must be unrefed.
@@ -174,6 +185,13 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
  * gsf_infile_child_by_aname:
  * @infile: #GsfInfile
  * @names: A %NULL terminated array of names (e.g. from g_strsplit)
+ *
+ * This function finds a child that is several directory levels down
+ * the tree.  If, for example, the names "foo", "bar", and "baz" are
+ * given, then this function first finds the "foo" directory in the
+ * root infile, then locates "bar" within that directory, and finally
+ * locates "baz" within that and returns the "baz" child.  In other
+ * words, this function finds the "foo/bar/baz" child.
  *
  * New in 1.14.9.
  *
