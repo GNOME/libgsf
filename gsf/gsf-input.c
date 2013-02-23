@@ -23,11 +23,9 @@
 #include <gsf/gsf-input-impl.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-impl-utils.h>
-#include <string.h>
-
-#ifdef HAVE_BZ2
 #include <gsf/gsf-input-bzip.h>
-#endif
+
+#include <string.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
@@ -598,7 +596,6 @@ gsf_input_uncompress (GsfInput *src)
 		}
 	}
 
-#ifdef HAVE_BZ2
 	/* Let's try bzip.  */
 	{
 		guint8 const *bzip_sig = "BZh";
@@ -611,7 +608,6 @@ gsf_input_uncompress (GsfInput *src)
 			}
 		}
 	}
-#endif
 
 	/* Other methods go here.  */
 

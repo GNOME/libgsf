@@ -1,5 +1,8 @@
 2013-02-23  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input.c (gsf_input_uncompress): Avoid HAVE_BZ2
+	conditionals.
+
 	* gsf/gsf-utils.c (gsf_init_dynamic): Register the tar type too.
 
 	* gsf/gsf-input.c (gsf_input_read): Detect overflow.
