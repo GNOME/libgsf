@@ -3,6 +3,9 @@ libgsf 1.14.26
 Frob:
 	* Fix vba stream problem.  [#656531]
 
+Marc-Andre Lureau:
+	* Make somewhat more robust with truncated files.  [#690524]
+
 Morten:
 	* Deal with G_TYPE_CHAR signedness.
 	* Fix error handling of gsf_output_gio_new_for_uri.
