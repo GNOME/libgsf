@@ -30,6 +30,7 @@
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-infile-stdio.h>
+#include <gsf/gsf-infile-tar.h>
 #include <gsf/gsf-infile-zip.h>
 
 #include <gsf/gsf-input.h>
@@ -220,8 +221,10 @@ gsf_init_dynamic (GTypeModule *module)
 	}
 #endif
 	REGISTER (gsf_input);
+	/* REGISTER (gsf_input_bzip); */
 	REGISTER (gsf_input_gzip);
 	REGISTER (gsf_input_http);
+	/* REGISTER (gsf_input_iochannel); */
 	REGISTER (gsf_input_memory);
 	REGISTER (gsf_input_proxy);
 	REGISTER (gsf_input_stdio);
@@ -231,6 +234,7 @@ gsf_init_dynamic (GTypeModule *module)
 	REGISTER (gsf_infile_msole);
 	REGISTER (gsf_infile_msvba);
 	REGISTER (gsf_infile_stdio);
+	REGISTER (gsf_infile_tar);
 	REGISTER (gsf_infile_zip);
 
 	REGISTER (gsf_output);

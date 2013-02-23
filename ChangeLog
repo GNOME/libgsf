@@ -1,5 +1,7 @@
 2013-02-23  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-utils.c (gsf_init_dynamic): Register the tar type too.
+
 	* gsf/gsf-input.c (gsf_input_read): Detect overflow.
 
 2013-02-20  Morten Welinder  <terra@gnome.org>
