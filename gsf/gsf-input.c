@@ -309,7 +309,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 
 	g_return_val_if_fail (input != NULL, NULL);
 
-	if (num_bytes == 0 || newpos > input->size)
+	if (newpos <= input->cur_offset || newpos > input->size)
 		return NULL;
 	res = GET_CLASS (input)->Read (input, num_bytes, optional_buffer);
 	if (res == NULL)

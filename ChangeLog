@@ -1,3 +1,7 @@
+2013-02-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_read): Detect overflow.
+
 2013-02-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_section): Add sanity
