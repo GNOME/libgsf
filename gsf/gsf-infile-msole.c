@@ -658,7 +658,6 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (input);
 	gsf_off_t first_block, last_block, raw_block, offset, i;
-	guint8 const *data;
 	guint8 *ptr;
 	size_t count;
 
