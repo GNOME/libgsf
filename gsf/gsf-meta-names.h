@@ -112,7 +112,7 @@
 #define GSF_META_NAME_BYTE_COUNT			"gsf:byte-count"
 
 /**
- * GSF_META_NAME_CASE_SENSITIVE
+ * GSF_META_NAME_CASE_SENSITIVE:
  *
  * (Unsigned Integer) Identifier representing the case-sensitiveness.
  * <note>of what ?? why is it an integer ??</note>
@@ -120,7 +120,7 @@
 #define GSF_META_NAME_CASE_SENSITIVE			"gsf:case-sensitivity"
 
 /**
- * GSF_META_NAME_CATEGORY
+ * GSF_META_NAME_CATEGORY:
  *
  * (String) Category of the document. <note>example???</note>
  */

@@ -14,6 +14,7 @@ Morten:
 	* Speed up ole writing a bit.
 	* Header cleanup.  gsf/gsf.h is now main header.  [#684608]
 	* GsfInput doc improvements.  [#540521]
+	* Introspection fixes.
 
 Paolo Bonzini:
 	* Fix gsf_input_dep for msole streams.  [#689706]

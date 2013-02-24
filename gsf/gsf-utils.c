@@ -229,7 +229,7 @@ gsf_init_dynamic (GTypeModule *module)
 }
 
 /**
- * gsf_shutdown:
+ * gsf_shutdown_dynamic:
  *
  * De-intializes the GSF library from a type module.
  * Currently does nothing.
@@ -317,7 +317,7 @@ gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 }
 
 /**
- * gsf_le_get_guint64
+ * gsf_le_get_guint64:
  * @p: pointer to storage
  *
  * Interpret binary data as a guint64 (8 byte unsigned integer type) in little

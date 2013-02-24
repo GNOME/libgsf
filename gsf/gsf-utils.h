@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 /* Do this the ugly way so that we don't have to worry about alignment */
 
 /**
- * GSF_LE_GET_GUINT8
+ * GSF_LE_GET_GUINT8:
  * @p: pointer to storage
  *
  * Interpret binary data as an unsigned 8-bit integer in little endian order.
@@ -39,7 +39,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GUINT8(p) (*(guint8 const *)(p))
 
 /**
- * GSF_LE_GET_GUINT16
+ * GSF_LE_GET_GUINT16:
  * @p: pointer to storage
  *
  * Interpret binary data as an unsigned 16-bit integer in little endian order.
@@ -51,7 +51,7 @@ G_BEGIN_DECLS
 		  (((guint8 const *)(p))[1] << 8))
 
 /**
- * GSF_LE_GET_GUINT32
+ * GSF_LE_GET_GUINT32:
  * @p: pointer to storage
  *
  * Interpret binary data as an unsigned 32-bit integer in little endian order.
@@ -65,7 +65,7 @@ G_BEGIN_DECLS
 		  (((guint8 const *)(p))[3] << 24))
 
 /**
- * GSF_LE_GET_GUINT64
+ * GSF_LE_GET_GUINT64:
  * @p: pointer to storage
  *
  * Interpret binary data as an unsigned 64-bit integer in little endian order.
@@ -75,7 +75,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GUINT64(p) (gsf_le_get_guint64 (p))
 
 /**
- * GSF_LE_GET_GINT8
+ * GSF_LE_GET_GINT8:
  * @p: pointer to storage
  *
  * Interpret binary data as a signed 8-bit integer in little endian order.
@@ -85,7 +85,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT8(p) ((gint8)GSF_LE_GET_GUINT8(p))
 
 /**
- * GSF_LE_GET_GINT16
+ * GSF_LE_GET_GINT16:
  * @p: pointer to storage
  *
  * Interpret binary data as a signed 16-bit integer in little endian order.
@@ -95,7 +95,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT16(p) ((gint16)GSF_LE_GET_GUINT16(p))
 
 /**
- * GSF_LE_GET_GINT32
+ * GSF_LE_GET_GINT32:
  * @p: pointer to storage
  *
  * Interpret binary data as a signed 32-bit integer in little endian order.
@@ -105,7 +105,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT32(p) ((gint32)GSF_LE_GET_GUINT32(p))
 
 /**
- * GSF_LE_GET_GINT64
+ * GSF_LE_GET_GINT64:
  * @p: pointer to storage
  *
  * Interpret binary data as a signed 64-bit integer in little endian order.
@@ -115,7 +115,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_GINT64(p) ((gint64)GSF_LE_GET_GUINT64(p))
 
 /**
- * GSF_LE_GET_FLOAT
+ * GSF_LE_GET_FLOAT:
  * @p: pointer to storage
  *
  * Interpret binary data as a float in little endian order.
@@ -125,7 +125,7 @@ G_BEGIN_DECLS
 #define GSF_LE_GET_FLOAT(p) (gsf_le_get_float (p))
 
 /**
- * GSF_LE_GET_DOUBLE
+ * GSF_LE_GET_DOUBLE:
  * @p: pointer to storage
  *
  * Interpret binary data as a double in little endian order.
@@ -139,7 +139,7 @@ float   gsf_le_get_float   (void const *p);
 double  gsf_le_get_double  (void const *p);
 
 /**
- * GSF_LE_SET_GUINT8
+ * GSF_LE_SET_GUINT8:
  * @p: pointer to storage
  * @dat: 8-bit unsigned integer
  *
@@ -149,7 +149,7 @@ double  gsf_le_get_double  (void const *p);
 	(*((guint8 *)(p))      = ((dat)        & 0xff))
 
 /**
- * GSF_LE_SET_GUINT16
+ * GSF_LE_SET_GUINT16:
  * @p: pointer to storage
  * @dat: 16-bit unsigned integer
  *
@@ -160,7 +160,7 @@ double  gsf_le_get_double  (void const *p);
 	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff))
 
 /**
- * GSF_LE_SET_GUINT32
+ * GSF_LE_SET_GUINT32:
  * @p: pointer to storage
  * @dat: 32-bit unsigned integer
  *
@@ -173,7 +173,7 @@ double  gsf_le_get_double  (void const *p);
 	 (*((guint8 *)(p) + 3) = (guchar) ((dat) >> 24) & 0xff))
 
 /**
- * GSF_LE_SET_GUINT64
+ * GSF_LE_SET_GUINT64:
  * @p: pointer to storage
  * @dat: 64-bit unsigned integer
  *
@@ -190,7 +190,7 @@ double  gsf_le_get_double  (void const *p);
 	 (*((guint8 *)(p) + 7) = (guchar) ((dat) >> 56) & 0xff))
 
 /**
- * GSF_LE_SET_GINT8
+ * GSF_LE_SET_GINT8:
  * @p: pointer to storage
  * @dat: 8-bit signed integer
  *
@@ -199,7 +199,7 @@ double  gsf_le_get_double  (void const *p);
 #define GSF_LE_SET_GINT8(p,dat) GSF_LE_SET_GUINT8((p),(dat))
 
 /**
- * GSF_LE_SET_GINT16
+ * GSF_LE_SET_GINT16:
  * @p: pointer to storage
  * @dat: 16-bit signed integer
  *
@@ -208,7 +208,7 @@ double  gsf_le_get_double  (void const *p);
 #define GSF_LE_SET_GINT16(p,dat) GSF_LE_SET_GUINT16((p),(dat))
 
 /**
- * GSF_LE_SET_GINT32
+ * GSF_LE_SET_GINT32:
  * @p: pointer to storage
  * @dat: 32-bit signed integer
  *
@@ -217,7 +217,7 @@ double  gsf_le_get_double  (void const *p);
 #define GSF_LE_SET_GINT32(p,dat) GSF_LE_SET_GUINT32((p),(dat))
 
 /**
- * GSF_LE_SET_GINT64
+ * GSF_LE_SET_GINT64:
  * @p: pointer to storage
  * @dat: 64-bit signed integer
  *
@@ -226,7 +226,7 @@ double  gsf_le_get_double  (void const *p);
 #define GSF_LE_SET_GINT64(p,dat) GSF_LE_SET_GUINT64((p),(dat))
 
 /**
- * GSF_LE_SET_FLOAT
+ * GSF_LE_SET_FLOAT:
  * @p: pointer to storage
  * @dat: float to be stored
  *
@@ -235,7 +235,7 @@ double  gsf_le_get_double  (void const *p);
 #define GSF_LE_SET_FLOAT(p,dat) gsf_le_set_float((p),(dat))
 
 /**
- * GSF_LE_SET_DOUBLE
+ * GSF_LE_SET_DOUBLE:
  * @p: pointer to storage
  * @dat: double to be stored
  *
