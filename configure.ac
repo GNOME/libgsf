@@ -379,46 +379,6 @@ LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
 
-test_python=false
-AC_ARG_WITH(python,
-	[--{with,without}-python   Build with the python support],
-	if test "x$withval" = xyes; then
-		test_python=true
-	fi
-)
-
-if test "x$test_python" = xtrue ; then
-    pygobject_msg=test
-    AM_PATH_PYTHON
-
-    AM_CHECK_PYTHON_HEADERS(,[pygobject_msg="NO.  Missing python headers"])
-
-    dnl check for pygtk
-    if test "$pygobject_msg" = test; then
-	PKG_CHECK_MODULES(PYGTK, pygobject-2.0 >= 2.10.0,
-		  [],
-		  [pygobject_msg="NO.  pygtk problem"])
-	AC_SUBST(PYGTK_CFLAGS)
-    fi
-    if test "$pygobject_msg" = test; then
-	AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
-	if test "$PYGTK_CODEGEN" = no; then
-	    pygobject_msg="NO.  Missing pygtk-codegen-2.0"
-	fi
-    fi
-
-    if test "$pygobject_msg" = test; then
-	pygobject_msg=yes
-    fi
-    AC_MSG_RESULT($pygobject_msg)
-else
-    pygobject_msg=no
-fi
-
-AM_CONDITIONAL(WITH_PYTHON, [test "$pygobject_msg" = yes])
-
-dnl ***********************************************************************************
-
 dnl bz2
 dnl
 BZ2_LIBS=
@@ -509,7 +469,6 @@ gsf/Makefile
 gsf-win32/Makefile
 tests/Makefile
 tools/Makefile
-python/Makefile
 thumbnailer/Makefile
 po/Makefile.in
 gsf/version.c
