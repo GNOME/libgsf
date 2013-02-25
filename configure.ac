@@ -467,6 +467,7 @@ m4/Makefile
 doc/Makefile
 gsf/Makefile
 gsf-win32/Makefile
+python/Makefile
 tests/Makefile
 tools/Makefile
 thumbnailer/Makefile
