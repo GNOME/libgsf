@@ -22,12 +22,7 @@
  * Parts of this code are taken from libole2/test/test-ole.c
  */
 
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-infile-msole.h>
-#include <gsf/gsf-msole-utils.h>
+#include <gsf/gsf.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -200,7 +195,7 @@ test (unsigned argc, char *argv[])
 			GsfDocMetaData *meta_data = gsf_doc_meta_data_new ();
 
 			puts ( "SummaryInfo");
-			err = gsf_msole_metadata_read (stream, meta_data);
+			err = gsf_doc_meta_data_read_from_msole (meta_data, stream);
 			if (err != NULL) {
 				g_warning ("'%s' error: %s", argv[i], err->message);
 				g_error_free (err);
@@ -217,7 +212,7 @@ test (unsigned argc, char *argv[])
 			GsfDocMetaData *meta_data = gsf_doc_meta_data_new ();
 
 			puts ( "DocSummaryInfo");
-			err = gsf_msole_metadata_read (stream, meta_data);
+			err = gsf_doc_meta_data_read_from_msole (meta_data, stream);
 			if (err != NULL) {
 				g_warning ("'%s' error: %s", argv[i], err->message);
 				g_error_free (err);
