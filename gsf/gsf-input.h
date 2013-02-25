@@ -43,6 +43,10 @@ gsf_off_t     gsf_input_size	  (GsfInput *input);
 gboolean      gsf_input_eof	  (GsfInput *input);
 guint8 const *gsf_input_read	  (GsfInput *input, size_t num_bytes,
 				   guint8 *optional_buffer);
+/* For bindings _only_! */
+guint8 *      gsf_input_read0     (GsfInput *input, size_t num_bytes,
+				   size_t *bytes_read);
+
 gsf_off_t     gsf_input_remaining (GsfInput *input);
 gsf_off_t     gsf_input_tell	  (GsfInput *input);
 gboolean      gsf_input_seek	  (GsfInput *input,

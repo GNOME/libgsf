@@ -168,7 +168,8 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
  *
  * Give the name of @output.
  *
- * Returns: @output's name in utf8 form, DO NOT FREE THIS STRING
+ * Returns: (transfer none) @output's name in utf8 form, DO NOT FREE
+ * THIS STRING
  **/
 char const *
 gsf_output_name (GsfOutput const *output)
@@ -334,7 +335,7 @@ gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
  * gsf_output_write:
  * @output: Output stream
  * @num_bytes: Number of bytes to write
- * @data: Data to write.
+ * @data: (in) (array length=num_bytes): Data to write.
  *
  * Write @num_bytes of @data to @output.
  *

@@ -166,7 +166,8 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
  *
  * The name of the input stream.
  *
- * Returns: @input's name in utf8 form, or %NULL if it has no name.
+ * Returns: (transfer none) @input's name in utf8 form, or %NULL if it
+ * has no name.
  **/
 char const *
 gsf_input_name (GsfInput *input)
@@ -285,18 +286,19 @@ gsf_input_eof (GsfInput *input)
 }
 
 /**
- * gsf_input_read:
+ * gsf_input_read: (skip)
  * @input: the input stream
  * @num_bytes: number of bytes to read
- * @optional_buffer: %NULL, or pointer to destination memory area
+ * @optional_buffer: Pointer to destination memory area
  *
  * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
- * Returns: pointer to the buffer or %NULL if there is an error or 0 bytes are
- * 	requested.
+ * Returns: pointer to the buffer or %NULL if there is an error or 0
+ * bytes are requested.
  **/
+
 guint8 const *
 gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
@@ -313,6 +315,42 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 
 	input->cur_offset = newpos;
 	return res;
+}
+
+/**
+ * gsf_input_read0:
+ * @input: the input stream
+ * @num_bytes: (in) number of bytes to read
+ * @bytes_read: (out) copy of @num_bytes
+ *
+ * Read @num_bytes.  Does not change the current position if there
+ * is an error.  Will only read if the entire amount can be read.
+ *
+ * Returns: (array length=bytes_read) (element-type guint8) (transfer full)
+ * the data read.
+ *
+ * Rename to: gsf_input_read
+ **/
+
+guint8 *
+gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
+{
+	guint8 *res;
+
+	g_return_val_if_fail (input != NULL, FALSE);
+	g_return_val_if_fail (bytes_read != NULL, FALSE);
+
+	*bytes_read = num_bytes;
+
+	if (num_bytes > (size_t)gsf_input_remaining (input))
+		return NULL;
+
+	res = g_new (guint8, num_bytes);
+	if (gsf_input_read (input, num_bytes, res))
+		return res;
+
+	g_free (res);
+	return NULL;
 }
 
 /**
