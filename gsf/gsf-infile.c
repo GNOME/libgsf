@@ -47,7 +47,7 @@ gsf_infile_num_children (GsfInfile *infile)
  * @infile: An #GsfInfile
  * @i: zero-based index of child to find.
  *
- * Returns: (transfer none) the utf8 encoded name of the @i-th child
+ * Returns: (transfer none): the utf8 encoded name of the @i-th child
  **/
 const gchar *
 gsf_infile_name_by_index (GsfInfile *infile, int i)

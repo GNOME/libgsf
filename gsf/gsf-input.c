@@ -166,7 +166,7 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
  *
  * The name of the input stream.
  *
- * Returns: (transfer none) @input's name in utf8 form, or %NULL if it
+ * Returns: (transfer none): @input's name in utf8 form, or %NULL if it
  * has no name.
  **/
 char const *
@@ -320,13 +320,13 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 /**
  * gsf_input_read0:
  * @input: the input stream
- * @num_bytes: (in) number of bytes to read
- * @bytes_read: (out) copy of @num_bytes
+ * @num_bytes: (in): number of bytes to read
+ * @bytes_read: (out): copy of @num_bytes
  *
  * Read @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.
  *
- * Returns: (array length=bytes_read) (element-type guint8) (transfer full)
+ * Returns: (array length=bytes_read) (element-type guint8) (transfer full):
  * the data read.
  *
  * Rename to: gsf_input_read

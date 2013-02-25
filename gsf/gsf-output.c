@@ -168,7 +168,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
  *
  * Give the name of @output.
  *
- * Returns: (transfer none) @output's name in utf8 form, DO NOT FREE
+ * Returns: (transfer none): @output's name in utf8 form, DO NOT FREE
  * THIS STRING
  **/
 char const *
