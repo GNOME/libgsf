@@ -1,3 +1,7 @@
+2013-02-27  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.26
+
 2013-02-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* tests/test-msole1.c (test): fix build.
