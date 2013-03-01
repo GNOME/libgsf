@@ -360,7 +360,7 @@ gsf_output_write (GsfOutput *output,
  * gsf_output_error:
  * @output:
  *
- * Returns: the last error logged on the output, or %NULL.
+ * Returns: (transfer none): the last error logged on the output, or %NULL.
  **/
 GError const *
 gsf_output_error (GsfOutput const *output)
@@ -628,7 +628,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 /**
  * gsf_output_puts:
  * @output: A #GsfOutput
- * @line: %null terminated string to write
+ * @line: Nul terminated string to write
  *
  * Like fputs, this assumes that the line already ends with a newline
  *

@@ -193,7 +193,7 @@ gsf_input_container (GsfInput *input)
 /**
  * gsf_input_dup:
  * @input: The input to duplicate
- * @err: optionally %NULL
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
@@ -235,7 +235,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  * gsf_input_sibling:
  * @input: The input
  * @name: name.
- * @err: #GError
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * UNIMPLEMENTED BY ANY BACKEND
  * 	and it is probably unnecessary.   gsf_input_get_container provides
@@ -258,9 +258,7 @@ gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
  * gsf_input_size:
  * @input: The input
  *
- * Looks up and caches the number of bytes in the input
- *
- * Returns:  the size or -1 on error
+ * Returns: the total number of bytes in the input or -1 on error
  **/
 gsf_off_t
 gsf_input_size (GsfInput *input)
@@ -602,8 +600,8 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
  * This functions takes ownership of the incoming reference and yields a
  * new one as its output.
  *
- * Returns: (transfer full): A stream equivalent to the source stream, but uncompressed if
- * the source was compressed.
+ * Returns: (transfer full): A stream equivalent to the source stream,
+ * but uncompressed if the source was compressed.
  **/
 GsfInput *
 gsf_input_uncompress (GsfInput *src)

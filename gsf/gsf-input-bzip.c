@@ -33,7 +33,7 @@
 /**
  * gsf_input_memory_new_from_bzip:
  * @source: a #GsfInput
- * @err: a #GError
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * Returns: a new #GsfInputMemory or %NULL.
  */

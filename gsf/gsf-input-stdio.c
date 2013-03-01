@@ -155,13 +155,13 @@ gsf_input_stdio_new (char const *filename, GError **err)
 /**
  * gsf_input_stdio_new_FILE:
  * @filename: The filename corresponding to @file.
- * @file: an existing stdio <type>FILE</type> *
+ * @file: (transfer full): an existing stdio <type>FILE</type> *
  * @keep_open: Should @file be closed when the wrapper is closed
  *
  * Assumes ownership of @file when succeeding.  If @keep_open is true,
- * ownership reverts to caller when the GsfObject is closed.
+ * ownership reverts to caller when the #GsfInput is closed.
  *
- * Returns: a new GsfInput wrapper for @file.  Note that if the file is not
+ * Returns: a new #GsfInput wrapper for @file.  Note that if the file is not
  * 	seekable, this function will make a local copy of the entire file.
  **/
 GsfInput *
@@ -319,4 +319,3 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GsfInputStdio, gsf_input_stdio,
 	   gsf_input_stdio_class_init, gsf_input_stdio_init,
 	   GSF_INPUT_TYPE)
-
