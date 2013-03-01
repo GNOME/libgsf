@@ -556,6 +556,6 @@ main (int argc, char **argv)
 	if (strcmp (cmd, "createzip") == 0)
 		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_ZIP);
 
-	g_printerr (_("Run '%s help' to see a list subcommands.\n"), me);
+	g_printerr (_("Run '%s help' to see a list of subcommands.\n"), me);
 	return 1;
 }
