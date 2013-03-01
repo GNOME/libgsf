@@ -110,7 +110,7 @@ gsf_command_context_new (void)
  * Check whether there's been an error notification in the given
  * #GsfCommandContext object or not.
  *
- * Returns: TRUE if there have been errors, FALSE if not.
+ * Returns: %TRUE if there have been errors, %FALSE if not.
  */
 gboolean
 gsf_command_context_error_occurred (GsfCommandContext *cc)
@@ -143,7 +143,7 @@ gsf_command_context_error_message (GsfCommandContext *cc, const gchar *msg, gint
  * @cc: a #GsfCommandContext object.
  * @error: an error to be added.
  *
- * Adds a new GError to the given #GsfCommandContext. The error is added
+ * Adds a new #GError to the given #GsfCommandContext. The error is added
  * to the end of the error queue, so that it can only be read,
  * via #gsf_command_context_pop_error, after all previous errors have
  * being read.
@@ -169,7 +169,7 @@ gsf_command_context_push_error (GsfCommandContext *cc, const GError *error)
  *
  * Get the next error in the given #GsfCommandContext object.
  *
- * Returns: a GError structure that contains all the information
+ * Returns: a #GError structure that contains all the information
  * for the next error. The caller of this function is responsible
  * of freeing the returned value, by calling #g_error_free.
  */
@@ -192,7 +192,7 @@ gsf_command_context_pop_error (GsfCommandContext *cc)
  * gsf_command_context_has_warnings
  * @cc: a #GsfCommandContext object.
  *
- * Returns: TRUE if there were warnings, or FALSE if not.
+ * Returns: %TRUE if there were warnings, or %FALSE if not.
  */
 gboolean
 gsf_command_context_has_warnings (GsfCommandContext *cc)
@@ -232,7 +232,7 @@ gsf_command_context_push_warning (GsfCommandContext *cc, const GError *warning)
  *
  * Get the next warning in the given #GsfCommandContext object.
  *
- * Returns: a GError structure that contains all the information
+ * Returns: a #GError structure that contains all the information
  * for the next warning. The caller of this function is responsible
  * of freeing the returned value, by calling #g_error_free.
  */

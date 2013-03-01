@@ -116,15 +116,15 @@ ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
 }
 
 /**
- * ole_get_block :
+ * ole_get_block: (skip)
  * @ole: the infile
  * @block: block number
- * @buffer: optionally NULL
+ * @buffer: optionally %NULL
  *
  * Read a block of data from the underlying input.
  * Be really anal.
  *
- * Returns: pointer to the buffer or NULL if there is an error or 0 bytes are
+ * Returns: pointer to the buffer or %NULL if there is an error or 0 bytes are
  * requested.
  **/
 static guint8 const *

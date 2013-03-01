@@ -499,9 +499,9 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
  *
  * Since: 1.14.24
  *
- * Returns: a GError if there is a problem.
+ * Returns: (transfer full): a #GError if there is a problem.
  **/
-GError	*
+GError*
 gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
@@ -538,7 +538,7 @@ gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
  *
  * Deprecated: 1.14.24, use gsf_doc_meta_data_read_from_odf
  *
- * Returns: a GError if there is a problem.
+ * Returns: (transfer full): a #GError if there is a problem.
  **/
 GError *
 gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
@@ -746,7 +746,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
  *
  * Since: 1.14.24
  *
- * Returns: TRUE if no error occured.
+ * Returns: %TRUE if no error occured.
  **/
 gboolean
 gsf_doc_meta_data_write_to_odf (GsfDocMetaData const *md, gpointer output)
@@ -797,7 +797,7 @@ gsf_doc_meta_data_write_to_odf (GsfDocMetaData const *md, gpointer output)
  *
  * Deprecated: 1.14.24, use gsf_doc_meta_data_write_to_odf
  *
- * Returns: TRUE if no error occured.
+ * Returns: %TRUE if no error occured.
  **/
 gboolean
 gsf_opendoc_metadata_write (gpointer output, GsfDocMetaData const *md)

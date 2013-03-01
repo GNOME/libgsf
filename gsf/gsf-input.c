@@ -531,7 +531,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 /**
  * gsf_input_error_id:
  *
- * Returns: A utility quark to flag a GError as being an input problem.
+ * Returns: A utility quark to flag a #GError as being an input problem.
  */
 GQuark
 gsf_input_error_id (void)
@@ -547,7 +547,7 @@ gsf_input_error_id (void)
  *
  * Deprecated as of GSF 1.12.0; use gsf_input_error_id() instead.
  *
- * Returns: A utility quark to flag a GError as being an input problem.
+ * Returns: A utility quark to flag a #GError as being an input problem.
  */
 GQuark
 gsf_input_error (void)

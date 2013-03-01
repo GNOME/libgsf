@@ -392,7 +392,7 @@ gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
  *
  * Convenience function to parse a related part.
  *
- * Returns: NULL on success or a GError which callerss need to free on failure.
+ * Returns: (transfer full): %NULL on success or a #GError on failure.
  **/
 GError *
 gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,

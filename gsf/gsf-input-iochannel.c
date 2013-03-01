@@ -29,7 +29,7 @@
  * @channel: a #GIOChannel.
  * @error: a #GError
  *
- * Returns: a new #GsfInputMemory or NULL.
+ * Returns: a new #GsfInputMemory or %NULL.
  **/
 GsfInput *
 gsf_input_memory_new_from_iochannel (GIOChannel *channel,

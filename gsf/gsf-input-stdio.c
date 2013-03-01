@@ -103,9 +103,9 @@ error:
 /**
  * gsf_input_stdio_new:
  * @filename: in utf8.
- * @err: optionally NULL.
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
- * Returns: a new file or NULL.
+ * Returns: a new file or %NULL.
  **/
 /* coverity[ -tainted_string_sink_content : arg-0 ] */
 GsfInput *

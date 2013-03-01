@@ -59,7 +59,7 @@ wrap_if_not_seekable (GsfOutputGio *output, GError **err)
  * gsf_output_gio_new_full:
  * @file: an existing GFile
  *
- * Returns: A new #GsfOutputGio or NULL
+ * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */
 static GsfOutput *
 gsf_output_gio_new_full (GFile *file, GError **err)
@@ -86,7 +86,7 @@ gsf_output_gio_new_full (GFile *file, GError **err)
  * gsf_output_gio_new:
  * @file: an existing GFile
  *
- * Returns: A new #GsfOutputGio or NULL
+ * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new (GFile *file)
@@ -97,9 +97,9 @@ gsf_output_gio_new (GFile *file)
 /**
  * gsf_output_gio_new_for_path:
  * @path:
- * @err: optionally NULL.
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
- * Returns: A new #GsfOutputGio or NULL
+ * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new_for_path (char const *path, GError **err)
@@ -125,9 +125,9 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 /**
  * gsf_output_gio_new_for_uri:
  * @uri:
- * @err: optionally NULL.
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
- * Returns: A new #GsfOutputGio or NULL
+ * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new_for_uri (char const *uri, GError **err)

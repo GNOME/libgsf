@@ -1103,7 +1103,7 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
  *
  * Since: 1.14.24
  *
- * Returns: GError which the caller must free on error.
+ * Returns: (transfer full): A #GError if there was an error.
  **/
 GError *
 gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
@@ -1319,7 +1319,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
  *
  * Deprecated: 1.14.24, use gsf_doc_meta_data_read_from_msole
  *
- * Returns: GError which the caller must free on error.
+ * Returns: (transfer full): A #GError if there was an error.
  **/
 GError *
 gsf_msole_metadata_read	(GsfInput *in, GsfDocMetaData *accum)

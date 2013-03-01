@@ -358,9 +358,9 @@ gsf_xml_parser_context (GsfInput *input)
 }
 
 /**
- * gsf_xml_output_buffer_new:
+ * gsf_xml_output_buffer_new: (skip)
  * @output: #GsfOutput
- * @encoding: optionally %NULL.
+ * @handler (allow-none):
  *
  * <note>This adds a reference to @output.</note>
  * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
@@ -384,7 +384,7 @@ gsf_xml_output_buffer_new (GsfOutput *output,
  * gsf_xmlDocFormatDump:
  * @output: #GsfOutput
  * @cur: #xmlDocPtr
- * @encoding: The encoding to use.
+ * @encoding: (allow-none): The encoding to use.
  * @format: %TRUE to reformat the output.
  *
  * Dumps the document @cur into @output.
@@ -1714,13 +1714,13 @@ close_tag_if_neccessary (GsfXMLOut* xout)
 /**
  * gsf_xml_out_add_cstr_unchecked:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
- * @val_utf8: a utf8 encoded string to export
+ * @id: (allow-none): tag id or %NULL for content
+ * @val_utf8: (allow-none): a utf8 encoded string to export
  *
- * dump @val_utf8 to an attribute named @id without checking to see if the
- * content needs escaping.  A useful performance enhancement when the
- * application knows that structure of the content well.  If @val_utf8 is NULL
- * do nothing (no warning, no output)
+ * dump @val_utf8 to an attribute named @id without checking to see if
+ * the content needs escaping.  A useful performance enhancement when
+ * the application knows that structure of the content well.  If
+ * @val_utf8 is %NULL do nothing (no warning, no output)
  **/
 void
 gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xout, char const *id,
@@ -1741,11 +1741,11 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_cstr:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
- * @val_utf8: a utf8 encoded string
+ * @id: (allow-none): tag id or %NULL for content
+ * @val_utf8: (allow-none): a utf8 encoded string
  *
  * dump @val_utf8 to an attribute named @id or as the nodes content escaping
- * characters as necessary.  If @val_utf8 is NULL do nothing (no warning, no
+ * characters as necessary.  If @val_utf8 is %NULL do nothing (no warning, no
  * output)
  **/
 void
@@ -1820,7 +1820,7 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_bool:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @val: a boolean
  *
  * dump boolean value @val to an attribute named @id or as the nodes content
@@ -1837,7 +1837,7 @@ gsf_xml_out_add_bool (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_int:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @val: the value
  *
  * dump integer value @val to an attribute named @id or as the nodes content
@@ -1854,7 +1854,7 @@ gsf_xml_out_add_int (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_uint:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @val: the value
  *
  * dump unsigned integer value @val to an attribute named @id or as the nodes
@@ -1872,7 +1872,7 @@ gsf_xml_out_add_uint (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_float:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @val: the value
  * @precision: the number of significant digits to use, -1 meaning "enough".
  *
@@ -1898,7 +1898,7 @@ gsf_xml_out_add_float (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_color:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @r: Red value
  * @g: Green value
  * @b: Blue value
@@ -1917,7 +1917,7 @@ gsf_xml_out_add_color (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_enum:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @etype: #GType
  * @val: enum element number
  *
@@ -1940,7 +1940,7 @@ gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
 /**
  * gsf_xml_out_add_gvalue:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @val: #GValue
  *
  * Output the value of @val as a string.  Does NOT store any type information
@@ -2021,11 +2021,11 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 /**
  * gsf_xml_out_add_base64:
  * @xout: #GsfXMLOut
- * @id: optionally NULL for content
+ * @id: (allow-none): tag id or %NULL for content
  * @data: Data to be written
  * @len: Length of data
  *
- * dump @len bytes in @data into the content of node @id using base64
+ * Dump @len bytes in @data into the content of node @id using base64
  **/
 void
 gsf_xml_out_add_base64 (GsfXMLOut *xout, char const *id,

@@ -37,7 +37,7 @@ typedef struct {
  * gsf_output_iochannel_new:
  * @channel: A #GIOChannel
  *
- * Returns: a new file or NULL.
+ * Returns: (transfer full): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_iochannel_new (GIOChannel *channel)

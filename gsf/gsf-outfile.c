@@ -44,7 +44,7 @@ gsf_outfile_new_child (GsfOutfile *outfile,
  * gsf_outfile_new_child_full:
  * @outfile: A #GsfOutfile
  * @name: The name of the new child to create
- * @is_dir: TRUE to create a directory, FALSE to create a plain file
+ * @is_dir: %TRUE to create a directory, %FALSE to create a plain file
  * @first_property_name:
  * @...:
  *
@@ -73,7 +73,7 @@ gsf_outfile_new_child_full (GsfOutfile *outfile,
  * gsf_outfile_new_child_varg:
  * @outfile: A #GsfOutfile
  * @name: The name of the new child to create
- * @is_dir: TRUE to create a directory, FALSE to create a plain file
+ * @is_dir: %TRUE to create a directory, %FALSE to create a plain file
  * @first_property_name:
  * @args:
  *

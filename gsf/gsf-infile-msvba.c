@@ -143,7 +143,7 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 /**
  * vba_dir_read:
  * @vba: #GsfInfileMSVBA
- * @err: optionally NULL
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * Read an VBA dirctory and its project file.
  * along the way.
@@ -334,7 +334,7 @@ fail_stream :
 /**
  * vba_project_read:
  * @vba: #GsfInfileMSVBA
- * @err: optionally NULL
+ * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * Read an VBA dirctory and its project file.
  * along the way.
@@ -544,7 +544,7 @@ gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
  *
  * A utility routine that attempts to find the VBA file withint a stream.
  *
- * Returns: (transfer full): a GsfInfileMSVBA *gsf_input_find_vba (GsfInput *input, GError *err);
+ * Returns: (transfer full): a GsfInfile
  **/
 GsfInfileMSVBA *
 gsf_input_find_vba (GsfInput *input, GError **err)

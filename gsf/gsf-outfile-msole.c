@@ -806,7 +806,7 @@ gsf_outfile_msole_new (GsfOutput *sink)
  *
  * Write @clsid to the directory associated with @ole.
  *
- * Returns: TRUE on success.
+ * Returns: %TRUE on success.
  **/
 gboolean
 gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole, guint8 const *clsid)

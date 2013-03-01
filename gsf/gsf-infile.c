@@ -62,7 +62,7 @@ gsf_infile_name_by_index (GsfInfile *infile, int i)
  * @infile: #GsfInfile
  * @i: target index
  *
- * TODO : For 2.0 api will change to include a GError.
+ * TODO : For 2.0 api will change to include a #GError.
  * Returns: (transfer full): a newly created child which must be unrefed.
  **/
 GsfInput *
@@ -95,7 +95,7 @@ gsf_infile_child_by_index (GsfInfile *infile, int i)
  * works for an immediate child.  If you need to go several levels
  * down use gsf_infile_child_by_aname, for example.
  *
- * TODO : For 2.0 api will change to include a GError.
+ * TODO : For 2.0 api will change to include a #GError.
  *
  * Returns: (transfer full): a newly created child which must be
  * unrefed.

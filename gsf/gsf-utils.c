@@ -720,7 +720,7 @@ gsf_base64_decode_simple (guint8 *data, size_t len)
  * @p_params: a pointer to the GParameter array that holds the properties.
  *   (Used for both input and output.  This may point to a %NULL pointer if
  *   there are no properties collected yet.)
- * @first_property_name: the name of the first property being set, or NULL.
+ * @first_property_name: the name of the first property being set, or %NULL.
  * @var_args: a va_list holding the remainder of the property names and
  *   values, terminated by a %NULL.
  *
