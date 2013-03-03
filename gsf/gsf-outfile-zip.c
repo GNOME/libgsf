@@ -23,6 +23,7 @@
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-zip-impl.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 #include <time.h>
@@ -702,8 +703,9 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SINK,
-		 g_param_spec_object ("sink", "Sink",
-				      "Where the archive is written.",
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("Where the archive is written"),
 				      GSF_OUTPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -711,8 +713,9 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_ENTRY_NAME,
-		 g_param_spec_string ("entry-name", "Entry Name",
-				      "The filename of this member in the archive without path.",
+		 g_param_spec_string ("entry-name",
+				      _("Entry Name"),
+				      _("The filename of this member in the archive without path"),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -721,8 +724,8 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_COMPRESSION_LEVEL,
 		 g_param_spec_int ("compression-level",
-				   "Compression Level",
-				   "The level of compression used, zero meaning none.",
+				   _("Compression Level"),
+				   _("The level of compression used, zero meaning none"),
 				   0, 10,
 				   GSF_ZIP_DEFLATED,
 				   GSF_PARAM_STATIC |

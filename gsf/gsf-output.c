@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -128,34 +129,45 @@ gsf_output_class_init (GObjectClass *gobject_class)
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
-	g_object_class_install_property (gobject_class,
-					 PROP_NAME,
-					 g_param_spec_string ("name", "Name",
-							      "The Output's Name",
-							      NULL,
-							      GSF_PARAM_STATIC |
-							      G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_SIZE,
-					 g_param_spec_int64 ("size", "Size",
-							     "The Output's Size",
-							     0, G_MAXINT64, 0,
-							     GSF_PARAM_STATIC |
-							     G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_POS,
-					 g_param_spec_int64 ("position", "Position",
-							     "The Output's Current Position",
-							     0, G_MAXINT64, 0,
-							     GSF_PARAM_STATIC |
-							     G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_CLOSED,
-					 g_param_spec_boolean ("is-closed", "Is Closed",
-							       "Whether the Output is Closed",
-							       FALSE,
-							       GSF_PARAM_STATIC |
-							       G_PARAM_READABLE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_NAME,
+		 g_param_spec_string ("name",
+				      _("Name"),
+				      _("The output's name"),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SIZE,
+		 g_param_spec_int64 ("size",
+				     _("Size"),
+				     _("The output's size"),
+				     0, G_MAXINT64, 0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_POS,
+		 g_param_spec_int64 ("position",
+				     _("Position"),
+				     _("The output's current position"),
+				     0, G_MAXINT64, 0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_CLOSED,
+		 g_param_spec_boolean ("is-closed",
+				       _("Is Closed"),
+				       _("Whether the output is closed"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,

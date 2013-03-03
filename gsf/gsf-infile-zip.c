@@ -24,6 +24,7 @@
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-zip-impl.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 #include <zlib.h>
@@ -817,8 +818,8 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SOURCE,
 		 g_param_spec_object ("source",
-				      "Source",
-				      "The archive being interpreted.",
+				      _("Source"),
+				      _("The archive being interpreted"),
 				      GSF_INPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -833,12 +834,13 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_COMPRESSION_LEVEL,
 		 g_param_spec_int ("compression-level",
-				   "Compression Level",
-				   "The level of compression used, zero meaning none.",
+				   _("Compression Level"),
+				   _("The level of compression used, zero meaning none"),
 				   0, 10,
 				   0,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READABLE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_INTERNAL_PARENT,

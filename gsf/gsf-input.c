@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -114,46 +115,60 @@ gsf_input_class_init (GObjectClass *gobject_class)
 	/* gobject_class->set_property = gsf_input_set_property; */
 	gobject_class->get_property = gsf_input_get_property;
 
-	g_object_class_install_property (gobject_class,
-					 PROP_NAME,
-					 g_param_spec_string ("name", "Name",
-							      "The Input's Name",
-							      NULL,
-							      GSF_PARAM_STATIC |
-							      G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_SIZE,
-					 g_param_spec_int64 ("size", "Size",
-							     "The Input's Size",
-							     0, G_MAXINT64, 0,
-							     GSF_PARAM_STATIC |
-							     G_PARAM_READABLE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_NAME,
+		 g_param_spec_string ("name",
+				      _("Name"),
+				      _("The input's name"),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SIZE,
+		 g_param_spec_int64 ("size",
+				     _("Size"),
+				     _("The input's size"),
+				     0, G_MAXINT64, 0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READABLE));
+
 	/**
 	 * GsfInput:eof:
 	 *
 	 * True if the end of the file has been reached.
 	 */
-	g_object_class_install_property (gobject_class,
-					 PROP_EOF,
-					 g_param_spec_boolean ("eof", "EOF",
-							       "End Of File",
-							       FALSE,
-							       GSF_PARAM_STATIC |
-							       G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_REMAINING,
-					 g_param_spec_int64 ("remaining", "Remaining",
-							     "Amount of Data Remaining",
-							     0, G_MAXINT64, 0,
-							     GSF_PARAM_STATIC |
-							     G_PARAM_READABLE));
-	g_object_class_install_property (gobject_class,
-					 PROP_POS,
-					 g_param_spec_int64 ("position", "Position",
-							     "The Output's Current Position",
-							     0, G_MAXINT64, 0,
-							     GSF_PARAM_STATIC |
-							     G_PARAM_READABLE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_EOF,
+		 g_param_spec_boolean ("eof",
+				       _("EOF"),
+				       _("End of file"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_REMAINING,
+		 g_param_spec_int64 ("remaining",
+				     _("Remaining"),
+				     _("Amount of data remaining"),
+				     0, G_MAXINT64, 0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_POS,
+		 g_param_spec_int64 ("position",
+				     _("Position"),
+				     _("The input's current position"),
+				     0, G_MAXINT64, 0,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
