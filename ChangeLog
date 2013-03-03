@@ -1,3 +1,13 @@
+2013-03-03  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-command-context.c: Remove.
+	* gsf/gsf-command-context.h: Remove.
+	* gsf/gsf-io-context.c: Remove.
+	* gsf/gsf-io-context.h: Remove.
+	* gsf/gsf-output-transaction.c: Remove.
+	* gsf/gsf-output-transaction.h: Remove.
+	* gsf/Makefile.am: Remove references to those files.
+
 2013-02-27  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

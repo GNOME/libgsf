@@ -70,9 +70,6 @@ libgsf_1_la_SOURCES =		\
 	gsf-output-gio.c	\
 	\
 	version.c
-#	gsf-output-transaction.c	\
-#	gsf-command-context.c	\
-#	gsf-io-context.c
 
 libgsf_1_includedir = $(includedir)/libgsf-1/gsf
 libgsf_1_include_HEADERS = 	\
@@ -131,8 +128,6 @@ libgsf_1_include_HEADERS = 	\
 	\
 	gsf-input-gio.h		\
 	gsf-output-gio.h
-#	gsf-command-context.h	\
-#	gsf-io-context.h
 
 noinst_HEADERS = \
 	gsf-msole-impl.h	\
