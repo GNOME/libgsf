@@ -725,14 +725,25 @@ gsf_outfile_open_pkg_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	g_object_class_install_property (gobject_class, PROP_SINK,
-		 g_param_spec_object ("sink", "Sink", "The GsfOutput that stores the Open Package content.",
-			GSF_OUTFILE_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("The GsfOutput that stores the Open Package content"),
+				      GSF_OUTFILE_TYPE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
 	g_object_class_install_property (gobject_class, PROP_CONTENT_TYPE,
-		 g_param_spec_string ("content-type", "ContentType", "The ContentType stored in the root [Content_Types].xml file.",
-			"", GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+		 g_param_spec_string ("content-type",
+				      _("Content type"),
+				      _("The content type stored in the root [Content_Types].xml file"),
+				      "",
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
 	g_object_class_install_property (gobject_class, PROP_IS_DIR,
-		 g_param_spec_boolean ("is-dir", "IsDir", "Can the outfile have children.",
-			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+		 g_param_spec_boolean ("is-dir",
+				       _("Is Directory"),
+				       _("Can the outfile have children"),
+				       FALSE,
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 GSF_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,

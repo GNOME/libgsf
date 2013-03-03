@@ -24,6 +24,7 @@
 #include <gsf/gsf-output-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
+#include <glib/gi18n-lib.h>
 #include <glib.h>
 #include <string.h>
 
@@ -328,62 +329,73 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SINK,
-		 g_param_spec_object ("sink", "Sink",
-				      "Where the compressed data is written.",
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("Where the formatted output is written"),
 				      GSF_OUTPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_QUOTE,
-		 g_param_spec_string ("quote", "Quote",
-				      "The string used for quoting fields.",
+		 g_param_spec_string ("quote",
+				      _("Quote"),
+				      _("The string used for quoting fields"),
 				      "\"",
 				      GSF_PARAM_STATIC |
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_QUOTING_MODE,
 		 g_param_spec_enum ("quoting-mode",
-				    "Quoting Mode",
-				    "When to quote fields.",
+				    _("Quoting Mode"),
+				    _("When to quote fields"),
 				    GSF_OUTPUT_CSV_QUOTING_MODE_TYPE,
 				    GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_CONSTRUCT |
 				    G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_QUOTING_TRIGGERS,
-		 g_param_spec_string ("quoting-triggers", "Quoting Triggers",
-				      "Characters that cause field quoting.",
+		 g_param_spec_string ("quoting-triggers",
+				      _("Quoting Triggers"),
+				      _("Characters that cause field quoting"),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_QUOTING_ON_WHITESPACE,
 		 g_param_spec_boolean ("quoting-on-whitespace",
-				       "Quoting On Whitespace",
-				       "Does initial or terminal whitespace force quoting?",
+				       _("Quoting On Whitespace"),
+				       _("Does initial or terminal whitespace force quoting?"),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SEPARATOR,
-		 g_param_spec_string ("separator", "Separator",
-				      "The field separator.",
+		 g_param_spec_string ("separator",
+				      _("Separator"),
+				      _("The field separator"),
 				      ",",
 				      GSF_PARAM_STATIC |
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_EOL,
-		 g_param_spec_string ("eol", "eol",
-				      "The end-of-line marker.",
+		 g_param_spec_string ("eol",
+				      _("end-on-line"),
+				      _("The end-of-line marker"),
 				      "\n",
 				      GSF_PARAM_STATIC |
 				      G_PARAM_CONSTRUCT |

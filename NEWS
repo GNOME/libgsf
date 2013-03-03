@@ -2,6 +2,8 @@ libgsf 1.14.27
 
 Morten:
 	* Introspection fixes.
+	* Property documentation fixes.
+	* I18n fixes for property strings.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26

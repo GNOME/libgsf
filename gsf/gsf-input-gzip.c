@@ -23,6 +23,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <zlib.h>
 #include <string.h>
@@ -490,17 +491,20 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_RAW,
-		 g_param_spec_boolean ("raw", "Raw",
-				       "Whether to read compressed data with no header and no trailer.",
+		 g_param_spec_boolean ("raw",
+				       _("Raw"),
+				       _("Whether to read compressed data with no header and no trailer"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SOURCE,
-		 g_param_spec_object ("source", "Source",
-				      "Where the compressed data comes from.",
+		 g_param_spec_object ("source",
+				      _("Source"),
+				      _("Where the compressed data comes from"),
 				      GSF_INPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -515,8 +519,9 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_UNCOMPRESSED_SIZE,
-		 g_param_spec_int64 ("uncompressed-size", "Size after decompression",
-				     "The source's uncompressed size",
+		 g_param_spec_int64 ("uncompressed-size",
+				     _("Size after decompression"),
+				     _("The source's uncompressed size"),
 				     -1, G_MAXINT64, -1,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE |

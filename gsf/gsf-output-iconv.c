@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -271,17 +272,20 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SINK,
-		 g_param_spec_object ("sink", "Sink",
-				      "Where the converted data is written.",
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("Where the converted data is written"),
 				      GSF_OUTPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
+
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_INPUT_CHARSET,
-		 g_param_spec_string ("input-charset", "Input Charset",
-				      "The character set to convert from.",
+		 g_param_spec_string ("input-charset",
+				      _("Input Charset"),
+				      _("The character set to convert from"),
 				      "UTF-8",
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -289,8 +293,9 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_OUTPUT_CHARSET,
-		 g_param_spec_string ("output-charset", "Output Charset",
-				      "The character set to convert to.",
+		 g_param_spec_string ("output-charset",
+				      _("Output Charset"),
+				      _("The character set to convert to"),
 				      "UTF-8",
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
@@ -305,8 +310,9 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FALLBACK,
-		 g_param_spec_string ("fallback", "Fallback",
-				      "The string to use for invalid characters.",
+		 g_param_spec_string ("fallback",
+				      _("Fallback"),
+				      _("The string to use for invalid characters"),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));

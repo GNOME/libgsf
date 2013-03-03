@@ -26,6 +26,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-infile-tar.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -538,8 +539,8 @@ gsf_infile_tar_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_SOURCE,
 		 g_param_spec_object ("source",
-				      "Source",
-				      "The archive being interpreted.",
+				      _("Source"),
+				      _("The archive being interpreted"),
 				      GSF_INPUT_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
