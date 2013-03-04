@@ -36,6 +36,14 @@
 #include <sys/statfs.h>
 #endif
 
+#ifdef HAVE_UTIME_H
+#define UTIME_AVAILABLE
+#include <utime.h>
+#elif defined(HAVE_SYS_UTIME_H)
+#define UTIME_AVAILABLE
+#include <sys/utime.h>
+#endif
+
 #ifdef G_OS_WIN32
 #include <wchar.h>
 #include <direct.h>
@@ -193,6 +201,7 @@ gsf_output_stdio_close (GsfOutput *output)
 	GsfOutputStdio *stdio = GSF_OUTPUT_STDIO (output);
 	gboolean res;
 	char *backup_filename = NULL;
+	GDateTime *modtime;
 
 	if (stdio->file == NULL)
 		return FALSE;
@@ -238,9 +247,9 @@ gsf_output_stdio_close (GsfOutput *output)
 					      "Could not backup the original as %s.",
 					      utf8name);
 			g_free (utf8name);
-			g_free (backup_filename);
 			g_unlink (stdio->temp_filename);
-			return FALSE;
+			res = FALSE;
+			goto out;
 		}
 	}
 
@@ -253,24 +262,40 @@ gsf_output_stdio_close (GsfOutput *output)
 		res = gsf_output_set_error (output,
 					    saved_errno,
 					    "%s", g_strerror (saved_errno));
-	} else {
-		/* Restore permissions.  There is not much error checking we
-		 * can do here, I'm afraid.  The final data is saved anyways.
-		 * Note the order: mode, uid+gid, gid, uid, mode.
-		 */
-		g_chmod (stdio->real_filename, stdio->st.st_mode);
-#ifdef HAVE_CHOWN
-		if (chown_wrapper (stdio->real_filename,
-				   stdio->st.st_uid,
-				   stdio->st.st_gid)) {
-			/* We cannot set both.  Maybe we can set one.  */
-			chown_wrapper (stdio->real_filename, -1, stdio->st.st_gid);
-			chown_wrapper (stdio->real_filename, stdio->st.st_uid, -1);
-		}
-		g_chmod (stdio->real_filename, stdio->st.st_mode);
+		goto out;
+	}
+
+	modtime = gsf_output_get_modtime (output);
+	if (modtime) {
+#ifdef UTIME_AVAILABLE
+		struct utimbuf ut;
+
+		ut.actime = time (NULL);
+		ut.modtime = g_date_time_to_unix (modtime);
+		/* Ignore errors */
+		/* utimes() provides better accuracy, but doesn't have 
+		   gstdio version.  gio seems to provide access.  */
+		(void)utime (stdio->real_filename, &ut);
 #endif
 	}
 
+	/* Restore permissions.  There is not much error checking we
+	 * can do here, I'm afraid.  The final data is saved anyways.
+	 * Note the order: mode, uid+gid, gid, uid, mode.
+	 */
+	g_chmod (stdio->real_filename, stdio->st.st_mode);
+#ifdef HAVE_CHOWN
+	if (chown_wrapper (stdio->real_filename,
+			   stdio->st.st_uid,
+			   stdio->st.st_gid)) {
+		/* We cannot set both.  Maybe we can set one.  */
+		chown_wrapper (stdio->real_filename, -1, stdio->st.st_gid);
+		chown_wrapper (stdio->real_filename, stdio->st.st_uid, -1);
+	}
+	g_chmod (stdio->real_filename, stdio->st.st_mode);
+#endif
+
+out:
 	g_free (backup_filename);
 
 	return res;

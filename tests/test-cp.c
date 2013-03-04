@@ -29,10 +29,11 @@
 static int
 test (char *argv[])
 {
-	GsfInput   *input;
-	GsfOutput  *output;
+	GsfInput   *input = NULL;
+	GsfOutput  *output = NULL;
 	GError     *err = NULL;
 	int         rval = 0;
+	GDateTime  *modtime;
 
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
@@ -43,31 +44,37 @@ test (char *argv[])
 		g_error_free (err);
 		return 1;
 	}
+	modtime = gsf_input_get_modtime (input);
 
-	output = gsf_output_stdio_new (argv[2], &err);
+	output = gsf_output_stdio_new_full
+		(argv[2], &err, "modtime", modtime, NULL);
 	if (output == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s\n", argv[2], err->message);
 		g_error_free (err);
 
-		g_object_unref (G_OBJECT (input));
-		return 1;
+		rval = 1;
+		goto out;
 	}
 
 	if (gsf_input_copy (input, output) == FALSE) {
-		rval = 1;
 		err = (GError*) gsf_output_error (output);
 		if (err != NULL) {
 			g_warning ("'%s' error: %s\n", argv[2], err->message);
 		}
+		rval = 1;
+		goto out;
 	}
 
-	g_object_unref (G_OBJECT (input));
+out:
+	if (input)
+		g_object_unref (input);
 
-	gsf_output_close (output);
-	g_object_unref (G_OBJECT (output));
+	if (output) {
+		gsf_output_close (output);
+		g_object_unref (output);
+	}
 
 	return rval;
 }

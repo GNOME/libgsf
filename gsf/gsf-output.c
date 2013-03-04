@@ -58,7 +58,16 @@ gsf_output_set_property (GObject      *object,
 	 G_GNUC_UNUSED   GValue const *value,
 			 GParamSpec   *pspec)
 {
+	GsfOutput *output = GSF_OUTPUT (object);
+
 	switch (property_id) {
+	case PROP_MODTIME: {
+		GDateTime *modtime = g_value_get_boxed (value);
+		if (modtime)
+			modtime = g_date_time_add (modtime, 0); // Copy
+		gsf_output_set_modtime (output, modtime);
+		break;
+	}
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -133,8 +142,6 @@ gsf_output_init (GObject *obj)
 	output->is_closed	= FALSE;
 	output->printf_buf	= NULL;
 	output->printf_buf_size = 0;
-
-	gsf_output_set_modtime (output, g_date_time_new_now_utc ());
 }
 
 static void

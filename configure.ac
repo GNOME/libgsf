@@ -259,6 +259,8 @@ if test $struct_timeval_works = no ; then
 	AC_MSG_ERROR([struct timeval is not available])
 fi
 
+AC_CHECK_MEMBERS([struct stat.st_mtimensec, struct stat.st_mtim.tv_nsec])
+
 AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
 AC_COMPILE_IFELSE(
 	[AC_LANG_PROGRAM([[#include <sys/types.h>]], [[caddr_t ca]])],
@@ -279,7 +281,7 @@ if test $need_bsd1 = yes -o $need_bsd2 = yes; then
 fi
 
 AC_TYPE_MODE_T
-AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h sys/param.h sys/mount.h)
+AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h sys/param.h sys/mount.h utime.h sys/utime.h)
 AC_FUNC_MMAP
 
 AC_MSG_CHECKING([form of statfs])
