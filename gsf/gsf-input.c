@@ -288,7 +288,7 @@ gsf_input_size (GsfInput *input)
  *
  * Are we at the end of the file ?
  *
- * Returns: TRUE if the input is at the eof.
+ * Returns: %TRUE if the input is at the eof.
  **/
 gboolean
 gsf_input_eof (GsfInput *input)
@@ -403,7 +403,7 @@ gsf_input_tell (GsfInput *input)
  *
  * Move the current location in the input stream.
  *
- * Returns: TRUE on error.
+ * Returns: %TRUE on error.
  **/
 gboolean
 gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
@@ -443,7 +443,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
  *
  * protected.
  *
- * Returns: TRUE if the assignment was ok.
+ * Returns: %TRUE if the assignment was ok.
  **/
 gboolean
 gsf_input_set_name (GsfInput *input, char const *name)
@@ -466,7 +466,7 @@ gsf_input_set_name (GsfInput *input, char const *name)
  *
  * protected.
  *
- * Returns: TRUE if the assignment was ok.
+ * Returns: %TRUE if the assignment was ok.
  **/
 gboolean
 gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
@@ -484,7 +484,7 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
  * @input: the input stream
  * @container:
  *
- * Returns: TRUE if the assignment was ok.
+ * Returns: %TRUE if the assignment was ok.
  */
 gboolean
 gsf_input_set_container (GsfInput *input, GsfInfile *container)
@@ -504,7 +504,7 @@ gsf_input_set_container (GsfInput *input, GsfInfile *container)
  * @input: the input stream
  * @size: the size of the stream
  *
- * Returns: TRUE if the assignment was ok.
+ * Returns: %TRUE if the assignment was ok.
  */
 gboolean
 gsf_input_set_size (GsfInput *input, gsf_off_t size)
@@ -523,7 +523,7 @@ gsf_input_set_size (GsfInput *input, gsf_off_t size)
  *
  * Emulate forward seeks by reading.
  *
- * Returns: TRUE if the emulation failed.
+ * Returns: %TRUE if the emulation failed.
  */
 gboolean
 gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
@@ -582,7 +582,7 @@ gsf_input_error (void)
  * make sure to call gsf_input_seek (input, 0, G_SEEK_SET) and
  * gsf_output_seek (output, 0, G_SEEK_SET) first, if applicable.
  *
- * Returns: TRUE on Success
+ * Returns: %TRUE on success
  **/
 gboolean
 gsf_input_copy (GsfInput *input, GsfOutput *output)
@@ -622,21 +622,20 @@ GsfInput *
 gsf_input_uncompress (GsfInput *src)
 {
 	gsf_off_t cur_offset = src->cur_offset;
-	const guint8 *data;
+	guint8 header[4];
 
 	if (gsf_input_seek (src, 0, G_SEEK_SET))
 		goto error;
 
 	/* Read header up front, so we avoid extra seeks in tests.  */
-	data = gsf_input_read (src, 4, NULL);
-	if (!data)
+	if (!gsf_input_read (src, 4, header))
 		goto error;
 
 	/* Let's try gzip.  */
 	{
 		const unsigned char gzip_sig[2] = { 0x1f, 0x8b };
 
-		if (memcmp (gzip_sig, data, sizeof (gzip_sig)) == 0) {
+		if (memcmp (gzip_sig, header, sizeof (gzip_sig)) == 0) {
 			GsfInput *res = gsf_input_gzip_new (src, NULL);
 			if (res) {
 				g_object_unref (src);
@@ -649,7 +648,7 @@ gsf_input_uncompress (GsfInput *src)
 	{
 		guint8 const *bzip_sig = "BZh";
 
-		if (memcmp (bzip_sig, data, strlen (bzip_sig)) == 0) {
+		if (memcmp (bzip_sig, header, strlen (bzip_sig)) == 0) {
 			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);
 			if (res) {
 				g_object_unref (src);

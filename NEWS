@@ -4,6 +4,7 @@ Morten:
 	* Introspection fixes.
 	* Property documentation fixes.
 	* I18n fixes for property strings.
+	* Fix uncompress problem with bzip'd files.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26

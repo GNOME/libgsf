@@ -1,3 +1,8 @@
+2013-03-04  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_uncompress): Fix potential failure
+	with bzip'd input.
+
 2013-03-03  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-command-context.c: Remove.
