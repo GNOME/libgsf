@@ -83,7 +83,8 @@ gzip_output_header (GsfOutputGZip *gzip)
 {
 	guint8 buf[3 + 1 + 4 + 2];
 	static guint8 const gzip_signature[] = { 0x1f, 0x8b, 0x08 } ;
-	time_t mtime = time (NULL);
+	GDateTime *modtime = gsf_output_get_modtime (GSF_OUTPUT (gzip));
+	time_t mtime = modtime ? g_date_time_to_unix (modtime) : 0;
 	char const *name = gsf_output_name (gzip->sink);
 	/* FIXME: What to do about gz extension ... ? */
 	int nlen = 0;  /* name ? strlen (name) : 0; */
