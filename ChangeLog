@@ -1,5 +1,13 @@
 2013-03-04  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_new_child): Set modtime of
+	child.
+	(zip_dirent_new_in): Read modtime from file.
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_new_child): Parent's
+	modtime is child's default.
+	(gsf_outfile_zip_constructor): Default modtime is now.
+
 	* configure.ac: Check for utime.h and sys/utime.h.  Check for
 	stat.st_mtimensec and stat.st_mtim.tv_nsec.
 

@@ -132,6 +132,10 @@ gsf_outfile_zip_constructor (GType                  type,
 		gsf_output_set_container (GSF_OUTPUT (zip), NULL);
 	}
 
+	if (!gsf_output_get_modtime (GSF_OUTPUT (zip)))
+		gsf_output_set_modtime (GSF_OUTPUT (zip),
+					g_date_time_new_now_utc ());
+
 	return (GObject *)zip;
 }
 
@@ -259,17 +263,26 @@ stream_name_build (GsfOutfileZip *zip)
 }
 
 static guint32
-zip_time_make (time_t t)
+zip_time_make (GDateTime *modtime)
 {
-	struct tm *localnow = localtime (&t);
+	gint year, month, day, hour, minute, second;
 	guint32 ztime;
 
-	ztime = (localnow->tm_year - 80) & 0x7f;
-	ztime = (ztime << 4) | ((localnow->tm_mon + 1)  & 0x0f);
-	ztime = (ztime << 5) | (localnow->tm_mday & 0x1f);
-	ztime = (ztime << 5) | (localnow->tm_hour & 0x1f);
-	ztime = (ztime << 6) | (localnow->tm_min  & 0x3f);
-	ztime = (ztime << 5) | ((localnow->tm_sec / 2) & 0x1f);
+	g_return_val_if_fail (modtime != NULL, 0);
+
+	g_date_time_get_ymd (modtime, &year, &month, &day);
+	if (year < 1980 || year > 1980 + 0x7f)
+		return 0;
+	hour = g_date_time_get_hour (modtime);
+	minute = g_date_time_get_minute (modtime);
+	second = g_date_time_get_second (modtime);
+
+	ztime = (year - 1980) & 0x7f;
+	ztime = (ztime << 4) | (month  & 0x0f);
+	ztime = (ztime << 5) | (day & 0x1f);
+	ztime = (ztime << 5) | (hour & 0x1f);
+	ztime = (ztime << 6) | (minute & 0x3f);
+	ztime = (ztime << 5) | ((second / 2) & 0x1f);
 
 	return ztime;
 }
@@ -289,7 +302,7 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 	GsfZipDirent *dirent = gsf_zip_dirent_new ();
 	dirent->name = stream_name_build (zip);
 	dirent->compr_method = zip->compression_method;
-	dirent->dostime = zip_time_make (time (NULL));
+	dirent->dostime = zip_time_make (gsf_output_get_modtime (GSF_OUTPUT (zip)));
 	zip_dirent_update_flags (dirent);
 	return dirent;
 }
@@ -581,6 +594,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 				       &params, &n_params,
 				       "sink", zip_parent->sink,
 				       "entry-name", name,
+				       "modtime", gsf_output_get_modtime (GSF_OUTPUT (parent)),
 				       NULL);
 	gsf_property_settings_collect_valist (GSF_OUTFILE_ZIP_TYPE,
 					      &params, &n_params,

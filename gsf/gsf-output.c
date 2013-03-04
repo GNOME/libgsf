@@ -37,7 +37,6 @@
 
 static gsf_off_t gsf_output_real_vprintf (GsfOutput *output,
 	char const* format, va_list args) G_GNUC_PRINTF (2, 0);
-static gboolean gsf_output_set_modtime   (GsfOutput *output, GDateTime *modtime);
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
@@ -603,7 +602,7 @@ gsf_output_get_modtime (GsfOutput *output)
  *
  * Returns: %TRUE if the assignment was ok.
  */
-static gboolean
+gboolean
 gsf_output_set_modtime (GsfOutput *output, GDateTime *modtime)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);

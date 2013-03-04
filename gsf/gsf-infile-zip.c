@@ -77,6 +77,26 @@ typedef struct {
 #define GSF_INFILE_ZIP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_ZIP_TYPE, GsfInfileZipClass))
 #define GSF_IS_INFILE_ZIP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_ZIP_TYPE))
 
+
+static GDateTime *
+zip_make_modtime (guint32 dostime)
+{
+	if (dostime == 0)
+		return NULL;
+	else {
+		gint year = (dostime >> 25) + 1980;
+		gint month = (dostime >> 21) & 0x0f;
+		gint day = (dostime >> 16) & 0x1f;
+		gint hour = (dostime >> 11) & 0x0f;
+		gint minute = (dostime >> 5) & 0x3f;
+		gint second = (dostime & 0x1f) * 2;
+		GDateTime *modtime =
+			g_date_time_new_utc (year, month, day,
+					     hour, minute, second);
+		return modtime;
+	}
+}
+
 static GsfZipVDir *
 vdir_child_by_name (GsfZipVDir *vdir, char const *name)
 {
@@ -190,7 +210,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	GsfZipDirent *dirent;
 	guint8 const *data;
 	guint16 name_len, extras_len, comment_len, compr_method, flags;
-	guint32 crc32, csize, usize, off;
+	guint32 dostime, crc32, csize, usize, off;
 	gchar *name;
 
 	/* Read data and check the header */
@@ -206,6 +226,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 
 	flags =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_FLAGS);
 	compr_method =  GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMPR_METHOD);
+	dostime =       GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_DOSTIME);
 	crc32 =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CRC32);
 	csize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CSIZE);
 	usize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_USIZE);
@@ -227,6 +248,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	dirent->csize =         csize;
 	dirent->usize =         usize;
 	dirent->offset =        off;
+	dirent->dostime =       dostime;
 #if 0
 	g_print ("%s = 0x%x @ %" GSF_OFF_T_FORMAT "\n", name, off, *offset);
 #endif
@@ -614,6 +636,10 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 	if (dirent) {
 		gsf_input_set_size (GSF_INPUT (child),
 				    (gsf_off_t) dirent->usize);
+		if (dirent->dostime)
+			gsf_input_set_modtime (GSF_INPUT (child),
+					       zip_make_modtime (dirent->dostime));
+
 		if (zip_child_init (child, err) != FALSE) {
 			g_object_unref (child);
 			return NULL;
