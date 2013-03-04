@@ -26,8 +26,18 @@
 
 #include <string.h>
 
+/*
+ * FIXME!
+ *
+ * We cannot extend GsfInput, so for now we hang this on the object as
+ * an attribute.
+ */
+#define MODTIME_ATTR "GsfOutput::modtime"
+
+
 static gsf_off_t gsf_output_real_vprintf (GsfOutput *output,
 	char const* format, va_list args) G_GNUC_PRINTF (2, 0);
+static gboolean gsf_output_set_modtime   (GsfOutput *output, GDateTime *modtime);
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_OUTPUT_TYPE, GsfOutputClass)
 
@@ -38,7 +48,8 @@ enum {
 	PROP_NAME,
 	PROP_SIZE,
 	PROP_CLOSED,
-	PROP_POS
+	PROP_POS,
+	PROP_MODTIME
 };
 
 static void
@@ -60,19 +71,25 @@ gsf_output_get_property (GObject     *object,
 			 GValue      *value,
 			 GParamSpec  *pspec)
 {
+	GsfOutput *output = GSF_OUTPUT (object);
+
 	/* gsf_off_t is typedef'd to gint64 */
+
 	switch (property_id) {
 	case PROP_NAME:
-		g_value_set_string (value, gsf_output_name (GSF_OUTPUT (object)));
+		g_value_set_string (value, gsf_output_name (output));
 		break;
 	case PROP_SIZE:
-		g_value_set_int64 (value, gsf_output_size (GSF_OUTPUT (object)));
-		break;
-	case PROP_POS:
-		g_value_set_int64 (value, gsf_output_tell (GSF_OUTPUT (object)));
+		g_value_set_int64 (value, gsf_output_size (output));
 		break;
 	case PROP_CLOSED:
-		g_value_set_boolean (value, gsf_output_is_closed (GSF_OUTPUT (object)));
+		g_value_set_boolean (value, gsf_output_is_closed (output));
+		break;
+	case PROP_POS:
+		g_value_set_int64 (value, gsf_output_tell (output));
+		break;
+	case PROP_MODTIME:
+		g_value_set_boxed (value, gsf_output_get_modtime (output));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -92,6 +109,7 @@ gsf_output_dispose (GObject *obj)
 
 	gsf_output_set_container (output, NULL);
 	gsf_output_set_name (output, NULL);
+	gsf_output_set_modtime (output, NULL);
 
 	g_free (output->printf_buf);
 	output->printf_buf = NULL;
@@ -115,6 +133,8 @@ gsf_output_init (GObject *obj)
 	output->is_closed	= FALSE;
 	output->printf_buf	= NULL;
 	output->printf_buf_size = 0;
+
+	gsf_output_set_modtime (output, g_date_time_new_now_utc ());
 }
 
 static void
@@ -151,6 +171,16 @@ gsf_output_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property
 		(gobject_class,
+		 PROP_CLOSED,
+		 g_param_spec_boolean ("is-closed",
+				       _("Is Closed"),
+				       _("Whether the output is closed"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
 		 PROP_POS,
 		 g_param_spec_int64 ("position",
 				     _("Position"),
@@ -161,13 +191,15 @@ gsf_output_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property
 		(gobject_class,
-		 PROP_CLOSED,
-		 g_param_spec_boolean ("is-closed",
-				       _("Is Closed"),
-				       _("Whether the output is closed"),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READABLE));
+		 PROP_MODTIME,
+		 g_param_spec_boxed
+		 ("modtime",
+		  _("Modification time"),
+		  _("An optional GDateTime representing the time the output was last changed"),
+		  G_TYPE_DATE_TIME,
+		  GSF_PARAM_STATIC |
+		  G_PARAM_CONSTRUCT_ONLY |
+		  G_PARAM_READWRITE));
 }
 
 GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
@@ -541,6 +573,42 @@ gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)
 			     (GWeakNotify) cb_output_unwrap, wrapee);
 	return TRUE;
 }
+
+/**
+ * gsf_output_get_modtime:
+ * @output: the output stream
+ *
+ * Returns: (transfer none): A #GDateTime representing when the output
+ * was last modified, or %NULL if not known.
+ */
+GDateTime *
+gsf_output_get_modtime (GsfOutput *output)
+{
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), NULL);
+
+	return g_object_get_data (G_OBJECT (output), MODTIME_ATTR);
+}
+
+/**
+ * gsf_output_set_modtime:
+ * @output: the output stream
+ * @modtime: (transfer full) (allow-none): the new modification time.
+ *
+ * Returns: %TRUE if the assignment was ok.
+ */
+static gboolean
+gsf_output_set_modtime (GsfOutput *output, GDateTime *modtime)
+{
+	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
+
+	/* This actually also works for null modtime.  */
+	g_object_set_data_full (G_OBJECT (output),
+				MODTIME_ATTR, modtime,
+				(GDestroyNotify)g_date_time_unref);
+
+	return TRUE;
+}
+
 
 GQuark
 gsf_output_error_id (void)

@@ -84,6 +84,8 @@ gboolean      gsf_output_write     (GsfOutput *output,
 gboolean gsf_output_wrap   (GObject *wrapper, GsfOutput *wrapee);
 gboolean gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee);
 
+GDateTime *   gsf_output_get_modtime (GsfOutput *output);
+
 GQuark gsf_output_error_id (void);
 
 gboolean gsf_output_printf (GsfOutput *output, char const *format,

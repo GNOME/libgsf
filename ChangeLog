@@ -2,6 +2,7 @@
 
 	* gsf/gsf-input.c (gsf_input_get_property): Add new modtime
 	property.
+	* gsf/gsf-output.c (gsf_output_get_property): Ditto.
 
 	* gsf/gsf-input-gzip.c (check_header): Set modtime when available.
 
