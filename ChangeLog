@@ -1,5 +1,10 @@
 2013-03-04  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input.c (gsf_input_get_property): Add new modtime
+	property.
+
+	* gsf/gsf-input-gzip.c (check_header): Set modtime when available.
+
 	* gsf/gsf-input.c (gsf_input_uncompress): Fix potential failure
 	with bzip'd input.
 

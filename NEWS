@@ -5,6 +5,7 @@ Morten:
 	* Property documentation fixes.
 	* I18n fixes for property strings.
 	* Fix uncompress problem with bzip'd files.
+	* Add modtime support for GsfInput.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26

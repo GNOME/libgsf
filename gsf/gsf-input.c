@@ -26,6 +26,17 @@
 
 #include <string.h>
 
+
+/*
+ * FIXME!
+ *
+ * We cannot extend GsfInput, so for now we hang this on the object as
+ * an attribute.
+ */
+#define MODTIME_ATTR "GsfInput::modtime"
+
+
+
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GSF_INPUT_TYPE, GsfInputClass)
 
 static GObjectClass *parent_class;
@@ -36,24 +47,9 @@ enum {
 	PROP_SIZE,
 	PROP_EOF,
 	PROP_REMAINING,
-	PROP_POS
+	PROP_POS,
+	PROP_MODTIME
 };
-
-#if 0
-static void
-gsf_input_set_property (GObject      *object,
-			guint         property_id,
-			GValue const *value,
-			GParamSpec   *pspec)
-{
-	switch (property_id)
-		{
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-		}
-}
-#endif
 
 static void
 gsf_input_get_property (GObject     *object,
@@ -61,22 +57,28 @@ gsf_input_get_property (GObject     *object,
 			GValue      *value,
 			GParamSpec  *pspec)
 {
+	GsfInput *input = GSF_INPUT (object);
+
 	/* gsf_off_t is typedef'd to gint64 */
+
 	switch (property_id) {
 	case PROP_NAME:
-		g_value_set_string (value, gsf_input_name (GSF_INPUT (object)));
+		g_value_set_string (value, gsf_input_name (input));
 		break;
 	case PROP_SIZE:
-		g_value_set_int64 (value, gsf_input_size (GSF_INPUT (object)));
+		g_value_set_int64 (value, gsf_input_size (input));
 		break;
 	case PROP_EOF:
-		g_value_set_boolean (value, gsf_input_eof (GSF_INPUT (object)));
+		g_value_set_boolean (value, gsf_input_eof (input));
 		break;
 	case PROP_REMAINING:
-		g_value_set_int64 (value, gsf_input_remaining (GSF_INPUT (object)));
+		g_value_set_int64 (value, gsf_input_remaining (input));
 		break;
 	case PROP_POS:
-		g_value_set_int64 (value, gsf_input_tell (GSF_INPUT (object)));
+		g_value_set_int64 (value, gsf_input_tell (input));
+		break;
+	case PROP_MODTIME:
+		g_value_set_boxed (value, gsf_input_get_modtime (input));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -91,6 +93,7 @@ gsf_input_dispose (GObject *obj)
 
 	gsf_input_set_container (input, NULL);
 	gsf_input_set_name (input, NULL);
+	gsf_input_set_modtime (input, NULL);
 
 	parent_class->dispose (obj);
 }
@@ -112,7 +115,6 @@ gsf_input_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->dispose = gsf_input_dispose;
-	/* gobject_class->set_property = gsf_input_set_property; */
 	gobject_class->get_property = gsf_input_get_property;
 
 	g_object_class_install_property
@@ -169,6 +171,17 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     0, G_MAXINT64, 0,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READABLE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_MODTIME,
+		 g_param_spec_boxed
+		 ("modtime",
+		  _("Modification time"),
+		  _("An optional GDateTime representing the time the input was last changed"),
+		  G_TYPE_DATE_TIME,
+		  GSF_PARAM_STATIC |
+		  G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
@@ -286,7 +299,7 @@ gsf_input_size (GsfInput *input)
  * gsf_input_eof:
  * @input: the input
  *
- * Are we at the end of the file ?
+ * Are we at the end of the file?
  *
  * Returns: %TRUE if the input is at the eof.
  **/
@@ -538,6 +551,45 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
 	}
 	return FALSE;
 }
+
+/**
+ * gsf_input_get_modtime:
+ * @input: the input stream
+ *
+ * Returns: (transfer none): A #GDateTime representing when the input
+ * was last modified, or %NULL if not known.
+ */
+GDateTime *
+gsf_input_get_modtime (GsfInput *input)
+{
+	g_return_val_if_fail (GSF_IS_INPUT (input), NULL);
+
+	return g_object_get_data (G_OBJECT (input), MODTIME_ATTR);
+}
+
+/**
+ * gsf_input_set_modtime:
+ * @input: the input stream
+ * @modtime: (transfer full) (allow-none): the new modification time.
+ *
+ * protected.
+ *
+ * Returns: %TRUE if the assignment was ok.
+ */
+gboolean
+gsf_input_set_modtime (GsfInput *input, GDateTime *modtime)
+{
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+
+	/* This actually also works for null modtime.  */
+	g_object_set_data_full (G_OBJECT (input),
+				MODTIME_ATTR, modtime,
+				(GDestroyNotify)g_date_time_unref);
+
+	return TRUE;
+}
+
+
 
 /****************************************************************************/
 
