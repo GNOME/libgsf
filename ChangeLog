@@ -1,5 +1,10 @@
 2013-03-04  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-tar.c (tar_init_info): Also read mtime from
+	archive.
+	(gsf_infile_tar_child_by_index): Set modtime of input when
+	possible.
+
 	* tools/gsf.c (ls_R): Print also modtime when available.
 
 	* gsf/gsf-infile-zip.c (gsf_infile_zip_new_child): Set modtime of

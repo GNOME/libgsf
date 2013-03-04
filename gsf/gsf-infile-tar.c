@@ -45,6 +45,8 @@ static GObjectClass *parent_class;
 typedef struct {
 	char *name;
 
+	GDateTime *modtime;
+
 	/* The location of data.  */
 	gsf_off_t offset;
 	gsf_off_t length;
@@ -93,10 +95,10 @@ typedef struct {
 #define GSF_INFILE_TAR_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GSF_INFILE_TAR_TYPE, GsfInfileTarClass))
 #define GSF_IS_INFILE_TAR_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GSF_INFILE_TAR_TYPE))
 
-static gsf_off_t
+static gint64
 unpack_octal (GsfInfileTar *tar, const char *s, size_t len)
 {
-	gsf_off_t res = 0;
+	gint64 res = 0;
 
 	while (len--) {
 		unsigned char c = *s++;
@@ -122,6 +124,7 @@ tar_create_dir (GsfInfileTar *dir, const char *name)
 	c.offset = 0;
 	c.length = 0;
 	c.name = g_strdup (name);
+	c.modtime = NULL;
 	c.dir = g_object_new (GSF_INFILE_TAR_TYPE, NULL);
 
 	/*
@@ -207,6 +210,7 @@ tar_init_info (GsfInfileTar *tar)
 		char *name;
 		gsf_off_t length;
 		gsf_off_t offset;
+		gint64 mtime;
 
 		if (memcmp (header->filler, end.filler, sizeof (end.filler))) {
 			tar->err = g_error_new (gsf_input_error_id (), 0,
@@ -225,9 +229,7 @@ tar_init_info (GsfInfileTar *tar)
 		length = unpack_octal (tar, header->size, sizeof (header->size));
 		offset = gsf_input_tell (tar->source);
 
-#if 0
-		g_printerr ("[%s]: %d\n", name, (int)length);
-#endif
+		mtime = unpack_octal (tar, header->mtime, sizeof (header->mtime));
 
 		switch (header->typeflag) {
 		case '0': case 0: {
@@ -240,6 +242,9 @@ tar_init_info (GsfInfileTar *tar)
 			while ((s = strchr (n, '/')))
 				n = s + 1;
 			c.name = g_strdup (n);
+			c.modtime = mtime > 0
+				? g_date_time_new_from_unix_utc (mtime)
+				: NULL;
 			c.offset = offset;
 			c.length = length;
 			c.dir = NULL;
@@ -324,6 +329,7 @@ gsf_infile_tar_dup (GsfInput *src_input, GError **err)
 		/* This copies the structure.  */
 		TarChild c = g_array_index (src->children, TarChild, ui);
 		c.name = g_strdup (c.name);
+		if (c.modtime) g_date_time_ref (c.modtime);
 		if (c.dir) g_object_ref (c.dir);
 		g_array_append_val (res->children, c);
 	}
@@ -372,6 +378,11 @@ gsf_infile_tar_child_by_index (GsfInfile *infile, int target, GError **err)
 		GsfInput *input = gsf_input_proxy_new_section (tar->source,
 							       c->offset,
 							       c->length);
+		if (c->modtime) {
+			// Copy
+			gsf_input_set_modtime (input,
+					       g_date_time_add (c->modtime, 0));
+		}
 		gsf_input_set_name (input, c->name);
 		return input;
 	}
@@ -433,6 +444,8 @@ gsf_infile_tar_dispose (GObject *obj)
 	for (ui = 0; ui < tar->children->len; ui++) {
 		TarChild *c = &g_array_index (tar->children, TarChild, ui);
 		g_free (c->name);
+		if (c->modtime)
+			g_date_time_unref (c->modtime);
 		if (c->dir)
 			g_object_unref (c->dir);
 	}

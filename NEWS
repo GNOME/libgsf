@@ -5,8 +5,9 @@ Morten:
 	* Property documentation fixes.
 	* I18n fixes for property strings.
 	* Fix uncompress problem with bzip'd files.
-	* Add modtime support for GsfInput.
-	* Add modtime support for GsfOutput.
+	* Add modtime support for GsfInput, GsfInputStdio, GsfInputGzip.
+	* Add modtime support for GsfInfileZip, GsfInfileTar.
+	* Add modtime support for GsfOutput, GsfOutputStdio.
 	* Enhance gsf tool to print modtime.
 
 --------------------------------------------------------------------------
