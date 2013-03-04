@@ -7,6 +7,7 @@ Morten:
 	* Fix uncompress problem with bzip'd files.
 	* Add modtime support for GsfInput.
 	* Add modtime support for GsfOutput.
+	* Enhance gsf tool to print modtime.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26

@@ -1,5 +1,7 @@
 2013-03-04  Morten Welinder  <terra@gnome.org>
 
+	* tools/gsf.c (ls_R): Print also modtime when available.
+
 	* gsf/gsf-infile-zip.c (gsf_infile_zip_new_child): Set modtime of
 	child.
 	(zip_dirent_new_in): Read modtime from file.

@@ -119,6 +119,8 @@ ls_R (GsfInput *input, char const *prefix)
 	gboolean is_dir = infile && gsf_infile_num_children (infile) > 0;
 	char *full_name;
 	char *new_prefix;
+	GDateTime *modtime = gsf_input_get_modtime (input);
+	char *modtxt;
 
 	if (prefix) {
 		char *display_name = name ?
@@ -134,10 +136,17 @@ ls_R (GsfInput *input, char const *prefix)
 		new_prefix = g_strdup ("");
 	}
 
-	g_print ("%c %10" GSF_OFF_T_FORMAT " %s\n",
+	modtxt = modtime
+		? g_date_time_format (modtime, "%F %H:%M:%S")
+		: g_strdup ("                   ");
+
+	g_print ("%c  %s  %10" GSF_OFF_T_FORMAT " %s\n",
 		 (is_dir ? 'd' : 'f'),
+		 modtxt,
 		 gsf_input_size (input),
 		 full_name);
+
+	g_free (modtxt);
 
 	if (is_dir) {
 		int i;
