@@ -1,0 +1,176 @@
+commit 69bb2f0d1a164cd9eba30bc97cb306d202632753
+Author: Morten Welinder <terra@gnome.org>
+Date:   Fri Mar 1 14:12:37 2013 -0500
+
+    Introspection fixes
+
+diff --git a/gsf/gsf-infile-zip.c b/gsf/gsf-infile-zip.c
+index 267211c..d42662a 100644
+--- a/gsf/gsf-infile-zip.c
++++ b/gsf/gsf-infile-zip.c
+@@ -858,7 +858,7 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
+ /**
+  * gsf_infile_zip_new:
+  * @source: A base #GsfInput
+- * @err: A #GError, optionally %null
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * Opens the root directory of a Zip file.
+  * <note>This adds a reference to @source.</note>
+diff --git a/gsf/gsf-input-bzip.c b/gsf/gsf-input-bzip.c
+index 9a2d83e..5da1412 100644
+--- a/gsf/gsf-input-bzip.c
++++ b/gsf/gsf-input-bzip.c
+@@ -33,7 +33,7 @@
+ /**
+  * gsf_input_memory_new_from_bzip:
+  * @source: a #GsfInput
+- * @err: a #GError
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * Returns: a new #GsfInputMemory or %NULL.
+  */
+diff --git a/gsf/gsf-input-gzip.c b/gsf/gsf-input-gzip.c
+index b6849c5..b5556cb 100644
+--- a/gsf/gsf-input-gzip.c
++++ b/gsf/gsf-input-gzip.c
+@@ -196,7 +196,7 @@ gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
+ /**
+  * gsf_input_gzip_new:
+  * @source: The underlying data source.
+- * @err: optionally %NULL.
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * Adds a reference to @source.
+  *
+diff --git a/gsf/gsf-input-stdio.c b/gsf/gsf-input-stdio.c
+index 6b534a5..b99c74c 100644
+--- a/gsf/gsf-input-stdio.c
++++ b/gsf/gsf-input-stdio.c
+@@ -155,13 +155,13 @@ gsf_input_stdio_new (char const *filename, GError **err)
+ /**
+  * gsf_input_stdio_new_FILE:
+  * @filename: The filename corresponding to @file.
+- * @file: an existing stdio <type>FILE</type> *
++ * @file: (transfer full): an existing stdio <type>FILE</type> *
+  * @keep_open: Should @file be closed when the wrapper is closed
+  *
+  * Assumes ownership of @file when succeeding.  If @keep_open is true,
+- * ownership reverts to caller when the GsfObject is closed.
++ * ownership reverts to caller when the #GsfInput is closed.
+  *
+- * Returns: a new GsfInput wrapper for @file.  Note that if the file is not
++ * Returns: a new #GsfInput wrapper for @file.  Note that if the file is not
+  * 	seekable, this function will make a local copy of the entire file.
+  **/
+ GsfInput *
+@@ -319,4 +319,3 @@ gsf_input_stdio_class_init (GObjectClass *gobject_class)
+ GSF_CLASS (GsfInputStdio, gsf_input_stdio,
+ 	   gsf_input_stdio_class_init, gsf_input_stdio_init,
+ 	   GSF_INPUT_TYPE)
+-
+diff --git a/gsf/gsf-input.c b/gsf/gsf-input.c
+index c95896e..2944a9b 100644
+--- a/gsf/gsf-input.c
++++ b/gsf/gsf-input.c
+@@ -193,7 +193,7 @@ gsf_input_container (GsfInput *input)
+ /**
+  * gsf_input_dup:
+  * @input: The input to duplicate
+- * @err: optionally %NULL
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * Duplicates input @src leaving the new one at the same offset.
+  *
+@@ -235,7 +235,7 @@ gsf_input_dup (GsfInput *input, GError **err)
+  * gsf_input_sibling:
+  * @input: The input
+  * @name: name.
+- * @err: #GError
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * UNIMPLEMENTED BY ANY BACKEND
+  * 	and it is probably unnecessary.   gsf_input_get_container provides
+@@ -258,9 +258,7 @@ gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
+  * gsf_input_size:
+  * @input: The input
+  *
+- * Looks up and caches the number of bytes in the input
+- *
+- * Returns:  the size or -1 on error
++ * Returns: the total number of bytes in the input or -1 on error
+  **/
+ gsf_off_t
+ gsf_input_size (GsfInput *input)
+@@ -602,8 +600,8 @@ gsf_input_copy (GsfInput *input, GsfOutput *output)
+  * This functions takes ownership of the incoming reference and yields a
+  * new one as its output.
+  *
+- * Returns: (transfer full): A stream equivalent to the source stream, but uncompressed if
+- * the source was compressed.
++ * Returns: (transfer full): A stream equivalent to the source stream,
++ * but uncompressed if the source was compressed.
+  **/
+ GsfInput *
+ gsf_input_uncompress (GsfInput *src)
+diff --git a/gsf/gsf-output-stdio.c b/gsf/gsf-output-stdio.c
+index 34048b3..bf89aef 100644
+--- a/gsf/gsf-output-stdio.c
++++ b/gsf/gsf-output-stdio.c
+@@ -521,7 +521,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
+ /**
+  * gsf_output_stdio_new_full:
+  * @filename: name of file to create or replace.
+- * @err: optionally %NULL.
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  * @first_property_name: %NULL terminated list of properties
+  * @...:
+  *
+@@ -544,7 +544,7 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
+ /**
+  * gsf_output_stdio_new:
+  * @filename: name of file to create or replace.
+- * @err: optionally %NULL.
++ * @err: (allow-none): place to store a #GError if anything goes wrong
+  *
+  * Returns: a new file or %NULL.
+  **/
+@@ -555,13 +555,13 @@ gsf_output_stdio_new (char const *filename, GError **err)
+ }
+ 
+ /**
+- * gsf_output_stdio_new_FILE:
++ * gsf_output_stdio_new_FILE: (skip)
+  * @filename: The filename corresponding to @file.
+- * @file: an existing stdio <type>FILE</type> *
++ * @file: (transfer full): an existing stdio <type>FILE</type> *
+  * @keep_open: Should @file be closed when the wrapper is closed
+  *
+  * Assumes ownership of @file.  If @keep_open is true, ownership reverts
+- * to caller when the GsfObject is closed.
++ * to caller when the GsfOutput is closed.
+  *
+  * Returns: a new GsfOutput wrapper for @file.  Warning: the result will be
+  * seekable only if @file is seekable.  If it is seekable, the resulting
+diff --git a/gsf/gsf-output.c b/gsf/gsf-output.c
+index 49c8e3c..fb02fb2 100644
+--- a/gsf/gsf-output.c
++++ b/gsf/gsf-output.c
+@@ -360,7 +360,7 @@ gsf_output_write (GsfOutput *output,
+  * gsf_output_error:
+  * @output:
+  *
+- * Returns: the last error logged on the output, or %NULL.
++ * Returns: (transfer none): the last error logged on the output, or %NULL.
+  **/
+ GError const *
+ gsf_output_error (GsfOutput const *output)
+@@ -628,7 +628,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
+ /**
+  * gsf_output_puts:
+  * @output: A #GsfOutput
+- * @line: %null terminated string to write
++ * @line: Nul terminated string to write
+  *
+  * Like fputs, this assumes that the line already ends with a newline
+  *

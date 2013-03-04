@@ -1,6 +1,6 @@
-diff -ru libgsf-1.14.24.old/config.guess libgsf-1.14.24/config.guess
---- libgsf-1.14.24.old/config.guess	2012-09-03 20:35:09.000000000 +0200
-+++ libgsf-1.14.24/config.guess	2012-10-28 13:56:12.000000000 +0100
+diff -ru libgsf-1.14.26.old/config.guess libgsf-1.14.26/config.guess
+--- libgsf-1.14.26.old/config.guess	2012-11-14 02:47:40.000000000 +0100
++++ libgsf-1.14.26/config.guess	2013-03-03 15:18:34.000000000 +0100
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -822,9 +822,9 @@ diff -ru libgsf-1.14.24.old/config.guess libgsf-1.14.24/config.guess
  #endif
  #endif
  
-diff -ru libgsf-1.14.24.old/config.sub libgsf-1.14.24/config.sub
---- libgsf-1.14.24.old/config.sub	2012-09-03 20:35:09.000000000 +0200
-+++ libgsf-1.14.24/config.sub	2012-10-28 13:56:12.000000000 +0100
+diff -ru libgsf-1.14.26.old/config.sub libgsf-1.14.26/config.sub
+--- libgsf-1.14.26.old/config.sub	2012-11-14 02:47:40.000000000 +0100
++++ libgsf-1.14.26/config.sub	2013-03-03 15:18:34.000000000 +0100
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Configuration validation subroutine script.
@@ -1338,3 +1338,786 @@ diff -ru libgsf-1.14.24.old/config.sub libgsf-1.14.24/config.sub
  		os=-mmixware
  		;;
  	*-wec)
+diff -ru libgsf-1.14.26.old/configure libgsf-1.14.26/configure
+--- libgsf-1.14.26.old/configure	2013-02-27 23:41:14.000000000 +0100
++++ libgsf-1.14.26/configure	2013-03-03 15:18:32.000000000 +0100
+@@ -5026,7 +5026,8 @@
+     ;;
+   *)
+     lt_cv_sys_max_cmd_len=`(getconf ARG_MAX) 2> /dev/null`
+-    if test -n "$lt_cv_sys_max_cmd_len"; then
++    if test -n "$lt_cv_sys_max_cmd_len" && \
++	test undefined != "$lt_cv_sys_max_cmd_len"; then
+       lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \/ 4`
+       lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \* 3`
+     else
+@@ -5424,10 +5425,6 @@
+   fi
+   ;;
+ 
+-gnu*)
+-  lt_cv_deplibs_check_method=pass_all
+-  ;;
+-
+ haiku*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+@@ -5466,7 +5463,7 @@
+   ;;
+ 
+ # This must be glibc/ELF.
+-linux* | k*bsd*-gnu | kopensolaris*-gnu)
++linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
+@@ -6561,7 +6558,14 @@
+ 	    LD="${LD-ld} -m elf_i386_fbsd"
+ 	    ;;
+ 	  x86_64-*linux*)
+-	    LD="${LD-ld} -m elf_i386"
++	    case `/usr/bin/file conftest.o` in
++	      *x86-64*)
++		LD="${LD-ld} -m elf32_x86_64"
++		;;
++	      *)
++		LD="${LD-ld} -m elf_i386"
++		;;
++	    esac
+ 	    ;;
+ 	  ppc64-*linux*|powerpc64-*linux*)
+ 	    LD="${LD-ld} -m elf32ppclinux"
+@@ -8688,7 +8692,7 @@
+       lt_prog_compiler_static='-non_shared'
+       ;;
+ 
+-    linux* | k*bsd*-gnu | kopensolaris*-gnu)
++    linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+       case $cc_basename in
+       # old Intel for x86_64 which still supported -KPIC.
+       ecc*)
+@@ -10858,17 +10862,6 @@
+   esac
+   ;;
+ 
+-gnu*)
+-  version_type=linux # correct to gnu/linux during the next big refactor
+-  need_lib_prefix=no
+-  need_version=no
+-  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}${major} ${libname}${shared_ext}'
+-  soname_spec='${libname}${release}${shared_ext}$major'
+-  shlibpath_var=LD_LIBRARY_PATH
+-  shlibpath_overrides_runpath=no
+-  hardcode_into_libs=yes
+-  ;;
+-
+ haiku*)
+   version_type=linux # correct to gnu/linux during the next big refactor
+   need_lib_prefix=no
+@@ -10985,7 +10978,7 @@
+   ;;
+ 
+ # This must be glibc/ELF.
+-linux* | k*bsd*-gnu | kopensolaris*-gnu)
++linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+   version_type=linux # correct to gnu/linux during the next big refactor
+   need_lib_prefix=no
+   need_version=no
+diff -ru libgsf-1.14.26.old/depcomp libgsf-1.14.26/depcomp
+--- libgsf-1.14.26.old/depcomp	2012-11-14 02:47:42.000000000 +0100
++++ libgsf-1.14.26/depcomp	2013-03-03 15:18:35.000000000 +0100
+@@ -1,10 +1,10 @@
+ #! /bin/sh
+ # depcomp - compile a program generating dependencies as side-effects
+ 
+-scriptversion=2009-04-28.21; # UTC
++scriptversion=2012-03-27.16; # UTC
+ 
+-# Copyright (C) 1999, 2000, 2003, 2004, 2005, 2006, 2007, 2009 Free
+-# Software Foundation, Inc.
++# Copyright (C) 1999, 2000, 2003, 2004, 2005, 2006, 2007, 2009, 2010,
++# 2011, 2012 Free Software Foundation, Inc.
+ 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -28,7 +28,7 @@
+ 
+ case $1 in
+   '')
+-     echo "$0: No command.  Try \`$0 --help' for more information." 1>&2
++     echo "$0: No command.  Try '$0 --help' for more information." 1>&2
+      exit 1;
+      ;;
+   -h | --h*)
+@@ -40,11 +40,11 @@
+ 
+ Environment variables:
+   depmode     Dependency tracking mode.
+-  source      Source file read by `PROGRAMS ARGS'.
+-  object      Object file output by `PROGRAMS ARGS'.
++  source      Source file read by 'PROGRAMS ARGS'.
++  object      Object file output by 'PROGRAMS ARGS'.
+   DEPDIR      directory where to store dependencies.
+   depfile     Dependency file to output.
+-  tmpdepfile  Temporary file to use when outputing dependencies.
++  tmpdepfile  Temporary file to use when outputting dependencies.
+   libtool     Whether libtool is used (yes/no).
+ 
+ Report bugs to <bug-automake@gnu.org>.
+@@ -57,6 +57,12 @@
+     ;;
+ esac
+ 
++# A tabulation character.
++tab='	'
++# A newline character.
++nl='
++'
++
+ if test -z "$depmode" || test -z "$source" || test -z "$object"; then
+   echo "depcomp: Variables source, object and depmode must be set" 1>&2
+   exit 1
+@@ -90,10 +96,24 @@
+    # This is just like msvisualcpp but w/o cygpath translation.
+    # Just convert the backslash-escaped backslashes to single forward
+    # slashes to satisfy depend.m4
+-   cygpath_u="sed s,\\\\\\\\,/,g"
++   cygpath_u='sed s,\\\\,/,g'
+    depmode=msvisualcpp
+ fi
+ 
++if test "$depmode" = msvc7msys; then
++   # This is just like msvc7 but w/o cygpath translation.
++   # Just convert the backslash-escaped backslashes to single forward
++   # slashes to satisfy depend.m4
++   cygpath_u='sed s,\\\\,/,g'
++   depmode=msvc7
++fi
++
++if test "$depmode" = xlc; then
++   # IBM C/C++ Compilers xlc/xlC can output gcc-like dependency informations.
++   gccflag=-qmakedep=gcc,-MF
++   depmode=gcc
++fi
++
+ case "$depmode" in
+ gcc3)
+ ## gcc 3 implements dependency tracking that does exactly what
+@@ -148,20 +168,21 @@
+ ## The second -e expression handles DOS-style file names with drive letters.
+   sed -e 's/^[^:]*: / /' \
+       -e 's/^['$alpha']:\/[^:]*: / /' < "$tmpdepfile" >> "$depfile"
+-## This next piece of magic avoids the `deleted header file' problem.
++## This next piece of magic avoids the "deleted header file" problem.
+ ## The problem is that when a header file which appears in a .P file
+ ## is deleted, the dependency causes make to die (because there is
+ ## typically no way to rebuild the header).  We avoid this by adding
+ ## dummy dependencies for each header file.  Too bad gcc doesn't do
+ ## this for us directly.
+-  tr ' ' '
+-' < "$tmpdepfile" |
+-## Some versions of gcc put a space before the `:'.  On the theory
++  tr ' ' "$nl" < "$tmpdepfile" |
++## Some versions of gcc put a space before the ':'.  On the theory
+ ## that the space means something, we add a space to the output as
+-## well.
++## well.  hp depmode also adds that space, but also prefixes the VPATH
++## to the object.  Take care to not repeat it in the output.
+ ## Some versions of the HPUX 10.20 sed can't process this invocation
+ ## correctly.  Breaking it into two sed invocations is a workaround.
+-    sed -e 's/^\\$//' -e '/^$/d' -e '/:$/d' | sed -e 's/$/ :/' >> "$depfile"
++    sed -e 's/^\\$//' -e '/^$/d' -e "s|.*$object$||" -e '/:$/d' \
++      | sed -e 's/$/ :/' >> "$depfile"
+   rm -f "$tmpdepfile"
+   ;;
+ 
+@@ -193,18 +214,15 @@
+     # clever and replace this with sed code, as IRIX sed won't handle
+     # lines with more than a fixed number of characters (4096 in
+     # IRIX 6.2 sed, 8192 in IRIX 6.5).  We also remove comment lines;
+-    # the IRIX cc adds comments like `#:fec' to the end of the
++    # the IRIX cc adds comments like '#:fec' to the end of the
+     # dependency line.
+-    tr ' ' '
+-' < "$tmpdepfile" \
++    tr ' ' "$nl" < "$tmpdepfile" \
+     | sed -e 's/^.*\.o://' -e 's/#.*$//' -e '/^$/ d' | \
+-    tr '
+-' ' ' >> "$depfile"
++    tr "$nl" ' ' >> "$depfile"
+     echo >> "$depfile"
+ 
+     # The second pass generates a dummy entry for each header file.
+-    tr ' ' '
+-' < "$tmpdepfile" \
++    tr ' ' "$nl" < "$tmpdepfile" \
+    | sed -e 's/^.*\.o://' -e 's/#.*$//' -e '/^$/ d' -e 's/$/:/' \
+    >> "$depfile"
+   else
+@@ -216,10 +234,17 @@
+   rm -f "$tmpdepfile"
+   ;;
+ 
++xlc)
++  # This case exists only to let depend.m4 do its work.  It works by
++  # looking at the text of this script.  This case will never be run,
++  # since it is checked for above.
++  exit 1
++  ;;
++
+ aix)
+   # The C for AIX Compiler uses -M and outputs the dependencies
+   # in a .u file.  In older versions, this file always lives in the
+-  # current directory.  Also, the AIX compiler puts `$object:' at the
++  # current directory.  Also, the AIX compiler puts '$object:' at the
+   # start of each line; $object doesn't have directory information.
+   # Version 6 uses the directory in both cases.
+   dir=`echo "$object" | sed -e 's|/[^/]*$|/|'`
+@@ -249,12 +274,11 @@
+     test -f "$tmpdepfile" && break
+   done
+   if test -f "$tmpdepfile"; then
+-    # Each line is of the form `foo.o: dependent.h'.
++    # Each line is of the form 'foo.o: dependent.h'.
+     # Do two passes, one to just change these to
+-    # `$object: dependent.h' and one to simply `dependent.h:'.
++    # '$object: dependent.h' and one to simply 'dependent.h:'.
+     sed -e "s,^.*\.[a-z]*:,$object:," < "$tmpdepfile" > "$depfile"
+-    # That's a tab and a space in the [].
+-    sed -e 's,^.*\.[a-z]*:[	 ]*,,' -e 's,$,:,' < "$tmpdepfile" >> "$depfile"
++    sed -e 's,^.*\.[a-z]*:['"$tab"' ]*,,' -e 's,$,:,' < "$tmpdepfile" >> "$depfile"
+   else
+     # The sourcefile does not contain any dependencies, so just
+     # store a dummy comment line, to avoid errors with the Makefile
+@@ -265,23 +289,26 @@
+   ;;
+ 
+ icc)
+-  # Intel's C compiler understands `-MD -MF file'.  However on
+-  #    icc -MD -MF foo.d -c -o sub/foo.o sub/foo.c
++  # Intel's C compiler anf tcc (Tiny C Compiler) understand '-MD -MF file'.
++  # However on
++  #    $CC -MD -MF foo.d -c -o sub/foo.o sub/foo.c
+   # ICC 7.0 will fill foo.d with something like
+   #    foo.o: sub/foo.c
+   #    foo.o: sub/foo.h
+-  # which is wrong.  We want:
++  # which is wrong.  We want
+   #    sub/foo.o: sub/foo.c
+   #    sub/foo.o: sub/foo.h
+   #    sub/foo.c:
+   #    sub/foo.h:
+   # ICC 7.1 will output
+   #    foo.o: sub/foo.c sub/foo.h
+-  # and will wrap long lines using \ :
++  # and will wrap long lines using '\':
+   #    foo.o: sub/foo.c ... \
+   #     sub/foo.h ... \
+   #     ...
+-
++  # tcc 0.9.26 (FIXME still under development at the moment of writing)
++  # will emit a similar output, but also prepend the continuation lines
++  # with horizontal tabulation characters.
+   "$@" -MD -MF "$tmpdepfile"
+   stat=$?
+   if test $stat -eq 0; then :
+@@ -290,15 +317,21 @@
+     exit $stat
+   fi
+   rm -f "$depfile"
+-  # Each line is of the form `foo.o: dependent.h',
+-  # or `foo.o: dep1.h dep2.h \', or ` dep3.h dep4.h \'.
++  # Each line is of the form 'foo.o: dependent.h',
++  # or 'foo.o: dep1.h dep2.h \', or ' dep3.h dep4.h \'.
+   # Do two passes, one to just change these to
+-  # `$object: dependent.h' and one to simply `dependent.h:'.
+-  sed "s,^[^:]*:,$object :," < "$tmpdepfile" > "$depfile"
+-  # Some versions of the HPUX 10.20 sed can't process this invocation
+-  # correctly.  Breaking it into two sed invocations is a workaround.
+-  sed 's,^[^:]*: \(.*\)$,\1,;s/^\\$//;/^$/d;/:$/d' < "$tmpdepfile" |
+-    sed -e 's/$/ :/' >> "$depfile"
++  # '$object: dependent.h' and one to simply 'dependent.h:'.
++  sed -e "s/^[ $tab][ $tab]*/  /" -e "s,^[^:]*:,$object :," \
++    < "$tmpdepfile" > "$depfile"
++  sed '
++    s/[ '"$tab"'][ '"$tab"']*/ /g
++    s/^ *//
++    s/ *\\*$//
++    s/^[^:]*: *//
++    /^$/d
++    /:$/d
++    s/$/ :/
++  ' < "$tmpdepfile" >> "$depfile"
+   rm -f "$tmpdepfile"
+   ;;
+ 
+@@ -334,7 +367,7 @@
+   done
+   if test -f "$tmpdepfile"; then
+     sed -e "s,^.*\.[a-z]*:,$object:," "$tmpdepfile" > "$depfile"
+-    # Add `dependent.h:' lines.
++    # Add 'dependent.h:' lines.
+     sed -ne '2,${
+ 	       s/^ *//
+ 	       s/ \\*$//
+@@ -349,9 +382,9 @@
+ 
+ tru64)
+    # The Tru64 compiler uses -MD to generate dependencies as a side
+-   # effect.  `cc -MD -o foo.o ...' puts the dependencies into `foo.o.d'.
++   # effect.  'cc -MD -o foo.o ...' puts the dependencies into 'foo.o.d'.
+    # At least on Alpha/Redhat 6.1, Compaq CCC V6.2-504 seems to put
+-   # dependencies in `foo.d' instead, so we check for that too.
++   # dependencies in 'foo.d' instead, so we check for that too.
+    # Subdirectories are respected.
+    dir=`echo "$object" | sed -e 's|/[^/]*$|/|'`
+    test "x$dir" = "x$object" && dir=
+@@ -397,14 +430,59 @@
+    done
+    if test -f "$tmpdepfile"; then
+       sed -e "s,^.*\.[a-z]*:,$object:," < "$tmpdepfile" > "$depfile"
+-      # That's a tab and a space in the [].
+-      sed -e 's,^.*\.[a-z]*:[	 ]*,,' -e 's,$,:,' < "$tmpdepfile" >> "$depfile"
++      sed -e 's,^.*\.[a-z]*:['"$tab"' ]*,,' -e 's,$,:,' < "$tmpdepfile" >> "$depfile"
+    else
+       echo "#dummy" > "$depfile"
+    fi
+    rm -f "$tmpdepfile"
+    ;;
+ 
++msvc7)
++  if test "$libtool" = yes; then
++    showIncludes=-Wc,-showIncludes
++  else
++    showIncludes=-showIncludes
++  fi
++  "$@" $showIncludes > "$tmpdepfile"
++  stat=$?
++  grep -v '^Note: including file: ' "$tmpdepfile"
++  if test "$stat" = 0; then :
++  else
++    rm -f "$tmpdepfile"
++    exit $stat
++  fi
++  rm -f "$depfile"
++  echo "$object : \\" > "$depfile"
++  # The first sed program below extracts the file names and escapes
++  # backslashes for cygpath.  The second sed program outputs the file
++  # name when reading, but also accumulates all include files in the
++  # hold buffer in order to output them again at the end.  This only
++  # works with sed implementations that can handle large buffers.
++  sed < "$tmpdepfile" -n '
++/^Note: including file:  *\(.*\)/ {
++  s//\1/
++  s/\\/\\\\/g
++  p
++}' | $cygpath_u | sort -u | sed -n '
++s/ /\\ /g
++s/\(.*\)/'"$tab"'\1 \\/p
++s/.\(.*\) \\/\1:/
++H
++$ {
++  s/.*/'"$tab"'/
++  G
++  p
++}' >> "$depfile"
++  rm -f "$tmpdepfile"
++  ;;
++
++msvc7msys)
++  # This case exists only to let depend.m4 do its work.  It works by
++  # looking at the text of this script.  This case will never be run,
++  # since it is checked for above.
++  exit 1
++  ;;
++
+ #nosideeffect)
+   # This comment above is used by automake to tell side-effect
+   # dependency tracking mechanisms from slower ones.
+@@ -422,7 +500,7 @@
+     shift
+   fi
+ 
+-  # Remove `-o $object'.
++  # Remove '-o $object'.
+   IFS=" "
+   for arg
+   do
+@@ -442,15 +520,14 @@
+   done
+ 
+   test -z "$dashmflag" && dashmflag=-M
+-  # Require at least two characters before searching for `:'
++  # Require at least two characters before searching for ':'
+   # in the target name.  This is to cope with DOS-style filenames:
+-  # a dependency such as `c:/foo/bar' could be seen as target `c' otherwise.
++  # a dependency such as 'c:/foo/bar' could be seen as target 'c' otherwise.
+   "$@" $dashmflag |
+-    sed 's:^[  ]*[^: ][^:][^:]*\:[    ]*:'"$object"'\: :' > "$tmpdepfile"
++    sed 's:^['"$tab"' ]*[^:'"$tab"' ][^:][^:]*\:['"$tab"' ]*:'"$object"'\: :' > "$tmpdepfile"
+   rm -f "$depfile"
+   cat < "$tmpdepfile" > "$depfile"
+-  tr ' ' '
+-' < "$tmpdepfile" | \
++  tr ' ' "$nl" < "$tmpdepfile" | \
+ ## Some versions of the HPUX 10.20 sed can't process this invocation
+ ## correctly.  Breaking it into two sed invocations is a workaround.
+     sed -e 's/^\\$//' -e '/^$/d' -e '/:$/d' | sed -e 's/$/ :/' >> "$depfile"
+@@ -503,9 +580,10 @@
+   touch "$tmpdepfile"
+   ${MAKEDEPEND-makedepend} -o"$obj_suffix" -f"$tmpdepfile" "$@"
+   rm -f "$depfile"
+-  cat < "$tmpdepfile" > "$depfile"
+-  sed '1,2d' "$tmpdepfile" | tr ' ' '
+-' | \
++  # makedepend may prepend the VPATH from the source file name to the object.
++  # No need to regex-escape $object, excess matching of '.' is harmless.
++  sed "s|^.*\($object *:\)|\1|" "$tmpdepfile" > "$depfile"
++  sed '1,2d' "$tmpdepfile" | tr ' ' "$nl" | \
+ ## Some versions of the HPUX 10.20 sed can't process this invocation
+ ## correctly.  Breaking it into two sed invocations is a workaround.
+     sed -e 's/^\\$//' -e '/^$/d' -e '/:$/d' | sed -e 's/$/ :/' >> "$depfile"
+@@ -525,7 +603,7 @@
+     shift
+   fi
+ 
+-  # Remove `-o $object'.
++  # Remove '-o $object'.
+   IFS=" "
+   for arg
+   do
+@@ -594,8 +672,8 @@
+   sed -n '/^#line [0-9][0-9]* "\([^"]*\)"/ s::\1:p' | $cygpath_u | sort -u > "$tmpdepfile"
+   rm -f "$depfile"
+   echo "$object : \\" > "$depfile"
+-  sed < "$tmpdepfile" -n -e 's% %\\ %g' -e '/^\(.*\)$/ s::	\1 \\:p' >> "$depfile"
+-  echo "	" >> "$depfile"
++  sed < "$tmpdepfile" -n -e 's% %\\ %g' -e '/^\(.*\)$/ s::'"$tab"'\1 \\:p' >> "$depfile"
++  echo "$tab" >> "$depfile"
+   sed < "$tmpdepfile" -n -e 's% %\\ %g' -e '/^\(.*\)$/ s::\1\::p' >> "$depfile"
+   rm -f "$tmpdepfile"
+   ;;
+diff -ru libgsf-1.14.26.old/install-sh libgsf-1.14.26/install-sh
+--- libgsf-1.14.26.old/install-sh	2012-11-14 02:47:40.000000000 +0100
++++ libgsf-1.14.26/install-sh	2013-03-03 15:18:34.000000000 +0100
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ # install - install a program, script, or datafile
+ 
+-scriptversion=2009-04-28.21; # UTC
++scriptversion=2011-01-19.21; # UTC
+ 
+ # This originates from X11R5 (mit/util/scripts/install.sh), which was
+ # later released in X11R6 (xc/config/util/install.sh) with the
+@@ -156,6 +156,10 @@
+     -s) stripcmd=$stripprog;;
+ 
+     -t) dst_arg=$2
++	# Protect names problematic for `test' and other utilities.
++	case $dst_arg in
++	  -* | [=\(\)!]) dst_arg=./$dst_arg;;
++	esac
+ 	shift;;
+ 
+     -T) no_target_directory=true;;
+@@ -186,6 +190,10 @@
+     fi
+     shift # arg
+     dst_arg=$arg
++    # Protect names problematic for `test' and other utilities.
++    case $dst_arg in
++      -* | [=\(\)!]) dst_arg=./$dst_arg;;
++    esac
+   done
+ fi
+ 
+@@ -200,7 +208,11 @@
+ fi
+ 
+ if test -z "$dir_arg"; then
+-  trap '(exit $?); exit' 1 2 13 15
++  do_exit='(exit $ret); exit $ret'
++  trap "ret=129; $do_exit" 1
++  trap "ret=130; $do_exit" 2
++  trap "ret=141; $do_exit" 13
++  trap "ret=143; $do_exit" 15
+ 
+   # Set umask so as not to create temps with too-generous modes.
+   # However, 'strip' requires both read and write access to temps.
+@@ -228,9 +240,9 @@
+ 
+ for src
+ do
+-  # Protect names starting with `-'.
++  # Protect names problematic for `test' and other utilities.
+   case $src in
+-    -*) src=./$src;;
++    -* | [=\(\)!]) src=./$src;;
+   esac
+ 
+   if test -n "$dir_arg"; then
+@@ -252,12 +264,7 @@
+       echo "$0: no destination specified." >&2
+       exit 1
+     fi
+-
+     dst=$dst_arg
+-    # Protect names starting with `-'.
+-    case $dst in
+-      -*) dst=./$dst;;
+-    esac
+ 
+     # If destination is a directory, append the input filename; won't work
+     # if double slashes aren't ignored.
+@@ -385,7 +392,7 @@
+ 
+       case $dstdir in
+ 	/*) prefix='/';;
+-	-*) prefix='./';;
++	[-=\(\)!]*) prefix='./';;
+ 	*)  prefix='';;
+       esac
+ 
+@@ -403,7 +410,7 @@
+ 
+       for d
+       do
+-	test -z "$d" && continue
++	test X"$d" = X && continue
+ 
+ 	prefix=$prefix$d
+ 	if test -d "$prefix"; then
+diff -ru libgsf-1.14.26.old/ltmain.sh libgsf-1.14.26/ltmain.sh
+--- libgsf-1.14.26.old/ltmain.sh	2013-02-27 23:41:09.000000000 +0100
++++ libgsf-1.14.26/ltmain.sh	2013-03-03 15:18:20.000000000 +0100
+@@ -70,7 +70,7 @@
+ #         compiler:		$LTCC
+ #         compiler flags:		$LTCFLAGS
+ #         linker:		$LD (gnu? $with_gnu_ld)
+-#         $progname:	(GNU libtool) 2.4.2 Debian-2.4.2-1ubuntu2
++#         $progname:	(GNU libtool) 2.4.2 Debian-2.4.2-1.2
+ #         automake:	$automake_version
+ #         autoconf:	$autoconf_version
+ #
+@@ -80,7 +80,7 @@
+ 
+ PROGRAM=libtool
+ PACKAGE=libtool
+-VERSION="2.4.2 Debian-2.4.2-1ubuntu2"
++VERSION="2.4.2 Debian-2.4.2-1.2"
+ TIMESTAMP=""
+ package_revision=1.3337
+ 
+diff -ru libgsf-1.14.26.old/m4/libtool.m4 libgsf-1.14.26/m4/libtool.m4
+--- libgsf-1.14.26.old/m4/libtool.m4	2013-02-27 23:41:09.000000000 +0100
++++ libgsf-1.14.26/m4/libtool.m4	2013-03-03 15:18:20.000000000 +0100
+@@ -1324,7 +1324,14 @@
+ 	    LD="${LD-ld} -m elf_i386_fbsd"
+ 	    ;;
+ 	  x86_64-*linux*)
+-	    LD="${LD-ld} -m elf_i386"
++	    case `/usr/bin/file conftest.o` in
++	      *x86-64*)
++		LD="${LD-ld} -m elf32_x86_64"
++		;;
++	      *)
++		LD="${LD-ld} -m elf_i386"
++		;;
++	    esac
+ 	    ;;
+ 	  ppc64-*linux*|powerpc64-*linux*)
+ 	    LD="${LD-ld} -m elf32ppclinux"
+@@ -1688,7 +1695,8 @@
+     ;;
+   *)
+     lt_cv_sys_max_cmd_len=`(getconf ARG_MAX) 2> /dev/null`
+-    if test -n "$lt_cv_sys_max_cmd_len"; then
++    if test -n "$lt_cv_sys_max_cmd_len" && \
++	test undefined != "$lt_cv_sys_max_cmd_len"; then
+       lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \/ 4`
+       lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \* 3`
+     else
+@@ -2512,17 +2520,6 @@
+   esac
+   ;;
+ 
+-gnu*)
+-  version_type=linux # correct to gnu/linux during the next big refactor
+-  need_lib_prefix=no
+-  need_version=no
+-  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}${major} ${libname}${shared_ext}'
+-  soname_spec='${libname}${release}${shared_ext}$major'
+-  shlibpath_var=LD_LIBRARY_PATH
+-  shlibpath_overrides_runpath=no
+-  hardcode_into_libs=yes
+-  ;;
+-
+ haiku*)
+   version_type=linux # correct to gnu/linux during the next big refactor
+   need_lib_prefix=no
+@@ -2639,7 +2636,7 @@
+   ;;
+ 
+ # This must be glibc/ELF.
+-linux* | k*bsd*-gnu | kopensolaris*-gnu)
++linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+   version_type=linux # correct to gnu/linux during the next big refactor
+   need_lib_prefix=no
+   need_version=no
+@@ -3255,10 +3252,6 @@
+   fi
+   ;;
+ 
+-gnu*)
+-  lt_cv_deplibs_check_method=pass_all
+-  ;;
+-
+ haiku*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+@@ -3297,7 +3290,7 @@
+   ;;
+ 
+ # This must be glibc/ELF.
+-linux* | k*bsd*-gnu | kopensolaris*-gnu)
++linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
+@@ -4049,7 +4042,7 @@
+ 	    ;;
+ 	esac
+ 	;;
+-      linux* | k*bsd*-gnu | kopensolaris*-gnu)
++      linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+ 	case $cc_basename in
+ 	  KCC*)
+ 	    # KAI C++ Compiler
+@@ -4348,7 +4341,7 @@
+       _LT_TAGVAR(lt_prog_compiler_static, $1)='-non_shared'
+       ;;
+ 
+-    linux* | k*bsd*-gnu | kopensolaris*-gnu)
++    linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+       case $cc_basename in
+       # old Intel for x86_64 which still supported -KPIC.
+       ecc*)
+@@ -6241,9 +6234,6 @@
+         _LT_TAGVAR(ld_shlibs, $1)=yes
+         ;;
+ 
+-      gnu*)
+-        ;;
+-
+       haiku*)
+         _LT_TAGVAR(archive_cmds, $1)='$CC -shared $libobjs $deplibs $compiler_flags ${wl}-soname $wl$soname -o $lib'
+         _LT_TAGVAR(link_all_deplibs, $1)=yes
+@@ -6405,7 +6395,7 @@
+         _LT_TAGVAR(inherit_rpath, $1)=yes
+         ;;
+ 
+-      linux* | k*bsd*-gnu | kopensolaris*-gnu)
++      linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+         case $cc_basename in
+           KCC*)
+ 	    # Kuck and Associates, Inc. (KAI) C++ Compiler
+diff -ru libgsf-1.14.26.old/missing libgsf-1.14.26/missing
+--- libgsf-1.14.26.old/missing	2012-11-14 02:47:40.000000000 +0100
++++ libgsf-1.14.26/missing	2013-03-03 15:18:34.000000000 +0100
+@@ -1,10 +1,10 @@
+ #! /bin/sh
+ # Common stub for a few missing GNU programs while installing.
+ 
+-scriptversion=2009-04-28.21; # UTC
++scriptversion=2012-01-06.13; # UTC
+ 
+ # Copyright (C) 1996, 1997, 1999, 2000, 2002, 2003, 2004, 2005, 2006,
+-# 2008, 2009 Free Software Foundation, Inc.
++# 2008, 2009, 2010, 2011, 2012 Free Software Foundation, Inc.
+ # Originally by Fran,cois Pinard <pinard@iro.umontreal.ca>, 1996.
+ 
+ # This program is free software; you can redistribute it and/or modify
+@@ -84,7 +84,6 @@
+   help2man     touch the output file
+   lex          create \`lex.yy.c', if possible, from existing .c
+   makeinfo     touch the output file
+-  tar          try tar, gnutar, gtar, then tar without non-portable flags
+   yacc         create \`y.tab.[ch]', if possible, from existing .[ch]
+ 
+ Version suffixes to PROGRAM as well as the prefixes \`gnu-', \`gnu', and
+@@ -122,15 +121,6 @@
+     # Not GNU programs, they don't have --version.
+     ;;
+ 
+-  tar*)
+-    if test -n "$run"; then
+-       echo 1>&2 "ERROR: \`tar' requires --run"
+-       exit 1
+-    elif test "x$2" = "x--version" || test "x$2" = "x--help"; then
+-       exit 1
+-    fi
+-    ;;
+-
+   *)
+     if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+        # We have it, but it failed.
+@@ -226,7 +216,7 @@
+          \`Bison' from any GNU archive site."
+     rm -f y.tab.c y.tab.h
+     if test $# -ne 1; then
+-        eval LASTARG="\${$#}"
++        eval LASTARG=\${$#}
+ 	case $LASTARG in
+ 	*.y)
+ 	    SRCFILE=`echo "$LASTARG" | sed 's/y$/c/'`
+@@ -256,7 +246,7 @@
+          \`Flex' from any GNU archive site."
+     rm -f lex.yy.c
+     if test $# -ne 1; then
+-        eval LASTARG="\${$#}"
++        eval LASTARG=\${$#}
+ 	case $LASTARG in
+ 	*.l)
+ 	    SRCFILE=`echo "$LASTARG" | sed 's/l$/c/'`
+@@ -318,41 +308,6 @@
+     touch $file
+     ;;
+ 
+-  tar*)
+-    shift
+-
+-    # We have already tried tar in the generic part.
+-    # Look for gnutar/gtar before invocation to avoid ugly error
+-    # messages.
+-    if (gnutar --version > /dev/null 2>&1); then
+-       gnutar "$@" && exit 0
+-    fi
+-    if (gtar --version > /dev/null 2>&1); then
+-       gtar "$@" && exit 0
+-    fi
+-    firstarg="$1"
+-    if shift; then
+-	case $firstarg in
+-	*o*)
+-	    firstarg=`echo "$firstarg" | sed s/o//`
+-	    tar "$firstarg" "$@" && exit 0
+-	    ;;
+-	esac
+-	case $firstarg in
+-	*h*)
+-	    firstarg=`echo "$firstarg" | sed s/h//`
+-	    tar "$firstarg" "$@" && exit 0
+-	    ;;
+-	esac
+-    fi
+-
+-    echo 1>&2 "\
+-WARNING: I can't seem to be able to run \`tar' with the given arguments.
+-         You may want to install GNU tar or Free paxutils, or check the
+-         command line arguments."
+-    exit 1
+-    ;;
+-
+   *)
+     echo 1>&2 "\
+ WARNING: \`$1' is needed, and is $msg.

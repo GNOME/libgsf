@@ -1,0 +1,266 @@
+commit c248f5a21a444ae9c3ee4ba9564318a2c0d69262
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Fri Mar 1 19:45:13 2013 +0100
+
+    Updated Polish translation
+
+diff --git a/po/pl.po b/po/pl.po
+index e1def86..b12c2e2 100644
+--- a/po/pl.po
++++ b/po/pl.po
+@@ -4,14 +4,14 @@
+ # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
+ # gnomepl@aviary.pl
+ # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-# Piotr Drąg <piotrdrag@gmail.com>, 2010-2012.
+-# Aviary.pl <gnomepl@aviary.pl>, 2010-2012.
++# Piotr Drąg <piotrdrag@gmail.com>, 2010-2013.
++# Aviary.pl <gnomepl@aviary.pl>, 2010-2013.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: libgsf\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2012-10-26 17:32+0200\n"
+-"PO-Revision-Date: 2012-10-26 17:33+0200\n"
++"POT-Creation-Date: 2013-03-01 19:44+0100\n"
++"PO-Revision-Date: 2013-03-01 19:45+0100\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+ "Language-Team: Polish <gnomepl@aviary.pl>\n"
+ "Language: pl\n"
+@@ -23,18 +23,18 @@ msgstr ""
+ "X-Poedit-Language: Polish\n"
+ "X-Poedit-Country: Poland\n"
+ 
+-#: ../gsf/gsf-blob.c:115
++#: ../gsf/gsf-blob.c:113
+ #, c-format
+ msgid "Not enough memory to copy %s bytes of data"
+ msgstr "Brak wystarczającej ilości pamięci do skopiowania %s bajtów danych"
+ 
+-#: ../gsf/gsf-clip-data.c:166
++#: ../gsf/gsf-clip-data.c:165
+ #, c-format
+ msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+ msgstr ""
+ "clip_data znajduje się w %s, ale jest mniejsze niż co najmniej %s bajtów"
+ 
+-#: ../gsf/gsf-clip-data.c:260
++#: ../gsf/gsf-clip-data.c:259
+ #, c-format
+ msgid ""
+ "The clip_data is in Windows clipboard format, but it is smaller than the "
+@@ -43,36 +43,36 @@ msgstr ""
+ "clip_data jest w formacie schowka systemu Windows, ale jest mniejsze niż "
+ "wymagane 4 bajty."
+ 
+-#: ../gsf/gsf-clip-data.c:271
++#: ../gsf/gsf-clip-data.c:270
+ msgid "Windows Metafile format"
+ msgstr "Format metapliku systemu Windows"
+ 
+ #. CF_BITMAP
+-#: ../gsf/gsf-clip-data.c:277
++#: ../gsf/gsf-clip-data.c:276
+ msgid "Windows DIB or BITMAP format"
+ msgstr "Format DIB lub BITMAP systemu Windows"
+ 
+-#: ../gsf/gsf-clip-data.c:282
++#: ../gsf/gsf-clip-data.c:281
+ msgid "Windows Enhanced Metafile format"
+ msgstr "Ulepszony format metapliku systemu Windows"
+ 
+-#: ../gsf/gsf-libxml.c:1493
++#: ../gsf/gsf-libxml.c:1497
+ msgid "Pretty print"
+ msgstr "Ładne wyjście"
+ 
+-#: ../gsf/gsf-libxml.c:1494
++#: ../gsf/gsf-libxml.c:1498
+ msgid "Should the output auto-indent elements to make reading easier?"
+ msgstr "Czy automatycznie wyrównywać elementy wyjścia"
+ 
+-#: ../gsf/gsf-libxml.c:1500
++#: ../gsf/gsf-libxml.c:1504
+ msgid "Sink"
+ msgstr "Odpływ"
+ 
+-#: ../gsf/gsf-libxml.c:1501
++#: ../gsf/gsf-libxml.c:1505
+ msgid "The destination for writes"
+ msgstr "Cel zapisu"
+ 
+-#: ../gsf/gsf-msole-utils.c:315
++#: ../gsf/gsf-msole-utils.c:312
+ #, c-format
+ msgid ""
+ "Missing data when reading the %s property; got %s bytes, but %s bytes at "
+@@ -81,7 +81,7 @@ msgstr ""
+ "Brakujące dane podczas odczytywania własności %s. Otrzymano %s bajtów, ale "
+ "wymagane jest co najmniej %s bajtów."
+ 
+-#: ../gsf/gsf-msole-utils.c:366
++#: ../gsf/gsf-msole-utils.c:363
+ #, c-format
+ msgid ""
+ "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+@@ -90,115 +90,115 @@ msgstr ""
+ "Uszkodzone dane we właściwości VT_CF. Długość danych schowka musi wynosić co "
+ "najmniej 4 bajty, ale dane mają dostępne tylko %s bajty."
+ 
+-#: ../gsf/gsf-open-pkg-utils.c:355
++#: ../gsf/gsf-open-pkg-utils.c:353
+ #, c-format
+ msgid "Unable to find part id='%s' for '%s'"
+ msgstr "Nie można odnaleźć części id=\"%s\" dla \"%s\""
+ 
+-#: ../gsf/gsf-open-pkg-utils.c:383
++#: ../gsf/gsf-open-pkg-utils.c:381
+ #, c-format
+ msgid "Unable to find part with type='%s' for '%s'"
+ msgstr "Nie można odnaleźć części z type=\"%s\" for \"%s\""
+ 
+-#: ../gsf/gsf-open-pkg-utils.c:413
++#: ../gsf/gsf-open-pkg-utils.c:411
+ #, c-format
+ msgid "Missing id for part in '%s'"
+ msgstr "Brakująca wartość id dla części w \"%s\""
+ 
+-#: ../gsf/gsf-open-pkg-utils.c:422
++#: ../gsf/gsf-open-pkg-utils.c:420
+ #, c-format
+ msgid "Part '%s' in '%s' from '%s' is corrupt!"
+ msgstr "Część \"%s\" w \"%s\" z \"%s\" jest uszkodzona."
+ 
+-#: ../gsf/gsf-opendoc-utils.c:353
++#: ../gsf/gsf-opendoc-utils.c:355
+ #, c-format
+ msgid "Property \"%s\" used for multiple types!"
+ msgstr "Własność \"%s\" jest używana dla wielu typów."
+ 
+-#: ../gsf/gsf-opendoc-utils.c:878
++#: ../gsf/gsf-opendoc-utils.c:880
+ msgid "ODF version"
+ msgstr "Wersja ODF"
+ 
+-#: ../gsf/gsf-opendoc-utils.c:879
++#: ../gsf/gsf-opendoc-utils.c:881
+ msgid "The ODF version this object is targeting as an integer like 100"
+ msgstr "Wersja ODF tego obiektu jako liczba całkowita, taka jak 100"
+ 
+-#: ../tools/gsf.c:27
++#: ../tools/gsf.c:15
+ msgid "Display program version"
+ msgstr "Wyświetla wersję programu"
+ 
+-#: ../tools/gsf.c:54
++#: ../tools/gsf.c:42
+ #, c-format
+ msgid "%s: Failed to open %s: %s\n"
+ msgstr "%s: otwarcie %s się nie powiodło: %s\n"
+ 
+-#: ../tools/gsf.c:75
++#: ../tools/gsf.c:63
+ #, c-format
+ msgid "%s: Failed to recognize %s as an archive\n"
+ msgstr "%s rozpoznanie %s jako archiwum się nie powiodło\n"
+ 
+-#: ../tools/gsf.c:112
++#: ../tools/gsf.c:100
+ #, c-format
+ msgid "Available subcommands are...\n"
+ msgstr "Dostępne podpolecenia to...\n"
+ 
+-#: ../tools/gsf.c:113
++#: ../tools/gsf.c:101
+ #, c-format
+ msgid "* cat        output one or more files in archive\n"
+ msgstr "* cat        wyświetla jeden lub więcej plików w archiwum\n"
+ 
+-#: ../tools/gsf.c:114
++#: ../tools/gsf.c:102
+ #, c-format
+ msgid "* dump       dump one or more files in archive as hex\n"
+ msgstr ""
+ "* dump       zrzuca jeden lub więcej plików w archiwum w postaci "
+ "szesnastkowej\n"
+ 
+-#: ../tools/gsf.c:115
++#: ../tools/gsf.c:103
+ #, c-format
+ msgid "* help       list subcommands\n"
+ msgstr "* help       wyświetla listę podpoleceń\n"
+ 
+-#: ../tools/gsf.c:116
++#: ../tools/gsf.c:104
+ #, c-format
+ msgid "* list       list files in archive\n"
+ msgstr "* list       wyświetla listę plików w archiwum\n"
+ 
+-#: ../tools/gsf.c:117
++#: ../tools/gsf.c:105
+ #, c-format
+ msgid "* listprops  list document properties in archive\n"
+ msgstr "* listprops  wyświetla listę właściwości dokumentu w archiwum\n"
+ 
+-#: ../tools/gsf.c:118
++#: ../tools/gsf.c:106
+ #, c-format
+ msgid "* props      print specified document properties\n"
+ msgstr "* props      wyświetla podane właściwości dokumentu\n"
+ 
+-#: ../tools/gsf.c:119
++#: ../tools/gsf.c:107
+ #, c-format
+ msgid "* createole  create OLE archive\n"
+ msgstr "* createole  tworzy archiwum OLE\n"
+ 
+-#: ../tools/gsf.c:120
++#: ../tools/gsf.c:108
+ #, c-format
+ msgid "* createzip  create ZIP archive\n"
+ msgstr "* createzip  tworzy archiwum ZIP\n"
+ 
+-#: ../tools/gsf.c:303
++#: ../tools/gsf.c:291
+ #, c-format
+ msgid "No property named %s\n"
+ msgstr "Brak właściwości o nazwie %s\n"
+ 
+-#: ../tools/gsf.c:362
++#: ../tools/gsf.c:350
+ #, c-format
+ msgid "%s: Error processing file %s: %s\n"
+ msgstr "%s: błąd podczas przetwarzania pliku %s: %s\n"
+ 
+-#: ../tools/gsf.c:526
++#: ../tools/gsf.c:514
+ msgid "SUBCOMMAND ARCHIVE..."
+ msgstr "PODPOLECENIE ARCHIWUM..."
+ 
+-#: ../tools/gsf.c:533
++#: ../tools/gsf.c:521
+ #, c-format
+ msgid ""
+ "%s\n"
+@@ -208,17 +208,17 @@ msgstr ""
+ "Wykonanie polecenia \"%s --help\" wyświetli listę wszystkich dostępnych "
+ "opcji wiersza poleceń.\n"
+ 
+-#: ../tools/gsf.c:540
++#: ../tools/gsf.c:528
+ #, c-format
+ msgid "gsf version %d.%d.%d\n"
+ msgstr "gsf wersja %d.%d.%d\n"
+ 
+-#: ../tools/gsf.c:546
++#: ../tools/gsf.c:534
+ #, c-format
+ msgid "Usage: %s %s\n"
+ msgstr "Użycie: %s %s\n"
+ 
+-#: ../tools/gsf.c:571
++#: ../tools/gsf.c:559
+ #, c-format
+-msgid "Run '%s help' to see a list subcommands.\n"
++msgid "Run '%s help' to see a list of subcommands.\n"
+ msgstr "Wykonanie polecenia \"%s help\" wyświetli listę podpoleceń.\n"

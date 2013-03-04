@@ -1,0 +1,18 @@
+commit f7d0442bc062a29e456e0d46038ced59855121dc
+Author: Morten Welinder <terra@gnome.org>
+Date:   Fri Mar 1 10:35:26 2013 -0500
+
+    gsf: fix grammar in help text.
+
+diff --git a/tools/gsf.c b/tools/gsf.c
+index f8a1ce9..304cbd6 100644
+--- a/tools/gsf.c
++++ b/tools/gsf.c
+@@ -556,6 +556,6 @@ main (int argc, char **argv)
+ 	if (strcmp (cmd, "createzip") == 0)
+ 		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_ZIP);
+ 
+-	g_printerr (_("Run '%s help' to see a list subcommands.\n"), me);
++	g_printerr (_("Run '%s help' to see a list of subcommands.\n"), me);
+ 	return 1;
+ }
