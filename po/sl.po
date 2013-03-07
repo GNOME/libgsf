@@ -9,15 +9,16 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-01 19:13+0000\n"
-"PO-Revision-Date: 2013-03-01 20:19+0100\n"
+"POT-Creation-Date: 2013-03-04 17:41+0000\n"
+"PO-Revision-Date: 2013-03-07 16:48+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
 
@@ -53,6 +54,91 @@ msgstr "Zapis Windows DIB ali BITMAP"
 msgid "Windows Enhanced Metafile format"
 msgstr "Zapis Windows Enhanced Metafile"
 
+#: ../gsf/gsf-infile-tar.c:542 ../gsf/gsf-infile-zip.c:821
+#: ../gsf/gsf-input-gzip.c:513
+msgid "Source"
+msgstr "Vir"
+
+#: ../gsf/gsf-infile-tar.c:543 ../gsf/gsf-infile-zip.c:822
+msgid "The archive being interpreted"
+msgstr "Obravnavan arhiv"
+
+#: ../gsf/gsf-infile-zip.c:837 ../gsf/gsf-outfile-zip.c:727
+msgid "Compression Level"
+msgstr "Raven stiskanja"
+
+#: ../gsf/gsf-infile-zip.c:838 ../gsf/gsf-outfile-zip.c:728
+msgid "The level of compression used, zero meaning none"
+msgstr "Raven stiskanja, ki je v uporabi. Vrednost nič pomeni brez stiskanja."
+
+#: ../gsf/gsf-input-gzip.c:502
+msgid "Raw"
+msgstr "Surovo"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Ali naj bodo prebrani stisnjeni podatki brez glave in brez sledilnika."
+
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Where the compressed data comes from"
+msgstr "Od kje izvirajo stisnjeni podatki"
+
+#: ../gsf/gsf-input-gzip.c:530
+msgid "Size after decompression"
+msgstr "Velikost po odpakiranju"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "The source's uncompressed size"
+msgstr "Odpakirana velikost vira"
+
+#: ../gsf/gsf-input.c:124 ../gsf/gsf-output.c:163
+msgid "Name"
+msgstr "Ime"
+
+#: ../gsf/gsf-input.c:125
+msgid "The input's name"
+msgstr "Ime vnosa"
+
+#: ../gsf/gsf-input.c:134 ../gsf/gsf-output.c:173
+msgid "Size"
+msgstr "Velikost"
+
+#: ../gsf/gsf-input.c:135
+msgid "The input's size"
+msgstr "Velikost vnosa"
+
+#: ../gsf/gsf-input.c:149
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:150
+msgid "End of file"
+msgstr "Življenjska doba"
+
+#: ../gsf/gsf-input.c:159
+msgid "Remaining"
+msgstr "Preostanek"
+
+#: ../gsf/gsf-input.c:160
+msgid "Amount of data remaining"
+msgstr "Količina preostalih podatkov"
+
+#: ../gsf/gsf-input.c:169 ../gsf/gsf-output.c:193
+msgid "Position"
+msgstr "Položaj"
+
+#: ../gsf/gsf-input.c:170
+msgid "The input's current position"
+msgstr "Trenutni položaj vnosa"
+
+#: ../gsf/gsf-input.c:180 ../gsf/gsf-output.c:204
+msgid "Modification time"
+msgstr "Čas spreminjanja"
+
+#: ../gsf/gsf-input.c:181
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "Izbirna možnost, ki določa, kdaj je bil vnos nazadnje spremenjen."
+
 #: ../gsf/gsf-libxml.c:1497
 msgid "Pretty print"
 msgstr "Oblikovno izrisovanje"
@@ -61,7 +147,9 @@ msgstr "Oblikovno izrisovanje"
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Ali naj se v odvodu predmeti samodejno zamaknejo za lažje branje?"
 
-#: ../gsf/gsf-libxml.c:1504
+#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-zip.c:707 ../gsf/gsf-output-csv.c:333
+#: ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Ponor"
 
@@ -107,6 +195,28 @@ msgstr "Manjkajoči id za del v '%s'"
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del '%s' v '%s' iz '%s' je pokvarjen!"
 
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "Predmet, ki hrani vsebino odprtega arhiva"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Vrsta vsebine"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr ""
+"Podatek o vrsti vsebine, kot je shranjen v korenu datoteke [Content_Types]."
+"xml"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Je mapa"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Ali ima lahko zunanja datoteka podrejene predmete"
+
 #: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
@@ -121,6 +231,122 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Različica ODF, na katerega cilja predmet, določena kot celo število; na "
 "primer 100"
+
+#: ../gsf/gsf-outfile-zip.c:708
+msgid "Where the archive is written"
+msgstr "Kje je arhiv zapisan"
+
+#: ../gsf/gsf-outfile-zip.c:717
+msgid "Entry Name"
+msgstr "Ime vnosa"
+
+#: ../gsf/gsf-outfile-zip.c:718
+msgid "The filename of this member in the archive without path"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Ločilnik"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Ločilnik polj"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr ""
+
+#: ../gsf/gsf-output.c:164
+msgid "The output's name"
+msgstr ""
+
+#: ../gsf/gsf-output.c:174
+msgid "The output's size"
+msgstr ""
+
+#: ../gsf/gsf-output.c:183
+msgid "Is Closed"
+msgstr ""
+
+#: ../gsf/gsf-output.c:184
+msgid "Whether the output is closed"
+msgstr ""
+
+#: ../gsf/gsf-output.c:194
+msgid "The output's current position"
+msgstr ""
+
+#: ../gsf/gsf-output.c:205
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
 
 #: ../tools/gsf.c:15
 msgid "Display program version"
