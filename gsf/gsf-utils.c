@@ -797,6 +797,20 @@ gsf_property_settings_collect (GType object_type,
   va_end (var_args);
 }
 
+const GParameter *
+gsf_property_settings_find (const char *name,
+			    const GParameter *params,
+			    size_t n_params)
+{
+	size_t i;
+
+	for (i = 0; i < n_params; i++)
+		if (g_str_equal (name, params[i].name))
+			return params + i;
+
+	return NULL;
+}
+
 void
 gsf_property_settings_free (GParameter *params,
 			    size_t n_params)

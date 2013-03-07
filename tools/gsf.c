@@ -3,8 +3,10 @@
 #include <gsf-config.h>
 #include <gsf/gsf.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <string.h>
+#include <errno.h>
 
 static gboolean show_version;
 
@@ -351,6 +353,7 @@ gsf_list_props (int argc, char **argv)
 }
 
 /* ------------------------------------------------------------------------- */
+
 static void
 show_error (char const *name, GError *error)
 {
@@ -368,87 +371,65 @@ static void
 load_recursively (GsfOutfile *outfile, char const *path)
 {
 	GError *error = NULL;
-	GFile *file;
-	GFileType type;
-	goffset size;
-	gsize bytes_read;
-	char *buffer;
+	struct stat statbuf;
 
-	file = g_file_new_for_path (path);
-	type = g_file_query_file_type (file, G_FILE_QUERY_INFO_NONE, NULL);
-
-	switch (type) {
-	case G_FILE_TYPE_DIRECTORY: {
-		char *buffer = g_file_get_basename (file);
-		GFileEnumerator *enumerator;
-		GsfOutfile *dir;
-
-		dir = GSF_OUTFILE (gsf_outfile_new_child (outfile, buffer, TRUE));
-		g_free (buffer);
-		enumerator = g_file_enumerate_children (file, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
-		while (1) {
-			char *childname;
-			GFileInfo *info;
-
-			info = g_file_enumerator_next_file (enumerator, NULL, &error);
-			if (!info)
-				break;
-
-			childname = g_build_filename (path, g_file_info_get_name (info), NULL);
-			load_recursively (dir, childname);
-			g_free (childname);
-			g_object_unref (info);
-		}
-		g_object_unref (enumerator);
-		g_object_unref (dir);
-		break;
+	if (g_stat (path, &statbuf) == -1) {
+		g_printerr ("Failed to stat %s: %s\n",
+			    path, g_strerror (errno));
+		return;
 	}
-	case G_FILE_TYPE_SYMBOLIC_LINK:
-		/* do nothing */
-		break;
-	default: {
+
+	if (S_ISDIR (statbuf.st_mode)) {
+		GsfInfile *in = gsf_infile_stdio_new (path, &error);
+		GsfOutfile *out;
+		int i, n;
 		char *base;
-		GFileInfo *info;
-		GFileInputStream *stream;
-		GsfOutput *output;
 
-		stream = g_file_read (file, NULL, &error);
-		if (error) {
-			show_error (path, error);
-			return;
-		}
-		info = g_file_input_stream_query_info(stream, "standard::*", NULL, &error);
-		if (error) {
-			show_error (path, error);
-			return;
-		}
-		size = g_file_info_get_size (info);
-		g_object_unref (info);
-
-		g_print ("f %10" GSF_OFF_T_FORMAT " %s\n", size, path);
-
-		buffer = g_new (gchar, size);
-		g_input_stream_read_all ((GInputStream *)stream, buffer, size, &bytes_read, NULL, &error);
-		if (error) {
+		if (!in) {
 			show_error (path, error);
 			return;
 		}
 
-		base = g_file_get_basename (file);
-		output = gsf_outfile_new_child (outfile, base, FALSE);
-		gsf_output_write (output, size, buffer);
-		gsf_output_close (output);
-		g_object_unref (output);
+		base = g_path_get_basename (path);
+		out = GSF_OUTFILE (gsf_outfile_new_child (outfile, base, TRUE));
 		g_free (base);
 
-		g_free (buffer);
-		g_object_unref (stream);
-		break;
-	}
+		n = gsf_infile_num_children (in);
+		for (i = 0; i < n; i++) {
+			char const *child = gsf_infile_name_by_index (in, i);
+			char *name = g_build_filename (path, child, NULL);
+			load_recursively (out, name);
+			g_free (name);
+		}
 
-	}
+		g_object_unref (out);
+		g_object_unref (in);
+	} else if (S_ISREG (statbuf.st_mode)) {
+		char *base;
+		GsfInput *in;
+		GsfOutput *out;
 
-	g_object_unref (file);
+		in = gsf_input_stdio_new (path, &error);
+		if (!in) {
+			show_error (path, error);
+			return;
+		}
+
+		base = g_path_get_basename (path);
+		out = gsf_outfile_new_child_full
+			(outfile, base, FALSE,
+			 "modtime", gsf_input_get_modtime (in),
+			 NULL);
+		g_printerr ("Adding %s\n", path);
+		gsf_input_copy (in, out);
+		gsf_output_close (out);
+		g_object_unref (out);
+		g_free (base);
+
+		g_object_unref (in);
+	} else {
+		g_printerr ("Ignoring %s\n", path);
+	}
 }
 
 static int

@@ -8,7 +8,7 @@ Morten:
 	* Add modtime support for GsfInput, GsfInputStdio, GsfInputGzip.
 	* Add modtime support for GsfInfileZip, GsfInfileTar.
 	* Add modtime support for GsfOutput, GsfOutputStdio, GsfOutputGzip.
-	* Enhance gsf tool to print modtime.
+	* Enhance gsf tool to print modtime and create archives with modtime.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26

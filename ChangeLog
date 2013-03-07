@@ -1,3 +1,13 @@
+2013-03-07  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-utils.c (gsf_property_settings_find): New function.
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_new_child): Don't add
+	modtime is caller did.
+
+	* tools/gsf.c (load_recursively): Simlify using, of all things,
+	gsf.  Avoid crazy memory usage.  Take care of modtime.
+
 2013-03-04  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-tar.c (tar_init_info): Also read mtime from

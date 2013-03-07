@@ -268,21 +268,28 @@ zip_time_make (GDateTime *modtime)
 	gint year, month, day, hour, minute, second;
 	guint32 ztime;
 
-	g_return_val_if_fail (modtime != NULL, 0);
+	if (!modtime)
+		modtime = g_date_time_new_now_utc ();
+	else
+		g_date_time_ref (modtime);
 
 	g_date_time_get_ymd (modtime, &year, &month, &day);
-	if (year < 1980 || year > 1980 + 0x7f)
-		return 0;
 	hour = g_date_time_get_hour (modtime);
 	minute = g_date_time_get_minute (modtime);
 	second = g_date_time_get_second (modtime);
 
-	ztime = (year - 1980) & 0x7f;
-	ztime = (ztime << 4) | (month  & 0x0f);
-	ztime = (ztime << 5) | (day & 0x1f);
-	ztime = (ztime << 5) | (hour & 0x1f);
-	ztime = (ztime << 6) | (minute & 0x3f);
-	ztime = (ztime << 5) | ((second / 2) & 0x1f);
+	if (year < 1980 || year > 1980 + 0x7f)
+		ztime = 0;
+	else {
+		ztime = (year - 1980) & 0x7f;
+		ztime = (ztime << 4) | (month  & 0x0f);
+		ztime = (ztime << 5) | (day & 0x1f);
+		ztime = (ztime << 5) | (hour & 0x1f);
+		ztime = (ztime << 6) | (minute & 0x3f);
+		ztime = (ztime << 5) | ((second / 2) & 0x1f);
+	}
+
+	g_date_time_unref (modtime);
 
 	return ztime;
 }
@@ -594,12 +601,17 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 				       &params, &n_params,
 				       "sink", zip_parent->sink,
 				       "entry-name", name,
-				       "modtime", gsf_output_get_modtime (GSF_OUTPUT (parent)),
 				       NULL);
 	gsf_property_settings_collect_valist (GSF_OUTFILE_ZIP_TYPE,
 					      &params, &n_params,
 					      first_property_name,
 					      args);
+	if (!gsf_property_settings_find ("modtime", params, n_params))
+		gsf_property_settings_collect (GSF_OUTFILE_ZIP_TYPE,
+					       &params, &n_params,
+					       "modtime", gsf_output_get_modtime (GSF_OUTPUT (parent)),
+					       NULL);
+
 	child = (GsfOutfileZip *)g_object_newv (GSF_OUTFILE_ZIP_TYPE,
 						n_params,
 						params);

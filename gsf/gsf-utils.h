@@ -309,6 +309,9 @@ void        gsf_property_settings_collect (GType object_type,
 					   size_t *p_n_params,
 					   const gchar *first_property_name,
 					   ...);
+const GParameter *gsf_property_settings_find (const char *name,
+					      const GParameter *params,
+					      size_t n_params);
 void        gsf_property_settings_free (GParameter *params,
 					size_t n_params);
 
