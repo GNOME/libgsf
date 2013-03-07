@@ -52,6 +52,7 @@ typedef struct {
 	gboolean  is_directory;
 	GList	 *children;
 	unsigned char clsid[16];	/* 16 byte GUID used by some apps */
+	GDateTime *modtime;
 } MSOleDirent;
 
 typedef struct {
@@ -277,6 +278,22 @@ ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
 	return gsf_msole_sorting_key_cmp (a->key, b->key);
 }
 
+static GDateTime *
+datetime_from_filetime (guint64 ft)
+{
+	static const guint64 epoch = G_GINT64_CONSTANT (11644473600);
+	GTimeVal tv;
+	if (!ft)
+		return NULL;
+
+	/* ft is number of 100ns since Jan 1 1601 */
+
+	tv.tv_usec = (ft % 10000000u) / 10;
+	tv.tv_sec = (ft / 10000000u) - epoch;
+	return g_date_time_new_from_timeval_local (&tv);
+}
+
+
 /* Parse dirent number @entry and recursively handle its siblings and children.
  * parent is optional. */
 static MSOleDirent *
@@ -288,6 +305,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	guint8 const *data;
 	guint8 type;
 	guint16 name_len;
+	guint64 ft;
 
 	if (entry >= DIRENT_MAGIC_END)
 		return NULL;
@@ -323,9 +341,12 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	g_return_val_if_fail (type == DIRENT_TYPE_DIR || type == DIRENT_TYPE_ROOTDIR ||
 			      size <= (guint32)ole->input->size, NULL);
 
+	ft = GSF_LE_GET_GUINT64 (data + DIRENT_MODIFY_TIME);
+
 	dirent = g_new0 (MSOleDirent, 1);
 	dirent->index	     = entry;
 	dirent->size	     = size;
+	dirent->modtime = datetime_from_filetime (ft);
 	/* Store the class id which is 16 byte identifier used by some apps */
 	memcpy(dirent->clsid, data + DIRENT_CLSID, sizeof(dirent->clsid));
 
@@ -395,9 +416,15 @@ ole_dirent_free (MSOleDirent *dirent)
 	g_free (dirent->name);
 	gsf_msole_sorting_key_free (dirent->key);
 
-	for (tmp = dirent->children; tmp; tmp = tmp->next)
-		ole_dirent_free ((MSOleDirent *)tmp->data);
+	for (tmp = dirent->children; tmp; tmp = tmp->next) {
+		MSOleDirent *child = tmp->data;
+		ole_dirent_free (child);
+	}
 	g_list_free (dirent->children);
+
+	if (dirent->modtime)
+		g_date_time_unref (dirent->modtime);
+
 	g_free (dirent);
 }
 
@@ -616,6 +643,17 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		return TRUE;
 	}
 
+	/*
+	 * The spec says to ignore modtime for root object.  That doesn't
+	 * keep files from actually have a modtime there.
+	 */
+	if (ole->dirent->modtime) {
+		/* Copy */
+		gsf_input_set_modtime (GSF_INPUT (ole),
+				       g_date_time_add (ole->dirent->modtime, 0));
+	}
+
+
 	return FALSE;
 }
 
@@ -740,6 +778,11 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 	child->dirent = dirent;
 	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->size);
+	if (dirent->modtime) {
+		/* Copy */
+		gsf_input_set_modtime (GSF_INPUT (child),
+				       g_date_time_add (dirent->modtime, 0));
+	}
 
 	/* The root dirent defines the small block file */
 	if (dirent->index != 0) {
