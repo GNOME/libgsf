@@ -63,7 +63,7 @@ gsf_output_set_property (GObject      *object,
 	case PROP_MODTIME: {
 		GDateTime *modtime = g_value_get_boxed (value);
 		if (modtime)
-			modtime = g_date_time_add (modtime, 0); // Copy
+			modtime = g_date_time_add (modtime, 0); /* Copy */
 		gsf_output_set_modtime (output, modtime);
 		break;
 	}

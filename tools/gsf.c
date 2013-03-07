@@ -404,7 +404,7 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		break;
 	}
 	case G_FILE_TYPE_SYMBOLIC_LINK:
-		// do nothing
+		/* do nothing */
 		break;
 	default: {
 		char *base;

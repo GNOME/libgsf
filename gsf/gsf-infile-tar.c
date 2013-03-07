@@ -379,7 +379,7 @@ gsf_infile_tar_child_by_index (GsfInfile *infile, int target, GError **err)
 							       c->offset,
 							       c->length);
 		if (c->modtime) {
-			// Copy
+			/* Copy */
 			gsf_input_set_modtime (input,
 					       g_date_time_add (c->modtime, 0));
 		}
