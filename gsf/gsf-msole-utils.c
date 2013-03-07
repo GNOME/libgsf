@@ -1970,7 +1970,7 @@ static struct {
  * @lang:
  *
  * Returns: the LID (Language Identifier) for the input language.
- * 	If lang is %null, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
+ * 	If lang is %NULL, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
  **/
 guint
 gsf_msole_lid_for_language (char const *lang)

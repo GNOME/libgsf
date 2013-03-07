@@ -188,7 +188,7 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * gsf_output_memory_get_bytes:
  * @mem: the output device.
  *
- * Returns: The data that has been written to @mem, or %null
+ * Returns: The data that has been written to @mem, or %NULL
  **/
 const guint8 *
 gsf_output_memory_get_bytes (GsfOutputMemory * mem)

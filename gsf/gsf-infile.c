@@ -124,7 +124,7 @@ gsf_infile_child_by_name (GsfInfile *infile, char const *name)
 
 /**
  * gsf_infile_child_by_vname:
- * @infile:
+ * @infile: a #GsfInfile
  * @...: A %NULL terminated list of names
  *
  * Apart from the way arguments are specified, this is the same as

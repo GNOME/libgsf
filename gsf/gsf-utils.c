@@ -230,6 +230,7 @@ gsf_init_dynamic (GTypeModule *module)
 
 /**
  * gsf_shutdown_dynamic:
+ * @module: currently unused
  *
  * De-intializes the GSF library from a type module.
  * Currently does nothing.

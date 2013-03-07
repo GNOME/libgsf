@@ -191,7 +191,7 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 /**
  * gsf_input_mmap_new:
  * @filename: The file on disk that you want to mmap
- * @err: A #GError, or optionally %null
+ * @err: A #GError, or optionally %NULL
  *
  * Returns: A new #GsfInputMemory
  */
