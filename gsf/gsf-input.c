@@ -48,7 +48,8 @@ enum {
 	PROP_EOF,
 	PROP_REMAINING,
 	PROP_POS,
-	PROP_MODTIME
+	PROP_MODTIME,
+	PROP_CONTAINER
 };
 
 static void
@@ -79,6 +80,9 @@ gsf_input_get_property (GObject     *object,
 		break;
 	case PROP_MODTIME:
 		g_value_set_boxed (value, gsf_input_get_modtime (input));
+		break;
+	case PROP_CONTAINER:
+		g_value_set_object (value, input->container);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -204,6 +208,20 @@ gsf_input_class_init (GObjectClass *gobject_class)
 		  G_TYPE_DATE_TIME,
 		  GSF_PARAM_STATIC |
 		  G_PARAM_READABLE));
+
+	/**
+	 * GsfInput:container:
+	 *
+	 * The container, optionally %NULL, in which this input lives.
+	 */
+	g_object_class_install_property
+		(gobject_class, PROP_CONTAINER,
+		 g_param_spec_object ("container",
+				      _("Container"),
+				      _("The parent GsfInfile"),
+				      GSF_INFILE_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READABLE));
 }
 
 GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
