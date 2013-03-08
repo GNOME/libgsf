@@ -1967,7 +1967,7 @@ static struct {
 
 /**
  * gsf_msole_lid_for_language:
- * @lang:
+ * @lang: (allow-none): Language id, i.e., locale name.
  *
  * Returns: the LID (Language Identifier) for the input language.
  * 	If lang is %NULL, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")
@@ -1992,11 +1992,11 @@ gsf_msole_lid_for_language (char const *lang)
 
 /**
  * gsf_msole_language_for_lid:
- * @lid:
+ * @lid: numerical language id
  *
- * Returns: the xx_YY style string (can be just xx or xxx) for the given LID.
- * 	Return value must not be freed. If the LID is not found, is set to
- * 	0x0400, or is set to 0x0000, will return "-none-"
+ * Returns: (transfer none): the xx_YY style string (can be just xx or
+ * xxx) for the given LID.  If the LID is not found, is set to 0x0400,
+ * or is set to 0x0000, will return "-none-"
  **/
 char const *
 gsf_msole_language_for_lid (guint lid)
@@ -2012,6 +2012,7 @@ gsf_msole_language_for_lid (guint lid)
 
 /**
  * gsf_msole_locale_to_lid:
+ * @codepage: character code page.
  *
  * Convert the the codepage into an applicable LID
  **/
@@ -2057,7 +2058,7 @@ gsf_msole_codepage_to_lid (int codepage)
 
 /**
  * gsf_msole_lid_to_codepage:
- * @lid:
+ * @lid: numerical language id
  *
  * Returns: our best guess at the codepage for the given language id
  **/
@@ -2258,10 +2259,10 @@ gsf_msole_lid_to_codepage (guint lid)
 
 /**
  * gsf_msole_lid_to_codepage_str:
- * @lid:
+ * @lid: numerical language id
  *
- * Returns: the Iconv codepage string for the given LID.
- * 	Return value must be g_free ()'d
+ * Returns: (transfer full): the Iconv codepage string for the given
+ * LID.
  **/
 gchar *
 gsf_msole_lid_to_codepage_str (guint lid)
