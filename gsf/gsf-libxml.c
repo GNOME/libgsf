@@ -1329,8 +1329,8 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
  *
  * According to @state is @str in the namespace @ns_id ?
  *
- * Returns: a pointer to @str after the namespace if successful,
- * 	otherwise %NULL.
+ * Returns: (transfer none): a pointer to @str after the namespace if
+ * successful, otherwise %NULL.
  **/
 char const *
 gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
@@ -1612,7 +1612,7 @@ gsf_xml_out_start_element (GsfXMLOut *xout, char const *id)
  *
  * Closes/ends an XML element.
  *
- * Returns: the element that has been closed.
+ * Returns: (transfer none): the element that has been closed.
  */
 char const *
 gsf_xml_out_end_element (GsfXMLOut *xout)

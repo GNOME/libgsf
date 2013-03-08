@@ -127,6 +127,11 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READABLE));
 
+	/**
+	 * GsfInput:size:
+	 *
+	 * The total number of bytes in the file.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SIZE,
@@ -140,7 +145,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 	/**
 	 * GsfInput:eof:
 	 *
-	 * True if the end of the file has been reached.
+	 * %TRUE if the end of the file has been reached.
 	 */
 	g_object_class_install_property
 		(gobject_class,
@@ -152,6 +157,11 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READABLE));
 
+	/**
+	 * GsfInput:remaining:
+	 *
+	 * The number of bytes remaining in the file.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_REMAINING,
@@ -162,6 +172,11 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READABLE));
 
+	/**
+	 * GsfInput:position:
+	 *
+	 * The current position in the input.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_POS,
@@ -172,6 +187,13 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READABLE));
 
+	/**
+	 * GsfInput:modtime:
+	 *
+	 * The time the input was last updated.  This represents the
+	 * timestamp from the originating file or @GsfInfile member.
+	 * It is not supported by all derived classes.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_MODTIME,

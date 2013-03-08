@@ -537,9 +537,9 @@ gsf_le_set_double (void *p, double d)
  * Extracts the extension from the end of a filename (the part after the final
  * '.' in the filename).
  *
- * Returns: A pointer to the extension part of the filename, or a
- * pointer to the end of the string if the filename does not
- * have an extension.
+ * Returns: (transfer none): A pointer to the extension part of the
+ * filename, or a pointer to the end of the string if the filename
+ * does not have an extension.
  */
 char const *
 gsf_extension_pointer (char const *path)

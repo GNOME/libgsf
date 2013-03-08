@@ -165,6 +165,11 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READABLE));
 
+	/**
+	 * GsfOutput:size:
+	 *
+	 * The current file size.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SIZE,
@@ -175,6 +180,11 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READABLE));
 
+	/**
+	 * GsfOutput:is-closed:
+	 *
+	 * %TRUE if the output has been closed.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_CLOSED,
@@ -185,6 +195,11 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READABLE));
 
+	/**
+	 * GsfOutput:position:
+	 *
+	 * The current position in the output.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_POS,
@@ -195,6 +210,14 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READABLE));
 
+	/**
+	 * GsfOutput:modtime:
+	 *
+	 * The time the output was last updated.  This must be set on object
+	 * construction and represents the timestamp to put on the resulting
+	 * file or #GsfOutfile member.  Not all derived classes will actually
+	 * do anything with this property.
+	 */
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_MODTIME,

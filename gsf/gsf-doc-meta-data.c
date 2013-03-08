@@ -334,7 +334,7 @@ gsf_doc_prop_get_type (void)
  * gsf_doc_prop_get_name:
  * @prop: #GsfDocProp
  *
- * Returns: the name of the property, the caller should not modify the result.
+ * Returns: (transfer none): the name of the property
  **/
 char const *
 gsf_doc_prop_get_name (GsfDocProp const *prop)
@@ -400,8 +400,7 @@ gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
  * gsf_doc_prop_get_link:
  * @prop: #GsfDocProp
  *
- * Returns: the current link descriptor of @prop.  The result should not be
- * 	freed or modified.
+ * Returns: (transfer none): the current link descriptor of @prop.
  **/
 char const *
 gsf_doc_prop_get_link (GsfDocProp const *prop)

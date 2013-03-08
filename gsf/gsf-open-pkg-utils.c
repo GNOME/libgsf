@@ -126,7 +126,7 @@ gsf_open_pkg_rel_is_extern (GsfOpenPkgRel const *rel)
  * gsf_open_pkg_rel_get_target:
  * @rel: #GsfOpenPkgRel
  *
- * Returns: const pointer to @rel's target.
+ * Returns: (transfer none): The target of @rel.
  **/
 char const *
 gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
@@ -139,7 +139,7 @@ gsf_open_pkg_rel_get_target (GsfOpenPkgRel const *rel)
  * gsf_open_pkg_rel_get_type:
  * @rel: #GsfOpenPkgRel
  *
- * Returns: const pointer to @rel's type.
+ * Returns: (transfer none): The type of @rel.
  **/
 char const *
 gsf_open_pkg_rel_get_type (GsfOpenPkgRel const *rel)
@@ -824,8 +824,8 @@ gsf_outfile_open_pkg_create_rel (GsfOutfileOpenPkg *parent,
  *
  * Create a relationship between @child and @parent of @type.
  *
- * Returns: the relID which the caller does not own but will live as long as
- * 	@parent.
+ * Returns: (transfer none): the relID which the caller does not own
+ * 	but will live as long as @parent.
  **/
 char const *
 gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
@@ -900,8 +900,9 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
  *
  * Add an external relation to @parent.
  *
- * Returns: (transfer none): The id of the relation.  The string is managed by the parent and
- * 	should not be changed or freed by the caller.
+ * Returns: (transfer none): The id of the relation.  The string is
+ * managed by the parent and should not be changed or freed by the
+ * caller.
  **/
 char const *
 gsf_outfile_open_pkg_add_extern_rel (GsfOutfileOpenPkg *parent,
