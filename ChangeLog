@@ -1,5 +1,8 @@
 2013-03-08  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output.c (gsf_output_set_property): Make name property
+	writable.
+
 	* gsf/gsf-input.c (gsf_input_dup): Simplify.  Prevent leak of
 	container ref if derived class set one.
 

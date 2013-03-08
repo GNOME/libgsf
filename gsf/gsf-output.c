@@ -55,12 +55,15 @@ enum {
 static void
 gsf_output_set_property (GObject      *object,
 			 guint         property_id,
-	 G_GNUC_UNUSED   GValue const *value,
+			 GValue const *value,
 			 GParamSpec   *pspec)
 {
 	GsfOutput *output = GSF_OUTPUT (object);
 
 	switch (property_id) {
+	case PROP_NAME:
+		gsf_output_set_name (output, g_value_get_string (value));
+		break;
 	case PROP_MODTIME: {
 		GDateTime *modtime = g_value_get_boxed (value);
 		if (modtime)
@@ -170,7 +173,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				      _("The output's name"),
 				      NULL,
 				      GSF_PARAM_STATIC |
-				      G_PARAM_READABLE));
+				      G_PARAM_READWRITE));
 
 	/**
 	 * GsfOutput:size:
