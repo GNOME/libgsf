@@ -248,8 +248,7 @@ gsf_input_name (GsfInput *input)
  * gsf_input_container:
  * @input: the input stream
  *
- * Returns: (transfer none): but does not add a reference to @input's container.
- * 	Potentially %NULL
+ * Returns: (transfer none): @input's container, potentially %NULL.
  **/
 GsfInfile *
 gsf_input_container (GsfInput *input)
@@ -292,9 +291,7 @@ gsf_input_dup (GsfInput *input, GError **err)
 		}
 
 		gsf_input_set_name (dst, input->name);
-		dst->container = input->container;
-		if (dst->container != NULL)
-			g_object_ref (dst->container);
+		gsf_input_set_container (dst, input->container);
 	}
 	return dst;
 }

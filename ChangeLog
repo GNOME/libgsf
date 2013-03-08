@@ -1,3 +1,8 @@
+2013-03-08  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_dup): Simplify.  Prevent leak of
+	container ref if derived class set one.
+
 2013-03-07  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.c (gsf_property_settings_find): New function.
