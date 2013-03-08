@@ -264,13 +264,12 @@ gsf_doc_meta_dump (GsfDocMetaData const *meta)
 
 /**
  * gsf_doc_prop_new:
- * @name:
+ * @name: (transfer full): The name of the property.
  *
- * Returns: a new #GsfDocProp which the caller is responsible for freeing.
- * Takes ownership of @name.
+ * Returns: (transfer full): a new #GsfDocProp.
  **/
 GsfDocProp *
-gsf_doc_prop_new  (char *name)
+gsf_doc_prop_new (char *name)
 {
 	GsfDocProp *prop;
 
@@ -286,7 +285,7 @@ gsf_doc_prop_new  (char *name)
 
 /**
  * gsf_doc_prop_free:
- * @prop: #GsfDocProp
+ * @prop: (allow-none): #GsfDocProp
  *
  * If @prop is non %NULL free the memory associated with it
  **/
@@ -359,7 +358,7 @@ gsf_doc_prop_get_val (GsfDocProp const *prop)
 /**
  * gsf_doc_prop_set_val:
  * @prop: #GsfDocProp
- * @val: #GValue
+ * @val: (transfer full): #GValue
  *
  * Assigns @val to @prop, and unsets and frees the current value.
  **/
@@ -380,10 +379,10 @@ gsf_doc_prop_set_val (GsfDocProp *prop, GValue *val)
 /**
  * gsf_doc_prop_swap_val:
  * @prop: #GsfDocProp
- * @val: #GValue
+ * @val: (transfer full): #GValue
  *
- * Returns: the current value of @prop, and replaces it with @val
- * 	Caller is responsible for unsetting and freeing the result.
+ * Returns: (transfer full): the current value of @prop, and replaces
+ * 	it with @val.
  **/
 GValue *
 gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
@@ -412,7 +411,7 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
 /**
  * gsf_doc_prop_set_link:
  * @prop: #GsfDocProp
- * @link: optionally %NULL
+ * @link: (transfer full): optionally %NULL
  *
  * Sets @prop's link to @link
  **/
