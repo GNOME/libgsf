@@ -279,6 +279,19 @@ ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 #undef FLUSH
 #undef ADD_ITEM
 
+static guint64
+datetime_to_filetime (GDateTime *dt)
+{
+	static const guint64 epoch = G_GINT64_CONSTANT (11644473600);
+	GTimeVal tv;
+	if (!dt)
+		return 0u;
+
+	/* ft is number of 100ns since Jan 1 1601 */
+	g_date_time_to_timeval (dt, &tv);
+	return (tv.tv_sec + epoch) * 10000000u + tv.tv_usec * 10u;
+}
+
 static void
 ole_pad_bat_unused (GsfOutfileMSOle *ole, unsigned residual)
 {
@@ -386,6 +399,9 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, size);
 		}
+		GSF_LE_SET_GUINT64 (buf + DIRENT_MODIFY_TIME,
+				    datetime_to_filetime (gsf_output_get_modtime (GSF_OUTPUT (child))));
+
 		/* make everything black (red == 0) */
 		GSF_LE_SET_GUINT8  (buf + DIRENT_COLOUR, 1);
 

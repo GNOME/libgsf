@@ -1,5 +1,8 @@
 2013-03-08  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Set
+	modtime when available.
+
 	* gsf/gsf-output.c (gsf_output_set_property): Make name property
 	writable.
 
