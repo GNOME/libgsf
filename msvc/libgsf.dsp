@@ -395,10 +395,6 @@ SOURCE="..\gsf\gsf-output-stdio.h"
 # End Source File
 # Begin Source File
 
-SOURCE="..\gsf\gsf-output-transaction.h"
-# End Source File
-# Begin Source File
-
 SOURCE="..\gsf\gsf-output.h"
 # End Source File
 # Begin Source File
