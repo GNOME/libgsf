@@ -23,6 +23,7 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-msole-impl.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -38,8 +39,8 @@ typedef enum { MSOLE_DIR, MSOLE_SMALL_BLOCK, MSOLE_BIG_BLOCK } MSOleOutfileType;
 #define OLE_DEFAULT_THRESHOLD	 0x1000
 #define OLE_DEFAULT_SB_SHIFT	 6
 #define OLE_DEFAULT_BB_SHIFT	 9
-#define OLE_DEFAULT_BB_SIZE	 (1 << OLE_DEFAULT_BB_SHIFT)
-#define OLE_DEFAULT_SB_SIZE	 (1 << OLE_DEFAULT_SB_SHIFT)
+#define OLE_DEFAULT_BB_SIZE	 (1u << OLE_DEFAULT_BB_SHIFT)
+#define OLE_DEFAULT_SB_SIZE	 (1u << OLE_DEFAULT_SB_SHIFT)
 
 struct _GsfOutfileMSOle {
 	GsfOutfile parent;
@@ -73,24 +74,60 @@ struct _GsfOutfileMSOle {
 	} content;
 	unsigned char clsid[16];		/* 16 byte GUID used by some apps */
 };
-typedef GsfOutfileClass GsfOutfileMSOleClass;
+
+enum {
+	PROP_0,
+	PROP_SINK,
+	PROP_SMALL_BLOCK_SIZE,
+	PROP_BIG_BLOCK_SIZE
+};
+
+typedef struct {
+	GsfOutfileClass base;
+} GsfOutfileMSOleClass;
+
+static void
+gsf_outfile_msole_set_sink (GsfOutfileMSOle *ole, GsfOutput *sink)
+{
+	if (sink)
+		g_object_ref (sink);
+	if (ole->sink)
+		g_object_unref (ole->sink);
+	ole->sink = sink;
+}
+
+/* returns the number of times 1 must be shifted left to reach value */
+static guint
+compute_shift (guint value)
+{
+	guint i = 0;
+	while ((value >> i) > 1)
+		i++;
+	return i;
+}
+
+static void
+gsf_outfile_msole_set_bb_size (GsfOutfileMSOle *ole, guint size)
+{
+	ole->bb.size = size;
+	ole->bb.shift = compute_shift (size);
+}
+
+static void
+gsf_outfile_msole_set_sb_size (GsfOutfileMSOle *ole, guint size)
+{
+	ole->sb.size = size;
+	ole->sb.shift = compute_shift (size);
+}
 
 static void
 gsf_outfile_msole_finalize (GObject *obj)
 {
 	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (obj);
-	GsfOutput *output = GSF_OUTPUT (obj);
 
 	gsf_msole_sorting_key_free (ole->key);
 	ole->key = NULL;
 
-	if (!gsf_output_is_closed (output))
-		gsf_output_close (output);
-
-	if (ole->sink != NULL) {
-		g_object_unref (ole->sink);
-		ole->sink = NULL;
-	}
 	switch (ole->type) {
 	case MSOLE_DIR:
 		g_slist_free (ole->content.dir.children);
@@ -106,11 +143,25 @@ gsf_outfile_msole_finalize (GObject *obj)
 
 	case MSOLE_BIG_BLOCK:
 		break;
-	default :
-		g_warning ("Unknown file type");
+	default:
+		g_assert_not_reached ();
 	}
 
 	parent_class->finalize (obj);
+}
+
+static void
+gsf_outfile_msole_dispose (GObject *obj)
+{
+	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (obj);
+	GsfOutput *output = GSF_OUTPUT (obj);
+
+	if (!gsf_output_is_closed (output))
+		gsf_output_close (output);
+
+	gsf_outfile_msole_set_sink (ole, NULL);
+
+	parent_class->dispose (obj);
 }
 
 static gboolean
@@ -123,8 +174,7 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 	case G_SEEK_SET : break;
 	case G_SEEK_CUR : offset += output->cur_offset;	break;
 	case G_SEEK_END : offset += output->cur_size;	break;
-	default :
-		break; /*checked in GsfOutput wrapper */
+	default: g_assert_not_reached ();
 	}
 
 	switch (ole->type) {
@@ -146,8 +196,8 @@ gsf_outfile_msole_seek (GsfOutput *output, gsf_off_t offset,
 			(gsf_off_t)(ole->content.big_block.start_offset + offset),
 			G_SEEK_SET);
 
-	default :
-		return FALSE;
+	default:
+		g_assert_not_reached ();
 	}
 
 	return FALSE;
@@ -592,16 +642,6 @@ make_sorting_name (GsfOutfileMSOle *ole,
 	ole->key = gsf_msole_sorting_key_new (name);
 }
 
-static void
-gsf_outfile_msole_set_block_shift (GsfOutfileMSOle *ole,
-				   unsigned bb_shift, unsigned sb_shift)
-{
-	ole->bb.shift = bb_shift;
-	ole->bb.size  = (1 << ole->bb.shift);
-	ole->sb.shift = sb_shift;
-	ole->sb.size  = (1 << ole->sb.shift);
-}
-
 static GsfOutput *
 gsf_outfile_msole_new_child (GsfOutfile *parent,
 			     char const *name, gboolean is_dir,
@@ -623,11 +663,10 @@ gsf_outfile_msole_new_child (GsfOutfile *parent,
 		child->type = MSOLE_SMALL_BLOCK;
 		child->content.small_block.buf = g_new0 (guint8, OLE_DEFAULT_THRESHOLD);
 	}
-	g_object_ref (ole_parent->sink);
-	child->sink   = ole_parent->sink;
 	child->root   = ole_parent->root;
-	gsf_outfile_msole_set_block_shift (child,
-		ole_parent->bb.shift, ole_parent->sb.shift);
+	gsf_outfile_msole_set_sink (child, ole_parent->sink);
+	gsf_outfile_msole_set_sb_size (child, ole_parent->sb.size);
+	gsf_outfile_msole_set_bb_size (child, ole_parent->bb.size);
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 
@@ -647,9 +686,6 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->sink   = NULL;
 	ole->root   = NULL;
 	ole->type   = MSOLE_DIR;
-
-	gsf_outfile_msole_set_block_shift (ole,
-		OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
 
 	ole->content.dir.children = NULL;
 	ole->content.dir.root_order = NULL;
@@ -673,18 +709,103 @@ gsf_outfile_msole_constructor (GType                  type,
 }
 
 static void
+gsf_outfile_msole_get_property (GObject     *object,
+				guint        property_id,
+				GValue      *value,
+				GParamSpec  *pspec)
+{
+	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (object);
+
+	switch (property_id) {
+	case PROP_SINK:
+		g_value_set_object (value, ole->sink);
+		break;
+	case PROP_SMALL_BLOCK_SIZE:
+		g_value_set_uint (value, ole->sb.size);
+		break;
+	case PROP_BIG_BLOCK_SIZE:
+		g_value_set_uint (value, ole->bb.size);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gsf_outfile_msole_set_property (GObject      *object,
+				guint         property_id,
+				GValue const *value,
+				GParamSpec   *pspec)
+{
+	GsfOutfileMSOle *ole = GSF_OUTFILE_MSOLE (object);
+
+	switch (property_id) {
+	case PROP_SINK:
+		gsf_outfile_msole_set_sink (ole, g_value_get_object (value));
+		break;
+	case PROP_SMALL_BLOCK_SIZE:
+		gsf_outfile_msole_set_sb_size (ole, g_value_get_uint (value));
+		break;
+	case PROP_BIG_BLOCK_SIZE:
+		gsf_outfile_msole_set_bb_size (ole, g_value_get_uint (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
 gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
 	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
 
 	gobject_class->finalize		= gsf_outfile_msole_finalize;
+	gobject_class->dispose		= gsf_outfile_msole_dispose;
 	gobject_class->constructor	= gsf_outfile_msole_constructor;
+	gobject_class->get_property     = gsf_outfile_msole_get_property;
+	gobject_class->set_property     = gsf_outfile_msole_set_property;
 	output_class->Close		= gsf_outfile_msole_close;
 	output_class->Seek		= gsf_outfile_msole_seek;
 	output_class->Write		= gsf_outfile_msole_write;
 	output_class->Vprintf		= gsf_outfile_msole_vprintf;
 	outfile_class->new_child	= gsf_outfile_msole_new_child;
+
+	g_object_class_install_property
+		(gobject_class, PROP_SINK,
+		 g_param_spec_object ("sink",
+				      _("Sink"),
+				      _("The destination for writes"),
+				      GSF_OUTPUT_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SMALL_BLOCK_SIZE,
+		 g_param_spec_uint ("small-block-size",
+				    _("Small block size"),
+				    _("The size of the OLE's small blocks"),
+				    8u, ZERO_PAD_BUF_SIZE,
+				    OLE_DEFAULT_SB_SIZE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE |
+				    G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_BIG_BLOCK_SIZE,
+		 g_param_spec_uint ("big-block-size",
+				    _("Big block size"),
+				    _("The size of the OLE's big blocks"),
+				    DIRENT_SIZE, ZERO_PAD_BUF_SIZE,
+				    OLE_DEFAULT_BB_SIZE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE |
+				    G_PARAM_CONSTRUCT_ONLY));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 	gsf_output_class = g_type_class_peek (GSF_OUTPUT_TYPE);
@@ -693,16 +814,6 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
 	   gsf_outfile_msole_class_init, gsf_outfile_msole_init,
 	   GSF_OUTFILE_TYPE)
-
-/* returns the number of times 1 must be shifted left to reach value */
-static unsigned
-compute_shift (unsigned value)
-{
-	unsigned i = 0;
-	while ((value >> i) > 1)
-		i++;
-	return i;
-}
 
 /**
  * gsf_outfile_msole_new_full:
@@ -733,34 +844,20 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 	GsfOutfileMSOle *ole;
 
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
+	g_return_val_if_fail (sb_size == (1u << compute_shift (sb_size)), NULL);
+	g_return_val_if_fail (bb_size == (1u << compute_shift (bb_size)), NULL);
+	g_return_val_if_fail (sb_size <= bb_size, NULL);
 
-	ole = g_object_new (GSF_OUTFILE_MSOLE_TYPE, NULL);
-
-	g_object_ref (sink);
-	ole->sink = sink;
+	ole = g_object_new (GSF_OUTFILE_MSOLE_TYPE,
+			    "sink", sink,
+			    "small-block-size", sb_size,
+			    "big-block-size", bb_size,
+			    "container", NULL,
+			    "name", gsf_output_name (sink),
+			    NULL);
 	ole->type = MSOLE_DIR;
 	ole->content.dir.root_order = g_ptr_array_new ();
 	ole_register_child (ole, ole);
-
-	gsf_outfile_msole_set_block_shift (ole,
-		compute_shift (bb_size), compute_shift (sb_size));
-	if (ole->bb.size != bb_size ||
-	    ole->sb.size != sb_size ||
-	    bb_size <= sb_size ||
-	    bb_size < DIRENT_SIZE ||
-	    sb_size < 8 ||
-	    ZERO_PAD_BUF_SIZE < ole->bb.size) {
-		if (ZERO_PAD_BUF_SIZE < ole->bb.size)
-			g_warning ("Block size is too big, failing back to defaults.");
-		else
-			g_warning ("Incorrect block sizes, failing back to defaults.");
-		gsf_outfile_msole_set_block_shift (ole,
-			OLE_DEFAULT_BB_SHIFT, OLE_DEFAULT_SB_SHIFT);
-	}
-
-	/* The names are the same */
-	gsf_output_set_name (GSF_OUTPUT (ole), gsf_output_name (sink));
-	gsf_output_set_container (GSF_OUTPUT (ole), NULL);
 
 	/* build the header */
 	buf = g_new (guint8, OLE_HEADER_SIZE);
