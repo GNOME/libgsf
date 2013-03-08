@@ -802,7 +802,7 @@ gsf_outfile_msole_new (GsfOutput *sink)
 /**
  * gsf_outfile_msole_set_class_id:
  * @ole: a #GsfOutfileMSOle
- * @clsid: 16 byte identifier (often a GUID in MS Windows apps)
+ * @clsid: (array fixed-size=16): Identifier (often a GUID in MS Windows apps)
  *
  * Write @clsid to the directory associated with @ole.
  *
