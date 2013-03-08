@@ -149,6 +149,7 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	gsf_input_set_size (GSF_INPUT (input), size);
 	gsf_input_set_name_from_filename (GSF_INPUT (input), filename);
 	if (st.st_mtime != (time_t)-1) {
+		GDateTime *modtime;
 		GTimeVal tv;
 
 		tv.tv_sec = st.st_mtime;
@@ -160,8 +161,9 @@ gsf_input_stdio_new (char const *filename, GError **err)
 		tv.tv_usec = 0;
 #endif
 
-		gsf_input_set_modtime (GSF_INPUT (input),
-				       g_date_time_new_from_timeval_utc (&tv));
+		modtime = g_date_time_new_from_timeval_utc (&tv);
+		gsf_input_set_modtime (GSF_INPUT (input), modtime);
+		g_date_time_unref (modtime);
 	}
 
 	return GSF_INPUT (input);

@@ -647,12 +647,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	 * The spec says to ignore modtime for root object.  That doesn't
 	 * keep files from actually have a modtime there.
 	 */
-	if (ole->dirent->modtime) {
-		/* Copy */
-		gsf_input_set_modtime (GSF_INPUT (ole),
-				       g_date_time_add (ole->dirent->modtime, 0));
-	}
-
+	gsf_input_set_modtime (GSF_INPUT (ole), ole->dirent->modtime);
 
 	return FALSE;
 }
@@ -778,11 +773,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 	child->dirent = dirent;
 	gsf_input_set_size (GSF_INPUT (child), (gsf_off_t) dirent->size);
-	if (dirent->modtime) {
-		/* Copy */
-		gsf_input_set_modtime (GSF_INPUT (child),
-				       g_date_time_add (dirent->modtime, 0));
-	}
+	gsf_input_set_modtime (GSF_INPUT (child), dirent->modtime);
 
 	/* The root dirent defines the small block file */
 	if (dirent->index != 0) {

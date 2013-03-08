@@ -636,9 +636,12 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 	if (dirent) {
 		gsf_input_set_size (GSF_INPUT (child),
 				    (gsf_off_t) dirent->usize);
-		if (dirent->dostime)
-			gsf_input_set_modtime (GSF_INPUT (child),
-					       zip_make_modtime (dirent->dostime));
+
+		if (dirent->dostime) {
+			GDateTime *modtime = zip_make_modtime (dirent->dostime);
+			gsf_input_set_modtime (GSF_INPUT (child), modtime);
+			g_date_time_unref (modtime);
+		}
 
 		if (zip_child_init (child, err) != FALSE) {
 			g_object_unref (child);

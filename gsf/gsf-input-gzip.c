@@ -81,7 +81,7 @@ check_header (GsfInputGZip *input)
 		static guint8 const signature[2] = {0x1f, 0x8b};
 		guint8 const *data;
 		unsigned flags, len;
-		guint32 modtime;
+		guint32 modutime;
 
 		/* Check signature */
 		if (NULL == (data = gsf_input_read (input->source, 2 + 1 + 1 + 6, NULL)) ||
@@ -93,11 +93,12 @@ check_header (GsfInputGZip *input)
 		if (data[2] != Z_DEFLATED || (flags & ~GZIP_HEADER_FLAGS) != 0)
 			return TRUE;
 
-		modtime = GSF_LE_GET_GUINT32 (data + 4);
-		if (modtime != 0)
-			gsf_input_set_modtime
-				(GSF_INPUT (input),
-				 g_date_time_new_from_unix_utc (modtime));
+		modutime = GSF_LE_GET_GUINT32 (data + 4);
+		if (modutime != 0) {
+			GDateTime *modtime = g_date_time_new_from_unix_utc (modutime);
+			gsf_input_set_modtime (GSF_INPUT (input), modtime);
+			g_date_time_unref (modtime);
+		}
 
 		/* If we have the size, don't bother seeking to the end.  */
 		if (input->uncompressed_size < 0) {

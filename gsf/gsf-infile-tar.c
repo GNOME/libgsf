@@ -378,11 +378,7 @@ gsf_infile_tar_child_by_index (GsfInfile *infile, int target, GError **err)
 		GsfInput *input = gsf_input_proxy_new_section (tar->source,
 							       c->offset,
 							       c->length);
-		if (c->modtime) {
-			/* Copy */
-			gsf_input_set_modtime (input,
-					       g_date_time_add (c->modtime, 0));
-		}
+		gsf_input_set_modtime (input, c->modtime);
 		gsf_input_set_name (input, c->name);
 		return input;
 	}

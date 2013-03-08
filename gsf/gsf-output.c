@@ -64,13 +64,9 @@ gsf_output_set_property (GObject      *object,
 	case PROP_NAME:
 		gsf_output_set_name (output, g_value_get_string (value));
 		break;
-	case PROP_MODTIME: {
-		GDateTime *modtime = g_value_get_boxed (value);
-		if (modtime)
-			modtime = g_date_time_add (modtime, 0); /* Copy */
-		gsf_output_set_modtime (output, modtime);
+	case PROP_MODTIME:
+		gsf_output_set_modtime (output, g_value_get_boxed (value));
 		break;
-	}
 	case PROP_CONTAINER:
 		gsf_output_set_container (output, g_value_get_object (value));
 		break;
@@ -643,7 +639,7 @@ gsf_output_get_modtime (GsfOutput *output)
 /**
  * gsf_output_set_modtime:
  * @output: the output stream
- * @modtime: (transfer full) (allow-none): the new modification time.
+ * @modtime: (transfer none) (allow-none): the new modification time.
  *
  * Returns: %TRUE if the assignment was ok.
  */
@@ -651,6 +647,9 @@ gboolean
 gsf_output_set_modtime (GsfOutput *output, GDateTime *modtime)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (output), FALSE);
+
+	if (modtime)
+		modtime = g_date_time_add (modtime, 0); /* Copy */
 
 	/* This actually also works for null modtime.  */
 	g_object_set_data_full (G_OBJECT (output),

@@ -132,9 +132,11 @@ gsf_outfile_zip_constructor (GType                  type,
 		gsf_output_set_container (GSF_OUTPUT (zip), NULL);
 	}
 
-	if (!gsf_output_get_modtime (GSF_OUTPUT (zip)))
-		gsf_output_set_modtime (GSF_OUTPUT (zip),
-					g_date_time_new_now_utc ());
+	if (!gsf_output_get_modtime (GSF_OUTPUT (zip))) {
+		GDateTime *modtime = g_date_time_new_now_utc ();
+		gsf_output_set_modtime (GSF_OUTPUT (zip), modtime);
+		g_date_time_unref (modtime);
+	}
 
 	return (GObject *)zip;
 }

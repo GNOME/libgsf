@@ -1,5 +1,10 @@
 2013-03-08  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input.c (gsf_input_set_modtime): Change to transfer-none
+	semantics.  All callers changed.
+	* gsf/gsf-output.c (gsf_output_set_modtime): Change to
+	transfer-none semantics.  All callers changed.
+
 	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_close_root): Set
 	modtime when available.
 

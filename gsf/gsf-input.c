@@ -607,7 +607,7 @@ gsf_input_get_modtime (GsfInput *input)
 /**
  * gsf_input_set_modtime:
  * @input: the input stream
- * @modtime: (transfer full) (allow-none): the new modification time.
+ * @modtime: (transfer none) (allow-none): the new modification time.
  *
  * protected.
  *
@@ -617,6 +617,9 @@ gboolean
 gsf_input_set_modtime (GsfInput *input, GDateTime *modtime)
 {
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
+
+	if (modtime)
+		modtime = g_date_time_add (modtime, 0); /* Copy */
 
 	/* This actually also works for null modtime.  */
 	g_object_set_data_full (G_OBJECT (input),
