@@ -3,18 +3,25 @@
 [encoding: UTF-8]
 gsf/gsf-blob.c
 gsf/gsf-clip-data.c
+gsf/gsf-infile-ar.c
+gsf/gsf-infile-msole.c
+gsf/gsf-infile-msvba.c
 gsf/gsf-infile-tar.c
 gsf/gsf-infile-zip.c
+gsf/gsf-input-bzip.c
 gsf/gsf-input.c
 gsf/gsf-input-gzip.c
 gsf/gsf-input-http.c
+gsf/gsf-input-memory.c
 gsf/gsf-libxml.c
 gsf/gsf-msole-utils.c
 gsf/gsf-opendoc-utils.c
 gsf/gsf-open-pkg-utils.c
 gsf/gsf-outfile-msole.c
 gsf/gsf-outfile-zip.c
+gsf/gsf-output-bzip.c
 gsf/gsf-output.c
 gsf/gsf-output-csv.c
 gsf/gsf-output-iconv.c
+gsf/gsf-output-stdio.c
 tools/gsf.c
