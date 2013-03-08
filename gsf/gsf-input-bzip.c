@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf-input-bzip.h>
 #include <gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -44,7 +45,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	(void)source;
 	if (err)
 		*err = g_error_new (gsf_input_error_id (), 0,
-				    "BZ2 support not enabled");
+				    _("BZ2 support not enabled"));
 	return NULL;
 #else
 	bz_stream  bzstm;
@@ -59,7 +60,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	if (BZ_OK != BZ2_bzDecompressInit (&bzstm, 0, 0)) {
 		if (err)
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "BZ2 decompress init failed");
+					    _("BZ2 decompress init failed"));
 		return NULL;
 	}
 
@@ -78,7 +79,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 		if (bzerr != BZ_OK && bzerr != BZ_STREAM_END) {
 			if (err)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "BZ2 decompress failed");
+						    _("BZ2 decompress failed"));
 			BZ2_bzDecompressEnd (&bzstm);
 			gsf_output_close (sink);
 			g_object_unref (sink);
@@ -95,7 +96,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	if (BZ_OK != BZ2_bzDecompressEnd (&bzstm)) {
 		if (err)
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "BZ2 decompress end failed");
+					    _("BZ2 decompress end failed"));
 		g_object_unref (sink);
 		return NULL;
 	}

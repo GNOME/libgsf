@@ -1124,7 +1124,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 	data = gsf_input_read (in, 28, NULL);
 	if (NULL == data)
 		return g_error_new (gsf_input_error_id (), 0,
-			"Unable to read MS property stream header");
+				    _("Unable to read MS property stream header"));
 
 	d ({g_print ("===================================\n"
 		   "header class id ==\n");
@@ -1151,7 +1151,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 	    || num_sections > gsf_input_size(in) / 20
 	    || num_sections > 100) /* arbitrary sanity check */
 		return g_error_new (gsf_input_error_id (), 0,
-			"Invalid MS property stream header");
+				    _("Invalid MS property stream header"));
 
 	/* extract the section info */
 	/*
@@ -1168,7 +1168,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 		data = gsf_input_read (in, 20, NULL);
 		if (NULL == data)
 			return g_error_new (gsf_input_error_id (), 0,
-				"Unable to read MS property stream header");
+					    _("Unable to read MS property stream header"));
 		if (!memcmp (data, component_guid, sizeof (component_guid)))
 			sections [i].type = COMPONENT_PROP;
 		else if (!memcmp (data, document_guid, sizeof (document_guid)))
@@ -1198,7 +1198,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 		if (gsf_input_seek (in, sections[i].offset, G_SEEK_SET) ||
 		    NULL == (data = gsf_input_read (in, 8, NULL)))
 			return g_error_new (gsf_input_error_id (), 0,
-				"Invalid MS property section");
+					    _("Invalid MS property section"));
 
 		sections[i].iconv_handle = (GIConv)-1;
 		sections[i].char_size    = 1;
@@ -1217,11 +1217,11 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 			continue;
 		if (sections[i].num_props > gsf_input_remaining(in) / 8)
 			return g_error_new (gsf_input_error_id (), 0,
-				"Invalid MS property stream header or file truncated");
+					    _("Invalid MS property stream header or file truncated"));
 
 		if (sections[i].offset + sections[i].size > gsf_input_size(in))
 			return g_error_new (gsf_input_error_id (), 0,
-				"Invalid MS property stream header or file truncated");
+					    _("Invalid MS property stream header or file truncated"));
 
 		/*
 		 * Get and save all the Property ID/Offset pairs.
@@ -1236,7 +1236,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 			if (NULL == (data = gsf_input_read (in, 8, NULL))) {
 				g_free (props);
 				return g_error_new (gsf_input_error_id (), 0,
-					"Invalid MS property section");
+						    _("Invalid MS property section"));
 			}
 
 			props[j].id = GSF_LE_GET_GUINT32 (data);
@@ -1260,7 +1260,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 			if (props[j].offset < 0 || props[j].offset + 4 > end) {
 				g_free (props);
 				return g_error_new (gsf_input_error_id (), 0,
-					"Invalid MS property section");
+						    _("Invalid MS property section"));
 			}
 		}
 

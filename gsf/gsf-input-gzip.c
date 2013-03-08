@@ -166,7 +166,7 @@ init_zip (GsfInputGZip *gzip, GError **err)
 	if (Z_OK != inflateInit2 (&(gzip->stream), -MAX_WBITS)) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Unable to initialize zlib");
+					    _("Unable to initialize zlib"));
 		return TRUE;
 	}
 
@@ -174,14 +174,14 @@ init_zip (GsfInputGZip *gzip, GError **err)
 	if (gsf_input_seek (gzip->source, 0, G_SEEK_SET)) {
 		if (err)
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "Failed to rewind source");
+					    _("Failed to rewind source"));
 		return TRUE;
 	}
 
 	if (check_header (gzip) != FALSE) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Invalid gzip header");
+					    _("Invalid gzip header"));
 		if (gsf_input_seek (gzip->source, cur_pos, G_SEEK_SET)) {
 			g_warning ("attempt to restore position failed ??");
 		}
@@ -310,7 +310,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 					g_clear_error (&gzip->err);
 					gzip->err = g_error_new
 						(gsf_input_error_id (), 0,
-						 "truncated source");
+						 _("truncated source"));
 					return NULL;
 				}
 				/* zlib requires an extra byte.  */
@@ -327,7 +327,7 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 					g_clear_error (&gzip->err);
 					gzip->err = g_error_new
 						(gsf_input_error_id (), 0,
-						 "Failed to read from source");
+						 _("Failed to read from source"));
 					return NULL;
 				}
 				gzip->stream.avail_in = n;
@@ -471,11 +471,11 @@ gsf_input_gzip_constructor (GType                  type,
   if (!gzip->source) {
 	  g_clear_error (&gzip->err);
 	  gzip->err = g_error_new (gsf_input_error_id (), 0,
-				   "NULL source");
+				   _("NULL source"));
   } else if (gzip->raw && gzip->uncompressed_size < 0) {
 	  g_clear_error (&gzip->err);
 	  gzip->err = g_error_new (gsf_input_error_id (), 0,
-				   "Uncompressed size not set");
+				   _("Uncompressed size not set"));
   } else if (init_zip (gzip, &gzip->err) != FALSE) {
 	  /* Nothing more.  */
   }

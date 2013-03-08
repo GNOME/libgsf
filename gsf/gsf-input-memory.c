@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <glib/gstdio.h>
 
@@ -225,7 +226,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL) {
 			char *utf8name = g_filename_display_name (filename);
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "%s: Is not a regular file",
+					    _("%s: Is not a regular file"),
 					    utf8name);
 			g_free (utf8name);
 		}
@@ -238,7 +239,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		if (err != NULL) {
 			char *utf8name = g_filename_display_name (filename);
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "%s: File too large to be memory mapped",
+					    _("%s: File too large to be memory mapped"),
 					    utf8name);
 			g_free (utf8name);
 		}
@@ -280,7 +281,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	(void)filename;
 	if (err != NULL)
 		*err = g_error_new (gsf_input_error_id (), 0,
-				    "mmap not supported");
+				    _("mmap not supported"));
 	return NULL;
 #endif
 }

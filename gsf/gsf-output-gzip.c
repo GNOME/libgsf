@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <zlib.h>
 #include <time.h>

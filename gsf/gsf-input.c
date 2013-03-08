@@ -278,14 +278,14 @@ gsf_input_dup (GsfInput *input, GError **err)
 		if (dst->size != input->size) {
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "Duplicate size mismatch");
+						    _("Duplicate size mismatch"));
 			g_object_unref (dst);
 			return NULL;
 		}
 		if (gsf_input_seek (dst, input->cur_offset, G_SEEK_SET)) {
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "Seek failed");
+						    _("Seek failed"));
 			g_object_unref (dst);
 			return NULL;
 		}

@@ -327,14 +327,14 @@ zip_read_dirents (GsfInfileZip *zip)
 	offset = zip_find_trailer (zip);
 	if (offset < 0) {
 		zip->err = g_error_new (gsf_input_error_id (), 0,
-					"No Zip trailer");
+					_("No Zip trailer"));
 		return TRUE;
 	}
 
 	if (gsf_input_seek (zip->source, offset, G_SEEK_SET) ||
 	    NULL == (trailer = gsf_input_read (zip->source, ZIP_TRAILER_SIZE, NULL))) {
 		zip->err = g_error_new (gsf_input_error_id (), 0,
-					"Error reading Zip signature");
+					_("Error reading Zip signature"));
 		return TRUE;
 	}
 
@@ -355,7 +355,7 @@ zip_read_dirents (GsfInfileZip *zip)
 		d = zip_dirent_new_in (zip, &offset);
 		if (d == NULL) {
 			zip->err = g_error_new (gsf_input_error_id (), 0,
-						"Error reading zip dirent");
+						_("Error reading zip dirent"));
 			return TRUE;
 		}
 
@@ -409,7 +409,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 		{ 'P', 'K', 0x03, 0x04 };
 	guint8 const *data = NULL;
 	guint16 name_len, extras_len;
-	char *err = NULL;
+	const char *err = NULL;
 
 	GsfZipDirent *dirent = child->vdir->dirent;
 
@@ -418,13 +418,11 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	 **/
 
 	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET))
-		err = g_strdup_printf ("Error seeking to zip header @ %" GSF_OFF_T_FORMAT,
-				       dirent->offset);
+		err = _("Error seeking to zip header");
 	else if (NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)))
 		err = g_strdup_printf ("Error reading %d bytes in zip header", ZIP_FILE_HEADER_SIZE);
 	else if (0 != memcmp (data, header_signature, sizeof (header_signature))) {
-		err = g_strdup_printf ("Error incorrect zip header @ %" GSF_OFF_T_FORMAT,
-				       dirent->offset);
+		err = _("Error incorrect zip header");
 		g_print ("Header is :\n");
 		gsf_mem_dump (data, sizeof (header_signature));
 		g_print ("Header should be :\n");
@@ -434,7 +432,6 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	if (NULL != err) {
 		if (errmsg != NULL)
 			*errmsg = g_error_new_literal (gsf_input_error_id (), 0, err);
-		g_free (err);
 		return TRUE;
 	}
 
@@ -458,7 +455,7 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 		if (err != Z_OK) {
 			if (errmsg != NULL)
 				*errmsg = g_error_new (gsf_input_error_id (), 0,
-						       "problem uncompressing stream");
+						       _("problem uncompressing stream"));
 			return TRUE;
 		}
 	}

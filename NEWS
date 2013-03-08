@@ -4,6 +4,7 @@ Morten:
 	* Introspection fixes.
 	* Property documentation fixes.
 	* I18n fixes for property strings.
+	* I18n fixes for error strings.
 	* Fix uncompress problem with bzip'd files.
 	* Add modtime support for GsfInput, GsfInputStdio, GsfInputGzip.
 	* Add modtime support for GsfInfileZip, GsfInfileTar, GsfInfileMSOle.

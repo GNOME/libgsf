@@ -28,6 +28,7 @@
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-msole-impl.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -470,7 +471,7 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	if (input == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "Failed to duplicate input stream");
+					    _("Failed to duplicate input stream"));
 		return NULL;
 	}
 
@@ -504,7 +505,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	    0 != memcmp (header, signature, sizeof (signature))) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"No OLE2 signature");
+					    _("No OLE2 signature"));
 		return TRUE;
 	}
 
@@ -524,7 +525,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	    (gsf_input_size (ole->input) >> bb_shift) < 1) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Unreasonable block sizes");
+					    _("Unreasonable block sizes"));
 		return TRUE;
 	}
 
@@ -560,7 +561,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 			g_free (info);
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "Insufficient memory");
+						    _("Insufficient memory"));
 			return TRUE;
 		}
 
@@ -619,7 +620,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	if (fail) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Inconsistent block allocation table");
+					    _("Inconsistent block allocation table"));
 		return TRUE;
 	}
 
@@ -627,7 +628,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	if (ole_make_bat (&info->bb.bat, 0, dirent_start, &ole->bat)) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Problems making block allocation table");
+					    _("Problems making block allocation table"));
 		return TRUE;
 	}
 
@@ -639,7 +640,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	if (ole->dirent == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Problems reading directory");
+					    _("Problems reading directory"));
 		return TRUE;
 	}
 
@@ -798,7 +799,7 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 		if (!sb_file) {
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "Failed to access child");
+						    _("Failed to access child"));
 			g_object_unref (child);
 			return NULL;
 		}
@@ -829,7 +830,9 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 						    child->stream.buf + (i << info->sb.shift))) == NULL) {
 
 				g_warning ("failure reading block %d for '%s'", i, dirent->name);
-				if (err) *err = g_error_new (gsf_input_error_id (), 0, "failure reading block");
+				if (err) *err = g_error_new
+						 (gsf_input_error_id (), 0,
+						  _("failure reading block"));
 				g_object_unref (child);
 				return NULL;
 			}

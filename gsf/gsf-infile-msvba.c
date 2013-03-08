@@ -30,6 +30,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -165,7 +166,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 	/* 0. get the stream */
 	dir = gsf_infile_child_by_name (vba->source, "dir");
 	if (dir == NULL) {
-		msg = "Can't find the VBA directory stream.";
+		msg = _("Can't find the VBA directory stream");
 		goto fail_stream;
 	}
 
@@ -212,7 +213,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		 *	and sometimes some trailing junk
 		 **/
 		if ((ptr + 6) > end) {
-			msg = "vba project header problem";
+			msg = _("vba project header problem");
 			goto fail_content;
 		}
 		tag = GSF_LE_GET_GUINT16 (ptr);
@@ -220,7 +221,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 
 		ptr += 6;
 		if ((ptr + len) > end) {
-			msg = "vba project header problem";
+			msg = _("vba project header problem");
 			goto fail_content;
 		}
 
@@ -378,7 +379,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 	if (dir == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Can't find the VBA directory stream.");
+					    _("Can't find the VBA directory stream"));
 		return FALSE;
 	}
 
@@ -387,7 +388,7 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 	    0 != memcmp (data, signature, sizeof (signature))) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"No VBA signature");
+					    _("No VBA signature"));
 		return FALSE;
 	}
 
@@ -398,8 +399,8 @@ vba_project_read (GsfInfileMSVBA *vba, GError **err)
 	if (i >= G_N_ELEMENTS (versions)) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-				"Unknown VBA version signature 0x%x%x%x%x",
-				data[2], data[3], data[4], data[5]);
+					    _("Unknown VBA version signature 0x%x%x%x%x"),
+					    data[2], data[3], data[4], data[5]);
 		return FALSE;
 	}
 
@@ -498,7 +499,7 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
 
 	if (err != NULL && *err == NULL)
 		*err = g_error_new (gsf_input_error_id (), 0,
-				"Unable to parse VBA header");
+				    _("Unable to parse VBA header"));
 
 	g_object_unref (vba);
 	return NULL;

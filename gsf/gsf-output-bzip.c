@@ -23,6 +23,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-output-bzip.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #ifdef HAVE_BZ2
 #include <bzlib.h>
@@ -72,7 +73,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 	if (ret != BZ_OK) {
 		if (err != NULL)
 			*err = g_error_new (gsf_output_error_id (), 0,
-					    "Unable to initialize BZ2 library");
+					    _("Unable to initialize BZ2 library"));
 		return FALSE;
 	}
 	if (!bzip->buf) {
@@ -261,7 +262,7 @@ gsf_output_bzip_new (GsfOutput *sink, GError **err)
 	(void)sink;
 	if (err)
 		*err = g_error_new (gsf_output_error_id (), 0,
-				    "BZ2 support not enabled");
+				    _("BZ2 support not enabled"));
 	return NULL;
 #endif
 }

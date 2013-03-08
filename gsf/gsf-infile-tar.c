@@ -106,7 +106,7 @@ unpack_octal (GsfInfileTar *tar, const char *s, size_t len)
 			break;
 		if (c < '0' || c > '7') {
 			tar->err = g_error_new (gsf_input_error_id (), 0,
-						"Invalid tar header");
+						_("Invalid tar header"));
 			return 0;
 		}
 		res = (res << 3) + (c - '0');
@@ -214,7 +214,7 @@ tar_init_info (GsfInfileTar *tar)
 
 		if (memcmp (header->filler, end.filler, sizeof (end.filler))) {
 			tar->err = g_error_new (gsf_input_error_id (), 0,
-						"Invalid tar header");
+						_("Invalid tar header"));
 			break;
 		}
 
@@ -263,14 +263,14 @@ tar_init_info (GsfInfileTar *tar)
 			if (pending_longname ||
 			    strcmp (name, MAGIC_LONGNAME) != 0) {
 				tar->err = g_error_new (gsf_input_error_id (), 0,
-							"Invalid longname header");
+							_("Invalid longname header"));
 				break;
 			}
 
 			n = gsf_input_read (tar->source, length, NULL);
 			if (!n) {
 				tar->err = g_error_new (gsf_input_error_id (), 0,
-							"Failed to read longname");
+							_("Failed to read longname"));
 				break;
 			}
 
@@ -290,7 +290,7 @@ tar_init_info (GsfInfileTar *tar)
 		if (!tar->err &&
 		    gsf_input_seek (tar->source, offset + length, G_SEEK_SET)) {
 			tar->err = g_error_new (gsf_input_error_id (), 0,
-						"Seek failed");
+						_("Seek failed"));
 			break;
 		}
 	}
@@ -298,7 +298,7 @@ tar_init_info (GsfInfileTar *tar)
 	if (pending_longname) {
 		if (!tar->err)
 			tar->err = g_error_new (gsf_input_error_id (), 0,
-						"Truncated archive");
+						_("Truncated archive"));
 		g_free (pending_longname);
 	}
 

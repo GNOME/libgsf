@@ -22,6 +22,7 @@
 #include <gsf-config.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf.h>
+#include <glib/gi18n-lib.h>
 
 #include <glib/gstdio.h>
 
@@ -449,7 +450,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 				char *dname = g_filename_display_name
 					(real_filename);
 				*err = g_error_new (gsf_output_error_id (), 0,
-						    "%s: Is not a regular file",
+						    _("%s: Is not a regular file"),
 						    dname);
 				g_free (dname);
 			}

@@ -332,7 +332,7 @@ gsf_infile_ar_dup (GsfInput *src_input, GError **err)
 	if (dst == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
-					    "Something went wrong in ar_dup.");
+					    _("Something went wrong in ar_dup"));
 		return NULL;
 	}
 
@@ -343,7 +343,7 @@ gsf_infile_ar_dup (GsfInput *src_input, GError **err)
 			g_object_unref (dst);
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
-						    "Something went wrong in ar_child_init.");
+						    _("Something went wrong in ar_child_init"));
 			return NULL;
 		}
 

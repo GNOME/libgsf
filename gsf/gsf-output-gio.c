@@ -107,15 +107,9 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 	GFile *file;
 	GsfOutput *output;
 
-	if (path == NULL) {
-		if (err != NULL)
-			*err = g_error_new (gsf_output_error_id (), 0,
-					    "path is NULL");
-		return NULL;
-	}
+	g_return_val_if_fail (path != NULL, NULL);
 
 	file = g_file_new_for_path (path);
-
 	output = gsf_output_gio_new_full (file, err);
 	g_object_unref (file);
 
