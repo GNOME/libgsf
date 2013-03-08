@@ -48,7 +48,8 @@ enum {
 	PROP_SIZE,
 	PROP_CLOSED,
 	PROP_POS,
-	PROP_MODTIME
+	PROP_MODTIME,
+	PROP_CONTAINER
 };
 
 static void
@@ -67,6 +68,9 @@ gsf_output_set_property (GObject      *object,
 		gsf_output_set_modtime (output, modtime);
 		break;
 	}
+	case PROP_CONTAINER:
+		gsf_output_set_container (output, g_value_get_object (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -98,6 +102,9 @@ gsf_output_get_property (GObject     *object,
 		break;
 	case PROP_MODTIME:
 		g_value_set_boxed (value, gsf_output_get_modtime (output));
+		break;
+	case PROP_CONTAINER:
+		g_value_set_object (value, output->container);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -229,6 +236,20 @@ gsf_output_class_init (GObjectClass *gobject_class)
 		  GSF_PARAM_STATIC |
 		  G_PARAM_CONSTRUCT_ONLY |
 		  G_PARAM_READWRITE));
+
+	/**
+	 * GsfOutput:container:
+	 *
+	 * The container, optionally %NULL, in which this output lives.
+	 */
+	g_object_class_install_property
+		(gobject_class, PROP_CONTAINER,
+		 g_param_spec_object ("container",
+				      _("Container"),
+				      _("The parent GsfOutfile"),
+				      GSF_OUTFILE_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 }
 
 GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
@@ -241,8 +262,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
  *
  * Give the name of @output.
  *
- * Returns: (transfer none): @output's name in utf8 form, DO NOT FREE
- * THIS STRING
+ * Returns: (transfer none): @output's name in utf8 form.
  **/
 char const *
 gsf_output_name (GsfOutput const *output)
@@ -255,8 +275,7 @@ gsf_output_name (GsfOutput const *output)
  * gsf_output_container:
  * @output:
  *
- * Returns: (transfer none): but does not add a reference to @output's container.
- * 	Potentially %NULL
+ * Returns: (transfer none): @output's container, potentially %NULL.
  **/
 GsfOutfile *
 gsf_output_container (GsfOutput const *output)
