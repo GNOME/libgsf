@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the libgsf package.
 # cograss <cograss@yahoo.com>, 2012.
 # surf <cograss@yahoo.com>, 2012.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
 "&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-10-16 17:52+0000\n"
-"PO-Revision-Date: 2012-11-14 11:46+0300\n"
+"POT-Creation-Date: 2013-03-08 21:50+0000\n"
+"PO-Revision-Date: 2013-03-12 10:18+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -21,18 +21,18 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: ../gsf/gsf-blob.c:115
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Δεν υπάρχει αρκετή μνήμη για την αντιγραφή %s ψηφιολέξεων δεδομένων"
 
-#: ../gsf/gsf-clip-data.c:166
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr ""
 "Το clip_data είναι %s, αλλά είναι μικρότερο από τις ελάχιστες %s ψηφιολέξεις"
 
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -41,38 +41,342 @@ msgstr ""
 "Το clip_data είσαι σε μορφή προχείρου Windows, αλλά είναι μικρότερο από τις "
 "απαιτούμενες 4 ψηφιολέξεις."
 
-#: ../gsf/gsf-clip-data.c:271
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Μορφή Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:277
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Μορφή Windows DIB ή BITMAP"
 
-#: ../gsf/gsf-clip-data.c:282
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Μορφή Windows Enhanced Metafile"
 
-#: ../gsf/gsf-libxml.c:1493
+#: ../gsf/gsf-infile-ar.c:335
+#, c-format
+msgid "Something went wrong in ar_dup"
+msgstr "Κάτι πήγε στραβά στο ar_dup"
+
+#: ../gsf/gsf-infile-ar.c:346
+#, c-format
+msgid "Something went wrong in ar_child_init"
+msgstr "Κάτι πήγε στραβά στο ar_child_init"
+
+#: ../gsf/gsf-infile-msole.c:474
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Αποτυχία διπλασιασμού ροής εργασιών"
+
+#: ../gsf/gsf-infile-msole.c:508
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Χωρίς υπογραφή OLE2"
+
+#: ../gsf/gsf-infile-msole.c:528
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Παράλογα μεγέθη ομάδας"
+
+#: ../gsf/gsf-infile-msole.c:564
+#, c-format
+msgid "Insufficient memory"
+msgstr "Ανεπαρκής μνήμη"
+
+#: ../gsf/gsf-infile-msole.c:623
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Ανομοιόμορφος πίνακας κατανομής ομάδας"
+
+#: ../gsf/gsf-infile-msole.c:631
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Προβλήματα κάνοντας τον πίνακα κατανομής ομάδας"
+
+#: ../gsf/gsf-infile-msole.c:643
+#, c-format
+msgid "Problems reading directory"
+msgstr "Προβλήματα ανάγνωσης καταλόγου"
+
+#: ../gsf/gsf-infile-msole.c:802
+#, c-format
+msgid "Failed to access child"
+msgstr "Αποτυχία πρόσβασης θυγατρικού"
+
+#: ../gsf/gsf-infile-msole.c:835
+#, c-format
+msgid "failure reading block"
+msgstr "αποτυχία ανάγνωσης ομάδας"
+
+#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Αδυναμία εύρεσης ροής καταλόγου VBA"
+
+#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+msgid "vba project header problem"
+msgstr "πρόβλημα κεφαλίδας έργου vba"
+
+#: ../gsf/gsf-infile-msvba.c:391
+#, c-format
+msgid "No VBA signature"
+msgstr "Χωρίς υπογραφή VBA"
+
+#: ../gsf/gsf-infile-msvba.c:402
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Άγνωστη υπογραφή έκδοσης VBA 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:502
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Αδύνατη η ανάλυση της κεφαλίδας VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Άκυρη η κεφαλίδα tar"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Άκυρη η κεφαλίδα μεγάλου ονόματος"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Αποτυχία ανάγνωσης μεγάλου ονόματος"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Αποτυχία αναζήτησης"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Κολοβή αρχειοθήκη"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Πηγή"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Η αρχειοθήκη ερμηνεύεται"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Χωρίς τελική συμπίεση"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Σφάλμα ανάγνωσης υπογραφής συμπίεσης"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Σφάλμα ανάγνωσης συμπίεσης dirent"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Σφάλμα αναζήτησης κεφαλίδας συμπίεσης"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Σφάλμα εσφαλμένης κεφαλίδας συμπίεσης"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "πρόβλημα αποσυμπίεσης ροής"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Επίπεδο συμπίεσης"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "Το επίπεδο της χρησιμοποιούμενης συμπίεσης, μηδέν σημαίνει καμία"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Η υποστήριξη του BZ2 δεν ενεργοποιήθηκε"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Αποτυχία αποσυμπίεσης BZ2 init"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Αποτυχία αποσυμπίεσης BZ2"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Αποτυχία τέλους αποσυμπίεσης BZ2"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Όνομα"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Το όνομα της εισόδου"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Το όνομα της εισόδου"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Τέλος αρχείου"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Απομένουν"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Ποσότητα δεδομένων που απομένει"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Θέση"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Η τρέχουσα θέση της εισόδου"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Χρόνος τροποποίησης"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Ένα προαιρετικό GDateTime αναπαριστά την ώρα που η είσοδος αλλάχτηκε "
+"τελευταία"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Περιέκτης"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Το γονικό GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Διπλασιασμός παράταιρου μεγέθους"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Αδυναμία αρχικοποίησης zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Αποτυχία πισωγυρίσματος της πηγής"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Άκυρη η κεφαλίδα gzip"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "κολοβή πηγή"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Αποτυχία ανάγνωσης από την πηγή"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Πηγή NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Δεν ορίστηκε ασυμπίεστο μέγεθος"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Ακατέργαστο"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Εάν θα διαβαστούν συμπιεσμένα δεδομένα χωρίς κεφαλίδα και τέλος"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Από πού έρχονται τα συμπιεσμένα δεδομένα"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Μέγεθος μετά την αποσυμπίεση"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Το ασυμπίεστο μέγεθος της προέλευσης"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Δεν είναι ένα κανονικό αρχείο"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Το αρχείο είναι υπερβολικά μεγάλο για να απεικονιστεί στη μνήμη"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "Το mmap δεν υποστηρίζεται"
+
+#: ../gsf/gsf-libxml.c:1497
 msgid "Pretty print"
 msgstr "Όμορφη εκτύπωση"
 
-#: ../gsf/gsf-libxml.c:1494
+#: ../gsf/gsf-libxml.c:1498
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Θα θέλατε την αυτοματοποίηση εξόδου στοιχείων εσοχής για να γίνει η ανάγνωση "
 "ευκολότερη;"
 
-#: ../gsf/gsf-libxml.c:1500
+#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Δέκτης"
 
-#: ../gsf/gsf-libxml.c:1501
+#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Ο προορισμός για τις εγγραφές"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -81,7 +385,7 @@ msgstr ""
 "Λείπουν δεδομένα κατά την ανάγνωση του %s· ελήφθησαν %s ψηφιολέξεις, αλλά "
 "χρειάζονται τουλάχιστον %s ψηφιολέξεις."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -91,101 +395,287 @@ msgstr ""
 "πρέπει να είναι τουλάχιστον 4 ψηφιολέξεις, αλλά τα δεδομένα λένε ότι έχει "
 "μόνο %s διαθέσιμες ψηφιολέξεις."
 
-#: ../gsf/gsf-open-pkg-utils.c:355
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
-msgid "Unable to find part id='%s' for '%s'"
-msgstr "Αδυναμία εύρεσης τμήματος id='%s' για το '%s'"
+msgid "Unable to read MS property stream header"
+msgstr "Αδύνατη η ανάγνωση της κεφαλίδας ροής ιδιότητας MS"
 
-#: ../gsf/gsf-open-pkg-utils.c:383
+#: ../gsf/gsf-msole-utils.c:1154
 #, c-format
-msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Αδυναμία εύρεσης τμήματος με type='%s' για το '%s'"
+msgid "Invalid MS property stream header"
+msgstr "Άκυρη κεφαλίδα ροής ιδιότητας MS"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
 #, c-format
-msgid "Missing id for part in '%s'"
-msgstr "Δεν υπάρχει ταυτότητα για το τμήμα στο '%s'"
+msgid "Invalid MS property section"
+msgstr "Άκυρη ενότητα ιδιότητας MS"
 
-#: ../gsf/gsf-open-pkg-utils.c:422
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
-msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Είναι αλλοιωμένο το τμήμα '%s' στο '%s' από το '%s'!"
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Άκυρη κεφαλίδα ροής ιδιότητας MS ή το αρχείο είναι κολοβό"
 
-#: ../gsf/gsf-opendoc-utils.c:353
+#: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Η ιδιότητα \"%s\" χρησιμοποιείται για πολλούς τύπους!"
 
-#: ../gsf/gsf-opendoc-utils.c:878
+#: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
 msgstr "Έκδοση ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:879
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
-"Η έκδοση του ODF στοχεύει αυτό το αντικείμενο ως ένα ακέραιο, όπως το 100"
+"Η έκδοση του ODF στοχεύει αυτό το αντικείμενο ως έναν ακέραιο, όπως το 100"
 
-#: ../tools/gsf.c:27
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Αδυναμία εύρεσης τμήματος id='%s' για το '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Αδυναμία εύρεσης τμήματος με type='%s' για το '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Δεν υπάρχει ταυτότητα για το τμήμα στο '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Είναι αλλοιωμένο το τμήμα '%s' στο '%s' από το '%s'!"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "Το GsfOutput που αποθηκεύει το ανοικτό περιεχόμενο του πακέτου"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Τύπος περιεχομένου"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr ""
+"Ο αποθηκευμένος τύπος περιεχομένου στο ριζικό αρχείο [Content_Types].xml"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Είναι κατάλογος"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Μπορεί το αρχείο εξόδου να έχει θυγατρικά"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Μικρό μέγεθος ομάδας"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Το μέγεθος των μικρών ομάδων του OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Μεγάλο μέγεθος ομάδας"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Το μέγεθος των μεγάλων ομάδων του OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Πού είναι γραμμένη η αρχειοθήκη"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Όνομα καταχώρισης"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Το όνομα αρχείου αυτού του μέλους στην αρχειοθήκη χωρίς διαδρομή"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Αδυναμία αρχικοποίησης βιβλιοθήκης BZ2"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Το όνομα της εξόδου"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Το μέγεθος της εξόδου"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Είναι κλειστό"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Εάν η έξοδος είναι κλειστή"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Η τρέχουσα θέση της εξόδου"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Ένα προαιρετικό GDateTime αναπαριστά τον χρόνο που η έξοδος αλλάχτηκε "
+"τελευταία"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Το γονικό GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Πού είναι γραμμένη η μορφοποιημένη έξοδος"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Παράθεση"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Η χρησιμοποιούμενη συμβολοσειρά για παράθεση πεδίων"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Κατάσταση παράθεσης"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Πότε να παραθέσετε πεδία"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Εναύσματα παράθεσης"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Χαρακτήρες που προκαλούν παράθεση πεδίου"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Παράθεση κενού χώρου"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Ο αρχικός ή τερματικός κενός χώρος εξαναγκάζει σε παράθεση;"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Διαχωριστικό"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Ο διαχωριστής πεδίου"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "τέλος γραμμής"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Ο σημειωτής τέλους γραμμής"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Πού είναι γραμμένα τα δεδομένα που μετατράπηκαν"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Σύνολο χαρακτήρων εισόδου"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Από πού θα μετατραπεί το σύνολο των χαρακτήρων"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Σύνολο χαρακτήρων εξόδου"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Πού θα μετατραπεί το σύνολο των χαρακτήρων"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Υποχώρηση"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Η συμβολοσειρά που θα χρησιμοποιηθεί για άκυρους χαρακτήρες"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Εμφάνιση έκδοσης του προγράμματος"
 
-#: ../tools/gsf.c:54
+#: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Αποτυχία ανοίγματος του %s: %s\n"
 
-#: ../tools/gsf.c:75
+#: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Αποτυχία αναγνώρισης του %s ως αρχειοθήκη\n"
 
-#: ../tools/gsf.c:112
+#: ../tools/gsf.c:102
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Οι διαθέσιμες υποεντολές είναι...\n"
 
-#: ../tools/gsf.c:113
+#: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        έξοδος ενός ή περισσοτέρων αρχείων σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:114
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       αποτύπωση ενός ή περισσοτέρων αρχείων σε αρχειοθήκη ως "
+msgstr ""
+"* dump       αποτύπωση ενός ή περισσοτέρων αρχείων σε αρχειοθήκη ως "
 "δεκαεξαδικά\n"
 
-#: ../tools/gsf.c:115
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       λίστα υποεντολών\n"
 
-#: ../tools/gsf.c:116
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       λίστα αρχείων σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:117
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  λίστα ιδιοτήτων εγγράφου σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:118
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      προβολή συγκεκριμένων ιδιοτήτων εγγράφου\n"
 
-#: ../tools/gsf.c:119
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  δημιουργία αρχειοθήκης OLE\n"
 
-#: ../tools/gsf.c:120
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  δημιουργία αρχειοθήκης ZIP\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Καμία ιδιότητα με όνομα %s\n"
@@ -195,11 +685,11 @@ msgstr "Καμία ιδιότητα με όνομα %s\n"
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Σφάλμα επεξεργασίας αρχείου %s: %s\n"
 
-#: ../tools/gsf.c:526
+#: ../tools/gsf.c:504
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "ΑΡΧΕΙΟΘΗΚΗ ΥΠΟΕΝΤΟΛΩΝ..."
 
-#: ../tools/gsf.c:533
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
@@ -209,17 +699,18 @@ msgstr ""
 "Τρέξτε: '%s --help' για να δείτε μια πλήρη λίστα με επιλογές της γραμμής "
 "εντολών.\n"
 
-#: ../tools/gsf.c:540
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "έκδοση gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:546
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Χρήση: %s %s\n"
 
-#: ../tools/gsf.c:571
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
-msgstr "Τρέξτε '%s help' για προβολή των υποεντολών.\n"
+#| msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Τρέξτε το '%s help' για να δείτε μια λίστα των υποεντολών.\n"
