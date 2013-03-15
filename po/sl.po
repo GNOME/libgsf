@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
 "POT-Creation-Date: 2013-03-08 21:50+0000\n"
-"PO-Revision-Date: 2013-03-09 13:23+0100\n"
+"PO-Revision-Date: 2013-03-15 12:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -77,7 +77,7 @@ msgstr "Ni podpisa OLE2"
 #: ../gsf/gsf-infile-msole.c:528
 #, c-format
 msgid "Unreasonable block sizes"
-msgstr ""
+msgstr "Nelogična velikost bloka"
 
 #: ../gsf/gsf-infile-msole.c:564
 #, c-format
@@ -97,46 +97,46 @@ msgstr ""
 #: ../gsf/gsf-infile-msole.c:643
 #, c-format
 msgid "Problems reading directory"
-msgstr ""
+msgstr "Napaka branja mape"
 
 #: ../gsf/gsf-infile-msole.c:802
 #, c-format
 msgid "Failed to access child"
-msgstr ""
+msgstr "Dostop do podrejenega predmeta je spodletel"
 
 #: ../gsf/gsf-infile-msole.c:835
 #, c-format
 msgid "failure reading block"
-msgstr ""
+msgstr "napaka branja bloka"
 
 #: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
 #, c-format
 msgid "Can't find the VBA directory stream"
-msgstr ""
+msgstr "Ni mogoče najti pretoka mape VBA"
 
 #: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
 msgid "vba project header problem"
-msgstr ""
+msgstr "napaka glave projekta VBA"
 
 #: ../gsf/gsf-infile-msvba.c:391
 #, c-format
 msgid "No VBA signature"
-msgstr ""
+msgstr "Ni ustreznega podpisa VBA"
 
 #: ../gsf/gsf-infile-msvba.c:402
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
-msgstr ""
+msgstr "Neznan podpis različice VBA 0x%x%x%x%x"
 
 #: ../gsf/gsf-infile-msvba.c:502
 #, c-format
 msgid "Unable to parse VBA header"
-msgstr ""
+msgstr "Glave VBA ni mogoče razčleniti"
 
 #: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
 #, c-format
 msgid "Invalid tar header"
-msgstr ""
+msgstr "Neveljavna glava zapisa TAR"
 
 #: ../gsf/gsf-infile-tar.c:266
 #, c-format
