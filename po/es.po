@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: libgsf.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-08 21:50+0000\n"
-"PO-Revision-Date: 2013-03-13 17:38+0100\n"
+"POT-Creation-Date: 2013-03-13 16:38+0000\n"
+"PO-Revision-Date: 2013-03-18 13:17+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -56,12 +56,12 @@ msgstr "Formato de meta archivo mejorado de Windows"
 #: ../gsf/gsf-infile-ar.c:335
 #, c-format
 msgid "Something went wrong in ar_dup"
-msgstr ""
+msgstr "Algo falló en ar_dup"
 
 #: ../gsf/gsf-infile-ar.c:346
 #, c-format
 msgid "Something went wrong in ar_child_init"
-msgstr ""
+msgstr "Algo falló en ar_child_init"
 
 #: ../gsf/gsf-infile-msole.c:474
 #, c-format
@@ -76,7 +76,7 @@ msgstr "No hay firma OLE2"
 #: ../gsf/gsf-infile-msole.c:528
 #, c-format
 msgid "Unreasonable block sizes"
-msgstr ""
+msgstr "Tamaños de bloques no razonables"
 
 #: ../gsf/gsf-infile-msole.c:564
 #, c-format
@@ -86,7 +86,7 @@ msgstr "Memoria insuficiente"
 #: ../gsf/gsf-infile-msole.c:623
 #, c-format
 msgid "Inconsistent block allocation table"
-msgstr ""
+msgstr "Tabla de ubicación de bloques inconsistente"
 
 #: ../gsf/gsf-infile-msole.c:631
 #, c-format
@@ -115,7 +115,7 @@ msgstr "No se puede encontrar el flujo de la carpeta VBA"
 
 #: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
 msgid "vba project header problem"
-msgstr ""
+msgstr "Problema en la cabecera del proyecto vba"
 
 #: ../gsf/gsf-infile-msvba.c:391
 #, c-format
@@ -125,7 +125,7 @@ msgstr "No hay firma VBA"
 #: ../gsf/gsf-infile-msvba.c:402
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
-msgstr ""
+msgstr "Versión de firma 0x%x%x%x%x VBA desconocida"
 
 #: ../gsf/gsf-infile-msvba.c:502
 #, c-format
@@ -140,7 +140,7 @@ msgstr "Cabecera tar no válida"
 #: ../gsf/gsf-infile-tar.c:266
 #, c-format
 msgid "Invalid longname header"
-msgstr ""
+msgstr "Cabecera de nombre de largo no válida"
 
 #: ../gsf/gsf-infile-tar.c:273
 #, c-format
@@ -169,7 +169,7 @@ msgstr "El archivo que se está interpretando"
 #: ../gsf/gsf-infile-zip.c:330
 #, c-format
 msgid "No Zip trailer"
-msgstr ""
+msgstr "No hay final Zip"
 
 #: ../gsf/gsf-infile-zip.c:337
 #, c-format
@@ -179,20 +179,20 @@ msgstr "Error al leer la firma Zip"
 #: ../gsf/gsf-infile-zip.c:358
 #, c-format
 msgid "Error reading zip dirent"
-msgstr ""
+msgstr "Error al leer la carpeta de entrada zip"
 
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
-msgstr ""
+msgstr "Error al desplazarse a la cabecera zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
-msgstr ""
+msgstr "Error de cabecera zip incorrecta"
 
 #: ../gsf/gsf-infile-zip.c:458
 #, c-format
 msgid "problem uncompressing stream"
-msgstr ""
+msgstr "problema al descomprimir el flujo"
 
 #: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
 msgid "Compression Level"
@@ -210,7 +210,7 @@ msgstr "Soporte de BZ2 no activado"
 #: ../gsf/gsf-input-bzip.c:63
 #, c-format
 msgid "BZ2 decompress init failed"
-msgstr ""
+msgstr "Falló al iniciar la descompresión BZ2"
 
 #: ../gsf/gsf-input-bzip.c:82
 #, c-format
@@ -220,7 +220,7 @@ msgstr "Falló al descomprimir el BZ2"
 #: ../gsf/gsf-input-bzip.c:99
 #, c-format
 msgid "BZ2 decompress end failed"
-msgstr ""
+msgstr "Falló al terminar la descompresión BZ2"
 
 #: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
 msgid "Name"
@@ -282,7 +282,7 @@ msgstr "EL GsfInfile padre"
 #: ../gsf/gsf-input.c:281
 #, c-format
 msgid "Duplicate size mismatch"
-msgstr ""
+msgstr "Coincidencia de tamaño duplicado"
 
 #: ../gsf/gsf-input-gzip.c:169
 #, c-format
@@ -292,7 +292,7 @@ msgstr "No se pudo inicializar el zlib"
 #: ../gsf/gsf-input-gzip.c:177
 #, c-format
 msgid "Failed to rewind source"
-msgstr ""
+msgstr "Falló al rebobinar la fuente"
 
 #: ../gsf/gsf-input-gzip.c:184
 #, c-format
@@ -312,20 +312,21 @@ msgstr "Falló al leer de la fuente"
 #: ../gsf/gsf-input-gzip.c:474
 #, c-format
 msgid "NULL source"
-msgstr ""
+msgstr "Fuente nula"
 
 #: ../gsf/gsf-input-gzip.c:478
 #, c-format
 msgid "Uncompressed size not set"
-msgstr ""
+msgstr "Tamaño descomprimido no establecido"
 
 #: ../gsf/gsf-input-gzip.c:503
 msgid "Raw"
-msgstr ""
+msgstr "Bruto"
 
 #: ../gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
 msgstr ""
+"Indica si se deben leer los datos descomprimidos sin cabecera y sin final"
 
 #: ../gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
@@ -396,23 +397,23 @@ msgstr ""
 #: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
 msgid "Unable to read MS property stream header"
-msgstr ""
+msgstr "No se pudo leer el flujo de la cabecera de la propiedad MS"
 
 #: ../gsf/gsf-msole-utils.c:1154
 #, c-format
 msgid "Invalid MS property stream header"
-msgstr ""
+msgstr "Cabecera del flujo de la propiedad MS no válida"
 
 #: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
 #: ../gsf/gsf-msole-utils.c:1263
 #, c-format
 msgid "Invalid MS property section"
-msgstr ""
+msgstr "Sección de propiedad MS no válida"
 
 #: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
-msgstr ""
+msgstr "Cabecera del flujo de la propiedad MS no válida o archivo truncado"
 
 #: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
@@ -489,7 +490,7 @@ msgstr "Dónde se escribe el archivo"
 
 #: ../gsf/gsf-outfile-zip.c:745
 msgid "Entry Name"
-msgstr ""
+msgstr "Nombre de la entrada"
 
 #: ../gsf/gsf-outfile-zip.c:746
 msgid "The filename of this member in the archive without path"
@@ -510,7 +511,7 @@ msgstr "El tamaño de la salida"
 
 #: ../gsf/gsf-output.c:198
 msgid "Is Closed"
-msgstr ""
+msgstr "Está cerrada"
 
 #: ../gsf/gsf-output.c:199
 msgid "Whether the output is closed"
@@ -547,11 +548,11 @@ msgstr "Modo de entrecomillado"
 
 #: ../gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
-msgstr "Incida cuándo entrecomillar los campos"
+msgstr "Indica cuándo entrecomillar los campos"
 
 #: ../gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
-msgstr ""
+msgstr "Disparadores de entrecomillado"
 
 #: ../gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
