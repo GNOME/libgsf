@@ -400,8 +400,8 @@ gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
 {
 	guint8 *res;
 
-	g_return_val_if_fail (input != NULL, FALSE);
-	g_return_val_if_fail (bytes_read != NULL, FALSE);
+	g_return_val_if_fail (input != NULL, NULL);
+	g_return_val_if_fail (bytes_read != NULL, NULL);
 
 	*bytes_read = num_bytes;
 
