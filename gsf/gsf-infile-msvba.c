@@ -63,12 +63,8 @@ typedef GsfInfileClass GsfInfileMSVBAClass;
 guint8 *
 gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null_terminator)
 {
-	guint8  sig;
-	guint8 const *tmp;
+	guint8 sig;
 	GByteArray *res;
-	GByteArray *tmpres;
-	GsfInput *chunk;
-	guint16 chunk_hdr;
 	gsf_off_t length;
 
 	res = g_byte_array_new();
@@ -80,8 +76,13 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 
 	length = gsf_input_size (input);
 	while (offset < length) {
+		GsfInput *chunk;
+		guint16 chunk_hdr;
+		GByteArray *tmpres;
+		guint8 const *tmp;
 
-		if (NULL == (tmp = gsf_input_read (input, 2, NULL)))
+		tmp = gsf_input_read (input, 2, NULL);
+		if (!tmp)
 			break;
 
 		chunk_hdr = GSF_LE_GET_GUINT16 (tmp);
@@ -101,10 +102,11 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 				offset += 4094;
 			}
 		}
-		tmpres = gsf_msole_inflate (chunk,0);
-		gsf_input_seek (input,offset,G_SEEK_CUR);
+		tmpres = gsf_msole_inflate (chunk, 0);
+		gsf_input_seek (input, offset, G_SEEK_CUR);
 		g_byte_array_append (res, tmpres->data, tmpres->len);
-		g_byte_array_free (tmpres, FALSE);
+		g_byte_array_free (tmpres, TRUE);
+		g_object_unref (chunk);
 	}
 	
 	if (res == NULL)
