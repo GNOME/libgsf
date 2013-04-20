@@ -1,3 +1,11 @@
+2013-04-20  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (gsf_infile_msole_read): Don't read
+	beyond the number of bat blocks we have.  (We can have less blocks
+	than expected when the bat chain is found to be circular.)  Don't
+	optimize seek; the lower levels will do that just fine.
+	(ole_make_bat): Simplify.
+
 2013-03-08  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input.c (gsf_input_set_modtime): Change to transfer-none

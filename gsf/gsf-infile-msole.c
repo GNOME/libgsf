@@ -161,25 +161,22 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 	guint8 *used = (guint8*)g_alloca (1 + metabat->num_blocks / 8);
 	memset (used, 0, 1 + metabat->num_blocks / 8);
 
-	if (block < metabat->num_blocks)
-		do {
-			/* Catch cycles in the bat list */
-			if (used[block/8] & (1 << (block & 0x7)))
-				break;
-			used[block/8] |= 1 << (block & 0x7);
+	while (block < metabat->num_blocks) {
+		/* Catch cycles in the bat list */
+		if (used[block/8] & (1 << (block & 0x7)))
+			break;
+		used[block/8] |= 1 << (block & 0x7);
 
-			g_array_append_val (bat, block);
-			block = metabat->block [block];
-		} while (block < metabat->num_blocks);
-
-	res->block = NULL;
+		g_array_append_val (bat, block);
+		block = metabat->block [block];
+	}
 
 	res->num_blocks = bat->len;
 	res->block = (guint32 *) (gpointer) g_array_free (bat, FALSE);
 
 	if (block != BAT_MAGIC_END_OF_CHAIN) {
 		g_warning ("This OLE2 file is invalid.\n"
-			   "The Block Allocation Table for one of the streams had %x instead of a terminator (%x).\n"
+			   "The Block Allocation Table for one of the streams had 0x%08x instead of a terminator (0x%08x).\n"
 			   "We might still be able to extract some data, but you'll want to check the file.",
 			   block, BAT_MAGIC_END_OF_CHAIN);
 	}
@@ -705,17 +702,21 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	last_block = OLE_BIG_BLOCK (input->cur_offset + num_bytes - 1, ole);
 	offset = input->cur_offset & ole->info->bb.filter;
 
-	/* optimization : are all the raw blocks contiguous */
+	if (last_block >= ole->bat.num_blocks)
+		return NULL;
+
+	/* Optimization: are all the raw blocks contiguous?  */
 	i = first_block;
-	raw_block = ole->bat.block [i];
+	raw_block = ole->bat.block[i];
+	if (FALSE && first_block != last_block)
+		g_printerr ("Check if %ld-%ld of %d are contiguous.\n",
+			    first_block, last_block,
+			    ole->bat.num_blocks);
 	while (++i <= last_block && ++raw_block == ole->bat.block [i])
 		;
 	if (i > last_block) {
-		/* optimization don't seek if we don't need to */
-		if (ole->cur_block != first_block) {
-			if (!ole_seek_block (ole, ole->bat.block [first_block], offset))
-				return NULL;
-		}
+		if (!ole_seek_block (ole, ole->bat.block [first_block], offset))
+			return NULL;
 		ole->cur_block = last_block;
 		return gsf_input_read (ole->input, num_bytes, buffer);
 	}

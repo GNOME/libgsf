@@ -11,6 +11,7 @@ Morten:
 	* Add modtime support for GsfOutput, GsfOutputStdio, GsfOutputGzip.
 	* Add modtime support for GsfOutfileZip, GsfOutfileMSOle.
 	* Enhance gsf tool to print modtime and create archives with modtime.
+	* Improve handling of broken OLE2 files.
 
 --------------------------------------------------------------------------
 libgsf 1.14.26
