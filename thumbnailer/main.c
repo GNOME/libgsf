@@ -97,14 +97,19 @@ call_convert (const char *in_filename, const char *out_filename, int thumb_size)
 static void
 write_thumbnail (const char *filename, gconstpointer data, gsize size, int thumb_size)
 {
+	GError *error = NULL;
 	char *tmp_name;
 	int fd;
 	FILE *file;
 
-	tmp_name = g_strdup_printf ("%s.XXXXXX", filename);
-	fd = g_mkstemp (tmp_name);
-	if (fd == -1) {
-		perror ("Could not create temporary file");
+	fd = g_file_open_tmp("gsf-thumbnailer-XXXXXX", &tmp_name, &error);
+	if (error) {
+		if (error->message) {
+			g_printerr ("error: %s\n", error->message);
+		} else {
+			g_printerr ("error: %s\n", "Could not create tmp file");
+		}
+		g_error_free (error);
 		exit (EXIT_FAILURE);
 	}
 
