@@ -1,14 +1,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-10-16 17:52+0000\n"
-"PO-Revision-Date: 2012-10-17 15:54+0300\n"
+"POT-Creation-Date: 2013-03-08 21:50+0000\n"
+"PO-Revision-Date: 2013-05-05 17:48+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.4\n"
 
-#: ../gsf/gsf-blob.c:115
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Nepietiek atmiņas, lai kopētu %s datu baitus"
 
-#: ../gsf/gsf-clip-data.c:166
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data atrodas iekš %s, bet tas ir mazāks kā %s baiti"
 
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -38,38 +38,341 @@ msgstr ""
 "clip_data ir Windows starpliktuves formātā, bet ir mazāks kā nepieciešamie 4 "
 "baiti."
 
-#: ../gsf/gsf-clip-data.c:271
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows Metafile formāts"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:277
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB vai BITMAP formāts"
 
-#: ../gsf/gsf-clip-data.c:282
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile formāts"
 
-#: ../gsf/gsf-libxml.c:1493
+#: ../gsf/gsf-infile-ar.c:335
+#, c-format
+msgid "Something went wrong in ar_dup"
+msgstr "Kaut kas nogāja greizi ar ar_dup"
+
+#: ../gsf/gsf-infile-ar.c:346
+#, c-format
+msgid "Something went wrong in ar_child_init"
+msgstr "Kaut kas nogāja greizi ar ar_child_init"
+
+#: ../gsf/gsf-infile-msole.c:474
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Neizdevās dublēt ievades straumi"
+
+#: ../gsf/gsf-infile-msole.c:508
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Nav OLE2 paraksta"
+
+#: ../gsf/gsf-infile-msole.c:528
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Nesaprātīgi bloka izmēri"
+
+#: ../gsf/gsf-infile-msole.c:564
+#, c-format
+msgid "Insufficient memory"
+msgstr "Nepietiek atmiņas"
+
+#: ../gsf/gsf-infile-msole.c:623
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Nekonsekventa bloku piešķiršanas tabula"
+
+#: ../gsf/gsf-infile-msole.c:631
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problēmas, veidojot bloku piešķiršanas tabulu"
+
+#: ../gsf/gsf-infile-msole.c:643
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problēmas, lasot direktoriju"
+
+#: ../gsf/gsf-infile-msole.c:802
+#, c-format
+msgid "Failed to access child"
+msgstr "Neizdevās piekļūt bērnam"
+
+#: ../gsf/gsf-infile-msole.c:835
+#, c-format
+msgid "failure reading block"
+msgstr "neizdevās nolasīt bloku"
+
+#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Nevar atrast VBA direktorijas straumi"
+
+#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+msgid "vba project header problem"
+msgstr "vba projekta galvenes problēma"
+
+#: ../gsf/gsf-infile-msvba.c:391
+#, c-format
+msgid "No VBA signature"
+msgstr "Nav VBA paraksta"
+
+#: ../gsf/gsf-infile-msvba.c:402
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Nezināms VBA versijas paraksts 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:502
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Nevar parsēt VBA galveni"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Nederīga tar galvene"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Nederīga longname galvene"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Neizdevās nolasīt longname"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Neizdevās meklēšana"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Aprauts arhīvs"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Avots"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Arhīvs tiek interpretēts"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Nav Zip nobeiguma"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Kļūda, nolasot Zip parakstu"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Kļūda, nolasot zip dirent"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Kļūda, pozicionējoties uz zip galveni"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Kļūda — nepareiza zip galvene"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problēma, atspiežot straumi"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Saspiešanas līmenis"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "Lietojamais saspiešanas līmenis, nulle nozīmē bez saspiešanas"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "BZ2 atbalsts nav aktivēts"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "BZ2 init atspiešana neizdevās"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "BZ2 atspiešana neizdevās"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "BZ2 end atspiešana neizdevās"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Nosaukums"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Ievades nosaukums"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Izmērs"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Ievades izmērs"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Datnes beigas"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Atlicis"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Atlikušo datu apjoms"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Novietojums"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Ievades pašreizējais novietojums"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Izmaiņu laikus"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Neobligāts GDateTime reprezentē laiku, kad ievade tika pēdējo reizi modificēta"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Konteineris"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Vecāka GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Neatbilst dublikātu izmēri"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Nevar inicializēt zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Neizdevās attīt avotu"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Nederīga gzip galvene"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "aprauts avots"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Neizdevās nolasīt no avota"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "NULL avots"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Atspiestais izmērs nav iesaistīts"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Raw"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Vai nolasīt saspiestus datus bez galvenes vai nobeiguma"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "No kurienes nāk saspiestie dati"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Izmērs pēc atspiešanas"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Avota neatspiestais izmērs"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s nav parasta datne"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s — datne ir pārāk liela, lai to attēlotu atmiņā"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap nav atbalstīts"
+
+#: ../gsf/gsf-libxml.c:1497
 msgid "Pretty print"
 msgstr "Noformēt"
 
-#: ../gsf/gsf-libxml.c:1494
+#: ../gsf/gsf-libxml.c:1498
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Vai vajadzētu automātiski likt atkāpes izvades elementiem, lai tos būtu "
 "vieglāk lasīt?"
 
-#: ../gsf/gsf-libxml.c:1500
+#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Saņēmējs"
 
-#: ../gsf/gsf-libxml.c:1501
+#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Rakstītāju mērķis"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -78,7 +381,7 @@ msgstr ""
 "Trūkstoši dati, nolasot %s īpašību; saņēma %s baitus, bet ir vajadzīgi "
 "vismaz %s baiti."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -87,100 +390,283 @@ msgstr ""
 "Bojāti dati VT_CF īpašībā. Starpliktuves datu garumam ir jābūt vismaz 4 "
 "baitiem, bet dati norāda, ka ir pieejami tikai %s baiti."
 
-#: ../gsf/gsf-open-pkg-utils.c:355
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
-msgid "Unable to find part id='%s' for '%s'"
-msgstr "Nevar atrast daļas id=“%s” priekš “%s”"
+msgid "Unable to read MS property stream header"
+msgstr "Nevar nolasīt MS īpašības straumes galveni"
 
-#: ../gsf/gsf-open-pkg-utils.c:383
+#: ../gsf/gsf-msole-utils.c:1154
 #, c-format
-msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Nevar atrast daļu ar tipu=“%s” priekš “%s”"
+msgid "Invalid MS property stream header"
+msgstr "Nederīga MS īpašības straumes galvene"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
 #, c-format
-msgid "Missing id for part in '%s'"
-msgstr "Trūkst id daļai iekš “%s”"
+msgid "Invalid MS property section"
+msgstr "Nederīga MS īpašības sadaļa"
 
-#: ../gsf/gsf-open-pkg-utils.c:422
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
-msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Daļa “%s” iekš “%s” no “%s” ir bojāta!"
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Nederīga MS īpašības straumes galvene vai datne ir aprauta"
 
-#: ../gsf/gsf-opendoc-utils.c:353
+#: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Īpašība “%s” ir lietota vairākiem tipiem!"
 
-#: ../gsf/gsf-opendoc-utils.c:878
+#: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
 msgstr "ODF versija"
 
-#: ../gsf/gsf-opendoc-utils.c:879
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Objektam paredzētā ODF versija, izteikts kā vesels skaitlis, piemēram, 100"
 
-#: ../tools/gsf.c:27
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Nevar atrast daļas id=“%s” priekš “%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Nevar atrast daļu ar tipu=“%s” priekš “%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Trūkst id daļai iekš “%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Daļa “%s” iekš “%s” no “%s” ir bojāta!"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "GsfOutput, kas uzglabā Open Package saturs"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Satura tips"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "Satura tips uzglabāts saknes [Satura_tipi].xml datnē"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Ir direktorija"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Vai outfile var būt bērnu"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Mazo bloku izmērs"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "OLE mazo bloku izmērs"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Lielo bloku izmērs"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "OLE lielo bloku izmērs"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Kur ir ierakstīts arhīvs"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Ieraksta nosaukums"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Šī biedra datnes nosaukums arhīvā bez ceļa"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Nevar inicializēt BZ2 bibliotēku"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Izvades nosaukums"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Izvades izmērs"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Iz aizvērts"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Vai izvade ir aizvērta"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Izvades pašreizējais novietojums"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Neobligāts GDateTime reprezentē laiku, kad izvade tika pēdējo reizi modificēta"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Vecāka GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Kur tiek rakstīta formatētā izvade"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Citāts"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Virkne, ko izmantot citēšanas laukiem"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Citēšanas režīms"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Kad citēt laukus"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Citēšanas trigeri"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Rakstzīmes, kas izrausa lauku citēšanu"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Citēšana uz atstarpēm"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Vai sākuma / beigu atstarpes uzspiež citēšanu?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Atdalītājs"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Lauka atdalītājs"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "rindas-beigas"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Rindas beigu marķieris"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Kur tiek rakstīti konvertētie dati"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Ievades rakstzīmju kopa"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Rakstzīmju kopa, no kuras konvertēt"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Izvades rakstzīmju kopa"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Rakstzīmju kopa, uz kuru konvertēt"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Atkāpšanās"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Virkne, ko izmantot nederīgām rakstzīmēm"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Rādīt programmas versiju"
 
-#: ../tools/gsf.c:54
+#: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: neizdevās atvērt %s — %s\n"
 
-#: ../tools/gsf.c:75
+#: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: neizdevās atvērt %s kā arhīvu\n"
 
-#: ../tools/gsf.c:112
+#: ../tools/gsf.c:102
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Pieejamās apakškomandas ir...\n"
 
-#: ../tools/gsf.c:113
+#: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        izvada vienu vai vairākas datnes arhīvā\n"
 
-#: ../tools/gsf.c:114
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       parādīt vienu vai vairākas datnes arhīvā kā hex\n"
 
-#: ../tools/gsf.c:115
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       uzskaitīt apakškomandas\n"
 
-#: ../tools/gsf.c:116
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       uzskaitīt datnes arhīvā\n"
 
-#: ../tools/gsf.c:117
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  uzskaitīt dokumentu īpašības arhīvā\n"
 
-#: ../tools/gsf.c:118
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      izdrukāt norādītās dokumenta īpašības\n"
 
-#: ../tools/gsf.c:119
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  izveidot OLE arhīvu\n"
 
-#: ../tools/gsf.c:120
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  izveidot ZIP arhīvu\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Nav īpašības ar nosaukumu %s\n"
@@ -190,11 +676,11 @@ msgstr "Nav īpašības ar nosaukumu %s\n"
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: kļūda apstrādājot datni %s — %s\n"
 
-#: ../tools/gsf.c:526
+#: ../tools/gsf.c:504
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "APAKŠKOMANDA ARHĪVS..."
 
-#: ../tools/gsf.c:533
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
@@ -204,20 +690,19 @@ msgstr ""
 "Palaidiet “%s --help”, lai redzētu pilnu sarakstu ar pieejamajām "
 "komandrindas opcijām.\n"
 
-#: ../tools/gsf.c:540
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versija %d.%d.%d\n"
 
-#: ../tools/gsf.c:546
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Lietošana: %s %s\n"
 
-#: ../tools/gsf.c:571
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
-msgstr ""
-"Palaidiet “%s --help”, lai redzētu pilnu pieejamo komandrindas opciju "
-"sarakstu\n"
+#| msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Palaidiet “%s --help”, lai redzētu pieejamo komandrindu sarakstu\n"
 
