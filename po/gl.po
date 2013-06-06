@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 23:44+0200\n"
-"PO-Revision-Date: 2013-06-02 00:00+0200\n"
+"POT-Creation-Date: 2013-06-06 11:36+0200\n"
+"PO-Revision-Date: 2013-06-06 11:39+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -60,71 +60,71 @@ msgstr "Algo foi mal en ar_dup"
 msgid "Something went wrong in ar_child_init"
 msgstr "Algo foi mal en ar_child_init"
 
-#: ../gsf/gsf-infile-msole.c:474
+#: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Produciuse un fallo ao duplicar o fluxo de entrada"
 
-#: ../gsf/gsf-infile-msole.c:508
+#: ../gsf/gsf-infile-msole.c:505
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Non hai sinatura OLE2"
 
-#: ../gsf/gsf-infile-msole.c:528
+#: ../gsf/gsf-infile-msole.c:525
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Tamaños de bloque sen razón"
 
-#: ../gsf/gsf-infile-msole.c:564
+#: ../gsf/gsf-infile-msole.c:561
 #, c-format
 msgid "Insufficient memory"
 msgstr "Memoria insuficiente"
 
-#: ../gsf/gsf-infile-msole.c:623
+#: ../gsf/gsf-infile-msole.c:620
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Táboa de reserva de bloques inconsistente"
 
-#: ../gsf/gsf-infile-msole.c:631
+#: ../gsf/gsf-infile-msole.c:628
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Problemas ao crear a táboa de reserva de bloques"
 
-#: ../gsf/gsf-infile-msole.c:643
+#: ../gsf/gsf-infile-msole.c:640
 #, c-format
 msgid "Problems reading directory"
 msgstr "Problemas ao ler o cartafol"
 
-#: ../gsf/gsf-infile-msole.c:802
+#: ../gsf/gsf-infile-msole.c:803
 #, c-format
 msgid "Failed to access child"
 msgstr "Produciuse un fallo ao acceder ao fillo"
 
-#: ../gsf/gsf-infile-msole.c:835
+#: ../gsf/gsf-infile-msole.c:836
 #, c-format
 msgid "failure reading block"
 msgstr "fallo ao ler o bloque"
 
-#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Non foi posíbel atopar o fluxo do cartafol VBA"
 
-#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "problema na cabeceira do proxecto vba"
 
-#: ../gsf/gsf-infile-msvba.c:391
+#: ../gsf/gsf-infile-msvba.c:393
 #, c-format
 msgid "No VBA signature"
 msgstr "Non hai sinatura VBA"
 
-#: ../gsf/gsf-infile-msvba.c:402
+#: ../gsf/gsf-infile-msvba.c:404
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Versión 0x%x%x%x%x da sinatura VBA descoñecida"
 
-#: ../gsf/gsf-infile-msvba.c:502
+#: ../gsf/gsf-infile-msvba.c:504
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Non foi posíbel analizar a cabeceira VBA"
@@ -166,7 +166,7 @@ msgstr "O arquivo sendo interpretado"
 #: ../gsf/gsf-infile-zip.c:330
 #, c-format
 msgid "No Zip trailer"
-msgstr ""
+msgstr "Non hai final Zip"
 
 #: ../gsf/gsf-infile-zip.c:337
 #, c-format
@@ -176,7 +176,7 @@ msgstr "Produciuse un fallo ao ler a sinatura Zip"
 #: ../gsf/gsf-infile-zip.c:358
 #, c-format
 msgid "Error reading zip dirent"
-msgstr ""
+msgstr "Erro ao ler o cartafol de entrada Zip"
 
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
@@ -279,7 +279,7 @@ msgstr "O GsfInfile pai"
 #: ../gsf/gsf-input.c:281
 #, c-format
 msgid "Duplicate size mismatch"
-msgstr ""
+msgstr "Coincidencia de tamaño duplicado"
 
 #: ../gsf/gsf-input-gzip.c:169
 #, c-format
@@ -334,7 +334,7 @@ msgstr "Tamaño despois da descompresión"
 
 #: ../gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
-msgstr ""
+msgstr "O tamaño da orixe sen comprimir"
 
 #: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
 #, c-format
@@ -525,7 +525,7 @@ msgstr "O GsfOutfile pai"
 
 #: ../gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
-msgstr ""
+msgstr "Onde se escribe a saída formatada"
 
 #: ../gsf/gsf-output-csv.c:343
 msgid "Quote"
