@@ -1,5 +1,9 @@
 libgsf 1.14.27
 
+Andreas:
+	* Perform some range checking in gsf_timestamp_load_from_string
+	to avoid crashing in glib. [#702671] 
+
 Morten:
 	* Introspection fixes.
 	* Property documentation fixes.

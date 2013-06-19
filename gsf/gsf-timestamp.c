@@ -127,7 +127,7 @@ static time_t gmt_to_local_win32(void)
  *
  * Very simple parser for time stamps.  Currently requires a format of
  * 	'YYYY-MM-DDThh:mm:ss'
- * and does no bounds checking.
+ * and does only rudimentary range checking
  *
  * Since: 1.14.24
  *
@@ -136,15 +136,27 @@ static time_t gmt_to_local_win32(void)
 int
 gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
 {
-	int year, month, day, hour, minute, second;
+	guint year, month, day, hour, minute;
+	float second;
 	GDateTime *dt;
 
 	/* 'YYYY-MM-DDThh:mm:ss' */
-	if (6 != sscanf (spec, "%d-%d-%dT%d:%d:%d",
+	if (6 != sscanf (spec, "%u-%u-%uT%u:%u:%f",
 			 &year, &month, &day, &hour, &minute, &second))
 		return FALSE;
 
-	dt = g_date_time_new_utc (year, month, day, hour, minute, second);
+	/* g_date_time_new_utc documentation says: */
+	/* It not considered a programmer error for the values to this function to be out of range,*/
+	/* but in the case that they are, the function will return NULL. */
+	/* Nevertheless it seems to fail on values that are extremely out of range, see bug #702671 */
+	if (second < 0.0 || second >= 60.0)
+		return FALSE;
+	if (minute > 59 || hour > 23)
+		return FALSE;
+	if (day > 32 || month > 12 || year > 9999)
+		return FALSE;
+
+	dt = g_date_time_new_utc ((int)year, (int)month, (int)day, (int)hour, (int)minute, second);
 	if (!dt)
 		return FALSE;
 

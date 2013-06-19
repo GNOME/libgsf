@@ -1,3 +1,8 @@
+2013-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-timestamp.c (gsf_timestamp_load_from_string): perfrom
+	some range checking to avoid crashing in glib.
+
 2013-04-20  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (gsf_vba_inflate): Plug multiple leaks.
