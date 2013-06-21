@@ -951,6 +951,15 @@ gsf_xml_in_end_document (GsfXMLInInternal *state)
 		g_hash_table_destroy (state->ns_unknowns);
 		state->ns_unknowns = NULL;
 
+		g_slist_free (state->extension_stack);
+		state->extension_stack = NULL;
+
+		g_slist_free (state->pub.node_stack);
+		state->pub.node_stack = NULL;
+
+		g_slist_free (state->ns_stack);
+		state->ns_stack = NULL;
+
 		state->initialized = FALSE;
 
 		if (state->pub.node != &state->pub.doc->root_node->pub) {

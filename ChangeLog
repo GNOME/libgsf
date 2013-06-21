@@ -1,3 +1,7 @@
+2013-06-21  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_end_document): Plug leak.
+
 2013-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-timestamp.c (gsf_timestamp_load_from_string): perfrom
