@@ -3,7 +3,6 @@
 [encoding: UTF-8]
 gsf/gsf-blob.c
 gsf/gsf-clip-data.c
-gsf/gsf-infile-ar.c
 gsf/gsf-infile-msole.c
 gsf/gsf-infile-msvba.c
 gsf/gsf-infile-tar.c

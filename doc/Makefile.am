@@ -28,8 +28,7 @@ CFILE_GLOB=$(top_srcdir)/gsf/*.c
 # Header files to ignore when scanning
 IGNORE_HFILES=			 \
 	biff-types.h		 \
-	gsf-infile-msvba.h	 \
-	gsf-infile-ar.h
+	gsf-infile-msvba.h
 
 # Images to copy into HTML directory
 HTML_IMAGES =

@@ -1,3 +1,7 @@
+2013-06-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-ar.[ch]: Delete.
+
 2013-06-21  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_end_document): Plug leak.
@@ -572,7 +576,7 @@
 
 	* thumbnailer/main.c (call_convert): Use gdk_pixbuf if available.
 
-2009-09-25  Morten Welinder  <mwelinder@gmail.com>
+2009-09-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (libgsf_gnome_reqs): Remove gnome-vfs stuff.
 	Fixes #593480
