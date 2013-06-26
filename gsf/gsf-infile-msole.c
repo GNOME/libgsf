@@ -709,7 +709,8 @@ gsf_infile_msole_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	i = first_block;
 	raw_block = ole->bat.block[i];
 	if (FALSE && first_block != last_block)
-		g_printerr ("Check if %ld-%ld of %d are contiguous.\n",
+		g_printerr ("Check if %" GSF_OFF_T_FORMAT "-%" GSF_OFF_T_FORMAT
+			    " of %d are contiguous.\n",
 			    first_block, last_block,
 			    ole->bat.num_blocks);
 	while (++i <= last_block && ++raw_block == ole->bat.block [i])
