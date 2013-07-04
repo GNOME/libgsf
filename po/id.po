@@ -1,15 +1,15 @@
 # Indonesian translation for libgsf.
 # Copyright (C) 2011 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Andika Triwidada <andika@gmail.com>, 2011, 2012.
+# Andika Triwidada <andika@gmail.com>, 2011, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2012-10-16 17:52+0000\n"
-"PO-Revision-Date: 2012-10-17 14:29+0700\n"
+"POT-Creation-Date: 2013-06-23 16:52+0000\n"
+"PO-Revision-Date: 2013-07-04 15:17+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 
-#: ../gsf/gsf-blob.c:115
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Tak cukup memori untuk menyalin data %s byte"
 
-#: ../gsf/gsf-clip-data.c:166
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "Ada clip_data di %s, tapi kurang dari paling tidak %s byte"
 
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -38,37 +38,329 @@ msgstr ""
 "clip_data dalam format papan klip Windows, tapi kurang dari 4 byte, yaitu "
 "nilai yang diperlukan."
 
-#: ../gsf/gsf-clip-data.c:271
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Format Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:277
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Format DIB atau BITMAP Windows"
 
-#: ../gsf/gsf-clip-data.c:282
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Format Windows Enhanced Metafile"
 
-#: ../gsf/gsf-libxml.c:1493
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Gagal menduplikasi stream masukan"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Tak ada tanda tangan OLE2"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Ukuran blok tak masuk akal"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Memori tak cukup"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Tabel alokasi blok tak konsisten"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Masalah saat membuat tabel alokasi blok"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Masalah saat membaca direktori"
+
+#: ../gsf/gsf-infile-msole.c:803
+#, c-format
+msgid "Failed to access child"
+msgstr "Gagal mengakses anak"
+
+#: ../gsf/gsf-infile-msole.c:836
+#, c-format
+msgid "failure reading block"
+msgstr "kegagalan saat membaca blok"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Tak bisa temukan stream direktori VBA"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "masalah header projek vba"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "Tak ada tanda tangan VBA"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Versi tanda tangan VBA tak dikenal 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Tak bisa mengurai header VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Header tar tak valid"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Header nama panjang tak valid"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Gagal membaca nama panjang"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Seek gagal"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Arsip terpotong"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Sumber"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Arsip sedang diinterpretasi"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Tak ada ekor Zip"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Galat saat membaca tanda tangan Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Galat saat membaca dirent zip"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Galat saat seek header zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Galat header zip salah"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "masalah saat mendekompresi stream"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Tingkat Kompresi"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "Tingkat kompresi yang dipakai, nol berarti nihil"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Dukungan BZ2 tak diaktifkan"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Init dekompresi BZ2 gagal"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Dekompresi BZ2 gagal"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Akhir dekompresi BZ2 gagal"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Nama"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Nama masukan"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Ukuran"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Ukuran masukan"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Akhir berkas"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Sisa"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Banyaknya data tersisa"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Posisi"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Posisi masukan kini"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Waktu modifikasi"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "GDateTime opsional yang mewakili waktu saat masukan terakhir berubah"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Wadah"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "GsfInfile induk"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Ketidakcocokan ukuran duplikat"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Tak bisa menginisiasi zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Gagal memutar balik sumber"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Header gzip tak valid"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "sumber terpotong"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Gagal membaca dari sumber"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Sumber NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Ukuran tak terkompresi tak diisi"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Mentah"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Apakah membaca data terkompresi tanpa header dan trailer"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Dari mana datangnya data terkompresi"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Ukuran setelah dekompresi"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Ukuran sumber tak terkompresi"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Bukan berkas biasa"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Berkas terlalu besar untuk dipetakan ke memori"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap tak didukung"
+
+#: ../gsf/gsf-libxml.c:1506
 msgid "Pretty print"
 msgstr "Cetak cantik"
 
-#: ../gsf/gsf-libxml.c:1494
+#: ../gsf/gsf-libxml.c:1507
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Apakah elemen pada keluaran mesti diinden otomatis agar lebih mudah dibaca?"
 
-#: ../gsf/gsf-libxml.c:1500
+#: ../gsf/gsf-libxml.c:1513 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Muara"
 
-#: ../gsf/gsf-libxml.c:1501
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Tempat tujuan menulis"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -77,7 +369,7 @@ msgstr ""
 "Kehilangan data ketika membaca properti %s; mendapat %s byte, padahal "
 "diperlukan paling tidak %s byte."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -86,100 +378,282 @@ msgstr ""
 "Data terkorupsi dalam properti VT_CF; panjang data papan klip mesti paling "
 "tidak 4 byte, tapi data menyatakan hanya tersedia %s byte."
 
-#: ../gsf/gsf-open-pkg-utils.c:355
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
-msgid "Unable to find part id='%s' for '%s'"
-msgstr "Tak bisa menemukan bagian id='%s' bagi '%s'"
+msgid "Unable to read MS property stream header"
+msgstr "Tak bisa baca header stream properti MS"
 
-#: ../gsf/gsf-open-pkg-utils.c:383
+#: ../gsf/gsf-msole-utils.c:1154
 #, c-format
-msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Tak bisa temukan bagian dengan jenis='%s' bagi '%s'"
+msgid "Invalid MS property stream header"
+msgstr "Header stream properti MS tak valid"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
 #, c-format
-msgid "Missing id for part in '%s'"
-msgstr "Kehilangan id untuk bagian di '%s'"
+msgid "Invalid MS property section"
+msgstr "Seksi properti MS tak valid"
 
-#: ../gsf/gsf-open-pkg-utils.c:422
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
-msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Bagian '%s' di '%s' dari '%s' terkorupsi!"
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Header stream properti MS tak valid atau terpotong"
 
-#: ../gsf/gsf-opendoc-utils.c:353
+#: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Properti \"%s\" dipakai untuk beberapa tipe!"
 
-#: ../gsf/gsf-opendoc-utils.c:878
+#: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
 msgstr "Versi ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:879
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Versi ODF yang ditarget oleh objek ini sebagai bilangan bulat seperti 100"
 
-#: ../tools/gsf.c:27
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Tak bisa menemukan bagian id='%s' bagi '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Tak bisa temukan bagian dengan jenis='%s' bagi '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Kehilangan id untuk bagian di '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Bagian '%s' di '%s' dari '%s' terkorupsi!"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "GsfOutput yang menyimpan isi Open Package"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Tipe isi"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "Tipe isi yang disimpan dalam berkas root [Content_Type].xml"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Adalah Direktori"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Bisakah outfile memiliki anak"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Ukuran blok kecil"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Ukuran blok kecil OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Ukuran blok besar"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Ukuran blok besar OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Di mana arsip ditulis"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Nama Entri"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Nama berkas anggota ini di dalam arsip tanpa path"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Tak bisa menginisiasi pustaka BZ2"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Nama keluaran"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Ukuran keluaran"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Tertutup"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Apakah keluaran tertutup"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Posisi keluaran kini"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr "GDateTime opsional yang mewakili waktu terakhir keluaran berubah"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "GsfOutfile induk"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Di mana keluaran terformat ditulis"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Kutip"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Kalimat yang dipakai untuk mengutip ruas"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Mode Pengutipan"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Kapan mengutip ruas"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Pemicu Pengutipan"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Karakter yang menyebabkan pengutipan ruas"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Pengutipan Pada Whitespace"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Apakah whitespace awal atau akhir memaksa pengutipan?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Pemisah"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Pemisah ruas"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "akhir-baris"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Penanda akhir-baris"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Di mana data terkonversi ditulis"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Set Karakter Masukan"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Set karakter asal kompresi"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Set Karakter Keluaran"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Set karakter tujuan kompresi"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Fallback"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Kalimat yang dipakai untuk karakter tak valid"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Tampilkan versi program"
 
-#: ../tools/gsf.c:54
+#: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Gagal membuka %s: %s\n"
 
-#: ../tools/gsf.c:75
+#: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Gagal mengenali %s sebagai arsip\n"
 
-#: ../tools/gsf.c:112
+#: ../tools/gsf.c:102
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Sub perintah yang tersedia adalah...\n"
 
-#: ../tools/gsf.c:113
+#: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        keluarkan salinan satu atau lebih berkas dalam arsip\n"
 
-#: ../tools/gsf.c:114
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       dump satu atau lebih berkas dalam arsip sebagai heksa\n"
 
-#: ../tools/gsf.c:115
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       daftar sub perintah\n"
 
-#: ../tools/gsf.c:116
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       daftar berkas dalam arsip\n"
 
-#: ../tools/gsf.c:117
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  daftar properti dokumen dalam arsip\n"
 
-#: ../tools/gsf.c:118
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      cetak properti dokumen yang dinyatakan\n"
 
-#: ../tools/gsf.c:119
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  buat arsip OLE\n"
 
-#: ../tools/gsf.c:120
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  buat arsip ZIP\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Tak ada properti bernama %s\n"
@@ -189,11 +663,11 @@ msgstr "Tak ada properti bernama %s\n"
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Galat saat memroses berkas %s: %s\n"
 
-#: ../tools/gsf.c:526
+#: ../tools/gsf.c:504
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUB_PERINTAH ARSIP..."
 
-#: ../tools/gsf.c:533
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
@@ -203,17 +677,17 @@ msgstr ""
 "Jalankan '%s --help' untuk melihat daftar lengkap dari pilihan baris "
 "perintah.\n"
 
-#: ../tools/gsf.c:540
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versi %d.%d.%d\n"
 
-#: ../tools/gsf.c:546
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Cara pakai: %s %s\n"
 
-#: ../tools/gsf.c:571
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Jalankan '%s help' untuk melihat daftar sub perintah.\n"
