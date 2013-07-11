@@ -1,3 +1,8 @@
+2013-07-11  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_metadata_write_string): Protect
+	against strings that cannot be converted.  See bug #703952.
+
 2013-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gsf/gsf-infile-msole.c (gsf_infile_msole_read): use the

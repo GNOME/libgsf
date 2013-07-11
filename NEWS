@@ -3,6 +3,9 @@ libgsf 1.14.28
 Andreas:
 	* Fix conversion specifiers. [#703064]
 
+Morten:
+	* Fix problem with bogus metadata.  [#703952]
+
 --------------------------------------------------------------------------
 libgsf 1.14.27
 

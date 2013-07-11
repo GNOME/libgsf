@@ -1409,6 +1409,11 @@ msole_metadata_write_string (WritePropState *state, const char *txt)
 	len = strlen (txt);
 	ctxt = g_convert_with_iconv (txt, len, state->iconv_handle,
 				     NULL, &bytes_written, NULL);
+	if (!ctxt) {
+		/* See bug #703952 */
+		g_warning ("Failed to write metadata string");
+		bytes_written = 0;
+	}
 
 	GSF_LE_SET_GUINT32 (buf, len + 1);
 	res = gsf_output_write (state->out, 4, buf);
