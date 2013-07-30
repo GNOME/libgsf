@@ -3,6 +3,10 @@ libgsf 1.14.28
 Andreas:
 	* Fix conversion specifiers. [#703064]
 
+Jean:
+	* Allow the huge libxml parser mode so that gnumeric can load large images.
+	[#705100]
+
 Morten:
 	* Fix problem with bogus metadata.  [#703952]
 

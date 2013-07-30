@@ -328,9 +328,10 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
 		(xmlInputCloseCallback) gsf_libxml_close,
 		input, XML_CHAR_ENCODING_NONE);
 
-	if (res)
+	if (res) {
 		res->replaceEntities = TRUE;
-	else
+		res->options |= XML_PARSE_HUGE;
+	} else
 		g_object_unref (input);
 
 	return res;

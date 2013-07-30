@@ -1,3 +1,8 @@
+2013-07-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_parser_context_full): allow the huge libxml
+	parser mode so that gnumeric can load large images. [#705100]
+
 2013-07-11  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_string): Protect
