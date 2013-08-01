@@ -1,5 +1,9 @@
 2013-08-01  Morten Welinder <terra@gnome.org>
 
+	* Release 1.14.28
+
+2013-08-01  Morten Welinder <terra@gnome.org>
+
 	* configure.ac (set_more_warnings): When checking for warnings
 	flags, include <stdio.h> for mingw's benefit.
 
