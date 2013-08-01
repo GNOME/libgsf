@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Fix problem with bogus metadata.  [#703952]
+	* Avoid interaction problems between Werror and system headers.
 
 --------------------------------------------------------------------------
 libgsf 1.14.27
