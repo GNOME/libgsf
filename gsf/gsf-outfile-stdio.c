@@ -117,7 +117,7 @@ gsf_outfile_stdio_new_valist (char const *root, GError **err,
 {
 	GsfOutfileStdio *ofs;
 
-	if (0 != g_mkdir (root, 0777)) {
+	if (0 != g_mkdir (root, 0777) && errno != EEXIST) {
 		if (err != NULL) {
 			int save_errno = errno;
 			char *utf8name = g_filename_display_name (root);

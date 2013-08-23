@@ -1,5 +1,8 @@
 libgsf 1.14.29
 
+Allin Cottrell:
+	* Fix problem with GsfOutfileStdio.  [#706219]
+
 --------------------------------------------------------------------------
 libgsf 1.14.28
 

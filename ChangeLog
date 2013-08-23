@@ -1,3 +1,8 @@
+2013-08-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_valist): Allow
+	the directory to exist.  Patch from  Allin Cottrell.  #706219.
+
 2013-08-01  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
