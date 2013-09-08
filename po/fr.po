@@ -2,16 +2,17 @@
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the libgsf package.
 #
+# Gérard Baylard <gerard.b@bbox.fr>, 2009
+# Alain Lojewski <allomervan@gmail.com>, 2013
 #
-# Gérard Baylard <<gerard.b@bbox.fr>, 2009
 msgid ""
 msgstr ""
-"Project-Id-Version: libgsf-1.14.15 fr\n"
+"Project-Id-Version: libgsf master fr\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-02-24 13:23+0000\n"
-"PO-Revision-Date: 2013-02-26 16:28+0100\n"
-"Last-Translator: Gérard Baylard <<gerard.b@bbox.fr>\n"
+"POT-Creation-Date: 2013-09-06 08:28+0000\n"
+"PO-Revision-Date: 2013-09-07 10:16+0200\n"
+"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../gsf/gsf-blob.c:113
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Mémoire insuffisante pour copier %s octets de données"
@@ -53,20 +54,315 @@ msgstr "Format DIB ou BITMAP Windows"
 msgid "Windows Enhanced Metafile format"
 msgstr "Format Windows Enhanced Metafile"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Échec de duplication du flux entrant"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Pas de signature OLE2"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Tailles de bloc excessives"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Mémoire insuffisante"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Table d'allocation de bloc incohérente"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problèmes de constitution de la table d'allocation de bloc"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problèmes de lecture du répertoire"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Échec d'accès à l'enfant"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "échec de lecture du bloc"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Flux du répertoire VBA introuvable"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "problème d'en-tête du projet vba"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "Pas de signature VBA"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Signature 0x%x%x%x%x de la version VBA inconnue"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Échec d'analyse de l'en-tête VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "En-tête tar non valide"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "En-tête longname non valide"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Échec de lecture de longname"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Échec de positionnement"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Archive tronquée"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Source"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "L'archive en cours d'interprétation"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Aucun résumé Zip"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Erreur de lecture de la signature Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Erreur de lecture du « dirent » zip"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Erreur de positionnement sur l'en-tête zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Erreur, en-tête zip incorrecte"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problème de décompression du flux"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Niveau de compression"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr ""
+"Indique le niveau de compression utilisé, zéro signifiant aucune compression"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Prise en charge de BZ2 désactivée"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Échec d'initialisation de la décompression BZ2"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Échec de la décompression de BZ2"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Échec de la fin de décompression de BZ2"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Nom"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Le nom de l'entrée"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Taille"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "La taille de l'entrée"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Fin de fichier"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Restant"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Indique la quantité de données restantes"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Position"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Indique la position actuelle de l'entrée"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Date de modification"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Une GDateTime optionnelle indiquant la date de dernière modification de "
+"l'entrée"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Conteneur"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Le fichier GsfInfile parent"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Décalage de la taille dupliquée"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Impossible d'initialiser zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Échec lors du rembobinage de la source"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "En-tête gzip non valide"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "source tronquée"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Échec de lecture de la source"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Source NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Taille de décompression non définie"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Brut"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Indique s'il faut lire les données compressées sans en-tête ni résumé"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Indique la provenance des données compressées"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Taille après décompression"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Indique la taille des sources décompressées"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s : n'est pas un fichier standard"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s : fichier trop grand pour être maintenu en mémoire"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap non pris en charge"
+
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Sortie formatée"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "La sortie doit elle auto indenter les éléments pour une lecture plus aisée ?"
 
-#: ../gsf/gsf-libxml.c:1504
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Collecteur"
 
-#: ../gsf/gsf-libxml.c:1505
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "La destination des écritures"
 
@@ -89,6 +385,40 @@ msgstr ""
 "presse-papiers doit être de 4 octets minimum, mais les données indiquent que "
 "seuls %s octets sont disponibles."
 
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "Impossible de lire les en-têtes du flux de propriétés MS"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "En-tête du flux de propriétés MS non valide"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "Section de propriétés MS non valide"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "En-tête du flux de propriétés MS non valide ou fichier coupé"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "La même propriété « %s » est utilisée pour plusieurs types !"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "Version d'ODF"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "La version d'ODF que cet objet cible comme un entier tel que 100"
+
 #: ../gsf/gsf-open-pkg-utils.c:353
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
@@ -109,94 +439,249 @@ msgstr "Identificateur manquant pour une partie dans « %s »"
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "La partie « %s » dans « %s » venant de « %s » est endommagée."
 
-#: ../gsf/gsf-opendoc-utils.c:355
-#, c-format
-msgid "Property \"%s\" used for multiple types!"
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "Indique la GsfOutput qui stocke le contenu d'Open Package"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Type de contenu"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
+"Indique le type de contenu stocké dans le fichier racine [Content_Types].xml"
 
-#: ../gsf/gsf-opendoc-utils.c:880
-msgid "ODF version"
-msgstr "Version d'ODF"
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Est un répertoire"
 
-#: ../gsf/gsf-opendoc-utils.c:881
-msgid "The ODF version this object is targeting as an integer like 100"
-msgstr "La version d'ODF que cet objet cible comme un entier tel que 100"
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Le fichier outfile peut-il avoir des enfants"
 
-#: ../tools/gsf.c:15
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Petite taille de bloc"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Indique la taille des petits blocs OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Grande taille de bloc"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Indique la taille des grands blocs OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Indique où est écrite l'archive"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Nom de l'entrée"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Indique le nom de fichier de ce membre dans l'archive sans le chemin"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Impossible d'initialiser la bibliothèque BZ2"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Indique le nom de la sortie"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Indique la taille de la sortie"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Est fermé"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Indique si la sortie est fermée"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Indique la position actuelle de la sortie"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Une GDateTime optionnelle indiquant la date de dernière modification de la "
+"sortie"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Indique le parent de GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Indique où la sortie formatée est écrite"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Guillemet"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Indique le type de guillemets utilisés pour délimiter les champs"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Mode de guillemets"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Indique quand placer les champs entre guillemets"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Déclencheurs de guillemets"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr ""
+"Indique les caractères qui déclenchent l'utilisation de guillemets pour les "
+"champs"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Guillemets si espaces"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr ""
+"Est-ce qu'un espace au début ou à la fin déclenche l'utilisation de "
+"guillemets ?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Séparateur"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Le séparateur de champs"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "end-on-line"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Le marqueur de fin de ligne"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Indique où les données converties sont écrites"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Jeu de caractères de l'entrée"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Indique depuis quel jeu de caractères convertir"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Jeu de caractères de la sortie"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Indique vers quel jeu de caractères convertir"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Caractère de secours"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Indique la chaîne à utiliser pour les caractères non valides"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
-msgstr "Affiche le numéro de version du programme"
+msgstr "Affiche la version du programme"
 
-#: ../tools/gsf.c:42
+#: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s : échec à l'ouverture de %s : %s\n"
 
-#: ../tools/gsf.c:63
+#: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s : %s n'a pas été reconnu en tant qu'archive\n"
 
-#: ../tools/gsf.c:100
+#: ../tools/gsf.c:102
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Les sous-commandes disponibles sont ...\n"
 
-#: ../tools/gsf.c:101
+#: ../tools/gsf.c:103
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        affiche un ou plusieurs fichiers de l'archive\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       vidage hexadécimal d'un ou plusieurs fichiers de l'archive\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       affiche la liste des sous-commandes\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       liste les fichiers de l'archive\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  liste les propriétés des documents de l'archive\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      affiche les propriétés de documents spécifiées\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* createole  create OLE archive\n"
-msgstr ""
+msgstr "* createole  crée une archive OLE\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createzip  create ZIP archive\n"
-msgstr ""
+msgstr "* createzip  crée une archive ZIP\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Pas de propriété nommée %s\n"
 
-#: ../tools/gsf.c:350
+#: ../tools/gsf.c:362
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
-msgstr ""
+msgstr "%s : erreur de traitement du fichier %s : %s\n"
 
-#: ../tools/gsf.c:514
+#: ../tools/gsf.c:504
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SOUS-COMMANDE ARCHIVE..."
 
-#: ../tools/gsf.c:521
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
@@ -206,418 +691,17 @@ msgstr ""
 "Lancez « %s --help » pour voir la liste complète des options disponibles en "
 "ligne de commande.\n"
 
-#: ../tools/gsf.c:528
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf version %d.%d.%d\n"
 
-#: ../tools/gsf.c:534
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Utilisation : %s %s\n"
 
-#: ../tools/gsf.c:559
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Lancez « %s help » pour voir la liste des sous-commandes.\n"
-
-#~ msgid ""
-#~ "Boolean options available, true enables thumbnailing and false disables "
-#~ "the creation of new thumbnails"
-#~ msgstr ""
-#~ "Option booléenne : true (vrai) active la création de miniatures, false "
-#~ "(faux) désactive la création de nouvelles miniatures"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr ""
-#~ "Active la création de miniatures pour feuilles de calcul OpenOffice 1.x "
-#~ "Calc"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles OpenOffice 1.x Drawing "
-
-#~ msgid ""
-#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles de présentations OpenOffice "
-#~ "1.x Impress"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-#~ msgstr ""
-#~ "Active la création de miniatures pour présentations OpenOffice 1.x Impress"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-#~ msgstr "Active la création de miniatures pour documents OpenOffice 1.x Math"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles OpenOffice 1.x Spreadsheet"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-#~ msgstr ""
-#~ "Active la création de miniatures pour documents OpenOffice 1.x Writer"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles globaux OpenOffice 1.x "
-#~ "Writer"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-#~ msgstr "Active la création de miniatures pour modèles OpenOffice 1.x Writer"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-#~ msgstr ""
-#~ "Active la création de miniatures pour feuilles de calcul Microsoft Excel "
-#~ "2007"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-#~ msgstr ""
-#~ "Active la création de miniatures pour feuilles de calcul Microsoft Excel"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-#~ msgstr ""
-#~ "Active la création de miniatures pour présentations Microsoft PowerPoint "
-#~ "2007 "
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-#~ msgstr ""
-#~ "Active la création de miniatures pour présentations Microsoft PowerPoint"
-
-#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-#~ msgstr "Active la création de miniatures pour documents Microsoft Word 2007"
-
-#~ msgid "Enable thumbnailing of Microsoft Word documents"
-#~ msgstr "Active la création de miniatures pour documents Microsoft Word"
-
-#~ msgid "Enable thumbnailing of OpenDocument charts"
-#~ msgstr "Active la création de miniatures pour graphiques OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles de dessins OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawings"
-#~ msgstr "Active la création de miniatures pour dessins OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument formulas"
-#~ msgstr "Active la création de miniatures pour formules OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument images"
-#~ msgstr "Active la création de miniatures pour images OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles de présentation OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentations"
-#~ msgstr "Active la création de miniatures pour présentations OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles de feuille de calcul "
-#~ "OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
-#~ msgstr ""
-#~ "Active la création de miniatures pour feuilles de calcul OpenDocument"
-
-#~ msgid ""
-#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
-#~ msgstr ""
-#~ "Active la création de miniatures pour modèles de document de traitement "
-#~ "de texte OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-#~ msgstr ""
-#~ "Active la création de miniatures pour documents de traitement de texte "
-#~ "OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-#~ msgstr ""
-#~ "Active la création de miniatures pour documents maîtres de traitement de "
-#~ "texte OpenDocument"
-
-#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour feuilles de calcul Microsoft "
-#~ "Excel 2007"
-
-#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour feuilles de calcul Microsoft Excel"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour présentations Microsoft "
-#~ "PowerPoint 2007"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour présentations Microsoft PowerPoint"
-
-#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour documents Microsoft Word 2007"
-
-#~ msgid "Thumbnail command for Microsoft Word documents"
-#~ msgstr "Commande de création de miniatures pour documents Microsoft Word"
-
-#~ msgid "Thumbnail command for OpenDocument charts"
-#~ msgstr "Commande de création de miniatures pour graphiques OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument drawing templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles de dessin OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument drawings"
-#~ msgstr "Commande de création de miniatures pour dessins OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument formulas"
-#~ msgstr "Commande de création de miniatures pour formules OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument images"
-#~ msgstr "Commande de création de miniatures pour images OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument presentation templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles de présentation "
-#~ "OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument presentations"
-#~ msgstr "Commande de création de miniatures pour présentations OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles de feuille de calcul "
-#~ "OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheets"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour feuilles de calcul OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles de documents de "
-#~ "traitement de texte OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour documents de traitement de texte "
-#~ "OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour documents maîtres de traitement "
-#~ "de texte OpenDocument"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour feuilles de calcul OpenOffice 1.x "
-#~ "Calc"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles OpenOffice 1.x Drawing"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles OpenOffice 1.x Impress "
-#~ "Presentation"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour présentations OpenOffice 1.x "
-#~ "Impress"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour documents OpenOffice 1.x Math"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles OpenOffice 1.x Spreadsheet"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour documents OpenOffice 1.x Writer"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles globaux OpenOffice 1.x "
-#~ "Writer"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-#~ msgstr ""
-#~ "Commande de création de miniatures pour modèles OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "feuilles de calcul Microsoft Excel 2007."
-
-#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "feuilles de calcul Microsoft Excel."
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "Microsoft PowerPoint 2007"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "Microsoft PowerPoint"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "Microsoft Word 2007"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "Microsoft Word"
-
-#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "graphique OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles de dessin OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "dessins OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "formules OpenDocument"
-
-#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "images OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles de présentation OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "présentations OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles de feuilles de calcul OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "feuilles de calcul OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles de document de traitement de texte OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "document de traitement de texte OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
-#~ "document thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "document maître de traitement de texte OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles OpenOffice 1.x Drawing"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "OpenOffice 1.x Drawing"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles de présentation OpenOffice 1.x Impress"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "présentations OpenOffice 1.x Impress"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "document OpenOffice 1.x Math"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "document OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèle global OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "modèles OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Commande valide avec ses paramètres pour la création de miniatures pour "
-#~ "feuilles de calcul OpenOffice 1.x"
