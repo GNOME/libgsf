@@ -7,18 +7,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-05-05 14:48+0000\n"
-"PO-Revision-Date: 2013-05-15 16:19+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-07-20 12:05+0000\n"
+"PO-Revision-Date: 2013-09-11 21:48+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #: ../gsf/gsf-blob.c:114
@@ -33,12 +31,8 @@ msgstr "Размер clip_data составляет %s, но это меньше
 
 #: ../gsf/gsf-clip-data.c:259
 #, c-format
-msgid ""
-"The clip_data is in Windows clipboard format, but it is smaller than the "
-"required 4 bytes."
-msgstr ""
-"clip_data имеет формат буфера обмена Windows, но его размер меньше "
-"необходимых 4 байт."
+msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
+msgstr "clip_data имеет формат буфера обмена Windows, но его размер меньше необходимых 4 байт."
 
 #: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
@@ -52,16 +46,6 @@ msgstr "Формат Windows DIB или BITMAP"
 #: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Формат Windows Enhanced Metafile"
-
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Что-то пошло не так в ar_dup"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Что-то пошло не так в ar_child_init"
 
 #: ../gsf/gsf-infile-msole.c:471
 #, c-format
@@ -98,22 +82,24 @@ msgstr "Ошибка создания таблицы распределения 
 msgid "Problems reading directory"
 msgstr "Ошибка чтения каталога"
 
-#: ../gsf/gsf-infile-msole.c:803
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Не удалось получить доступ к дочернему объекту"
 
-#: ../gsf/gsf-infile-msole.c:836
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "ошибка чтения блока"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171
+#: ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Не удалось найти поток каталога VBA"
 
-#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+#: ../gsf/gsf-infile-msvba.c:218
+#: ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "некорректный заголовок vba проекта"
 
@@ -132,7 +118,8 @@ msgstr "Неизвестная версия подписи VBA 0x%x%x%x%x"
 msgid "Unable to parse VBA header"
 msgstr "Не удалось разобрать заголовок VBA"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:109
+#: ../gsf/gsf-infile-tar.c:217
 #, c-format
 msgid "Invalid tar header"
 msgstr "Некорректный заголовок tar"
@@ -147,7 +134,8 @@ msgstr "Некорректный заголовок длинного имени"
 msgid "Failed to read longname"
 msgstr "Не удалось прочитать длинное имя"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:293
+#: ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Ошибка поиска"
@@ -157,12 +145,14 @@ msgstr "Ошибка поиска"
 msgid "Truncated archive"
 msgstr "Разбитый на части архив"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551
+#: ../gsf/gsf-infile-zip.c:847
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Источник"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552
+#: ../gsf/gsf-infile-zip.c:848
 msgid "The archive being interpreted"
 msgstr "Архив интерпретируется"
 
@@ -194,15 +184,18 @@ msgstr "Некорректный заголовок zip"
 msgid "problem uncompressing stream"
 msgstr "ошибка распаковки потока"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:863
+#: ../gsf/gsf-outfile-zip.c:755
 msgid "Compression Level"
 msgstr "Уровень сжатия"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:864
+#: ../gsf/gsf-outfile-zip.c:756
 msgid "The level of compression used, zero meaning none"
 msgstr "Используемый уровень сжатия, ноль — без сжатия"
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#: ../gsf/gsf-input-bzip.c:48
+#: ../gsf/gsf-output-bzip.c:265
 #, c-format
 msgid "BZ2 support not enabled"
 msgstr "Поддержка BZ2 не включена"
@@ -222,7 +215,8 @@ msgstr "Ошибка распаковки BZ2"
 msgid "BZ2 decompress end failed"
 msgstr "Ошибка завершения распаковки BZ2"
 
-#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+#: ../gsf/gsf-input.c:128
+#: ../gsf/gsf-output.c:168
 msgid "Name"
 msgstr "Имя"
 
@@ -230,7 +224,8 @@ msgstr "Имя"
 msgid "The input's name"
 msgstr "Имя источника"
 
-#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+#: ../gsf/gsf-input.c:143
+#: ../gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Размер"
 
@@ -254,7 +249,8 @@ msgstr "Осталось"
 msgid "Amount of data remaining"
 msgstr "Количество оставшихся данных"
 
-#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+#: ../gsf/gsf-input.c:188
+#: ../gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Позиция"
 
@@ -262,15 +258,17 @@ msgstr "Позиция"
 msgid "The input's current position"
 msgstr "Текущая позиция источника"
 
-#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+#: ../gsf/gsf-input.c:206
+#: ../gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Время изменения"
 
 #: ../gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
-msgstr ""
+msgstr "Необязательное представление времени GDateTime, когда ввод был изменён"
 
-#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+#: ../gsf/gsf-input.c:220
+#: ../gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Контейнер"
 
@@ -338,7 +336,8 @@ msgstr "Размер после распаковки"
 msgid "The source's uncompressed size"
 msgstr "Несжатый размер источника"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:229
+#: ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: не является обычным файлом"
@@ -353,44 +352,40 @@ msgstr "%s: файл слишком большой для размещения �
 msgid "mmap not supported"
 msgstr "mmap не поддерживается"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1506
 msgid "Pretty print"
 msgstr "Форматированная печать"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1507
 msgid "Should the output auto-indent elements to make reading easier?"
-msgstr ""
-"Включить автоматический отступ при выводе элементов для облегчения чтения?"
+msgstr "Включить автоматический отступ при выводе элементов для облегчения чтения?"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: ../gsf/gsf-libxml.c:1513
+#: ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795
+#: ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333
+#: ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Получатель"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1514
+#: ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Пункт назначения записи"
 
 #: ../gsf/gsf-msole-utils.c:312
 #, c-format
-msgid ""
-"Missing data when reading the %s property; got %s bytes, but %s bytes at "
-"least are needed."
-msgstr ""
-"При чтении свойства %s не хватило данных; получено %s байт, но необходимо %s "
-"байт."
+msgid "Missing data when reading the %s property; got %s bytes, but %s bytes at least are needed."
+msgstr "При чтении свойства %s не хватило данных; получено %s байт, но необходимо %s байт."
 
 #: ../gsf/gsf-msole-utils.c:363
 #, c-format
-msgid ""
-"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %s bytes available."
-msgstr ""
-"Повреждены данные в свойстве VT_CF; размер данных буфера обмена должен быть "
-"не менее 4х байт, но согласно данным доступно лишь %s байт."
+msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %s bytes available."
+msgstr "Повреждены данные в свойстве VT_CF; размер данных буфера обмена должен быть не менее 4х байт, но согласно данным доступно лишь %s байт."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1127
+#: ../gsf/gsf-msole-utils.c:1171
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Не удалось прочитать заголовок потока свойства MS"
@@ -400,13 +395,15 @@ msgstr "Не удалось прочитать заголовок потока �
 msgid "Invalid MS property stream header"
 msgstr "Некорректный заголовок потока свойства MS"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1201
+#: ../gsf/gsf-msole-utils.c:1239
 #: ../gsf/gsf-msole-utils.c:1263
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Некорректная секция свойства MS"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1220
+#: ../gsf/gsf-msole-utils.c:1224
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Некорректный заголовок потока свойства MS или файл обрезан"
@@ -446,7 +443,7 @@ msgstr "Часть «%s» в «%s» из «%s» повреждена!"
 
 #: ../gsf/gsf-open-pkg-utils.c:730
 msgid "The GsfOutput that stores the Open Package content"
-msgstr ""
+msgstr "Объект GsfOutput, хранящий содержимое Open Package"
 
 #: ../gsf/gsf-open-pkg-utils.c:736
 msgid "Content type"
@@ -519,7 +516,7 @@ msgstr "Текущая позиция вывода"
 
 #: ../gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
-msgstr ""
+msgstr "Необязательное представление времени GDateTime, когда вывод был изменён"
 
 #: ../gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
@@ -531,35 +528,35 @@ msgstr "Место записи отформатированного вывод�
 
 #: ../gsf/gsf-output-csv.c:343
 msgid "Quote"
-msgstr ""
+msgstr "Закавычивание"
 
 #: ../gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
-msgstr ""
+msgstr "Строка, используемая для закавычивания полей"
 
 #: ../gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
-msgstr ""
+msgstr "Режим закавычивания"
 
 #: ../gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
-msgstr ""
+msgstr "Когда закавычивать поля"
 
 #: ../gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
-msgstr ""
+msgstr "Триггеры закавычивания"
 
 #: ../gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
-msgstr ""
+msgstr "Символы, приводящие к закавычиванию поля"
 
 #: ../gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
-msgstr ""
+msgstr "Закавычивание пробельных символов"
 
 #: ../gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
-msgstr ""
+msgstr "Использовать принудительное закавычивание для исходных или терминальных пробельных символов?"
 
 #: ../gsf/gsf-output-csv.c:386
 msgid "Separator"
@@ -632,9 +629,7 @@ msgstr "* cat       выводит один или несколько файло
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr ""
-"* dump       дамп одного или нескольких файлов в архиве в шестнадцатеричном "
-"виде\n"
+msgstr "* dump       дамп одного или нескольких файлов в архиве в шестнадцатеричном виде\n"
 
 #: ../tools/gsf.c:105
 #, c-format
@@ -687,8 +682,7 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Запустите «%s --help» для вывода полного списка доступных параметров "
-"командной строки.\n"
+"Запустите «%s --help» для вывода полного списка доступных параметров командной строки.\n"
 
 #: ../tools/gsf.c:518
 #, c-format
@@ -704,323 +698,3 @@ msgstr "Использование: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Запустите «%s help», чтобы просмотреть список подкоманд.\n"
-
-#~ msgid ""
-#~ "Boolean options available, true enables thumbnailing and false disables "
-#~ "the creation of new thumbnails"
-#~ msgstr ""
-#~ "Доступны булевы параметры, true — для включения миниатюризации и false — "
-#~ "для отключения создания новых миниатюр"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr "Включить миниатюры для таблиц OpenOffice 1.x Calc"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-#~ msgstr "Включить миниатюры для шаблонов OpenOffice 1.x Drawing"
-
-#~ msgid ""
-#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr "Включить миниатюры для шаблонов OpenOffice 1.x Impress Presentation"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-#~ msgstr "Включить миниатюры для презентаций OpenOffice 1.x Impress"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-#~ msgstr "Включить миниатюры для документов OpenOffice 1.x Math"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr "Включить миниатюры для шаблонов OpenOffice 1.x Spreadsheet"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-#~ msgstr "Включить миниатюры для документов OpenOffice 1.x Writer"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-#~ msgstr "Включить миниатюры для глобальных шаблонов OpenOffice 1.x Writer"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-#~ msgstr "Включить миниатюры для шаблонов OpenOffice 1.x Writer"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-#~ msgstr "Включить миниатюры для таблиц Microsoft Excel 2007"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-#~ msgstr "Включить миниатюры для таблиц Microsoft Excel"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-#~ msgstr "Включить миниатюры для презентаций Microsoft PowerPoint 2007"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-#~ msgstr "Включить миниатюры для презентаций Microsoft PowerPoint"
-
-#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-#~ msgstr "Включить миниатюры для документов Microsoft Word 2007"
-
-#~ msgid "Enable thumbnailing of Microsoft Word documents"
-#~ msgstr "Включить миниатюры для документов Microsoft Word"
-
-#~ msgid "Enable thumbnailing of OpenDocument charts"
-#~ msgstr "Включить миниатюры для диаграмм OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
-#~ msgstr "Включить миниатюры для шаблонов рисунков OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawings"
-#~ msgstr "Включить миниатюры для рисунков OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument formulas"
-#~ msgstr "Включить миниатюры для формул OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument images"
-#~ msgstr "Включить миниатюры для изображений OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
-#~ msgstr "Включить миниатюры для шаблонов презентаций OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentations"
-#~ msgstr "Включить миниатюры для презентаций OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-#~ msgstr "Включить миниатюры для шаблонов таблиц OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
-#~ msgstr "Включить миниатюры для таблиц OpenDocument"
-
-#~ msgid ""
-#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
-#~ msgstr "Включить миниатюры для шаблонов документов OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-#~ msgstr "Включить миниатюры для документов OpenDocument"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-#~ msgstr "Включить миниатюры для мастера документов OpenDocument"
-
-#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-#~ msgstr "Команда миниатюр для таблиц Microsoft Excel 2007"
-
-#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
-#~ msgstr "Команда миниатюр для таблиц Microsoft Excel"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-#~ msgstr "Команда миниатюр для презентаций Microsoft PowerPoint 2007"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
-#~ msgstr "Команда миниатюр для презентаций Microsoft PowerPoint"
-
-#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
-#~ msgstr "Команда миниатюр для документов Microsoft Word 2007"
-
-#~ msgid "Thumbnail command for Microsoft Word documents"
-#~ msgstr "Команда миниатюр для документов Microsoft Word"
-
-#~ msgid "Thumbnail command for OpenDocument charts"
-#~ msgstr "Команда миниатюр для графиков OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument drawing templates"
-#~ msgstr "Команда миниатюр для шаблонов рисунков OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument drawings"
-#~ msgstr "Команда миниатюр для рисунков OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument formulas"
-#~ msgstr "Команда миниатюр для формул OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument images"
-#~ msgstr "Команда миниатюр для изображений OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument presentation templates"
-#~ msgstr "Команда миниатюр для шаблонов презентаций OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument presentations"
-#~ msgstr "Команда миниатюр для презентаций OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
-#~ msgstr "Команда миниатюр для шаблонов таблиц OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheets"
-#~ msgstr "Команда миниатюр для таблиц OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-#~ msgstr "Команда миниатюр для шаблонов документов OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
-#~ msgstr "Команда миниатюр для документов OpenDocument"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-#~ msgstr "Команда миниатюр для мастера шаблонов OpenDocument"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr "Команда миниатюр для таблиц OpenOffice 1.x Calc"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-#~ msgstr "Команда миниатюр для OpenOffice 1.x Drawing"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr "Команда миниатюр для шаблонов OpenOffice 1.x Impress Presentation"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-#~ msgstr "Команда миниатюр для презентаций OpenOffice 1.x Impress"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
-#~ msgstr "Команда миниатюр для документов OpenOffice 1.x Math"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr "Команда миниатюр для шаблонов OpenOffice 1.x Spreadsheet"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-#~ msgstr "Команда миниатюр для документов OpenOffice 1.x Writer"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-#~ msgstr "Команда миниатюр для глобальных шаблонов OpenOffice 1.x Writer"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-#~ msgstr "Команда миниатюр для шаблонов OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-#~ msgstr "Допустимая команда плюс аргументы для таблиц Microsoft Excel 2007."
-
-#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-#~ msgstr "Допустимая команда плюс аргументы для таблиц Microsoft Excel."
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр Microsoft PowerPoint 2007"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-#~ msgstr "Допустимая команда плюс аргументы для миниатюр Microsoft PowerPoint"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-#~ msgstr "Допустимая команда плюс аргументы для миниатюр Microsoft Word 2007"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-#~ msgstr "Допустимая команда плюс аргументы для миниатюр Microsoft Word"
-
-#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр диаграмм OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов рисунков "
-#~ "OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр рисунков OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
-#~ msgstr "Допустимая команда плюс аргументы для миниатюр формул OpenDocument"
-
-#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр изображений OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов презентаций "
-#~ "OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр презентаций OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов таблиц "
-#~ "OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-#~ msgstr "Допустимая команда плюс аргументы для миниатюр таблиц OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр для шаблонов документов "
-#~ "OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр документов OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
-#~ "document thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр мастера документов "
-#~ "OpenDocument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов OpenOffice 1.x "
-#~ "Drawing"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр OpenOffice 1.x Drawing"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов презентаций "
-#~ "OpenOffice 1.x Impress"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр презентаций OpenOffice 1.x "
-#~ "Impress"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр документов OpenOffice 1.x "
-#~ "Math"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр документов OpenOffice 1.x "
-#~ "Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр глобальных шаблонов "
-#~ "OpenOffice 1.x Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр шаблонов OpenOffice 1.x "
-#~ "Writer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Допустимая команда плюс аргументы для миниатюр таблиц  OpenOffice 1.x"
