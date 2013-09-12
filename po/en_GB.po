@@ -3,33 +3,35 @@
 # This file is distributed under the same license as the libgsf package.
 # Philip Withnall <philip@tecnocode.co.uk>, 2009.
 # Chris Leonard <cjl@laptop.org>, 2012.
+# Bruce Cowan <bruce@bcowan.me.uk>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-01 01:13+0100\n"
-"PO-Revision-Date: 2012-08-14 04:36-0400\n"
-"Last-Translator: Chris Leonard <cjl@laptop.org>\n"
-"Language-Team: Sugar Labs\n"
+"POT-Creation-Date: 2013-09-12 14:17+0100\n"
+"PO-Revision-Date: 2013-09-12 14:20+0100\n"
+"Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
+"Language-Team: British English <en@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "X-Project-Style: gnome\n"
 
-#: ../gsf/gsf-blob.c:115
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Not enough memory to copy %s bytes of data"
 
-#: ../gsf/gsf-clip-data.c:166
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "The clip_data is in %s, but it is smaller than at least %s bytes"
 
-#: ../gsf/gsf-clip-data.c:260
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -38,36 +40,328 @@ msgstr ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 
-#: ../gsf/gsf-clip-data.c:271
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows Metafile format"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:277
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB or BITMAP format"
 
-#: ../gsf/gsf-clip-data.c:282
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile format"
 
-#: ../gsf/gsf-libxml.c:1493
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Failed to duplicate input stream"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "No OLE2 signature"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Unreasonable block sizes"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Insufficient memory"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Inconsistent block allocation table"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problems making block allocation table"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problems reading directory"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Failed to access child"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "failure reading block"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Can't find the VBA directory stream"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "vba project header problem"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "No VBA signature"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Unknown VBA version signature 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Unable to parse VBA header"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Invalid tar header"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Invalid longname header"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Failed to read longname"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Seek failed"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Truncated archive"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Source"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "The archive being interpreted"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "No Zip trailer"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Error reading Zip signature"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Error reading zip dirent"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Error seeking to zip header"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Error incorrect zip header"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problem uncompressing stream"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Compression Level"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "The level of compression used, zero meaning none"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "BZ2 support not enabled"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "BZ2 decompress init failed"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "BZ2 decompress failed"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "BZ2 decompress end failed"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Name"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "The input's name"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Size"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "The input's size"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "End of file"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Remaining"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Amount of data remaining"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Position"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "The input's current position"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Modification time"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "An optional GDateTime representing the time the input was last changed"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Container"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "The parent GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Duplicate size mismatch"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Unable to initialize zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Failed to rewind source"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Invalid gzip header"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "truncated source"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Failed to read from source"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "NULL source"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Uncompressed size not set"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Raw"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Whether to read compressed data with no header and no trailer"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Where the compressed data comes from"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Size after decompression"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "The source's uncompressed size"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Is not a regular file"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: File too large to be memory mapped"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap not supported"
+
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Pretty print"
 
-#: ../gsf/gsf-libxml.c:1494
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Should the output auto-indent elements to make reading easier?"
 
-#: ../gsf/gsf-libxml.c:1500
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Sink"
 
-#: ../gsf/gsf-libxml.c:1501
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "The destination for writes"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -76,7 +370,7 @@ msgstr ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -85,40 +379,223 @@ msgstr ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 
-#: ../gsf/gsf-open-pkg-utils.c:355
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
-msgid "Unable to find part id='%s' for '%s'"
-msgstr "Unable to find part id='%s' for '%s'"
+msgid "Unable to read MS property stream header"
+msgstr "Unable to read MS property stream header"
 
-#: ../gsf/gsf-open-pkg-utils.c:383
+#: ../gsf/gsf-msole-utils.c:1154
 #, c-format
-msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Unable to find part with type='%s' for '%s'"
+msgid "Invalid MS property stream header"
+msgstr "Invalid MS property stream header"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
 #, c-format
-msgid "Missing id for part in '%s'"
-msgstr "Missing id for part in '%s'"
+msgid "Invalid MS property section"
+msgstr "Invalid MS property section"
 
-#: ../gsf/gsf-open-pkg-utils.c:422
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
-msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Part '%s' in '%s' from '%s' is corrupt!"
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Invalid MS property stream header or file truncated"
 
-#: ../gsf/gsf-opendoc-utils.c:353
+#: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Property \"%s\" used for multiple types!"
 
-#: ../gsf/gsf-opendoc-utils.c:878
+#: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
 msgstr "ODF version"
 
-#: ../gsf/gsf-opendoc-utils.c:879
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "The ODF version this object is targeting as an integer like 100"
 
-#: ../tools/gsf.c:22
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Unable to find part id='%s' for '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Unable to find part with type='%s' for '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Missing id for part in '%s'"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Part '%s' in '%s' from '%s' is corrupt!"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "The GsfOutput that stores the Open Package content"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Content type"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "The content type stored in the root [Content_Types].xml file"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Is Directory"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Can the outfile have children"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Small block size"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "The size of the OLE's small blocks"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Big block size"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "The size of the OLE's big blocks"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Where the archive is written"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Entry Name"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "The filename of this member in the archive without path"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Unable to initialise BZ2 library"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "The output's name"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "The output's size"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Is Closed"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Whether the output is closed"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "The output's current position"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"An optional GDateTime representing the time the output was last changed"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "The parent GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Where the formatted output is written"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Quote"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "The string used for quoting fields"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Quoting Mode"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "When to quote fields"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Quoting Triggers"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Characters that cause field quoting"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Quoting On Whitespace"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Does initial or terminal whitespace force quoting?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Separator"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "The field separator"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "end-on-line"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "The end-of-line marker"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Where the converted data is written"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Input Charset"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "The character set to convert from"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Output Charset"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "The character set to convert to"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Fallback"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "The string to use for invalid characters"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Display program version"
 
@@ -167,16 +644,31 @@ msgstr "* listprops  list document properties in archive\n"
 msgid "* props      print specified document properties\n"
 msgstr "* props      print specified document properties\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  create OLE archive\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  create ZIP archive\n"
+
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "No property named %s\n"
 
-#: ../tools/gsf.c:364
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Error processing file %s: %s\n"
+
+#: ../tools/gsf.c:504
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUBCOMMAND ARCHIVE..."
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
@@ -185,19 +677,19 @@ msgstr ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf version %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Usage: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Run '%s help' to see a list of subcommands.\n"
 
 #~ msgid ""
