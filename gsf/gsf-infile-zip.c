@@ -420,12 +420,12 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET))
 		err = _("Error seeking to zip header");
 	else if (NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)))
-		err = g_strdup_printf ("Error reading %d bytes in zip header", ZIP_FILE_HEADER_SIZE);
+		err = _("Error reading zip header");
 	else if (0 != memcmp (data, header_signature, sizeof (header_signature))) {
 		err = _("Error incorrect zip header");
-		g_print ("Header is :\n");
+		g_printerr ("Header is :\n");
 		gsf_mem_dump (data, sizeof (header_signature));
-		g_print ("Header should be :\n");
+		g_printerr ("Header should be :\n");
 		gsf_mem_dump (header_signature, sizeof (header_signature));
 	}
 

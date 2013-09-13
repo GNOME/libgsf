@@ -3,6 +3,9 @@ libgsf 1.14.29
 Allin Cottrell:
 	* Fix problem with GsfOutfileStdio.  [#706219]
 
+Morten:
+	* Fix translation issue and leak.  [#706937]
+
 --------------------------------------------------------------------------
 libgsf 1.14.28
 

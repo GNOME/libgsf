@@ -1,3 +1,8 @@
+2013-09-13  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-zip.c (zip_child_init): Fix translation marking,
+	plug leak.  Fixes #706937.
+
 2013-08-23  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-stdio.c (gsf_outfile_stdio_new_valist): Allow
