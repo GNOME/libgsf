@@ -9,10 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-29 09:48+0000\n"
-"PO-Revision-Date: 2013-04-18 19:29-0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-09-13 16:41+0000\n"
+"PO-Revision-Date: 2013-09-13 13:47-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -34,12 +33,8 @@ msgstr "O clip_data está em %s, mas é menor que o mínimo de %s bytes"
 
 #: ../gsf/gsf-clip-data.c:259
 #, c-format
-msgid ""
-"The clip_data is in Windows clipboard format, but it is smaller than the "
-"required 4 bytes."
-msgstr ""
-"O clip_data está no formato de área de transferência do Windows, mas este é "
-"menor que o necessário, que é de 4 bytes."
+msgid "The clip_data is in Windows clipboard format, but it is smaller than the required 4 bytes."
+msgstr "O clip_data está no formato de área de transferência do Windows, mas este é menor que o necessário, que é de 4 bytes."
 
 #: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
@@ -54,87 +49,80 @@ msgstr "Formato Windows DIB ou BITMAP"
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato Windows Enhanced Metafile"
 
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Alguma coisa deu errada no ar_dup"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Alguma coisa deu errada no ar_child_init"
-
-#: ../gsf/gsf-infile-msole.c:474
+#: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Falha ao duplicar fluxo de entrada"
 
-#: ../gsf/gsf-infile-msole.c:508
+#: ../gsf/gsf-infile-msole.c:505
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Nenhuma assinatura OLE2"
 
-#: ../gsf/gsf-infile-msole.c:528
+#: ../gsf/gsf-infile-msole.c:525
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Tamanhos de blocos inaceitáveis"
 
-#: ../gsf/gsf-infile-msole.c:564
+#: ../gsf/gsf-infile-msole.c:561
 #, c-format
 msgid "Insufficient memory"
 msgstr "Memória insuficiente"
 
-#: ../gsf/gsf-infile-msole.c:623
+#: ../gsf/gsf-infile-msole.c:620
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Tabela de alocação de blocos inconsistente"
 
-#: ../gsf/gsf-infile-msole.c:631
+#: ../gsf/gsf-infile-msole.c:628
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Ocorreram problemas ao criar a tabela de alocação de blocos"
 
-#: ../gsf/gsf-infile-msole.c:643
+#: ../gsf/gsf-infile-msole.c:640
 #, c-format
 msgid "Problems reading directory"
 msgstr "Ocorreram problemas ao ler diretório"
 
-#: ../gsf/gsf-infile-msole.c:802
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Falha ao acessar filho"
 
-#: ../gsf/gsf-infile-msole.c:835
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "falha ao ler bloco"
 
-#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#: ../gsf/gsf-infile-msvba.c:171
+#: ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Não foi possível localizar o fluxo do diretório VBA"
 
-#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+#: ../gsf/gsf-infile-msvba.c:218
+#: ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "problema no cabeçalho de projeto vba"
 
-#: ../gsf/gsf-infile-msvba.c:391
+#: ../gsf/gsf-infile-msvba.c:393
 #, c-format
 msgid "No VBA signature"
 msgstr "Nenhuma assinatura VBA"
 
-#: ../gsf/gsf-infile-msvba.c:402
+#: ../gsf/gsf-infile-msvba.c:404
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Assinatura de versão VBA desconhecida 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:502
+#: ../gsf/gsf-infile-msvba.c:504
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Não foi possível analisar o cabeçalho VBA"
 
 # Colocado aspas para que o usuário inexperiente não compreenda tar como erro de ortografia.
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:109
+#: ../gsf/gsf-infile-tar.c:217
 #, c-format
 msgid "Invalid tar header"
 msgstr "Cabeçalho \"tar\" inválido"
@@ -149,7 +137,8 @@ msgstr "Cabeçalho longname inválido"
 msgid "Failed to read longname"
 msgstr "Falha ao ler longname"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:293
+#: ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Busca falhou"
@@ -159,12 +148,14 @@ msgstr "Busca falhou"
 msgid "Truncated archive"
 msgstr "Pacote truncado"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551
+#: ../gsf/gsf-infile-zip.c:847
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Fonte"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552
+#: ../gsf/gsf-infile-zip.c:848
 msgid "The archive being interpreted"
 msgstr "O pacote que está sendo interpretado"
 
@@ -187,6 +178,11 @@ msgstr "Erro ao ler entrada de diretório zip"
 msgid "Error seeking to zip header"
 msgstr "Erro ao buscar cabeçalho zip"
 
+#: ../gsf/gsf-infile-zip.c:423
+#| msgid "Error reading zip dirent"
+msgid "Error reading zip header"
+msgstr "Erro ao ler cabeçalho zip"
+
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
 msgstr "Erro de cabeçalho zip incorreto"
@@ -196,15 +192,18 @@ msgstr "Erro de cabeçalho zip incorreto"
 msgid "problem uncompressing stream"
 msgstr "problema ao descomprimir o fluxo"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:863
+#: ../gsf/gsf-outfile-zip.c:755
 msgid "Compression Level"
 msgstr "Nível de compressão"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:864
+#: ../gsf/gsf-outfile-zip.c:756
 msgid "The level of compression used, zero meaning none"
 msgstr "A taxa de compressão usada, zero significando nada"
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#: ../gsf/gsf-input-bzip.c:48
+#: ../gsf/gsf-output-bzip.c:265
 #, c-format
 msgid "BZ2 support not enabled"
 msgstr "Suporte a BZ2 não está habilitado"
@@ -224,7 +223,8 @@ msgstr "Descompressão BZ2 falhou"
 msgid "BZ2 decompress end failed"
 msgstr "Final de descompressão BZ2 falhou"
 
-#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+#: ../gsf/gsf-input.c:128
+#: ../gsf/gsf-output.c:168
 msgid "Name"
 msgstr "Nome"
 
@@ -232,7 +232,8 @@ msgstr "Nome"
 msgid "The input's name"
 msgstr "O nome da entrada"
 
-#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+#: ../gsf/gsf-input.c:143
+#: ../gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Tamanho"
 
@@ -256,7 +257,8 @@ msgstr "Restante"
 msgid "Amount of data remaining"
 msgstr "Quantidade de dados restantes"
 
-#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+#: ../gsf/gsf-input.c:188
+#: ../gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Posição"
 
@@ -264,17 +266,17 @@ msgstr "Posição"
 msgid "The input's current position"
 msgstr "A posição atual da entrada"
 
-#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+#: ../gsf/gsf-input.c:206
+#: ../gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Hora da modificação"
 
 #: ../gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
-msgstr ""
-"Um GDateTime opcional representando a hora que a entrada foi alterada pela "
-"última vez"
+msgstr "Um GDateTime opcional representando a hora que a entrada foi alterada pela última vez"
 
-#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+#: ../gsf/gsf-input.c:220
+#: ../gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Recipiente"
 
@@ -328,9 +330,7 @@ msgstr "Raw (não manipulado)"
 
 #: ../gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
-msgstr ""
-"Indica se deve ou não ser lidos dados comprimidos sem nenhum cabeçalho e "
-"final"
+msgstr "Indica se deve ou não ser lidos dados comprimidos sem nenhum cabeçalho e final"
 
 #: ../gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
@@ -344,7 +344,8 @@ msgstr "Tamanho após a descompressão"
 msgid "The source's uncompressed size"
 msgstr "O tamanho descomprimido da fonte"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:229
+#: ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: Não é um arquivo normal"
@@ -359,46 +360,40 @@ msgstr "%s: Arquivo grande demais para ser mapeado na memória"
 msgid "mmap not supported"
 msgstr "Sem suporte a mmap"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Impressão bonita"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
-msgstr ""
-"A saída deve realizar recuo automático nos elementos para facilitar a "
-"leitura?"
+msgstr "A saída deve realizar recuo automático nos elementos para facilitar a leitura?"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: ../gsf/gsf-libxml.c:1514
+#: ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795
+#: ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333
+#: ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Recipiente"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515
+#: ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "O destino para escritas"
 
 #: ../gsf/gsf-msole-utils.c:312
 #, c-format
-msgid ""
-"Missing data when reading the %s property; got %s bytes, but %s bytes at "
-"least are needed."
-msgstr ""
-"Faltando dados ao ler a propriedade %s; %s bytes foram obtidos, mas ao menos "
-"%s bytes são necessários."
+msgid "Missing data when reading the %s property; got %s bytes, but %s bytes at least are needed."
+msgstr "Faltando dados ao ler a propriedade %s; %s bytes foram obtidos, mas ao menos %s bytes são necessários."
 
 #: ../gsf/gsf-msole-utils.c:363
 #, c-format
-msgid ""
-"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %s bytes available."
-msgstr ""
-"Dados corrompidos na propriedade VT_CF; o comprimento da área de "
-"transferência deve ser de pelo menos 4 bytes, mas os dados dizem que há "
-"somente %s bytes disponíveis."
+msgid "Corrupt data in the VT_CF property; clipboard data length must be at least 4 bytes, but the data says it only has %s bytes available."
+msgstr "Dados corrompidos na propriedade VT_CF; o comprimento da área de transferência deve ser de pelo menos 4 bytes, mas os dados dizem que há somente %s bytes disponíveis."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1127
+#: ../gsf/gsf-msole-utils.c:1171
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Não foi possível ler o cabeçalho do fluxo proprietário da MS"
@@ -408,13 +403,15 @@ msgstr "Não foi possível ler o cabeçalho do fluxo proprietário da MS"
 msgid "Invalid MS property stream header"
 msgstr "Cabeçalho de fluxo proprietário da MS inválido"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1201
+#: ../gsf/gsf-msole-utils.c:1239
 #: ../gsf/gsf-msole-utils.c:1263
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Seção proprietária da MS inválida"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1220
+#: ../gsf/gsf-msole-utils.c:1224
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Arquivo truncado ou cabeçalho de fluxo proprietário da MS inválido"
@@ -430,8 +427,7 @@ msgstr "Versão ODF"
 
 #: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
-msgstr ""
-"A versão ODF que este objeto está apontando como um inteiro, por exemplo 100"
+msgstr "A versão ODF que este objeto está apontando como um inteiro, por exemplo 100"
 
 #: ../gsf/gsf-open-pkg-utils.c:353
 #, c-format
@@ -529,9 +525,7 @@ msgstr "A posição atual da saída"
 
 #: ../gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
-msgstr ""
-"Um GDateTime opcional representando a hora que a saída foi alterada pela "
-"última vez"
+msgstr "Um GDateTime opcional representando a hora que a saída foi alterada pela última vez"
 
 #: ../gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
@@ -699,8 +693,7 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Execute \"%s --help\" para ver uma lista completa de opções para a linha de "
-"comando.\n"
+"Execute \"%s --help\" para ver uma lista completa de opções para a linha de comando.\n"
 
 #: ../tools/gsf.c:518
 #, c-format
@@ -716,6 +709,12 @@ msgstr "Uso: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Execute \"%s help\" para ver uma lista de subcomandos.\n"
+
+#~ msgid "Something went wrong in ar_dup"
+#~ msgstr "Alguma coisa deu errada no ar_dup"
+
+#~ msgid "Something went wrong in ar_child_init"
+#~ msgstr "Alguma coisa deu errada no ar_child_init"
 
 #~ msgid ""
 #~ "Boolean options available, true enables thumbnailing and false disables "
