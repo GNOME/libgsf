@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-24 03:59+0200\n"
-"PO-Revision-Date: 2013-08-24 04:00+0200\n"
+"POT-Creation-Date: 2013-09-13 20:07+0200\n"
+"PO-Revision-Date: 2013-09-13 20:08+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -177,6 +177,10 @@ msgstr "Błąd podczas odczytywania dirent zip"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Błąd podczas przechodzenia do nagłówka zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Błąd podczas odczytywania nagłówka zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -403,7 +407,8 @@ msgstr "Nieprawidłowa sekcja właściwości MS"
 #: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
-msgstr "Nieprawidłowy nagłówek strumienia właściwości MS lub plik jest skrócony"
+msgstr ""
+"Nieprawidłowy nagłówek strumienia właściwości MS lub plik jest skrócony"
 
 #: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
