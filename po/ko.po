@@ -1,0 +1,698 @@
+# Korean translation for libgsf.
+# Copyright (C) 2013 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-09-14 07:29+0000\n"
+"PO-Revision-Date: 2013-09-15 05:08+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: ../gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "%s 바이트 데이터를 복사하는데 메모리가 부족합니다"
+
+#: ../gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "clip_data가 %s(으)로 되어 있지만, 최소한 %s 바이트보다 작습니다"
+
+#: ../gsf/gsf-clip-data.c:259
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"clip_data가 윈도우 클립보드 형식으로 되어 있지만, 최소한의 필요 용량인 4바이"
+"트보다 작습니다."
+
+#: ../gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "윈도우 메타파일 형식"
+
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "윈도우 DIB 또는 BITMAP 형식"
+
+#: ../gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "윈도우 최신 메타파일 형식"
+
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "입력 스트림 복제에 실패했습니다"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "OLE2 서명이 없습니다"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "타당하지 않은 블록 크기입니다"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "메모리가 부족합니다"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "블록 할당 테이블이 일치하지 않습니다"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "블록 할당 테이블을 만드는데 문제가 있습니다"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "디렉터리를 읽는데 문제가 있습니다"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "하위 요소에 접근에 실패했습니다"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "블록 읽기에 실패했습니다"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "VBA 디렉터리 스트림을 찾을 수 없습니다"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "VBA 프로젝트 헤더에 문제가 있습니다"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "VBA 서명이 없습니다"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "알 수 없는 VBA 버전 서명 0x%x%x%x%x입니다"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "VBA 헤더를 해석할 수 없습니다"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "잘못된 TAR 헤더입니다"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "잘못된 긴 이름 헤더입니다"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "긴 이름 읽기에 실패했습니다"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "탐색에 실패했습니다"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "잘린 아카이브입니다"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "원본"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "아카이브를 해석중입니다"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "ZIP 트레일러가 없습니다"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "ZIP 서명을 읽는데 오류가 있습니다"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "ZIP 디렉터리 항목을 읽는데 오류가 있습니다"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "ZIP 헤더를 탐색하는데 오류가 있습니다"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "ZIP 헤더를 읽는데 오류가 있습니다"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "잘못된 ZIP 헤더 오류입니다"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "스트림을 압축 해제하는데 문제가 있습니다"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "압축 수준"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "압축할 때 사용하는 수준값이며, 0값은 압축 안함을 의미합니다"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "BZ2 지원을 활성화 하지 않았습니다"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "BZ2 압축 해제 초기화에 실패했습니다"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "BZ2 압축 해제에 실패했습니다"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "BZ2 압축 해제 끝내기에 실패했습니다"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "이름"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "입력 이름입니다"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "크기"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "입력 크기입니다"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "파일의 끝입니다"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "남음"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "남아있는 데이터의 양입니다"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "위치"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "현재 입력 위치입니다"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "수정 시간"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "입력이 최근 바뀐 시간을 나타내는 선택적 GDateTime입니다"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "컨테이너"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "상위 GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "복제한 크기가 맞지 않습니다"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "zlib를 초기화 할 수 없습니다"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "원본의 처음 위치 복귀에 실패했습니다"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "gzip 헤더가 잘못되었습니다"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "잘린 원본입니다"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "원본 읽기에 실패했습니다"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "NULL 원본입니다"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "압축 해제 크기를 설정하지 않았습니다"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "RAW"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "헤더와 트레일러 없이 압축 파일을 읽을지에 대한 여부입니다"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "압축한 데이터를 가져올 위치입니다"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "압축 해제할 크기입니다"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "원본 압축 해제 크기"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: 는 일반 파일이 아닙니다"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: 메모리에 대응할 파일이 너무 큽니다"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap을 지원하지 않습니다"
+
+#: ../gsf/gsf-libxml.c:1507
+msgid "Pretty print"
+msgstr "가지런한 출력"
+
+#: ../gsf/gsf-libxml.c:1508
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "알아보기 쉽게 자동 들여쓰기 요소를 출력할까요?"
+
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "싱크(Sink)"
+
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "기록 대상"
+
+#: ../gsf/gsf-msole-utils.c:312
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"%s 속성을 읽는데 데이터가 빠졌습니다. %s 바이트를 가져왔지만, 최소한 %s 바이"
+"트가 필요합니다."
+
+#: ../gsf/gsf-msole-utils.c:363
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"VT_CF 속성에 깨진 데이터가 있습니다; 클립보드 데이터 길이는 최소한 4바이트여"
+"야 하지만, 데이터는 %s바이트로만 구성되어 있다고 합니다."
+
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "MS 속성 스트림 헤더를 읽을 수 없습니다"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "잘못된 MS 속성 스트림 헤더입니다"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "잘못된 MS 속성 섹션입니다"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "잘못된 MS 속성 스트림 헤더이거나 파일이 잘렸습니다"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "\"%s\" 속성을 여러 형식으로 사용합니다!"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "ODF 버전"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "이 객체의 ODF 버전은 100과 같은 정수를 대상으로 합니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "'%2$s'에 사용할 부분 ID='%1$s'을(를) 찾을 수 없습니다 "
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "'%2$s'에 사용할 부분 형식='%1$s'을(를) 찾을 수 없습니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "'%s'의 부분에 대한 ID가 빠졌습니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "'%3$s'의 '%2$s'에 있는 '%1$s' 부분이 깨졌습니다. "
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "오픈 패키지 내용을 저장하는 GsfOutput입니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "내용 형식"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "내용 형식은 최상위 [Content_Types].xml파일에 저장합니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "디렉터리입니다"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "출력 파일에 하위 요소를 가질 수 있습니다"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "작은 블록 크기"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "OLE 작은 블록의 크기입니다"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "큰 블록 크기"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "OLE 큰 블록의 크기입니다"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "아카이브를 기록한 위치입니다"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "항목 이름"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "아카이브에 있는 이 구성원의 경로를 제외한 파일 이름입니다"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "BZ2 라이브러리를 초기화 할 수 없습니다"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "출력 이름"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "출력 크기"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "닫혔습니다"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "출력이 닫혔는지에 대한 여부"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "출력의 현재 위치"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr "출력이 마지막으로 바뀐 시간을 나타내는 선택적 GDateTime입니다"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "상위 GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "형식화된 출력을 기록했는지에 대한 여부"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "따옴표"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "인용 필드에 사용할 문자열입니다"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "인용 모드"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "필드를 인용함을 나타냅니다"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "인용 트리거"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "필드를 인용하는데 사용할 문자열입니다"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "공백 인용"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "처음 또는 마지막의 공백 문자를 강제로 인용합니까?"
+
+# Note: false alarm
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "구분 문자"
+
+# Note: false alarm
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "필드 구분 문자입니다"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "줄의 끝"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "줄의 끝 표시입니다"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "변환한 데이터를 기록할 위치"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "입력 문자셋"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "문자셋을 변환할 원본 형식입니다"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "출력 문자셋"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "문자셋을 변환할 대상 형식입니다"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "대체"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "잘못된 문자에 대해 사용할 문자열"
+
+#: ../tools/gsf.c:17
+msgid "Display program version"
+msgstr "프로그램 버전을 표시합니다"
+
+#: ../tools/gsf.c:44
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: %s 열기에 실패했습니다: %s\n"
+
+#: ../tools/gsf.c:65
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: %s을(를) 아카이브로 인식하는데 실패했습니다\n"
+
+#: ../tools/gsf.c:102
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr "사용할 수 있는 하위 명령 목록...\n"
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        아카이브에서 하나 이상의 파일을 출력합니다\n"
+
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr ""
+"* dump       아카이브에서 하나 이상의 파일에 대해 16진수 데이터를 출력합니"
+"다\n"
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr "* help       하위 명령을 조회합니다\n"
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr "* list       아카이브의 파일을 조회합니다\n"
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr "* listprops  아카이브의 문서 속성을 조회합니다\n"
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr "* props      지정 문서 속성을 출력합니다\n"
+
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  OLE 아카이브를 만듭니다\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  ZIP 아카이브를 만듭니다\n"
+
+#: ../tools/gsf.c:302
+#, c-format
+msgid "No property named %s\n"
+msgstr "%s(이)라는 이름의 속성이 없습니다\n"
+
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: 파일 %s을(를) 처리하는데 오류가 있습니다: %s\n"
+
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "<하위 명령> <아카이브>..."
+
+#: ../tools/gsf.c:511
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"사용할 수 있는 명령줄 옵션의 전체 목록을 보려면 '%s --help'를 실행하십시오.\n"
+
+#: ../tools/gsf.c:518
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "gsf 버전 %d.%d.%d\n"
+
+#: ../tools/gsf.c:524
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "사용법: %s %s\n"
+
+#: ../tools/gsf.c:549
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "모든 하위 명령의 목록을 보려면 '%s help'를 실행하십시오.\n"
