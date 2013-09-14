@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-06-23 16:52+0000\n"
-"PO-Revision-Date: 2013-07-04 15:17+0700\n"
+"POT-Creation-Date: 2013-09-13 16:41+0000\n"
+"PO-Revision-Date: 2013-09-14 10:03+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -86,12 +86,12 @@ msgstr "Masalah saat membuat tabel alokasi blok"
 msgid "Problems reading directory"
 msgstr "Masalah saat membaca direktori"
 
-#: ../gsf/gsf-infile-msole.c:803
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Gagal mengakses anak"
 
-#: ../gsf/gsf-infile-msole.c:836
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "kegagalan saat membaca blok"
@@ -172,6 +172,10 @@ msgstr "Galat saat membaca dirent zip"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Galat saat seek header zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Galat saat membaca header zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -341,22 +345,22 @@ msgstr "%s: Berkas terlalu besar untuk dipetakan ke memori"
 msgid "mmap not supported"
 msgstr "mmap tak didukung"
 
-#: ../gsf/gsf-libxml.c:1506
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Cetak cantik"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Apakah elemen pada keluaran mesti diinden otomatis agar lebih mudah dibaca?"
 
-#: ../gsf/gsf-libxml.c:1513 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Muara"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Tempat tujuan menulis"
 
