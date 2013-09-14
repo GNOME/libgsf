@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-24 19:37+0200\n"
-"PO-Revision-Date: 2013-08-24 19:36+0200\n"
+"POT-Creation-Date: 2013-09-14 09:29+0200\n"
+"PO-Revision-Date: 2013-09-14 09:29+0200\n"
 "Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -173,6 +173,10 @@ msgstr "Errore nel leggere il dirent Zip"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Errore nel posizionarsi nell'intestazione Zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Errore nel leggere l'intestazione Zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
