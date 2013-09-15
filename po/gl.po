@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-06 11:36+0200\n"
-"PO-Revision-Date: 2013-06-06 11:39+0200\n"
+"POT-Creation-Date: 2013-09-15 17:23+0200\n"
+"PO-Revision-Date: 2013-09-15 17:24+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -50,16 +50,6 @@ msgstr "Formato DIB ou BITMAP de Windows"
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato de meta ficheiro mellorado de Windows"
 
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Algo foi mal en ar_dup"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Algo foi mal en ar_child_init"
-
 #: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
@@ -95,12 +85,12 @@ msgstr "Problemas ao crear a táboa de reserva de bloques"
 msgid "Problems reading directory"
 msgstr "Problemas ao ler o cartafol"
 
-#: ../gsf/gsf-infile-msole.c:803
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Produciuse un fallo ao acceder ao fillo"
 
-#: ../gsf/gsf-infile-msole.c:836
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "fallo ao ler o bloque"
@@ -181,6 +171,10 @@ msgstr "Erro ao ler o cartafol de entrada Zip"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Produciuse un fallo ao buscar a cabeceira zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Erro ao ler a cabeceira zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -351,22 +345,22 @@ msgstr "%s: O ficheiro é demasiado grande para a memoria asignada"
 msgid "mmap not supported"
 msgstr "mmap non compatíbel"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Impresión bonita"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Debería a saída autoindentar os elementos para facer a lectura máis doada?"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Sumideiro"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "O destino das escrituras"
 
@@ -702,6 +696,12 @@ msgstr "Uso: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Execute «%s help» para ver unha lista das subordes.\n"
+
+#~ msgid "Something went wrong in ar_dup"
+#~ msgstr "Algo foi mal en ar_dup"
+
+#~ msgid "Something went wrong in ar_child_init"
+#~ msgstr "Algo foi mal en ar_child_init"
 
 #~ msgid ""
 #~ "Boolean options available, true enables thumbnailing and false disables "
