@@ -1,7 +1,8 @@
 # Danish translation for libgsf.
-# Copyright (C) 2012 libgsf's COPYRIGHT HOLDER
+# Copyright (C) 2012 libgsf's developers
 # This file is distributed under the same license as the libgsf package.
 # Joe Hansen <joedalton2@yahoo.dk>, 2010, 2012.
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2013
 #
 # corrupt -> beskadiget
 # dump -> skriv
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-22 10:22+0200\n"
-"PO-Revision-Date: 2012-04-14 18:29+0200\n"
-"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"POT-Creation-Date: 2013-09-16 00:24+0200\n"
+"PO-Revision-Date: 2013-09-16 00:06+0200\n"
+"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -21,18 +22,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Ikke nok hukommelse til at kopiere %s byte data"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr ""
 "Dataene fra udklipsholderen er i %s, men de er mindre end mindst %s byte"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -41,36 +42,334 @@ msgstr ""
 "Dataene fra udklipsholderen er i Windowsformat, men de er mindre end de "
 "krævede 4 byte."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows metafilformat"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB- eller BITMAP-format"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows forbedrede metafilformat"
 
-#: ../gsf/gsf-libxml.c:1411
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Kunne ikke duplikere inputstrømmen"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Ingen OLE2-underskrift"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Urimelige blokstørrelser"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Utilstrækkelig hukommelse"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Inkonsistent blokallokeringstabel"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problemer ved oprettelse af blokallokeringstabel"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problemer ved læsning af katalog"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Kunne ikke tilgå underelement"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "kunne ikke læse blok"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Kan ikke finde VBA-katalogstrømmen"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "Problem med vba-projekthoved"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "Ingen VBA-underskrift"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Ukendt VBA-versionsunderskrift 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Kan ikke fortolke VBA-hoved"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Ugyldigt tar-hoved"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Ugyldigt longname-hoved"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Kunne ikke læse longname"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Søgning mislykkedes"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Arkiv afkortet"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Kilde"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Arkivet som fortolkes"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Ingen Zip-hale"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Fejl ved læsning af Zip-underskrift"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Fejl ved læsning af zip-dirent"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Fejl ved søgning til zip-hoved"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Fejl ved læsning af zip-hoved"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Fejl: forkert zip-hoved"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problem med udpakning af strøm"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Komprimeringsniveau"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "Komprimeringsniveauet der bruges, hvor nul betyder ingen"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Understøttelse af BZ2 er ikke slået til"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Klargøring af BZ2-udpakning mislykkedes"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "BZ2-udpakning mislykkedes"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Afslutning af BZ2-udpakning mislykkedes"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Navn"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Navn på input"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Størrelse"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Størrelse af input"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "Filslut"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Filens slutpunkt"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Resterende"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Mængden af resterende data"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Position"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Nuværende position i input"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Modifikationstid"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"En valgfri GDateTime, som repræsenterer tidspunktet hvor input sidst blev "
+"ændret"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Beholder"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Over-GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Uoverensstemmelse for størrelse ved duplikering"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Kan ikke klargøre zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Kunne ikke gå tilbage i kilde"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Ugyldig gzip-hoved"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "afkortet kilde"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Kunne ikke læse fra kilde"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Kilde er NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Ukomprimeret størrelse ikke angivet"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Rå"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Om der skal læses komprimerede data uden hoved og uden hale"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Hvor de komprimerede data kommer fra"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Størrelse efter udpakning"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Kildens udpakkede størrelse"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Er ikke en regulær fil"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Filen er for stor til hukommelsestildeling"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap understøttes ikke"
+
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Pæn udskrift"
 
-#: ../gsf/gsf-libxml.c:1412
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Skal elementerne indrykkes automatisk for at gøre læsningen nemmere?"
 
-#: ../gsf/gsf-libxml.c:1418
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Datamodtager"
 
-#: ../gsf/gsf-libxml.c:1419
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Destinationen for skrivninger"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -79,7 +378,7 @@ msgstr ""
 "Mangler data under læsning af egenskaben %s; fik %s byte, men mindst %s byte "
 "kræves."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -88,40 +387,224 @@ msgstr ""
 "Beskadiget data i egenskaben VT_CF; længden på data fra udklipsholder skal "
 "mindst være på 4 byte, men dataene siger, at de kun har %s byte tilgængelige."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
-msgid "Unable to find part id='%s' for '%s'"
-msgstr "Kunne ikke finde del id='%s' for '%s'"
+msgid "Unable to read MS property stream header"
+msgstr "Kan ikke læse MS-egenskabsstrømhoved"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-msole-utils.c:1154
 #, c-format
-msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Kunne ikke finde del med type='%s' for '%s'"
+msgid "Invalid MS property stream header"
+msgstr "Ugyldigt MS-egenskabsstrømhoved"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
 #, c-format
-msgid "Missing id for part in '%s'"
-msgstr "Mangler id for del i '%s'"
+msgid "Invalid MS property section"
+msgstr "Ugyldigt MS-egenskabsafsnit"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
-msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Del '%s' i '%s' fra '%s' er beskadiget!"
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Ugyldigt MS-egenskabsstrømhoved eller fil afkortet"
 
-#: ../gsf/gsf-opendoc-utils.c:290
+#: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Egenskaben \"%s\" som bruges for flere typer!"
 
-#: ../gsf/gsf-opendoc-utils.c:742
+#: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
 msgstr "ODF-version"
 
-#: ../gsf/gsf-opendoc-utils.c:743
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "ODF-versionen som dette objekt opfatter som et heltal som f.eks. 100"
 
-#: ../tools/gsf.c:22
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Kunne ikke finde del id=\"%s\" for \"%s\""
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Kunne ikke finde del med type=\"%s\" for \"%s\""
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Mangler id for del i \"%s\""
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Del \"%s\" i \"%s\" fra \"%s\" er beskadiget!"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "GsfOutput som lagrer den åbne pakkes (Open Package) indhold"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Indholdstype"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "Indholdstypen som lagres i rodfilen [Content_Types].xml"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Er et katalog"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Kan udfilen have underelementer?"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Lille blokstørrelse"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Størrelsen af OLE'ens små blokke"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Stor blokstørrelse"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Størrelsen af OLE'ens store blokke"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Hvortil arkivet skrives"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Elementnavn"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Filnavnet for dette arkivelement uden sti"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Kan ikke klargøre BZ2-biblioteket"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Navn på output"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Størrelse af output"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Er lukket"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Om output er lukket"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Nuværende position i output"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"En valgfri GDateTime, der repræsenterer tidspunktet hvorpå output sidst blev "
+"ændret"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Over-GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Hvor det formaterede output skal skrives"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Citationstegn"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Strengen, der bruges til citering af felter"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Citationstilstand"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Hvornår felter skal citeres"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Citationsudløsere"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Tegn som udløser citering af felter"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Citering ved blanke tegn"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Gennemtvinger blanke start- eller sluttegn citation?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Skilletegn"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Feltskilletegnet"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "linjeafslutning"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Linjeafslutningstegnet"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Hvortil de konverterede data skrives"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Inputtegnsæt"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Tegnsættet hvorfra der skal konverteres"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Outputtegnsæt"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Tegnsættet hvortil der skal konverteres"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Alternativ"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Strengen der skal bruges i tilfælde af ugyldige tegn"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Vis programversion"
 
@@ -170,36 +653,50 @@ msgstr "* listprops  vis dokumentegenskaber i arkivet\n"
 msgid "* props      print specified document properties\n"
 msgstr "* props      udskriv angivet dokumentegenskaber\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  opret OLE-arkiv\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  opret ZIP-arkiv\n"
+
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Ingen egenskab navngivet %s\n"
 
-#: ../tools/gsf.c:364
-msgid "SUBCOMMAND ARCHIVE..."
-msgstr "UNDERKOMMANDO ARKIV ..."
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Fejl ved behandling af filen %s: %s\n"
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "UNDERKOMMANDO ARKIV..."
+
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Kør \"%s --help\" for at se en fuldstændig liste over tilgængelige "
-"kommandolinjetilvalg.\n"
+"Kør \"%s --help\" for at se en fuldstændig liste over kommandolinjetilvalg.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf version %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Brug: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
+msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Kør \"%s help\" for at se en liste over underkommandoer.\n"
