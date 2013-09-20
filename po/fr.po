@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: libgsf master fr\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-09-06 08:28+0000\n"
-"PO-Revision-Date: 2013-09-07 10:16+0200\n"
+"POT-Creation-Date: 2013-09-13 16:41+0000\n"
+"PO-Revision-Date: 2013-09-20 18:00+0200\n"
 "Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -175,6 +175,10 @@ msgstr "Erreur de lecture du « dirent » zip"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Erreur de positionnement sur l'en-tête zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Erreur de lecture de l'en-tête zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
