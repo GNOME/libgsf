@@ -1,0 +1,784 @@
+# Slovak translation for libgsf.
+# Copyright (C) 2012 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# Jan Svec <john.swabe@gmail.com>, 2012.
+# Pavol Klačanský <pavol@klacansky.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-09-16 17:42+0000\n"
+"PO-Revision-Date: 2013-09-20 23:52+0100\n"
+"Last-Translator: Peter Mráz <etkinator@gmail.com>\n"
+"Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#  * https://bugzilla.gnome.org/show_bug.cgi?id=708242
+#: ../gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Nedostatok pamäte na kopírovanie %s bajtov údajov"
+
+# * https://bugzilla.gnome.org/show_bug.cgi?id=708242
+#: ../gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr ""
+"Údaje objektu Clip_data sú vo %s, ale sú menšie ako minimum (%s bajtov)"
+
+#: ../gsf/gsf-clip-data.c:259
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"Údaje objektu Clip_data sú vo formáte schránky Windows, ale sú menšie ako "
+"vyžadované 4 bajty."
+
+# The clip_data is in %s...
+#: ../gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "formáte Windows Metafile"
+
+# The clip_data is in %s...
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "formáte Windows DIB alebo BITMAP"
+
+# The clip_data is in %s...
+#: ../gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "formáte Windows Enhanced Metafile"
+
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Zlyhalo vytvorenie duplicitného vstupného prúdu"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "OLE2 bez podpisu"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Nezmyselné veľkosti blokov"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Nedostatočná pamäť"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Nekonzistentná tabuľka priradenia blokov"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problémy pri tvorbe tabuľky priradenia blokov"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problémy pri čítaní adresára"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Zlyhal prístup k potomkovi"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "zlyhalo čítanie bloku"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Nedá sa nájsť adresárový prúd VBA"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "problém hlavičky projektu vba"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "VBA bez podpisu"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Neznáma verzia podpisu VBA 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Nepodarilo sa analyzovať hlavičku VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Neplatná hlavička tar"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Neplatná hlavička longname"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Zlyhalo čítanie longname"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Posun zlyhal"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Skrátený archív"
+
+# property name
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Zdroj"
+
+# property blurb
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Archív, ktorý je interpetovaný"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Zip bez päty"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Chyba pri čítaní podpisu súboru Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Chyba pri čítaní položiek adresára súboru zip"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Chyba pri posune na hlavičku súboru zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Chyba pri čítaní hlavičky súboru zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Chybná hlavička súboru zip"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problém pri dekomprimácii prúdu"
+
+# property name
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Úroveň komprimácie"
+
+# property blurb
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "Úroveň použitej komprimácie, nula znamená žiadna"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Podpora BZ2 nie je povolená"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Zlyhala inicializácia dekomprimácie pomocou BZ2"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Zlyhalo dekomprimovanie pomocou BZ2"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Zlyhal koniec dekomprimovania pomocou BZ2"
+
+# property name
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Názov"
+
+# property blurb
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Názov vstupu"
+
+# property name
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Veľkosť"
+
+# property blurb
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Veľkosť vstupu"
+
+# property name
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+# Property blurb
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Koniec súboru"
+
+# property name
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Zostávajúce"
+
+# property blurb
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Množstvo zostávajúcich údajov"
+
+# property name
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Pozícia"
+
+#  property blurb
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Aktuálna pozícia vo vstupe"
+
+# property name
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Čas zmeny"
+
+# property blurb
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Voliteľná hodnota typu GDateTime reprezentujúca čas poslednej zmeny vstupu"
+
+# Property name
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Kontajner"
+
+# property blurb
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Rodičovský objekt triedy GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Veľkosť duplikátu sa nezhoduje"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Nepodarilo sa inicializovať zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Zlyhalo presunutie na začiatok zdroja"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Neplatná hlavička súboru gzip"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "skrátený zdroj"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Zlyhalo čítanie zo zdroja"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Zdroj NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Veľkosť bez komprimácie nie je nastavená"
+
+# propery name
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Hrubé"
+
+# property blurb
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Určuje, či sa majú čítať komprimované údaje bez hlavičky a päty"
+
+# property blurb
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Odkiaľ pochádzajú skomprimované údaje"
+
+# property name
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Veľkosť po komprimácii"
+
+# property blurb
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "Veľkosť nekomprimovaného zdroja"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Nie je bežný súbor"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Súbor je priveľký aby bol namapovaný do pamäte"
+
+# volanie
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap nie je podporované"
+
+# property name
+#: ../gsf/gsf-libxml.c:1507
+msgid "Pretty print"
+msgstr "Formátovaný výpis"
+
+# property blurb
+#: ../gsf/gsf-libxml.c:1508
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "Majú byť prvky automaticky odsadené vo výstupe pre uľahčenie čítania?"
+
+# MČ: Tento význam som naozaj v slovníku nenašiel. A že tých významov je v online slovníku dosť: http://webslovnik.zoznam.sk/en-sk/sink
+# PM: Je to "odtok" pre prúd dát.z opačnej strany je výlevka a uprostred je rúra :D v ML sme sa dohodli že vstup vystup a zretazenie
+# probery name
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "Cieľ"
+
+# property blurb
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "Cieľ pre zápisy"
+
+# * https://bugzilla.gnome.org/show_bug.cgi?id=708242
+#: ../gsf/gsf-msole-utils.c:312
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Pri čítaní vlastnosti %s chýbali údaje; získalo sa %s bajtov, ale potrebných "
+"je najmenej %s bajtov."
+
+# * https://bugzilla.gnome.org/show_bug.cgi?id=708242
+#: ../gsf/gsf-msole-utils.c:363
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"Poškodené údaje vo vlastnosti VT_CF; veľkosť údajov zo schránky musí byť "
+"aspoň 4 bajty, ale v údajoch je, že sú dostupné len %s bajty."
+
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "Nepodarilo sa čítať vlastnosť MS hlavičky prúdu"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "Neplatná vlastnosť MS hlavičky prúdu"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "Neplatná sekcia vlastnosti MS"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Neplatná vlastnosť MS hlavičky prúdu alebo skrátený súbor"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Vlastnosť „%s“ použitá pre viacero typov!"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "Verzia ODF"
+
+#  ako pri SDK, proste aku verziu podporujes
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "Verzia ODF, na ktorú cieli tento objekt (celé číslo ako napr. 100)"
+
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Nepodarilo sa nájsť časť id=„%s“ pre „%s“"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Nepodarilo sa nájsť časť s type=„%s“ pre „%s“"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Chýbajúci identifikátor pre časť v „%s“"
+
+# %s - id, %s - input name part_stream, %s - input name cur_stream
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Časť „%s“ v „%s“ z „%s“ je poškodená!"
+
+# property blurb
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "Objekt triedy GsfOutput, ktorý ukladá obsah Open Package"
+
+# property name
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Typ obsahu"
+
+# property blurb
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "Typ obsahu uložený v koreňovom súbore [Content_Types].xml"
+
+# property name
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "Je adresár"
+
+# property blurb
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Určuje, či môže mať výstupný súbor potomkov"
+
+# property name
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Veľkosť malých blokov"
+
+# property blurb
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Veľkosť malých blokov OLE"
+
+# property name
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Veľkosť veľkých blokov"
+
+# property blurb
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Veľkosť veľkých blokov OLE"
+
+# MČ: kde je zapísaný?
+# PM: je to popis pre vlastnosť sink
+# property blurb
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Kde je zapísaný archív"
+
+# property name
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Názov položky"
+
+# property blurb
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Názov súboru tohto člena v archíve bez cesty"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Nepodarilo sa inicializovať knižnicu BZ2"
+
+#  property blurb
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Názov výstupu"
+
+# property blurb
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Veľkosť výstupu"
+
+# property name
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Je zatvorený"
+
+# property blurb
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Určuje, či je výstup zatvorený"
+
+# property blurb
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Aktuálna pozícia vo výstupe"
+
+# property blurb
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Voliteľná hodnota typu GDateTime reprezentujúca čas poslednej zmeny výstupu"
+
+# property blurb
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Rodičovský objekt triedy GsfOutfile"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Kde je zapísaný formátovaný výstup"
+
+# MČ: možno by bolo vhodnejšie v tomto prípade „ohraničenie“ alebo „ohraničovanie“, viac krát
+# PM: predvolená hodnota je \" - čiže úvodzovka, a ide o CSV súbor, myslím že je to ok
+# property name
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Úvodzovky"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Reťazec použitý na dávanie polí do úvodzoviek"
+
+# property name
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Režim dávania do úvodzoviek"
+
+# propery blurb
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Určuje, kedy sa majú dávať polia do úvodzoviek"
+
+# property name
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Spúšťače dávania do úvodzoviek"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Znaky, ktoré spôsobujú dávanie poľa do úvodzoviek"
+
+# property name
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Úvodzovky pri medzerách"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Vynucujú počiatočné a koncové medzery dávanie do úvodzoviek?"
+
+# property name
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Oddeľovač"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Oddelovač poľa"
+
+# property name
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "koniec riadka"
+
+# property blurb
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Značka konca riadka"
+
+# property blurb
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Kde sú zapísané skonvertované údaje"
+
+# property name
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Vstupná znaková sada"
+
+# property blurb
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Znaková sada, z ktorej sa má konvertovať"
+
+# property name
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Výstupná znaková sada"
+
+# property blurb
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Znaková sada, do ktorej sa má konvertovať"
+
+# The string to use for invalid characters
+# property name
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Zástupný"
+
+# property blurb
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Reťazec, ktorý sa má použiť pre neplatné znaky"
+
+# cmd desc
+#: ../tools/gsf.c:17
+msgid "Display program version"
+msgstr "Zobrazí verziu programu"
+
+#: ../tools/gsf.c:44
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: Zlyhalo otvorenie %s: %s\n"
+
+#: ../tools/gsf.c:65
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: Zlyhalo rozpoznanie %s ako archívu\n"
+
+#: ../tools/gsf.c:102
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr "Dostupné podpríkazy sú…\n"
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        vypíše jeden alebo viac súborov v archíve\n"
+
+# PK: aby to nebolo dlhe
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr "* dump       vypíše jeden alebo viac súborov v archíve ako hex\n"
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr "* help       vypíše podpríkazy\n"
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr "* list       vypíše súbory v archíve\n"
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr "* listprops  vypíše vlastnosti dokumentov v archíve\n"
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr "* props      vypíše vlastnosti určeného dokumentu\n"
+
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  vytvorí archív OLE\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  vytvorí archív ZIP\n"
+
+#: ../tools/gsf.c:302
+#, c-format
+msgid "No property named %s\n"
+msgstr "Žiadna vlastnosť s názvom %s\n"
+
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Chyba pri spracovaní súboru %s: %s\n"
+
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "PODPRÍKAZ ARCHÍV…"
+
+#: ../tools/gsf.c:511
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"Zoznam dostupných volieb príkazového riadka zobrazíte spustením príkazu „%s "
+"--help“.\n"
+
+#: ../tools/gsf.c:518
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "gsf verzia %d.%d.%d\n"
+
+#: ../tools/gsf.c:524
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "Použitie: %s %s\n"
+
+#: ../tools/gsf.c:549
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Zoznam podpríkazov zobrazíte spustením príkazu „%s help“.\n"
