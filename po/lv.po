@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-08 21:50+0000\n"
-"PO-Revision-Date: 2013-05-05 17:48+0300\n"
+"POT-Creation-Date: 2013-09-13 16:41+0000\n"
+"PO-Revision-Date: 2013-09-21 21:53+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -51,81 +51,71 @@ msgstr "Windows DIB vai BITMAP formāts"
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile formāts"
 
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Kaut kas nogāja greizi ar ar_dup"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Kaut kas nogāja greizi ar ar_child_init"
-
-#: ../gsf/gsf-infile-msole.c:474
+#: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Neizdevās dublēt ievades straumi"
 
-#: ../gsf/gsf-infile-msole.c:508
+#: ../gsf/gsf-infile-msole.c:505
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Nav OLE2 paraksta"
 
-#: ../gsf/gsf-infile-msole.c:528
+#: ../gsf/gsf-infile-msole.c:525
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Nesaprātīgi bloka izmēri"
 
-#: ../gsf/gsf-infile-msole.c:564
+#: ../gsf/gsf-infile-msole.c:561
 #, c-format
 msgid "Insufficient memory"
 msgstr "Nepietiek atmiņas"
 
-#: ../gsf/gsf-infile-msole.c:623
+#: ../gsf/gsf-infile-msole.c:620
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Nekonsekventa bloku piešķiršanas tabula"
 
-#: ../gsf/gsf-infile-msole.c:631
+#: ../gsf/gsf-infile-msole.c:628
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Problēmas, veidojot bloku piešķiršanas tabulu"
 
-#: ../gsf/gsf-infile-msole.c:643
+#: ../gsf/gsf-infile-msole.c:640
 #, c-format
 msgid "Problems reading directory"
 msgstr "Problēmas, lasot direktoriju"
 
-#: ../gsf/gsf-infile-msole.c:802
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Neizdevās piekļūt bērnam"
 
-#: ../gsf/gsf-infile-msole.c:835
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "neizdevās nolasīt bloku"
 
-#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Nevar atrast VBA direktorijas straumi"
 
-#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "vba projekta galvenes problēma"
 
-#: ../gsf/gsf-infile-msvba.c:391
+#: ../gsf/gsf-infile-msvba.c:393
 #, c-format
 msgid "No VBA signature"
 msgstr "Nav VBA paraksta"
 
-#: ../gsf/gsf-infile-msvba.c:402
+#: ../gsf/gsf-infile-msvba.c:404
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Nezināms VBA versijas paraksts 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:502
+#: ../gsf/gsf-infile-msvba.c:504
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Nevar parsēt VBA galveni"
@@ -182,6 +172,11 @@ msgstr "Kļūda, nolasot zip dirent"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Kļūda, pozicionējoties uz zip galveni"
+
+#: ../gsf/gsf-infile-zip.c:423
+#| msgid "Error reading zip dirent"
+msgid "Error reading zip header"
+msgstr "Kļūda, nolasot zip galveni"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -267,7 +262,8 @@ msgstr "Izmaiņu laikus"
 #: ../gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr ""
-"Neobligāts GDateTime reprezentē laiku, kad ievade tika pēdējo reizi modificēta"
+"Neobligāts GDateTime reprezentē laiku, kad ievade tika pēdējo reizi "
+"modificēta"
 
 #: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
 msgid "Container"
@@ -352,23 +348,23 @@ msgstr "%s — datne ir pārāk liela, lai to attēlotu atmiņā"
 msgid "mmap not supported"
 msgstr "mmap nav atbalstīts"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Noformēt"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Vai vajadzētu automātiski likt atkāpes izvades elementiem, lai tos būtu "
 "vieglāk lasīt?"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Saņēmējs"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Rakstītāju mērķis"
 
@@ -521,7 +517,8 @@ msgstr "Izvades pašreizējais novietojums"
 #: ../gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr ""
-"Neobligāts GDateTime reprezentē laiku, kad izvade tika pēdējo reizi modificēta"
+"Neobligāts GDateTime reprezentē laiku, kad izvade tika pēdējo reizi "
+"modificēta"
 
 #: ../gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
@@ -702,7 +699,11 @@ msgstr "Lietošana: %s %s\n"
 
 #: ../tools/gsf.c:549
 #, c-format
-#| msgid "Run '%s help' to see a list subcommands.\n"
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Palaidiet “%s --help”, lai redzētu pieejamo komandrindu sarakstu\n"
 
+#~ msgid "Something went wrong in ar_dup"
+#~ msgstr "Kaut kas nogāja greizi ar ar_dup"
+
+#~ msgid "Something went wrong in ar_child_init"
+#~ msgstr "Kaut kas nogāja greizi ar ar_child_init"
