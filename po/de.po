@@ -7,10 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-06-23 16:52+0000\n"
-"PO-Revision-Date: 2013-05-14 22:51+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-26 12:54+0200\n"
+"PO-Revision-Date: 2013-09-26 12:56+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -88,12 +87,12 @@ msgstr "Probleme beim Erstellen der Blockzuordnungstabelle"
 msgid "Problems reading directory"
 msgstr "Probleme beim Lesen des Ordners"
 
-#: ../gsf/gsf-infile-msole.c:803
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Auf ein Unterelement kann nicht zugegriffen werden"
 
-#: ../gsf/gsf-infile-msole.c:836
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "Lesen des Blocks schlug fehl"
@@ -101,11 +100,11 @@ msgstr "Lesen des Blocks schlug fehl"
 #: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
-msgstr ""
+msgstr "VBA-Ordnerstrom kann nicht gefunden werden"
 
 #: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
-msgstr ""
+msgstr "Kopfproblem im vba-Projekt"
 
 #: ../gsf/gsf-infile-msvba.c:393
 #, c-format
@@ -174,6 +173,10 @@ msgstr "Fehler beim Lesen der Zip-Signatur"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Fehler beim Vorspulen zum zip-Kopf"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Fehler beim Lesen der Zip-Kopfdaten"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -345,21 +348,21 @@ msgstr ""
 msgid "mmap not supported"
 msgstr "mmap wird nicht unterstützt"
 
-#: ../gsf/gsf-libxml.c:1506
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Formatiert ausgeben"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Sollen Elemente für bessere Lesbarkeit automatisch eingerückt werden?"
 
-#: ../gsf/gsf-libxml.c:1513 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Ziel"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Das Ziel von Schreibvorgängen"
 
@@ -385,12 +388,12 @@ msgstr ""
 #: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
 #, c-format
 msgid "Unable to read MS property stream header"
-msgstr ""
+msgstr "MS-Eigenschaften-Stromkopf kann nicht gelesen werden"
 
 #: ../gsf/gsf-msole-utils.c:1154
 #, c-format
 msgid "Invalid MS property stream header"
-msgstr ""
+msgstr "Ungültiger MS-Eigenschaften-Stromkopf"
 
 #: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
 #: ../gsf/gsf-msole-utils.c:1263
@@ -401,7 +404,7 @@ msgstr "Ungültiger MS-Eigenschaftenabschnitt"
 #: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
-msgstr ""
+msgstr "Ungültiger MS-Eigenschaften-Stromkopf oder Datei abgeschnitten"
 
 #: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
