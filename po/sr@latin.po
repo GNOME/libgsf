@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
 "&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-08 21:50+0000\n"
-"PO-Revision-Date: 2013-03-14 08:38+0200\n"
+"POT-Creation-Date: 2013-09-13 16:41+0000\n"
+"PO-Revision-Date: 2013-10-05 11:28+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -51,81 +51,71 @@ msgstr "Oblik Vindouzove DIB ili BITMAP-e"
 msgid "Windows Enhanced Metafile format"
 msgstr "Oblik Vindouzove poboljšane meta-datoteke"
 
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Nešto je pošlo naopako u udvostručavanju arhive"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Nešto je pošlo naopako u pokretanju poroda arhive"
-
-#: ../gsf/gsf-infile-msole.c:474
+#: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Nisam uspeo da udvostručim ulazni tok"
 
-#: ../gsf/gsf-infile-msole.c:508
+#: ../gsf/gsf-infile-msole.c:505
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Nema OLE2 potpisa"
 
-#: ../gsf/gsf-infile-msole.c:528
+#: ../gsf/gsf-infile-msole.c:525
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Nemoguće veličine blokova"
 
-#: ../gsf/gsf-infile-msole.c:564
+#: ../gsf/gsf-infile-msole.c:561
 #, c-format
 msgid "Insufficient memory"
 msgstr "Nedovoljno memorije"
 
-#: ../gsf/gsf-infile-msole.c:623
+#: ../gsf/gsf-infile-msole.c:620
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Nedosledna tabela dodele blokova"
 
-#: ../gsf/gsf-infile-msole.c:631
+#: ../gsf/gsf-infile-msole.c:628
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Neprilike stvaranja tabele dodele blokova"
 
-#: ../gsf/gsf-infile-msole.c:643
+#: ../gsf/gsf-infile-msole.c:640
 #, c-format
 msgid "Problems reading directory"
 msgstr "Neprilike čitanja direktorijuma"
 
-#: ../gsf/gsf-infile-msole.c:802
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Nisam uspeo da pristupim porodu"
 
-#: ../gsf/gsf-infile-msole.c:835
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "neuspeh čitanja bloka"
 
-#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Ne mogu da pronađem tok VBA direktorijuma"
 
-#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "neprilika sa zaglavljem vba projekta"
 
-#: ../gsf/gsf-infile-msvba.c:391
+#: ../gsf/gsf-infile-msvba.c:393
 #, c-format
 msgid "No VBA signature"
 msgstr "Nema VBA potpisa"
 
-#: ../gsf/gsf-infile-msvba.c:402
+#: ../gsf/gsf-infile-msvba.c:404
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Nepoznat potpis VBA izdanja 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:502
+#: ../gsf/gsf-infile-msvba.c:504
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Ne mogu da obradim VBA zaglavlje"
@@ -182,6 +172,11 @@ msgstr "Greška čitanja unosa direktorijuma zip-a"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Greška traženja zaglavlja zip-a"
+
+#: ../gsf/gsf-infile-zip.c:423
+#| msgid "Error reading zip dirent"
+msgid "Error reading zip header"
+msgstr "Greška čitanja zaglavlja zip-a"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -267,8 +262,7 @@ msgstr "Vreme izmene"
 #: ../gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr ""
-"Izborno Gvreme-datuma koje predstavlja vreme kada je poslednji put izmenjen "
-"ulaz"
+"Izborno Gvreme-datuma koje predstavlja vreme kada je poslednji put izmenjen ulaz"
 
 #: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
 msgid "Container"
@@ -353,21 +347,21 @@ msgstr "%s: Datoteka je prevelika da bi bila memorijski mapirana"
 msgid "mmap not supported"
 msgstr "memorijsko mapiranje nije podržano"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Ulepšano štampanje"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Da li izlaz treba da sam uvuče elemente kako bi olakšao čitanje?"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Usaglasi"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Odredište za zapisivanja"
 
@@ -633,7 +627,8 @@ msgstr "* cat        ispisuje jednu ili više datoteka u arhivu\n"
 #: ../tools/gsf.c:104
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       potiskuje jednu ili više datoteka u arhivu kao heksadecimal\n"
+msgstr ""
+"* dump       potiskuje jednu ili više datoteka u arhivu kao heksadecimal\n"
 
 #: ../tools/gsf.c:105
 #, c-format
@@ -701,6 +696,5 @@ msgstr "Upotreba: %s %s\n"
 
 #: ../tools/gsf.c:549
 #, c-format
-#| msgid "Run '%s help' to see a list subcommands.\n"
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Pokrenite „%s help“ da vidite spisak podnaredbi.\n"
