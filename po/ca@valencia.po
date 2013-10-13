@@ -1,0 +1,1094 @@
+# Catalan translation for libgsf.
+# Copyright (C) 2010 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# David Planella <david.planella@gmail.com>, 2010.
+# Gil Forcada <gilforcada@guifi.net>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-13 22:46+0200\n"
+"PO-Revision-Date: 2013-09-27 21:17+0200\n"
+"Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
+"Language-Team: Catalan <tradgnome@llistes.softcatala.org>\n"
+"Language: ca-XV\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: ../gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "No hi ha prou memòria per copiar %s bytes de dades"
+
+#: ../gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "L'element clip_data és a %s, però és menor de %s bytes"
+
+#: ../gsf/gsf-clip-data.c:259
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"L'element clip_data és en el format del porta-retalls del Windows, però és "
+"menor que els 4 bytes requerits."
+
+#: ../gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "Format de metafitxer del Windows"
+
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "Format DIB o BITMAP del Windows"
+
+#: ../gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "Format de metafitxer millorat del Windows"
+
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "No s'ha pogut duplicat el flux d'entrada"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "No hi ha cap signatura OLE2"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Les mides dels blocs no són raonables"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "No hi ha prou memòria"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "La taula d'ubicació de blocs no és consistent"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "S'han produït problemes en la creació de la taula d'ubicació de blocs"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "S'han produït problemes en la lectura d'un directori"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "No s'ha pogut accedir al fill"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "No s'ha pogut llegir el bloc"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "No s'ha pogut trobar el directori del sistema VBA"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "Hi ha problemes en la capçalera de projecte VBA"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "No hi ha cap signatura VBA"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Es desconeix la versió de la signatura VBA: 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "No s'ha pogut analitzar la capçalera VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "La capçalera «tar» no és vàlida"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "La capçalera «longname» no és vàlida"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "No s'ha pogut llegir la «longname»"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "S'ha produït un error en la cerca"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "L'arxiu està truncat"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Font"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "L'arxiu que s'està interpretant"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "El fitxer Zip no té cap capçalera final"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "S'ha produït un error en la lectura de la signatura Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "S'ha produït un error en la lectura del directori"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "S'ha produït un error en la cerca de la capçalera del fitxer Zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "S'ha produït un error en la lectura de la capçalera zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "La capçalera del fitxer Zip és incorrecte"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "S'ha produït un error en descomprimir el flux"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Nivell de compressió"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "El nivell de compressió utilitzat, zero vol dir que no s'ha comprimit"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "El BZ2 no està habilitat"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Ha fallat la inicialització de la descompressió BZ2"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Ha fallat la descompressió BZ2"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Ha fallat la finalització de la descompressió BZ2"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Nom"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "El nom de l'entrada"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Mida"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "La mida de l'entrada"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Final de fitxer"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Restant"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "La quantitat de dades que resten"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Posició"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "La posició actual de l'entrada"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Temps de modificació"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Un GDateTime, opcional, que representa el temps de l'última modificació de "
+"l'entrada"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Contenidor"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "El GsfInfile pare"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "La mida del duplicat no coincideix"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "No s'ha pogut inicialitzar la zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "No s'ha pogut rebobinar la font"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "La capçalera gzip no és vàlida"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "la font és truncada"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "No s'ha pogut llegir des de la font"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "La font és nul·la"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "No està establerta la mida descomprimida"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Cru"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Si s'han de llegir les dades comprimides sense la capçalera ni el peu"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "D'on provenen les dades comprimides"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "La mida després de la descompressió"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "La mida de la font descomprimida"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: no és un fitxer normal"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: el fitxer és massa gran perquè es puga mapar a la memòria"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "No es pot utilitzar l'mmap"
+
+#: ../gsf/gsf-libxml.c:1507
+msgid "Pretty print"
+msgstr "Impressió ben formatada"
+
+#: ../gsf/gsf-libxml.c:1508
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr ""
+"S'hauria d'auto-indentar els elements d'eixida per fer-ne més fàcil la "
+"lectura?"
+
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "Destinació"
+
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "La destinació de les escriptures"
+
+#: ../gsf/gsf-msole-utils.c:312
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Mancaren dades en llegir la propietat %s: s'obtingueren %s bytes, però en "
+"calen almenys %s."
+
+#: ../gsf/gsf-msole-utils.c:363
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"Hi ha dades malmeses a la propietat VT_CF. La llargada de les dades del "
+"porta-retalls ha d'ésser d'almenys 4 bytes, però les dades contenen només %s "
+"bytes disponibles."
+
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "No s'ha pogut llegir la propietat MS capçalera de flux"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "La propietat MS capçalera de flux no és vàlida"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "La secció de propietat MS no és vàlida"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr ""
+"La propietat de capçalera del flux MS no és vàlida o el fitxer és truncat"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "La propietat «%s» s'utilitza per diversos tipus!"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "Versió de l'ODF"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr ""
+"La versió de l'ODF, com a enter (p. ex. 100), que este objecte té com a "
+"objectiu"
+
+#: ../gsf/gsf-open-pkg-utils.c:353
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "No es pot trobar la part id=«%s» de «%s»"
+
+#: ../gsf/gsf-open-pkg-utils.c:381
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "No es pot trobar la part de tipus=«%s» de «%s»"
+
+#: ../gsf/gsf-open-pkg-utils.c:411
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Manca l'identificador de la part a «%s»"
+
+#: ../gsf/gsf-open-pkg-utils.c:420
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "La part «%s» a «%s» de «%s» està malmesa"
+
+#: ../gsf/gsf-open-pkg-utils.c:730
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "El GsfOutput que emmagatzema el contingut del paquet obert"
+
+#: ../gsf/gsf-open-pkg-utils.c:736
+msgid "Content type"
+msgstr "Tipus de contingut"
+
+#: ../gsf/gsf-open-pkg-utils.c:737
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr ""
+"El tipus de contingut es guarda al fitxer [Content_Type].xml de l'arrel"
+
+#: ../gsf/gsf-open-pkg-utils.c:743
+msgid "Is Directory"
+msgstr "És un directori"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "Can the outfile have children"
+msgstr "Pot tindre fills el fitxer d'eixida"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Mida del bloc petit"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "La mida dels blocs petis de l'OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Mida del bloc gran"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "La mida dels blocs grans de l'OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "On s'escriu l'arxiu"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Nom de l'entrada"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "El nom de fitxer d'este membre a l'arxiu sense el camí"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "No es pot inicialitzar la biblioteca BZ2"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "El nom de l'eixida"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "La mida de l'eixida"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "És tancada"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Si l'eixida és tancada"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "La posició actual de l'eixida"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Un GDateTime opcional que representa l'última data de modificació de la "
+"eixida"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "El GsfOutfile pare"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "On s'escriu l'eixida formatada"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Citació"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "La cadena per citar camps"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Mode de citació"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Quan s'ha de citar els camps"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Disparadors de citació"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Caràcters que forcen l'ús de la citació dels camps"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Citació en la presència d'espais"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "La presència d'espais al principi o final força l'ús de la citació?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Separador"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "El separador de camp"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "final de línia"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "El marcador de final de línia"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "On s'escriu les dades convertides"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Joc de caràcters d'entrada"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "El joc de caràcters des del que convertir"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Joc de caràcters d'eixida"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "El joc de caràcters al que convertir"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Alternatiu"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "La cadena que es farà servir pels caràcters no vàlids"
+
+#: ../tools/gsf.c:17
+msgid "Display program version"
+msgstr "Mostra la versió del programa"
+
+#: ../tools/gsf.c:44
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: ha fallat l'obertura de %s: %s\n"
+
+#: ../tools/gsf.c:65
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: ha fallat el reconeixement de %s com a arxiu\n"
+
+#: ../tools/gsf.c:102
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr "Les subordres disponibles són...\n"
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        mostra un o més fitxers de l'arxiu\n"
+
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr "* dump       bolca un o més fitxers de l'arxiu en hexadecimal\n"
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr "* help       mostra una llista de les subordres\n"
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr "* list       mostra una llista dels fitxers de l'arxiu\n"
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr ""
+"* listprops  mostra una llista de les propietats dels documents de l'arxiu\n"
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr "* props      mostra les propietats del document especificat\n"
+
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  crea un arxiu OLE\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  crea un arxiu ZIP\n"
+
+#: ../tools/gsf.c:302
+#, c-format
+msgid "No property named %s\n"
+msgstr "No hi ha cap propietat anomenada %s\n"
+
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: s'ha produït un error en processar el fitxer %s: %s\n"
+
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "SUBORDRE ARXIU..."
+
+#: ../tools/gsf.c:511
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"Executeu «%s --help» per veure una llista de les opcions de la línia "
+"d'ordes.\n"
+
+#: ../tools/gsf.c:518
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "versió de la gsf %d.%d.%d\n"
+
+#: ../tools/gsf.c:524
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "Forma d'ús: %s %s\n"
+
+#: ../tools/gsf.c:549
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Executeu «%s help» per veure una llista de les subordres.\n"
+
+#~ msgid ""
+#~ "Boolean options available, true enables thumbnailing and false disables "
+#~ "the creation of new thumbnails"
+#~ msgstr ""
+#~ "Hi ha disponibles opcions booleanes: «true» (cert) habilita la "
+#~ "miniaturització, i «false» (fals) inhabilita la creació de miniatures "
+#~ "noves"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr "Habilita la miniaturització de fulls de càlcul de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de l'editor de dibuixos de "
+#~ "l'OpenOffice 1.x"
+
+#~ msgid ""
+#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de l'editor de "
+#~ "presentacions de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les presentacions de l'editor de "
+#~ "presentacions de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels documents de fórmules de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de l'editor de fulls de "
+#~ "càlcul de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels documents del processador de texts de "
+#~ "l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles globals de l'editor de "
+#~ "texts de l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de l'editor de texts de "
+#~ "l'OpenOffice 1.x"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels fulls de càlcul del Microsoft Excel 2007"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels fulls de càlcul del Microsoft Excel"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les presentacions del Microsoft PowerPoint "
+#~ "2007"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les presentacions del Microsoft PowerPoint"
+
+#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
+#~ msgstr "Habilita la miniaturització dels documents del Microsoft Word 2007"
+
+#~ msgid "Enable thumbnailing of Microsoft Word documents"
+#~ msgstr "Habilita la miniaturització dels documents del Microsoft Word"
+
+#~ msgid "Enable thumbnailing of OpenDocument charts"
+#~ msgstr "Habilita la miniaturització dels diagrames OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de dibuix OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawings"
+#~ msgstr "Habilita la miniaturització dels dibuixos OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument formulas"
+#~ msgstr "Habilita la miniaturització de les fórmules OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument images"
+#~ msgstr "Habilita la miniaturització de les imatges OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de presentació OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentations"
+#~ msgstr "Habilita la miniaturització de les presentacions OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de full de càlcul "
+#~ "OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
+#~ msgstr "Habilita la miniaturització de les fulles de càlcul OpenDocument"
+
+#~ msgid ""
+#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
+#~ msgstr ""
+#~ "Habilita la miniaturització de les plantilles de documents del "
+#~ "processament de text OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels documents dels processament de text "
+#~ "OpenDocument"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
+#~ msgstr ""
+#~ "Habilita la miniaturització dels documents mestre dels processament de "
+#~ "text OpenDocument"
+
+#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
+#~ msgstr ""
+#~ "Ordre de miniaturització dels fulls de càlcul del Microsoft Excel 2007"
+
+#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
+#~ msgstr "Ordre de miniaturització dels fulls de càlcul del Microsoft Excel"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les presentacions del Microsoft PowerPoint "
+#~ "2007"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les presentacions del Microsoft PowerPoint"
+
+#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
+#~ msgstr "Ordre de miniaturització dels documents del Microsoft Word 2007"
+
+#~ msgid "Thumbnail command for Microsoft Word documents"
+#~ msgstr "Ordre de miniaturització dels documents del Microsoft Word"
+
+#~ msgid "Thumbnail command for OpenDocument charts"
+#~ msgstr "Ordre de miniaturització dels diagrames OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument drawing templates"
+#~ msgstr "Ordre de miniaturització de les plantilles de dibuix OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument drawings"
+#~ msgstr "Ordre de miniaturització dels dibuixos OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument formulas"
+#~ msgstr "Ordre de miniaturització de les fórmules OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument images"
+#~ msgstr "Ordre de miniaturització de les imatges OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument presentation templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de presentació OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument presentations"
+#~ msgstr "Ordre de miniaturització de les presentacions OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de fulls de càlcul OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheets"
+#~ msgstr "Ordre de miniaturització dels fulls de càlcul OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de documents del processament "
+#~ "de text OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
+#~ msgstr ""
+#~ "Ordre de miniaturització dels documents del processament de text "
+#~ "OpenDocument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
+#~ msgstr ""
+#~ "Ordre de miniaturització dels documents mestre del processament de text "
+#~ "OpenDocument"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr ""
+#~ "Ordre de miniaturització dels fulls de càlcul de l'OpenOffice 1.x Calc"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de l'OpenOffice 1.x Drawing"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de presentació  de "
+#~ "l'OpenOffice 1.x Impress"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de l'OpenOffice 1.x Impress"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
+#~ msgstr "Ordre de miniaturització dels documents de l'OpenOffice 1.x Math"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de l'OpenOffice 1.x Spreadsheet"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
+#~ msgstr "Ordre de miniaturització dels documents de l'OpenOffice 1.x Writer"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles globals de l'OpenOffice 1.x "
+#~ "Writer"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
+#~ msgstr ""
+#~ "Ordre de miniaturització de les plantilles de l'OpenOffice 1.x Writer"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per als fulls de càlcul del Microsoft Excel 2007."
+
+#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per als fulls de càlcul del Microsoft Excel."
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador del Microsoft PowerPoint "
+#~ "2007"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador del Microsoft PowerPoint"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador del Microsoft Word 2007"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
+#~ msgstr "Ordre vàlida i arguments per al miniaturitzador del Microsoft Word"
+
+#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de diagrames de "
+#~ "l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de dibuix "
+#~ "de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de dibuixos de "
+#~ "l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de fórmules de "
+#~ "l'OpenDocument"
+
+#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador d'imatges de "
+#~ "l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument presentation template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de "
+#~ "presentació de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de presentacions de "
+#~ "l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de fulls de "
+#~ "càlcul de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de fulls de càlcul de "
+#~ "l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de "
+#~ "processament de text de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de processament de text "
+#~ "de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
+#~ "document thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de documents mestre de "
+#~ "processament de text de l'OpenDocument"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de "
+#~ "l'OpenOffice 1.x Drawing"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de l'OpenOffice 1.x "
+#~ "Drawing"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de "
+#~ "presentació de l'OpenOffice 1.x Impress"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de presentacions de "
+#~ "l'OpenOffice 1.x Impress"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de documents de "
+#~ "l'OpenOffice 1.x Math"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de documents de "
+#~ "l'OpenOffice 1.x Writer"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles globals de "
+#~ "l'OpenOffice 1.x Writer"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador de plantilles de "
+#~ "l'OpenOffice 1.x Writer"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Ordre vàlida i arguments per al miniaturitzador fulls de càlcul de "
+#~ "l'OpenOffice 1.x"
