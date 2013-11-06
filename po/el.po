@@ -4,13 +4,14 @@
 # cograss <cograss@yahoo.com>, 2012.
 # surf <cograss@yahoo.com>, 2012.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
 "&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-03-08 21:50+0000\n"
-"PO-Revision-Date: 2013-03-12 10:18+0300\n"
+"POT-Creation-Date: 2013-10-13 20:46+0000\n"
+"PO-Revision-Date: 2013-11-06 08:25+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -54,81 +55,71 @@ msgstr "Μορφή Windows DIB ή BITMAP"
 msgid "Windows Enhanced Metafile format"
 msgstr "Μορφή Windows Enhanced Metafile"
 
-#: ../gsf/gsf-infile-ar.c:335
-#, c-format
-msgid "Something went wrong in ar_dup"
-msgstr "Κάτι πήγε στραβά στο ar_dup"
-
-#: ../gsf/gsf-infile-ar.c:346
-#, c-format
-msgid "Something went wrong in ar_child_init"
-msgstr "Κάτι πήγε στραβά στο ar_child_init"
-
-#: ../gsf/gsf-infile-msole.c:474
+#: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Αποτυχία διπλασιασμού ροής εργασιών"
 
-#: ../gsf/gsf-infile-msole.c:508
+#: ../gsf/gsf-infile-msole.c:505
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Χωρίς υπογραφή OLE2"
 
-#: ../gsf/gsf-infile-msole.c:528
+#: ../gsf/gsf-infile-msole.c:525
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Παράλογα μεγέθη ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:564
+#: ../gsf/gsf-infile-msole.c:561
 #, c-format
 msgid "Insufficient memory"
 msgstr "Ανεπαρκής μνήμη"
 
-#: ../gsf/gsf-infile-msole.c:623
+#: ../gsf/gsf-infile-msole.c:620
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Ανομοιόμορφος πίνακας κατανομής ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:631
+#: ../gsf/gsf-infile-msole.c:628
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Προβλήματα κάνοντας τον πίνακα κατανομής ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:643
+#: ../gsf/gsf-infile-msole.c:640
 #, c-format
 msgid "Problems reading directory"
 msgstr "Προβλήματα ανάγνωσης καταλόγου"
 
-#: ../gsf/gsf-infile-msole.c:802
+#: ../gsf/gsf-infile-msole.c:804
 #, c-format
 msgid "Failed to access child"
 msgstr "Αποτυχία πρόσβασης θυγατρικού"
 
-#: ../gsf/gsf-infile-msole.c:835
+#: ../gsf/gsf-infile-msole.c:837
 #, c-format
 msgid "failure reading block"
 msgstr "αποτυχία ανάγνωσης ομάδας"
 
-#: ../gsf/gsf-infile-msvba.c:169 ../gsf/gsf-infile-msvba.c:382
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Αδυναμία εύρεσης ροής καταλόγου VBA"
 
-#: ../gsf/gsf-infile-msvba.c:216 ../gsf/gsf-infile-msvba.c:224
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "πρόβλημα κεφαλίδας έργου vba"
 
-#: ../gsf/gsf-infile-msvba.c:391
+#: ../gsf/gsf-infile-msvba.c:393
 #, c-format
 msgid "No VBA signature"
 msgstr "Χωρίς υπογραφή VBA"
 
-#: ../gsf/gsf-infile-msvba.c:402
+#: ../gsf/gsf-infile-msvba.c:404
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Άγνωστη υπογραφή έκδοσης VBA 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:502
+#: ../gsf/gsf-infile-msvba.c:504
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Αδύνατη η ανάλυση της κεφαλίδας VBA"
@@ -185,6 +176,10 @@ msgstr "Σφάλμα ανάγνωσης συμπίεσης dirent"
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr "Σφάλμα αναζήτησης κεφαλίδας συμπίεσης"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Σφάλμα ανάγνωσης συμπίεσης zip"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -356,23 +351,23 @@ msgstr "%s: Το αρχείο είναι υπερβολικά μεγάλο γι�
 msgid "mmap not supported"
 msgstr "Το mmap δεν υποστηρίζεται"
 
-#: ../gsf/gsf-libxml.c:1497
+#: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
 msgstr "Όμορφη εκτύπωση"
 
-#: ../gsf/gsf-libxml.c:1498
+#: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Θα θέλατε την αυτοματοποίηση εξόδου στοιχείων εσοχής για να γίνει η ανάγνωση "
 "ευκολότερη;"
 
-#: ../gsf/gsf-libxml.c:1504 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Δέκτης"
 
-#: ../gsf/gsf-libxml.c:1505 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Ο προορισμός για τις εγγραφές"
 
@@ -711,6 +706,11 @@ msgstr "Χρήση: %s %s\n"
 
 #: ../tools/gsf.c:549
 #, c-format
-#| msgid "Run '%s help' to see a list subcommands.\n"
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Τρέξτε το '%s help' για να δείτε μια λίστα των υποεντολών.\n"
+
+#~ msgid "Something went wrong in ar_dup"
+#~ msgstr "Κάτι πήγε στραβά στο ar_dup"
+
+#~ msgid "Something went wrong in ar_child_init"
+#~ msgstr "Κάτι πήγε στραβά στο ar_child_init"
