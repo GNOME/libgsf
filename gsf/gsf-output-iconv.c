@@ -119,7 +119,7 @@ iconv_flush (GsfOutputIconv *ic, gboolean must_empty)
 			ok = FALSE;
 		} else {
 			ic->buf_len -= bytes_read;
-			g_memmove (ic->buf, ic->buf + bytes_read, ic->buf_len);
+			memmove (ic->buf, ic->buf + bytes_read, ic->buf_len);
 
 			ok = gsf_output_write (ic->sink, bytes_written, data);
 			if (!ok) {
