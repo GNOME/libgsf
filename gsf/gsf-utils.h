@@ -58,11 +58,11 @@ G_BEGIN_DECLS
  *
  * Returns: interpreted data
  */
-#define GSF_LE_GET_GUINT32(p)				\
-	(guint32)((((guint8 const *)(p))[0] << 0)  |	\
-		  (((guint8 const *)(p))[1] << 8)  |	\
-		  (((guint8 const *)(p))[2] << 16) |	\
-		  (((guint8 const *)(p))[3] << 24))
+#define GSF_LE_GET_GUINT32(p)					\
+	(guint32)(((guint32)((guint8 const *)(p))[0] << 0)  |	\
+		  ((guint32)((guint8 const *)(p))[1] << 8)  |	\
+		  ((guint32)((guint8 const *)(p))[2] << 16) |	\
+		  ((guint32)((guint8 const *)(p))[3] << 24))
 
 /**
  * GSF_LE_GET_GUINT64:

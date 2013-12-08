@@ -1,3 +1,10 @@
+2013-12-07  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-utils.h (GSF_LE_GET_GUINT32): cast unsigned char to
+	guint32 before left-shifting by 24.  This avoids an implicit cast
+	to int followed by an overflowing left-shift which is undefined in
+	the C standard.
+
 2013-09-13  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (zip_child_init): Fix translation marking,
