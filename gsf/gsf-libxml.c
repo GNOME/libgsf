@@ -973,7 +973,7 @@ gsf_xml_in_end_document (GsfXMLInInternal *state)
 }
 
 static void
-gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
+gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...) G_GNUC_PRINTF (2, 3)
 {
 	va_list args;
 
@@ -983,7 +983,7 @@ gsf_xml_in_warning (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
 }
 
 static void
-gsf_xml_in_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
+gsf_xml_in_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...) G_GNUC_PRINTF (2, 3)
 {
 	va_list args;
 
@@ -993,7 +993,7 @@ gsf_xml_in_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
 }
 
 static void
-gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...)
+gsf_xml_in_fatal_error (G_GNUC_UNUSED GsfXMLInInternal *state, char const *msg, ...) G_GNUC_PRINTF (2, 3)
 {
 	va_list args;
 
