@@ -1,3 +1,8 @@
+2013-12-14  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (open_pkg_rel_begin): Handle duplicate
+	or missing id and type.  Fixes #720458.
+
 2013-12-07  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-utils.h (GSF_LE_GET_GUINT32): cast unsigned char to

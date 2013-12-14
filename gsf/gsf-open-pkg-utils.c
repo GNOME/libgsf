@@ -71,7 +71,7 @@ static void
 open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GsfOpenPkgRels *rels = xin->user_state;
-	GsfOpenPkgRel *rel;
+	GsfOpenPkgRel *rel, *orel;
 	xmlChar const *id = NULL;
 	xmlChar const *type = NULL;
 	xmlChar const *target = NULL;
@@ -87,9 +87,18 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (0 == strcmp (attrs[0], "TargetMode"))
 			is_extern = 0 == strcmp (attrs[1], "External");
 
-	g_return_if_fail (id != NULL);
-	g_return_if_fail (type != NULL);
-	g_return_if_fail (target != NULL);
+	if (id == NULL) {
+		g_warning ("Broken relation: missing id");
+		id = "?";
+	}
+	if (type == NULL) {
+		g_warning ("Broken relation: missing type");
+		type = "?";
+	}
+	if (target == NULL) {
+		g_warning ("Broken relation: missing target");
+		target = "?";
+	}
 
 	rel = g_new0 (GsfOpenPkgRel, 1);
 	rel->id		= g_strdup (id);
@@ -97,8 +106,14 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	rel->target	= g_strdup (target);
 	rel->is_extern	= is_extern;
 
-	g_hash_table_replace (rels->by_id, rel->id, rel);
+	/* Make sure we don't point to a freed rel in the type hash.  */
+	orel = g_hash_table_lookup (rels->by_type, type);
+	if (orel)
+		g_hash_table_remove (rels->by_type, orel->type);
 	g_hash_table_replace (rels->by_type, rel->type, rel);
+
+	/* This will free a duplicate rel, so do this last.  */
+	g_hash_table_replace (rels->by_id, rel->id, rel);
 }
 
 static GsfXMLInNode const open_pkg_rel_dtd[] = {
@@ -343,11 +358,11 @@ gsf_open_pkg_foreach_rel (GsfInput *opkg,
 GsfInput *
 gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
 {
-	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
+	GsfOpenPkgRel *rel = gsf_open_pkg_lookup_rel_by_id (opkg, id);
 
-	if (NULL != rels && NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
+	if (rel)
 		return gsf_open_pkg_open_rel (opkg, rel, err);
+
 	if (err)
 		*err = g_error_new (gsf_input_error_id(), gsf_open_pkg_error_id (),
 			_("Unable to find part id='%s' for '%s'"),
@@ -370,10 +385,9 @@ gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
 GsfInput *
 gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
 {
-	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (opkg);
+	GsfOpenPkgRel *rel = gsf_open_pkg_lookup_rel_by_type (opkg, type);
 
-	if (NULL != rels && NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
+	if (rel)
 		return gsf_open_pkg_open_rel (opkg, rel, err);
 
 	if (err)

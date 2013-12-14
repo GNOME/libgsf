@@ -5,6 +5,7 @@ Allin Cottrell:
 
 Morten:
 	* Fix translation issue and leak.  [#706937]
+	* Fix fuzzed ods file crash.  [#720458]
 
 --------------------------------------------------------------------------
 libgsf 1.14.28
