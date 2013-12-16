@@ -1,0 +1,688 @@
+# Thai translation for libgsf.
+# Copyright (C) 2013 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# Kittiphong Meesawat <ktphong@elec.kku.ac.th>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-12-15 17:14+0000\n"
+"PO-Revision-Date: 2013-12-16 17:17+0700\n"
+"Last-Translator: Kittiphong Meesawat <ktphong@elec.kku.ac.th>\n"
+"Language-Team: ไทย <thai-l10n@googlegroups.com>\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "หน่วยความจำไม่พอที่จะสำเนาข้อมูล %s ไบต์"
+
+#: ../gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "ข้อมูลคลิปบอร์ดอยู่ใน %s แต่มีขนาดเล็กกว่า %s ไบต์ซึ่งเป็นขนาดต่ำสุด"
+
+#: ../gsf/gsf-clip-data.c:259
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr "ข้อมูลคลิปบอร์ดอยู่ในรูปแบบคลิปบอร์ดวินโดวส์ แต่มีขนาดเล็กกว่า 4 ไบต์ที่จำเป็น"
+
+#: ../gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "รูปแบบ Windows Metafile"
+
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "รูปแบบ Windows DIB หรือ BITMAP"
+
+#: ../gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "รูปแบบ Windows Enhanced Metafile"
+
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "ทำซ้ำสตรีมขาเข้าไม่สำเร็จ"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "ไม่มีลายเซ็น OLE2"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "ขนาดของบล็อคไม่สมเหตุสมผล"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "หน่วยความจำไม่พอ"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "ตารางการจัดสรรบล็อคไม่สอดคล้องกัน"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "มีปัญหาในการสร้างตารางการจัดสรรบล็อค"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "มีปัญหาในการอ่านไดเรกทอรี"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr ""
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "อ่านบล็อคไม่สำเร็จ"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "หาสตรีมไดเรกทอรี VBA ไม่พบ"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "มีปัญหากับส่วนหัวของโครงการ vba"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "ไม่มีลายเซ็น VBA"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "ไม่รู้จักลายเซ็นของรุ่น VBA 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "ไม่สามารถแจงส่วนหัวของ VBA ได้"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "ส่วนหัวของ tar ไม่ถูกต้อง"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "ส่วนหัวของชื่อยาวไม่ถูกต้อง"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "อ่านชื่อยาวไม่สำเร็จ"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "เลื่อนตำแหน่งอ่านไม่สำเร็จ"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "แฟ้มจัดเก็บถูกตัดท้าย"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "แหล่ง"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "แฟ้มจัดเก็บที่กำลังตีความ"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr ""
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "เกิดข้อผิดพลาดขณะอ่านลายเซ็น Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "เกิดข้อผิดพลาดขณะอ่านรายการในไดเรกทอรีของ zip"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "เกิดข้อผิดพลาดขณะเลื่อนตำแหน่งอ่านไปที่ส่วนหัวของ zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "เกิดข้อผิดพลาดขณะอ่านส่วนหัวของ zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "ส่วนหัวของ zip ไม่ถูกต้อง"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "เกิดปัญหาขณะคลายการบีบอัดสตรีม"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "ระดับการบีบอัด"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "ระดับการบีบอัดที่ใช้ ค่าศูนย์หมายถึงไม่มีการบีบอัด"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "ไม่ได้เปิดใช้งานการรองรับ BZ2"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "ตั้งต้นการคลายบีบอัด BZ2 ไม่สำเร็จ"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "คลายบีบอัด BZ2 ไม่สำเร็จ"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "จบการคลายบีบอัด BZ2 ไม่สำเร็จ"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "ชื่อ"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "ชื่ออินพุต"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "ขนาด"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "ขนาดของอินพุต"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "จบแฟ้ม"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "เหลืออยู่"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "ปริมาณข้อมูลที่เหลืออยู่"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "ตำแหน่ง"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "ตำแหน่งปัจจุบันของอินพุต"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "เวลาที่ถูกแก้ไข"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "ตัวเลือกเสริมชนิด GDateTime แสดงเวลาล่าสุดที่อินพุตมีการเปลี่ยนแปลง"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr ""
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr ""
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "ไม่สามารถเริ่มต้น zlib ได้"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "ส่วนหัวของ gzip ไม่ถูกต้อง"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "อ่านจากแหล่งไม่สำเร็จ"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr ""
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "ขนาดหลังจากคลายบีบอัดแล้ว"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "ขนาดของต้นฉบับที่ยังไม่ได้บีบอัด"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: ไม่ใช่แฟ้มปกติ"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: แฟ้มใหญ่เกินกว่าจะทำผังกับหน่วยความจำ"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "ไม่รองรับ mmap"
+
+#: ../gsf/gsf-libxml.c:1513
+msgid "Pretty print"
+msgstr "จัดย่อหน้า"
+
+#: ../gsf/gsf-libxml.c:1514
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "จะให้ร่นย่อหน้าข้อมูลออกโดยอัตโนมัติเพื่อให้อ่านง่ายขึ้นหรือไม่?"
+
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "ปลายทาง"
+
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "ปลายทางที่จะเขียน"
+
+#: ../gsf/gsf-msole-utils.c:312
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr "อ่านข้อมูลคุณสมบัติ %s ได้ไม่ครบ; อ่านได้ %s ไบต์, แต่ต้องการอย่างน้อย %s ไบต์"
+
+#: ../gsf/gsf-msole-utils.c:363
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"ข้อมูลคุณสมบัติ VT_CF เสียหาย ข้อมูลในคลิปบอร์ดจะต้องมีอย่างน้อย 4 ไบต์ แต่ในข้อมูลระบุว่ามีอยู่เพียง "
+"%s ไบต์"
+
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "ไม่สามารถอ่านส่วนหัวสตรีมของคุณสมบัติ MS ได้"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "ส่วนหัวสตรีมของคุณสมบัติ MS ไม่ถูกต้อง"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "หัวข้อของคุณสมบัติ MS ไม่ถูกต้อง"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "ส่วนหัวสตรีมของคุณสมบัติ MS ไม่ถูกต้องหรือแฟ้มถูกตัดท้าย"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr ""
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "รุ่น ODF"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "รุ่น ODF ที่เป็นเป้าหมายของออบเจกต์นี้ ระบุเป็นจำนวนเต็ม เช่น 100"
+
+#: ../gsf/gsf-open-pkg-utils.c:368
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "หาส่วน id='%s' สำหรับ '%s' ไม่พบ"
+
+#: ../gsf/gsf-open-pkg-utils.c:395
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "หาส่วนที่ type='%s' สำหรับ '%s' ไม่พบ"
+
+#: ../gsf/gsf-open-pkg-utils.c:425
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "id ของส่วนใน '%s' ขาดหายไป"
+
+#: ../gsf/gsf-open-pkg-utils.c:434
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "ส่วน '%s' ใน '%s' จาก '%s' เสียหาย!"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "ออบเจกต์ GsfOutput ซึ่งเก็บเนื้อหา Open Package"
+
+#: ../gsf/gsf-open-pkg-utils.c:750
+msgid "Content type"
+msgstr "ชนิดของเนื้อหา"
+
+#: ../gsf/gsf-open-pkg-utils.c:751
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "ชนิดของเนื้อหาที่เก็บอยู่ในแฟ้มราก [Content_Types].xml"
+
+#: ../gsf/gsf-open-pkg-utils.c:757
+msgid "Is Directory"
+msgstr "เป็นไดเรกทอรี"
+
+#: ../gsf/gsf-open-pkg-utils.c:758
+msgid "Can the outfile have children"
+msgstr "แฟ้มขาออกสามารถมีแฟ้มลูกได้หรือไม่"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "ขนาดของบล็อคเล็ก"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "ขนาดของบล็อคเล็กของ OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "ขนาดของบล็อคใหญ่"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "ขนาดของบล็อคใหญ่ของ OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr ""
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr ""
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr ""
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr ""
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr ""
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr ""
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr ""
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr ""
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr ""
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr ""
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr ""
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr ""
+
+#: ../tools/gsf.c:17
+msgid "Display program version"
+msgstr ""
+
+#: ../tools/gsf.c:44
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr ""
+
+#: ../tools/gsf.c:65
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:102
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr ""
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr ""
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr ""
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr ""
+
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr ""
+
+#: ../tools/gsf.c:302
+#, c-format
+msgid "No property named %s\n"
+msgstr ""
+
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr ""
+
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr ""
+
+#: ../tools/gsf.c:511
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+
+#: ../tools/gsf.c:518
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr ""
+
+#: ../tools/gsf.c:524
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr ""
+
+#: ../tools/gsf.c:549
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr ""
