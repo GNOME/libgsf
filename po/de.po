@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-26 12:54+0200\n"
-"PO-Revision-Date: 2013-09-26 12:56+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-12-19 14:39+0000\n"
+"PO-Revision-Date: 2014-01-01 17:16+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -129,12 +130,12 @@ msgstr "Ungültiger tar-Kopf"
 #: ../gsf/gsf-infile-tar.c:266
 #, c-format
 msgid "Invalid longname header"
-msgstr ""
+msgstr "Ungültiger Langnamen-Kopf"
 
 #: ../gsf/gsf-infile-tar.c:273
 #, c-format
 msgid "Failed to read longname"
-msgstr ""
+msgstr "Fehler beim Lesen des Langnamens"
 
 #: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
 #, c-format
@@ -286,7 +287,7 @@ msgstr "Initialisierung von zlib ist fehlgeschlagen"
 #: ../gsf/gsf-input-gzip.c:177
 #, c-format
 msgid "Failed to rewind source"
-msgstr ""
+msgstr "Zurückspulen der Quelle ist fehlgeschlagen"
 
 #: ../gsf/gsf-input-gzip.c:184
 #, c-format
@@ -341,28 +342,28 @@ msgstr "%s: ist keine normale Datei"
 #: ../gsf/gsf-input-memory.c:242
 #, c-format
 msgid "%s: File too large to be memory mapped"
-msgstr ""
+msgstr "%s: Datei ist zu groß für Speicherbelegung"
 
 #: ../gsf/gsf-input-memory.c:284
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap wird nicht unterstützt"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1513
 msgid "Pretty print"
 msgstr "Formatiert ausgeben"
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1514
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Sollen Elemente für bessere Lesbarkeit automatisch eingerückt werden?"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Ziel"
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Das Ziel von Schreibvorgängen"
 
@@ -420,43 +421,43 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Die ODF-Version, auf die dieses Objekt abzielt, als Ganzzahl wie z.B. »100«"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Teil der Kennung id='%s' für »%s« kann nicht gefunden werden"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Teil des Typs type='%s' für »%s« kann nicht gefunden werden"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Fehlende Kennung für Teil in »%s«"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Teil »%s« in »%s« aus »%s« ist beschädigt!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:744
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Das GsfOutput, welches den Open-Package-Inhalt speichert"
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:750
 msgid "Content type"
 msgstr "Inhaltstyp"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:751
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Der in der Datei [Content_Types].xml gespeicherte Inhaltstyp"
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:757
 msgid "Is Directory"
 msgstr "Ist ein Ordner"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Can the outfile have children"
 msgstr "Gibt an, ob die Ausgabedatei Unterobjekte haben kann"
 
@@ -466,7 +467,7 @@ msgstr "Kleine Blockgröße"
 
 #: ../gsf/gsf-outfile-msole.c:807
 msgid "The size of the OLE's small blocks"
-msgstr ""
+msgstr "Die Größe der kleinen OLE-Blöcke"
 
 #: ../gsf/gsf-outfile-msole.c:818
 msgid "Big block size"
@@ -474,7 +475,7 @@ msgstr "Große Blockgröße"
 
 #: ../gsf/gsf-outfile-msole.c:819
 msgid "The size of the OLE's big blocks"
-msgstr ""
+msgstr "Die Größe der großen OLE-Blöcke"
 
 #: ../gsf/gsf-outfile-zip.c:736
 msgid "Where the archive is written"
