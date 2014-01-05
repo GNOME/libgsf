@@ -1,5 +1,9 @@
 2014-01-04  Morten Welinder <terra@gnome.org>
 
+	* configure.ac: Post-release bump.
+
+2014-01-04  Morten Welinder <terra@gnome.org>
+
 	* Release 1.14.29
 
 2013-12-14  Morten Welinder  <terra@gnome.org>
