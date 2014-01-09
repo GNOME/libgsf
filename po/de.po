@@ -7,10 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-12-19 14:39+0000\n"
-"PO-Revision-Date: 2014-01-01 17:16+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-09 19:52+0100\n"
+"PO-Revision-Date: 2014-01-09 19:54+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -166,10 +165,11 @@ msgstr "Kein Zip-Nachspann"
 msgid "Error reading Zip signature"
 msgstr "Fehler beim Lesen der Zip-Signatur"
 
+# The structure, struct dirent refers to directory entry
 #: ../gsf/gsf-infile-zip.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading zip dirent"
-msgstr "Fehler beim Lesen der Zip-Signatur"
+msgstr "Fehler beim Lesen der Zip-Ordnerinhalte"
 
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
@@ -277,7 +277,7 @@ msgstr "Das übergeordnete GsfInfile"
 #: ../gsf/gsf-input.c:281
 #, c-format
 msgid "Duplicate size mismatch"
-msgstr ""
+msgstr "Größen stimmen nicht überein"
 
 #: ../gsf/gsf-input-gzip.c:169
 #, c-format
