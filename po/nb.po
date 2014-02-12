@@ -1,14 +1,14 @@
 # Norwegian bokmål translation of libgsf.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2008-2013.
+# Kjartan Maraas <kmaraas@gnome.org>, 2008-2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libgsf 1.14.24\n"
+"Project-Id-Version: libgsf 1.14.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-26 11:27+0200\n"
-"PO-Revision-Date: 2013-08-26 11:30+0200\n"
+"POT-Creation-Date: 2014-02-12 19:33+0100\n"
+"PO-Revision-Date: 2014-02-12 19:35+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norsk bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -123,7 +123,7 @@ msgid "Invalid tar header"
 msgstr "Ugyldig tar-topptekst"
 
 #: ../gsf/gsf-infile-tar.c:266
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Invalid longname header"
 msgstr "Ugyldlig "
 
@@ -149,10 +149,10 @@ msgstr "Kilde"
 
 #: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
 msgid "The archive being interpreted"
-msgstr ""
+msgstr "Arkiv som blir lest"
 
 #: ../gsf/gsf-infile-zip.c:330
-#, c-format, fuzzy
+#, c-format
 msgid "No Zip trailer"
 msgstr "Ingen Zip-trailer"
 
@@ -169,6 +169,10 @@ msgstr ""
 #: ../gsf/gsf-infile-zip.c:421
 msgid "Error seeking to zip header"
 msgstr ""
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Feil ved lesing av Zip-topptekst"
 
 #: ../gsf/gsf-infile-zip.c:425
 msgid "Error incorrect zip header"
@@ -213,7 +217,7 @@ msgstr "Navn"
 
 #: ../gsf/gsf-input.c:129
 msgid "The input's name"
-msgstr ""
+msgstr "Navn på inndata"
 
 #: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
 msgid "Size"
@@ -221,7 +225,7 @@ msgstr "Størrelse"
 
 #: ../gsf/gsf-input.c:144
 msgid "The input's size"
-msgstr ""
+msgstr "Størrelse på inndata"
 
 #: ../gsf/gsf-input.c:158
 msgid "EOF"
@@ -237,7 +241,7 @@ msgstr "Gjenstår"
 
 #: ../gsf/gsf-input.c:174
 msgid "Amount of data remaining"
-msgstr ""
+msgstr "Mengde data som gjenstår"
 
 #: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
 msgid "Position"
@@ -249,7 +253,7 @@ msgstr ""
 
 #: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
 msgid "Modification time"
-msgstr ""
+msgstr "Endringstidspunkt"
 
 #: ../gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
@@ -281,7 +285,7 @@ msgstr ""
 #: ../gsf/gsf-input-gzip.c:184
 #, c-format
 msgid "Invalid gzip header"
-msgstr ""
+msgstr "Ugyldig gzip-topptekst"
 
 #: ../gsf/gsf-input-gzip.c:313
 #, c-format
@@ -291,7 +295,7 @@ msgstr "avkortet kilde"
 #: ../gsf/gsf-input-gzip.c:330
 #, c-format
 msgid "Failed to read from source"
-msgstr ""
+msgstr "Klarte ikke å lese fra kilden"
 
 #: ../gsf/gsf-input-gzip.c:474
 #, c-format
@@ -317,7 +321,7 @@ msgstr ""
 
 #: ../gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
-msgstr ""
+msgstr "Størrelse etter dekomprimering"
 
 #: ../gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
@@ -338,21 +342,21 @@ msgstr ""
 msgid "mmap not supported"
 msgstr "mmap støttes ikke"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1513
 msgid "Pretty print"
 msgstr ""
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1514
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr ""
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Mål for skriveoperasjoner"
 
@@ -408,43 +412,43 @@ msgstr "ODF-versjon"
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "ODF-versjon dette objektet har som mål som et heltall. f.eks. 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Kan ikke finne del med id='%s' for «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Kan ikke finne del med type='%s' for «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Mangler id for del i «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del «%s» i «%s» fra «%s» er korrupt!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:744
 msgid "The GsfOutput that stores the Open Package content"
 msgstr ""
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:750
 msgid "Content type"
 msgstr "Innholdstype"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:751
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:757
 msgid "Is Directory"
 msgstr "Er en katalog"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Can the outfile have children"
 msgstr ""
 
@@ -483,11 +487,11 @@ msgstr ""
 
 #: ../gsf/gsf-output.c:169
 msgid "The output's name"
-msgstr ""
+msgstr "Navn på utdata"
 
 #: ../gsf/gsf-output.c:184
 msgid "The output's size"
-msgstr ""
+msgstr "Størrelse på utdata"
 
 #: ../gsf/gsf-output.c:198
 msgid "Is Closed"
