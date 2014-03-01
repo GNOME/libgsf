@@ -1,3 +1,8 @@
+2014-02-28  Morten Welinder  <terra@gnome.org>
+
+	* tools/gsf.c (main): Activate translations.  Patch from
+	Juhani Numminen <juhaninumminen0@gmail.com>
+
 2014-01-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
