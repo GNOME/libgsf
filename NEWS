@@ -9,6 +9,7 @@ Allin Cottrell:
 Morten:
 	* Fix translation issue and leak.  [#706937]
 	* Fix fuzzed ods file crash.  [#720458]
+	* Fix invalid g_free for Windows.
 
 --------------------------------------------------------------------------
 libgsf 1.14.28

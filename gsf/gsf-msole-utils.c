@@ -2290,16 +2290,20 @@ gsf_msole_lid_to_codepage_str (guint lid)
 int
 gsf_msole_iconv_win_codepage (void)
 {
-	char *lang;
+	const char *win_lang;
+	char *lang = NULL;
 
-	if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
+	win_lang = g_getenv("WINDOWS_LANGUAGE");
+	if (win_lang) {
+		lang = g_strdup (win_lang);
+	} else {
 		char const *locale = setlocale (LC_CTYPE, NULL);
 		if (locale != NULL) {
 			char const *lang_sep = strchr (locale, '.');
 			if (lang_sep)
-				lang = g_strndup (locale, (unsigned)(lang_sep - locale));
+				lang = g_strndup (locale, lang_sep - locale);
 			else
-				lang = g_strdup (locale); /* simplifies exit */
+				lang = g_strdup (locale);
 		}
 	}
 
