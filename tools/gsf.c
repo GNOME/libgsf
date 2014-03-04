@@ -5,6 +5,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gio/gio.h>
+#include <locale.h>
 #include <string.h>
 #include <errno.h>
 
