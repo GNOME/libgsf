@@ -5,6 +5,7 @@ Juhani Numminen:
 
 Morten:
 	* Fix invalid g_free for Windows.
+	* Work around glib/gio bug.  [#724970]
 
 --------------------------------------------------------------------------
 libgsf 1.14.29

@@ -1,3 +1,8 @@
+2014-03-05  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-gio.c (gsf_input_gio_new): Always make local copy.
+	glib reports wrong size.
+
 2014-02-28  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (main): Activate translations.  Patch from

@@ -131,6 +131,11 @@ gsf_input_gio_new (GFile *file, GError **err)
 	if (stream == NULL)
 		return NULL;
 
+	if (1) {
+		/* see https://bugzilla.gnome.org/show_bug.cgi?id=724970 */
+		return make_local_copy (file, stream);
+	}
+
 	if (!can_seek (stream))
 		return make_local_copy (file, stream);
 
