@@ -215,6 +215,46 @@ gsf_input_http_get_content_type (GsfInputHTTP *input)
         return content_type;
 }
 
+static GsfInput *
+make_local_copy (gpointer *ctx)
+{
+	GsfOutput *out;
+	GsfInput  *copy;
+
+	out = gsf_output_memory_new ();
+
+	while (1) {
+		guint8 buf[4096];
+		gssize nread;
+
+		nread = xmlNanoHTTPRead (ctx, buf, sizeof(buf));
+
+		if (nread > 0) {
+			if (!gsf_output_write (out, nread, buf)) {
+				copy = NULL;
+				goto cleanup_and_exit;
+			}
+		}
+		else if (nread == 0)
+			break;
+		else {
+			copy = NULL;
+			goto cleanup_and_exit;
+		}
+	}
+
+	copy = gsf_input_memory_new_clone
+		(gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (out)),
+		 gsf_output_size (out));
+
+ cleanup_and_exit:
+
+	gsf_output_close (out);
+	g_object_unref (out);
+
+	return copy;
+}
+
 /**
  * gsf_input_http_new:
  * @url: A string containing the URL to retrieve
@@ -226,6 +266,7 @@ GsfInput *
 gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
 {
         GObject *obj;
+	GsfInput *input;
         gpointer ctx;
         char *content_type;
 
@@ -235,7 +276,15 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
         if (!ctx)               /* no meaningful errors provided by nanohttp */
                 return NULL;
 
-        obj = g_object_new (GSF_INPUT_HTTP_TYPE,
+	/* always make a local copy
+	 see https://bugzilla.gnome.org/show_bug.cgi?id=724970 */
+	input = make_local_copy (ctx);
+	if (input) {
+		gsf_input_set_name (input, url);
+		return input;
+	}
+
+	obj = g_object_new (GSF_INPUT_HTTP_TYPE,
 		"url",		url,
 		"content-type", content_type,
 		NULL);
