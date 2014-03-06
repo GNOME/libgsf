@@ -25,6 +25,7 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-outfile.h>
+#include <string.h>
 
 static int
 test (char *argv[])
@@ -34,9 +35,10 @@ test (char *argv[])
 	GError     *err = NULL;
 	int         rval = 0;
 
-	input = gsf_input_gio_new_for_path (argv[1], &err);
+	input = strstr (argv[1], "://")
+		? gsf_input_gio_new_for_uri (argv[1], &err)
+		: gsf_input_gio_new_for_path (argv[1], &err);
 	if (input == NULL) {
-
 		g_return_val_if_fail (err != NULL, 1);
 
 		g_warning ("'%s' error: %s\n", argv[1], err->message);
