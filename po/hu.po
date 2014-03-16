@@ -1,0 +1,705 @@
+# Hungarian translation for libgsf.
+# Copyright (C) 2014 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+#
+# Balázs Úr <urbalazs at gmail dot com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2014-03-15 22:24+0000\n"
+"PO-Revision-Date: 2014-03-16 10:33+0100\n"
+"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: ../gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Nincs elég memória %s bájt adat másolásához"
+
+#: ../gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "A clip_data %s formátumban van, de kisebb mint legalább %s bájt"
+
+#: ../gsf/gsf-clip-data.c:259
+#, c-format
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr ""
+"A clip_data Windows vágólap formátumban van, de kisebb mint a szükséges 4 "
+"bájt."
+
+#: ../gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "Windows Metafile formátum"
+
+#. CF_BITMAP
+#: ../gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "Windows DIB vagy BITMAP formátum"
+
+#: ../gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "Windows Enhanced Metafile formátum"
+
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Nem sikerült megkettőzni a bemeneti folyamot"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Nincs OLE2 aláírás"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Ésszerűtlen blokkméretek"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Kevés a memória"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Inkonzisztens blokk allokációs tábla"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Hiba a blokk allokációs tábla készítésekor"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Hiba a könyvtár olvasásakor"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Nem sikerült hozzáférni a gyermekhez"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "a blokk olvasása sikertelen"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Nem található a VBA könyvtárfolyam"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "vba projektfejléc probléma"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "Nincs VBA aláírás"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Ismeretlen VBA verzió aláírás: 0x%x%x%x%x"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Nem dolgozható fel a VBA fejléc"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Érvénytelen tar fejléc"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Érvénylen hosszú név fejléc"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Nem sikerült olvasni a hosszú nevet"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "A pozicionálás meghiúsult"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Csonkolt archívum"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Forrás"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "Az archívum értelmezés alatt"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Nincs Zip zárás"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Hiba a Zip aláírás olvasásakor"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, fuzzy, c-format
+msgid "Error reading zip dirent"
+msgstr "Hiba a Zip dirent olvasásakor"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Hiba a zip fejlécre pozicionáláskor"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Hiba a zip fejléc olvasásakor"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Hibás zip fejléc"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "hiba a folyam kibontásakor"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Tömörítési szint"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "A használt tömörítési szint, a nulla jelentése: nincs"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "A BZ2 támogatás nincs engedélyezve"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "A BZ2 kibontás előkészítése meghiúsult"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "A BZ2 kibontás meghiúsult"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "A BZ2 kibontás vége meghiúsult"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Név"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "A bemenet neve"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Méret"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "A bemenet mérete"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Fájl vége"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Hátralévő"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "A hátralévő adat mennyisége"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Pozíció"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "A bemenet jelenlegi pozíciója"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Módosítás ideje"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr ""
+"Egy opcionális GDateTime, amely a bemenet utolsó módosításának idejét mutatja"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Konténer"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "A szülő GsfInfile"
+
+#: ../gsf/gsf-input.c:281
+#, fuzzy, c-format
+msgid "Duplicate size mismatch"
+msgstr "Méretkettőzés eltérés"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "A zlib előkészítése nem sikerült"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Nem sikerült a forrás visszatekerése"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Érvénytelen gzip fejléc"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "csonkolt forrás"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Nem sikerült olvasni a forrásból"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "NULL forrás"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "A kibontott méret nincs beállítva"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Nyers"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "A tömörített adatot fejléc és zárás nélkül olvassa-e"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "Honnan származik a tömörített adat"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Kibontás utáni méret"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "A forrás kibontott mérete"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Nem szabályos fájl"
+
+#: ../gsf/gsf-input-memory.c:242
+#, fuzzy, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: A fájl túl nagy a memória leképezéshez"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap nem támogatott"
+
+#: ../gsf/gsf-libxml.c:1513
+msgid "Pretty print"
+msgstr "Szép nyomtatás"
+
+#: ../gsf/gsf-libxml.c:1514
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr ""
+"A kimenet húzza be automatikusan az elemeket a könnyebb olvashatóságért?"
+
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#, fuzzy
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "Süllyesztés"
+
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "A cél az íráshoz"
+
+#: ../gsf/gsf-msole-utils.c:312
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Hiányzó adat a(z) %s tulajdonság olvasásakor: %s bájt jött, de legalább %s "
+"bájt szükséges."
+
+#: ../gsf/gsf-msole-utils.c:363
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"Sérült adat a VT_CF tulajdonságban. A vágólapadat hosszának legalább 4 "
+"bájtnak kell lennie, de az adat szerint csak %s bájt érhető el."
+
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "Nem sikerült olvasni az MS tulajdonság folyamfejlécet"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "Érvénytelen MS tulajdonság folyamfejléc"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "Érvénytelen MS tulajdonság szakasz"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Érvénytelen MS tulajdonság folyamfejléc vagy a fájl csonkolt"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "A(z) „%s” tulajdonság több típusnál van használva!"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "ODF verzió"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr ""
+"Az az ODF verzió egészként, amelyre ez az objektum készült, úgymint 100"
+
+#: ../gsf/gsf-open-pkg-utils.c:368
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "Nem található az id='%s' rész ehhez: „%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:395
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "Nem található a type='%s' rész ehhez: „%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:425
+#, fuzzy, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Hiányzó azonosító a részhez ebben: „%s”"
+
+#: ../gsf/gsf-open-pkg-utils.c:434
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "A(z) „%s” rész sérült ebben: „%s”, innen: „%s”!"
+
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "Az a GsfOutput, amely az Open Package tartalmat tárolja"
+
+#: ../gsf/gsf-open-pkg-utils.c:750
+msgid "Content type"
+msgstr "Tartalomtípus"
+
+#: ../gsf/gsf-open-pkg-utils.c:751
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "A gyökér [Content_Types].xml fájlban tárolt tartalomtípus"
+
+#: ../gsf/gsf-open-pkg-utils.c:757
+msgid "Is Directory"
+msgstr "Könyvtár"
+
+#: ../gsf/gsf-open-pkg-utils.c:758
+msgid "Can the outfile have children"
+msgstr "A kimeneti fájlnak lehetnek-e gyermekei"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Kis blokkméret"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "Az OLE kis blokkjainak mérete"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Nagy blokkméret"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "Az OLE nagy blokkjainak mérete"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Hová legyen az archívum kiírva"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Bejegyzésnév"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "Ennek a tagnak a fájlneve az archívumban útvonal nélkül"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "A BZ2 könyvtár előkészítése nem sikerült"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "A kimenet neve"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "A kimenet mérete"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Zárva van"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "A kimenet zárva van-e"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "A kimenet jelenlegi pozíciója"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr ""
+"Egy opcionális GDateTime, amely a kimenet utolsó módosításának idejét mutatja"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "A szülő GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Hová legyen formázott kimenet kiírva"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Idézet"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Az idézett mezőkhöz használt szöveg"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Idézési mód"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Mezők idézésekor"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Idéző aktiválók"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Karakterek, amelyek mezőidézést eredményeznek"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Idézés szóközöknél"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "A kezdeti vagy lezáró szóköz erőltesse az idézést?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Elválasztó"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "A mezőelválasztó"
+
+#: ../gsf/gsf-output-csv.c:397
+#, fuzzy
+msgid "end-on-line"
+msgstr "sorvége"
+
+#: ../gsf/gsf-output-csv.c:398
+#, fuzzy
+msgid "The end-of-line marker"
+msgstr "A sorvége jelző"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Hová legyen az átalakított adat kiírva"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Bemeneti karakterkészlet"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Az a karakterkészlet, amelyből átalakít"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Kimeneti karakterkészlet"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Az a karakterkészlet, amelybe átalakít"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Tartalék"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Az érvénytelen karakterekhez használt szöveg"
+
+#: ../tools/gsf.c:18
+msgid "Display program version"
+msgstr "A program verziójának megjelenítése"
+
+#: ../tools/gsf.c:45
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: %s megnyitása sikertelen: %s\n"
+
+#: ../tools/gsf.c:66
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: %s archívumként való felismerése nem sikerült\n"
+
+#: ../tools/gsf.c:103
+#, c-format
+msgid "Available subcommands are...\n"
+msgstr "Az elérhető részparancsok…\n"
+
+#: ../tools/gsf.c:104
+#, c-format
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        egy vagy több sor kiírása az archívumban\n"
+
+#: ../tools/gsf.c:105
+#, c-format
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr ""
+"* dump       egy vagy több sor kiírása az archívumban hexadecimális formában\n"
+
+#: ../tools/gsf.c:106
+#, c-format
+msgid "* help       list subcommands\n"
+msgstr "* help       részparancsok listázása\n"
+
+#: ../tools/gsf.c:107
+#, c-format
+msgid "* list       list files in archive\n"
+msgstr "* list       fájlok listázása az archívumban\n"
+
+#: ../tools/gsf.c:108
+#, c-format
+msgid "* listprops  list document properties in archive\n"
+msgstr "* listprops  dokumentum-tulajdonságok listázása az archívumban\n"
+
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* props      print specified document properties\n"
+msgstr "* props      a megadott dokumentum-tulajdonságok kiírása\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  OLE-archívum létrehozása\n"
+
+#: ../tools/gsf.c:111
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  ZIP-archívum létrehozása\n"
+
+#: ../tools/gsf.c:303
+#, c-format
+msgid "No property named %s\n"
+msgstr "Nincs %s nevű tulajdonság\n"
+
+#: ../tools/gsf.c:363
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Hiba a(z) %s fájl feldolgozásakor: %s\n"
+
+#: ../tools/gsf.c:503
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "RÉSZPARANCS ARCHÍVUM…"
+
+#: ../tools/gsf.c:510
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"Adja ki a(z) „%s --help” parancsot az elérhető parancssori kapcsolók teljes "
+"listájáért.\n"
+
+#: ../tools/gsf.c:517
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "%d.%d.%d gsf verzió\n"
+
+#: ../tools/gsf.c:523
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "Használat: %s %s\n"
+
+#: ../tools/gsf.c:548
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr ""
+"Futtassa a „%s help” parancsot a részparancsok listájának megtekintéséhez.\n"
+
