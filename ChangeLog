@@ -1,3 +1,7 @@
+2014-03-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.30
+
 2014-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gsf/gsf-input-http.c (make_local_copy), (gsf_input_http_new):
