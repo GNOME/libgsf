@@ -1,32 +1,35 @@
 # Portuguese translation for libgsf.
-# Copyright © 2009 libgsf
+# Copyright © 2009, 2014 libgsf
 # This file is distributed under the same license as the libgsf package.
 # António Lima <amrlima@gmail.com>, 2009.
+# Duarte Loreto <happyguy_pt@hotmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-05 16:31+0100\n"
-"PO-Revision-Date: 2009-10-03 20:55+0000\n"
-"Last-Translator: António Lima <amrlima@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2013-12-19 14:39+0000\n"
+"PO-Revision-Date: 2014-03-20 15:00+0000\n"
+"Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:111
+#: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Memória insuficiente para copiar %s bytes de dados"
 
-#: ../gsf/gsf-clip-data.c:153
+#: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data está em %s, mas é mais pequeno do que pelo menos %s bytes"
 
-#: ../gsf/gsf-clip-data.c:247
+#: ../gsf/gsf-clip-data.c:259
 #, c-format
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
@@ -35,20 +38,332 @@ msgstr ""
 "clip_data encontra-se no formato de área de transferência do Windows, mas é "
 "mais pequeno do que os 4 bytes requeridos."
 
-#: ../gsf/gsf-clip-data.c:258
+#: ../gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Formato de Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: ../gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Formato Windows DIB ou BITMAP"
 
-#: ../gsf/gsf-clip-data.c:269
+#: ../gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Formato Windows Enhanced Metafile"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: ../gsf/gsf-infile-msole.c:471
+#, c-format
+msgid "Failed to duplicate input stream"
+msgstr "Falha ao duplicar fluxo de entrada"
+
+#: ../gsf/gsf-infile-msole.c:505
+#, c-format
+msgid "No OLE2 signature"
+msgstr "Sem assinatura OLE2"
+
+#: ../gsf/gsf-infile-msole.c:525
+#, c-format
+msgid "Unreasonable block sizes"
+msgstr "Tamanho de blocos inaceitável"
+
+#: ../gsf/gsf-infile-msole.c:561
+#, c-format
+msgid "Insufficient memory"
+msgstr "Memória insuficiente"
+
+#: ../gsf/gsf-infile-msole.c:620
+#, c-format
+msgid "Inconsistent block allocation table"
+msgstr "Tabela de alocação de blocos inconsistente"
+
+#: ../gsf/gsf-infile-msole.c:628
+#, c-format
+msgid "Problems making block allocation table"
+msgstr "Problemas ao criar a tabela de alocação de blocos"
+
+#: ../gsf/gsf-infile-msole.c:640
+#, c-format
+msgid "Problems reading directory"
+msgstr "Problemas ao ler diretório"
+
+#: ../gsf/gsf-infile-msole.c:804
+#, c-format
+msgid "Failed to access child"
+msgstr "Falha ao aceder a filho"
+
+#: ../gsf/gsf-infile-msole.c:837
+#, c-format
+msgid "failure reading block"
+msgstr "falha ao ler bloco"
+
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#, c-format
+msgid "Can't find the VBA directory stream"
+msgstr "Incapaz de encontrar o diretório de fluxo VBA"
+
+#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "problema com cabeçalho de projeto vba"
+
+#: ../gsf/gsf-infile-msvba.c:393
+#, c-format
+msgid "No VBA signature"
+msgstr "Sem assinatura VBA"
+
+#: ../gsf/gsf-infile-msvba.c:404
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Versão de assinatura VBA 0x%x%x%x%x desconhecida"
+
+#: ../gsf/gsf-infile-msvba.c:504
+#, c-format
+msgid "Unable to parse VBA header"
+msgstr "Incapaz de processar cabeçalho VBA"
+
+#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#, c-format
+msgid "Invalid tar header"
+msgstr "Cabeçalho tar inválido"
+
+#: ../gsf/gsf-infile-tar.c:266
+#, c-format
+msgid "Invalid longname header"
+msgstr "Cabeçalho de nome longo inválido"
+
+#: ../gsf/gsf-infile-tar.c:273
+#, c-format
+msgid "Failed to read longname"
+msgstr "Falha ao ler nome longo"
+
+#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#, c-format
+msgid "Seek failed"
+msgstr "Falha ao procurar"
+
+#: ../gsf/gsf-infile-tar.c:301
+#, c-format
+msgid "Truncated archive"
+msgstr "Arquivo truncado"
+
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "Origem"
+
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+msgid "The archive being interpreted"
+msgstr "O arquivo a ser interpretado"
+
+#: ../gsf/gsf-infile-zip.c:330
+#, c-format
+msgid "No Zip trailer"
+msgstr "Sem finalização Zip"
+
+#: ../gsf/gsf-infile-zip.c:337
+#, c-format
+msgid "Error reading Zip signature"
+msgstr "Erro ao ler assinatura Zip"
+
+#: ../gsf/gsf-infile-zip.c:358
+#, c-format
+msgid "Error reading zip dirent"
+msgstr "Erro ao ler dirent zip"
+
+#: ../gsf/gsf-infile-zip.c:421
+msgid "Error seeking to zip header"
+msgstr "Erro ao procurar o cabeçalho do zip"
+
+#: ../gsf/gsf-infile-zip.c:423
+msgid "Error reading zip header"
+msgstr "Erro ao ler o cabeçalho do zip"
+
+#: ../gsf/gsf-infile-zip.c:425
+msgid "Error incorrect zip header"
+msgstr "Erro com cabeçalho zip incorreto"
+
+#: ../gsf/gsf-infile-zip.c:458
+#, c-format
+msgid "problem uncompressing stream"
+msgstr "problema ao descomprimir fluxo"
+
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+msgid "Compression Level"
+msgstr "Nível de Compressão"
+
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+msgid "The level of compression used, zero meaning none"
+msgstr "O nível de compressão utilizado, zero significa nenhum"
+
+#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
+#, c-format
+msgid "BZ2 support not enabled"
+msgstr "Suporte BZ2 indisponível"
+
+#: ../gsf/gsf-input-bzip.c:63
+#, c-format
+msgid "BZ2 decompress init failed"
+msgstr "Falha na inicialização da descompressão BZ2"
+
+#: ../gsf/gsf-input-bzip.c:82
+#, c-format
+msgid "BZ2 decompress failed"
+msgstr "Falha na descompressão BZ2"
+
+#: ../gsf/gsf-input-bzip.c:99
+#, c-format
+msgid "BZ2 decompress end failed"
+msgstr "Falha na finalização da descompressão BZ2"
+
+#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Nome"
+
+#: ../gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "O nome da entrada"
+
+#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Tamanho"
+
+#: ../gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "O tamanho da entrada"
+
+#: ../gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: ../gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Final de Ficheiro"
+
+#: ../gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Restante"
+
+#: ../gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Quantidade de dados restante"
+
+#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Posição"
+
+#: ../gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "A posição atual da entrada"
+
+#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Data de alteração"
+
+#: ../gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "Um GDateTime opcional que representa quando a origem foi alterada pela última vez"
+
+#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Contentor"
+
+#: ../gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "O GsfInfile pai"
+
+#: ../gsf/gsf-input.c:281
+#, c-format
+msgid "Duplicate size mismatch"
+msgstr "Conflito de tamanho duplicado"
+
+#: ../gsf/gsf-input-gzip.c:169
+#, c-format
+msgid "Unable to initialize zlib"
+msgstr "Incapaz de inicializar zlib"
+
+#: ../gsf/gsf-input-gzip.c:177
+#, c-format
+msgid "Failed to rewind source"
+msgstr "Falha ao rebobinar a origem"
+
+#: ../gsf/gsf-input-gzip.c:184
+#, c-format
+msgid "Invalid gzip header"
+msgstr "Cabeçalho gzip inválido"
+
+#: ../gsf/gsf-input-gzip.c:313
+#, c-format
+msgid "truncated source"
+msgstr "origem truncada"
+
+#: ../gsf/gsf-input-gzip.c:330
+#, c-format
+msgid "Failed to read from source"
+msgstr "Falha ao ler da origem"
+
+#: ../gsf/gsf-input-gzip.c:474
+#, c-format
+msgid "NULL source"
+msgstr "Origem NULL"
+
+#: ../gsf/gsf-input-gzip.c:478
+#, c-format
+msgid "Uncompressed size not set"
+msgstr "Tamanho descomprimido indefinido"
+
+#: ../gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "Puro"
+
+#: ../gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Se ler dados comprimidos sem cabeçalho e sem finalização"
+
+#: ../gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "De onde vêm os dados comprimidos"
+
+#: ../gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "Tamanho depois da descompressão"
+
+#: ../gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "O tamanho da origem descomprimida"
+
+#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Não é um ficheiro normal"
+
+#: ../gsf/gsf-input-memory.c:242
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Ficheiro demasiado grande para ser mapeado em memória"
+
+#: ../gsf/gsf-input-memory.c:284
+#, c-format
+msgid "mmap not supported"
+msgstr "mmap não é suportado"
+
+#: ../gsf/gsf-libxml.c:1513
+msgid "Pretty print"
+msgstr "Impressão formatada"
+
+#: ../gsf/gsf-libxml.c:1514
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "Deverá a saída indentar automaticamente os elementos para tornar a leitura mais simples?"
+
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "Depósito"
+
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
+msgid "The destination for writes"
+msgstr "O destino das escritas"
+
+#: ../gsf/gsf-msole-utils.c:312
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -57,48 +372,243 @@ msgstr ""
 "Dados em falta ao ler a propriedade %s; obteve %s bytes, mas pelo menos %s "
 "são necessários."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: ../gsf/gsf-msole-utils.c:363
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Dados corrompidos na propriedade VT_CF; dados da área de transferência têm "
-"de ter pelo menos 4 bytes, mas os dados dizem que tem apenas %s"
+"de ter pelo menos 4 bytes, mas os dados apenas têm %s"
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#, c-format
+msgid "Unable to read MS property stream header"
+msgstr "Incapaz de ler a propriedade de cabeçalho de fluxo MS"
+
+#: ../gsf/gsf-msole-utils.c:1154
+#, c-format
+msgid "Invalid MS property stream header"
+msgstr "Propriedade de cabeçalho de fluxo MS inválida"
+
+#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
+#: ../gsf/gsf-msole-utils.c:1263
+#, c-format
+msgid "Invalid MS property section"
+msgstr "Seção de propriedade MS inválida"
+
+#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#, c-format
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Cabeçalho de fluxo de propriedade MS inválido ou ficheiro incompleto"
+
+#: ../gsf/gsf-opendoc-utils.c:355
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Propriedade \"%s\" utilizada para múltiplos tipos!"
+
+#: ../gsf/gsf-opendoc-utils.c:880
+msgid "ODF version"
+msgstr "Versão ODF"
+
+#: ../gsf/gsf-opendoc-utils.c:881
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "A versão ODF para a qual este objeto aponta como um inteiro, tal como 100"
+
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Incapaz de encontrar a parte id='%s' para '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Incapaz de encontrar parte com tipo='%s' para '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Id em falta para a parte em '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Parte '%s' em '%s' de '%s' está corrompida!"
 
-#: ../tools/gsf.c:22
+#: ../gsf/gsf-open-pkg-utils.c:744
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "O GsfOutput que armazena o conteúdo Open Package"
+
+#: ../gsf/gsf-open-pkg-utils.c:750
+msgid "Content type"
+msgstr "Tipo de conteúdo"
+
+#: ../gsf/gsf-open-pkg-utils.c:751
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "O tipo de conteúdo armazenado no ficheiro [Content_Types].xml raiz "
+
+#: ../gsf/gsf-open-pkg-utils.c:757
+msgid "Is Directory"
+msgstr "É Diretório"
+
+#: ../gsf/gsf-open-pkg-utils.c:758
+msgid "Can the outfile have children"
+msgstr "Se o ficheiro de saída pode ter filhos"
+
+#: ../gsf/gsf-outfile-msole.c:806
+msgid "Small block size"
+msgstr "Tamanho de bloco pequeno"
+
+#: ../gsf/gsf-outfile-msole.c:807
+msgid "The size of the OLE's small blocks"
+msgstr "O tamanho dos blocos pequenos OLE"
+
+#: ../gsf/gsf-outfile-msole.c:818
+msgid "Big block size"
+msgstr "Tamanho de bloco grande"
+
+#: ../gsf/gsf-outfile-msole.c:819
+msgid "The size of the OLE's big blocks"
+msgstr "O tamanho dos blocos grandes OLE"
+
+#: ../gsf/gsf-outfile-zip.c:736
+msgid "Where the archive is written"
+msgstr "Onde o arquivo é escrito"
+
+#: ../gsf/gsf-outfile-zip.c:745
+msgid "Entry Name"
+msgstr "Nome da Entrada"
+
+#: ../gsf/gsf-outfile-zip.c:746
+msgid "The filename of this member in the archive without path"
+msgstr "O nome de ficheiro deste membro no arquivo sem o caminho"
+
+#: ../gsf/gsf-output-bzip.c:76
+#, c-format
+msgid "Unable to initialize BZ2 library"
+msgstr "Incapaz de inicializar a biblioteca BZ2"
+
+#: ../gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "O nome do resultado"
+
+#: ../gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "O tamanho do resultado"
+
+#: ../gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "É Fechado"
+
+#: ../gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Se o resultado é fechado"
+
+#: ../gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "A posição atual do resultado"
+
+#: ../gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr "Um GDateTime opcional que representa a data em que o resultado foi alterado pela última vez"
+
+#: ../gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "O pai GsfOutfile"
+
+#: ../gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Onde o resultado formatado é escrito"
+
+#: ../gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Citação"
+
+#: ../gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "A expressão utilizada para delimitar campos (citar)"
+
+#: ../gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Modo de Citação"
+
+#: ../gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Quando delimitar campos"
+
+#: ../gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Originadores de Citação"
+
+#: ../gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Caráteres que fazem com que um campo seja delimitado"
+
+#: ../gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Citar Ao Espaço"
+
+#: ../gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "Espaços iniciais ou finais fazem com que um campo seja delimitado?"
+
+#: ../gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Separador"
+
+#: ../gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "O separador de campo"
+
+#: ../gsf/gsf-output-csv.c:397
+msgid "end-on-line"
+msgstr "fim-de-linha"
+
+#: ../gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "O marcador de fim-de-linha"
+
+#: ../gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Onde são escritos os dados convertidos"
+
+#: ../gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Conjunto de Caráteres de Entrada"
+
+#: ../gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "O conjunto de caráteres de que converter"
+
+#: ../gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Conjunto de Caráteres de Saída"
+
+#: ../gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "O conjunto de caráteres para o qual converter"
+
+#: ../gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Recurso"
+
+#: ../gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "A expressão a utilizar para caráteres inválidos"
+
+#: ../tools/gsf.c:17
 msgid "Display program version"
 msgstr "Apresentar a versão da aplicação"
 
 #: ../tools/gsf.c:44
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
-msgstr "%s: Falhou a abrir %s: %s\n"
+msgstr "%s: Falha ao abrir %s: %s\n"
 
 #: ../tools/gsf.c:65
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr "%s: Não reconheceu %s como um arquivo\n"
+msgstr "%s: Incapaz de reconhecer %s como um arquivo\n"
 
 #: ../tools/gsf.c:102
 #, c-format
@@ -135,496 +645,51 @@ msgstr "* listprops  listar propriedades de documento no arquivo\n"
 msgid "* props      print specified document properties\n"
 msgstr "* props      imprimir propriedades especificadas do documento\n"
 
-#: ../tools/gsf.c:291
+#: ../tools/gsf.c:109
+#, c-format
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  criar arquivo OLE\n"
+
+#: ../tools/gsf.c:110
+#, c-format
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  criar arquivo ZIP\n"
+
+#: ../tools/gsf.c:302
 #, c-format
 msgid "No property named %s\n"
 msgstr "Nenhuma propriedade chamada %s\n"
 
-#: ../tools/gsf.c:364
-msgid "SUBCOMMAND ARCHIVE..."
-msgstr "ARQUIVO DE SUBCOMANDO..."
+#: ../tools/gsf.c:362
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Erro ao processar o ficheiro %s: %s\n"
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:504
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "SUBCOMANDO ARQUIVO..."
+
+#: ../tools/gsf.c:511
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Execute '%s --help' para ver uma lista completa das opções de linha de "
+"Execute '%s --help' para consultar uma lista completa das opções de linha de "
 "comando disponíveis.\n"
 
-#: ../tools/gsf.c:378
+#: ../tools/gsf.c:518
 #, c-format
 msgid "gsf version %d.%d.%d\n"
-msgstr "versão gsf %d.%d.%d\n"
+msgstr "Versão gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: ../tools/gsf.c:524
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Utilização: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: ../tools/gsf.c:549
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
-msgstr "Execute '%s help' para ver uma lista de subcomandos.\n"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid ""
-"Boolean options available, true enables thumbnailing and false disables the "
-"creation of new thumbnails"
-msgstr ""
-"Opções booleanas disponíveis, verdadeiro activa imagens de referência e "
-"falso desactiva a criação de novas imagens de referência"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
-msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
-"Activar imagens de referência para folhas de cálculo do OpenOffice 1.x Calc"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:3
-msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-msgstr "Activar imagens de referência para modelos do OpenOffice 1.x Drawing"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
-msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Activar imagens de referência para modelos de apresentações do OpenOffice 1."
-"x Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
-msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-msgstr ""
-"Activar imagens de referência para apresentações do OpenOffice 1.x Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:6
-msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-msgstr "Activar imagens de referência para documentos do OpenOffice 1.x Math"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:7
-msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-"Activar imagens de referência para modelos do OpenOffice 1.x Spreadsheet"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:8
-msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-msgstr "Activar imagens de referência para documentos do OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:9
-msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-msgstr ""
-"Activar imagens de referência para modelos globais do OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:10
-msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-msgstr "Activar imagens de referência para modelos do OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:11
-msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-msgstr ""
-"Activar imagens de referência de folhas de cálculo do Microsoft Excel 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:12
-msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-msgstr "Activar imagens de referência de folhas de cálculo do Microsoft Excel"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:13
-msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-msgstr ""
-"Activar imagens de referência de apresentações do Microsoft PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:14
-msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-msgstr "Activar imagens de referência de apresentações do Microsoft PowerPoint"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:15
-msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-msgstr "Activar imagens de referência de documentos do Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:16
-msgid "Enable thumbnailing of Microsoft Word documents"
-msgstr "Activar imagens de referência de documentos do Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:17
-msgid "Enable thumbnailing of OpenDocument charts"
-msgstr "Activar imagens de referência de gráficos OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:18
-msgid "Enable thumbnailing of OpenDocument drawing templates"
-msgstr "Activar imagens de referência de modelos de desenho OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:19
-msgid "Enable thumbnailing of OpenDocument drawings"
-msgstr "Activar imagens de referência de desenhos OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
-msgid "Enable thumbnailing of OpenDocument formulas"
-msgstr "Activar imagens de referência de fórmulas OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
-msgid "Enable thumbnailing of OpenDocument images"
-msgstr "Activar imagens de referência de imagens OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:22
-msgid "Enable thumbnailing of OpenDocument presentation templates"
-msgstr "Activar imagens de referência de modelos de apresentações OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:23
-msgid "Enable thumbnailing of OpenDocument presentations"
-msgstr "Activar imagens de referência de apresentações OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:24
-msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-msgstr ""
-"Activar imagens de referência de modelos de folhas de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:25
-msgid "Enable thumbnailing of OpenDocument spreadsheets"
-msgstr "Activar imagens de referência de folhas de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
-msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr ""
-"Activar imagens de referência de modelos de documentos de processamento de "
-"texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
-msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr ""
-"Activar imagens de referência de documentos de processamento de texto "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:28
-msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr ""
-"Activar imagens de referência de documentos mestres de processamento de "
-"texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
-msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-msgstr ""
-"Comando para imagens de referência para folhas de cálculo do Microsoft Excel "
-"2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:30
-msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr ""
-"Comando para imagens de referência para folhas de cálculo do Microsoft Excel"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:31
-msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-msgstr ""
-"Comando para imagens de referência para apresentações do Microsoft "
-"PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:32
-msgid "Thumbnail command for Microsoft PowerPoint presentations"
-msgstr ""
-"Comando para imagens de referência para apresentações do Microsoft PowerPoint"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:33
-msgid "Thumbnail command for Microsoft Word 2007 documents"
-msgstr ""
-"Comando para imagens de referência para documentos do Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:34
-msgid "Thumbnail command for Microsoft Word documents"
-msgstr "Comando para imagens de referência para documentos do Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:35
-msgid "Thumbnail command for OpenDocument charts"
-msgstr "Comando para imagens de referência para gráficos OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
-msgid "Thumbnail command for OpenDocument drawing templates"
-msgstr ""
-"Comando para imagens de referência para modelos de desenho OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
-msgid "Thumbnail command for OpenDocument drawings"
-msgstr "Comando para imagens de referência para desenhos OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
-msgid "Thumbnail command for OpenDocument formulas"
-msgstr "Comando para imagens de referência para fórmulas OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
-msgid "Thumbnail command for OpenDocument images"
-msgstr "Comando para imagens de referência para imagens OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
-msgid "Thumbnail command for OpenDocument presentation templates"
-msgstr ""
-"Comando para imagens de referência para modelos de apresentação OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
-msgid "Thumbnail command for OpenDocument presentations"
-msgstr "Comando para imagens de referência para apresentações OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
-msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr ""
-"Comando para imagens de referência para modelos de folha de cálculo "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
-msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr "Comando para imagens de referência para folhas de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
-msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr ""
-"Comando para imagens de referência para modelos de documento de "
-"processamento de texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
-msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr ""
-"Comando para imagens de referência para documentos de processamento de texto "
-"OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
-msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr ""
-"Comando para imagens de referência para documentos mestres de processamento "
-"de texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
-msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr ""
-"Comando para imagens de referência para folhas de cálculo do OpenOffice 1.x "
-"Calc"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
-msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr ""
-"Comando para imagens de referência para modelos do OpenOffice 1.x Drawing"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
-msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr ""
-"Comando para imagens de referência para modelos de apresentações do "
-"OpenOffice 1.x Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
-msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-msgstr ""
-"Comando para imagens de referência para apresentações do OpenOffice 1.x "
-"Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
-msgid "Thumbnail command for OpenOffice 1.x Math documents"
-msgstr ""
-"Comando para imagens de referência para documentos do OpenOffice 1.x Math"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
-msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-msgstr ""
-"Comando para imagens de referência para modelos de folhas de cálculo do "
-"OpenOffice 1.x"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
-msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-msgstr ""
-"Comando para imagens de referência para documentos do OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr ""
-"Comando para imagens de referência para modelos globais do OpenOffice 1.x "
-"Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
-msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-msgstr ""
-"Comando para imagens de referência para modelos do OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
-msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-msgstr ""
-"Comando válido mais argumentos para as folhas de cálculo do Microsoft Excel "
-"2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
-msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr ""
-"Comando válido mais argumentos para as folhas de cálculo do Microsoft Excel"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid ""
-"Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência do "
-"Microsoft PowerPoint 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência do "
-"Microsoft PowerPoint"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência do "
-"Microsoft Word 2007"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência do "
-"Microsoft Word"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"gráficos OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid ""
-"Valid command plus arguments for the OpenDocument drawing template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos de desenho OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"desenho OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência de "
-"fórmulas OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
-msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"imagens OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência de "
-"modelo de apresentação OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"apresentações OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência de "
-"modelos de folha de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"folhas de cálculo OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"template thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos de documentos de processamento de texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"documentos de processamento de texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing master "
-"document thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"documentos mestres de processamento de texto OpenDocument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Drawing template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos OpenOffice 1.x Drawing"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
-msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"OpenOffice 1.x Drawing"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"template thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos de apresentação OpenOffice 1.x Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"OpenOffice 1.x Impress"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"documentos OpenOffice 1.x Math"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer document "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"documentos OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer global template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos globais de OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer template "
-"thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"modelos OpenOffice 1.x Writer"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr ""
-"Comando válido mais argumentos para o criador de imagens de referência para "
-"folhas de cálculo OpenOffice 1.x"
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Execute '%s help' para consultar uma lista de subcomandos.\n"
