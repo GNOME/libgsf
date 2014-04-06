@@ -4,12 +4,12 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">Libgsf</name>
+  <name xml:lang="en">libgsf</name>
   <shortdesc xml:lang="en">An extensible I/O abstraction library for dealing with structured file formats</shortdesc>
-  <homepage rdf:resource="http://projects.gnome.org/gnumeric/" />
+  <homepage rdf:resource="http://www.gnumeric.org/" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnumeric-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/libgsf/" />
-  <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=libgsf" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=libgsf" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#productivity" />
 
