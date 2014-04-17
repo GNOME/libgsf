@@ -36,7 +36,8 @@ enum {
 	PROP_0,
 	PROP_SINK,
 	PROP_ENTRY_NAME,
-	PROP_COMPRESSION_LEVEL
+	PROP_COMPRESSION_METHOD,
+        PROP_DEFLATE_LEVEL
 };
 
 static GObjectClass *parent_class;
@@ -54,6 +55,7 @@ struct _GsfOutfileZip {
 
 	z_stream  *stream;
 	GsfZipCompressionMethod compression_method;
+	gint deflate_level;
 
 	gboolean   writing;
 
@@ -371,7 +373,7 @@ zip_init_write (GsfOutput *output)
 		if (!zip->stream) {
 			zip->stream = g_new0 (z_stream, 1);
 		}
-		ret = deflateInit2 (zip->stream, Z_DEFAULT_COMPRESSION,
+		ret = deflateInit2 (zip->stream, zip->deflate_level,
 				    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
 				    Z_DEFAULT_STRATEGY);
 		if (ret != Z_OK)
@@ -645,6 +647,7 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->root_order = NULL;
 	zip->stream = NULL;
 	zip->compression_method = GSF_ZIP_DEFLATED;
+	zip->deflate_level = Z_DEFAULT_COMPRESSION;
 	zip->writing = FALSE;
 	zip->buf = NULL;
 	zip->buf_size = 0;
@@ -665,11 +668,14 @@ gsf_outfile_zip_get_property (GObject     *object,
 	case PROP_ENTRY_NAME:
 		g_value_set_string (value, zip->entry_name);
 		break;
-	case PROP_COMPRESSION_LEVEL:
+	case PROP_COMPRESSION_METHOD:
 		g_value_set_int (value,
 				 zip->vdir->dirent
 				 ? zip->vdir->dirent->compr_method
 				 : 0);
+		break;
+	case PROP_DEFLATE_LEVEL:
+                g_value_set_int (value, zip->deflate_level);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -692,18 +698,26 @@ gsf_outfile_zip_set_property (GObject      *object,
 	case PROP_ENTRY_NAME:
 		zip->entry_name = g_strdup (g_value_get_string (value));
 		break;
-	case PROP_COMPRESSION_LEVEL: {
-		int level = g_value_get_int (value);
-		switch (level) {
+	case PROP_COMPRESSION_METHOD: {
+		int method = g_value_get_int (value);
+		switch (method) {
 		case GSF_ZIP_STORED:
 		case GSF_ZIP_DEFLATED:
-			zip->compression_method = level;
+			zip->compression_method = method;
 			break;
 		default:
-			g_warning ("Unsupported compression level %d", level);
+			g_warning ("Unsupported compression level %d", method);
 		}
 		break;
 	}
+	case PROP_DEFLATE_LEVEL: {
+		int level = g_value_get_int (value);
+                if (level == Z_DEFAULT_COMPRESSION || (level >= 0 && level <= 9))
+			zip->deflate_level = level;
+                else
+			g_warning ("Unsupported deflate level %d", level);
+	        }
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -750,12 +764,24 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
 		(gobject_class,
-		 PROP_COMPRESSION_LEVEL,
+		 PROP_COMPRESSION_METHOD,
 		 g_param_spec_int ("compression-level",
 				   _("Compression Level"),
 				   _("The level of compression used, zero meaning none"),
 				   0, 10,
 				   GSF_ZIP_DEFLATED,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE |
+				   G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DEFLATE_LEVEL,
+		 g_param_spec_int ("deflate-level",
+				   _("Deflate Level"),
+				   _("The level of deflate compression used, zero meaning none "
+				     "and -1 meaning the zlib default"),
+				   -1, 9,
+				   Z_DEFAULT_COMPRESSION,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));

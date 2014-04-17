@@ -1,3 +1,8 @@
+2014-04-17  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_set_property): Add new
+	property default-level.
+
 2014-03-19  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

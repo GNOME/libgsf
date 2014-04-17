@@ -1,5 +1,8 @@
 libgsf 1.14.31
 
+Allin Cottrell:
+	* Add support for non-default zip compression level.  [#722470]
+
 --------------------------------------------------------------------------
 libgsf 1.14.30
 
