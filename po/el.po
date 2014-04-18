@@ -8,30 +8,32 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
-"&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-10-13 20:46+0000\n"
-"PO-Revision-Date: 2013-11-06 08:25+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgsf&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2014-04-17 23:36+0000\n"
+"PO-Revision-Date: 2014-04-18 21:54+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
-msgstr "Δεν υπάρχει αρκετή μνήμη για την αντιγραφή %s ψηφιολέξεων δεδομένων"
+msgstr ""
+"Δεν υπάρχει αρκετή μνήμη για την αντιγραφή %s ψηφιολέξεων (bytes) δεδομένων"
 
 #: ../gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr ""
-"Το clip_data είναι %s, αλλά είναι μικρότερο από τις ελάχιστες %s ψηφιολέξεις"
+"Το clip_data είναι %s, αλλά είναι μικρότερο από τις ελάχιστες %s ψηφιολέξεις "
+"(bytes)"
 
 #: ../gsf/gsf-clip-data.c:259
 #, c-format
@@ -147,7 +149,7 @@ msgstr "Αποτυχία αναζήτησης"
 #: ../gsf/gsf-infile-tar.c:301
 #, c-format
 msgid "Truncated archive"
-msgstr "Κολοβή αρχειοθήκη"
+msgstr "Περικεκομμένη αρχειοθήκη"
 
 #: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
 #: ../gsf/gsf-input-gzip.c:514
@@ -190,11 +192,11 @@ msgstr "Σφάλμα εσφαλμένης κεφαλίδας συμπίεσης"
 msgid "problem uncompressing stream"
 msgstr "πρόβλημα αποσυμπίεσης ροής"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
 msgid "Compression Level"
 msgstr "Επίπεδο συμπίεσης"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
 msgid "The level of compression used, zero meaning none"
 msgstr "Το επίπεδο της χρησιμοποιούμενης συμπίεσης, μηδέν σημαίνει καμία"
 
@@ -351,23 +353,23 @@ msgstr "%s: Το αρχείο είναι υπερβολικά μεγάλο γι�
 msgid "mmap not supported"
 msgstr "Το mmap δεν υποστηρίζεται"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1513
 msgid "Pretty print"
 msgstr "Όμορφη εκτύπωση"
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1514
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Θα θέλατε την αυτοματοποίηση εξόδου στοιχείων εσοχής για να γίνει η ανάγνωση "
 "ευκολότερη;"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Δέκτης"
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Ο προορισμός για τις εγγραφές"
 
@@ -425,44 +427,44 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Η έκδοση του ODF στοχεύει αυτό το αντικείμενο ως έναν ακέραιο, όπως το 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Αδυναμία εύρεσης τμήματος id='%s' για το '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Αδυναμία εύρεσης τμήματος με type='%s' για το '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Δεν υπάρχει ταυτότητα για το τμήμα στο '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Είναι αλλοιωμένο το τμήμα '%s' στο '%s' από το '%s'!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:744
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Το GsfOutput που αποθηκεύει το ανοικτό περιεχόμενο του πακέτου"
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:750
 msgid "Content type"
 msgstr "Τύπος περιεχομένου"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:751
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
 "Ο αποθηκευμένος τύπος περιεχομένου στο ριζικό αρχείο [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:757
 msgid "Is Directory"
 msgstr "Είναι κατάλογος"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Can the outfile have children"
 msgstr "Μπορεί το αρχείο εξόδου να έχει θυγατρικά"
 
@@ -482,17 +484,30 @@ msgstr "Μεγάλο μέγεθος ομάδας"
 msgid "The size of the OLE's big blocks"
 msgstr "Το μέγεθος των μεγάλων ομάδων του OLE"
 
-#: ../gsf/gsf-outfile-zip.c:736
+#: ../gsf/gsf-outfile-zip.c:750
 msgid "Where the archive is written"
 msgstr "Πού είναι γραμμένη η αρχειοθήκη"
 
-#: ../gsf/gsf-outfile-zip.c:745
+#: ../gsf/gsf-outfile-zip.c:759
 msgid "Entry Name"
-msgstr "Όνομα καταχώρισης"
+msgstr "Όνομα καταχώρησης"
 
-#: ../gsf/gsf-outfile-zip.c:746
+#: ../gsf/gsf-outfile-zip.c:760
 msgid "The filename of this member in the archive without path"
 msgstr "Το όνομα αρχείου αυτού του μέλους στην αρχειοθήκη χωρίς διαδρομή"
+
+#: ../gsf/gsf-outfile-zip.c:780
+msgid "Deflate Level"
+msgstr ""
+
+#: ../gsf/gsf-outfile-zip.c:781
+#| msgid "The level of compression used, zero meaning none"
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr ""
+"Το επίπεδο της χρησιμοποιούμενης συμπίεσης, μηδέν σημαίνει καμία και -1 το "
+"προεπιλεγμένο του zlib"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -609,82 +624,82 @@ msgstr "Υποχώρηση"
 msgid "The string to use for invalid characters"
 msgstr "Η συμβολοσειρά που θα χρησιμοποιηθεί για άκυρους χαρακτήρες"
 
-#: ../tools/gsf.c:17
+#: ../tools/gsf.c:18
 msgid "Display program version"
 msgstr "Εμφάνιση έκδοσης του προγράμματος"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:45
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Αποτυχία ανοίγματος του %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:66
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Αποτυχία αναγνώρισης του %s ως αρχειοθήκη\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:103
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Οι διαθέσιμες υποεντολές είναι...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        έξοδος ενός ή περισσοτέρων αρχείων σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       αποτύπωση ενός ή περισσοτέρων αρχείων σε αρχειοθήκη ως "
 "δεκαεξαδικά\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       λίστα υποεντολών\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       λίστα αρχείων σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  λίστα ιδιοτήτων εγγράφου σε αρχειοθήκη\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      προβολή συγκεκριμένων ιδιοτήτων εγγράφου\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  δημιουργία αρχειοθήκης OLE\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:111
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  δημιουργία αρχειοθήκης ZIP\n"
 
-#: ../tools/gsf.c:302
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Καμία ιδιότητα με όνομα %s\n"
 
-#: ../tools/gsf.c:362
+#: ../tools/gsf.c:363
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Σφάλμα επεξεργασίας αρχείου %s: %s\n"
 
-#: ../tools/gsf.c:504
+#: ../tools/gsf.c:503
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "ΑΡΧΕΙΟΘΗΚΗ ΥΠΟΕΝΤΟΛΩΝ..."
 
-#: ../tools/gsf.c:511
+#: ../tools/gsf.c:510
 #, c-format
 msgid ""
 "%s\n"
@@ -694,17 +709,17 @@ msgstr ""
 "Τρέξτε: '%s --help' για να δείτε μια πλήρη λίστα με επιλογές της γραμμής "
 "εντολών.\n"
 
-#: ../tools/gsf.c:518
+#: ../tools/gsf.c:517
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "έκδοση gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:524
+#: ../tools/gsf.c:523
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Χρήση: %s %s\n"
 
-#: ../tools/gsf.c:549
+#: ../tools/gsf.c:548
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Τρέξτε το '%s help' για να δείτε μια λίστα των υποεντολών.\n"
