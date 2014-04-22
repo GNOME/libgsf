@@ -4,15 +4,15 @@
 #
 # Jachym Simak <xsimi@xsimi.cz>, 2010.
 # Lucas Lommer <llommer@svn.gnome.org>, 2010.
-# Marek Černocký <marek@manet.cz>, 2012, 2013.
+# Marek Černocký <marek@manet.cz>, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-09-13 16:41+0000\n"
-"PO-Revision-Date: 2013-09-16 17:41+0200\n"
+"POT-Creation-Date: 2014-04-17 23:36+0000\n"
+"PO-Revision-Date: 2014-04-22 11:43+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -188,11 +188,11 @@ msgstr "Nesprávná hlavička ZIP"
 msgid "problem uncompressing stream"
 msgstr "problém s dekomprimací proudu"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
 msgid "Compression Level"
 msgstr "Úroveň komprimace"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
 msgid "The level of compression used, zero meaning none"
 msgstr "Použitá úroveň komprimace, nula znamená žádná"
 
@@ -347,21 +347,21 @@ msgstr "%s: Soubor je příliš velký, než aby mohl být namapován do paměti
 msgid "mmap not supported"
 msgstr "mmap není podporováno"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1513
 msgid "Pretty print"
 msgstr "Hezký výstup"
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1514
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Měl by mít výstup automaticky odsazené prvky, aby byl lépe čitelný?"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Cíl"
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Cíl pro zápisy"
 
@@ -419,43 +419,43 @@ msgstr ""
 "Verze ODF, v podobě celého čísla, na kterou je tento objekt zaměřen; např. "
 "100"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Nelze nalézt část id=„%s“ pro „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Nelze nalézt část s type=„%s“ pro „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Chybí id pro část v „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Část „%s“ v „%s“ z „%s“ je poškozena!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:744
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput, který uchovává obsah Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:750
 msgid "Content type"
 msgstr "Typ obsahu"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:751
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Typ obsahu uloženého v kořenovém souboru [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:757
 msgid "Is Directory"
 msgstr "Jde o složku"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Can the outfile have children"
 msgstr "Může mít výstupní soubor potomka"
 
@@ -475,17 +475,30 @@ msgstr "Velikost velkého bloku"
 msgid "The size of the OLE's big blocks"
 msgstr "Velikost velkých bloků OLE"
 
-#: ../gsf/gsf-outfile-zip.c:736
+#: ../gsf/gsf-outfile-zip.c:750
 msgid "Where the archive is written"
 msgstr "Kam je archiv zapisován"
 
-#: ../gsf/gsf-outfile-zip.c:745
+#: ../gsf/gsf-outfile-zip.c:759
 msgid "Entry Name"
 msgstr "Název záznamu"
 
-#: ../gsf/gsf-outfile-zip.c:746
+#: ../gsf/gsf-outfile-zip.c:760
 msgid "The filename of this member in the archive without path"
 msgstr "Název souboru tohoto člena archivu, bez cesty"
+
+#: ../gsf/gsf-outfile-zip.c:780
+msgid "Deflate Level"
+msgstr "Úroveň komprimace deflate"
+
+#: ../gsf/gsf-outfile-zip.c:781
+#| msgid "The level of compression used, zero meaning none"
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr ""
+"Použitá úroveň komprimace používající algoritmus deflate, nula znamená žádná "
+"a -1 znamený výchozí podle zlib"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -600,81 +613,81 @@ msgstr "Náhrada chybných"
 msgid "The string to use for invalid characters"
 msgstr "Řetězec používaný pro neplatné znaky"
 
-#: ../tools/gsf.c:17
+#: ../tools/gsf.c:18
 msgid "Display program version"
 msgstr "Zobrazit verzi aplikace"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:45
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Nepodařilo se otevřít %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:66
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Selhalo rozpoznání %s jako archívu\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:103
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Dostupné dílčí příkazy jsou…\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        výpsat jeden či více souborů z archívu\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       vypsat v šestnáckové podobě jeden či více souborů z archívu\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       seznam dílčích příkazů\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       vypsat seznam souborů v archívu\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  vypsat seznam vlastností dokumentu v archívu\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      vypsat vlastnosti zadaného dokumentu\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  vytvořit archiv OLE\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:111
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createole  vytvořit archiv ZIP\n"
 
-#: ../tools/gsf.c:302
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Žádná položka s názvem %s\n"
 
-#: ../tools/gsf.c:362
+#: ../tools/gsf.c:363
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Chyba při zpracování souboru %s: %s\n"
 
-#: ../tools/gsf.c:504
+#: ../tools/gsf.c:503
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "DÍLČÍ_PŘÍKAZ ARCHÍV…"
 
-#: ../tools/gsf.c:511
+#: ../tools/gsf.c:510
 #, c-format
 msgid ""
 "%s\n"
@@ -684,17 +697,17 @@ msgstr ""
 "Spuštěním „%s --help“ si zobrazíte seznam dostupných přepínačů příkazového "
 "řádku.\n"
 
-#: ../tools/gsf.c:518
+#: ../tools/gsf.c:517
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf verze %d.%d.%d\n"
 
-#: ../tools/gsf.c:524
+#: ../tools/gsf.c:523
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Použití: %s %s\n"
 
-#: ../tools/gsf.c:549
+#: ../tools/gsf.c:548
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Spuštěním „%s help“ si zobrazíte seznam dílčích příkazů.\n"
