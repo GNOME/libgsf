@@ -1,23 +1,24 @@
 # Indonesian translation for libgsf.
 # Copyright (C) 2011 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Andika Triwidada <andika@gmail.com>, 2011, 2012, 2013.
 #
+# Andika Triwidada <andika@gmail.com>, 2011, 2012, 2013, 2014.
+# Dirgita <dirgitadevina@yahoo.co.id>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-09-13 16:41+0000\n"
-"PO-Revision-Date: 2013-09-14 10:03+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
-"Language-Team: Indonesian <gnome@i15n.org>\n"
+"POT-Creation-Date: 2014-04-17 23:36+0000\n"
+"PO-Revision-Date: 2014-05-21 10:32+0700\n"
+"Last-Translator: \n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -103,7 +104,7 @@ msgstr "Tak bisa temukan stream direktori VBA"
 
 #: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
-msgstr "masalah header projek vba"
+msgstr "masalah header proyek vba"
 
 #: ../gsf/gsf-infile-msvba.c:393
 #, c-format
@@ -186,11 +187,11 @@ msgstr "Galat header zip salah"
 msgid "problem uncompressing stream"
 msgstr "masalah saat mendekompresi stream"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
 msgid "Compression Level"
 msgstr "Tingkat Kompresi"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
 msgid "The level of compression used, zero meaning none"
 msgstr "Tingkat kompresi yang dipakai, nol berarti nihil"
 
@@ -345,22 +346,22 @@ msgstr "%s: Berkas terlalu besar untuk dipetakan ke memori"
 msgid "mmap not supported"
 msgstr "mmap tak didukung"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1513
 msgid "Pretty print"
 msgstr "Cetak cantik"
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1514
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Apakah elemen pada keluaran mesti diinden otomatis agar lebih mudah dibaca?"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Muara"
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Tempat tujuan menulis"
 
@@ -417,43 +418,43 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Versi ODF yang ditarget oleh objek ini sebagai bilangan bulat seperti 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Tak bisa menemukan bagian id='%s' bagi '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Tak bisa temukan bagian dengan jenis='%s' bagi '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Kehilangan id untuk bagian di '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Bagian '%s' di '%s' dari '%s' terkorupsi!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:744
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput yang menyimpan isi Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:750
 msgid "Content type"
 msgstr "Tipe isi"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:751
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Tipe isi yang disimpan dalam berkas root [Content_Type].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:757
 msgid "Is Directory"
 msgstr "Adalah Direktori"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Can the outfile have children"
 msgstr "Bisakah outfile memiliki anak"
 
@@ -473,17 +474,30 @@ msgstr "Ukuran blok besar"
 msgid "The size of the OLE's big blocks"
 msgstr "Ukuran blok besar OLE"
 
-#: ../gsf/gsf-outfile-zip.c:736
+#: ../gsf/gsf-outfile-zip.c:750
 msgid "Where the archive is written"
 msgstr "Di mana arsip ditulis"
 
-#: ../gsf/gsf-outfile-zip.c:745
+#: ../gsf/gsf-outfile-zip.c:759
 msgid "Entry Name"
 msgstr "Nama Entri"
 
-#: ../gsf/gsf-outfile-zip.c:746
+#: ../gsf/gsf-outfile-zip.c:760
 msgid "The filename of this member in the archive without path"
 msgstr "Nama berkas anggota ini di dalam arsip tanpa path"
+
+#: ../gsf/gsf-outfile-zip.c:780
+msgid "Deflate Level"
+msgstr "Tingklat Deflasi"
+
+#: ../gsf/gsf-outfile-zip.c:781
+#| msgid "The level of compression used, zero meaning none"
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr ""
+"Tingkat kompresi yang dipakai, nol berarti tidak ada dan -1 berarti sesuai "
+"bawaan zlib"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -598,80 +612,80 @@ msgstr "Fallback"
 msgid "The string to use for invalid characters"
 msgstr "Kalimat yang dipakai untuk karakter tak valid"
 
-#: ../tools/gsf.c:17
+#: ../tools/gsf.c:18
 msgid "Display program version"
 msgstr "Tampilkan versi program"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:45
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Gagal membuka %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:66
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Gagal mengenali %s sebagai arsip\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:103
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Sub perintah yang tersedia adalah...\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:104
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        keluarkan salinan satu atau lebih berkas dalam arsip\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:105
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       dump satu atau lebih berkas dalam arsip sebagai heksa\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:106
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       daftar sub perintah\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:107
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       daftar berkas dalam arsip\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:108
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  daftar properti dokumen dalam arsip\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:109
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      cetak properti dokumen yang dinyatakan\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:110
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  buat arsip OLE\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:111
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  buat arsip ZIP\n"
 
-#: ../tools/gsf.c:302
+#: ../tools/gsf.c:303
 #, c-format
 msgid "No property named %s\n"
 msgstr "Tak ada properti bernama %s\n"
 
-#: ../tools/gsf.c:362
+#: ../tools/gsf.c:363
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Galat saat memroses berkas %s: %s\n"
 
-#: ../tools/gsf.c:504
+#: ../tools/gsf.c:503
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUB_PERINTAH ARSIP..."
 
-#: ../tools/gsf.c:511
+#: ../tools/gsf.c:510
 #, c-format
 msgid ""
 "%s\n"
@@ -681,17 +695,18 @@ msgstr ""
 "Jalankan '%s --help' untuk melihat daftar lengkap dari pilihan baris "
 "perintah.\n"
 
-#: ../tools/gsf.c:518
+#: ../tools/gsf.c:517
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versi %d.%d.%d\n"
 
-#: ../tools/gsf.c:524
+#: ../tools/gsf.c:523
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Cara pakai: %s %s\n"
 
-#: ../tools/gsf.c:549
+#: ../tools/gsf.c:548
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Jalankan '%s help' untuk melihat daftar sub perintah.\n"
+
