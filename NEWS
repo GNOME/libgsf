@@ -3,6 +3,10 @@ libgsf 1.14.31
 Allin Cottrell:
 	* Add support for non-default zip compression level.  [#722470]
 
+Morten:
+	* Plug leak.
+	* Dead kittens.
+
 --------------------------------------------------------------------------
 libgsf 1.14.30
 

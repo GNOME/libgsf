@@ -498,6 +498,7 @@ msole_prop_min_size (guint32 type)
 	bytes_needed = (_n);						\
 	if (_s1 > 0 && (data_end - *data) / _s1 < bytes_needed) {	\
 		g_warning ("Invalid MS property or file truncated");	\
+		g_free (res);						\
 		return NULL;						\
 	}								\
 	bytes_needed *= _s1;						\
@@ -629,6 +630,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 			g_warning ("Unhandled property value type %d (0x%x)",
 				   type, type);
 		NEED_BYTES (8);
+		ADVANCE;
 		break;
 
 	case VT_BSTR :

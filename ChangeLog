@@ -1,3 +1,9 @@
+2014-10-28  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-utils.c: Avoid deprecated g_type_init.
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Plug leak.
+
 2014-04-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_set_property): Add new

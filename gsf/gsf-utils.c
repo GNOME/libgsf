@@ -112,7 +112,9 @@ gsf_init (void)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 
+#if !GLIB_CHECK_VERSION(2,36,0)
 	g_type_init ();
+#endif
 
 #ifdef _GSF_GTYPE_THREADING_FIXED
 	if (NULL == static_type_module) {
