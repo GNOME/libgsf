@@ -2524,6 +2524,11 @@ gsf_msole_inflate (GsfInput *input, gsf_off_t offset)
 /*				fprintf (stderr, "Shift %d, token len %d, distance %d bytes %.2x %.2x\n",
 				shift, len, distance, (token & 0xff), (token >> 8)); */
 
+				if (distance >= pos) {
+					g_warning ("Corrupted compressed stream");
+					break;
+				}
+
 				for (i = 0; i < len; i++) {
 					unsigned srcpos = (pos - distance - 1) % VBA_COMPRESSION_WINDOW;
 					guint8 c = buffer [srcpos];

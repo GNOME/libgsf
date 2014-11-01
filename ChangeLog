@@ -1,5 +1,8 @@
 2014-11-01  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-msole-utils.c (gsf_msole_inflate): Don't place
+	uninitialized values into the output even for corrupted files.
+
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Plug leak.
 
 	* gsf/gsf-infile-msvba.c (vba_dir_read): Plug leak.
