@@ -49,8 +49,12 @@ blob_finalize (GObject *obj)
 	}
 
 	if (blob->children != NULL) {
-		for (i = 0; i < blob->children->len ; i++)
-			g_object_unref (g_ptr_array_index (blob->children, i));
+		for (i = 0; i < blob->children->len ; i++) {
+			GsfStructuredBlob *child_blob =
+				g_ptr_array_index (blob->children, i);
+			if (child_blob)
+				g_object_unref (child_blob);
+		}
 		g_ptr_array_free (blob->children, TRUE);
 		blob->children = NULL;
 	}
@@ -75,8 +79,9 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 		g_ptr_array_set_size  (dst->children, src->children->len);
 		for (i = 0; i < src->children->len ; i++) {
 			child = g_ptr_array_index (src->children, i);
-			g_ptr_array_index (dst->children, i) = child;
-			g_object_ref (child);
+			g_ptr_array_index (dst->children, i) = child
+				? g_object_ref (child)
+				: NULL;
 		}
 	}
 
@@ -144,11 +149,10 @@ blob_child_by_name (GsfInfile *infile, char const *name, GError **err)
 	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
 	if (blob->children != NULL) {
 		unsigned i;
-		GsfInput *child;
 
 		for (i = 0 ; i < blob->children->len ;) {
-			child = g_ptr_array_index (blob->children, i);
-			if (!strcmp (gsf_input_name (child), name))
+			GsfInput *child = g_ptr_array_index (blob->children, i);
+			if (child && !strcmp (gsf_input_name (child), name))
 				return gsf_input_dup (child, err);
 		}
 	}
@@ -227,16 +231,16 @@ gsf_structured_blob_read (GsfInput *input)
 	if (GSF_IS_INFILE (input))
 		i = gsf_infile_num_children (GSF_INFILE (input));
 	if (i > 0) {
-		GsfInput	  *child;
-		GsfStructuredBlob *child_blob;
 
 		blob->children = g_ptr_array_sized_new (i);
 		g_ptr_array_set_size  (blob->children, i);
 		while (i-- > 0) {
-			child = gsf_infile_child_by_index (GSF_INFILE (input), i);
-			child_blob = gsf_structured_blob_read (child);
-			g_object_unref (child);
-
+			GsfInput *child = gsf_infile_child_by_index (GSF_INFILE (input), i);
+			GsfStructuredBlob *child_blob = NULL;
+			if (child) {
+				child_blob = gsf_structured_blob_read (child);
+				g_object_unref (child);
+			}
 			g_ptr_array_index (blob->children, i) = child_blob;
 #if 0
 			/*

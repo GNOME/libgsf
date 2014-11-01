@@ -6,6 +6,7 @@ Allin Cottrell:
 Morten:
 	* Plug leak.
 	* Dead kittens.
+	* Reduce number of CRITICALs for corrupted files.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30
