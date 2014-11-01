@@ -1,5 +1,7 @@
 2014-11-01  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-msvba.c (vba_dir_read): Plug leak.
+
 	* gsf/gsf-structured-blob.c (blob_finalize, blob_dup)
 	(blob_child_by_name, gsf_structured_blob_read): Reduce CRITICALs
 	on corrupted files.

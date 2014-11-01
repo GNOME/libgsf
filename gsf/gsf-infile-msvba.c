@@ -277,7 +277,10 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 			g_free (name);
 #endif
 			break;
-		case 0x19: elem_stream = g_strndup (ptr, len); break;
+		case 0x19:
+			g_free (elem_stream);
+			elem_stream = g_strndup (ptr, len);
+			break;
 
 		case 0x31:
 			if (len != 4) {
@@ -317,11 +320,14 @@ fail_compression :
 	g_object_unref (dir);
 fail_stream :
 
+	g_free (elem_stream);
+
 	if (failed) {
 		if (err != NULL)
 			*err = g_error_new_literal (gsf_input_error_id (), 0, msg);
 		return FALSE;
 	}
+
 	return TRUE;
 }
 
