@@ -206,8 +206,6 @@ gsf_input_mmap_new (char const *filename, GError **err)
 	int fd;
 	size_t size;
 
-	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
-
 	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
 	if (fd < 0 || fstat (fd, &st) < 0) {
 		if (err != NULL) {
@@ -270,6 +268,7 @@ gsf_input_mmap_new (char const *filename, GError **err)
 		return NULL;
 	}
 
+	mem = g_object_new (GSF_INPUT_MEMORY_TYPE, NULL);
 	mem->shared = gsf_shared_memory_mmapped_new (buf, (gsf_off_t) size);
 	gsf_input_set_size (GSF_INPUT (mem), (gsf_off_t) size);
 	gsf_input_set_name (GSF_INPUT (mem), filename);

@@ -1,5 +1,7 @@
 2014-11-01  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Plug leak.
+
 	* gsf/gsf-infile-msvba.c (vba_dir_read): Plug leak.
 
 	* gsf/gsf-structured-blob.c (blob_finalize, blob_dup)
