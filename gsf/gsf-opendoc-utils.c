@@ -327,7 +327,7 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (t == G_TYPE_NONE) t = G_TYPE_STRING;
 		if (gsf_xml_gvalue_from_str (res, t, xin->content->str)) {
 			if (g_str_has_prefix (mi->name, "GSF_DOCPROP_VECTOR:")) {
-				gchar *true_name = strchr (mi->name + 19, ':');
+				const gchar *true_name = strchr (mi->name + 19, ':');
 				if (true_name != NULL && *(++true_name) != 0) {
 					GsfDocProp *prop = gsf_doc_meta_data_lookup
 						(mi->md, true_name);
@@ -341,6 +341,7 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 									  val_vector);
 						g_value_unset (res);
 						g_free (res);
+						g_object_unref (vector);
 					} else {
 						GValue const *old = gsf_doc_prop_get_val (prop);
 						if (G_VALUE_HOLDS (old, GSF_DOCPROP_VECTOR_TYPE)) {

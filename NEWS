@@ -4,7 +4,7 @@ Allin Cottrell:
 	* Add support for non-default zip compression level.  [#722470]
 
 Morten:
-	* Plug leak.
+	* Plug leaks.
 	* Dead kittens.
 	* Reduce number of CRITICALs for corrupted files.
 
