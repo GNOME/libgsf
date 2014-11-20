@@ -381,7 +381,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 /**
- * gsf_input_read0:
+ * gsf_input_read0: (rename-to gsf_input_read):
  * @input: the input stream
  * @num_bytes: (in): number of bytes to read
  * @bytes_read: (out): copy of @num_bytes
@@ -391,8 +391,6 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
  *
  * Returns: (array length=bytes_read) (element-type guint8) (transfer full):
  * the data read.
- *
- * Rename to: gsf_input_read
  **/
 
 guint8 *

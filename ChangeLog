@@ -1,3 +1,7 @@
+2014-11-20  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c: Update to new introspection syntax.
+
 2014-11-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-opendoc-utils.c (od_meta_user_defined_end): Plug leak.
