@@ -1,9 +1,17 @@
 2014-11-20  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-input.c (gsf_input_read0): Fix 64-bit issue.
+
+	* gsf/gsf-utils.c (gsf_input_dump): Fix 64-bit issue.  Read larger
+	blocks.
+
 	* gsf/gsf-infile-zip.c (zip_read_dirents): Handle zip64 format for
 	archives with 65535 or more members.
 	(ZipInfo): Larger fields; user GPtrArray for speed.  All users
 	changed.
+	(zip_find_trailer): Fix endianess issue.
+	(gsf_infile_zip_read): Fix 64-bit issue.
+	(zip_dirent_new_in): Handle zip64 extra fields.
 
 	* gsf/gsf-zip-impl.h (GsfZipVDir): Use a GPtrArray for speed.  All
 	users changed.

@@ -60,8 +60,8 @@ struct _GsfInfileZip {
 	GsfZipVDir   *vdir;
 
 	z_stream  *stream;
-	guint32   restlen;
-	guint32   crestlen;
+	gsf_off_t restlen;
+	gsf_off_t crestlen;
 
 	guint8   *buf;
 	size_t    buf_size;
@@ -146,16 +146,19 @@ vdir_insert (GsfZipVDir *vdir, char const * name, GsfZipDirent *dirent)
 }
 
 static gsf_off_t
-zip_find_trailer (GsfInfileZip *zip, guint32 trailer_signature, guint size)
+zip_find_trailer (GsfInfileZip *zip, guint32 sig, guint size)
 {
+	char trailer_signature[4];
 	gsf_off_t offset, trailer_offset, filesize;
 	gsf_off_t maplen;
 	guint8 const *data;
-	guchar sig1 = trailer_signature & 0xff;
+	guchar sig1 = sig & 0xff;
 
 	filesize = gsf_input_size (zip->source);
 	if (filesize < size)
 		return -1;
+
+	GSF_LE_SET_GUINT32 (trailer_signature, sig);
 
 	trailer_offset = filesize;
 	maplen = filesize & (ZIP_BUF_SIZE - 1);
@@ -177,7 +180,7 @@ zip_find_trailer (GsfInfileZip *zip, guint32 trailer_signature, guint size)
 		for (s = p + maplen - 1; (s >= p); s--, trailer_offset--) {
 			if (*s == sig1 &&
 			    p + maplen - 1 - s > size - 2 &&
-			    !memcmp (s, &trailer_signature, sizeof (trailer_signature))) {
+			    !memcmp (s, trailer_signature, sizeof (trailer_signature))) {
 				return --trailer_offset;
 			}
 		}
@@ -204,41 +207,108 @@ zip_find_trailer (GsfInfileZip *zip, guint32 trailer_signature, guint size)
 	return -1;
 }
 
+static guint8 const *
+zip_dirent_extra_field (guint8 const *extra, size_t elen,
+			guint16 typ, guint32 *pflen)
+{
+	while (TRUE) {
+		guint16 ftyp, flen;
+
+		if (elen == 0) {
+			*pflen = 0;
+			return NULL;
+		}
+
+		if (elen < 4)
+			goto bad;
+
+		ftyp = GSF_LE_GET_GUINT16 (extra);
+		flen = GSF_LE_GET_GUINT16 (extra + 2);
+		if (flen > elen - 4)
+			goto bad;
+
+		extra += 4;
+		elen -= 4;
+		if (ftyp == typ) {
+			/* Found the extended data.  */
+			*pflen = flen;
+			return extra;
+		}
+		extra += flen;
+		elen -= flen;
+	}
+
+bad:
+	*pflen = 0;
+	return NULL;
+}
+
+
 static GsfZipDirent *
 zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 {
-	static guint8 const dirent_signature[] =
-		{ 'P', 'K', 0x01, 0x02 };
 	GsfZipDirent *dirent;
-	guint8 const *data;
-	guint16 name_len, extras_len, comment_len, compr_method, flags;
-	guint32 dostime, crc32, csize, usize, off;
+	guint8 const *data, *variable, *extra;
+	guint16 compr_method, flags;
+	guint32 dostime, crc32, disk_start, name_len, extras_len, comment_len, vlen, elen;
+	gsf_off_t off, csize, usize;
 	gchar *name;
+	guint8 header[ZIP_DIRENT_SIZE];
 
-	/* Read data and check the header */
+	/* Read fixed-length part of data and check the header */
+	data = header;
 	if (gsf_input_seek (zip->source, *offset, G_SEEK_SET) ||
-	    NULL == (data = gsf_input_read (zip->source, ZIP_DIRENT_SIZE, NULL)) ||
-	    0 != memcmp (data, dirent_signature, sizeof (dirent_signature))) {
+	    !gsf_input_read (zip->source, ZIP_DIRENT_SIZE, header) ||
+	    GSF_LE_GET_GUINT32 (data) != ZIP_DIRENT_SIGNATURE) {
 		return NULL;
 	}
 
 	name_len =      GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_NAME_SIZE);
 	extras_len =    GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_EXTRAS_SIZE);
 	comment_len =   GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMMENT_SIZE);
+	vlen = name_len + extras_len + comment_len;
+
+	/* Read variable part */
+	variable = gsf_input_read (zip->source, ZIP_DIRENT_SIZE, NULL);
+	if (!variable && vlen > 0)
+		return NULL;
+	if (FALSE && variable) gsf_mem_dump (variable, vlen);
+
+	extra = zip_dirent_extra_field (variable + name_len, extras_len,
+					ZIP_DIRENT_EXTRA_FIELD_ZIP64, &elen);
 
 	flags =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_FLAGS);
 	compr_method =  GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMPR_METHOD);
 	dostime =       GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_DOSTIME);
 	crc32 =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CRC32);
 	csize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CSIZE);
+	if (csize == 0xffffffffu && elen >= 8) {
+		csize = GSF_LE_GET_GUINT64 (extra);
+		extra += 8;
+		elen -= 8;
+	}
 	usize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_USIZE);
+	if (usize == 0xffffffffu && elen >= 8) {
+		usize = GSF_LE_GET_GUINT64 (extra);
+		extra += 8;
+		elen -= 8;
+	}
 	off =           GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_OFFSET);
+	if (off == 0xffffffffu && elen >= 8) {
+		off = GSF_LE_GET_GUINT64 (extra);
+		extra += 8;
+		elen -= 8;
+	}
 
-	if ((data = gsf_input_read (zip->source, name_len, NULL)) == NULL)
-		return NULL;
+	disk_start =    GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_DISKSTART);
+	if (disk_start == 0xffffu && elen >= 4) {
+		disk_start = GSF_LE_GET_GUINT32 (extra);
+		extra += 4;
+		elen -= 4;
+	}
 
-	name = g_new (gchar, (gulong) (name_len + 1));
-	memcpy (name, data, name_len);
+	name = g_new (gchar, name_len + 1);
+	memcpy (name, variable, name_len);
 	name[name_len] = '\0';
 
 	dirent = gsf_zip_dirent_new ();
@@ -255,7 +325,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	g_print ("%s = 0x%x @ %" GSF_OFF_T_FORMAT "\n", name, off, *offset);
 #endif
 
-	*offset += ZIP_DIRENT_SIZE + name_len + extras_len + comment_len;
+	*offset += ZIP_DIRENT_SIZE + vlen;
 
 	return dirent;
 }
@@ -320,43 +390,32 @@ zip_dup (GsfInfileZip const *src, GError **err)
 static gboolean
 zip_read_dirents (GsfInfileZip *zip)
 {
-	guint8 const *data;
+	guint8 const *data, *locator;
 	guint32 entries, i;
 	ZipInfo *info;
 	gsf_off_t dir_pos, offset;
-	gboolean need_zip64 = FALSE;
 
 	/* Find and check the trailing header */
 	offset = zip_find_trailer (zip, ZIP_TRAILER_SIGNATURE, ZIP_TRAILER_SIZE);
-	if (offset < 0 ||
-	    gsf_input_seek (zip->source, offset, G_SEEK_SET))
+	if (offset < ZIP_ZIP64_LOCATOR_SIZE ||
+	    gsf_input_seek (zip->source, offset - ZIP_ZIP64_LOCATOR_SIZE, G_SEEK_SET))
 		goto bad;
 
-	data = gsf_input_read (zip->source, ZIP_TRAILER_SIZE, NULL);
-	if (!data)
+	locator = gsf_input_read (zip->source, ZIP_TRAILER_SIZE + ZIP_ZIP64_LOCATOR_SIZE, NULL);
+	if (!locator)
 		goto bad;
+	data = locator + ZIP_ZIP64_LOCATOR_SIZE;
 
 	entries      = GSF_LE_GET_GUINT16 (data + ZIP_TRAILER_ENTRIES);
-	need_zip64 |= (entries == 0xffffu);
 	dir_pos      = GSF_LE_GET_GUINT32 (data + ZIP_TRAILER_DIR_POS);
-	need_zip64 |= (dir_pos == 0xffffffffu);
 
-	if (need_zip64) {
+	if (GSF_LE_GET_GUINT32 (locator) == ZIP_ZIP64_LOCATOR_SIGNATURE) {
 		guint32 disk, disks;
 		gsf_off_t zip64_eod_offset;
 
 		zip->zip64 = TRUE;
 
-		/* Find the zip64 locator */
-		offset = zip_find_trailer (zip, ZIP_ZIP64_LOCATOR_SIGNATURE, ZIP_ZIP64_LOCATOR_SIZE);
-		if (offset < 0 ||
-		    gsf_input_seek (zip->source, offset, G_SEEK_SET))
-			goto bad;
-
-		data = gsf_input_read (zip->source, ZIP_ZIP64_LOCATOR_SIZE, NULL);
-		if (!data)
-			goto bad;
-
+		data = locator;
 		disk = GSF_LE_GET_GUINT32 (data + ZIP_ZIP64_LOCATOR_DISK);
 		zip64_eod_offset = GSF_LE_GET_GUINT64 (data + ZIP_ZIP64_LOCATOR_OFFSET);
 		disks = GSF_LE_GET_GUINT32 (data + ZIP_ZIP64_LOCATOR_DISKS);
@@ -551,10 +610,10 @@ static guint8 const *
 gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
-	GsfZipVDir      *vdir = zip->vdir;
+	GsfZipVDir *vdir = zip->vdir;
 	gsf_off_t pos;
 
-	if (zip->restlen < num_bytes)
+	if (zip->restlen < (gsf_off_t)num_bytes)
 		return NULL;
 
 	switch (vdir->dirent->compr_method) {
@@ -580,7 +639,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 
 		do {
 			int err;
-			int startlen;
+			gsf_off_t startlen;
 
 			if (zip->crestlen > 0 && zip->stream->avail_in == 0)
 				if (!zip_update_stream_in (zip))
@@ -785,6 +844,7 @@ gsf_infile_zip_constructor (GType                  type,
 		/* Special call from zip_dup.  */
 		zip->source = gsf_input_dup (zip->dup_parent->source, &zip->err);
 		zip->info = zip_info_ref (zip->dup_parent->info);
+		zip->zip64 = zip->dup_parent->zip64;
 		zip->dup_parent = NULL;
 	} else {
 		if (!zip_init_info (zip))

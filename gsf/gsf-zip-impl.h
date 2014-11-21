@@ -57,8 +57,8 @@ G_BEGIN_DECLS
 
 #define ZIP_TRAILER64_SIZE 		56  /* or more */
 #define ZIP_TRAILER64_RECSIZE            4
-#define ZIP_TRAILER64_VERSION_MADE	12
-#define ZIP_TRAILER64_VERSION_NEEDED	14
+#define ZIP_TRAILER64_ENCODER   	12
+#define ZIP_TRAILER64_EXTRACT   	14
 #define ZIP_TRAILER64_DISK		16
 #define ZIP_TRAILER64_DIR_DISK		20
 #define ZIP_TRAILER64_ENTRIES		24
@@ -66,6 +66,7 @@ G_BEGIN_DECLS
 #define ZIP_TRAILER64_DIR_SIZE 		40
 #define ZIP_TRAILER64_DIR_POS 		48
 
+#define ZIP_DIRENT_SIGNATURE            0x02014b50
 #define ZIP_DIRENT_SIZE                 46
 #define ZIP_DIRENT_ENCODER              4
 #define ZIP_DIRENT_EXTRACT              6
@@ -94,6 +95,10 @@ G_BEGIN_DECLS
 #define ZIP_FILE_HEADER_NAME_SIZE       26
 #define ZIP_FILE_HEADER_EXTRAS_SIZE     28
 
+#define ZIP_DIRENT_EXTRA_FIELD_ZIP64 0x0001
+#define ZIP_DIRENT_EXTRA_FIELD_UNIXTIME 0x5455  /* "UT" */
+#define ZIP_DIRENT_EXTRA_FIELD_UIDGID 0x7875    /* "ux" */
+
 #define ZIP_NAME_SEPARATOR    '/'
 
 #define ZIP_BLOCK_SIZE 32768
@@ -110,8 +115,8 @@ typedef struct {
 	guint16                  flags;
 	GsfZipCompressionMethod  compr_method;
 	guint32                  crc32;
-	size_t                   csize;
-	size_t                   usize;
+	gsf_off_t                csize;
+	gsf_off_t                usize;
 	gsf_off_t                offset;
 	gsf_off_t                data_offset;
 	guint32                  dostime;

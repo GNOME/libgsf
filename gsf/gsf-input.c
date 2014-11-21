@@ -403,7 +403,7 @@ gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
 
 	*bytes_read = num_bytes;
 
-	if (num_bytes > (size_t)gsf_input_remaining (input))
+	if (num_bytes < 0 || (gsf_off_t)num_bytes > gsf_input_remaining (input))
 		return NULL;
 
 	res = g_new (guint8, num_bytes);

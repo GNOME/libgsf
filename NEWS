@@ -8,7 +8,9 @@ Morten:
 	* Dead kittens.
 	* Reduce number of CRITICALs for corrupted files.
 	* Read zip files with 64k+ members.  [Part of #732209]
+	* Read zip files members larger than 4G.  [Part of #732209]
 	* Speed up zip file reading for lots of members.
+	* Fix various issues with files larger than 4G.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30

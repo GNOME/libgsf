@@ -296,17 +296,14 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
 void
 gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 {
-	gsf_off_t offset = 0;
-	size_t size, count;
-	guint8 const *data;
+	gsf_off_t offset = 0, size;
 
 	/* read in small blocks to excercise things */
 	size = gsf_input_size (GSF_INPUT (input));
 	while (size > 0) {
-		count = size;
-		if (count > 0x100)
-			count = 0x100;
-		data = gsf_input_read (GSF_INPUT (input), count, NULL);
+		size_t count = (size > 0x1000) ? 0x1000 : size;
+		guint8 const *data =
+			gsf_input_read (GSF_INPUT (input), count, NULL);
 		g_return_if_fail (data != NULL);
 		if (dump_as_hex)
 			gsf_mem_dump_full (data, count, offset);
