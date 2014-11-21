@@ -94,7 +94,7 @@ gsf_zip_vdir_new (char const *name, gboolean is_directory, GsfZipDirent *dirent)
 	vdir->name = g_strdup (name);
 	vdir->is_directory = is_directory;
 	vdir->dirent = dirent;
-	vdir->children = NULL;
+	vdir->children = g_ptr_array_new ();
 	return vdir;
 }
 
@@ -122,15 +122,17 @@ gsf_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 void
 gsf_zip_vdir_free (GsfZipVDir *vdir, gboolean free_dirent)
 {
-	GSList *l;
+	unsigned ui;
 
 	if (!vdir)
 		return;
 
-	for (l = vdir->children; l; l = l->next)
-		gsf_zip_vdir_free ((GsfZipVDir *)l->data, free_dirent);
+	for (ui = 0; ui < vdir->children->len; ui++) {
+		GsfZipVDir *c = g_ptr_array_index (vdir->children, ui);
+		gsf_zip_vdir_free (c, free_dirent);
+	}
+	g_ptr_array_free (vdir->children, TRUE);
 
-	g_slist_free (vdir->children);
 	g_free (vdir->name);
 	if (free_dirent && vdir->dirent)
 		gsf_zip_dirent_free (vdir->dirent);
@@ -141,7 +143,8 @@ static GsfZipVDir *
 gsf_zip_vdir_copy (GsfZipVDir *vdir)
 {
 	GsfZipVDir *res = g_new0 (GsfZipVDir, 1);
-	GSList *l;
+	unsigned ui;
+
 	/* it is not possible to add a ref_count without breaking the API,
 	 * so we need to really copy everything */
 	if (vdir->name)
@@ -149,8 +152,10 @@ gsf_zip_vdir_copy (GsfZipVDir *vdir)
 	res->is_directory = vdir->is_directory;
 	if (vdir->dirent)
 		res->dirent = gsf_zip_dirent_copy (vdir->dirent);
-	for (l = vdir->children; l; l = l->next)
-		gsf_zip_vdir_add_child (res, gsf_zip_vdir_copy ((GsfZipVDir *)l->data));
+	for (ui = 0; ui < vdir->children->len; ui++) {
+		GsfZipVDir *c = g_ptr_array_index (vdir->children, ui);
+		gsf_zip_vdir_add_child (res, gsf_zip_vdir_copy (c));
+	}
 	return res;
 }
 
@@ -183,10 +188,5 @@ gsf_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
 void
 gsf_zip_vdir_add_child (GsfZipVDir *vdir, GsfZipVDir *child)
 {
-	GSList *tail = g_slist_append (NULL, child);
-	if (vdir->children)
-		vdir->last_child->next = tail;
-	else
-		vdir->children = tail;
-	vdir->last_child = tail;
+	g_ptr_array_add (vdir->children, child);
 }

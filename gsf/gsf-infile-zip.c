@@ -42,19 +42,20 @@ enum {
 static GObjectClass *parent_class;
 
 typedef struct {
-	guint16     entries;
-	guint32     dir_pos;
-	GList	   *dirent_list;
+	guint32     entries;
+	gsf_off_t   dir_pos;
+	GPtrArray  *dirents;
 	GsfZipVDir *vdir;
 
 	int ref_count;
 } ZipInfo;
 
 struct _GsfInfileZip {
-	GsfInfile parent;
+	GsfInfile base;
 
 	GsfInput  *source;
 	ZipInfo	  *info;
+	gboolean  zip64;
 
 	GsfZipVDir   *vdir;
 
@@ -100,10 +101,10 @@ zip_make_modtime (guint32 dostime)
 static GsfZipVDir *
 vdir_child_by_name (GsfZipVDir *vdir, char const *name)
 {
-	GSList *l;
+	unsigned ui;
 
-	for (l = vdir->children; l; l = l->next) {
-		GsfZipVDir *child = (GsfZipVDir *) l->data;
+	for (ui = 0; ui < vdir->children->len; ui++) {
+		GsfZipVDir *child = g_ptr_array_index (vdir->children, ui);
 		if (strcmp (child->name, name) == 0)
 			return child;
 	}
@@ -113,7 +114,9 @@ vdir_child_by_name (GsfZipVDir *vdir, char const *name)
 static GsfZipVDir *
 vdir_child_by_index (GsfZipVDir *vdir, int target)
 {
-	return g_slist_nth_data (vdir->children, target);
+	return (unsigned)target < vdir->children->len
+		? g_ptr_array_index (vdir->children, target)
+		: NULL;
 }
 
 static void
@@ -143,16 +146,15 @@ vdir_insert (GsfZipVDir *vdir, char const * name, GsfZipDirent *dirent)
 }
 
 static gsf_off_t
-zip_find_trailer (GsfInfileZip *zip)
+zip_find_trailer (GsfInfileZip *zip, guint32 trailer_signature, guint size)
 {
-	static guint8 const trailer_signature[] =
-		{ 'P', 'K', 0x05, 0x06 };
 	gsf_off_t offset, trailer_offset, filesize;
 	gsf_off_t maplen;
 	guint8 const *data;
+	guchar sig1 = trailer_signature & 0xff;
 
 	filesize = gsf_input_size (zip->source);
-	if (filesize < ZIP_TRAILER_SIZE)
+	if (filesize < size)
 		return -1;
 
 	trailer_offset = filesize;
@@ -173,9 +175,9 @@ zip_find_trailer (GsfInfileZip *zip)
 		p = (guchar *) data;
 
 		for (s = p + maplen - 1; (s >= p); s--, trailer_offset--) {
-			if ((*s == 'P') &&
-			    (p + maplen - 1 - s > ZIP_TRAILER_SIZE - 2) &&
-			    !memcmp (s, trailer_signature, sizeof (trailer_signature))) {
+			if (*s == sig1 &&
+			    p + maplen - 1 - s > size - 2 &&
+			    !memcmp (s, &trailer_signature, sizeof (trailer_signature))) {
 				return --trailer_offset;
 			}
 		}
@@ -269,16 +271,17 @@ zip_info_ref (ZipInfo *info)
 static void
 zip_info_unref (ZipInfo *info)
 {
-	GList *p;
+	unsigned ui;
 
 	if (info->ref_count-- != 1)
 		return;
 
 	gsf_zip_vdir_free (info->vdir, FALSE);
-	for (p = info->dirent_list; p != NULL; p = p->next)
-		gsf_zip_dirent_free ((GsfZipDirent *) p->data);
-
-	g_list_free (info->dirent_list);
+	for (ui = 0; ui < info->dirents->len; ui++) {
+		GsfZipDirent *e = g_ptr_array_index (info->dirents, ui);
+		gsf_zip_dirent_free (e);
+	}
+	g_ptr_array_free (info->dirents, TRUE);
 
 	g_free (info);
 }
@@ -317,33 +320,64 @@ zip_dup (GsfInfileZip const *src, GError **err)
 static gboolean
 zip_read_dirents (GsfInfileZip *zip)
 {
-	guint8 const *trailer;
-	guint16 entries, i;
-	guint32 dir_pos;
+	guint8 const *data;
+	guint32 entries, i;
 	ZipInfo *info;
-	gsf_off_t offset;
+	gsf_off_t dir_pos, offset;
+	gboolean need_zip64 = FALSE;
 
 	/* Find and check the trailing header */
-	offset = zip_find_trailer (zip);
-	if (offset < 0) {
-		zip->err = g_error_new (gsf_input_error_id (), 0,
-					_("No Zip trailer"));
-		return TRUE;
-	}
+	offset = zip_find_trailer (zip, ZIP_TRAILER_SIGNATURE, ZIP_TRAILER_SIZE);
+	if (offset < 0 ||
+	    gsf_input_seek (zip->source, offset, G_SEEK_SET))
+		goto bad;
 
-	if (gsf_input_seek (zip->source, offset, G_SEEK_SET) ||
-	    NULL == (trailer = gsf_input_read (zip->source, ZIP_TRAILER_SIZE, NULL))) {
-		zip->err = g_error_new (gsf_input_error_id (), 0,
-					_("Error reading Zip signature"));
-		return TRUE;
-	}
+	data = gsf_input_read (zip->source, ZIP_TRAILER_SIZE, NULL);
+	if (!data)
+		goto bad;
 
-	entries      = GSF_LE_GET_GUINT32 (trailer + ZIP_TRAILER_ENTRIES);
-	dir_pos      = GSF_LE_GET_GUINT32 (trailer + ZIP_TRAILER_DIR_POS);
+	entries      = GSF_LE_GET_GUINT16 (data + ZIP_TRAILER_ENTRIES);
+	need_zip64 |= (entries == 0xffffu);
+	dir_pos      = GSF_LE_GET_GUINT32 (data + ZIP_TRAILER_DIR_POS);
+	need_zip64 |= (dir_pos == 0xffffffffu);
+
+	if (need_zip64) {
+		guint32 disk, disks;
+		gsf_off_t zip64_eod_offset;
+
+		zip->zip64 = TRUE;
+
+		/* Find the zip64 locator */
+		offset = zip_find_trailer (zip, ZIP_ZIP64_LOCATOR_SIGNATURE, ZIP_ZIP64_LOCATOR_SIZE);
+		if (offset < 0 ||
+		    gsf_input_seek (zip->source, offset, G_SEEK_SET))
+			goto bad;
+
+		data = gsf_input_read (zip->source, ZIP_ZIP64_LOCATOR_SIZE, NULL);
+		if (!data)
+			goto bad;
+
+		disk = GSF_LE_GET_GUINT32 (data + ZIP_ZIP64_LOCATOR_DISK);
+		zip64_eod_offset = GSF_LE_GET_GUINT64 (data + ZIP_ZIP64_LOCATOR_OFFSET);
+		disks = GSF_LE_GET_GUINT32 (data + ZIP_ZIP64_LOCATOR_DISKS);
+
+		if (disk != 0 || disks != 1)
+			goto bad;
+
+		if (gsf_input_seek (zip->source, zip64_eod_offset, G_SEEK_SET))
+			goto bad;
+		data = gsf_input_read (zip->source, ZIP_TRAILER64_SIZE, NULL);
+		if (!data)
+			goto bad;
+
+		entries = GSF_LE_GET_GUINT64 (data + ZIP_TRAILER64_ENTRIES);
+		dir_pos = GSF_LE_GET_GUINT64 (data + ZIP_TRAILER64_DIR_POS);
+	}
 
 	info = g_new0 (ZipInfo, 1);
 	zip->info = info;
 
+	info->dirents = g_ptr_array_new ();
 	info->ref_count    = 1;
 	info->entries      = entries;
 	info->dir_pos      = dir_pos;
@@ -359,22 +393,26 @@ zip_read_dirents (GsfInfileZip *zip)
 			return TRUE;
 		}
 
-		info->dirent_list = g_list_append (info->dirent_list, d);
+		g_ptr_array_add (info->dirents, d);
 	}
 
 	return FALSE;
+
+bad:
+	zip->err = g_error_new (gsf_input_error_id (), 0,
+				_("Broken zip file structure"));
+	return TRUE;
 }
 
 static void
 zip_build_vdirs (GsfInfileZip *zip)
 {
-	GList *l;
-	GsfZipDirent *dirent;
+	unsigned ui;
 	ZipInfo *info = zip->info;
 
 	info->vdir = gsf_zip_vdir_new ("", TRUE, NULL);
-	for (l = info->dirent_list; l; l = l->next) {
-		dirent = (GsfZipDirent *) l->data;
+	for (ui = 0; ui < info->dirents->len; ui++) {
+		GsfZipDirent *dirent = g_ptr_array_index (info->dirents, ui);
 		vdir_insert (info->vdir, dirent->name, dirent);
 	}
 }
@@ -695,7 +733,7 @@ gsf_infile_zip_num_children (GsfInfile *infile)
 
 	if (!zip->vdir->is_directory)
 		return -1;
-	return g_slist_length (zip->vdir->children);
+	return zip->vdir->children->len;
 }
 
 static void
@@ -763,6 +801,7 @@ gsf_infile_zip_init (GObject *obj)
 	GsfInfileZip *zip = (GsfInfileZip *)obj;
 	zip->source = NULL;
 	zip->info = NULL;
+	zip->zip64 = FALSE;
 	zip->vdir = NULL;
 	zip->stream = NULL;
 	zip->restlen = 0;

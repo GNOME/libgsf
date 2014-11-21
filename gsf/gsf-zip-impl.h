@@ -39,6 +39,7 @@ G_BEGIN_DECLS
 #define ZIP_HEADER_NAME_LEN		26
 #define ZIP_HEADER_EXTRA_LEN		28
 
+#define ZIP_TRAILER_SIGNATURE           0x06054b50
 #define ZIP_TRAILER_SIZE 		22
 #define ZIP_TRAILER_DISK 		4
 #define ZIP_TRAILER_DIR_DISK 		6
@@ -47,6 +48,23 @@ G_BEGIN_DECLS
 #define ZIP_TRAILER_DIR_SIZE 		12
 #define ZIP_TRAILER_DIR_POS 		16
 #define ZIP_TRAILER_COMMENT_SIZE	20
+
+#define ZIP_ZIP64_LOCATOR_SIGNATURE     0x07064b50
+#define ZIP_ZIP64_LOCATOR_SIZE 		20
+#define ZIP_ZIP64_LOCATOR_DISK		4
+#define ZIP_ZIP64_LOCATOR_OFFSET	8
+#define ZIP_ZIP64_LOCATOR_DISKS		16
+
+#define ZIP_TRAILER64_SIZE 		56  /* or more */
+#define ZIP_TRAILER64_RECSIZE            4
+#define ZIP_TRAILER64_VERSION_MADE	12
+#define ZIP_TRAILER64_VERSION_NEEDED	14
+#define ZIP_TRAILER64_DISK		16
+#define ZIP_TRAILER64_DIR_DISK		20
+#define ZIP_TRAILER64_ENTRIES		24
+#define ZIP_TRAILER64_TOTAL_ENTRIES	32
+#define ZIP_TRAILER64_DIR_SIZE 		40
+#define ZIP_TRAILER64_DIR_POS 		48
 
 #define ZIP_DIRENT_SIZE                 46
 #define ZIP_DIRENT_ENCODER              4
@@ -103,7 +121,8 @@ typedef struct {
 	char *name;
 	gboolean is_directory;
 	GsfZipDirent *dirent;
-	GSList *children, *last_child;
+	GPtrArray *children;
+	GSList *last_child; /* Unused */
 } GsfZipVDir;
 
 GType         gsf_zip_dirent_get_type (void);

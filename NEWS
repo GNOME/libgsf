@@ -7,6 +7,8 @@ Morten:
 	* Plug leaks.
 	* Dead kittens.
 	* Reduce number of CRITICALs for corrupted files.
+	* Read zip files with 64k+ members.  [Part of #732209]
+	* Speed up zip file reading for lots of members.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30

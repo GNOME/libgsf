@@ -1,5 +1,13 @@
 2014-11-20  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (zip_read_dirents): Handle zip64 format for
+	archives with 65535 or more members.
+	(ZipInfo): Larger fields; user GPtrArray for speed.  All users
+	changed.
+
+	* gsf/gsf-zip-impl.h (GsfZipVDir): Use a GPtrArray for speed.  All
+	users changed.
+
 	* gsf/gsf-input.c: Update to new introspection syntax.
 
 2014-11-15  Morten Welinder  <terra@gnome.org>
