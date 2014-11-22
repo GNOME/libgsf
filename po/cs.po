@@ -11,10 +11,10 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-04-17 23:36+0000\n"
-"PO-Revision-Date: 2014-04-22 11:43+0200\n"
+"POT-Creation-Date: 2014-11-21 01:04+0000\n"
+"PO-Revision-Date: 2014-11-22 21:33+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +98,7 @@ msgstr "Selhal přístup k potomkovi"
 msgid "failure reading block"
 msgstr "selhalo čtení bloku"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Nelze najít proud složky VBA"
@@ -107,17 +107,17 @@ msgstr "Nelze najít proud složky VBA"
 msgid "vba project header problem"
 msgstr "problém s hlavičkou projektu VBA"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "Schází značka VBA"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Neznámá značka 0x%x%x%x%x s verzí VBA"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Nelze zpracovat hlavičku VBA"
@@ -147,52 +147,47 @@ msgstr "Přeskočení selhalo"
 msgid "Truncated archive"
 msgstr "Neúplný archiv"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:886
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:887
 msgid "The archive being interpreted"
 msgstr "Archiv byl interpretován"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "Schází zakončení ZIP"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Chyba při čtení značky ZIP"
-
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:392
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Chyba při čtení položky složky ZIP"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:403
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Poškozená struktura souboru ZIP"
+
+#: ../gsf/gsf-infile-zip.c:459
 msgid "Error seeking to zip header"
 msgstr "Chyba při skoku na hlavičku ZIP"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:461
 msgid "Error reading zip header"
 msgstr "Chyba při čtení hlavičky ZIP"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:463
 msgid "Error incorrect zip header"
 msgstr "Nesprávná hlavička ZIP"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:496
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "problém s dekomprimací proudu"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:902 ../gsf/gsf-outfile-zip.c:769
 msgid "Compression Level"
 msgstr "Úroveň komprimace"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:903 ../gsf/gsf-outfile-zip.c:770
 msgid "The level of compression used, zero meaning none"
 msgstr "Použitá úroveň komprimace, nula znamená žádná"
 
@@ -332,17 +327,17 @@ msgstr "Velikost po dekomprimaci"
 msgid "The source's uncompressed size"
 msgstr "Nekomprimovaná velikost zdroje"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: Nejedná se o běžný soubor"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: Soubor je příliš velký, než aby mohl být namapován do paměti"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap není podporováno"
@@ -383,37 +378,37 @@ msgstr ""
 "Poškozená data vlastnosti VT_CF; délka dat schránky musí být aspoň 4 bajty, "
 "ale k dispozici je jen %s bajtů."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Nelze číst hlavičku proudu vlastností MS"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Neplatná hlavička proudu vlastností MS"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Neplatný oddíl vlastností MS"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Neplatná hlavička proudu vlastností MS nebo neúplný soubor"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:356
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Vlastnost „%s“ použitá pro více typů!"
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "ODF version"
 msgstr "Verze ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:882
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Verze ODF, v podobě celého čísla, na kterou je tento objekt zaměřen; např. "
@@ -492,7 +487,6 @@ msgid "Deflate Level"
 msgstr "Úroveň komprimace deflate"
 
 #: ../gsf/gsf-outfile-zip.c:781
-#| msgid "The level of compression used, zero meaning none"
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
@@ -711,3 +705,9 @@ msgstr "Použití: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Spuštěním „%s help“ si zobrazíte seznam dílčích příkazů.\n"
+
+#~ msgid "No Zip trailer"
+#~ msgstr "Schází zakončení ZIP"
+
+#~ msgid "Error reading Zip signature"
+#~ msgstr "Chyba při čtení značky ZIP"
