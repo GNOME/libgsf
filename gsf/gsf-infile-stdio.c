@@ -36,8 +36,8 @@ static GObjectClass *parent_class;
 
 struct _GsfInfileStdio {
 	GsfInfile parent;
-	char     *root;
-	GList    *children;
+	char *root;
+	GPtrArray *children;
 };
 
 typedef GsfInfileClass GsfInfileStdioClass;
@@ -48,25 +48,24 @@ gsf_infile_stdio_finalize (GObject *obj)
 	GsfInfileStdio *ifs = GSF_INFILE_STDIO (obj);
 
 	g_free (ifs->root);
-	g_list_foreach (ifs->children, (GFunc) g_free, NULL);
-	g_list_free (ifs->children);
-
+	g_ptr_array_free (ifs->children, TRUE);
 	parent_class->finalize (obj);
 }
 
 static GsfInput *
 gsf_infile_stdio_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 {
-	GList *ptr;
 	GsfInfileStdio *src = GSF_INFILE_STDIO (src_input);
+	unsigned ui;
 
 	GsfInfileStdio *dst = g_object_new (GSF_INFILE_STDIO_TYPE, NULL);
 	dst->root = g_strdup (src->root);
 
-	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)
-		dst->children = g_list_prepend (dst->children,
-			g_strdup (ptr->data));
-	dst->children = g_list_reverse (dst->children);
+	for (ui = 0; ui < src->children->len; ui++) {
+		const char *child = g_ptr_array_index (src->children, ui);
+		g_ptr_array_add (dst->children, g_strdup (child));
+	}
+
 	return GSF_INPUT (dst);
 }
 
@@ -92,35 +91,34 @@ open_child (GsfInfileStdio *ifs, char const *name, GError **err)
 	return child;
 }
 
-static GsfInput *
-gsf_infile_stdio_child_by_index (GsfInfile *infile, int target, GError **err)
-{
-	GsfInfileStdio *ifs = GSF_INFILE_STDIO (infile);
-	char const *name = g_list_nth_data (ifs->children, target);
-
-	if (!name)
-		return NULL;
-
-	return open_child (ifs, name, err);
-}
-
 static char const *
 gsf_infile_stdio_name_by_index (GsfInfile *infile, int target)
 {
 	GsfInfileStdio *ifs = GSF_INFILE_STDIO (infile);
+	return (unsigned)target < ifs->children->len
+		? g_ptr_array_index (ifs->children, target)
+		: NULL;
+}
 
-	return g_list_nth_data (ifs->children, target);
+static GsfInput *
+gsf_infile_stdio_child_by_index (GsfInfile *infile, int target, GError **err)
+{
+	GsfInfileStdio *ifs = GSF_INFILE_STDIO (infile);
+	const char *name = gsf_infile_stdio_name_by_index (infile, target);
+	return name ? open_child (ifs, name, err) : NULL;
 }
 
 static GsfInput *
 gsf_infile_stdio_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
 	GsfInfileStdio *ifs = GSF_INFILE_STDIO (infile);
-	GList *ptr;
+	unsigned ui;
 
-	for (ptr = ifs->children; ptr != NULL; ptr = ptr->next)
-		if (!strcmp (ptr->data, name))
+	for (ui = 0; ui < ifs->children->len; ui++) {
+		const char *child = g_ptr_array_index (ifs->children, ui);
+		if (!strcmp (child, name))
 			return open_child (ifs, name, err);
+	}
 
 	return NULL;
 }
@@ -129,15 +127,14 @@ static int
 gsf_infile_stdio_num_children (GsfInfile *infile)
 {
 	GsfInfileStdio *ifs = GSF_INFILE_STDIO (infile);
-
-	return g_list_length (ifs->children);
+	return ifs->children->len;
 }
 
 static void
 gsf_infile_stdio_init (GsfInfileStdio *ifs)
 {
 	ifs->root = NULL;
-	ifs->children = NULL;
+	ifs->children = g_ptr_array_new_with_free_func (g_free);
 }
 
 static void
@@ -184,8 +181,8 @@ gsf_infile_stdio_new (char const *root, GError **err)
 	ifs->root = g_strdup (root);
 
 	while ((child = g_dir_read_name (dir)))
-		ifs->children = g_list_prepend (ifs->children,
-						g_strdup (child));
+		g_ptr_array_add (ifs->children, g_strdup (child));
+
 	g_dir_close (dir);
 
 	gsf_input_set_name_from_filename (GSF_INPUT (ifs), root);
