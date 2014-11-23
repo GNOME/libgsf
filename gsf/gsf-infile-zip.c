@@ -269,7 +269,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	vlen = name_len + extras_len + comment_len;
 
 	/* Read variable part */
-	variable = gsf_input_read (zip->source, ZIP_DIRENT_SIZE, NULL);
+	variable = gsf_input_read (zip->source, vlen, NULL);
 	if (!variable && vlen > 0)
 		return NULL;
 	if (FALSE && variable) gsf_mem_dump (variable, vlen);
@@ -426,7 +426,8 @@ zip_read_dirents (GsfInfileZip *zip)
 		if (gsf_input_seek (zip->source, zip64_eod_offset, G_SEEK_SET))
 			goto bad;
 		data = gsf_input_read (zip->source, ZIP_TRAILER64_SIZE, NULL);
-		if (!data)
+		if (!data ||
+		    GSF_LE_GET_GUINT32 (data) != ZIP_TRAILER64_SIGNATURE)
 			goto bad;
 
 		entries = GSF_LE_GET_GUINT64 (data + ZIP_TRAILER64_ENTRIES);

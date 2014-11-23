@@ -2,6 +2,8 @@
 
 	* gsf/gsf-infile-zip.c (zip_dirent_new_in): Fix reading of
 	extended field.  csize and usize are swapped in there.
+	(zip_dirent_new_in): Read the right amount of variable data.
+	(zip_read_dirents): Check trailer64 signature.
 
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix file mode.
 
