@@ -282,25 +282,25 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	dostime =       GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_DOSTIME);
 	crc32 =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CRC32);
 	csize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_CSIZE);
-	if (csize == 0xffffffffu && elen >= 8) {
-		csize = GSF_LE_GET_GUINT64 (extra);
-		extra += 8;
-		elen -= 8;
-	}
 	usize =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_USIZE);
+	off =           GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_OFFSET);
+	disk_start =    GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_DISKSTART);
+
 	if (usize == 0xffffffffu && elen >= 8) {
 		usize = GSF_LE_GET_GUINT64 (extra);
 		extra += 8;
 		elen -= 8;
 	}
-	off =           GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_OFFSET);
+	if (csize == 0xffffffffu && elen >= 8) {
+		csize = GSF_LE_GET_GUINT64 (extra);
+		extra += 8;
+		elen -= 8;
+	}
 	if (off == 0xffffffffu && elen >= 8) {
 		off = GSF_LE_GET_GUINT64 (extra);
 		extra += 8;
 		elen -= 8;
 	}
-
-	disk_start =    GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_DISKSTART);
 	if (disk_start == 0xffffu && elen >= 4) {
 		disk_start = GSF_LE_GET_GUINT32 (extra);
 		extra += 4;

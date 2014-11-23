@@ -1,5 +1,8 @@
 2014-11-23  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (zip_dirent_new_in): Fix reading of
+	extended field.  csize and usize are swapped in there.
+
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix file mode.
 
 2014-11-22  Morten Welinder  <terra@gnome.org>
@@ -18,7 +21,7 @@
 
 	* gsf/gsf-infile-zip.c (zip_read_dirents): Handle zip64 format for
 	archives with 65535 or more members.
-	(ZipInfo): Larger fields; user GPtrArray for speed.  All users
+	(ZipInfo): Larger fields; use GPtrArray for speed.  All users
 	changed.
 	(zip_find_trailer): Fix endianess issue.
 	(gsf_infile_zip_read): Fix 64-bit issue.
