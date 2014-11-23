@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-18 14:37+0200\n"
-"PO-Revision-Date: 2014-04-18 14:38+0200\n"
+"POT-Creation-Date: 2014-11-23 15:54+0100\n"
+"PO-Revision-Date: 2014-11-23 15:55+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -101,7 +101,7 @@ msgstr "Uzyskanie dostępu do elementu potomnego się nie powiodło"
 msgid "failure reading block"
 msgstr "niepowodzenie podczas odczytywania bloku"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Nie można odnaleźć strumienia katalogu VBA"
@@ -110,17 +110,17 @@ msgstr "Nie można odnaleźć strumienia katalogu VBA"
 msgid "vba project header problem"
 msgstr "problem nagłówka projektu vba"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "Brak podpisu VBA"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Nieznany podpis wersji VBA 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Nie można przetworzyć nagłówka VBA"
@@ -150,52 +150,47 @@ msgstr "Przejście się nie powiodło"
 msgid "Truncated archive"
 msgstr "Skrócone archiwum"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:946
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Źródło"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Interpretowane archiwum"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "Brak końcówki Zip"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Błąd podczas odczytywania podpisu Zip"
-
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:451
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Błąd podczas odczytywania dirent zip"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:462
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Uszkodzona struktura pliku zip"
+
+#: ../gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "Błąd podczas przechodzenia do nagłówka zip"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:520
 msgid "Error reading zip header"
 msgstr "Błąd podczas odczytywania nagłówka zip"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
 msgstr "Błąd, niepoprawny nagłówek zip"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:555
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "problem podczas dekompresowania strumienia"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:962 ../gsf/gsf-outfile-zip.c:769
 msgid "Compression Level"
 msgstr "Poziom kompresji"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:963 ../gsf/gsf-outfile-zip.c:770
 msgid "The level of compression used, zero meaning none"
 msgstr "Użyty poziom kompresji, zero oznacza brak"
 
@@ -337,17 +332,17 @@ msgstr "Rozmiar po dekompresji"
 msgid "The source's uncompressed size"
 msgstr "Rozmiar zdekompresowanego źródła"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: nie jest zwykłym plikiem"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: plik jest za duży, aby mapować go w pamięci"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap nie jest obsługiwane"
@@ -388,38 +383,38 @@ msgstr ""
 "Uszkodzone dane we właściwości VT_CF. Długość danych schowka musi wynosić co "
 "najmniej 4 bajty, ale dane mają dostępne tylko %s bajty."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Nie można odczytać nagłówka strumienia właściwości MS"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Nieprawidłowy nagłówek strumienia właściwości MS"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Nieprawidłowa sekcja właściwości MS"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr ""
 "Nieprawidłowy nagłówek strumienia właściwości MS lub plik jest skrócony"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:356
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Własność \"%s\" jest używana dla wielu typów."
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "ODF version"
 msgstr "Wersja ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:882
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Wersja ODF tego obiektu jako liczba całkowita, taka jak 100"
 
