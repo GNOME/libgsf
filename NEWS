@@ -12,6 +12,7 @@ Morten:
 	* Speed up zip file reading for lots of members.
 	* Speed up stdio directory handling with large number of files.
 	* Fix various issues with files larger than 4G.
+	* Fix minor zip file issues.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30

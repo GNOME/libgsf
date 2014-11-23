@@ -1,3 +1,7 @@
+2014-11-23  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix file mode.
+
 2014-11-22  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (open_archive): Plug leak.
