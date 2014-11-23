@@ -1,5 +1,7 @@
 2014-11-22  Morten Welinder  <terra@gnome.org>
 
+	* tools/gsf.c (open_archive): Plug leak.
+
 	* gsf/gsf-infile-stdio.c (GsfInfileStdio): Use a GPtrArray instead
 	of a list for performance with large directories.
 

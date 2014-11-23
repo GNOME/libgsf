@@ -51,22 +51,30 @@ open_archive (char const *filename)
 	}
 
 	infile = gsf_infile_zip_new (src, NULL);
-	if (infile)
+	if (infile) {
+		g_object_unref (src);
 		return infile;
+	}
 
 	infile = gsf_infile_msole_new (src, NULL);
-	if (infile)
+	if (infile) {
+		g_object_unref (src);
 		return infile;
+	}
 
 	infile = gsf_infile_tar_new (src, NULL);
-	if (infile)
+	if (infile) {
+		g_object_unref (src);
 		return infile;
+	}
 
 	display_name = g_filename_display_name (filename);
 	g_printerr (_("%s: Failed to recognize %s as an archive\n"),
 		    g_get_prgname (),
 		    display_name);
 	g_free (display_name);
+
+	g_object_unref (src);
 	return NULL;
 }
 
