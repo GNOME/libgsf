@@ -4,6 +4,7 @@
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *                    	   Tambet Ingo   (tambet@ximian.com)
+ * Copyright (C) 2014 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -146,9 +147,8 @@ vdir_insert (GsfZipVDir *vdir, char const * name, GsfZipDirent *dirent)
 }
 
 static gsf_off_t
-zip_find_trailer (GsfInfileZip *zip, guint32 sig, guint size)
+zip_find_trailer (GsfInfileZip *zip, guint32 sig, gssize size)
 {
-	char trailer_signature[4];
 	gsf_off_t offset, trailer_offset, filesize;
 	gsf_off_t maplen;
 	guint8 const *data;
@@ -157,8 +157,6 @@ zip_find_trailer (GsfInfileZip *zip, guint32 sig, guint size)
 	filesize = gsf_input_size (zip->source);
 	if (filesize < size)
 		return -1;
-
-	GSF_LE_SET_GUINT32 (trailer_signature, sig);
 
 	trailer_offset = filesize;
 	maplen = filesize & (ZIP_BUF_SIZE - 1);
@@ -180,7 +178,7 @@ zip_find_trailer (GsfInfileZip *zip, guint32 sig, guint size)
 		for (s = p + maplen - 1; (s >= p); s--, trailer_offset--) {
 			if (*s == sig1 &&
 			    p + maplen - 1 - s > size - 2 &&
-			    !memcmp (s, trailer_signature, sizeof (trailer_signature))) {
+			    GSF_LE_GET_GUINT32 (s) == sig) {
 				return --trailer_offset;
 			}
 		}
@@ -254,6 +252,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	gsf_off_t off, csize, usize;
 	gchar *name;
 	guint8 header[ZIP_DIRENT_SIZE];
+	gboolean zip64;
 
 	/* Read fixed-length part of data and check the header */
 	data = header;
@@ -276,6 +275,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 
 	extra = zip_dirent_extra_field (variable + name_len, extras_len,
 					ZIP_DIRENT_EXTRA_FIELD_ZIP64, &elen);
+	zip64 = (extra != NULL);
 
 	flags =         GSF_LE_GET_GUINT32 (data + ZIP_DIRENT_FLAGS);
 	compr_method =  GSF_LE_GET_GUINT16 (data + ZIP_DIRENT_COMPR_METHOD);
@@ -321,6 +321,7 @@ zip_dirent_new_in (GsfInfileZip *zip, gsf_off_t *offset)
 	dirent->usize =         usize;
 	dirent->offset =        off;
 	dirent->dostime =       dostime;
+	dirent->zip64 =         zip64;
 #if 0
 	g_print ("%s = 0x%x @ %" GSF_OFF_T_FORMAT "\n", name, off, *offset);
 #endif
@@ -503,8 +504,6 @@ zip_init_info (GsfInfileZip *zip)
 static gboolean
 zip_child_init (GsfInfileZip *child, GError **errmsg)
 {
-	static guint8 const header_signature[] =
-		{ 'P', 'K', 0x03, 0x04 };
 	guint8 const *data = NULL;
 	guint16 name_len, extras_len;
 	const char *err = NULL;
@@ -513,18 +512,16 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 
 	/* skip local header
 	 * should test tons of other info, but trust that those are correct
-	 **/
+	 */
 
-	if (gsf_input_seek (child->source, (gsf_off_t) dirent->offset, G_SEEK_SET))
+	if (gsf_input_seek (child->source, dirent->offset, G_SEEK_SET)) {
 		err = _("Error seeking to zip header");
-	else if (NULL == (data = gsf_input_read (child->source, ZIP_FILE_HEADER_SIZE, NULL)))
+	} else if (NULL == (data = gsf_input_read (child->source, ZIP_HEADER_SIZE, NULL)))
 		err = _("Error reading zip header");
-	else if (0 != memcmp (data, header_signature, sizeof (header_signature))) {
+	else if (GSF_LE_GET_GUINT32 (data) != ZIP_HEADER_SIGNATURE) {
 		err = _("Error incorrect zip header");
-		g_printerr ("Header is :\n");
-		gsf_mem_dump (data, sizeof (header_signature));
-		g_printerr ("Header should be :\n");
-		gsf_mem_dump (header_signature, sizeof (header_signature));
+		g_printerr ("Header is 0x%x\n", GSF_LE_GET_GUINT32 (data));
+		g_printerr ("Expected 0x%x\n", ZIP_HEADER_SIGNATURE);
 	}
 
 	if (NULL != err) {
@@ -536,10 +533,10 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 	/* Throw clang a bone.  */
 	g_assert (data != NULL);
 
-	name_len =   GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_NAME_SIZE);
-	extras_len = GSF_LE_GET_GUINT16 (data + ZIP_FILE_HEADER_EXTRAS_SIZE);
+	name_len =   GSF_LE_GET_GUINT16 (data + ZIP_HEADER_NAME_SIZE);
+	extras_len = GSF_LE_GET_GUINT16 (data + ZIP_HEADER_EXTRAS_SIZE);
 
-	dirent->data_offset = dirent->offset + ZIP_FILE_HEADER_SIZE + name_len + extras_len;
+	dirent->data_offset = dirent->offset + ZIP_HEADER_SIZE + name_len + extras_len;
 	child->restlen  = dirent->usize;
 	child->crestlen = dirent->csize;
 
@@ -729,8 +726,7 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 	child->vdir = vdir;
 
 	if (dirent) {
-		gsf_input_set_size (GSF_INPUT (child),
-				    (gsf_off_t) dirent->usize);
+		gsf_input_set_size (GSF_INPUT (child), dirent->usize);
 
 		if (dirent->dostime) {
 			GDateTime *modtime = zip_make_modtime (dirent->dostime);

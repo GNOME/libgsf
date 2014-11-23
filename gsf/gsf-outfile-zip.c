@@ -3,6 +3,7 @@
  * gsf-outfile-zip.c: zip archive output.
  *
  * Copyright (C) 2002-2006 Jon K Hellan (hellan@acm.org)
+ * Copyright (C) 2014 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -48,6 +49,7 @@ struct _GsfOutfileZip {
 	GsfOutput     *sink;
 	GsfOutfileZip *root;
 
+	gboolean zip64;
 	char *entry_name;
 
 	GsfZipVDir    *vdir;
@@ -154,53 +156,126 @@ gsf_outfile_zip_seek (G_GNUC_UNUSED GsfOutput *output,
 static gboolean
 zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 {
-	static guint8 const dirent_signature[] =
-		{ 'P', 'K', 0x01, 0x02 };
 	guint8 buf[ZIP_DIRENT_SIZE];
 	int nlen = strlen (dirent->name);
 	gboolean ret;
+	const guint8 extract = dirent->zip64 ? 45 : 23;
+	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
+
+	if (dirent->zip64) {
+		char tmp[8];
+
+		/*
+		 * We could unconditinally store the offset here, but
+		 * zipinfo has a known bug in which it fails to account
+		 * for differences in extra fields between the global
+		 * and the local headers.  So we try to make them the
+		 * same.
+		 */
+		gboolean do_offset = dirent->offset >= 0xffffffffu;
+		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_ZIP64);
+		GSF_LE_SET_GUINT16 (tmp + 2, (2 + do_offset) * 8);
+		g_string_append_len (extras, tmp, 4);
+		GSF_LE_SET_GUINT64 (tmp, dirent->usize);
+		g_string_append_len (extras, tmp, 8);
+		GSF_LE_SET_GUINT64 (tmp, dirent->csize);
+		g_string_append_len (extras, tmp, 8);
+		if (do_offset) {
+			GSF_LE_SET_GUINT64 (tmp, dirent->offset);
+			g_string_append_len (extras, tmp, 8);
+		}
+	}
 
 	memset (buf, 0, sizeof buf);
-	memcpy (buf, dirent_signature, sizeof dirent_signature);
-	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_ENCODER, 0x317); /* Unix */
-	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRACT, 0x14);
+	GSF_LE_SET_GUINT32 (buf, ZIP_DIRENT_SIGNATURE);
+	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_ENCODER,
+			    (ZIP_OS_UNIX << 8) + extract);
+	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRACT,
+			    (ZIP_OS_MSDOS << 8) + extract);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_FLAGS, dirent->flags);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_COMPR_METHOD,
 			    dirent->compr_method);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CRC32, dirent->crc32);
-	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CSIZE, dirent->csize);
-	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_USIZE, dirent->usize);
+	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CSIZE,
+			    dirent->zip64 ? 0xffffffffu : dirent->csize);
+	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_USIZE,
+			    dirent->zip64 ? 0xffffffffu : dirent->usize);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_NAME_SIZE, nlen);
-	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRAS_SIZE, 0);
+	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRAS_SIZE, extras->len);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_COMMENT_SIZE, 0);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_DISKSTART, 0);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_FILE_TYPE, 0);
 	/* Hardcode file mode 644 */
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_FILE_MODE, 0100644 << 16);
-	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_OFFSET, dirent->offset);
+	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_OFFSET,
+			    MIN (dirent->offset, 0xffffffffu));
 
-	ret = gsf_output_write (sink, sizeof buf, buf);
-	if (ret)
-		ret = gsf_output_write (sink, nlen, dirent->name);
+	/* Stuff everything into extras so we can do just one write.  */
+	g_string_insert_len (extras,          0, buf, sizeof buf);
+	g_string_insert_len (extras, sizeof buf, dirent->name, nlen);
+
+	ret = gsf_output_write (sink, extras->len, extras->str);
+
+	g_string_free (extras, TRUE);
 
 	return ret;
 }
 
 static gboolean
-zip_trailer_write (GsfOutfileZip *zip, unsigned entries, gsf_off_t dirpos)
+zip_trailer_write (GsfOutfileZip *zip, unsigned entries,
+		   gsf_off_t dirpos, gsf_off_t dirsize)
 {
-	static guint8 const trailer_signature[] =
-		{ 'P', 'K', 0x05, 0x06 };
 	guint8 buf[ZIP_TRAILER_SIZE];
-	gsf_off_t pos = gsf_output_tell (zip->sink);
 
 	memset (buf, 0, sizeof buf);
-	memcpy (buf, trailer_signature, sizeof trailer_signature);
-	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_ENTRIES, entries);
-	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_TOTAL_ENTRIES, entries);
-	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_SIZE, pos - dirpos);
-	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_POS, dirpos);
+	GSF_LE_SET_GUINT32 (buf, ZIP_TRAILER_SIGNATURE);
+	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_ENTRIES,
+			    MIN (entries, 0xffffu));
+	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_TOTAL_ENTRIES,
+			    MIN (entries, 0xffffu));
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_SIZE,
+			    MIN (dirsize, 0xffffffffu));
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_POS,
+			    MIN (dirpos, 0xffffffffu));
+
+	return gsf_output_write (zip->sink, sizeof buf, buf);
+}
+
+static gboolean
+zip_trailer64_write (GsfOutfileZip *zip, unsigned entries,
+		     gsf_off_t dirpos, gsf_off_t dirsize)
+{
+	guint8 buf[ZIP_TRAILER64_SIZE];
+	guint8 extract = 45;
+
+	memset (buf, 0, sizeof buf);
+	GSF_LE_SET_GUINT32 (buf, ZIP_TRAILER64_SIGNATURE);
+	GSF_LE_SET_GUINT64 (buf + ZIP_TRAILER64_RECSIZE, sizeof buf);
+	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER64_ENCODER,
+			    (ZIP_OS_UNIX << 8) + extract);
+	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER64_EXTRACT,
+			    (ZIP_OS_MSDOS << 8) + extract);
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER64_DISK, 0);
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER64_DIR_DISK, 0);
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER64_ENTRIES, entries);
+	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER64_TOTAL_ENTRIES, entries);
+	GSF_LE_SET_GUINT64 (buf + ZIP_TRAILER64_DIR_SIZE, dirsize);
+	GSF_LE_SET_GUINT64 (buf + ZIP_TRAILER64_DIR_POS, dirpos);
+
+	return gsf_output_write (zip->sink, sizeof buf, buf);
+}
+
+static gboolean
+zip_zip64_locator_write (GsfOutfileZip *zip, gsf_off_t trailerpos)
+{
+	guint8 buf[ZIP_ZIP64_LOCATOR_SIZE];
+
+	memset (buf, 0, sizeof buf);
+	GSF_LE_SET_GUINT32 (buf, ZIP_ZIP64_LOCATOR_SIGNATURE);
+	GSF_LE_SET_GUINT32 (buf + ZIP_ZIP64_LOCATOR_DISK, 0);
+	GSF_LE_SET_GUINT64 (buf + ZIP_ZIP64_LOCATOR_OFFSET, trailerpos);
+	GSF_LE_SET_GUINT32 (buf + ZIP_ZIP64_LOCATOR_DISKS, 1);
 
 	return gsf_output_write (zip->sink, sizeof buf, buf);
 }
@@ -209,15 +284,18 @@ static gboolean
 zip_close_root (GsfOutput *output)
 {
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);
-	GsfOutfileZip *child;
-	gsf_off_t dirpos = gsf_output_tell (zip->sink);
+	gsf_off_t dirpos = gsf_output_tell (zip->sink), dirend;
 	GPtrArray *elem = zip->root_order;
 	unsigned entries = elem->len;
 	unsigned i;
 
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
-		child = g_ptr_array_index (elem, i);
+		GsfOutfileZip *child = g_ptr_array_index (elem, i);
+		GsfZipDirent *dirent = child->vdir->dirent;
+		if (dirent->csize >= 0xffffffffu ||
+		    dirent->usize >= 0xffffffffu)
+			zip->zip64 = TRUE;  /* No choice.  */
 		if (!gsf_output_is_closed (GSF_OUTPUT (child))) {
 			g_warning ("Child still open");
 			return FALSE;
@@ -225,15 +303,30 @@ zip_close_root (GsfOutput *output)
 	}
 
 	/* Write directory */
+	dirpos = gsf_output_tell (zip->sink);
 	for (i = 0 ; i < entries ; i++) {
-		child = g_ptr_array_index (elem, i);
-		if (!zip_dirent_write (zip->sink, child->vdir->dirent))
+		GsfOutfileZip *child = g_ptr_array_index (elem, i);
+		GsfZipDirent *dirent = child->vdir->dirent;
+		if (!zip_dirent_write (zip->sink, dirent))
 			return FALSE;
+	}
+	dirend = gsf_output_tell (zip->sink);
+
+	if (entries >= 0xffffu || dirend >= 0xfffff000u) {
+		/* We don't have a choice; force zip64.  */
+		zip->zip64 = TRUE;
 	}
 
 	disconnect_children (zip);
 
-	return zip_trailer_write (zip, entries, dirpos);
+	if (zip->zip64) {
+		if (!zip_trailer64_write (zip, entries, dirpos, dirend - dirpos))
+			return FALSE;
+		if (!zip_zip64_locator_write (zip, dirend))
+			return FALSE;
+	}
+
+	return zip_trailer_write (zip, entries, dirpos, dirend - dirpos);
 }
 
 static void
@@ -250,7 +343,7 @@ stream_name_write_to_buf (GsfOutfileZip *zip, GString *res)
 		stream_name_write_to_buf (GSF_OUTFILE_ZIP (container), res);
 		if (res->len) {
 			/* Forward slash is specified by the format.  */
-			g_string_append_c (res, '/');
+			g_string_append_c (res, ZIP_NAME_SEPARATOR);
 		}
 	}
 
@@ -301,45 +394,89 @@ zip_time_make (GDateTime *modtime)
 static void
 zip_dirent_update_flags (GsfZipDirent *dirent)
 {
-	if (dirent->compr_method == GSF_ZIP_STORED)
-		dirent->flags &= ~8;
-	else
-		dirent->flags |= 8;
+	/* Since we can seek, do not use a ddesc.  */
+	dirent->flags &= ~ZIP_DIRENT_FLAGS_HAS_DDESC;
 }
 
 static GsfZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
-	GsfZipDirent *dirent = gsf_zip_dirent_new ();
-	dirent->name = stream_name_build (zip);
-	dirent->compr_method = zip->compression_method;
-	dirent->dostime = zip_time_make (gsf_output_get_modtime (GSF_OUTPUT (zip)));
-	zip_dirent_update_flags (dirent);
-	return dirent;
+	char *name = stream_name_build (zip);
+	/*
+	 * The spec is a bit vague about the length limit for file names, but
+	 * clearly we should not go beyond 0xffff.
+	 */
+	if (strlen (name) < 0xffffu) {
+		GsfZipDirent *dirent = gsf_zip_dirent_new ();
+		dirent->name = name;
+		dirent->compr_method = zip->compression_method;
+		dirent->dostime = zip_time_make (gsf_output_get_modtime (GSF_OUTPUT (zip)));
+		dirent->zip64 = zip->zip64;
+		zip_dirent_update_flags (dirent);
+		return dirent;
+	} else
+		return NULL;
 }
 
 static gboolean
 zip_header_write (GsfOutfileZip *zip)
 {
-	static guint8 const header_signature[] =
-		{ 'P', 'K', 0x03, 0x04 };
 	guint8 hbuf[ZIP_HEADER_SIZE];
-	GsfZipDirent *dirent = zip->vdir->dirent;
+	GsfZipDirent const *dirent = zip->vdir->dirent;
 	char *name = dirent->name;
 	int   nlen = strlen (name);
 	gboolean ret;
+	gboolean has_ddesc = (dirent->flags & ZIP_DIRENT_FLAGS_HAS_DDESC) != 0;
+	guint32 crc32 = has_ddesc ? 0 : dirent->crc32;
+	gsf_off_t csize = has_ddesc ? 0 : dirent->csize;
+	gsf_off_t usize = has_ddesc ? 0 : dirent->usize;
+	GString *extras = g_string_sized_new (ZIP_HEADER_SIZE + nlen + 100);
+	const guint8 extract = dirent->zip64 ? 45 : 23;
+
+	/*
+	 * In the has_ddesc case, we write crc32/size/usize as zero and store
+	 * the right values in the DDESC record that follows the data.
+	 *
+	 * In the !has_ddesc case, we return to the same spot and write the
+	 * header a second time correcting crc32/size/usize, see
+	 * see zip_header_patch_sizes.  For this reason, we must ensure that
+	 * the record's length does not depend on the the sizes.
+	 */
+
+	if (dirent->zip64) {
+		char tmp[8];
+		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_ZIP64);
+		GSF_LE_SET_GUINT16 (tmp + 2, 2 * 8);
+		g_string_append_len (extras, tmp, 4);
+		GSF_LE_SET_GUINT64 (tmp, usize);
+		g_string_append_len (extras, tmp, 8);
+		GSF_LE_SET_GUINT64 (tmp, csize);
+		g_string_append_len (extras, tmp, 8);
+	}
 
 	memset (hbuf, 0, sizeof hbuf);
-	memcpy (hbuf, header_signature, sizeof header_signature);
-	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_VERSION, 0x14);
+	GSF_LE_SET_GUINT32 (hbuf, ZIP_HEADER_SIGNATURE);
+	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRACT,
+			    (ZIP_OS_MSDOS << 8) + extract);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, dirent->flags);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_COMP_METHOD,
 			    dirent->compr_method);
-	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_TIME, dirent->dostime);
-	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_NAME_LEN, nlen);
-	ret = gsf_output_write (zip->sink, sizeof hbuf, hbuf);
-	if (ret)
-		ret = gsf_output_write (zip->sink, nlen, name);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_DOSTIME, dirent->dostime);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC32, crc32);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CSIZE,
+			    dirent->zip64 ? 0xffffffffu : csize);
+	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_USIZE,
+			    dirent->zip64 ? 0xffffffffu : usize);
+	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_NAME_SIZE, nlen);
+	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRAS_SIZE, extras->len);
+
+	/* Stuff everything into extras so we can do just one write.  */
+	g_string_insert_len (extras,           0, hbuf, sizeof hbuf);
+	g_string_insert_len (extras, sizeof hbuf, name, nlen);
+
+	ret = gsf_output_write (zip->sink, extras->len, extras->str);
+
+	g_string_free (extras, TRUE);
 
 	return ret;
 }
@@ -360,10 +497,12 @@ zip_init_write (GsfOutput *output)
 		return FALSE;
 
 	dirent = zip_dirent_new_out (zip);
-	dirent->offset = gsf_output_tell (zip->sink);
-	if (zip->vdir->dirent)
-		g_warning ("Leak.");
+	if (!dirent) {
+		gsf_output_unwrap (G_OBJECT (output), zip->sink);
+		return FALSE;
+	}
 
+	dirent->offset = gsf_output_tell (zip->sink);
 	zip->vdir->dirent = dirent;
 	zip_header_write (zip);
 	zip->writing = TRUE;
@@ -431,16 +570,27 @@ zip_flush (GsfOutfileZip *zip)
 static gboolean
 zip_ddesc_write (GsfOutfileZip *zip)
 {
-	static guint8 const ddesc_signature[] =
-		{ 'P', 'K', 0x07, 0x08 };
-	guint8 buf[16];
+	guint8 buf[MAX (ZIP_DDESC_SIZE, ZIP_DDESC64_SIZE)];
 	GsfZipDirent *dirent = zip->vdir->dirent;
+	size_t size;
 
-	memcpy (buf, ddesc_signature, sizeof ddesc_signature);
-	GSF_LE_SET_GUINT32 (buf + 4, dirent->crc32);
-	GSF_LE_SET_GUINT32 (buf + 8, dirent->csize);
-	GSF_LE_SET_GUINT32 (buf + 12, dirent->usize);
-	if (!gsf_output_write (zip->sink, sizeof buf, buf)) {
+	/* Documentation says signature is not official.  */
+
+	if (dirent->zip64) {
+		GSF_LE_SET_GUINT32 (buf, ZIP_DDESC64_SIGNATURE);
+		GSF_LE_SET_GUINT32 (buf + ZIP_DDESC64_CRC32, dirent->crc32);
+		GSF_LE_SET_GUINT64 (buf + ZIP_DDESC64_CSIZE, dirent->csize);
+		GSF_LE_SET_GUINT64 (buf + ZIP_DDESC64_USIZE, dirent->usize);
+		size = ZIP_DDESC64_SIZE;
+	} else {
+		GSF_LE_SET_GUINT32 (buf, ZIP_DDESC_SIGNATURE);
+		GSF_LE_SET_GUINT32 (buf + ZIP_DDESC_CRC32, dirent->crc32);
+		GSF_LE_SET_GUINT32 (buf + ZIP_DDESC_CSIZE, dirent->csize);
+		GSF_LE_SET_GUINT32 (buf + ZIP_DDESC_USIZE, dirent->usize);
+		size = ZIP_DDESC_SIZE;
+	}
+
+	if (!gsf_output_write (zip->sink, size - 4, buf + 4)) {
 		return FALSE;
 	}
 
@@ -448,25 +598,15 @@ zip_ddesc_write (GsfOutfileZip *zip)
 }
 
 static gboolean
-zip_header_write_sizes (GsfOutfileZip *zip)
+zip_header_patch_sizes (GsfOutfileZip *zip)
 {
-	guint8 hbuf[ZIP_HEADER_SIZE];
 	GsfZipDirent *dirent = zip->vdir->dirent;
 	gsf_off_t pos = gsf_output_tell (zip->sink);
 
-	if (!gsf_output_seek (zip->sink, dirent->offset + ZIP_HEADER_CRC,
-			      G_SEEK_SET))
-		return FALSE;
-
-	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC, dirent->crc32);
-	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_COMP_SIZE, dirent->csize);
-	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_UNCOMP_SIZE, dirent->usize);
-	if (!gsf_output_write (zip->sink, 12, hbuf + ZIP_HEADER_CRC))
-		return FALSE;
-	if (!gsf_output_seek (zip->sink, pos, G_SEEK_SET))
-		return FALSE;
-
-	return TRUE;
+	/* Rewrite the header in the same location again.  */
+	return (gsf_output_seek (zip->sink, dirent->offset, G_SEEK_SET) &&
+		zip_header_write (zip) &&
+		gsf_output_seek (zip->sink, pos, G_SEEK_SET));
 }
 
 static gboolean
@@ -482,11 +622,13 @@ zip_close_stream (GsfOutput *output)
 	if (zip->compression_method == GSF_ZIP_DEFLATED) {
 		if (!zip_flush (zip))
 			return FALSE;
+	}
 
+	if (zip->vdir->dirent->flags & ZIP_DIRENT_FLAGS_HAS_DDESC) {
 		if (!zip_ddesc_write (zip)) /* Write data descriptor */
 			return FALSE;
 	} else {
-		if (!zip_header_write_sizes (zip)) /* Write crc, sizes */
+		if (!zip_header_patch_sizes (zip)) /* Write crc, sizes */
 			return FALSE;
 	}
 	zip->root->writing = FALSE;
@@ -621,6 +763,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 						params);
 	gsf_property_settings_free (params, n_params);
 
+	child->zip64 = zip_parent->zip64;
 	child->vdir = gsf_zip_vdir_new (name, is_dir, NULL);
 
 	/* FIXME: It isn't clear what encoding name is in.  */
@@ -643,6 +786,7 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->sink = NULL;
 	zip->root = NULL;
 	zip->entry_name = NULL;
+	zip->zip64 = FALSE;
 	zip->vdir = NULL;
 	zip->root_order = NULL;
 	zip->stream = NULL;

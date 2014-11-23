@@ -4,6 +4,7 @@
  * gsf-zip-impl.h:
  *
  * Copyright (C) 2002-2006 Tambet Ingo (tambet@ximian.com)
+ * Copyright (C) 2014 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -27,18 +28,37 @@
 
 G_BEGIN_DECLS
 
+/* Every member file is preceded by a header with this format.  */
+#define ZIP_HEADER_SIGNATURE            0x04034b50
 #define ZIP_HEADER_SIZE 		30
-#define ZIP_HEADER_VERSION 		 4
-#define ZIP_HEADER_OS	 		 5
+#define ZIP_HEADER_EXTRACT 		 4
 #define ZIP_HEADER_FLAGS 	         6
 #define ZIP_HEADER_COMP_METHOD           8
-#define ZIP_HEADER_TIME                 10
-#define ZIP_HEADER_CRC 			14
-#define ZIP_HEADER_COMP_SIZE		18
-#define ZIP_HEADER_UNCOMP_SIZE          22
-#define ZIP_HEADER_NAME_LEN		26
-#define ZIP_HEADER_EXTRA_LEN		28
+#define ZIP_HEADER_DOSTIME              10
+#define ZIP_HEADER_CRC32		14
+#define ZIP_HEADER_CSIZE		18
+#define ZIP_HEADER_USIZE                22
+#define ZIP_HEADER_NAME_SIZE		26
+#define ZIP_HEADER_EXTRAS_SIZE		28
 
+/* Members may have this record after the compressed data.  It is meant
+   to be used only when it is not possible to seek back and patch the
+   right values into the header.  */
+#define ZIP_DDESC_SIGNATURE             0x08074b50
+#define ZIP_DDESC_SIZE                  16
+#define ZIP_DDESC_CRC32                 4
+#define ZIP_DDESC_CSIZE                 8
+#define ZIP_DDESC_USIZE                 12
+
+/* 64-bit version of above.  Used when the ZIP64 extra field is present
+   in the header.  */
+#define ZIP_DDESC64_SIGNATURE           ZIP_DDESC_SIGNATURE
+#define ZIP_DDESC64_SIZE                24
+#define ZIP_DDESC64_CRC32               4
+#define ZIP_DDESC64_CSIZE               8
+#define ZIP_DDESC64_USIZE               16
+
+/* The whole archive ends with a trailer.  */
 #define ZIP_TRAILER_SIGNATURE           0x06054b50
 #define ZIP_TRAILER_SIZE 		22
 #define ZIP_TRAILER_DISK 		4
@@ -49,12 +69,14 @@ G_BEGIN_DECLS
 #define ZIP_TRAILER_DIR_POS 		16
 #define ZIP_TRAILER_COMMENT_SIZE	20
 
+/* A zip64 locator comes immediately before the trailer, if it is present.  */
 #define ZIP_ZIP64_LOCATOR_SIGNATURE     0x07064b50
 #define ZIP_ZIP64_LOCATOR_SIZE 		20
 #define ZIP_ZIP64_LOCATOR_DISK		4
 #define ZIP_ZIP64_LOCATOR_OFFSET	8
 #define ZIP_ZIP64_LOCATOR_DISKS		16
 
+/* A zip64 archive has this record somewhere to extend the field sizes.  */
 #define ZIP_TRAILER64_SIGNATURE         0x06064b50
 #define ZIP_TRAILER64_SIZE 		56  /* or more */
 #define ZIP_TRAILER64_RECSIZE            4
@@ -67,6 +89,7 @@ G_BEGIN_DECLS
 #define ZIP_TRAILER64_DIR_SIZE 		40
 #define ZIP_TRAILER64_DIR_POS 		48
 
+/* This defines the entries in the central directory.  */
 #define ZIP_DIRENT_SIGNATURE            0x02014b50
 #define ZIP_DIRENT_SIZE                 46
 #define ZIP_DIRENT_ENCODER              4
@@ -85,26 +108,25 @@ G_BEGIN_DECLS
 #define ZIP_DIRENT_FILE_MODE            38
 #define ZIP_DIRENT_OFFSET               42
 
-#define ZIP_FILE_HEADER_SIZE            30
-#define ZIP_FILE_HEADER_EXTRACT          4
-#define ZIP_FILE_HEADER_FLAGS            6
-#define ZIP_FILE_HEADER_COMPR_METHOD     8
-#define ZIP_FILE_HEADER_DOSTIME         10
-#define ZIP_FILE_HEADER_CRC32           14
-#define ZIP_FILE_HEADER_CSIZE           18
-#define ZIP_FILE_HEADER_USIZE           22
-#define ZIP_FILE_HEADER_NAME_SIZE       26
-#define ZIP_FILE_HEADER_EXTRAS_SIZE     28
+/* A few well-defined extra-field tags.  */
+enum {
+	ZIP_DIRENT_EXTRA_FIELD_ZIP64 = 0x0001,
+	ZIP_DIRENT_EXTRA_FIELD_UNIXTIME = 0x5455,  /* "UT" */
+	ZIP_DIRENT_EXTRA_FIELD_UIDGID = 0x7875    /* "ux" */
+};
 
-#define ZIP_DIRENT_EXTRA_FIELD_ZIP64 0x0001
-#define ZIP_DIRENT_EXTRA_FIELD_UNIXTIME 0x5455  /* "UT" */
-#define ZIP_DIRENT_EXTRA_FIELD_UIDGID 0x7875    /* "ux" */
+#define ZIP_DIRENT_FLAGS_HAS_DDESC 8
+
+/* OS codes.  There are plenty, but this is all we need.  */
+enum {
+	ZIP_OS_MSDOS = 0,
+	ZIP_OS_UNIX = 3
+};
 
 #define ZIP_NAME_SEPARATOR    '/'
 
 #define ZIP_BLOCK_SIZE 32768
 #define ZIP_BUF_SIZE 512
-
 
 /* z_flags */
 #define ZZIP_IS_ENCRYPTED(p)    ((*(unsigned char*)p)&1)
@@ -121,6 +143,7 @@ typedef struct {
 	gsf_off_t                offset;
 	gsf_off_t                data_offset;
 	guint32                  dostime;
+	gboolean                 zip64;
 } GsfZipDirent;
 
 typedef struct {

@@ -13,6 +13,7 @@ Morten:
 	* Speed up stdio directory handling with large number of files.
 	* Fix various issues with files larger than 4G.
 	* Fix minor zip file issues.
+	* Write zip archives with more than 64k+ members.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30
