@@ -1,3 +1,10 @@
+2014-11-27  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input.c (gsf_input_copy): Minor cleanups.
+
+	* tools/gsf.c (load_recursively): Complain if gsf_input_copy
+	fails.
+
 2014-11-23  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (zip_dirent_new_in): Fix reading of

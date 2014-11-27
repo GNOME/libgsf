@@ -417,6 +417,7 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		char *base;
 		GsfInput *in;
 		GsfOutput *out;
+		gboolean ok;
 
 		in = gsf_input_stdio_new (path, &error);
 		if (!in) {
@@ -430,10 +431,13 @@ load_recursively (GsfOutfile *outfile, char const *path)
 			 "modtime", gsf_input_get_modtime (in),
 			 NULL);
 		g_printerr ("Adding %s\n", path);
-		gsf_input_copy (in, out);
+		ok = gsf_input_copy (in, out);
 		gsf_output_close (out);
 		g_object_unref (out);
 		g_free (base);
+
+		if (!ok)
+			g_printerr ("Error in adding member.\n");
 
 		g_object_unref (in);
 	} else {
