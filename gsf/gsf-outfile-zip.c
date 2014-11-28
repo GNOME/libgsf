@@ -38,7 +38,8 @@ enum {
 	PROP_SINK,
 	PROP_ENTRY_NAME,
 	PROP_COMPRESSION_METHOD,
-        PROP_DEFLATE_LEVEL
+        PROP_DEFLATE_LEVEL,
+	PROP_ZIP64
 };
 
 static GObjectClass *parent_class;
@@ -163,6 +164,7 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
 
 	if (dirent->zip64) {
+		gboolean do_offset = dirent->offset >= G_MAXUINT32;
 		char tmp[8];
 
 		/*
@@ -172,7 +174,6 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 		 * and the local headers.  So we try to make them the
 		 * same.
 		 */
-		gboolean do_offset = dirent->offset >= 0xffffffffu;
 		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_ZIP64);
 		GSF_LE_SET_GUINT16 (tmp + 2, (2 + do_offset) * 8);
 		g_string_append_len (extras, tmp, 4);
@@ -198,9 +199,9 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CRC32, dirent->crc32);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CSIZE,
-			    dirent->zip64 ? 0xffffffffu : dirent->csize);
+			    dirent->zip64 ? G_MAXUINT32 : dirent->csize);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_USIZE,
-			    dirent->zip64 ? 0xffffffffu : dirent->usize);
+			    dirent->zip64 ? G_MAXUINT32 : dirent->usize);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_NAME_SIZE, nlen);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRAS_SIZE, extras->len);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_COMMENT_SIZE, 0);
@@ -209,7 +210,7 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 	/* Hardcode file mode 644 */
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_FILE_MODE, 0100644 << 16);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_OFFSET,
-			    MIN (dirent->offset, 0xffffffffu));
+			    MIN (dirent->offset, G_MAXUINT32));
 
 	/* Stuff everything into extras so we can do just one write.  */
 	g_string_insert_len (extras,          0, buf, sizeof buf);
@@ -231,13 +232,13 @@ zip_trailer_write (GsfOutfileZip *zip, unsigned entries,
 	memset (buf, 0, sizeof buf);
 	GSF_LE_SET_GUINT32 (buf, ZIP_TRAILER_SIGNATURE);
 	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_ENTRIES,
-			    MIN (entries, 0xffffu));
+			    MIN (entries, G_MAXUINT16));
 	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER_TOTAL_ENTRIES,
-			    MIN (entries, 0xffffu));
+			    MIN (entries, G_MAXUINT16));
 	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_SIZE,
-			    MIN (dirsize, 0xffffffffu));
+			    MIN (dirsize, G_MAXUINT32));
 	GSF_LE_SET_GUINT32 (buf + ZIP_TRAILER_DIR_POS,
-			    MIN (dirpos, 0xffffffffu));
+			    MIN (dirpos, G_MAXUINT32));
 
 	return gsf_output_write (zip->sink, sizeof buf, buf);
 }
@@ -288,14 +289,15 @@ zip_close_root (GsfOutput *output)
 	GPtrArray *elem = zip->root_order;
 	unsigned entries = elem->len;
 	unsigned i;
+	guint8 zip64 = zip->zip64;
 
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
 		GsfOutfileZip *child = g_ptr_array_index (elem, i);
 		GsfZipDirent *dirent = child->vdir->dirent;
-		if (dirent->csize >= 0xffffffffu ||
-		    dirent->usize >= 0xffffffffu)
-			zip->zip64 = TRUE;  /* No choice.  */
+		if (dirent->csize >= G_MAXUINT32 ||
+		    dirent->usize >= G_MAXUINT32)
+			zip64 = TRUE;  /* No choice.  */
 		if (!gsf_output_is_closed (GSF_OUTPUT (child))) {
 			g_warning ("Child still open");
 			return FALSE;
@@ -312,14 +314,18 @@ zip_close_root (GsfOutput *output)
 	}
 	dirend = gsf_output_tell (zip->sink);
 
-	if (entries >= 0xffffu || dirend >= 0xfffff000u) {
+	if (entries >= G_MAXUINT16 ||
+	    dirend >= G_MAXUINT32 - ZIP_TRAILER_SIZE) {
 		/* We don't have a choice; force zip64.  */
-		zip->zip64 = TRUE;
+		zip64 = TRUE;
 	}
 
 	disconnect_children (zip);
 
-	if (zip->zip64) {
+	if (zip64 == -1)
+		zip64 = FALSE;
+
+	if (zip64) {
 		if (!zip_trailer64_write (zip, entries, dirpos, dirend - dirpos))
 			return FALSE;
 		if (!zip_zip64_locator_write (zip, dirend))
@@ -406,7 +412,7 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 	 * The spec is a bit vague about the length limit for file names, but
 	 * clearly we should not go beyond 0xffff.
 	 */
-	if (strlen (name) < 0xffffu) {
+	if (strlen (name) < G_MAXUINT16) {
 		GsfZipDirent *dirent = gsf_zip_dirent_new ();
 		dirent->name = name;
 		dirent->compr_method = zip->compression_method;
@@ -431,7 +437,13 @@ zip_header_write (GsfOutfileZip *zip)
 	gsf_off_t csize = has_ddesc ? 0 : dirent->csize;
 	gsf_off_t usize = has_ddesc ? 0 : dirent->usize;
 	GString *extras = g_string_sized_new (ZIP_HEADER_SIZE + nlen + 100);
-	const guint8 extract = dirent->zip64 ? 45 : 23;
+	gboolean real_extra_field =
+		(dirent->zip64 == TRUE ||
+		 (dirent->zip64 == -1 &&
+		  (dirent->usize >= G_MAXUINT32 ||
+		   dirent->csize >= G_MAXUINT32 ||
+		   dirent->offset >= G_MAXUINT32)));
+	const guint8 extract = real_extra_field ? 45 : 23;
 
 	/*
 	 * In the has_ddesc case, we write crc32/size/usize as zero and store
@@ -445,7 +457,11 @@ zip_header_write (GsfOutfileZip *zip)
 
 	if (dirent->zip64) {
 		char tmp[8];
-		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_ZIP64);
+		guint16 typ = real_extra_field
+			? ZIP_DIRENT_EXTRA_FIELD_ZIP64
+			: ZIP_DIRENT_EXTRA_FIELD_IGNORE;
+
+		GSF_LE_SET_GUINT16 (tmp, typ);
 		GSF_LE_SET_GUINT16 (tmp + 2, 2 * 8);
 		g_string_append_len (extras, tmp, 4);
 		GSF_LE_SET_GUINT64 (tmp, usize);
@@ -464,9 +480,9 @@ zip_header_write (GsfOutfileZip *zip)
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC32, crc32);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CSIZE,
-			    dirent->zip64 ? 0xffffffffu : csize);
+			    dirent->zip64 ? G_MAXUINT32 : csize);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_USIZE,
-			    dirent->zip64 ? 0xffffffffu : usize);
+			    dirent->zip64 ? G_MAXUINT32 : usize);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_NAME_SIZE, nlen);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRAS_SIZE, extras->len);
 
@@ -786,7 +802,7 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->sink = NULL;
 	zip->root = NULL;
 	zip->entry_name = NULL;
-	zip->zip64 = FALSE;
+	zip->zip64 = -1;
 	zip->vdir = NULL;
 	zip->root_order = NULL;
 	zip->stream = NULL;
@@ -820,6 +836,9 @@ gsf_outfile_zip_get_property (GObject     *object,
 		break;
 	case PROP_DEFLATE_LEVEL:
                 g_value_set_int (value, zip->deflate_level);
+		break;
+	case PROP_ZIP64:
+                g_value_set_int (value, zip->zip64);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -861,6 +880,9 @@ gsf_outfile_zip_set_property (GObject      *object,
                 else
 			g_warning ("Unsupported deflate level %d", level);
 	        }
+		break;
+	case PROP_ZIP64:
+		zip->zip64 = g_value_get_int (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -926,6 +948,17 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				     "and -1 meaning the zlib default"),
 				   -1, 9,
 				   Z_DEFAULT_COMPRESSION,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE |
+				   G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DEFLATE_LEVEL,
+		 g_param_spec_int ("zip64",
+				   _("Zip64"),
+				   _("Whether to use zip64 format, -1 meaning automatic"),
+				   -1, 1,
+				   -1,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));

@@ -111,6 +111,7 @@ G_BEGIN_DECLS
 /* A few well-defined extra-field tags.  */
 enum {
 	ZIP_DIRENT_EXTRA_FIELD_ZIP64 = 0x0001,
+	ZIP_DIRENT_EXTRA_FIELD_IGNORE = 0x4949,    /* "II" -- gsf defined */
 	ZIP_DIRENT_EXTRA_FIELD_UNIXTIME = 0x5455,  /* "UT" */
 	ZIP_DIRENT_EXTRA_FIELD_UIDGID = 0x7875    /* "ux" */
 };
@@ -143,7 +144,7 @@ typedef struct {
 	gsf_off_t                offset;
 	gsf_off_t                data_offset;
 	guint32                  dostime;
-	gboolean                 zip64;
+	guint8                   zip64;  /* -1 = auto, FALSE, TRUE. */
 } GsfZipDirent;
 
 typedef struct {
