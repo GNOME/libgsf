@@ -187,6 +187,18 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 		}
 	}
 
+	if (dirent->mtime && dirent->mtime <= G_MAXUINT32) {
+		/* Clearly a year 2038 problem here.  */
+		char tmp[4];
+		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_UNIXTIME);
+		GSF_LE_SET_GUINT16 (tmp + 2, 5);
+		g_string_append_len (extras, tmp, 4);
+		tmp[0] = 1;
+		g_string_append_len (extras, tmp, 1);
+		GSF_LE_SET_GUINT32 (tmp, dirent->mtime);
+		g_string_append_len (extras, tmp, 4);
+	}
+
 	memset (buf, 0, sizeof buf);
 	GSF_LE_SET_GUINT32 (buf, ZIP_DIRENT_SIGNATURE);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_ENCODER,
@@ -371,11 +383,6 @@ zip_time_make (GDateTime *modtime)
 	gint year, month, day, hour, minute, second;
 	guint32 ztime;
 
-	if (!modtime)
-		modtime = g_date_time_new_now_utc ();
-	else
-		g_date_time_ref (modtime);
-
 	g_date_time_get_ymd (modtime, &year, &month, &day);
 	hour = g_date_time_get_hour (modtime);
 	minute = g_date_time_get_minute (modtime);
@@ -391,8 +398,6 @@ zip_time_make (GDateTime *modtime)
 		ztime = (ztime << 6) | (minute & 0x3f);
 		ztime = (ztime << 5) | ((second / 2) & 0x1f);
 	}
-
-	g_date_time_unref (modtime);
 
 	return ztime;
 }
@@ -414,11 +419,26 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 	 */
 	if (strlen (name) < G_MAXUINT16) {
 		GsfZipDirent *dirent = gsf_zip_dirent_new ();
+		GDateTime *modtime = gsf_output_get_modtime (GSF_OUTPUT (zip));
+		gint64 mtime64;
+
 		dirent->name = name;
 		dirent->compr_method = zip->compression_method;
-		dirent->dostime = zip_time_make (gsf_output_get_modtime (GSF_OUTPUT (zip)));
+
+		if (!modtime)
+			modtime = g_date_time_new_now_utc ();
+		else
+			g_date_time_ref (modtime);
+		dirent->dostime = zip_time_make (modtime);
+		mtime64 = g_date_time_to_unix (modtime);
+		if (mtime64 == (gint64)(time_t)mtime64)
+		    dirent->mtime = (time_t)mtime64;
+
 		dirent->zip64 = zip->zip64;
 		zip_dirent_update_flags (dirent);
+
+		g_date_time_unref (modtime);
+
 		return dirent;
 	} else
 		return NULL;
@@ -437,13 +457,13 @@ zip_header_write (GsfOutfileZip *zip)
 	gsf_off_t csize = has_ddesc ? 0 : dirent->csize;
 	gsf_off_t usize = has_ddesc ? 0 : dirent->usize;
 	GString *extras = g_string_sized_new (ZIP_HEADER_SIZE + nlen + 100);
-	gboolean real_extra_field =
+	gboolean real_zip64 =
 		(dirent->zip64 == TRUE ||
 		 (dirent->zip64 == -1 &&
 		  (dirent->usize >= G_MAXUINT32 ||
 		   dirent->csize >= G_MAXUINT32 ||
 		   dirent->offset >= G_MAXUINT32)));
-	const guint8 extract = real_extra_field ? 45 : 23;
+	const guint8 extract = real_zip64 ? 45 : 23;
 
 	/*
 	 * In the has_ddesc case, we write crc32/size/usize as zero and store
@@ -457,7 +477,7 @@ zip_header_write (GsfOutfileZip *zip)
 
 	if (dirent->zip64) {
 		char tmp[8];
-		guint16 typ = real_extra_field
+		guint16 typ = real_zip64
 			? ZIP_DIRENT_EXTRA_FIELD_ZIP64
 			: ZIP_DIRENT_EXTRA_FIELD_IGNORE;
 
@@ -468,6 +488,18 @@ zip_header_write (GsfOutfileZip *zip)
 		g_string_append_len (extras, tmp, 8);
 		GSF_LE_SET_GUINT64 (tmp, csize);
 		g_string_append_len (extras, tmp, 8);
+	}
+
+	if (dirent->mtime && dirent->mtime <= G_MAXUINT32) {
+		/* Clearly a year 2038 problem here.  */
+		char tmp[4];
+		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_UNIXTIME);
+		GSF_LE_SET_GUINT16 (tmp + 2, 5);
+		g_string_append_len (extras, tmp, 4);
+		tmp[0] = 1;
+		g_string_append_len (extras, tmp, 1);
+		GSF_LE_SET_GUINT32 (tmp, dirent->mtime);
+		g_string_append_len (extras, tmp, 4);
 	}
 
 	memset (hbuf, 0, sizeof hbuf);

@@ -144,6 +144,7 @@ typedef struct {
 	gsf_off_t                offset;
 	gsf_off_t                data_offset;
 	guint32                  dostime;
+	time_t                   mtime;
 	guint8                   zip64;  /* -1 = auto, FALSE, TRUE. */
 } GsfZipDirent;
 
