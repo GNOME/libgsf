@@ -77,11 +77,14 @@ gsf_output_iochannel_seek (GsfOutput *output, gsf_off_t offset,
 	GsfOutputIOChannel *io = GSF_OUTPUT_IOCHANNEL (output);
 	GIOStatus status = G_IO_STATUS_NORMAL;
 
+	if (!io->channel->is_seekable)
+		return FALSE;
+
 	status = g_io_channel_seek_position (io->channel, offset, whence, NULL);
 	if (status == G_IO_STATUS_NORMAL)
 		return TRUE;
 
-	gsf_output_set_error (output, status, " ");
+	gsf_output_set_error (output, status, "?");
 	return FALSE;
 }
 

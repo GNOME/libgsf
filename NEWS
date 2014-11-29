@@ -15,6 +15,7 @@ Morten:
 	* Fix minor zip file issues.
 	* Write zip archives with more than 64k+ members.
 	* Store unix modtime in zip.  (Until that overflows.)
+	* Fix seekability checks in GsfOutputIOChannel.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30

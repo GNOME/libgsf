@@ -1,5 +1,13 @@
 2014-11-29  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-gio.c (gsf_output_gio_write): Simplify and handle
+	the zero bytes cases better.
+	(gsf_output_gio_new_full): Check seekability here and thus only
+	once.
+
+	* gsf/gsf-output-iochannel.c (gsf_output_iochannel_seek): Check
+	for is_seekable before trying to do so.
+
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_class_init): Properly
 	install zip64 property.
 	(zip_header_write): Fix auto-zip64 mode's writing of sizes.

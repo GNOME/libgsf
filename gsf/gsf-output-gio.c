@@ -29,6 +29,7 @@ struct _GsfOutputGio {
 	GsfOutput output;
 	GFile *file;
 	GOutputStream *stream;
+	gboolean can_seek;
 };
 
 typedef struct {
@@ -38,21 +39,8 @@ typedef struct {
 static gboolean
 can_seek (GOutputStream *stream)
 {
-	if (!G_IS_SEEKABLE (stream))
-		return FALSE;
-
-	return g_seekable_can_seek (G_SEEKABLE (stream));
-}
-
-static GsfOutput *
-wrap_if_not_seekable (GsfOutputGio *output, GError **err)
-{
-	if (!can_seek (output->stream)) {
-		(void)err;
-		/* todo: return a wrapper around the output that's seekable */
-	}
-
-	return GSF_OUTPUT (output);
+	return (G_IS_SEEKABLE (stream) &&
+		g_seekable_can_seek (G_SEEKABLE (stream)));
 }
 
 /**
@@ -75,11 +63,11 @@ gsf_output_gio_new_full (GFile *file, GError **err)
 	}
 
 	output = g_object_new (GSF_OUTPUT_GIO_TYPE, NULL);
-	output->file = file;
+	output->file = g_object_ref (output->file);
 	output->stream = stream;
-	g_object_ref (output->file);
+	output->can_seek = can_seek (stream);
 
-	return wrap_if_not_seekable (output, err);
+	return GSF_OUTPUT (output);
 }
 
 /**
@@ -166,8 +154,7 @@ gsf_output_gio_finalize (GObject *obj)
 	gsf_output_gio_close (GSF_OUTPUT(output));
 
 	parent_class = g_type_class_peek (GSF_OUTPUT_TYPE);
-	if (parent_class && parent_class->finalize)
-		parent_class->finalize (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -176,23 +163,20 @@ gsf_output_gio_write (GsfOutput *output,
 		       guint8 const *buffer)
 {
 	GsfOutputGio *gio = GSF_OUTPUT_GIO (output);
-	size_t total_written = 0;
 
 	g_return_val_if_fail (gio != NULL, FALSE);
 	g_return_val_if_fail (gio->stream != NULL, FALSE);
 
-	while (1) {
-		gssize nwritten;
-
-		nwritten = g_output_stream_write (gio->stream, (guint8 *)(buffer + total_written), (num_bytes - total_written), NULL, NULL);
-
-		if (nwritten >= 0) {
-			total_written += nwritten;
-			if (total_written == num_bytes)
-				return TRUE;
-		} else {
+	while (num_bytes > 0) {
+		gssize nwritten =
+			g_output_stream_write (gio->stream,
+					       buffer, num_bytes,
+					       NULL, NULL);
+		if (nwritten < 0)
 			return FALSE;
-		}
+
+		buffer += nwritten;
+		num_bytes -= nwritten;
 	}
 
 	return TRUE;
@@ -206,7 +190,7 @@ gsf_output_gio_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	g_return_val_if_fail (gio != NULL, FALSE);
 	g_return_val_if_fail (gio->stream != NULL, FALSE);
 
-	if (!can_seek (gio->stream))
+	if (!gio->can_seek)
 		return FALSE;
 
 	return g_seekable_seek (G_SEEKABLE (gio->stream), offset, whence, NULL, NULL);
@@ -219,6 +203,7 @@ gsf_output_gio_init (GObject *obj)
 
 	gio->file   = NULL;
 	gio->stream = NULL;
+	gio->can_seek = FALSE;
 }
 
 static void
