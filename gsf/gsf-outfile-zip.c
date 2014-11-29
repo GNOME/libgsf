@@ -985,7 +985,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
 		(gobject_class,
-		 PROP_DEFLATE_LEVEL,
+		 PROP_ZIP64,
 		 g_param_spec_int ("zip64",
 				   _("Zip64"),
 				   _("Whether to use zip64 format, -1 meaning automatic"),

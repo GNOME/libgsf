@@ -1,3 +1,8 @@
+2014-11-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_class_init): Properly
+	install zip64 property.
+
 2014-11-28  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (zip_dirent_new_out): Store mtime in zip
