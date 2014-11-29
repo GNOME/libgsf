@@ -50,7 +50,7 @@ struct _GsfOutfileZip {
 	GsfOutput     *sink;
 	GsfOutfileZip *root;
 
-	gboolean zip64;
+	gint8 zip64;
 	char *entry_name;
 
 	GsfZipVDir    *vdir;
