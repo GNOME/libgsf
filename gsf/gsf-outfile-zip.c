@@ -50,6 +50,7 @@ struct _GsfOutfileZip {
 	GsfOutput     *sink;
 	GsfOutfileZip *root;
 
+	gint8 sink_is_seekable;
 	gint8 zip64;
 	char *entry_name;
 
@@ -402,13 +403,6 @@ zip_time_make (GDateTime *modtime)
 	return ztime;
 }
 
-static void
-zip_dirent_update_flags (GsfZipDirent *dirent)
-{
-	/* Since we can seek, do not use a ddesc.  */
-	dirent->flags &= ~ZIP_DIRENT_FLAGS_HAS_DDESC;
-}
-
 static GsfZipDirent*
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
@@ -435,7 +429,6 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 		    dirent->mtime = (time_t)mtime64;
 
 		dirent->zip64 = zip->zip64;
-		zip_dirent_update_flags (dirent);
 
 		g_date_time_unref (modtime);
 
@@ -448,22 +441,63 @@ static gboolean
 zip_header_write (GsfOutfileZip *zip)
 {
 	guint8 hbuf[ZIP_HEADER_SIZE];
-	GsfZipDirent const *dirent = zip->vdir->dirent;
+	GsfZipDirent *dirent = zip->vdir->dirent;
 	char *name = dirent->name;
 	int   nlen = strlen (name);
 	gboolean ret;
-	gboolean has_ddesc = (dirent->flags & ZIP_DIRENT_FLAGS_HAS_DDESC) != 0;
-	guint32 crc32 = has_ddesc ? 0 : dirent->crc32;
-	gsf_off_t csize = has_ddesc ? 0 : dirent->csize;
-	gsf_off_t usize = has_ddesc ? 0 : dirent->usize;
-	GString *extras = g_string_sized_new (ZIP_HEADER_SIZE + nlen + 100);
-	gboolean real_zip64 =
+	gboolean real_zip64, has_ddesc;
+	guint32 crc32;
+	gsf_off_t csize, usize;
+	GString *extras;
+	guint8 extract = 23;
+	gboolean sig_written = FALSE;
+
+	memset (hbuf, 0, sizeof hbuf);
+	GSF_LE_SET_GUINT32 (hbuf, ZIP_HEADER_SIGNATURE);
+
+	if (zip->sink_is_seekable == -1) {
+		/*
+		 * We need to figure out if the sink is seekable, but we lack
+		 * an API to check that.  Instead, write the signature and
+		 * try to seek back onto it.  If seeking back fails, just
+		 * don't rewrite it.
+		 */
+		if (!gsf_output_write (zip->sink, 4, hbuf))
+			return FALSE;
+		zip->sink_is_seekable =
+			gsf_output_seek (zip->sink, dirent->offset, G_SEEK_SET);
+		if (!zip->sink_is_seekable)
+			sig_written = TRUE;
+	}
+
+	/* Now figure out if we need a DDESC record.  */
+	if (zip->sink_is_seekable)
+		dirent->flags &= ~ZIP_DIRENT_FLAGS_HAS_DDESC;
+	else
+		dirent->flags |= ZIP_DIRENT_FLAGS_HAS_DDESC;
+	has_ddesc = (dirent->flags & ZIP_DIRENT_FLAGS_HAS_DDESC) != 0;
+	crc32 = has_ddesc ? 0 : dirent->crc32;
+	csize = has_ddesc ? 0 : dirent->csize;
+	usize = has_ddesc ? 0 : dirent->usize;
+
+	/*
+	 * Determine if we need a real zip64 extra field.  We do so, if
+	 * - forced
+	 * - in auto mode, if usize, csize, or offset has overflowed
+	 * - in auto mode, if we use a DDESC
+	 */
+	real_zip64 =
 		(dirent->zip64 == TRUE ||
 		 (dirent->zip64 == -1 &&
-		  (dirent->usize >= G_MAXUINT32 ||
+		  (has_ddesc ||
+		   dirent->usize >= G_MAXUINT32 ||
 		   dirent->csize >= G_MAXUINT32 ||
 		   dirent->offset >= G_MAXUINT32)));
-	const guint8 extract = real_zip64 ? 45 : 23;
+
+	if (real_zip64)
+		extract = 45;
+
+	extras = g_string_sized_new (ZIP_HEADER_SIZE + nlen + 100);
 
 	/*
 	 * In the has_ddesc case, we write crc32/size/usize as zero and store
@@ -473,9 +507,11 @@ zip_header_write (GsfOutfileZip *zip)
 	 * header a second time correcting crc32/size/usize, see
 	 * see zip_header_patch_sizes.  For this reason, we must ensure that
 	 * the record's length does not depend on the the sizes.
+	 *
+	 * In the the has_ddesc case we store zeroes here.  No idea what we
+	 * were supposed to write.
 	 */
-
-	if (dirent->zip64) {
+	if (dirent->zip64 /* auto or forced */) {
 		char tmp[8];
 		guint16 typ = real_zip64
 			? ZIP_DIRENT_EXTRA_FIELD_ZIP64
@@ -502,8 +538,6 @@ zip_header_write (GsfOutfileZip *zip)
 		g_string_append_len (extras, tmp, 4);
 	}
 
-	memset (hbuf, 0, sizeof hbuf);
-	GSF_LE_SET_GUINT32 (hbuf, ZIP_HEADER_SIGNATURE);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRACT,
 			    (ZIP_OS_MSDOS << 8) + extract);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_FLAGS, dirent->flags);
@@ -512,15 +546,17 @@ zip_header_write (GsfOutfileZip *zip)
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC32, crc32);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CSIZE,
-			    real_zip64 ? G_MAXUINT32 : csize);
+			    real_zip64 && !has_ddesc ? G_MAXUINT32 : csize);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_USIZE,
-			    real_zip64 ? G_MAXUINT32 : usize);
+			    real_zip64 && !has_ddesc ? G_MAXUINT32 : usize);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_NAME_SIZE, nlen);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRAS_SIZE, extras->len);
 
 	/* Stuff everything into extras so we can do just one write.  */
 	g_string_insert_len (extras,           0, hbuf, sizeof hbuf);
 	g_string_insert_len (extras, sizeof hbuf, name, nlen);
+	if (sig_written)
+		g_string_erase (extras, 0, 4);
 
 	ret = gsf_output_write (zip->sink, extras->len, extras->str);
 
@@ -773,6 +809,7 @@ gsf_outfile_zip_set_sink (GsfOutfileZip *zip, GsfOutput *sink)
 	if (zip->sink)
 		g_object_unref (zip->sink);
 	zip->sink = sink;
+	zip->sink_is_seekable = -1;
 }
 
 static GsfOutput *
@@ -832,6 +869,7 @@ gsf_outfile_zip_init (GObject *obj)
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (obj);
 
 	zip->sink = NULL;
+	zip->sink_is_seekable = -1;
 	zip->root = NULL;
 	zip->entry_name = NULL;
 	zip->zip64 = -1;
