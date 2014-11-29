@@ -512,9 +512,9 @@ zip_header_write (GsfOutfileZip *zip)
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CRC32, crc32);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_CSIZE,
-			    dirent->zip64 ? G_MAXUINT32 : csize);
+			    real_zip64 ? G_MAXUINT32 : csize);
 	GSF_LE_SET_GUINT32 (hbuf + ZIP_HEADER_USIZE,
-			    dirent->zip64 ? G_MAXUINT32 : usize);
+			    real_zip64 ? G_MAXUINT32 : usize);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_NAME_SIZE, nlen);
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRAS_SIZE, extras->len);
 
@@ -638,7 +638,7 @@ zip_ddesc_write (GsfOutfileZip *zip)
 		size = ZIP_DDESC_SIZE;
 	}
 
-	if (!gsf_output_write (zip->sink, size - 4, buf + 4)) {
+	if (!gsf_output_write (zip->sink, size, buf)) {
 		return FALSE;
 	}
 

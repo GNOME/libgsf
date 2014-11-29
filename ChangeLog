@@ -2,6 +2,8 @@
 
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_class_init): Properly
 	install zip64 property.
+	(zip_header_write): Fix auto-zip64 mode's writing of sizes.
+	(zip_ddesc_write): Do write signature.
 
 2014-11-28  Morten Welinder  <terra@gnome.org>
 
