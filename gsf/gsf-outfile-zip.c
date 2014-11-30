@@ -767,6 +767,18 @@ gsf_outfile_zip_write (GsfOutput *output,
 			return FALSE;
 
 	dirent = zip->vdir->dirent;
+
+	if (dirent->zip64 == FALSE &&
+	    (num_bytes >= G_MAXUINT32 ||
+	     gsf_output_tell (output) >= (gsf_off_t)(G_MAXUINT32 - num_bytes))) {
+		/*
+		 * Uncompressed size field would overflow.  We do not
+		 * have a good way to prevent overflow for the
+		 * compressed size.
+		 */
+		return FALSE;
+	}
+
 	if (zip->compression_method == GSF_ZIP_DEFLATED) {
 		zip->stream->next_in  = (unsigned char *) data;
 		zip->stream->avail_in = num_bytes;
