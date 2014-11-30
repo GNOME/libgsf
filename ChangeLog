@@ -2,6 +2,9 @@
 
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_write): When zip64 is
 	forced off, don't allow writing beyond the 4G barrier.
+	(zip_header_write): If we write a real zip64 entry, mark the
+	dirent as being zip64.
+	(zip_close_root): If any dirent is zip64, the archive is.
 
 2014-11-29  Morten Welinder  <terra@gnome.org>
 

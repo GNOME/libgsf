@@ -324,6 +324,8 @@ zip_close_root (GsfOutput *output)
 		GsfZipDirent *dirent = child->vdir->dirent;
 		if (!zip_dirent_write (zip->sink, dirent))
 			return FALSE;
+		if (dirent->zip64 == TRUE)
+			zip64 = TRUE;
 	}
 	dirend = gsf_output_tell (zip->sink);
 
@@ -561,6 +563,9 @@ zip_header_write (GsfOutfileZip *zip)
 	ret = gsf_output_write (zip->sink, extras->len, extras->str);
 
 	g_string_free (extras, TRUE);
+
+	if (real_zip64)
+		dirent->zip64 = TRUE;
 
 	return ret;
 }
