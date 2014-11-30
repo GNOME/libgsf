@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-23 15:54+0100\n"
-"PO-Revision-Date: 2014-11-23 15:55+0100\n"
+"POT-Creation-Date: 2014-11-30 18:23+0100\n"
+"PO-Revision-Date: 2014-11-30 18:24+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -150,21 +150,21 @@ msgstr "Przejście się nie powiodło"
 msgid "Truncated archive"
 msgstr "Skrócone archiwum"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:946
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Źródło"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:947
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
 msgid "The archive being interpreted"
 msgstr "Interpretowane archiwum"
 
-#: ../gsf/gsf-infile-zip.c:451
+#: ../gsf/gsf-infile-zip.c:453
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Błąd podczas odczytywania dirent zip"
 
-#: ../gsf/gsf-infile-zip.c:462
+#: ../gsf/gsf-infile-zip.c:464
 #, c-format
 msgid "Broken zip file structure"
 msgstr "Uszkodzona struktura pliku zip"
@@ -181,16 +181,16 @@ msgstr "Błąd podczas odczytywania nagłówka zip"
 msgid "Error incorrect zip header"
 msgstr "Błąd, niepoprawny nagłówek zip"
 
-#: ../gsf/gsf-infile-zip.c:555
+#: ../gsf/gsf-infile-zip.c:553
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "problem podczas dekompresowania strumienia"
 
-#: ../gsf/gsf-infile-zip.c:962 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1017
 msgid "Compression Level"
 msgstr "Poziom kompresji"
 
-#: ../gsf/gsf-infile-zip.c:963 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:1018
 msgid "The level of compression used, zero meaning none"
 msgstr "Użyty poziom kompresji, zero oznacza brak"
 
@@ -356,7 +356,7 @@ msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Czy automatycznie wyrównywać elementy wyjścia"
 
 #: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:997
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Odpływ"
@@ -474,29 +474,37 @@ msgstr "Rozmiar dużych bloków"
 msgid "The size of the OLE's big blocks"
 msgstr "Rozmiar dużych bloków OLE"
 
-#: ../gsf/gsf-outfile-zip.c:750
+#: ../gsf/gsf-outfile-zip.c:998
 msgid "Where the archive is written"
 msgstr "Gdzie archiwum jest zapisane"
 
-#: ../gsf/gsf-outfile-zip.c:759
+#: ../gsf/gsf-outfile-zip.c:1007
 msgid "Entry Name"
 msgstr "Nazwa wpisu"
 
-#: ../gsf/gsf-outfile-zip.c:760
+#: ../gsf/gsf-outfile-zip.c:1008
 msgid "The filename of this member in the archive without path"
 msgstr "Nazwa pliku tego elementu w archiwum bez ścieżki"
 
-#: ../gsf/gsf-outfile-zip.c:780
+#: ../gsf/gsf-outfile-zip.c:1028
 msgid "Deflate Level"
 msgstr "Poziom kompresji deflate"
 
-#: ../gsf/gsf-outfile-zip.c:781
+#: ../gsf/gsf-outfile-zip.c:1029
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
 "Użyty poziom kompresji deflate, zero oznacza brak, a -1 oznacza domyślny "
 "poziom biblioteki zlib"
+
+#: ../gsf/gsf-outfile-zip.c:1040
+msgid "Zip64"
+msgstr "zip64"
+
+#: ../gsf/gsf-outfile-zip.c:1041
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "Czy używać formatu zip64, wartość -1 oznacza wybór automatyczny"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -622,73 +630,73 @@ msgstr "Wyświetla wersję programu"
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: otwarcie %s się nie powiodło: %s\n"
 
-#: ../tools/gsf.c:66
+#: ../tools/gsf.c:72
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s rozpoznanie %s jako archiwum się nie powiodło\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:111
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Dostępne podpolecenia to...\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:112
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        wyświetla jeden lub więcej plików w archiwum\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       zrzuca jeden lub więcej plików w archiwum w postaci "
 "szesnastkowej\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       wyświetla listę podpoleceń\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       wyświetla listę plików w archiwum\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  wyświetla listę właściwości dokumentu w archiwum\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      wyświetla podane właściwości dokumentu\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  tworzy archiwum OLE\n"
 
-#: ../tools/gsf.c:111
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  tworzy archiwum ZIP\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:311
 #, c-format
 msgid "No property named %s\n"
 msgstr "Brak właściwości o nazwie %s\n"
 
-#: ../tools/gsf.c:363
+#: ../tools/gsf.c:371
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: błąd podczas przetwarzania pliku %s: %s\n"
 
-#: ../tools/gsf.c:503
+#: ../tools/gsf.c:515
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "PODPOLECENIE ARCHIWUM..."
 
-#: ../tools/gsf.c:510
+#: ../tools/gsf.c:522
 #, c-format
 msgid ""
 "%s\n"
@@ -698,17 +706,17 @@ msgstr ""
 "Wykonanie polecenia \"%s --help\" wyświetli listę wszystkich dostępnych "
 "opcji wiersza poleceń.\n"
 
-#: ../tools/gsf.c:517
+#: ../tools/gsf.c:529
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf wersja %d.%d.%d\n"
 
-#: ../tools/gsf.c:523
+#: ../tools/gsf.c:535
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Użycie: %s %s\n"
 
-#: ../tools/gsf.c:548
+#: ../tools/gsf.c:560
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Wykonanie polecenia \"%s help\" wyświetli listę podpoleceń.\n"
