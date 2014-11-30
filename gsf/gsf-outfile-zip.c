@@ -302,7 +302,7 @@ zip_close_root (GsfOutput *output)
 	GPtrArray *elem = zip->root_order;
 	unsigned entries = elem->len;
 	unsigned i;
-	guint8 zip64 = zip->zip64;
+	gint8 zip64 = zip->zip64;
 
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
