@@ -35,3 +35,8 @@ test-zip-out
 test-zip-out-subdirs
 test-zip1
 test-zip2
+
+# Test suite files
+test-suite.log
+*.pl.log
+*.pl.trs
