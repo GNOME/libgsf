@@ -164,8 +164,9 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	const guint8 extract = dirent->zip64 ? 45 : 23;
 	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
 	gboolean offset_in_zip64 = dirent->offset >= G_MAXUINT32;
+	gboolean zip64_here = (dirent->zip64 || offset_in_zip64);
 
-	if (dirent->zip64 || offset_in_zip64) {
+	if (zip64_here) {
 		char tmp[8];
 
 		/*
@@ -223,9 +224,9 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_DOSTIME, dirent->dostime);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CRC32, dirent->crc32);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_CSIZE,
-			    dirent->zip64 ? G_MAXUINT32 : dirent->csize);
+			    zip64_here ? G_MAXUINT32 : dirent->csize);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_USIZE,
-			    dirent->zip64 ? G_MAXUINT32 : dirent->usize);
+			    zip64_here ? G_MAXUINT32 : dirent->usize);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_NAME_SIZE, nlen);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_EXTRAS_SIZE, extras->len);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_COMMENT_SIZE, 0);
@@ -234,7 +235,7 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	/* Hardcode file mode 644 */
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_FILE_MODE, 0100644 << 16);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_OFFSET,
-			    MIN (dirent->offset, G_MAXUINT32));
+			    offset_in_zip64 ? G_MAXUINT32 : dirent->offset);
 
 	/* Stuff everything into extras so we can do just one write.  */
 	g_string_insert_len (extras,          0, buf, sizeof buf);
