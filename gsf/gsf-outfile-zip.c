@@ -627,6 +627,9 @@ zip_output_block (GsfOutfileZip *zip)
 		return FALSE;
 	}
 	dirent->csize += num_bytes;
+	if (dirent->zip64 == FALSE && dirent->csize >= G_MAXUINT32)
+		return FALSE;
+
 	zip->stream->next_out  = zip->buf;
 	zip->stream->avail_out = zip->buf_size;
 
