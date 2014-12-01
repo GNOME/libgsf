@@ -1,5 +1,9 @@
 2014-11-30  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-outfile-zip.c (zip_dirent_write): The the archive is in
+	auto mode and the member is not using a zip64 extra field, use an
+	IGNORE extra field to work around known zipinfo bug.
+
 	* tools/gsf.c (gsf_create, load_recursively): Add error checks on
 	close.
 

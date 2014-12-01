@@ -156,7 +156,7 @@ gsf_outfile_zip_seek (G_GNUC_UNUSED GsfOutput *output,
 }
 
 static gboolean
-zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
+zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 {
 	guint8 buf[ZIP_DIRENT_SIZE];
 	int nlen = strlen (dirent->name);
@@ -186,6 +186,17 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 			GSF_LE_SET_GUINT64 (tmp, dirent->offset);
 			g_string_append_len (extras, tmp, 8);
 		}
+	} else if (zip->zip64 == -1) {
+		char tmp[8];
+
+		/* Match the local header.  */
+		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_IGNORE);
+		GSF_LE_SET_GUINT16 (tmp + 2, 2 * 8);
+		g_string_append_len (extras, tmp, 4);
+		GSF_LE_SET_GUINT64 (tmp, (guint64)0);
+		g_string_append_len (extras, tmp, 8);
+		GSF_LE_SET_GUINT64 (tmp, (guint64)0);
+		g_string_append_len (extras, tmp, 8);
 	}
 
 	if (dirent->mtime && dirent->mtime <= G_MAXUINT32) {
@@ -229,7 +240,7 @@ zip_dirent_write (GsfOutput *sink, GsfZipDirent *dirent)
 	g_string_insert_len (extras,          0, buf, sizeof buf);
 	g_string_insert_len (extras, sizeof buf, dirent->name, nlen);
 
-	ret = gsf_output_write (sink, extras->len, extras->str);
+	ret = gsf_output_write (zip->sink, extras->len, extras->str);
 
 	g_string_free (extras, TRUE);
 
@@ -308,9 +319,8 @@ zip_close_root (GsfOutput *output)
 	for (i = 0 ; i < elem->len ; i++) {
 		GsfOutfileZip *child = g_ptr_array_index (elem, i);
 		GsfZipDirent *dirent = child->vdir->dirent;
-		if (dirent->csize >= G_MAXUINT32 ||
-		    dirent->usize >= G_MAXUINT32)
-			zip64 = TRUE;  /* No choice.  */
+		if (dirent->zip64 == TRUE)
+			zip64 = TRUE;
 		if (!gsf_output_is_closed (GSF_OUTPUT (child))) {
 			g_warning ("Child still open");
 			return FALSE;
@@ -322,10 +332,8 @@ zip_close_root (GsfOutput *output)
 	for (i = 0 ; i < entries ; i++) {
 		GsfOutfileZip *child = g_ptr_array_index (elem, i);
 		GsfZipDirent *dirent = child->vdir->dirent;
-		if (!zip_dirent_write (zip->sink, dirent))
+		if (!zip_dirent_write (zip, dirent))
 			return FALSE;
-		if (dirent->zip64 == TRUE)
-			zip64 = TRUE;
 	}
 	dirend = gsf_output_tell (zip->sink);
 
@@ -405,7 +413,7 @@ zip_time_make (GDateTime *modtime)
 	return ztime;
 }
 
-static GsfZipDirent*
+static GsfZipDirent *
 zip_dirent_new_out (GsfOutfileZip *zip)
 {
 	char *name = stream_name_build (zip);
@@ -485,7 +493,7 @@ zip_header_write (GsfOutfileZip *zip)
 	/*
 	 * Determine if we need a real zip64 extra field.  We do so, if
 	 * - forced
-	 * - in auto mode, if usize, csize, or offset has overflowed
+	 * - in auto mode, if usize or csize has overflowed
 	 * - in auto mode, if we use a DDESC
 	 */
 	real_zip64 =
@@ -493,8 +501,7 @@ zip_header_write (GsfOutfileZip *zip)
 		 (dirent->zip64 == -1 &&
 		  (has_ddesc ||
 		   dirent->usize >= G_MAXUINT32 ||
-		   dirent->csize >= G_MAXUINT32 ||
-		   dirent->offset >= G_MAXUINT32)));
+		   dirent->csize >= G_MAXUINT32)));
 
 	if (real_zip64)
 		extract = 45;
@@ -791,11 +798,7 @@ gsf_outfile_zip_write (GsfOutput *output,
 	if (dirent->zip64 == FALSE &&
 	    (num_bytes >= G_MAXUINT32 ||
 	     gsf_output_tell (output) >= (gsf_off_t)(G_MAXUINT32 - num_bytes))) {
-		/*
-		 * Uncompressed size field would overflow.  We do not
-		 * have a good way to prevent overflow for the
-		 * compressed size.
-		 */
+		/* Uncompressed size field would overflow.  */
 		return FALSE;
 	}
 
