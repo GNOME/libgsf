@@ -163,9 +163,9 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	gboolean ret;
 	const guint8 extract = dirent->zip64 ? 45 : 23;
 	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
+	gboolean offset_in_zip64 = dirent->offset >= G_MAXUINT32;
 
-	if (dirent->zip64) {
-		gboolean do_offset = dirent->offset >= G_MAXUINT32;
+	if (dirent->zip64 || offset_in_zip64) {
 		char tmp[8];
 
 		/*
@@ -176,13 +176,13 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 		 * same.
 		 */
 		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_ZIP64);
-		GSF_LE_SET_GUINT16 (tmp + 2, (2 + do_offset) * 8);
+		GSF_LE_SET_GUINT16 (tmp + 2, (2 + offset_in_zip64) * 8);
 		g_string_append_len (extras, tmp, 4);
 		GSF_LE_SET_GUINT64 (tmp, dirent->usize);
 		g_string_append_len (extras, tmp, 8);
 		GSF_LE_SET_GUINT64 (tmp, dirent->csize);
 		g_string_append_len (extras, tmp, 8);
-		if (do_offset) {
+		if (offset_in_zip64) {
 			GSF_LE_SET_GUINT64 (tmp, dirent->offset);
 			g_string_append_len (extras, tmp, 8);
 		}

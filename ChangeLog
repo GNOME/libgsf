@@ -1,3 +1,9 @@
+2014-12-01  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_dirent_write): Handle the case of
+	small file beyond offset 4G.  The header record won't be zip64,
+	but the dirent needs to.
+
 2014-11-30  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): The the archive is in
