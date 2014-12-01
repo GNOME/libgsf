@@ -6,6 +6,8 @@
 	dirent as being zip64.
 	(zip_close_root): If any dirent is zip64, the archive is.
 	(zip_output_block): Catch overflow of csize.
+	(zip_header_patch_sizes): Resolve zip64 to FALSE if it remained
+	auto until now.
 
 2014-11-29  Morten Welinder  <terra@gnome.org>
 

@@ -694,11 +694,23 @@ zip_header_patch_sizes (GsfOutfileZip *zip)
 {
 	GsfZipDirent *dirent = zip->vdir->dirent;
 	gsf_off_t pos = gsf_output_tell (zip->sink);
+	gboolean ok;
 
 	/* Rewrite the header in the same location again.  */
-	return (gsf_output_seek (zip->sink, dirent->offset, G_SEEK_SET) &&
-		zip_header_write (zip) &&
-		gsf_output_seek (zip->sink, pos, G_SEEK_SET));
+	ok = (gsf_output_seek (zip->sink, dirent->offset, G_SEEK_SET) &&
+	      zip_header_write (zip) &&
+	      gsf_output_seek (zip->sink, pos, G_SEEK_SET));
+
+	if (ok && dirent->zip64 == -1) {
+		/*
+		 * We just wrote the final header.  Since we still are in
+		 * auto-mode, the header did not use a real zip64 extra
+		 * field.  Hence we don't need such a field.
+		 */
+		dirent->zip64 = FALSE;
+	}
+
+	return ok;
 }
 
 static gboolean
