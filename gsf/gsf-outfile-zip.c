@@ -161,10 +161,10 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	guint8 buf[ZIP_DIRENT_SIZE];
 	int nlen = strlen (dirent->name);
 	gboolean ret;
-	const guint8 extract = dirent->zip64 ? 45 : 23;
 	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
 	gboolean offset_in_zip64 = dirent->offset >= G_MAXUINT32;
 	gboolean zip64_here = (dirent->zip64 || offset_in_zip64);
+	const guint8 extract = zip64_here ? 45 : 23;  /* Unsure if dirent->zip64 is enough */
 
 	if (zip64_here) {
 		char tmp[8];
