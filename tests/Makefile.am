@@ -1,3 +1,22 @@
+# First digit after "t" the type of test:
+#
+# 1xxx: Containers
+# 10xx:   zip
+# 11xx:   ole2
+# 12xx:   tar
+#
+# 8xxx: Runs with valgrind and similar tools.
+# 80xx:   Valgrind
+# 82xx:   G_SLICE debug and similar
+#
+# 90xx: Misc stuff.
+
+TESTS_EXTENSIONS=.pl
+TESTS =	t1000-zip-single.pl				\
+	t9999-epilogue.pl
+
+SUPPS = common.supp
+
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
@@ -11,3 +30,7 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
 		 test-http test-gio # test-xml
+
+EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TESTS)
+.PHONY: $(TESTS)
+.NOTPARALLEL:
