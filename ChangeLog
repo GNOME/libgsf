@@ -9,6 +9,10 @@
 
 2014-11-30  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-utils.h (GSF_LE_SET_GU?INT{16,32,64}): Add casts to make
+	things more function-like and avoid implementation defined
+	behaviour.
+
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): The the archive is in
 	auto mode and the member is not using a zip64 extra field, use an
 	IGNORE extra field to work around known zipinfo bug.

@@ -155,9 +155,9 @@ double  gsf_le_get_double  (void const *p);
  *
  * Store @dat in little endian order in memory pointed to by @p.
  */
-#define GSF_LE_SET_GUINT16(p, dat)			\
-	((*((guint8 *)(p) + 0) = ((dat)        & 0xff)),\
-	 (*((guint8 *)(p) + 1) = ((dat) >>  8) & 0xff))
+#define GSF_LE_SET_GUINT16(p, dat)					\
+	((*((guint8 *)(p) + 0) = (guint8)((guint16)(dat))       & 0xff), \
+	 (*((guint8 *)(p) + 1) = (guint8)((guint16)(dat) >>  8) & 0xff))
 
 /**
  * GSF_LE_SET_GUINT32:
@@ -166,11 +166,11 @@ double  gsf_le_get_double  (void const *p);
  *
  * Store @dat in little endian order in memory pointed to by @p.
  */
-#define GSF_LE_SET_GUINT32(p, dat)				\
-	((*((guint8 *)(p) + 0) = (guchar) ((dat))       & 0xff),	\
-	 (*((guint8 *)(p) + 1) = (guchar) ((dat) >>  8) & 0xff),	\
-	 (*((guint8 *)(p) + 2) = (guchar) ((dat) >> 16) & 0xff),	\
-	 (*((guint8 *)(p) + 3) = (guchar) ((dat) >> 24) & 0xff))
+#define GSF_LE_SET_GUINT32(p, dat)					\
+	((*((guint8 *)(p) + 0) = (guint8)((guint32)(dat))       & 0xff), \
+	 (*((guint8 *)(p) + 1) = (guint8)((guint32)(dat) >>  8) & 0xff), \
+	 (*((guint8 *)(p) + 2) = (guint8)((guint32)(dat) >> 16) & 0xff), \
+	 (*((guint8 *)(p) + 3) = (guint8)((guint32)(dat) >> 24) & 0xff))
 
 /**
  * GSF_LE_SET_GUINT64:
@@ -180,14 +180,14 @@ double  gsf_le_get_double  (void const *p);
  * Store @dat in little endian order in memory pointed to by @p.
  */
 #define GSF_LE_SET_GUINT64(p, dat)			\
-	((*((guint8 *)(p) + 0) = (guchar) ((dat))       & 0xff),	\
-	 (*((guint8 *)(p) + 1) = (guchar) ((dat) >>  8) & 0xff),	\
-	 (*((guint8 *)(p) + 2) = (guchar) ((dat) >> 16) & 0xff),	\
-	 (*((guint8 *)(p) + 3) = (guchar) ((dat) >> 24) & 0xff),	\
-	 (*((guint8 *)(p) + 4) = (guchar) ((dat) >> 32) & 0xff),	\
-	 (*((guint8 *)(p) + 5) = (guchar) ((dat) >> 40) & 0xff),	\
-	 (*((guint8 *)(p) + 6) = (guchar) ((dat) >> 48) & 0xff),	\
-	 (*((guint8 *)(p) + 7) = (guchar) ((dat) >> 56) & 0xff))
+	((*((guint8 *)(p) + 0) = (guint8)((guint64)(dat))       & 0xff), \
+	 (*((guint8 *)(p) + 1) = (guint8)((guint64)(dat) >>  8) & 0xff), \
+	 (*((guint8 *)(p) + 2) = (guint8)((guint64)(dat) >> 16) & 0xff), \
+	 (*((guint8 *)(p) + 3) = (guint8)((guint64)(dat) >> 24) & 0xff), \
+	 (*((guint8 *)(p) + 4) = (guint8)((guint64)(dat) >> 32) & 0xff), \
+	 (*((guint8 *)(p) + 5) = (guint8)((guint64)(dat) >> 40) & 0xff), \
+	 (*((guint8 *)(p) + 6) = (guint8)((guint64)(dat) >> 48) & 0xff), \
+	 (*((guint8 *)(p) + 7) = (guint8)((guint64)(dat) >> 56) & 0xff))
 
 /**
  * GSF_LE_SET_GINT8:

@@ -170,7 +170,7 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 		char tmp[8];
 
 		/*
-		 * We could unconditinally store the offset here, but
+		 * We could unconditionally store the offset here, but
 		 * zipinfo has a known bug in which it fails to account
 		 * for differences in extra fields between the global
 		 * and the local headers.  So we try to make them the

@@ -16,6 +16,7 @@ Morten:
 	* Write zip archives with more than 64k+ members.
 	* Store unix modtime in zip.  (Until that overflows.)
 	* Fix seekability checks in GsfOutputIOChannel.
+	* Avoid implementation defined behaviour of shifts.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30
