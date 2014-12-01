@@ -1,5 +1,8 @@
 2014-11-30  Morten Welinder  <terra@gnome.org>
 
+	* tools/gsf.c (gsf_create, load_recursively): Add error checks on
+	close.
+
 	* gsf/gsf-outfile-zip.c (gsf_outfile_zip_write): When zip64 is
 	forced off, don't allow writing beyond the 4G barrier.
 	(zip_header_write): If we write a real zip64 entry, mark the

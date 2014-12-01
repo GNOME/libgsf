@@ -431,13 +431,18 @@ load_recursively (GsfOutfile *outfile, char const *path)
 			 "modtime", gsf_input_get_modtime (in),
 			 NULL);
 		g_printerr ("Adding %s\n", path);
+
 		ok = gsf_input_copy (in, out);
-		gsf_output_close (out);
+		if (!ok)
+			g_printerr ("Error in adding member.\n");
+
+		ok = gsf_output_close (out);
+		if (!ok)
+			g_printerr ("Error in adding member (at close)\n");
+
 		g_object_unref (out);
 		g_free (base);
 
-		if (!ok)
-			g_printerr ("Error in adding member.\n");
 
 		g_object_unref (in);
 	} else {
@@ -453,6 +458,7 @@ gsf_create (int argc, char **argv, GsfOutfileType type)
 	GsfOutput *dest;
 	GsfOutfile *outfile;
 	int i;
+	gboolean ok;
 
 	if (argc < 2)
 		return 1;
@@ -488,7 +494,10 @@ gsf_create (int argc, char **argv, GsfOutfileType type)
 		g_object_unref (file);
 	}
 
-	gsf_output_close (GSF_OUTPUT (outfile));
+	ok = gsf_output_close (GSF_OUTPUT (outfile));
+	if (!ok)
+		g_printerr ("Error while closing archive\n");
+
 	g_object_unref (dest);
 	g_object_unref (outfile);
 	return 0;
