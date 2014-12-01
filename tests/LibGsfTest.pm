@@ -269,10 +269,17 @@ sub test_zip {
     }
 
     {
-	my $cmd = &quotearg ('unzip', '-q', '-t', $archive);
+	my $cmd = &quotearg ($unzip, '-q', '-t', $archive);
 	print "# $cmd\n";
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
-	&system_failure ($gsf, $code) if $code;
+	&system_failure ($unzip, $code) if $code;
+    }
+
+    if ($verbose) {
+	my $cmd = &quotearg ($zipinfo, '-v', $archive);
+	print "# $cmd\n";
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	&system_failure ($zipinfo, $code) if $code;
     }
 
     foreach my $file (@$pfiles) {
@@ -280,12 +287,13 @@ sub test_zip {
 	print "# $cmd\n";
 	my $stored_data = `$cmd`;
 
-	my $cmd = &quotearg ('cat', $file);
+	$cmd = &quotearg ('cat', $file);
 	print "# $cmd\n";
 	my $original_data = `$cmd`;
 
 	die "Mismatch for member $file\n"
 	    unless $stored_data eq $original_data;
+	print "# Member $file matched.\n";
     }
 }
 
