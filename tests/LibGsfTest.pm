@@ -293,7 +293,7 @@ sub zipinfo_callback {
 sub test_zip {
     my (%args) = @_;
 
-    $args{'createarg'} = 'createzip';
+    $args{'create-arg'} = 'createzip';
     $args{'ext'} = 'zip';
     $args{'archive-tester'} = [$unzip, '-q', '-t'];
     $args{'independent-cat'} = [$unzip, '-p'];
@@ -342,8 +342,9 @@ sub test_archive {
     &junkfile ($archive);
 
     {
-	my $gsfcmd = $pargs->{'createarg'};
-	my $cmd = &quotearg ($gsf, $gsfcmd, $archive, @$pfiles);
+	my $gsfcmd = $pargs->{'create-arg'};
+	my $gsfopts = $pargs->{'create-options'} || [];
+	my $cmd = &quotearg ($gsf, $gsfcmd, @$gsfopts, $archive, @$pfiles);
 	print STDERR "# $cmd\n";
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($gsf, $code) if $code;

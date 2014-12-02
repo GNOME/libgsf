@@ -10,12 +10,21 @@
 #include <errno.h>
 
 static gboolean show_version;
+static int opt_zip64 = -1;
 
 static GOptionEntry const gsf_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &show_version,
 		N_("Display program version"),
+		NULL
+	},
+
+	/* All options below are for gsf testing only.  */
+	{
+		"zip64", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &opt_zip64,
+		"",
 		NULL
 	},
 
@@ -467,9 +476,12 @@ gsf_create (int argc, char **argv, GType type)
 
 	if (type == GSF_OUTFILE_MSOLE_TYPE)
 		outfile = gsf_outfile_msole_new (dest);
-	else if (type == GSF_OUTFILE_ZIP_TYPE)
-		outfile = gsf_outfile_zip_new (dest, &error);
-	else
+	else if (type == GSF_OUTFILE_ZIP_TYPE) {
+		outfile = g_object_new (GSF_OUTFILE_ZIP_TYPE,
+					"sink", dest,
+					"zip64", opt_zip64,
+					NULL);
+	} else
 		g_assert_not_reached ();
 
 	if (error) {
