@@ -8,7 +8,7 @@ use XML::Parser;
 $| = 1;
 
 @LibGsfTest::ISA = qw (Exporter);
-@LibGsfTest::EXPORT = qw(message
+@LibGsfTest::EXPORT = qw(message test_valgrind
 			 test_zip
 			 $topsrc $top_builddir
 			 $gsf $PERL);
@@ -185,7 +185,7 @@ sub test_valgrind {
     $cmd = "--gen-suppressions=all $cmd";
 
     {
-	my $suppfile = "$topsrc/test/common.supp";
+	my $suppfile = "$topsrc/tests/common.supp";
 	&report_skip ("file $suppfile does not exist") unless -r $suppfile;
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }

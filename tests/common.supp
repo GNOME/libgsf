@@ -1,3 +1,101 @@
 # -----------------------------------------------------------------------------
 # Valgrind suppressions for tests
 # -----------------------------------------------------------------------------
+
+{
+   Leak/g_type_register_fundamental
+   Memcheck:Leak
+   ...
+   fun:g_type_register_fundamental
+}
+
+{
+   Leak/g_type_register_static
+   Memcheck:Leak
+   ...
+   fun:g_type_register_static
+}
+
+{
+   Leak/g_type_add_interface_static
+   Memcheck:Leak
+   ...
+   fun:g_type_add_interface_static
+}
+
+{
+   Leak/g_type_add_interface_dynamic
+   Memcheck:Leak
+   ...
+   fun:g_type_add_interface_dynamic
+}
+
+{
+   Leak/g_type_register_dynamic
+   Memcheck:Leak
+   ...
+   fun:g_type_register_dynamic
+}
+
+{
+   GLIB/IDLE_CLOSURE_LEAK1
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_closure_new_simple
+   ...
+   fun:complete_in_idle_cb
+}
+
+{
+   GLIB/IDLE_CLOSURE_LEAK2
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_closure_add_invalidate_notifier
+   fun:g_source_set_closure
+   ...
+   fun:complete_in_idle_cb
+}
+
+{
+   Leak/g_type_class_ref1
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:g_type_class_ref
+}
+
+{
+   Leak/g_type_class_ref2
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:g_type_class_ref
+}
+
+{
+   GLIBC/DL_INIT/MLK
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   ...
+   fun:call_init.part.0
+   fun:_dl_init
+}
+
+{
+   GLIB/G_FILE_READ_LINK
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_file_read_link
+}
+
+{
+   GLIBC/thread2/MLK
+   Memcheck:Leak
+   ...
+   fun:g_thread_new
+}
