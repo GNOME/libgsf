@@ -252,48 +252,147 @@ sub quotearg1 {
 
 # -----------------------------------------------------------------------------
 
+sub zipinfo_callback {
+    my ($archive) = @_;
+
+    my @result = ();
+
+    my $entry = undef;
+    foreach (`$zipinfo -v $archive`) {
+	print STDERR "| $_" if $verbose;
+
+	if (/^Central directory entry #\d+:$/) {
+	    push @result, $entry if defined $entry;
+	    $entry = {};
+	    next;
+	}
+
+	if ($entry && /^\s*- A subfield with ID 0x0001 \(PKWARE 64-bit sizes\)/) {
+	    $entry->{'zip64'} = 1;
+	    next;
+	}
+
+	if ($entry && /^  *(\S.*\S):\s*(\S.*)$/) {
+	    my $field = $1;
+	    my $val = $2;
+	    $val =~ s/ (bytes|characters)$//;
+	    $entry->{$field} = $val;
+	    next;
+	}
+
+	if ($entry && keys %$entry == 0 && /^  (.*)$/) {
+	    $entry->{'name'} = $1;
+	    next;
+	}
+    }
+    push @result, $entry if defined $entry;
+
+    return (undef,\@result);
+}
+
 sub test_zip {
     my (%args) = @_;
 
-    my $pfiles = $args{'files'};
+    $args{'createarg'} = 'createzip';
+    $args{'ext'} = 'zip';
+    $args{'archive-tester'} = [$unzip, '-q', '-t'];
+    $args{'independent-cat'} = [$unzip, '-p'];
+    $args{'infofunc'} = \&zipinfo_callback;
 
-    my $archive = 'test.zip';
+    foreach my $test (@{$args{'zip-member-tests'} || []}) {
+	$args{'member-tests'} ||= [];
+
+	if ($test eq 'zip64') {
+	    push @{$args{'member-tests'}},
+	    sub {
+		my ($member) = @_;
+		my $name = $member->{'name'};
+		die "Member $name should have been zip64\n" unless $member->{'zip64'};
+	    };
+	    next;
+	}
+
+	if ($test eq '!zip64') {
+	    push @{$args{'member-tests'}},
+	    sub {
+		my ($member) = @_;
+		my $name = $member->{'name'};
+		die "Member $name should not be zip64\n" if $member->{'zip64'};
+	    };
+	    next;
+	}
+    }
+
+    &test_archive (\%args);
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_archive {
+    my ($pargs) = @_;
+
+    my $pfiles = $pargs->{'files'};
+    my $ext = $pargs->{'ext'};
+    my $tester = $pargs->{'archive-tester'};
+    my $independent_cat = $pargs->{'independent-cat'};
+    my $member_tests = $pargs->{'member-tests'};
+    my $infofunc = $pargs->{'infofunc'};
+
+    my $archive = "test.$ext";
     &junkfile ($archive);
 
     {
-	my $cmd = &quotearg ($gsf, "createzip", $archive, @$pfiles);
-	print "# $cmd\n";
+	my $gsfcmd = $pargs->{'createarg'};
+	my $cmd = &quotearg ($gsf, $gsfcmd, $archive, @$pfiles);
+	print STDERR "# $cmd\n";
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($gsf, $code) if $code;
 	die "$gsf failed to create the archive $archive\n" unless -e $archive;
     }
 
-    {
-	my $cmd = &quotearg ($unzip, '-q', '-t', $archive);
-	print "# $cmd\n";
+    if ($tester) {
+	my $cmd = &quotearg (@$tester, $archive);
+	print STDERR "# $cmd\n";
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
-	&system_failure ($unzip, $code) if $code;
-    }
-
-    if ($verbose) {
-	my $cmd = &quotearg ($zipinfo, '-v', $archive);
-	print "# $cmd\n";
-	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
-	&system_failure ($zipinfo, $code) if $code;
+	&system_failure ($tester->[0], $code) if $code;
     }
 
     foreach my $file (@$pfiles) {
-	my $cmd = &quotearg ('unzip', '-p', $archive, $file);
-	print "# $cmd\n";
-	my $stored_data = `$cmd`;
-
-	$cmd = &quotearg ('cat', $file);
-	print "# $cmd\n";
+	my $cmd = &quotearg ('cat', $file);
+	print STDERR "# $cmd\n";
 	my $original_data = `$cmd`;
 
-	die "Mismatch for member $file\n"
-	    unless $stored_data eq $original_data;
-	print "# Member $file matched.\n";
+	# Match stored data using external extractor if we have one
+	if ($independent_cat) {
+	    my $cmd = &quotearg (@$independent_cat, $archive, $file);
+	    print STDERR "# $cmd\n";
+	    my $stored_data = `$cmd`;
+
+	    die "Mismatch for member $file\n"
+		unless $stored_data eq $original_data;
+	}
+
+	# Match stored data using our own extractor
+	{
+	    my $cmd = &quotearg ($gsf, 'cat', $archive, $file);
+	    print STDERR "# $cmd\n";
+	    my $stored_data = `$cmd`;
+
+	    die "Mismatch for member $file\n"
+		unless $stored_data eq $original_data;
+	}
+
+	print STDERR "# Member $file matched.\n";
+    }
+
+    if ($infofunc) {
+	my ($ainfo,$minfo) = &$infofunc ($archive);
+
+	foreach my $test (@$member_tests) {
+	    foreach my $member (@$minfo) {
+		&$test ($member);
+	    }
+	}
     }
 }
 

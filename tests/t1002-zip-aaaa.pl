@@ -14,4 +14,5 @@ my $aaaa = 'aaaa.txt';
     print $f "a"x10000000;
 }
 
-&test_zip ('files' => [$aaaa]);
+&test_zip ('files' => [$aaaa],
+	   'zip-member-tests' => ['!zip64']);

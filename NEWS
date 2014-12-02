@@ -17,6 +17,7 @@ Morten:
 	* Store unix modtime in zip.  (Until that overflows.)
 	* Fix seekability checks in GsfOutputIOChannel.
 	* Avoid implementation defined behaviour of shifts.
+	* Start a test suite.
 
 --------------------------------------------------------------------------
 libgsf 1.14.30
