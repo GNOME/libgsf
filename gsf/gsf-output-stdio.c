@@ -165,6 +165,7 @@ follow_symlinks (char const *filename, GError **error)
 		*error = g_error_new_literal (gsf_output_error_id (), err,
 					      g_strerror (err));
 	}
+	g_free (link);
 	g_free (followed_filename);
 	return NULL;
 }

@@ -1,5 +1,7 @@
 2014-12-01  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-output-stdio.c (follow_symlinks): Plug leak.
+
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): Handle the case of
 	small file beyond offset 4G.  The header record won't be zip64,
 	but the dirent needs to.
