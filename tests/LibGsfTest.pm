@@ -218,7 +218,7 @@ sub test_valgrind {
 	? $1
 	: -1;
     if ($errors == 0) {
-	# &dump_indented ($txt);
+	&dump_indented ($txt) if $verbose;
 	print STDERR "Pass\n";
 	return;
     }

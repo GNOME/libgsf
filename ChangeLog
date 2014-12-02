@@ -1,3 +1,11 @@
+2014-12-02  Morten Welinder  <terra@gnome.org>
+
+	* tests/LibGsfTest.pm (test_valgrind): Dump valgrind output when
+	verbose.
+
+	* tools/gsf.c (gsf_create): Use our perfectly fine GType macros
+	instead of a home grown enum.
+
 2014-12-01  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-stdio.c (follow_symlinks): Plug leak.

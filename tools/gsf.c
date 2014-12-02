@@ -24,11 +24,6 @@ static GOptionEntry const gsf_options [] = {
 	{ NULL, 0, 0, 0, NULL, NULL, NULL}
 };
 
-typedef enum {
-	GSF_OUTFILE_TYPE_MSOLE,
-	GSF_OUTFILE_TYPE_ZIP
-} GsfOutfileType;
-
 /* ------------------------------------------------------------------------- */
 
 static GsfInfile *
@@ -451,7 +446,7 @@ load_recursively (GsfOutfile *outfile, char const *path)
 }
 
 static int
-gsf_create (int argc, char **argv, GsfOutfileType type)
+gsf_create (int argc, char **argv, GType type)
 {
 	char const *filename;
 	GError *error = NULL;
@@ -470,16 +465,12 @@ gsf_create (int argc, char **argv, GsfOutfileType type)
 		return 1;
 	}
 
-	switch (type) {
-	case GSF_OUTFILE_TYPE_MSOLE:
+	if (type == GSF_OUTFILE_MSOLE_TYPE)
 		outfile = gsf_outfile_msole_new (dest);
-		break;
-	case GSF_OUTFILE_TYPE_ZIP:
+	else if (type == GSF_OUTFILE_ZIP_TYPE)
 		outfile = gsf_outfile_zip_new (dest, &error);
-		break;
-	default:
+	else
 		g_assert_not_reached ();
-	}
 
 	if (error) {
 		show_error (filename, error);
@@ -562,9 +553,9 @@ main (int argc, char **argv)
 	if (strcmp (cmd, "listprops") == 0)
 		return gsf_list_props (argc - 2, argv + 2);
 	if (strcmp (cmd, "createole") == 0)
-		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_MSOLE);
+		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_MSOLE_TYPE);
 	if (strcmp (cmd, "createzip") == 0)
-		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_TYPE_ZIP);
+		return gsf_create (argc - 2, argv + 2, GSF_OUTFILE_ZIP_TYPE);
 
 	g_printerr (_("Run '%s help' to see a list of subcommands.\n"), me);
 	return 1;

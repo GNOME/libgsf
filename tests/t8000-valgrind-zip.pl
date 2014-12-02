@@ -10,10 +10,18 @@ my $archive = "test.zip";
 
 my @files = ('Makefile.am', 'common.supp');
 
-print STDERR "Testing zip write\n";
+print STDERR "Testing zip create\n";
 &test_valgrind ("$gsf createzip $archive @files", 1);
 print STDERR "\n";
 
-print STDERR "Testing zip read\n";
+print STDERR "Testing zip list\n";
 &test_valgrind ("$gsf list $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing zip listprops\n";
+&test_valgrind ("$gsf listprops $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing zip cat\n";
+&test_valgrind ("$gsf cat $archive @files >/dev/null", 1);
 print STDERR "\n";

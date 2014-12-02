@@ -10,10 +10,18 @@ my $archive = "test.ole";
 
 my @files = ('Makefile.am', 'common.supp');
 
-print STDERR "Testing ole write\n";
+print STDERR "Testing ole create\n";
 &test_valgrind ("$gsf createole $archive @files", 1);
 print STDERR "\n";
 
-print STDERR "Testing ole read\n";
+print STDERR "Testing ole list\n";
 &test_valgrind ("$gsf list $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing ole listprops\n";
+&test_valgrind ("$gsf listprops $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing ole cat\n";
+&test_valgrind ("$gsf cat $archive @files >/dev/null", 1);
 print STDERR "\n";

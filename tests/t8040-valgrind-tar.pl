@@ -19,6 +19,14 @@ if (0) {
     system ("tar", "cf", $archive, @files);
 }
 
-print STDERR "Testing tar read\n";
+print STDERR "Testing tar list\n";
 &test_valgrind ("$gsf list $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing tar listprops\n";
+&test_valgrind ("$gsf listprops $archive >/dev/null", 1);
+print STDERR "\n";
+
+print STDERR "Testing tar cat\n";
+&test_valgrind ("$gsf cat $archive @files >/dev/null", 1);
 print STDERR "\n";
