@@ -344,9 +344,15 @@ sub test_archive {
     {
 	my $gsfcmd = $pargs->{'create-arg'};
 	my $gsfopts = $pargs->{'create-options'} || [];
-	my $cmd = &quotearg ($gsf, $gsfcmd, @$gsfopts, $archive, @$pfiles);
+	my $stdio = $pargs->{'stdio'};
+	my $cmd = &quotearg ($gsf, $gsfcmd, @$gsfopts,
+			     ($stdio ? "-" : $archive),
+			     @$pfiles);
 	print STDERR "# $cmd\n";
-	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
+	my $code =
+	    $stdio
+	    ? system ("($cmd | cat >$archive) 2>&1 | sed -e 's/^/| /'")
+	    : system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($gsf, $code) if $code;
 	die "$gsf failed to create the archive $archive\n" unless -e $archive;
     }
