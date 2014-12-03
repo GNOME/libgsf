@@ -1,5 +1,7 @@
 2014-12-02  Morten Welinder  <terra@gnome.org>
 
+	* tools/gsf.c (gsf_create): Allow "-" for output to stdout.
+
 	* tests/LibGsfTest.pm (test_valgrind): Dump valgrind output when
 	verbose.
 

@@ -468,7 +468,10 @@ gsf_create (int argc, char **argv, GType type)
 		return 1;
 
 	filename = argv[0];
-	dest = gsf_output_stdio_new (filename, &error);
+	if (strcmp (filename, "-") == 0)
+		dest = gsf_output_stdio_new_FILE (filename, stdout, TRUE);
+	else
+		dest = gsf_output_stdio_new (filename, &error);
 	if (error) {
 		show_error (filename, error);
 		return 1;
