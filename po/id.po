@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-04-17 23:36+0000\n"
-"PO-Revision-Date: 2014-05-21 10:32+0700\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2014-11-28 00:35+0000\n"
+"PO-Revision-Date: 2014-12-04 18:24+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -97,7 +97,7 @@ msgstr "Gagal mengakses anak"
 msgid "failure reading block"
 msgstr "kegagalan saat membaca blok"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Tak bisa temukan stream direktori VBA"
@@ -106,17 +106,17 @@ msgstr "Tak bisa temukan stream direktori VBA"
 msgid "vba project header problem"
 msgstr "masalah header proyek vba"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "Tak ada tanda tangan VBA"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Versi tanda tangan VBA tak dikenal 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Tak bisa mengurai header VBA"
@@ -146,52 +146,47 @@ msgstr "Seek gagal"
 msgid "Truncated archive"
 msgstr "Arsip terpotong"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Sumber"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
 msgid "The archive being interpreted"
 msgstr "Arsip sedang diinterpretasi"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "Tak ada ekor Zip"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Galat saat membaca tanda tangan Zip"
-
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:453
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Galat saat membaca dirent zip"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:464
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Struktur berkas zip rusak"
+
+#: ../gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "Galat saat seek header zip"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:520
 msgid "Error reading zip header"
 msgstr "Galat saat membaca header zip"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
 msgstr "Galat header zip salah"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:553
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "masalah saat mendekompresi stream"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:935
 msgid "Compression Level"
 msgstr "Tingkat Kompresi"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:936
 msgid "The level of compression used, zero meaning none"
 msgstr "Tingkat kompresi yang dipakai, nol berarti nihil"
 
@@ -331,17 +326,17 @@ msgstr "Ukuran setelah dekompresi"
 msgid "The source's uncompressed size"
 msgstr "Ukuran sumber tak terkompresi"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: Bukan berkas biasa"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: Berkas terlalu besar untuk dipetakan ke memori"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap tak didukung"
@@ -356,7 +351,7 @@ msgstr ""
 "Apakah elemen pada keluaran mesti diinden otomatis agar lebih mudah dibaca?"
 
 #: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:915
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Muara"
@@ -383,37 +378,37 @@ msgstr ""
 "Data terkorupsi dalam properti VT_CF; panjang data papan klip mesti paling "
 "tidak 4 byte, tapi data menyatakan hanya tersedia %s byte."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Tak bisa baca header stream properti MS"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Header stream properti MS tak valid"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Seksi properti MS tak valid"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Header stream properti MS tak valid atau terpotong"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:356
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Properti \"%s\" dipakai untuk beberapa tipe!"
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "ODF version"
 msgstr "Versi ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:882
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Versi ODF yang ditarget oleh objek ini sebagai bilangan bulat seperti 100"
@@ -474,30 +469,37 @@ msgstr "Ukuran blok besar"
 msgid "The size of the OLE's big blocks"
 msgstr "Ukuran blok besar OLE"
 
-#: ../gsf/gsf-outfile-zip.c:750
+#: ../gsf/gsf-outfile-zip.c:916
 msgid "Where the archive is written"
 msgstr "Di mana arsip ditulis"
 
-#: ../gsf/gsf-outfile-zip.c:759
+#: ../gsf/gsf-outfile-zip.c:925
 msgid "Entry Name"
 msgstr "Nama Entri"
 
-#: ../gsf/gsf-outfile-zip.c:760
+#: ../gsf/gsf-outfile-zip.c:926
 msgid "The filename of this member in the archive without path"
 msgstr "Nama berkas anggota ini di dalam arsip tanpa path"
 
-#: ../gsf/gsf-outfile-zip.c:780
+#: ../gsf/gsf-outfile-zip.c:946
 msgid "Deflate Level"
 msgstr "Tingklat Deflasi"
 
-#: ../gsf/gsf-outfile-zip.c:781
-#| msgid "The level of compression used, zero meaning none"
+#: ../gsf/gsf-outfile-zip.c:947
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
 "Tingkat kompresi yang dipakai, nol berarti tidak ada dan -1 berarti sesuai "
 "bawaan zlib"
+
+#: ../gsf/gsf-outfile-zip.c:958
+msgid "Zip64"
+msgstr "Zip64"
+
+#: ../gsf/gsf-outfile-zip.c:959
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "Apakah akan memakai format zip64, -1 berarti otomatis"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -621,71 +623,71 @@ msgstr "Tampilkan versi program"
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Gagal membuka %s: %s\n"
 
-#: ../tools/gsf.c:66
+#: ../tools/gsf.c:72
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Gagal mengenali %s sebagai arsip\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:111
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Sub perintah yang tersedia adalah...\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:112
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        keluarkan salinan satu atau lebih berkas dalam arsip\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       dump satu atau lebih berkas dalam arsip sebagai heksa\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       daftar sub perintah\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       daftar berkas dalam arsip\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  daftar properti dokumen dalam arsip\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      cetak properti dokumen yang dinyatakan\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  buat arsip OLE\n"
 
-#: ../tools/gsf.c:111
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  buat arsip ZIP\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:311
 #, c-format
 msgid "No property named %s\n"
 msgstr "Tak ada properti bernama %s\n"
 
-#: ../tools/gsf.c:363
+#: ../tools/gsf.c:371
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Galat saat memroses berkas %s: %s\n"
 
-#: ../tools/gsf.c:503
+#: ../tools/gsf.c:515
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUB_PERINTAH ARSIP..."
 
-#: ../tools/gsf.c:510
+#: ../tools/gsf.c:522
 #, c-format
 msgid ""
 "%s\n"
@@ -695,18 +697,17 @@ msgstr ""
 "Jalankan '%s --help' untuk melihat daftar lengkap dari pilihan baris "
 "perintah.\n"
 
-#: ../tools/gsf.c:517
+#: ../tools/gsf.c:529
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versi %d.%d.%d\n"
 
-#: ../tools/gsf.c:523
+#: ../tools/gsf.c:535
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Cara pakai: %s %s\n"
 
-#: ../tools/gsf.c:548
+#: ../tools/gsf.c:560
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Jalankan '%s help' untuk melihat daftar sub perintah.\n"
-
