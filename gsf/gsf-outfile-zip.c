@@ -30,6 +30,9 @@
 #include <time.h>
 #include <zlib.h>
 
+#define ZIP_CREATE_DEFAULT_ZIP64 -1
+#define ZIP_ADD_UNIXTIME_FIELD TRUE
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:zip"
 
@@ -181,7 +184,7 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	GString *extras = g_string_sized_new (ZIP_DIRENT_SIZE + nlen + 100);
 	gboolean offset_in_zip64 = dirent->offset >= G_MAXUINT32;
 	gboolean zip64_here = (dirent->zip64 || offset_in_zip64);
-	const guint8 extract = zip64_here ? 45 : 23;  /* Unsure if dirent->zip64 is enough */
+	const guint8 extract = zip64_here ? 45 : 20;  /* Unsure if dirent->zip64 is enough */
 
 	if (zip64_here) {
 		char tmp[8];
@@ -217,7 +220,8 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 		g_string_append_len (extras, tmp, 8);
 	}
 
-	if (dirent->mtime &&
+	if (ZIP_ADD_UNIXTIME_FIELD &&
+	    dirent->mtime &&
 	    dirent->mtime <= G_MAXUINT32 &&
 	    !special_mimetype_dirent (dirent)) {
 		/* Clearly a year 2038 problem here.  */
@@ -505,7 +509,7 @@ zip_header_write (GsfOutfileZip *zip)
 	guint32 crc32;
 	gsf_off_t csize, usize;
 	GString *extras;
-	guint8 extract = 23;
+	guint8 extract = 20;
 	gboolean sig_written = FALSE;
 
 	memset (hbuf, 0, sizeof hbuf);
@@ -581,7 +585,8 @@ zip_header_write (GsfOutfileZip *zip)
 		g_string_append_len (extras, tmp, 8);
 	}
 
-	if (dirent->mtime &&
+	if (ZIP_ADD_UNIXTIME_FIELD &&
+	    dirent->mtime &&
 	    dirent->mtime <= G_MAXUINT32 &&
 	    !special_mimetype_dirent (dirent)) {
 		/* Clearly a year 2038 problem here.  */
@@ -958,7 +963,7 @@ gsf_outfile_zip_init (GObject *obj)
 	zip->sink_is_seekable = -1;
 	zip->root = NULL;
 	zip->entry_name = NULL;
-	zip->zip64 = -1;
+	zip->zip64 = ZIP_CREATE_DEFAULT_ZIP64;
 	zip->vdir = NULL;
 	zip->root_order = NULL;
 	zip->stream = NULL;
@@ -1114,7 +1119,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   _("Zip64"),
 				   _("Whether to use zip64 format, -1 meaning automatic"),
 				   -1, 1,
-				   -1,
+				   ZIP_CREATE_DEFAULT_ZIP64,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
@@ -1137,9 +1142,12 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
  * Returns: the new zip file handler
  **/
 GsfOutfile *
-gsf_outfile_zip_new (GsfOutput *sink, G_GNUC_UNUSED GError **err)
+gsf_outfile_zip_new (GsfOutput *sink, GError **err)
 {
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
+
+	if (err)
+		*err = NULL;
 
 	return (GsfOutfile *)g_object_new (GSF_OUTFILE_ZIP_TYPE,
 					   "sink", sink,

@@ -6,6 +6,9 @@
 	(zip_close_root): Sort by offset.  Note: this may not be necessary
 	or even desired, but help with the zipdetails utility.
 	(zip_init_write): Make the special mimetype default to !zip64.
+	(gsf_outfile_zip_new): Null the error return value.
+	(zip_dirent_write, zip_header_write): Use extract version 2.0 for
+	the !zip64 case.
 
 2014-12-14  Morten Welinder  <terra@gnome.org>
 
