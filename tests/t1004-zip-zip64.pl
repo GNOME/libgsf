@@ -7,8 +7,8 @@ use LibGsfTest;
 
 &test_zip ('files' => ['Makefile.am', 'common.supp'],
 	   'create-options' => ["--zip64=1"],
-	   'zip-member-tests' => ['zip64']);
+	   'zip-member-tests' => ['zip64', '!ignore']);
 
 &test_zip ('files' => ['Makefile.am', 'common.supp'],
 	   'create-options' => ["--zip64=0"],
-	   'zip-member-tests' => ['!zip64']);
+	   'zip-member-tests' => ['!zip64', '!ignore']);

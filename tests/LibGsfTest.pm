@@ -272,6 +272,11 @@ sub zipinfo_callback {
 	    next;
 	}
 
+	if ($entry && /^\s*- A subfield with ID 0x4949 /) {
+	    $entry->{'ignore'} = 1;
+	    next;
+	}
+
 	if ($entry && /^  *(\S.*\S):\s*(\S.*)$/) {
 	    my $field = $1;
 	    my $val = $2;
@@ -318,6 +323,16 @@ sub test_zip {
 		my ($member) = @_;
 		my $name = $member->{'name'};
 		die "Member $name should not be zip64\n" if $member->{'zip64'};
+	    };
+	    next;
+	}
+
+	if ($test eq '!ignore') {
+	    push @{$args{'member-tests'}},
+	    sub {
+		my ($member) = @_;
+		my $name = $member->{'name'};
+		die "Member $name should not use ignore extension\n" if $member->{'ignore'};
 	    };
 	    next;
 	}
