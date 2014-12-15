@@ -155,6 +155,23 @@ gsf_outfile_zip_seek (G_GNUC_UNUSED GsfOutput *output,
 	return FALSE;
 }
 
+/*
+ * The "mimetype" member is special for ODF.  It cannot have any
+ * extra field (and thus cannot be a zip64 member).  Hardcode
+ * this to help compatibility with libgsf users depending on
+ * past behaviour of zip creation.
+ *
+ * The flip side is that such a file cannot be 4G+.
+ */
+static gboolean
+special_mimetype_dirent (const GsfZipDirent *dirent)
+{
+	return (dirent->offset == 0 &&
+		dirent->zip64 != TRUE &&
+		dirent->compr_method == GSF_ZIP_STORED &&
+		strcmp (dirent->name, "mimetype") == 0);
+}
+
 static gboolean
 zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 {
@@ -200,7 +217,9 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 		g_string_append_len (extras, tmp, 8);
 	}
 
-	if (dirent->mtime && dirent->mtime <= G_MAXUINT32) {
+	if (dirent->mtime &&
+	    dirent->mtime <= G_MAXUINT32 &&
+	    !special_mimetype_dirent (dirent)) {
 		/* Clearly a year 2038 problem here.  */
 		char tmp[4];
 		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_UNIXTIME);
@@ -306,6 +325,17 @@ zip_zip64_locator_write (GsfOutfileZip *zip, gsf_off_t trailerpos)
 	return gsf_output_write (zip->sink, sizeof buf, buf);
 }
 
+static gint
+offset_ordering (gconstpointer a_, gconstpointer b_)
+{
+	GsfOutfileZip *a = *(GsfOutfileZip **)a_;
+	GsfOutfileZip *b = *(GsfOutfileZip **)b_;
+	gsf_off_t diff = a->vdir->dirent->offset - b->vdir->dirent->offset;
+
+	return diff < 0 ? -1 : diff > 0 ? +1 : 0;
+}
+
+
 static gboolean
 zip_close_root (GsfOutput *output)
 {
@@ -326,6 +356,21 @@ zip_close_root (GsfOutput *output)
 			g_warning ("Child still open");
 			return FALSE;
 		}
+	}
+
+	if (1) {
+		/*
+		 * It is unclear whether we need this.  However, the
+		 * zipdetails utility gets utterly confused if we do
+		 * not.
+		 *
+		 * If we do not sort, we will use the ordering in which
+		 * the members were actually being written.  Note, that
+		 * merely creating the member doesn't count -- it's the
+		 * actual writing (or closing an empty member) that
+		 * counts.
+		 */
+		g_ptr_array_sort (elem, offset_ordering);
 	}
 
 	/* Write directory */
@@ -536,7 +581,9 @@ zip_header_write (GsfOutfileZip *zip)
 		g_string_append_len (extras, tmp, 8);
 	}
 
-	if (dirent->mtime && dirent->mtime <= G_MAXUINT32) {
+	if (dirent->mtime &&
+	    dirent->mtime <= G_MAXUINT32 &&
+	    !special_mimetype_dirent (dirent)) {
 		/* Clearly a year 2038 problem here.  */
 		char tmp[4];
 		GSF_LE_SET_GUINT16 (tmp, ZIP_DIRENT_EXTRA_FIELD_UNIXTIME);
@@ -600,6 +647,9 @@ zip_init_write (GsfOutput *output)
 	}
 
 	dirent->offset = gsf_output_tell (zip->sink);
+	if (special_mimetype_dirent (dirent))
+		dirent->zip64 = FALSE;
+
 	zip->vdir->dirent = dirent;
 	zip_header_write (zip);
 	zip->writing = TRUE;

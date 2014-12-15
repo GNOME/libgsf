@@ -1,3 +1,12 @@
+2014-12-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (special_mimetype_dirent): New function.
+	(zip_dirent_write, zip_header_write): Don't write a special unix
+	mtime field for the special mimetype entry.
+	(zip_close_root): Sort by offset.  Note: this may not be necessary
+	or even desired, but help with the zipdetails utility.
+	(zip_init_write): Make the special mimetype default to !zip64.
+
 2014-12-14  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix test for writing
