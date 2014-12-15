@@ -187,7 +187,7 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 			GSF_LE_SET_GUINT64 (tmp, dirent->offset);
 			g_string_append_len (extras, tmp, 8);
 		}
-	} else if (zip->zip64 == -1) {
+	} else if (dirent->zip64 == -1) {
 		char tmp[8];
 
 		/* Match the local header.  */

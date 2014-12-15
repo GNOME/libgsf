@@ -1,3 +1,8 @@
+2014-12-14  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix test for writing
+	ignore header.
+
 2014-12-02  Morten Welinder  <terra@gnome.org>
 
 	* tools/gsf.c (gsf_create): Allow "-" for output to stdout.
