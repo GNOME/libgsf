@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Jorge González <jorgegonz@svn.gnome.org>, 2009.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-04-17 23:36+0000\n"
-"PO-Revision-Date: 2014-05-20 19:53+0200\n"
+"POT-Creation-Date: 2014-11-28 00:35+0000\n"
+"PO-Revision-Date: 2015-01-13 10:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -98,7 +98,7 @@ msgstr "Falló al acceder al hijo"
 msgid "failure reading block"
 msgstr "fallo al leer el bloque"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "No se puede encontrar el flujo de la carpeta VBA"
@@ -107,17 +107,17 @@ msgstr "No se puede encontrar el flujo de la carpeta VBA"
 msgid "vba project header problem"
 msgstr "Problema en la cabecera del proyecto vba"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "No hay firma VBA"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Versión de firma 0x%x%x%x%x VBA desconocida"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "No se pudo analizar la cabecera VBA"
@@ -147,52 +147,47 @@ msgstr "Falló la búsqueda"
 msgid "Truncated archive"
 msgstr "Archivador truncado"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Fuente"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
 msgid "The archive being interpreted"
 msgstr "El archivo que se está interpretando"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "No hay final Zip"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Error al leer la firma Zip"
-
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:453
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Error al leer la carpeta de entrada zip"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:464
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Estructura del archivo zip rota"
+
+#: ../gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "Error al desplazarse a la cabecera zip"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:520
 msgid "Error reading zip header"
 msgstr "Error al leer la cabecera zip"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
 msgstr "Error de cabecera zip incorrecta"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:553
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "problema al descomprimir el flujo"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:935
 msgid "Compression Level"
 msgstr "Nivel de compresión"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:936
 msgid "The level of compression used, zero meaning none"
 msgstr "El nivel de compresión usado; cero significa ninguno"
 
@@ -334,17 +329,17 @@ msgstr "Tamaño después de descomprimir"
 msgid "The source's uncompressed size"
 msgstr "El tamaño de la fuente sin comprimir"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: no es un archivo regular"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: archivo demasiado grande para mapearlo en la memoria"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap no soportado"
@@ -360,7 +355,7 @@ msgstr ""
 "lectura?"
 
 #: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:915
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Destino"
@@ -388,37 +383,37 @@ msgstr ""
 "de al menos 4 bytes, pero los datos dicen que sólo tiene %s bytes "
 "disponibles."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "No se pudo leer el flujo de la cabecera de la propiedad MS"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Cabecera del flujo de la propiedad MS no válida"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Sección de propiedad MS no válida"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Cabecera del flujo de la propiedad MS no válida o archivo truncado"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:356
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "La propiedad %s se usa para varios tipos."
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "ODF version"
 msgstr "Versión ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:882
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "La versión ODF de este objeto se refiere a un entero como 100"
 
@@ -478,30 +473,37 @@ msgstr "Tamaño de bloque grande"
 msgid "The size of the OLE's big blocks"
 msgstr "El tamaño de los bloques OLE grandes"
 
-#: ../gsf/gsf-outfile-zip.c:750
+#: ../gsf/gsf-outfile-zip.c:916
 msgid "Where the archive is written"
 msgstr "Dónde se escribe el archivo"
 
-#: ../gsf/gsf-outfile-zip.c:759
+#: ../gsf/gsf-outfile-zip.c:925
 msgid "Entry Name"
 msgstr "Nombre de la entrada"
 
-#: ../gsf/gsf-outfile-zip.c:760
+#: ../gsf/gsf-outfile-zip.c:926
 msgid "The filename of this member in the archive without path"
 msgstr "El nombre de archivo de este miembro en el archivador sin la ruta"
 
-#: ../gsf/gsf-outfile-zip.c:780
+#: ../gsf/gsf-outfile-zip.c:946
 msgid "Deflate Level"
 msgstr "Nivel de compresión"
 
-#: ../gsf/gsf-outfile-zip.c:781
-#| msgid "The level of compression used, zero meaning none"
+#: ../gsf/gsf-outfile-zip.c:947
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
 "El nivel de compresión usado; cero significa ninguno y -1 significa el "
 "predeterminado de zlib"
+
+#: ../gsf/gsf-outfile-zip.c:958
+msgid "Zip64"
+msgstr "Zip64"
+
+#: ../gsf/gsf-outfile-zip.c:959
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "Indica si se debe usar el formato zip64, -1 significa automático"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -626,74 +628,74 @@ msgstr "Mostrar la versión del programa"
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Falló al abrir %s: %s\n"
 
-#: ../tools/gsf.c:66
+#: ../tools/gsf.c:72
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Falló al reconocer %s como un archivador\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:111
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Los subcomandos disponibles son...\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:112
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        muestra la salida de uno o más archivadores\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       vuelca uno o más archivos en un archivador como datos "
 "hexadecimales\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       lista los subcomandos\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       lista los archivos en el archivador\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr ""
 "* listprops  lista las propiedades de los documentos en el archivador\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      imprime las propiedades del documento especificado\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  crear archivador OLE\n"
 
-#: ../tools/gsf.c:111
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  crear archivador ZIP\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:311
 #, c-format
 msgid "No property named %s\n"
 msgstr "No existe la propiedad de nombre %s\n"
 
-#: ../tools/gsf.c:363
+#: ../tools/gsf.c:371
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s:error al procesar el archivo %s: %s\n"
 
-#: ../tools/gsf.c:503
+#: ../tools/gsf.c:515
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "SUBCOMANDO ARCHIVADOR..."
 
-#: ../tools/gsf.c:510
+#: ../tools/gsf.c:522
 #, c-format
 msgid ""
 "%s\n"
@@ -703,20 +705,26 @@ msgstr ""
 "Ejecute «%s --help» para ver una lista completa de todas las opciones "
 "disponibles de la línea de comandos.\n"
 
-#: ../tools/gsf.c:517
+#: ../tools/gsf.c:529
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "Versión de gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:523
+#: ../tools/gsf.c:535
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Uso: %s %s\n"
 
-#: ../tools/gsf.c:548
+#: ../tools/gsf.c:560
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Ejecite «%s help» para ver una lista de los subcomandos.\n"
+
+#~ msgid "No Zip trailer"
+#~ msgstr "No hay final Zip"
+
+#~ msgid "Error reading Zip signature"
+#~ msgstr "Error al leer la firma Zip"
 
 #~ msgid "Something went wrong in ar_dup"
 #~ msgstr "Algo falló en ar_dup"
