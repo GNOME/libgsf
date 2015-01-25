@@ -124,7 +124,11 @@ enum {
 	OO_NS_TABLE_OOO,
 
 	/* New in ODF 3.3 */
-	OO_NS_CHART_OOO
+	OO_NS_CHART_OOO,
+
+	/* New in LOCALC */
+	OO_NS_LOCALC_EXT,
+	OO_NS_LOCALC_EXT2
 };
 
 GsfXMLInNS const *gsf_odf_get_ns (void);

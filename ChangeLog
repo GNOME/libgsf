@@ -1,3 +1,9 @@
+2015-01-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gsf/gsf-opendoc-utils.c (gsf_ooo_ns): add 2 new localc namespaces
+	* gsf/gsf-opendoc-utils.h: add new enum values to support above
+	name spaces)
+
 2014-12-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (special_mimetype_dirent): New function.

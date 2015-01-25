@@ -1,5 +1,8 @@
 libgsf 1.14.31
 
+Andreas:
+	* Add two new localc name spaces to gsf-opendoc-utils
+
 Allin Cottrell:
 	* Add support for non-default zip compression level.  [#722470]
 

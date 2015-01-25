@@ -187,6 +187,11 @@ GsfXMLInNS gsf_ooo_ns[] = {
 
 	/* Gnumeric ODF extensions */
 	GSF_XML_IN_NS (OO_GNUM_NS_EXT, "http://www.gnumeric.org/odf-extension/1.0"),
+
+	/* LOCALC */
+	GSF_XML_IN_NS (OO_NS_LOCALC_EXT, "urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0"),
+	GSF_XML_IN_NS (OO_NS_LOCALC_EXT2, "urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0"),
+
 	{ NULL, 0 }
 };
 
