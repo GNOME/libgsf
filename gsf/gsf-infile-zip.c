@@ -709,7 +709,6 @@ gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 
 /*****************************************************************************/
 
-
 static GsfInput *
 gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 {
@@ -827,6 +826,7 @@ gsf_infile_zip_finalize (GObject *obj)
 	parent_class->finalize (obj);
 }
 
+
 static GObject*
 gsf_infile_zip_constructor (GType                  type,
 			    guint                  n_construct_properties,
@@ -850,7 +850,6 @@ gsf_infile_zip_constructor (GType                  type,
 
 	return (GObject *)zip;
 }
-
 
 static void
 gsf_infile_zip_init (GObject *obj)
