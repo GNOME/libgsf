@@ -8,7 +8,11 @@ use LibGsfTest;
 my $archive = "test.tar";
 &LibGsfTest::junkfile ($archive);
 
-my @files = ('Makefile.am', 'common.supp');
+my $NEWS = 'NEWS';
+&LibGsfTest::junkfile ($NEWS);
+system ("cp", "$topsrc/NEWS", $NEWS);
+
+my @files = ('Makefile', $NEWS);
 
 if (0) {
     print STDERR "Testing tar write\n";

@@ -8,7 +8,11 @@ use LibGsfTest;
 my $archive = "test.ole";
 &LibGsfTest::junkfile ($archive);
 
-my @files = ('Makefile.am', 'common.supp');
+my $NEWS = 'NEWS';
+&LibGsfTest::junkfile ($NEWS);
+system ("cp", "$topsrc/NEWS", $NEWS);
+
+my @files = ('Makefile', $NEWS);
 
 print STDERR "Testing ole create\n";
 &test_valgrind ("$gsf createole $archive @files", 1);
