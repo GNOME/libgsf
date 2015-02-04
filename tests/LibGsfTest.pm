@@ -25,6 +25,7 @@ $zipinfo = &find_program ("zipinfo");
 
 $topsrc = $0;
 $topsrc =~ s|/[^/]+$|/..|;
+$topsrc =~ s|^\./(.)|$1|;
 $topsrc =~ s|/tests/\.\.$||;
 
 $top_builddir = "..";
