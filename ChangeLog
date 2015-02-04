@@ -1,3 +1,7 @@
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.31
+
 2015-02-01  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile.c (gsf_infile_child_by_vaname): Fix age-old leak.
