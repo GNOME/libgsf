@@ -28,6 +28,8 @@
 #include <math.h>
 #include <string.h>
 
+#undef DEBUG_PUSH_POP
+
 /* Dead kittens.  */
 #ifndef HAVE_G_VALUE_SET_SCHAR
 #define g_value_set_schar(v_,sc_) g_value_set_char((v_),(char)(sc_))
@@ -617,6 +619,12 @@ static void
 push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, int default_ns_id,
 	    xmlChar const **attrs, GsfXMLInExtension *ext)
 {
+#ifdef DEBUG_PUSH_POP
+	g_printerr ("push: %-*s%s\n",
+		    (int)g_slist_length (state->pub.node_stack), "",
+		    node->name);
+#endif
+
 	if (node->has_content == GSF_XML_CONTENT) {
 		if (state->pub.content->len) {
 			state->contents_stack =	g_slist_prepend
@@ -756,23 +764,29 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	}
 
 	node = (GsfXMLInNodeInternal const *) state->pub.node;
-	if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
-		return;
 
-	/* useful for <Data><b><i><u></u></i></b></Data> where all of the markup can nest */
-	ptr = state->pub.node_stack;
-	for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
-		node = ptr->data;
+	if (state->unknown_depth == 0) {
 		if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
 			return;
-	}
 
-	/* Check for extensions */
-	for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next) {
-		GsfXMLInExtension *ext = ptr->data;
-		if (lookup_child (state, default_ns_id,
-			ext->doc->root_node->groups, name, attrs, ext))
-			return;
+		/*
+		 * useful for <Data><b><i><u></u></i></b></Data> where all of
+		 * the markup can nest
+		 */
+		ptr = state->pub.node_stack;
+		for (; ptr != NULL && node->pub.share_children_with_parent; ptr = ptr->next) {
+			node = ptr->data;
+			if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
+				return;
+		}
+
+		/* Check for extensions */
+		for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next) {
+			GsfXMLInExtension *ext = ptr->data;
+			if (lookup_child (state, default_ns_id,
+					  ext->doc->root_node->groups, name, attrs, ext))
+				return;
+		}
 	}
 
 	if (state->pub.doc->unknown_handler != NULL) {
@@ -866,13 +880,19 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 	g_slist_free (node->extensions);
 	node->extensions = NULL;
 
+#ifdef DEBUG_PUSH_POP
+	g_printerr (" pop: %-*s%s\n",
+		    (int)g_slist_length (state->pub.node_stack) - 1, "",
+		    node->pub.name);
+#endif
+
 	/* pop the state stack */
 	ext = state->extension_stack->data;
-	state->extension_stack	= g_slist_remove (state->extension_stack, ext);
+	state->extension_stack	= g_slist_delete_link (state->extension_stack, state->extension_stack);
 	state->pub.node		= state->pub.node_stack->data;
-	state->pub.node_stack	= g_slist_remove (state->pub.node_stack, state->pub.node);
+	state->pub.node_stack	= g_slist_delete_link (state->pub.node_stack, state->pub.node_stack);
 	state->default_ns_id	= GPOINTER_TO_INT (state->ns_stack->data);
-	state->ns_stack		= g_slist_remove (state->ns_stack, GINT_TO_POINTER (state->default_ns_id));
+	state->ns_stack		= g_slist_delete_link (state->ns_stack, state->ns_stack);
 
 	if (NULL != ext) {
 		GsfXMLInDoc const *ext_doc = state->pub.doc;

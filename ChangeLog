@@ -1,3 +1,11 @@
+2015-02-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_start_element): Nodes inside
+	unknown nodes are themselves unknown, even if they would appear to
+	be known had the intervening unknown nodes not been there.  In
+	other words: don't lookup nodes while we are parsing an unknown
+	tag's contents.
+
 2015-02-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
