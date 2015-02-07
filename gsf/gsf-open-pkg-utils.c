@@ -660,6 +660,8 @@ gsf_outfile_open_pkg_close (GsfOutput *output)
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings");
 		gsf_open_pkg_write_content_default (xml, "xml",
 			"application/xml");
+		gsf_open_pkg_write_content_default (xml, "vml",
+			"application/vnd.openxmlformats-officedocument.vmlDrawing");
 		gsf_open_pkg_write_content_override (open_pkg, "/", xml);
 		gsf_xml_out_end_element (xml); /* </Types> */
 		g_object_unref (xml);
