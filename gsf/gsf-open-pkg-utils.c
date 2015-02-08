@@ -544,7 +544,6 @@ static void
 gsf_outfile_open_pkg_finalize (GObject *obj)
 {
 	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (obj);
-	GSList *ptr;
 
 	if (open_pkg->sink != NULL) {
 		g_object_unref (open_pkg->sink);
@@ -553,9 +552,9 @@ gsf_outfile_open_pkg_finalize (GObject *obj)
 	g_free (open_pkg->content_type);
 	open_pkg->content_type = NULL;
 
-	for (ptr = open_pkg->children ; ptr != NULL ; ptr = ptr->next)
-		g_object_unref (ptr->data);
-	g_slist_free (open_pkg->children);
+	g_slist_free_full (open_pkg->children, g_object_unref);
+	open_pkg->children = NULL;
+
 	parent_class->finalize (obj);
 }
 
@@ -592,8 +591,11 @@ gsf_outfile_open_pkg_new_child (GsfOutfile *parent,
 	gsf_outfile_open_pkg_set_sink (child, sink);
 	g_object_unref (sink);
 
-	open_pkg->children = g_slist_prepend (open_pkg->children, child);
-	g_object_ref (child);
+	/*
+	 * Holding a ref here is not ideal.  It means we won't release any of the
+	 * children until the package is closed.
+	 */
+	open_pkg->children = g_slist_prepend (open_pkg->children, g_object_ref (child));
 
 	return GSF_OUTPUT (child);
 }
@@ -720,6 +722,11 @@ gsf_outfile_open_pkg_close (GsfOutput *output)
 	/* close the container */
 	if (NULL == gsf_output_name (output))
 		return gsf_output_close (open_pkg->sink);
+
+	/* Dispose of children here to break link cycles.  */
+	g_slist_free_full (open_pkg->children, g_object_unref);
+	open_pkg->children = NULL;
+
 	return res;
 }
 
