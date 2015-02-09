@@ -609,16 +609,15 @@ gsf_open_pkg_write_content_default (GsfXMLOut *xml, char const *ext, char const 
 	gsf_xml_out_end_element (xml); /* </Default> */
 }
 static void
-gsf_open_pkg_write_content_override (GsfOutfileOpenPkg const *open_pkg,
+gsf_open_pkg_write_content_override (GsfOutfileOpenPkg *open_pkg,
 				     char const *base,
 				     GsfXMLOut *xml)
 {
-	GsfOutfileOpenPkg const *child;
-	char   *path;
 	GSList *ptr;
 
 	for (ptr = open_pkg->children ; ptr != NULL ; ptr = ptr->next) {
-		child = ptr->data;
+		GsfOutfileOpenPkg *child = ptr->data;
+		char *path;
 		if (child->is_dir) {
 			path = g_strconcat (base, gsf_output_name (GSF_OUTPUT (child)), "/", NULL);
 			gsf_open_pkg_write_content_override (child, path, xml);
@@ -634,6 +633,10 @@ gsf_open_pkg_write_content_override (GsfOutfileOpenPkg const *open_pkg,
 		}
 		g_free (path);
 	}
+
+	/* Dispose of children here to break link cycles.  */
+	g_slist_free_full (open_pkg->children, g_object_unref);
+	open_pkg->children = NULL;
 }
 
 static gboolean
@@ -722,10 +725,6 @@ gsf_outfile_open_pkg_close (GsfOutput *output)
 	/* close the container */
 	if (NULL == gsf_output_name (output))
 		return gsf_output_close (open_pkg->sink);
-
-	/* Dispose of children here to break link cycles.  */
-	g_slist_free_full (open_pkg->children, g_object_unref);
-	open_pkg->children = NULL;
 
 	return res;
 }

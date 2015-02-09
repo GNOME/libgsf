@@ -1,3 +1,8 @@
+2015-02-09  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_write_content_override):
+	Release children here, not in gsf_outfile_open_pkg_close.
+
 2015-02-08  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_outfile_open_pkg_close): Plug
