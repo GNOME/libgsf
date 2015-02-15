@@ -4,22 +4,25 @@
 #
 # Zabuldon <vortexius@gmail.com>, 2011.
 # Yuri Kozlov <yuray@komyakino.ru>, 2011, 2012.
+# Ivan Komaritsyn <vantu5z@mail.ru>, 2015.
+# Yuri Myasoedov <ymyasoedov@yandex.ru>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2013-09-13 16:49+0000\n"
-"PO-Revision-Date: 2013-09-13 23:49+0600\n"
-"Last-Translator: Dmitriy S. Seregin <dseregin@59.ru>\n"
-"Language-Team: Russian <gnome-cyr@gnome.org>\n"
+"POT-Creation-Date: 2015-02-12 22:40+0000\n"
+"PO-Revision-Date: 2015-02-15 09:08+0300\n"
+"Last-Translator: Yuri Myasoedov <ymyasoedov@yandex.ru>\n"
+"Language-Team: русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.7\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -98,7 +101,7 @@ msgstr "Не удалось получить доступ к дочернему 
 msgid "failure reading block"
 msgstr "ошибка чтения блока"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Не удалось найти поток каталога VBA"
@@ -107,17 +110,17 @@ msgstr "Не удалось найти поток каталога VBA"
 msgid "vba project header problem"
 msgstr "некорректный заголовок vba проекта"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "Подпись VBA отсутствует"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Неизвестная версия подписи VBA 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "Не удалось разобрать заголовок VBA"
@@ -147,52 +150,47 @@ msgstr "Ошибка поиска"
 msgid "Truncated archive"
 msgstr "Разбитый на части архив"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Источник"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Архив интерпретируется"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "Окончание Zip отсутствует"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Ошибка чтения подписи Zip"
-
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:453
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Ошибка при чтении zip-структуры"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:464
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Структура zip-файла повреждена"
+
+#: ../gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "Ошибка перехода к заголовку zip"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:520
 msgid "Error reading zip header"
 msgstr "Ошибка при чтении заголовка zip"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
 msgstr "Некорректный заголовок zip"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:553
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "ошибка распаковки потока"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:755
+#: ../gsf/gsf-infile-zip.c:958 ../gsf/gsf-outfile-zip.c:1096
 msgid "Compression Level"
 msgstr "Уровень сжатия"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:756
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1097
 msgid "The level of compression used, zero meaning none"
 msgstr "Используемый уровень сжатия, ноль — без сжатия"
 
@@ -332,37 +330,37 @@ msgstr "Размер после распаковки"
 msgid "The source's uncompressed size"
 msgstr "Несжатый размер источника"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: не является обычным файлом"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: файл слишком большой для размещения в памяти"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap не поддерживается"
 
-#: ../gsf/gsf-libxml.c:1507
+#: ../gsf/gsf-libxml.c:1533
 msgid "Pretty print"
 msgstr "Форматированная печать"
 
-#: ../gsf/gsf-libxml.c:1508
+#: ../gsf/gsf-libxml.c:1534
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Включить автоматический отступ при выводе элементов для облегчения чтения?"
 
-#: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:735
+#: ../gsf/gsf-libxml.c:1540 ../gsf/gsf-open-pkg-utils.c:751
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Получатель"
 
-#: ../gsf/gsf-libxml.c:1515 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1541 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Пункт назначения записи"
 
@@ -384,77 +382,77 @@ msgstr ""
 "Повреждены данные в свойстве VT_CF; размер данных буфера обмена должен быть "
 "не менее 4х байт, но согласно данным доступно лишь %s байт."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Не удалось прочитать заголовок потока свойства MS"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Некорректный заголовок потока свойства MS"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Некорректная секция свойства MS"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Некорректный заголовок потока свойства MS или файл обрезан"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:361
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Свойство «%s» используется для нескольких типов!"
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:886
 msgid "ODF version"
 msgstr "Версия ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:887
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Версия ODF данного объекта задаётся в виде целого числа, например 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:353
+#: ../gsf/gsf-open-pkg-utils.c:368
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Не удалось найти часть  id=«%s» для «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:381
+#: ../gsf/gsf-open-pkg-utils.c:395
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Не удалось найти часть с type=«%s» для «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:425
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Отсутствует идентификатор в «%s»"
 
-#: ../gsf/gsf-open-pkg-utils.c:420
+#: ../gsf/gsf-open-pkg-utils.c:434
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Часть «%s» в «%s» из «%s» повреждена!"
 
-#: ../gsf/gsf-open-pkg-utils.c:730
+#: ../gsf/gsf-open-pkg-utils.c:752
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Объект GsfOutput, хранящий содержимое Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:736
+#: ../gsf/gsf-open-pkg-utils.c:758
 msgid "Content type"
 msgstr "Тип содержимого"
 
-#: ../gsf/gsf-open-pkg-utils.c:737
+#: ../gsf/gsf-open-pkg-utils.c:759
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Тип содержимого хранится в корневом файле [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:743
+#: ../gsf/gsf-open-pkg-utils.c:765
 msgid "Is Directory"
 msgstr "Папка"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:766
 msgid "Can the outfile have children"
 msgstr "Может ли выходной файл иметь вложенные объекты"
 
@@ -474,17 +472,35 @@ msgstr "Большой размер блока"
 msgid "The size of the OLE's big blocks"
 msgstr "Размер больших блоков OLE"
 
-#: ../gsf/gsf-outfile-zip.c:736
+#: ../gsf/gsf-outfile-zip.c:1077
 msgid "Where the archive is written"
 msgstr "Где записан архив"
 
-#: ../gsf/gsf-outfile-zip.c:745
+#: ../gsf/gsf-outfile-zip.c:1086
 msgid "Entry Name"
 msgstr "Имя части архива"
 
-#: ../gsf/gsf-outfile-zip.c:746
+#: ../gsf/gsf-outfile-zip.c:1087
 msgid "The filename of this member in the archive without path"
 msgstr "Имя файла этой части архива без пути"
+
+#: ../gsf/gsf-outfile-zip.c:1107
+msgid "Deflate Level"
+msgstr "Уровень сжатия"
+
+#: ../gsf/gsf-outfile-zip.c:1108
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr "Используемый уровень сжатия; ноль — без сжатия, -1 — zlib по умолчанию"
+
+#: ../gsf/gsf-outfile-zip.c:1119
+msgid "Zip64"
+msgstr "Zip64"
+
+#: ../gsf/gsf-outfile-zip.c:1120
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "Использовать ли формат zip64; -1 — автоматический выбор"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -602,82 +618,82 @@ msgstr "Резервная строка"
 msgid "The string to use for invalid characters"
 msgstr "Строка, используемая для недопустимых символов"
 
-#: ../tools/gsf.c:17
+#: ../tools/gsf.c:19
 msgid "Display program version"
 msgstr "Показать версию программы"
 
-#: ../tools/gsf.c:44
+#: ../tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: не удалось открыть %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: ../tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: не удалось распознать %s как архив\n"
 
-#: ../tools/gsf.c:102
+#: ../tools/gsf.c:115
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Доступные подкоманды…\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat       выводит один или несколько файлов в архиве\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       дамп одного или нескольких файлов в архиве в шестнадцатеричном "
 "виде\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       список подкоманд\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       список файлов в архиве\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:120
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  список свойств документа в архиве\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:121
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      вывод  свойств документа\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:122
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  создать архив OLE\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:123
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  создать архив ZIP\n"
 
-#: ../tools/gsf.c:302
+#: ../tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "Нет свойства с именем %s\n"
 
-#: ../tools/gsf.c:362
+#: ../tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: ошибка обработки файла %s: %s\n"
 
-#: ../tools/gsf.c:504
+#: ../tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "ПОДКОМАНДА АРХИВ…"
 
-#: ../tools/gsf.c:511
+#: ../tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
@@ -687,17 +703,23 @@ msgstr ""
 "Запустите «%s --help» для вывода полного списка доступных параметров "
 "командной строки.\n"
 
-#: ../tools/gsf.c:518
+#: ../tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "Версия gsf %d.%d.%d\n"
 
-#: ../tools/gsf.c:524
+#: ../tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Использование: %s %s\n"
 
-#: ../tools/gsf.c:549
+#: ../tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Запустите «%s help», чтобы просмотреть список подкоманд.\n"
+
+#~ msgid "No Zip trailer"
+#~ msgstr "Окончание Zip отсутствует"
+
+#~ msgid "Error reading Zip signature"
+#~ msgstr "Ошибка чтения подписи Zip"
