@@ -40,6 +40,7 @@ typedef struct {
 	GError		 *err;
 	char             *name;
 	GType            typ;
+	GsfXMLInDoc      *doc;
 } GsfOOMetaIn;
 
 /**
@@ -427,10 +428,12 @@ gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_sta
 	}
 
 	g_object_unref (state->md);
+
+	if (state->doc)
+		gsf_xml_in_doc_free (state->doc);
+
 	g_free (state);
 }
-
-static GsfXMLInDoc *doc_subtree = NULL;
 
 /**
  * gsf_doc_meta_data_odf_subtree:
@@ -448,14 +451,12 @@ gsf_doc_meta_data_odf_subtree (GsfDocMetaData *md, GsfXMLIn *doc)
 
 	g_return_if_fail (md != NULL);
 
-	if (NULL == doc_subtree)
-		doc_subtree = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
-
 	state = g_new0 (GsfOOMetaIn, 1);
-	state->md = md;
+	state->md = g_object_ref (md);
 	state->typ = G_TYPE_NONE;
-	g_object_ref (md);
-	gsf_xml_in_push_state (doc, doc_subtree, state, gsf_opendoc_metadata_subtree_free, NULL);
+	state->doc = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
+	gsf_xml_in_push_state (doc, state->doc, state,
+			       gsf_opendoc_metadata_subtree_free, NULL);
 }
 
 /**
@@ -483,10 +484,12 @@ gsf_opendoc_metadata_subtree (GsfXMLIn *xin, GsfDocMetaData *md)
 static void
 gsf_opendoc_metadata_subtree_internal (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
-	if (NULL == doc_subtree)
-		doc_subtree = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
+	GsfOOMetaIn *mi = (GsfOOMetaIn *)xin->user_state;
 
-	gsf_xml_in_push_state (xin, doc_subtree, NULL, NULL, NULL);
+	if (!mi->doc)
+		mi->doc = gsf_xml_in_doc_new (gsf_opendoc_meta_st_dtd, gsf_ooo_ns);
+
+	gsf_xml_in_push_state (xin, mi->doc, NULL, NULL, NULL);
 }
 
 static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
@@ -517,10 +520,14 @@ gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
 	state.keywords = NULL;
 	state.err = NULL;
 	state.name = NULL;
+	state.doc = NULL;
 
 	doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd, gsf_ooo_ns);
 	gsf_xml_in_doc_parse (doc, input, &state);
 	gsf_xml_in_doc_free (doc);
+
+	if (state.doc)
+		gsf_xml_in_doc_free (state.doc);
 
 	if (state.keywords) {
 		GValue *val = g_new0 (GValue, 1);
@@ -626,14 +633,15 @@ meta:object-count
 
 /* ODF does not like "t" and "f" which we use normally */
 static void
-gsf_xml_out_add_gvalue_for_odf (GsfXMLOut *xout, char const *id, GValue const *val)
+gsf_xml_out_add_gvalue_for_odf (GsfXMLOut *xout,
+				char const *id, GValue const *val)
 {
-		if (G_VALUE_TYPE (val) == G_TYPE_BOOLEAN)
-			gsf_xml_out_add_cstr
-				(xout, id,
-				 g_value_get_boolean (val) ? "true" : "false");
-			else
-				gsf_xml_out_add_gvalue (xout, id, val);
+	if (G_VALUE_TYPE (val) == G_TYPE_BOOLEAN)
+		gsf_xml_out_add_cstr
+			(xout, id,
+			 g_value_get_boolean (val) ? "true" : "false");
+	else
+		gsf_xml_out_add_gvalue (xout, id, val);
 }
 
 
