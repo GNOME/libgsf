@@ -3,6 +3,7 @@ libgsf 1.14.32
 Morten:
 	* Fix obscure problem with xml parser.
 	* Add vml to openpkg utils.
+	* Allow NULL content type for openpkg.
 	* Plug leak.
 
 --------------------------------------------------------------------------

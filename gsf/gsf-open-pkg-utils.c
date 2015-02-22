@@ -815,8 +815,6 @@ void
 gsf_outfile_open_pkg_set_content_type (GsfOutfileOpenPkg *open_pkg,
 				       char const *content_type)
 {
-	g_return_if_fail (content_type != NULL);
-
 	if (open_pkg->content_type != content_type) {
 		g_free (open_pkg->content_type);
 		open_pkg->content_type = g_strdup (content_type);
