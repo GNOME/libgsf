@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-04-17 23:36+0000\n"
-"PO-Revision-Date: 2014-04-18 21:54+0200\n"
-"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
+"POT-Creation-Date: 2014-04-18 18:55+0000\n"
+"PO-Revision-Date: 2014-06-21 01:22+0200\n"
+"Last-Translator: Maria Mavridou <mavridou@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -498,10 +498,9 @@ msgstr "Το όνομα αρχείου αυτού του μέλους στην �
 
 #: ../gsf/gsf-outfile-zip.c:780
 msgid "Deflate Level"
-msgstr ""
+msgstr "Επίπεδο συμπίεσης"
 
 #: ../gsf/gsf-outfile-zip.c:781
-#| msgid "The level of compression used, zero meaning none"
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
