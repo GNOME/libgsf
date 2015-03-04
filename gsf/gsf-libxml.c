@@ -560,7 +560,7 @@ gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
  * @start: callback for the node opening
  * @end: callback for node end
  * @has_content: whether the node has content
- * @check_children_for_ns: whetehr to check namespace for children
+ * @check_children_for_ns: whether to check namespace for children
  * @share_children_with_parent: whether to share children with parent.
  **/
 
@@ -590,6 +590,7 @@ typedef struct {
 	gboolean          initialized;
 	gint	  	  unknown_depth; /* handle recursive unknown tags */
 	gboolean	  from_unknown_handler;
+	gboolean          debug_parsing;
 
 	GSList	 	 *extension_stack; /* stack of GsfXMLInExtension */
 } GsfXMLInInternal;
@@ -619,11 +620,10 @@ static void
 push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, int default_ns_id,
 	    xmlChar const **attrs, GsfXMLInExtension *ext)
 {
-#ifdef DEBUG_PUSH_POP
-	g_printerr ("push: %-*s%s\n",
-		    (int)g_slist_length (state->pub.node_stack), "",
-		    node->name);
-#endif
+	if (state->debug_parsing)
+		g_printerr ("push: %-*s%s\n",
+			    (int)g_slist_length (state->pub.node_stack), "",
+			    node->name);
 
 	if (node->has_content == GSF_XML_CONTENT) {
 		if (state->pub.content->len) {
@@ -699,6 +699,22 @@ lookup_child (GsfXMLInInternal *state, int default_ns_id,
 }
 
 static void
+gsf_xml_dump_state (GsfXMLInInternal *state)
+{
+	GSList *ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
+	if (ptr != NULL)	/* skip toplevel catch all */
+		ptr = ptr->next;
+	for (;ptr != NULL && ptr != NULL; ptr = ptr->next) {
+		GsfXMLInNodeInternal const *node = ptr->data;
+		if (node != NULL)
+			g_printerr ("%s -> ", node_name (&node->pub));
+	}
+	if (state->pub.node != NULL)
+		g_printerr ("%s\n", node_name (state->pub.node));
+	state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
+}
+
+static void
 gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar const **attrs)
 {
 	GsfXMLInNSInstance *inst;
@@ -757,7 +773,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 			if (NULL == tmp) {
 				char *s = g_strdup (ns_ptr[0] + 6);
 				g_hash_table_replace (state->ns_unknowns, s, s);
-				if (gsf_debug_flag ("ns"))
+				if (gsf_debug_flag ("xml-ns"))
 					g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
 			}
 		}
@@ -813,20 +829,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 		return;
 
 	g_printerr ("Unexpected element '%s' in state : \n\t", name);
-	ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
-	if (ptr != NULL)	/* skip toplevel catch all */
-		ptr = ptr->next;
-	for (;ptr != NULL && ptr != NULL; ptr = ptr->next) {
-		node = ptr->data;
-		if (node != NULL) {
-/* FIXME FIXME FIXME if we really want this do we also want namespaces ? */
-			g_printerr ("%s -> ", node_name (&node->pub));
-		}
-	}
-	if (state->pub.node != NULL) {
-		g_printerr ("%s\n", node_name (state->pub.node));
-	}
-	state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
+	gsf_xml_dump_state (state);
 }
 
 static void
@@ -880,11 +883,10 @@ gsf_xml_in_end_element (GsfXMLInInternal *state,
 	g_slist_free (node->extensions);
 	node->extensions = NULL;
 
-#ifdef DEBUG_PUSH_POP
-	g_printerr (" pop: %-*s%s\n",
-		    (int)g_slist_length (state->pub.node_stack) - 1, "",
-		    node->pub.name);
-#endif
+	if (state->debug_parsing)
+		g_printerr (" pop: %-*s%s\n",
+			    (int)g_slist_length (state->pub.node_stack) - 1, "",
+			    node->pub.name);
 
 	/* pop the state stack */
 	ext = state->extension_stack->data;
@@ -954,6 +956,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 		g_free, NULL);
 	state->contents_stack	= NULL;
 	state->from_unknown_handler = FALSE;
+	state->debug_parsing = gsf_debug_flag ("xml-parsing");
 }
 
 static void
