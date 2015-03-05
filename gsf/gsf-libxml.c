@@ -1923,14 +1923,15 @@ void
 gsf_xml_out_add_float (GsfXMLOut *xout, char const *id,
 		       double val, int precision)
 {
-	char format_str[4 * sizeof (int) + 10];
-	char buf[G_ASCII_DTOSTR_BUF_SIZE + DBL_DIG];
+	char buf[G_ASCII_DTOSTR_BUF_SIZE + DBL_DIG + 17];
 
-	if (precision < 0 || precision > DBL_DIG)
-		precision = DBL_DIG;
-
-	sprintf (format_str, "%%.%dg", precision);
-	g_ascii_formatd (buf, sizeof (buf), format_str, val);
+	if (precision < 0 || precision > 17) {
+		g_ascii_dtostr (buf, sizeof (buf), val);
+	} else {
+		char format_str[4 * sizeof (int) + 10];
+		sprintf (format_str, "%%.%dg", precision);
+		g_ascii_formatd (buf, sizeof (buf), format_str, val);
+	}
 	gsf_xml_out_add_cstr_unchecked (xout, id, buf);
 }
 
