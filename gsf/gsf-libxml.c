@@ -591,6 +591,7 @@ typedef struct {
 	gint	  	  unknown_depth; /* handle recursive unknown tags */
 	gboolean	  from_unknown_handler;
 	gboolean          debug_parsing;
+	gboolean          silent_unknowns;
 
 	GSList	 	 *extension_stack; /* stack of GsfXMLInExtension */
 } GsfXMLInInternal;
@@ -725,7 +726,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	GSList *ptr;
 	char const *tmp;
 	int i;
-	gboolean complain = TRUE;
+	gboolean complain = !state->silent_unknowns;
 
 	/* Scan for namespace declarations.  Yes it is ugly to have the api
 	 * flag that its children can declare namespaces. However, given that a
@@ -957,6 +958,7 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 	state->contents_stack	= NULL;
 	state->from_unknown_handler = FALSE;
 	state->debug_parsing = gsf_debug_flag ("xml-parsing");
+	state->silent_unknowns = FALSE;
 }
 
 static void
@@ -1359,6 +1361,24 @@ gsf_xml_in_get_input (GsfXMLIn const *xin)
 	GsfXMLInInternal const *state = (GsfXMLInInternal const *)xin;
 	return state->input;
 }
+
+/**
+ * gsf_xml_in_set_silent_unknowns:
+ * @xin: #GsfXMLIn
+ * @silent: whether to be silent about unknown tags
+ *
+ * (New in 1.14.33)
+ *
+ * This provides a means to silently ignore unknown tags in contexts where
+ * they are expected.
+ **/
+void
+gsf_xml_in_set_silent_unknowns (GsfXMLIn *xin, gboolean silent)
+{
+	GsfXMLInInternal *state = (GsfXMLInInternal *)xin;
+	state->silent_unknowns = silent;
+}
+
 
 /**
  * gsf_xml_in_check_ns:

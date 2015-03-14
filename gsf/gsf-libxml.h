@@ -143,6 +143,7 @@ char const  *gsf_xml_in_check_ns   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id);
 gboolean     gsf_xml_in_namecmp	   (GsfXMLIn const *xin, char const *str,
 				    unsigned int ns_id, char const *name);
+void         gsf_xml_in_set_silent_unknowns (GsfXMLIn *xin, gboolean silent);
 
 GType	     gsf_xml_in_ns_get_type (void);
 
