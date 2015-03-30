@@ -58,6 +58,7 @@ gboolean gsf_xml_probe (GsfInput *input,
  * @GSF_XML_NO_CONTENT: node has no cstr contents
  * @GSF_XML_CONTENT: node has cstr contents
  * @GSF_XML_SHARED_CONTENT: node has contents that is shared with children
+ * @GSF_XML_2ND: node is second or later occurrence
  *
  * Controls the handling of character data within a parser node.
  */
