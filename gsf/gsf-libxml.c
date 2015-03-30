@@ -1182,23 +1182,37 @@ gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
 			  GsfXMLInNode const *nodes)
 {
 	GsfXMLInNode const *e_node;
-	GsfXMLInNodeInternal *tmp, *node;
 
 	g_return_if_fail (doc != NULL);
 	g_return_if_fail (nodes != NULL);
 
 	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
-		node = g_hash_table_lookup (doc->symbols, e_node->id);
+		GsfXMLInNodeInternal *tmp, *node =
+			g_hash_table_lookup (doc->symbols, e_node->id);
 		if (node != NULL) {
-			/* if its empty then this is just a recusion */
-			if (e_node->start != NULL || e_node->end != NULL ||
-			    e_node->has_content != GSF_XML_NO_CONTENT ||
-			    e_node->user_data.v_int != 0) {
-				g_warning ("ID '%s' has already been registered.\n"
-					   "The additional decls should not specify start,end,content,data", e_node->id);
+			/*
+			 * We use the repeat of a node name to attach an
+			 * entire subtree in another place too.  The second
+			 * node should either be empty (old method) or
+			 * use GSF_XML_2ND (new, as-of 1.14.33).
+			 */
+			if (e_node->has_content == GSF_XML_2ND) {
+				/* Nothing, but e_node contents ignored. */
+			} else if (e_node->start != NULL || e_node->end != NULL ||
+				 e_node->has_content != GSF_XML_NO_CONTENT ||
+				 e_node->user_data.v_int != 0) {
+				g_warning ("ID '%s' has already been registered.",
+					e_node->id);
 				continue;
 			}
 		} else {
+			if (e_node->has_content == GSF_XML_2ND) {
+				g_warning ("ID '%s' is declared 2nd, but is missing.",
+					e_node->id);
+				/* Hence e_node contents ignored. */
+				continue;
+			}			
+
 			node = g_new0 (GsfXMLInNodeInternal, 1);
 			node->pub = *e_node;
 			/* WARNING VILE HACK :

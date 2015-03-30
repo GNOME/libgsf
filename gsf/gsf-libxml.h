@@ -65,7 +65,8 @@ gboolean gsf_xml_probe (GsfInput *input,
 typedef enum {
 	GSF_XML_NO_CONTENT = FALSE,
 	GSF_XML_CONTENT,
-	GSF_XML_SHARED_CONTENT
+	GSF_XML_SHARED_CONTENT,
+	GSF_XML_2ND                 /* Second definition */
 } GsfXMLContent;
 typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *xin,
 					 xmlChar const *elem, xmlChar const **attrs);

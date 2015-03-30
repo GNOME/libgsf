@@ -1,3 +1,8 @@
+2015-03-30  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-libxml.c (gsf_xml_in_doc_add_nodes): Introduce new flag
+	GSF_XML_2ND to explicitly identify duplicate nodes.
+
 2015-03-13  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_set_silent_unknowns): New function.
