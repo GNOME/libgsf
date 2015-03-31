@@ -1205,6 +1205,9 @@ gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
 					e_node->id);
 				continue;
 			}
+
+			if (strcmp (e_node->parent_id, node->pub.parent_id) == 0)
+				g_warning ("Duplicate node %s (under %s)", e_node->id, e_node->parent_id);
 		} else {
 			if (e_node->has_content == GSF_XML_2ND) {
 				g_warning ("ID '%s' is declared 2nd, but is missing.",
