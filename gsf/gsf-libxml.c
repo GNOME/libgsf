@@ -700,7 +700,7 @@ lookup_child (GsfXMLInInternal *state, int default_ns_id,
 }
 
 static void
-gsf_xml_dump_state (GsfXMLInInternal *state)
+gsf_xml_in_dump_state (GsfXMLInInternal *state)
 {
 	GSList *ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 	if (ptr != NULL)	/* skip toplevel catch all */
@@ -830,7 +830,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 		return;
 
 	g_printerr ("Unexpected element '%s' in state : \n\t", name);
-	gsf_xml_dump_state (state);
+	gsf_xml_in_dump_state (state);
 }
 
 static void
@@ -1471,6 +1471,7 @@ enum {
 typedef enum {
 	GSF_XML_OUT_NOCONTENT,
 	GSF_XML_OUT_CHILD,
+	GSF_XML_OUT_CHILD_PRETTY,
 	GSF_XML_OUT_CONTENT
 } GsfXMLOutState;
 
@@ -1614,7 +1615,7 @@ gsf_xml_out_new (GsfOutput *output)
  * @xout: #GsfXMLOut
  * @type: the document type declaration
  *
- * Store some optional some &lt;!DOCTYPE .. &gt; content
+ * Store some optional &lt;!DOCTYPE .. &gt; content
  **/
 void
 gsf_xml_out_set_doc_type (GsfXMLOut *xout, char const *type)
@@ -1622,6 +1623,44 @@ gsf_xml_out_set_doc_type (GsfXMLOut *xout, char const *type)
 	GsfXMLOutPrivate *priv = xout->priv;
 	g_free (priv->doc_type);
 	priv->doc_type = g_strdup (type);
+}
+
+/**
+ * gsf_xml_out_get_pretty_print:
+ * @xout: #GsfXMLOut
+ *
+ * Returns: the current state of the pretty-print flag.  Note, that
+ * gsf_xml_out_set_pretty_print will return the same value.
+ **/
+gboolean
+gsf_xml_out_get_pretty_print (GsfXMLOut *xout)
+{
+	g_return_val_if_fail (GSF_IS_XML_OUT (xout), TRUE);
+	return xout->priv->pretty_print;
+}
+
+/**
+ * gsf_xml_out_set_pretty_print:
+ * @xout: #GsfXMLOut
+ * @pp: new state of pretty-print flag.
+ *
+ * Returns: the previous state of the pretty-print flag.
+ **/
+gboolean
+gsf_xml_out_set_pretty_print (GsfXMLOut *xout, gboolean pp)
+{
+	gboolean res;
+
+	g_return_val_if_fail (GSF_IS_XML_OUT (xout), TRUE);
+
+	pp = !!pp;
+
+	res = xout->priv->pretty_print;
+	if (pp != res) {
+		xout->priv->pretty_print = pp;
+		g_object_notify (G_OBJECT (xout), "pretty-print");
+	}
+	return res;
 }
 
 static inline void
@@ -1704,23 +1743,24 @@ gsf_xml_out_end_element (GsfXMLOut *xout)
 	priv->stack = g_slist_remove (priv->stack, id);
 	priv->indent--;
 	switch (priv->state) {
-	case GSF_XML_OUT_NOCONTENT :
+	case GSF_XML_OUT_NOCONTENT:
 		if (priv->pretty_print)
 			gsf_output_write (xout->output, 3, "/>\n");
 		else
 			gsf_output_write (xout->output, 2, "/>");
 		break;
 
-	case GSF_XML_OUT_CHILD :
+	case GSF_XML_OUT_CHILD_PRETTY:
 		gsf_xml_out_indent (xout);
 	/* fall through */
-	case GSF_XML_OUT_CONTENT :
+	case GSF_XML_OUT_CHILD:
+	case GSF_XML_OUT_CONTENT:
 		if (priv->pretty_print)
 			gsf_output_printf (xout->output, "</%s>\n", id);
 		else
 			gsf_output_printf (xout->output, "</%s>", id);
 	}
-	priv->state = GSF_XML_OUT_CHILD;
+	priv->state = priv->pretty_print ? GSF_XML_OUT_CHILD_PRETTY : GSF_XML_OUT_CHILD;
 	return id;
 }
 

@@ -4,6 +4,7 @@ Morten:
 	* Ensure floats roundtrip through our xml functions.
 	* Improve handling of unknown xml tags.
 	* xml parser improvements.
+	* xml pretty-printing improvements.
 
 --------------------------------------------------------------------------
 libgsf 1.14.32

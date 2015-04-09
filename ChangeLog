@@ -1,3 +1,13 @@
+2015-04-09  Morten Welinder  <terra@gnome.org>
+
+	* tests/test-xml.c: Add meaning code in here.
+
+	* gsf/gsf-libxml.c (gsf_xml_out_end_element): Only indent closing
+	tag if we're at the beginning of the line because we
+	pretty-printed the previous closing tag.
+	(gsf_xml_out_get_pretty_print, gsf_xml_out_set_pretty_print): New
+	convenience functions.
+
 2015-03-30  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_in_doc_add_nodes): Introduce new flag

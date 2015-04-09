@@ -2,7 +2,7 @@
 /*
  * test-xml.c: Test libxml2 wrappers
  *
- * Copyright (C) 2003-2006	Jody Goldberg <jody@gnome.org>
+ * Copyright (C) 2015	Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -20,56 +20,76 @@
  */
 
 #include <stdio.h>
-#include <gsf/gsf-utils.h>
-#include <gsf/gsf-input-stdio.h>
-#include <gsf/gsf-infile.h>
-#include <gsf/gsf-output-stdio.h>
-#include <gsf/gsf-outfile.h>
+#include <gsf/gsf.h>
 
 static int
-test (char *argv[])
+test_xml_indent (void)
 {
-	GsfInput   *input;
-	GsfOutput  *output;
-	GError     *err = NULL;
-	int         rval = 0;
+	GsfOutput *mem = gsf_output_memory_new ();
+	GsfXMLOut *xml = gsf_xml_out_new (mem);
+	const char *data;
+	gboolean pprint;
+	int err;
+	const char *expected =
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+		"<outer>\n"
+		"  <data/>\n"
+		"  <data attr=\"val\"/>\n"
+		"  <data>text</data>\n"
+		"  <data>\n"
+		"    <inner>text</inner>\n"
+		"  </data>\n"
+		"  <data>text</data>\n"
+		"  <data><inner>text</inner></data>\n"
+		"</outer>\n";
 
-	input = gsf_input_stdio_new (argv[1], &err);
-	if (input == NULL) {
+	gsf_xml_out_start_element (xml, "outer");
 
-		g_return_val_if_fail (err != NULL, 1);
+	gsf_xml_out_start_element (xml, "data");
+	gsf_xml_out_end_element (xml);
 
-		g_warning ("'%s' error: %s\n", argv[1], err->message);
-		g_error_free (err);
-		return 1;
-	}
+	gsf_xml_out_start_element (xml, "data");
+	gsf_xml_out_add_cstr_unchecked (xml, "attr", "val");
+	gsf_xml_out_end_element (xml);
 
-	output = gsf_output_stdio_new (argv[2], &err);
-	if (output == NULL) {
+	gsf_xml_out_start_element (xml, "data");
+	gsf_xml_out_add_cstr_unchecked (xml, NULL, "text");
+	gsf_xml_out_end_element (xml);
 
-		g_return_val_if_fail (err != NULL, 1);
+	gsf_xml_out_start_element (xml, "data");
+	gsf_xml_out_start_element (xml, "inner");
+	gsf_xml_out_add_cstr_unchecked (xml, NULL, "text");
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_end_element (xml);
 
-		g_warning ("'%s' error: %s\n", argv[2], err->message);
-		g_error_free (err);
+	gsf_xml_out_start_element (xml, "data");
+	pprint = gsf_xml_out_set_pretty_print (xml, FALSE);
+	gsf_xml_out_add_cstr_unchecked (xml, NULL, "text");
+	gsf_xml_out_set_pretty_print (xml, pprint);
+	gsf_xml_out_end_element (xml);
 
-		g_object_unref (G_OBJECT (input));
-		return 1;
-	}
+	gsf_xml_out_start_element (xml, "data");
+	pprint = gsf_xml_out_set_pretty_print (xml, FALSE);
+	gsf_xml_out_start_element (xml, "inner");
+	gsf_xml_out_add_cstr_unchecked (xml, NULL, "text");
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_set_pretty_print (xml, pprint);
+	gsf_xml_out_end_element (xml);
 
-	if (gsf_input_copy (input, output) == FALSE) {
-		rval = 1;
-		err = (GError*) gsf_output_error (output);
-		if (err != NULL) {
-			g_warning ("'%s' error: %s\n", argv[2], err->message);
-		}
-	}
+	gsf_xml_out_end_element (xml);
 
-	g_object_unref (G_OBJECT (input));
+	g_object_unref (xml);
 
-	gsf_output_close (output);
-	g_object_unref (G_OBJECT (output));
+	data = (const char *)gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (mem));
+	g_printerr ("Got\n%s\n", data);
 
-	return rval;
+	err = !g_str_equal (data, expected);
+	if (err)
+		g_printerr ("Expected\n%s\n", expected);
+
+	g_object_unref (mem);
+
+	return err;
 }
 
 int
@@ -77,13 +97,11 @@ main (int argc, char *argv[])
 {
 	int res;
 
-	if (argc != 3) {
-		fprintf (stderr, "%s : files\n", argv [0]);
-		return 1;
-	}
+	(void)argc;
+	(void)argv;
 
 	gsf_init ();
-	res = test (argv);
+	res = test_xml_indent ();
 	gsf_shutdown ();
 
 	return res;

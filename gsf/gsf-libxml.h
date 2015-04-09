@@ -184,6 +184,9 @@ void	    gsf_xml_out_set_doc_type	(GsfXMLOut *xout, char const *type);
 void	    gsf_xml_out_start_element	(GsfXMLOut *xout, char const *id);
 char const *gsf_xml_out_end_element	(GsfXMLOut *xout);
 
+gboolean    gsf_xml_out_get_pretty_print (GsfXMLOut *xout);
+gboolean    gsf_xml_out_set_pretty_print (GsfXMLOut *xout, gboolean pp);
+
 void gsf_xml_out_simple_element		(GsfXMLOut *xout, char const *id,
 					 char const *content);
 void gsf_xml_out_simple_int_element	(GsfXMLOut *xout, char const *id,
