@@ -2164,7 +2164,7 @@ gsf_xml_out_add_base64 (GsfXMLOut *xout, char const *id,
  * gsf_xml_out_get_output:
  * @xout: #GsfXMLOut
  *
- * Get the #GsfInput we are parsing from.
+ * Get the #GsfOutput we are writing to..
  *
  * Returns: (transfer none): #GsfInput or %NULL.
  **/
