@@ -1049,7 +1049,7 @@ msole_prop_read (GsfInput *in,
 
 		name = g_strdup (msole_prop_id_to_gsf (section, props[i].id, &linked));
 		d (g_print (" @ %x %x = ", (unsigned)props[i].offset, (unsigned)size););
-		val = msole_prop_parse (section, type, &data, data + size);
+		val = msole_prop_parse (section, type, &data, data + size - 4);
 
 		if (NULL != name && NULL != val) {
 			if (linked) {

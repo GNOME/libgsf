@@ -1,3 +1,8 @@
+2015-04-27  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_read): Reduce size available
+	for property by 4 since that is taken by the typeid.
+
 2015-04-18  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-libxml.c (gsf_xml_out_get_output): Doc fix.
