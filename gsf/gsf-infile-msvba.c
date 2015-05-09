@@ -78,7 +78,6 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 	while (offset < length) {
 		GsfInput *chunk;
 		guint16 chunk_hdr;
-		GByteArray *tmpres;
 		guint8 const *tmp;
 
 		tmp = gsf_input_read (input, 2, NULL);
@@ -102,11 +101,13 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 				offset += 4094;
 			}
 		}
-		tmpres = gsf_msole_inflate (chunk, 0);
-		gsf_input_seek (input, offset, G_SEEK_CUR);
-		g_byte_array_append (res, tmpres->data, tmpres->len);
-		g_byte_array_free (tmpres, TRUE);
-		g_object_unref (chunk);
+		if (chunk) {
+			GByteArray *tmpres = gsf_msole_inflate (chunk, 0);
+			gsf_input_seek (input, offset, G_SEEK_CUR);
+			g_byte_array_append (res, tmpres->data, tmpres->len);
+			g_byte_array_free (tmpres, TRUE);
+			g_object_unref (chunk);
+		}
 	}
 	
 	if (res == NULL)
