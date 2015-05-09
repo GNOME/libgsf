@@ -2,6 +2,7 @@ libgsf 1.14.34
 
 Morten:
 	* Fix OLE2 property parsing problem.  [#748528]
+	* Fuzzed file fix.  [#749120]
 
 --------------------------------------------------------------------------
 libgsf 1.14.33

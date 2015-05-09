@@ -303,7 +303,6 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 
 		ptr += len;
 	} while (tag != 0x10);
-	g_free (elem_stream);
 
 	if (element_count != 0)
 		g_warning ("Number of elements differs from expectations");

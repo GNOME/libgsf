@@ -1,3 +1,7 @@
+2015-05-09  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msvba.c (vba_dir_read): Free only once.
+
 2015-04-27  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_read): Reduce size available
