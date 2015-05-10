@@ -107,7 +107,7 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	rel->is_extern	= is_extern;
 
 	/* Make sure we don't point to a freed rel in the type hash.  */
-	orel = g_hash_table_lookup (rels->by_type, type);
+	orel = g_hash_table_lookup (rels->by_id, id);
 	if (orel)
 		g_hash_table_remove (rels->by_type, orel->type);
 	g_hash_table_replace (rels->by_type, rel->type, rel);

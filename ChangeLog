@@ -1,3 +1,8 @@
+2015-05-10  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (open_pkg_rel_begin): Be more careful
+	in removing entries partially overwritten by dupes.  [#749183]
+
 2015-05-09  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (vba_dir_read): Free only once.
