@@ -1,3 +1,7 @@
+2015-05-15  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix portability issue.
+
 2015-05-10  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (open_pkg_rel_begin): Be more careful

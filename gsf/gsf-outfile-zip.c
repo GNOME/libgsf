@@ -256,7 +256,7 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_DISKSTART, 0);
 	GSF_LE_SET_GUINT16 (buf + ZIP_DIRENT_FILE_TYPE, 0);
 	/* Hardcode file mode 644 */
-	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_FILE_MODE, 0100644 << 16);
+	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_FILE_MODE, 0100644u << 16);
 	GSF_LE_SET_GUINT32 (buf + ZIP_DIRENT_OFFSET,
 			    offset_in_zip64 ? G_MAXUINT32 : dirent->offset);
 
