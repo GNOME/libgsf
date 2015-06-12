@@ -1,3 +1,8 @@
+2015-06-11  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_read): Fuzzed file fix.
+	Fixes #750809.
+
 2015-05-15  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-outfile-zip.c (zip_dirent_write): Fix portability issue.

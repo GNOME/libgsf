@@ -1006,6 +1006,7 @@ msole_prop_read (GsfInput *in,
 		gsize gslen;
 		char *name;
 		guint8 const *start = data;
+		guint8 const *end = start + (size - 4);
 
 		g_return_val_if_fail (section->dict == NULL, FALSE);
 
@@ -1015,12 +1016,14 @@ msole_prop_read (GsfInput *in,
 
 		d ({ g_print ("Dictionary = \n"); gsf_mem_dump (data-4, size); });
 		n = type;
-		for (j = 0 ; j < n ; j++) {
+		for (j = 0; j < n; j++) {
+			g_return_val_if_fail (end - data >= 8, FALSE);
+
 			id = GSF_LE_GET_GUINT32 (data);
 			len = GSF_LE_GET_GUINT32 (data + 4);
 
 			g_return_val_if_fail (len < 0x10000, FALSE);
-			g_return_val_if_fail (len <= size - (data - start), FALSE);
+			g_return_val_if_fail (len <= end - data + 8, FALSE);
 
 			gslen = 0;
 			name = g_convert_with_iconv (data + 8,
