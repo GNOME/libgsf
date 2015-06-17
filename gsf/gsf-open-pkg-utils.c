@@ -223,6 +223,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 	GsfInfile *parent, *prev_parent;
 	gchar **elems;
 	unsigned i;
+	const char *target;
 
 	g_return_val_if_fail (rel != NULL, NULL);
 	g_return_val_if_fail (opkg != NULL, NULL);
@@ -230,8 +231,23 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 	/* References from the root use children of opkg
 	 * References from a child are relative to siblings of opkg */
 	parent = gsf_input_name (opkg)
-		? gsf_input_container (opkg) : GSF_INFILE (opkg);
+		? gsf_input_container (opkg)
+		: GSF_INFILE (opkg);
 	g_object_ref (parent);
+
+	target = rel->target;
+	if (target[0] == '/') {
+		target++;
+		/* Handle absolute references by going as far up as we can.  */
+		while (1) {
+			GsfInfile *next_parent = gsf_input_container (GSF_INPUT (parent));
+			if (next_parent &&
+			    G_OBJECT_TYPE (next_parent) == G_OBJECT_TYPE (parent))
+				parent = next_parent;
+			else
+				break;
+		}
+	}
 
 	elems = g_strsplit (rel->target, "/", 0);
 	for (i = 0 ; elems[i] && NULL != parent ; i++) {
