@@ -152,13 +152,28 @@ GSF_CLASS (GsfInputTextline, gsf_input_textline,
  * Trailing newlines and carriage returns are stripped, and the resultant buffer
  * can be edited.
  *
- * Returns: the string read, or %NULL on eof.
+ * Returns: (transfer none): the string read, or %NULL on eof.
  **/
 unsigned char *
 gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 {
+	return gsf_input_textline_utf8_gets (textline);
+}
+
+/**
+ * gsf_input_textline_utf8_gets:
+ * @textline: #GsfInputTextline
+ *
+ * A utility routine to read things line by line from the underlying source.
+ * Trailing newlines and carriage returns are stripped, and the resultant buffer
+ * can be edited.
+ *
+ * Returns: (transfer none): the string read, or %NULL on eof.
+ **/
+guint8 *
+gsf_input_textline_utf8_gets (GsfInputTextline *textline)
+{
 	guint8 const *ptr ,*end;
-	gsf_off_t remain;
 	unsigned len, count = 0;
 
 	g_return_val_if_fail (textline != NULL, NULL);
@@ -166,7 +181,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 	while (1) {
 		if (textline->remainder == NULL ||
 		    textline->remainder_size == 0) {
-			remain = gsf_input_remaining (textline->source);
+			gsf_off_t remain = gsf_input_remaining (textline->source);
 			len = MIN (remain, textline->max_line_size);
 
 			textline->remainder = gsf_input_read (textline->source, len, NULL);
@@ -195,12 +210,12 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 		count += len;
 
 		if (ptr < end) {
-			unsigned char last = ptr [0];
+			unsigned char last = ptr[0];
 
-			/* eat the trailing new line */
+			/* eat the trailing eol marker: \n, \r\n, or \r.  */
 			ptr++;
-			if (ptr >= end) {
-				/* be extra careful, the newline is at the bound */
+			if (ptr >= end && last == '\r') {
+				/* be extra careful, the CR is at the bound */
 				if (gsf_input_remaining (textline->source) > 0) {
 					ptr = gsf_input_read (textline->source, 1, NULL);
 					if (ptr == NULL)
@@ -211,9 +226,7 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 				} else
 					ptr = end = NULL;
 			}
-			if (ptr != NULL &&
-			    ((last == '\n' && *ptr == '\r') ||
-			     (last == '\r' && *ptr == '\n')))
+			if (ptr != NULL && last == '\r' && *ptr == '\n')
 				ptr++;
 			break;
 		} else if (gsf_input_remaining (textline->source) <= 0) {
@@ -227,93 +240,6 @@ gsf_input_textline_ascii_gets (GsfInputTextline *textline)
 	textline->remainder = ptr;
 	textline->remainder_size = end - ptr;
 
-	textline->buf [count] = '\0';
-	return textline->buf;
-}
-
-/**
- * gsf_input_textline_utf8_gets:
- * @textline: #GsfInputTextline
- *
- * A utility routine to read things line by line from the underlying source.
- * Trailing newlines and carriage returns are stripped, and the resultant buffer
- * can be edited.
- *
- * Returns: the string read, or %NULL on eof.
- **/
-guint8 *
-gsf_input_textline_utf8_gets (GsfInputTextline *textline)
-{
-	guint8 const *ptr ,*end;
-	gsf_off_t remain;
-	unsigned len, count = 0;
-
-	g_return_val_if_fail (textline != NULL, NULL);
-
-	while (1) {
-		if (textline->remainder == NULL ||
-		    textline->remainder_size == 0) {
-			remain = gsf_input_remaining (textline->source);
-			len = MIN (remain, textline->max_line_size);
-
-			textline->remainder = gsf_input_read (textline->source, len, NULL);
-			if (textline->remainder == NULL)
-				return NULL;
-			textline->remainder_size = len;
-		}
-
-		ptr = textline->remainder;
-		end = ptr + textline->remainder_size;
-		for (; ptr < end ; ptr = (guint8 *) g_utf8_next_char (ptr))
-			if (*ptr == '\n' || *ptr == '\r')
-				break;
-
-		/* copy the remains into the buffer, grow it if necessary */
-		len = ptr - textline->remainder;
-		if (count + len >= textline->buf_size) {
-			textline->buf_size += len;
-			textline->buf = g_renew (guint8, textline->buf,
-						 textline->buf_size + 1);
-		}
-
-		g_return_val_if_fail (textline->buf != NULL, NULL);
-
-		memcpy (textline->buf + count, textline->remainder, len);
-		count += len;
-
-		if (ptr < end) {
-			unsigned char last = ptr [0];
-
-			/* eat the trailing new line */
-			ptr++;
-			if (ptr >= end) {
-				/* be extra careful, the newline is at the bound */
-				if (gsf_input_remaining (textline->source) > 0) {
-					ptr = gsf_input_read (textline->source, 1, NULL);
-					if (ptr == NULL)
-						return NULL;
-					textline->remainder = ptr;
-					textline->remainder_size = 1;
-					end = ptr + 1;
-				} else
-					ptr = end = NULL;
-			}
-			if (ptr != NULL &&
-			    ((last == '\n' && *ptr == '\r') ||
-			     (last == '\r' && *ptr == '\n')))
-				ptr++;
-			break;
-		} else if (gsf_input_remaining (textline->source) <= 0) {
-			ptr = end = NULL;
-			break;
-		} else
-			textline->remainder = NULL;
-
-	}
-
-	textline->remainder = ptr;
-	textline->remainder_size = end - ptr;
-
-	textline->buf [count] = '\0';
+	textline->buf[count] = '\0';
 	return textline->buf;
 }

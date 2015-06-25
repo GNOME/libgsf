@@ -1,3 +1,9 @@
+2015-06-25  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-textline.c (gsf_input_textline_utf8_gets): Go
+	character-by-character.  This is the right thing to do and also
+	prevents stepping past the end.
+
 2015-06-17  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel): Improve
