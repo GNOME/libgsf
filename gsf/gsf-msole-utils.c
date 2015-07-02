@@ -547,6 +547,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		for (i = 0 ; i < n ; i++) {
 			GValue *v;
+			const char *data0 = *data;
 			d (g_print ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
 			if (v) {
@@ -556,6 +557,8 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 				}
 				g_free (v);
 			}
+			if (*data == data0)
+				break;
 		}
 
 		res = g_new0 (GValue, 1);

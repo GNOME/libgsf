@@ -1,3 +1,8 @@
+2015-07-02  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Exit loop if no
+	progress.  Fixes #751273.
+
 2015-06-25  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-textline.c (gsf_input_textline_utf8_gets): Go
