@@ -1,3 +1,8 @@
+2015-07-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_init_info): Add debug code.
+	(gsf_infile_msole_new_child): Fix error check from seek.
+
 2015-07-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Exit loop if no

@@ -492,7 +492,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint8 const *header, *tmp;
 	guint32 *metabat = NULL;
 	MSOleInfo *info;
-	guint32 bb_shift, sb_shift, num_bat, num_metabat, last, dirent_start;
+	guint32 bb_shift, sb_shift, num_bat, num_sbat, num_metabat, threshold, last, dirent_start;
 	guint32 metabat_block, *ptr;
 	gboolean fail;
 
@@ -509,9 +509,21 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	bb_shift      = GSF_LE_GET_GUINT16 (header + OLE_HEADER_BB_SHIFT);
 	sb_shift      = GSF_LE_GET_GUINT16 (header + OLE_HEADER_SB_SHIFT);
 	num_bat	      = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_BAT);
+	num_sbat      = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
+	threshold     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
 	dirent_start  = GSF_LE_GET_GUINT32 (header + OLE_HEADER_DIRENT_START);
         metabat_block = GSF_LE_GET_GUINT32 (header + OLE_HEADER_METABAT_BLOCK);
 	num_metabat   = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_METABAT);
+
+	if (gsf_debug_flag ("OLE2")) {
+		g_printerr ("bb_shift=%d (size=%d)\n", bb_shift, 1 << bb_shift);
+		g_printerr ("sb_shift=%d (size=%d)\n", sb_shift, 1 << sb_shift);
+		g_printerr ("num_bat=%d (0x%08x)\n", num_bat, num_bat);
+		g_printerr ("num_sbat=%d (0x%08x)\n", num_sbat, num_sbat);
+		g_printerr ("threshold=%d (0x%08x)\n", threshold, threshold);
+		g_printerr ("dirent_start=0x%08x\n", dirent_start);
+		g_printerr ("num_metabat=%d (0x%08x)\n", num_metabat, num_metabat);
+	}
 
 	/* Some sanity checks
 	 * 1) There should always be at least 1 BAT block
@@ -536,9 +548,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->sb.shift	     = sb_shift;
 	info->sb.size	     = 1 << info->sb.shift;
 	info->sb.filter	     = info->sb.size - 1;
-	info->threshold	     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_THRESHOLD);
+	info->threshold	     = threshold;
         info->sbat_start     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
-        info->num_sbat       = GSF_LE_GET_GUINT32 (header + OLE_HEADER_NUM_SBAT);
+	info->num_sbat       = num_sbat;
 	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE + info->bb.size -1) / info->bb.size;
 	info->sb_file	     = NULL;
 
@@ -817,7 +829,6 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 	if (dirent->use_sb) {
 		unsigned int i;
 		int remaining;
-		guint8 const *data;
 
 		g_return_val_if_fail (sb_file != NULL, NULL);
 
@@ -826,10 +837,10 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 
 		for (i = 0 ; remaining > 0 && i < child->bat.num_blocks; i++, remaining -= info->sb.size)
 			if (gsf_input_seek (GSF_INPUT (sb_file),
-					    (gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) < 0 ||
-			    (data = gsf_input_read (GSF_INPUT (sb_file),
-						    MIN (remaining, (int)info->sb.size),
-						    child->stream.buf + (i << info->sb.shift))) == NULL) {
+					    (gsf_off_t)(child->bat.block [i] << info->sb.shift), G_SEEK_SET) ||
+			    !gsf_input_read (GSF_INPUT (sb_file),
+					     MIN (remaining, (int)info->sb.size),
+					     child->stream.buf + (i << info->sb.shift))) {
 
 				g_warning ("failure reading block %d for '%s'", i, dirent->name);
 				if (err) *err = g_error_new
