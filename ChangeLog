@@ -1,3 +1,7 @@
+2015-07-07  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_seek_block): Fix seek error check.
+
 2015-07-06  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Add debug code.

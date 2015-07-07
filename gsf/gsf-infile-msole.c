@@ -102,6 +102,7 @@ static GsfInput *gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 					     MSOleDirent *dirent, GError **err);
 static void ole_info_unref (MSOleInfo *info);
 
+/* Returns FALSE on error.  */
 static gboolean
 ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
 {
@@ -111,7 +112,7 @@ ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
 	 * header is padded out to bb.size (sector size) when bb.size > 512. */
 	if (gsf_input_seek (ole->input,
 		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)) + offset,
-		G_SEEK_SET) < 0)
+		G_SEEK_SET))
 		return FALSE;
 
 	return TRUE;
