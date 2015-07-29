@@ -1,3 +1,7 @@
+2015-07-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.34
+
 2015-07-07  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_seek_block): Fix seek error check.
