@@ -99,3 +99,19 @@
    ...
    fun:g_thread_new
 }
+
+{
+   GOBJECT/init/MLK
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:gobject_init_ctor
+}
+
+{
+   GVFS/init/MLK
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:_g_io_modules_ensure_loaded
+}
