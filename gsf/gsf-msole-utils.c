@@ -547,7 +547,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		for (i = 0 ; i < n ; i++) {
 			GValue *v;
-			const char *data0 = *data;
+			guint8 const *data0 = *data;
 			d (g_print ("\t[%d] ", i););
 			v = msole_prop_parse (section, type, data, data_end);
 			if (v) {
@@ -1578,14 +1578,16 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 	offsets = g_alloca (sizeof (GsfMSOleMetaDataProp) * count);
 
 	/* 0) codepage */
-	offsets[0].id = 1;
-	offsets[0].offset = gsf_output_tell (state->out);
-	GSF_LE_SET_GUINT32 (buf, VT_I2);
-	GSF_LE_SET_GUINT32 (buf+4, state->codepage);
-	gsf_output_write (state->out, 8, buf);
+	if (count >= 1) {
+		offsets[0].id = 1;
+		offsets[0].offset = gsf_output_tell (state->out);
+		GSF_LE_SET_GUINT32 (buf, VT_I2);
+		GSF_LE_SET_GUINT32 (buf+4, state->codepage);
+		gsf_output_write (state->out, 8, buf);
+	}
 
 	/* 1) dictionary */
-	if (user) {
+	if (user && count >= 2) {
 		offsets[1].id = 0;
 		offsets[1].offset = gsf_output_tell (state->out);
 		GSF_LE_SET_GUINT32 (buf, g_hash_table_size (state->dict));
@@ -1595,8 +1597,6 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		i = 2;
 	} else
 		i = 1;
-
-	offsets[i].offset = gsf_output_tell (state->out);
 
 	/* 2) props */
 	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {

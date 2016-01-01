@@ -1,3 +1,8 @@
+2016-01-01  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_metadata_write_section): Handle the
+	no-property case sanely.  Fixes #760047.
+
 2015-07-28  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
