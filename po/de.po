@@ -1,7 +1,7 @@
 # German translation for libgsf.
 # Copyright (C) 2009 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009, 2012, 2013.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009, 2012-2013, 2016.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2012, 2013.
 #
 msgid ""
@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-04-17 23:36+0000\n"
-"PO-Revision-Date: 2014-05-05 17:19+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2014-11-28 00:35+0000\n"
+"PO-Revision-Date: 2016-01-01 19:22+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -98,7 +98,7 @@ msgstr "Auf ein Unterelement kann nicht zugegriffen werden"
 msgid "failure reading block"
 msgstr "Lesen des Blocks schlug fehl"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:384
+#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "VBA-Ordnerstrom kann nicht gefunden werden"
@@ -107,17 +107,17 @@ msgstr "VBA-Ordnerstrom kann nicht gefunden werden"
 msgid "vba project header problem"
 msgstr "Kopfproblem im vba-Projekt"
 
-#: ../gsf/gsf-infile-msvba.c:393
+#: ../gsf/gsf-infile-msvba.c:399
 #, c-format
 msgid "No VBA signature"
 msgstr "Keine VBA-Signatur"
 
-#: ../gsf/gsf-infile-msvba.c:404
+#: ../gsf/gsf-infile-msvba.c:410
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Unbekannte VBA-Version-Signatur 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:504
+#: ../gsf/gsf-infile-msvba.c:510
 #, c-format
 msgid "Unable to parse VBA header"
 msgstr "VBA-Kopf kann nicht verarbeitet werden"
@@ -147,53 +147,48 @@ msgstr "Suchen fehlgeschlagen"
 msgid "Truncated archive"
 msgstr "Abgeschnittenes Archiv"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:847
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Quelle"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:848
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
 msgid "The archive being interpreted"
 msgstr "Das Archiv, welches interpretiert wird"
 
-#: ../gsf/gsf-infile-zip.c:330
-#, c-format
-msgid "No Zip trailer"
-msgstr "Kein Zip-Nachspann"
-
-#: ../gsf/gsf-infile-zip.c:337
-#, c-format
-msgid "Error reading Zip signature"
-msgstr "Fehler beim Lesen der Zip-Signatur"
-
 # The structure, struct dirent refers to directory entry
-#: ../gsf/gsf-infile-zip.c:358
+#: ../gsf/gsf-infile-zip.c:453
 #, c-format
 msgid "Error reading zip dirent"
 msgstr "Fehler beim Lesen der Zip-Ordnerinhalte"
 
-#: ../gsf/gsf-infile-zip.c:421
+#: ../gsf/gsf-infile-zip.c:464
+#, c-format
+msgid "Broken zip file structure"
+msgstr "Zip-Dateistruktur beschädigt"
+
+#: ../gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "Fehler beim Vorspulen zum zip-Kopf"
 
-#: ../gsf/gsf-infile-zip.c:423
+#: ../gsf/gsf-infile-zip.c:520
 msgid "Error reading zip header"
 msgstr "Fehler beim Lesen der Zip-Kopfdaten"
 
-#: ../gsf/gsf-infile-zip.c:425
+#: ../gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
 msgstr "Fehler: ungültiger zip-Kopf"
 
-#: ../gsf/gsf-infile-zip.c:458
+#: ../gsf/gsf-infile-zip.c:553
 #, c-format
 msgid "problem uncompressing stream"
 msgstr "Probleme beim Dekomprimieren des Stroms"
 
-#: ../gsf/gsf-infile-zip.c:863 ../gsf/gsf-outfile-zip.c:769
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:935
 msgid "Compression Level"
 msgstr "Kompressionsstufe"
 
-#: ../gsf/gsf-infile-zip.c:864 ../gsf/gsf-outfile-zip.c:770
+#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:936
 msgid "The level of compression used, zero meaning none"
 msgstr "Der Grad der verwendeten Kompression. Null bedeutet keine."
 
@@ -335,17 +330,17 @@ msgstr "Größe nach der Dekompression"
 msgid "The source's uncompressed size"
 msgstr "Die unkomprimierte Größe der Quelle"
 
-#: ../gsf/gsf-input-memory.c:229 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: ist keine normale Datei"
 
-#: ../gsf/gsf-input-memory.c:242
+#: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: Datei ist zu groß für Speicherbelegung"
 
-#: ../gsf/gsf-input-memory.c:284
+#: ../gsf/gsf-input-memory.c:283
 #, c-format
 msgid "mmap not supported"
 msgstr "mmap wird nicht unterstützt"
@@ -359,7 +354,7 @@ msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Sollen Elemente für bessere Lesbarkeit automatisch eingerückt werden?"
 
 #: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:749
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:915
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Ziel"
@@ -387,37 +382,37 @@ msgstr ""
 "Zwischenablage muss mindestens 4 Bytes sein, Daten verfügen jedoch nur über "
 "%s Bytes."
 
-#: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
+#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "MS-Eigenschaften-Stromkopf kann nicht gelesen werden"
 
-#: ../gsf/gsf-msole-utils.c:1154
+#: ../gsf/gsf-msole-utils.c:1156
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Ungültiger MS-Eigenschaften-Stromkopf"
 
-#: ../gsf/gsf-msole-utils.c:1201 ../gsf/gsf-msole-utils.c:1239
-#: ../gsf/gsf-msole-utils.c:1263
+#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
+#: ../gsf/gsf-msole-utils.c:1265
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Ungültiger MS-Eigenschaftenabschnitt"
 
-#: ../gsf/gsf-msole-utils.c:1220 ../gsf/gsf-msole-utils.c:1224
+#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Ungültiger MS-Eigenschaften-Stromkopf oder Datei abgeschnitten"
 
-#: ../gsf/gsf-opendoc-utils.c:355
+#: ../gsf/gsf-opendoc-utils.c:356
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Eigenschaft »%s« wird für mehrere Typen verwendet!"
 
-#: ../gsf/gsf-opendoc-utils.c:880
+#: ../gsf/gsf-opendoc-utils.c:881
 msgid "ODF version"
 msgstr "ODF-Version"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:882
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Die ODF-Version, auf die dieses Objekt abzielt, als Ganzzahl wie z.B. »100«"
@@ -478,30 +473,38 @@ msgstr "Große Blockgröße"
 msgid "The size of the OLE's big blocks"
 msgstr "Die Größe der großen OLE-Blöcke"
 
-#: ../gsf/gsf-outfile-zip.c:750
+#: ../gsf/gsf-outfile-zip.c:916
 msgid "Where the archive is written"
 msgstr "Wohin das Archiv geschrieben wird"
 
-#: ../gsf/gsf-outfile-zip.c:759
+#: ../gsf/gsf-outfile-zip.c:925
 msgid "Entry Name"
 msgstr "Name des Eintrags"
 
-#: ../gsf/gsf-outfile-zip.c:760
+#: ../gsf/gsf-outfile-zip.c:926
 msgid "The filename of this member in the archive without path"
 msgstr "Der Dateiname dieses Archivbestandteils ohne Pfad"
 
-#: ../gsf/gsf-outfile-zip.c:780
+#: ../gsf/gsf-outfile-zip.c:946
 msgid "Deflate Level"
 msgstr "Stufe der »Deflate«-Kompression."
 
-#: ../gsf/gsf-outfile-zip.c:781
-#| msgid "The level of compression used, zero meaning none"
+#: ../gsf/gsf-outfile-zip.c:947
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
 "Die Stufe der verwendeten »Deflate«-Kompression. Null bedeutet keine und -1 "
 "bedeutet die Voreinstellung von zlib"
+
+#: ../gsf/gsf-outfile-zip.c:958
+msgid "Zip64"
+msgstr "Zip64"
+
+#: ../gsf/gsf-outfile-zip.c:959
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr ""
+"Legt fest, ob das Zip64-Format verwendet werden soll, -1 bedeutet automatisch"
 
 #: ../gsf/gsf-output-bzip.c:76
 #, c-format
@@ -627,71 +630,71 @@ msgstr "Programmversion anzeigen"
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Öffnen von %s gescheitert: %s\n"
 
-#: ../tools/gsf.c:66
+#: ../tools/gsf.c:72
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Erkennung von %s als Archiv ist gescheitert\n"
 
-#: ../tools/gsf.c:103
+#: ../tools/gsf.c:111
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Verfügbare Unterbefehle sind …\n"
 
-#: ../tools/gsf.c:104
+#: ../tools/gsf.c:112
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        eine oder mehrere Dateien im Archiv ausgeben\n"
 
-#: ../tools/gsf.c:105
+#: ../tools/gsf.c:113
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       eine oder mehrere Dateien im Archiv hexadezimal ablegen\n"
 
-#: ../tools/gsf.c:106
+#: ../tools/gsf.c:114
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       Unterbefehle auflisten\n"
 
-#: ../tools/gsf.c:107
+#: ../tools/gsf.c:115
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       Dateien im Archiv auflisten\n"
 
-#: ../tools/gsf.c:108
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  Dokumenteigenschaften im Archiv auflisten\n"
 
-#: ../tools/gsf.c:109
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      angegebene Dokumenteigenschaften ausgeben\n"
 
-#: ../tools/gsf.c:110
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  OLE-Archiv erstellen\n"
 
-#: ../tools/gsf.c:111
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  ZIP-Archiv erstellen\n"
 
-#: ../tools/gsf.c:303
+#: ../tools/gsf.c:311
 #, c-format
 msgid "No property named %s\n"
 msgstr "Keine Eigenschaft namens %s\n"
 
-#: ../tools/gsf.c:363
+#: ../tools/gsf.c:371
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Fehler beim Verarbeiten der Datei %s: %s\n"
 
-#: ../tools/gsf.c:503
+#: ../tools/gsf.c:515
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "UNTERBEFEHL-ARCHIV …"
 
-#: ../tools/gsf.c:510
+#: ../tools/gsf.c:522
 #, c-format
 msgid ""
 "%s\n"
@@ -701,347 +704,17 @@ msgstr ""
 "Rufen Sie »%s --help« auf, um alle verfügbaren Befehlszeilenoptionen "
 "anzuzeigen.\n"
 
-#: ../tools/gsf.c:517
+#: ../tools/gsf.c:529
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf-Version %d.%d.%d\n"
 
-#: ../tools/gsf.c:523
+#: ../tools/gsf.c:535
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Aufruf: %s %s\n"
 
-#: ../tools/gsf.c:548
+#: ../tools/gsf.c:560
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Rufen Sie »%s help« auf, um eine Liste der Unterbefehle zu erhalten.\n"
-
-#~ msgid "Something went wrong in ar_dup"
-#~ msgstr "Etwas ging schief in ar_dup"
-
-#~ msgid "Something went wrong in ar_child_init"
-#~ msgstr "Etwas ging schief in ar_child_init"
-
-#~ msgid ""
-#~ "Boolean options available, true enables thumbnailing and false disables "
-#~ "the creation of new thumbnails"
-#~ msgstr ""
-#~ "Boolesche Optionen sind verfügbar, »wahr« aktiviert die Erzeugung von "
-#~ "Vorschauen und »falsch« deaktiviert die Erzeugung neuer Vorschauen"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr "Vorschau für OpenOffice 1.x Kalkulationstabellen aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-#~ msgstr "Vorschau für OpenOffice 1.x Zeichnungsvorlagen aktivieren"
-
-#~ msgid ""
-#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr ""
-#~ "Vorschau für OpenOffice 1.x Impress-Präsentationsvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-#~ msgstr "Vorschau für OpenOffice 1.x Impress-Präsentationen aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-#~ msgstr "Vorschau für OpenOffice 1.x Mathematik-Dokumente aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr "Vorschau für OpenOffice 1.x Tabellenvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-#~ msgstr "Vorschau für OpenOffice 1.x Writer-Dokumente aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-#~ msgstr "Vorschau für OpenOffice 1.x Writer-Globalvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-#~ msgstr "Vorschau für OpenOffice 1.x Writer-Vorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-#~ msgstr "Vorschau für Microsoft Excel-2007-Tabellen aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-#~ msgstr "Vorschau für Microsoft Excel-Tabellen aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-#~ msgstr "Vorschau für Microsoft PowerPoint-2007-Präsentationen aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-#~ msgstr "Vorschau für Microsoft PowerPoint-Präsentationen aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-#~ msgstr "Vorschau für Microsoft Word-2007-Dokumente aktivieren"
-
-#~ msgid "Enable thumbnailing of Microsoft Word documents"
-#~ msgstr "Vorschau für Microsoft Word-Dokumente aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument charts"
-#~ msgstr "Vorschau für OpenDocument-Diagramme aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
-#~ msgstr "Vorschau für OpenDocument-Zeichnungsvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawings"
-#~ msgstr "Vorschau für OpenDocument-Zeichnungen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument formulas"
-#~ msgstr "Vorschau für OpenDocument-Formeln aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument images"
-#~ msgstr "Vorschau für OpenDocument-Bilder aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
-#~ msgstr "Vorschau für OpenDocument-Präsentationsvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentations"
-#~ msgstr "Vorschau für OpenDocument-Präsentationen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-#~ msgstr "Vorschau für OpenDocument-Tabellenvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
-#~ msgstr "Vorschau für OpenDocument-Tabellen aktivieren"
-
-#~ msgid ""
-#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
-#~ msgstr "Vorschau für OpenDocument-Textdokumentvorlagen aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-#~ msgstr "Vorschau für OpenDocument-Textdokumente aktivieren"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-#~ msgstr "Vorschau für OpenDocument Global-Textdokumente aktivieren"
-
-#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-#~ msgstr "Vorschaubefehl für Microsoft Excel-2007-Tabellen"
-
-#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
-#~ msgstr "Vorschaubefehl für Microsoft Excel-Tabellen"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-#~ msgstr "Vorschaubefehl für Microsoft PowerPoint-2007-Präsentationen"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
-#~ msgstr "Vorschaubefehl für Microsoft PowerPoint-Präsentationen"
-
-#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
-#~ msgstr "Vorschaubefehl für Microsoft Word-2007-Dokumente"
-
-#~ msgid "Thumbnail command for Microsoft Word documents"
-#~ msgstr "Vorschaubefehl für Microsoft Word-Dokumente"
-
-#~ msgid "Thumbnail command for OpenDocument charts"
-#~ msgstr "Vorschaubefehl für OpenDocument-Diagramme"
-
-#~ msgid "Thumbnail command for OpenDocument drawing templates"
-#~ msgstr "Vorschaubefehl für OpenDocument-Zeichnungsvorlagen"
-
-#~ msgid "Thumbnail command for OpenDocument drawings"
-#~ msgstr "Vorschaubefehl für OpenDocument-Zeichnungen"
-
-#~ msgid "Thumbnail command for OpenDocument formulas"
-#~ msgstr "Vorschaubefehl für OpenDocument-Formeln"
-
-#~ msgid "Thumbnail command for OpenDocument images"
-#~ msgstr "Vorschaubefehl für OpenDocument-Bilder"
-
-#~ msgid "Thumbnail command for OpenDocument presentation templates"
-#~ msgstr "Vorschaubefehl für OpenDocument-Präsentationsvorlagen"
-
-#~ msgid "Thumbnail command for OpenDocument presentations"
-#~ msgstr "Vorschaubefehl für OpenDocument-Präsentationen"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
-#~ msgstr "Vorschaubefehl für OpenDocument-Tabellenvorlagen"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheets"
-#~ msgstr "Vorschaubefehl für OpenDocument-Tabellen"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-#~ msgstr "Vorschaubefehl für OpenDocument-Textdokumentvorlagen"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
-#~ msgstr "Vorschaubefehl für OpenDocument-Textdokumente"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-#~ msgstr "Vorschaubefehl für OpenDocument-Global-Textdokumente"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Kalkulationstabellen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Zeichnungsvorlagen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Impress-Präsentationsvorlagen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Impress-Präsentationen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Mathematik-Dokumente"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Tabellenvorlagen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Writer-Dokumente"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Writer-Globalvorlagen"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-#~ msgstr "Vorschaubefehl für OpenOffice 1.x Writer-Vorlagen"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die Microsoft Excel-2007-Tabellen."
-
-#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-#~ msgstr "Gültiger Befehl plus Argumente für die Microsoft Excel-Tabellen."
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die Microsoft PowerPoint-2007-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die Microsoft PowerPoint-Vorschau"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-#~ msgstr "Gültiger Befehl plus Argumente für die Microsoft Word-2007-Vorschau"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-#~ msgstr "Gültiger Befehl plus Argumente für die Microsoft Word-Vorschau"
-
-#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Diagrammvorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Zeichnungsvorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Zeichnungs-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
-#~ msgstr "Gültiger Befehl plus Argumente für die OpenDocument-Formel-Vorschau"
-
-#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-#~ msgstr "Gültiger Befehl plus Argumente für die OpenDocument-Bild-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Präsentationsvorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Präsentations-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Tabellenvorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Tabellen-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Textdokumentvorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Textdokumenten-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
-#~ "document thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenDocument-Text-Globaldokument-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Zeichnungsvorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Zeichnungs-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Impress-"
-#~ "Präsentationsvorlagen-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Impress-"
-#~ "Präsentations-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Mathematik-"
-#~ "Dokumenten-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Writer-Dokumenten-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Writer-"
-#~ "Globalvorlagen-Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Writer-Vorlagen-"
-#~ "Vorschau"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Gültiger Befehl plus Argumente für die OpenOffice 1.x Tabellen-Vorschau"
