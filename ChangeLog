@@ -1,3 +1,8 @@
+2016-01-13  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_read): Improve error
+	handling.  Fixes #760543.
+
 2016-01-01  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_metadata_write_section): Handle the

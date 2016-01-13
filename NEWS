@@ -2,6 +2,7 @@ libgsf 1.14.35
 
 Morten:
 	* Fix OLE2 property writing issue.  [#760047]
+	* Improve handling of broken zip files.  [#760543]
 
 --------------------------------------------------------------------------
 libgsf 1.14.34

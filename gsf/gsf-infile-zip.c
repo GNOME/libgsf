@@ -651,7 +651,7 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			else if (err == Z_OK)
 				zip->restlen -= (zip->stream->total_out - startlen);
 			else
-				break;
+				return NULL;  /* Error, probably corrupted */
 
 		} while (zip->restlen && zip->stream->avail_out);
 
