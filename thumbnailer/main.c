@@ -21,9 +21,11 @@
 
 #include <gsf-config.h>
 #include <gsf/gsf.h>
+#include <locale.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 
 #ifdef HAVE_GDK_PIXBUF
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -292,8 +294,12 @@ main (int argc, char **argv)
 
 	set_resource_limits ();
 
-	option_ctx = g_option_context_new ("Options");
-	g_option_context_add_main_entries (option_ctx, option_entries, NULL); /* FIXME: no translation domain */
+	bindtextdomain (GETTEXT_PACKAGE, GSFLOCALEDIR);
+	textdomain (GETTEXT_PACKAGE);
+	setlocale (LC_ALL, "");
+
+	option_ctx = g_option_context_new (_("Options"));
+	g_option_context_add_main_entries (option_ctx, option_entries, GETTEXT_PACKAGE);
 	if (!g_option_context_parse (option_ctx, &argc, &argv, NULL)
 	    || option_size == -1
 	    || option_input_filename == NULL

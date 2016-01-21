@@ -1,4 +1,7 @@
-AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(GDK_PIXBUF_CFLAGS) $(LIBXML_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) \
+	$(GDK_PIXBUF_CFLAGS) $(LIBXML_CFLAGS) \
+	-DGSFLOCALEDIR=\"$(localedir)\"
+
 LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS) $(GDK_PIXBUF_LIBS)
 
 bin_PROGRAMS = gsf-office-thumbnailer

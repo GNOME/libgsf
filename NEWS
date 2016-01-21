@@ -4,6 +4,9 @@ Morten:
 	* Fix OLE2 property writing issue.  [#760047]
 	* Improve handling of broken zip files.  [#760543]
 
+Ting-Wei Lan:
+	* Fix locale handling in thumbnailer.  [#760428]
+
 --------------------------------------------------------------------------
 libgsf 1.14.34
 

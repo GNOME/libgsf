@@ -1,3 +1,8 @@
+2016-01-21  Morten Welinder  <terra@gnome.org>
+
+	* tools/gsf.c (main): Set of locale stuff.  Patch by Ting-Wei Lan.
+	Also set up gettext stuff.
+
 2016-01-13  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (gsf_infile_zip_read): Improve error
