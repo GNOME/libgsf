@@ -23,4 +23,5 @@ gsf/gsf-output.c
 gsf/gsf-output-csv.c
 gsf/gsf-output-iconv.c
 gsf/gsf-output-stdio.c
+thumbnailer/main.c
 tools/gsf.c
