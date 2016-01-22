@@ -4,14 +4,14 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2010-2015.
-# Aviary.pl <gnomepl@aviary.pl>, 2010-2015.
+# Piotr Drąg <piotrdrag@gmail.com>, 2010-2016.
+# Aviary.pl <gnomepl@aviary.pl>, 2010-2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 01:47+0200\n"
-"PO-Revision-Date: 2015-08-31 01:48+0200\n"
+"POT-Creation-Date: 2016-01-22 18:24+0100\n"
+"PO-Revision-Date: 2016-01-22 18:25+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -620,6 +620,10 @@ msgstr "Znak zastępczy"
 #: ../gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Ciąg używany dla nieprawidłowych znaków"
+
+#: ../thumbnailer/main.c:301
+msgid "Options"
+msgstr "Opcje"
 
 #: ../tools/gsf.c:19
 msgid "Display program version"
