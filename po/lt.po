@@ -1,15 +1,15 @@
 # Lithuanian translation for libgsf.
 # Copyright (C) 2012 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Aurimas Černius <aurisc4@gmail.com>, 2012, 2013, 2015.
+# Aurimas Černius <aurisc4@gmail.com>, 2012, 2013, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2014-11-28 00:35+0000\n"
-"PO-Revision-Date: 2015-09-09 17:19+0300\n"
+"POT-Creation-Date: 2016-01-22 17:25+0000\n"
+"PO-Revision-Date: 2016-01-24 18:42+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -52,57 +52,57 @@ msgstr "Windows DIB arba BITMAP formatas"
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile formatas"
 
-#: ../gsf/gsf-infile-msole.c:471
+#: ../gsf/gsf-infile-msole.c:472
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Nepavyko dubliuoti įvesties srauto"
 
-#: ../gsf/gsf-infile-msole.c:505
+#: ../gsf/gsf-infile-msole.c:506
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Nėra OLE2 parašo"
 
-#: ../gsf/gsf-infile-msole.c:525
+#: ../gsf/gsf-infile-msole.c:538
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Netinkami blokų dydžiai"
 
-#: ../gsf/gsf-infile-msole.c:561
+#: ../gsf/gsf-infile-msole.c:574
 #, c-format
 msgid "Insufficient memory"
 msgstr "Nepakanka atminties"
 
-#: ../gsf/gsf-infile-msole.c:620
+#: ../gsf/gsf-infile-msole.c:633
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Nevientisa blokų išskyrimo lentelė"
 
-#: ../gsf/gsf-infile-msole.c:628
+#: ../gsf/gsf-infile-msole.c:641
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Problemos kuriant blokų išskyrimo lentelę"
 
-#: ../gsf/gsf-infile-msole.c:640
+#: ../gsf/gsf-infile-msole.c:653
 #, c-format
 msgid "Problems reading directory"
 msgstr "Problemos skaitant aplanką"
 
-#: ../gsf/gsf-infile-msole.c:804
+#: ../gsf/gsf-infile-msole.c:817
 #, c-format
 msgid "Failed to access child"
 msgstr "Nepavyko pasiekti vaiko"
 
-#: ../gsf/gsf-infile-msole.c:837
+#: ../gsf/gsf-infile-msole.c:849
 #, c-format
 msgid "failure reading block"
 msgstr "nepavyko nuskaityti bloko"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
+#: ../gsf/gsf-infile-msvba.c:172 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Nepavyksta rasti VBA aplanko srauto"
 
-#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+#: ../gsf/gsf-infile-msvba.c:219 ../gsf/gsf-infile-msvba.c:227
 msgid "vba project header problem"
 msgstr "vba projekto antraštės problema"
 
@@ -146,12 +146,12 @@ msgstr "Paieška nepavyko"
 msgid "Truncated archive"
 msgstr "Sumažinti archyvą"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Šaltinis"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
+#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Archyvas šiuo metu interpretuojamas"
 
@@ -182,11 +182,11 @@ msgstr "Klaida, neteisinga zip antraštė"
 msgid "problem uncompressing stream"
 msgstr "problema išskleidžiant srautą"
 
-#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:935
+#: ../gsf/gsf-infile-zip.c:958 ../gsf/gsf-outfile-zip.c:1096
 msgid "Compression Level"
 msgstr "Suspaudimo lygis"
 
-#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:936
+#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1097
 msgid "The level of compression used, zero meaning none"
 msgstr "Naudojamas suspaudimo lygis, nulis reiškia jokio suspaudimo"
 
@@ -328,7 +328,7 @@ msgstr "Dydis po išskleidimo"
 msgid "The source's uncompressed size"
 msgstr "Nespausto šaltinio dydis"
 
-#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:453
+#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: tai nėra įprastinis failas"
@@ -343,23 +343,23 @@ msgstr "%s: failas per didelis įrašymui į atmintį"
 msgid "mmap not supported"
 msgstr "mmap nepalaikoma"
 
-#: ../gsf/gsf-libxml.c:1513
+#: ../gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Gražus spausdinimas"
 
-#: ../gsf/gsf-libxml.c:1514
+#: ../gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Ar turėtų išvestis automatiškai įtraukti elementus, kad būtų lengviau "
 "skaityti?"
 
-#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:915
+#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
+#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Išvesti"
 
-#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Rašymų kryptis"
 
@@ -381,78 +381,78 @@ msgstr ""
 "Sugadinti VT_CF savybės duomenys; iškarpinės duomenų ilgis turi būti bent 4 "
 "baitai, bet duomenys sako, kad yra tik %s baitai."
 
-#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
+#: ../gsf/gsf-msole-utils.c:1135 ../gsf/gsf-msole-utils.c:1179
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Nepavyksta perskaityti MS savybių srauto antraštės"
 
-#: ../gsf/gsf-msole-utils.c:1156
+#: ../gsf/gsf-msole-utils.c:1162
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Netinkama MS savybių srauto antraštė"
 
-#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
-#: ../gsf/gsf-msole-utils.c:1265
+#: ../gsf/gsf-msole-utils.c:1209 ../gsf/gsf-msole-utils.c:1247
+#: ../gsf/gsf-msole-utils.c:1271
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Netinkama MS savybių skiltis"
 
-#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
+#: ../gsf/gsf-msole-utils.c:1228 ../gsf/gsf-msole-utils.c:1232
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Netinkama MS savybių srauto antraštė arba failas sutrumpintas"
 
-#: ../gsf/gsf-opendoc-utils.c:356
+#: ../gsf/gsf-opendoc-utils.c:362
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Savybė „%s“ naudojama daugeliui tipų!"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: ../gsf/gsf-opendoc-utils.c:894
 msgid "ODF version"
 msgstr "ODF versija"
 
-#: ../gsf/gsf-opendoc-utils.c:882
+#: ../gsf/gsf-opendoc-utils.c:895
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "ODF versija, kuri yra šio objekto tikslas, kaip sveikas skaičius, pvz. 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:368
+#: ../gsf/gsf-open-pkg-utils.c:384
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Nepavyksta rasti „%2$s“ dalies id=„%1$s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:395
+#: ../gsf/gsf-open-pkg-utils.c:411
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Nepavyksta rasti „%2$s“ dalies su type=„%1$s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:425
+#: ../gsf/gsf-open-pkg-utils.c:441
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Trūksta dalies „%s“ id"
 
-#: ../gsf/gsf-open-pkg-utils.c:434
+#: ../gsf/gsf-open-pkg-utils.c:450
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "„%2$s“ dalis „%1$s“ iš „%3$s“ yra sugadinta!"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: ../gsf/gsf-open-pkg-utils.c:768
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput, kuris laiko Open Package turinį"
 
-#: ../gsf/gsf-open-pkg-utils.c:750
+#: ../gsf/gsf-open-pkg-utils.c:774
 msgid "Content type"
 msgstr "Turinio tipas"
 
-#: ../gsf/gsf-open-pkg-utils.c:751
+#: ../gsf/gsf-open-pkg-utils.c:775
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Turinio tipas įrašytas šakniniame [Content_Types].xml faile"
 
-#: ../gsf/gsf-open-pkg-utils.c:757
+#: ../gsf/gsf-open-pkg-utils.c:781
 msgid "Is Directory"
 msgstr "Ar aplankas"
 
-#: ../gsf/gsf-open-pkg-utils.c:758
+#: ../gsf/gsf-open-pkg-utils.c:782
 msgid "Can the outfile have children"
 msgstr "Ar išvesties failas turi vaikų"
 
@@ -472,24 +472,23 @@ msgstr "Didelio bloko dydis"
 msgid "The size of the OLE's big blocks"
 msgstr "OLE didelių blokų dydis"
 
-#: ../gsf/gsf-outfile-zip.c:916
+#: ../gsf/gsf-outfile-zip.c:1077
 msgid "Where the archive is written"
 msgstr "Ar archyvas yra įrašomas"
 
-#: ../gsf/gsf-outfile-zip.c:925
+#: ../gsf/gsf-outfile-zip.c:1086
 msgid "Entry Name"
 msgstr "Įrašo pavadinimas"
 
-#: ../gsf/gsf-outfile-zip.c:926
+#: ../gsf/gsf-outfile-zip.c:1087
 msgid "The filename of this member in the archive without path"
 msgstr "Šio nario failo pavadinimas archyve be kelio"
 
-#: ../gsf/gsf-outfile-zip.c:946
+#: ../gsf/gsf-outfile-zip.c:1107
 msgid "Deflate Level"
 msgstr "Suspaudimo lygis"
 
-#: ../gsf/gsf-outfile-zip.c:947
-#| msgid "The level of compression used, zero meaning none"
+#: ../gsf/gsf-outfile-zip.c:1108
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
@@ -497,11 +496,11 @@ msgstr ""
 "Naudojamas suspaudimo lygis, nulis reiškia jokio suspaudimo, o -1 reiškia "
 "zlib numatytąją reikšmę"
 
-#: ../gsf/gsf-outfile-zip.c:958
+#: ../gsf/gsf-outfile-zip.c:1119
 msgid "Zip64"
 msgstr "Zip64"
 
-#: ../gsf/gsf-outfile-zip.c:959
+#: ../gsf/gsf-outfile-zip.c:1120
 msgid "Whether to use zip64 format, -1 meaning automatic"
 msgstr "Ar naudoti zip64 formatą, -1 reiškia automatinį"
 
@@ -620,101 +619,105 @@ msgstr "Atsarga"
 msgid "The string to use for invalid characters"
 msgstr "Eilutė, naudojama netinkamiems simboliams"
 
-#: ../tools/gsf.c:18
+#: ../thumbnailer/main.c:301
+msgid "Options"
+msgstr "Parametrai"
+
+#: ../tools/gsf.c:19
 msgid "Display program version"
 msgstr "Rodyti programos versiją"
 
-#: ../tools/gsf.c:45
+#: ../tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: nepavyko atverti %s: %s\n"
 
-#: ../tools/gsf.c:72
+#: ../tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: nepavyko atpažinti %s kaip archyvo\n"
 
-#: ../tools/gsf.c:111
+#: ../tools/gsf.c:115
 #, c-format
 msgid "Available subcommands are...\n"
 msgstr "Galimos po-komandos yra...\n"
 
-#: ../tools/gsf.c:112
+#: ../tools/gsf.c:116
 #, c-format
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        išvesti vieną ar daugiau archyvo failų\n"
 
-#: ../tools/gsf.c:113
+#: ../tools/gsf.c:117
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       iškloti vieną ar daugiau failų kaip šešioliktainį formatą\n"
 
-#: ../tools/gsf.c:114
+#: ../tools/gsf.c:118
 #, c-format
 msgid "* help       list subcommands\n"
 msgstr "* help       išvardinti po-komandas\n"
 
-#: ../tools/gsf.c:115
+#: ../tools/gsf.c:119
 #, c-format
 msgid "* list       list files in archive\n"
 msgstr "* list       išvardinti archyvo failus\n"
 
-#: ../tools/gsf.c:116
+#: ../tools/gsf.c:120
 #, c-format
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  išvardinti dokumento archyve savybes\n"
 
-#: ../tools/gsf.c:117
+#: ../tools/gsf.c:121
 #, c-format
 msgid "* props      print specified document properties\n"
 msgstr "* props      atspausdinti nurodyto dokumento savybes\n"
 
-#: ../tools/gsf.c:118
+#: ../tools/gsf.c:122
 #, c-format
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  sukurti OLE archyvą\n"
 
-#: ../tools/gsf.c:119
+#: ../tools/gsf.c:123
 #, c-format
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  sukurti ZIP archyvą\n"
 
-#: ../tools/gsf.c:311
+#: ../tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "Nera savybės %s\n"
 
-#: ../tools/gsf.c:371
+#: ../tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Klaida apdorojant failą %s: %s\n"
 
-#: ../tools/gsf.c:515
+#: ../tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "PO-KOMANDA ARCHYVAS..."
 
-#: ../tools/gsf.c:522
+#: ../tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Paleiskite „%s --help“ visam galimų komandų eilutės parinkčių sąrašui "
+"Paleiskite „%s --help“ visam galimų komandų eilutės parametrų sąrašui "
 "gauti.\n"
 
-#: ../tools/gsf.c:529
+#: ../tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf versija %d.%d.%d\n"
 
-#: ../tools/gsf.c:535
+#: ../tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Naudojimas: %s %s\n"
 
-#: ../tools/gsf.c:560
+#: ../tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Paleiskite „%s help“ visam po-komandų sąrašui gauti.\n"
