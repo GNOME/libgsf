@@ -1,3 +1,11 @@
+2016-02-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel): Move
+	parent-reffing to after we handle absolute references.  Fixes
+	#761648.
+
+	* gsf/gsf-libxml.c (gsf_xml_in_doc_parse): Plug leak.
+
 2016-02-06  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

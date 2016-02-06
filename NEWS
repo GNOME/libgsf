@@ -1,5 +1,9 @@
 libgsf 1.14.36
 
+Morten:
+	* Plug leak
+	* Fix openpkg absolute member reference.  [#761648]
+
 --------------------------------------------------------------------------
 libgsf 1.14.35
 

@@ -1339,6 +1339,9 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);
 
+	if (state.pub.content)
+		g_string_free (state.pub.content, TRUE);
+
 	return res;
 }
 

@@ -233,7 +233,6 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 	parent = gsf_input_name (opkg)
 		? gsf_input_container (opkg)
 		: GSF_INFILE (opkg);
-	g_object_ref (parent);
 
 	target = rel->target;
 	if (target[0] == '/') {
@@ -249,6 +248,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 		}
 	}
 
+	g_object_ref (parent);
 	elems = g_strsplit (rel->target, "/", 0);
 	for (i = 0 ; elems[i] && NULL != parent ; i++) {
 		if (0 == strcmp (elems[i], ".") || '\0' == *elems[i])
@@ -262,8 +262,10 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
 				/* check for attempt to gain access outside the zip file */
 				if (G_OBJECT_TYPE (parent) == G_OBJECT_TYPE (prev_parent))
 					g_object_ref (parent);
-				else
+				else {
+					g_warning ("Broken file: relation access outside container\n");
 					parent = NULL;
+				}
 			}
 		} else {
 			res = gsf_infile_child_by_name (parent, elems[i]);
