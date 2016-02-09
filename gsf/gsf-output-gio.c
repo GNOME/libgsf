@@ -27,7 +27,6 @@
 
 struct _GsfOutputGio {
 	GsfOutput output;
-	GFile *file;
 	GOutputStream *stream;
 	gboolean can_seek;
 };
@@ -63,7 +62,6 @@ gsf_output_gio_new_full (GFile *file, GError **err)
 	}
 
 	output = g_object_new (GSF_OUTPUT_GIO_TYPE, NULL);
-	output->file = g_object_ref (output->file);
 	output->stream = stream;
 	output->can_seek = can_seek (stream);
 
@@ -136,9 +134,6 @@ gsf_output_gio_close (GsfOutput *output)
 		g_object_unref (gio->stream);
 		gio->stream = NULL;
 
-		g_object_unref (gio->file);
-		gio->file = NULL;
-
 		return TRUE;
 	}
 
@@ -201,7 +196,6 @@ gsf_output_gio_init (GObject *obj)
 {
 	GsfOutputGio *gio = GSF_OUTPUT_GIO (obj);
 
-	gio->file   = NULL;
 	gio->stream = NULL;
 	gio->can_seek = FALSE;
 }

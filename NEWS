@@ -1,5 +1,8 @@
 libgsf 1.14.36
 
+Jean:
+	* Fix some criticals.
+
 Morten:
 	* Plug leak
 	* Fix openpkg absolute member reference.  [#761648]

@@ -1,3 +1,9 @@
+2016-02-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gsf/gsf-output-gio.c (gsf_output_gio_new_full),
+	(gsf_output_gio_close), (gsf_output_gio_init): Remove the unused GFile
+	member. Fix a few criticals.
+
 2016-02-06  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-open-pkg-utils.c (gsf_open_pkg_open_rel): Move
