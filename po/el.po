@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2015-02-25 22:41+0000\n"
-"PO-Revision-Date: 2015-02-26 10:38+0200\n"
-"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"POT-Creation-Date: 2016-01-22 17:25+0000\n"
+"PO-Revision-Date: 2016-03-13 17:55+0200\n"
+"Last-Translator: Yannis Koutsoukos <giankoyt@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../gsf/gsf-blob.c:114
@@ -57,57 +57,57 @@ msgstr "Μορφή Windows DIB ή BITMAP"
 msgid "Windows Enhanced Metafile format"
 msgstr "Μορφή Windows Enhanced Metafile"
 
-#: ../gsf/gsf-infile-msole.c:471
+#: ../gsf/gsf-infile-msole.c:472
 #, c-format
 msgid "Failed to duplicate input stream"
 msgstr "Αποτυχία διπλασιασμού ροής εργασιών"
 
-#: ../gsf/gsf-infile-msole.c:505
+#: ../gsf/gsf-infile-msole.c:506
 #, c-format
 msgid "No OLE2 signature"
 msgstr "Χωρίς υπογραφή OLE2"
 
-#: ../gsf/gsf-infile-msole.c:525
+#: ../gsf/gsf-infile-msole.c:538
 #, c-format
 msgid "Unreasonable block sizes"
 msgstr "Παράλογα μεγέθη ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:561
+#: ../gsf/gsf-infile-msole.c:574
 #, c-format
 msgid "Insufficient memory"
 msgstr "Ανεπαρκής μνήμη"
 
-#: ../gsf/gsf-infile-msole.c:620
+#: ../gsf/gsf-infile-msole.c:633
 #, c-format
 msgid "Inconsistent block allocation table"
 msgstr "Ανομοιόμορφος πίνακας κατανομής ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:628
+#: ../gsf/gsf-infile-msole.c:641
 #, c-format
 msgid "Problems making block allocation table"
 msgstr "Προβλήματα κάνοντας τον πίνακα κατανομής ομάδας"
 
-#: ../gsf/gsf-infile-msole.c:640
+#: ../gsf/gsf-infile-msole.c:653
 #, c-format
 msgid "Problems reading directory"
 msgstr "Προβλήματα ανάγνωσης καταλόγου"
 
-#: ../gsf/gsf-infile-msole.c:804
+#: ../gsf/gsf-infile-msole.c:817
 #, c-format
 msgid "Failed to access child"
 msgstr "Αποτυχία πρόσβασης θυγατρικού"
 
-#: ../gsf/gsf-infile-msole.c:837
+#: ../gsf/gsf-infile-msole.c:849
 #, c-format
 msgid "failure reading block"
 msgstr "αποτυχία ανάγνωσης ομάδας"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
+#: ../gsf/gsf-infile-msvba.c:172 ../gsf/gsf-infile-msvba.c:390
 #, c-format
 msgid "Can't find the VBA directory stream"
 msgstr "Αδυναμία εύρεσης ροής καταλόγου VBA"
 
-#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+#: ../gsf/gsf-infile-msvba.c:219 ../gsf/gsf-infile-msvba.c:227
 msgid "vba project header problem"
 msgstr "πρόβλημα κεφαλίδας έργου vba"
 
@@ -348,23 +348,23 @@ msgstr "%s: Το αρχείο είναι υπερβολικά μεγάλο γι�
 msgid "mmap not supported"
 msgstr "Το mmap δεν υποστηρίζεται"
 
-#: ../gsf/gsf-libxml.c:1533
+#: ../gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Όμορφη εκτύπωση"
 
-#: ../gsf/gsf-libxml.c:1534
+#: ../gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Θα θέλατε την αυτοματοποίηση εξόδου στοιχείων εσοχής για να γίνει η ανάγνωση "
 "ευκολότερη;"
 
-#: ../gsf/gsf-libxml.c:1540 ../gsf/gsf-open-pkg-utils.c:751
+#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Δέκτης"
 
-#: ../gsf/gsf-libxml.c:1541 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Ο προορισμός για τις εγγραφές"
 
@@ -387,23 +387,23 @@ msgstr ""
 "πρέπει να είναι τουλάχιστον 4 ψηφιολέξεις, αλλά τα δεδομένα λένε ότι έχει "
 "μόνο %s διαθέσιμες ψηφιολέξεις."
 
-#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
+#: ../gsf/gsf-msole-utils.c:1135 ../gsf/gsf-msole-utils.c:1179
 #, c-format
 msgid "Unable to read MS property stream header"
 msgstr "Αδύνατη η ανάγνωση της κεφαλίδας ροής ιδιότητας MS"
 
-#: ../gsf/gsf-msole-utils.c:1156
+#: ../gsf/gsf-msole-utils.c:1162
 #, c-format
 msgid "Invalid MS property stream header"
 msgstr "Άκυρη κεφαλίδα ροής ιδιότητας MS"
 
-#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
-#: ../gsf/gsf-msole-utils.c:1265
+#: ../gsf/gsf-msole-utils.c:1209 ../gsf/gsf-msole-utils.c:1247
+#: ../gsf/gsf-msole-utils.c:1271
 #, c-format
 msgid "Invalid MS property section"
 msgstr "Άκυρη ενότητα ιδιότητας MS"
 
-#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
+#: ../gsf/gsf-msole-utils.c:1228 ../gsf/gsf-msole-utils.c:1232
 #, c-format
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Άκυρη κεφαλίδα ροής ιδιότητας MS ή το αρχείο είναι κολοβό"
@@ -422,44 +422,44 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Η έκδοση του ODF στοχεύει αυτό το αντικείμενο ως έναν ακέραιο, όπως το 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:368
+#: ../gsf/gsf-open-pkg-utils.c:384
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Αδυναμία εύρεσης τμήματος id='%s' για το '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:395
+#: ../gsf/gsf-open-pkg-utils.c:411
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Αδυναμία εύρεσης τμήματος με type='%s' για το '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:425
+#: ../gsf/gsf-open-pkg-utils.c:441
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Δεν υπάρχει ταυτότητα για το τμήμα στο '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:434
+#: ../gsf/gsf-open-pkg-utils.c:450
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Είναι αλλοιωμένο το τμήμα '%s' στο '%s' από το '%s'!"
 
-#: ../gsf/gsf-open-pkg-utils.c:752
+#: ../gsf/gsf-open-pkg-utils.c:768
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Το GsfOutput που αποθηκεύει το ανοικτό περιεχόμενο του πακέτου"
 
-#: ../gsf/gsf-open-pkg-utils.c:758
+#: ../gsf/gsf-open-pkg-utils.c:774
 msgid "Content type"
 msgstr "Τύπος περιεχομένου"
 
-#: ../gsf/gsf-open-pkg-utils.c:759
+#: ../gsf/gsf-open-pkg-utils.c:775
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
 "Ο αποθηκευμένος τύπος περιεχομένου στο ριζικό αρχείο [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:765
+#: ../gsf/gsf-open-pkg-utils.c:781
 msgid "Is Directory"
 msgstr "Είναι κατάλογος"
 
-#: ../gsf/gsf-open-pkg-utils.c:766
+#: ../gsf/gsf-open-pkg-utils.c:782
 msgid "Can the outfile have children"
 msgstr "Μπορεί το αρχείο εξόδου να έχει θυγατρικά"
 
@@ -625,6 +625,10 @@ msgstr "Υποχώρηση"
 #: ../gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Η συμβολοσειρά που θα χρησιμοποιηθεί για άκυρους χαρακτήρες"
+
+#: ../thumbnailer/main.c:301
+msgid "Options"
+msgstr "Επιλογές"
 
 #: ../tools/gsf.c:19
 msgid "Display program version"
