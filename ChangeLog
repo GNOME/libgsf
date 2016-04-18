@@ -1,3 +1,8 @@
+2016-04-18  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-tar.c (unpack_octal): Allow a terminating space
+	instead of NUL.  Fixes #765099.
+
 2016-02-12  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
