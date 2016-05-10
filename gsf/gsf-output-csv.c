@@ -394,7 +394,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 		(gobject_class,
 		 PROP_EOL,
 		 g_param_spec_string ("eol",
-				      _("end-on-line"),
+				      _("end-of-line"),
 				      _("The end-of-line marker"),
 				      "\n",
 				      GSF_PARAM_STATIC |
