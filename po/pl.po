@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-22 18:24+0100\n"
-"PO-Revision-Date: 2016-01-22 18:25+0100\n"
+"POT-Creation-Date: 2016-05-11 18:09+0200\n"
+"PO-Revision-Date: 2016-05-11 18:10+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -125,37 +125,37 @@ msgstr "Nieznany podpis wersji VBA 0x%x%x%x%x"
 msgid "Unable to parse VBA header"
 msgstr "Nie można przetworzyć nagłówka VBA"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
 #, c-format
 msgid "Invalid tar header"
 msgstr "Nieprawidłowy nagłówek tar"
 
-#: ../gsf/gsf-infile-tar.c:266
+#: ../gsf/gsf-infile-tar.c:275
 #, c-format
 msgid "Invalid longname header"
 msgstr "Nieprawidłowy nagłówek długiej nazwy"
 
-#: ../gsf/gsf-infile-tar.c:273
+#: ../gsf/gsf-infile-tar.c:282
 #, c-format
 msgid "Failed to read longname"
 msgstr "Odczytanie długiej nazwy się nie powiodło"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Przejście się nie powiodło"
 
-#: ../gsf/gsf-infile-tar.c:301
+#: ../gsf/gsf-infile-tar.c:310
 #, c-format
 msgid "Truncated archive"
 msgstr "Skrócone archiwum"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
+#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Źródło"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Interpretowane archiwum"
 
@@ -347,21 +347,21 @@ msgstr "%s: plik jest za duży, aby mapować go w pamięci"
 msgid "mmap not supported"
 msgstr "mmap nie jest obsługiwane"
 
-#: ../gsf/gsf-libxml.c:1574
+#: ../gsf/gsf-libxml.c:1577
 msgid "Pretty print"
 msgstr "Ładne wyjście"
 
-#: ../gsf/gsf-libxml.c:1575
+#: ../gsf/gsf-libxml.c:1578
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Czy automatycznie wyrównywać elementy wyjścia"
 
-#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
+#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Odpływ"
 
-#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Cel zapisu"
 
@@ -418,43 +418,43 @@ msgstr "Wersja ODF"
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Wersja ODF tego obiektu jako liczba całkowita, taka jak 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:384
+#: ../gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Nie można odnaleźć części id=\"%s\" dla \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Nie można odnaleźć części z type=\"%s\" dla \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:441
+#: ../gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Brakująca wartość id dla części w „%s”"
 
-#: ../gsf/gsf-open-pkg-utils.c:450
+#: ../gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Część „%s” w „%s” z „%s” jest uszkodzona."
 
-#: ../gsf/gsf-open-pkg-utils.c:768
+#: ../gsf/gsf-open-pkg-utils.c:770
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput przechowujący treść Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:774
+#: ../gsf/gsf-open-pkg-utils.c:776
 msgid "Content type"
 msgstr "Typ treści"
 
-#: ../gsf/gsf-open-pkg-utils.c:775
+#: ../gsf/gsf-open-pkg-utils.c:777
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Typ treści przechowywany w głównym pliku [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:781
+#: ../gsf/gsf-open-pkg-utils.c:783
 msgid "Is Directory"
 msgstr "Jest katalogiem"
 
-#: ../gsf/gsf-open-pkg-utils.c:782
+#: ../gsf/gsf-open-pkg-utils.c:784
 msgid "Can the outfile have children"
 msgstr "Czy plik wyjściowy może mieć elementy potomne"
 
@@ -586,7 +586,7 @@ msgid "The field separator"
 msgstr "Separator pól"
 
 #: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
+msgid "end-of-line"
 msgstr "koniec-wiersza"
 
 #: ../gsf/gsf-output-csv.c:398
