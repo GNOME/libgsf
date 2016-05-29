@@ -300,7 +300,7 @@ zip_trailer64_write (GsfOutfileZip *zip, unsigned entries,
 
 	memset (buf, 0, sizeof buf);
 	GSF_LE_SET_GUINT32 (buf, ZIP_TRAILER64_SIGNATURE);
-	GSF_LE_SET_GUINT64 (buf + ZIP_TRAILER64_RECSIZE, sizeof buf);
+	GSF_LE_SET_GUINT64 (buf + ZIP_TRAILER64_RECSIZE, sizeof buf - 12);
 	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER64_ENCODER,
 			    (ZIP_OS_UNIX << 8) + extract);
 	GSF_LE_SET_GUINT16 (buf + ZIP_TRAILER64_EXTRACT,
