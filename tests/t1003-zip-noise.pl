@@ -8,6 +8,6 @@ use FileHandle;
 
 my $noise = 'noise.bin';
 &LibGsfTest::junkfile ($noise);
-system ("dd", "if=/dev/urandom", "of=$noise", "bs=1M", "count=10");
+system ("dd", "if=/dev/urandom", "of=$noise", "bs=1048576", "count=10");
 &test_zip ('files' => [$noise],
 	   'zip-member-tests' => ['!zip64']);

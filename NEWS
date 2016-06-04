@@ -1,5 +1,8 @@
 libgsf 1.14.38
 
+Felix Bünemann:
+	* BSD compatibility for test.
+
 --------------------------------------------------------------------------
 libgsf 1.14.37
 
