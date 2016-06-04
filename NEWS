@@ -1,7 +1,11 @@
 libgsf 1.14.38
 
 Felix Bünemann:
-	* BSD compatibility for test.
+	* BSD compatibility for test.  [#767044]
+	* Fix zip64 problem.  [#767043]
+
+Morten:
+	* Improve testing.
 
 --------------------------------------------------------------------------
 libgsf 1.14.37

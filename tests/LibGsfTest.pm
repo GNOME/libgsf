@@ -15,13 +15,14 @@ $| = 1;
 @LibGsfTest::EXPORT_OK = qw(junkfile $unzip $zipinfo);
 
 use vars qw($topsrc $top_builddir $PERL $verbose);
-use vars qw($gsf $unzip $zipinfo);
+use vars qw($gsf $unzip $zipinfo $sevenz);
 
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
 $unzip = &find_program ("unzip");
 $zipinfo = &find_program ("zipinfo");
+$sevenz = &find_program ("7z", 1);
 
 $topsrc = $0;
 $topsrc =~ s|/[^/]+$|/..|;
@@ -112,7 +113,7 @@ sub dump_indented {
 }
 
 sub find_program {
-    my ($p) = @_;
+    my ($p,$qoptional) = @_;
 
     if ($p =~ m{/}) {
 	return $p if -x $p;
@@ -124,6 +125,8 @@ sub find_program {
 	    return $tentative if -x $tentative;
 	}
     }
+
+    return undef if $qoptional;
 
     &report_skip ("$p is missing");
 }
@@ -301,7 +304,7 @@ sub test_zip {
 
     $args{'create-arg'} = 'createzip';
     $args{'ext'} = 'zip';
-    $args{'archive-tester'} = [$unzip, '-q', '-t'];
+    $args{'archive-tester'} = $sevenz ? [$sevenz, 't'] : [$unzip, '-q', '-t'];
     $args{'independent-cat'} = [$unzip, '-p'];
     $args{'infofunc'} = \&zipinfo_callback;
 

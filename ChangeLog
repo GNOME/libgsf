@@ -1,3 +1,12 @@
+2016-06-04  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-zip.c (zip_trailer64_write): Fix ZIP64 EOCD size
+	to exclude leading 12 bytes.  From Felix Bünemann
+	<buenemann@louis.info>
+
+	* tests/LibGsfTest.pm: Use 7z for archive testing when available.
+	It's stricter.
+
 2016-05-30  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
