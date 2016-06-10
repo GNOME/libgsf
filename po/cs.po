@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-01-22 17:25+0000\n"
-"PO-Revision-Date: 2016-02-28 13:08+0100\n"
+"POT-Creation-Date: 2016-05-10 21:33+0000\n"
+"PO-Revision-Date: 2016-06-10 15:55+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -122,37 +122,37 @@ msgstr "Neznámá značka 0x%x%x%x%x s verzí VBA"
 msgid "Unable to parse VBA header"
 msgstr "Nelze zpracovat hlavičku VBA"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
 #, c-format
 msgid "Invalid tar header"
 msgstr "Neplatná hlavička archivu TAR"
 
-#: ../gsf/gsf-infile-tar.c:266
+#: ../gsf/gsf-infile-tar.c:275
 #, c-format
 msgid "Invalid longname header"
 msgstr "Neplatná hlavička s dlouhým názvem"
 
-#: ../gsf/gsf-infile-tar.c:273
+#: ../gsf/gsf-infile-tar.c:282
 #, c-format
 msgid "Failed to read longname"
 msgstr "Selhalo čtení hlavičky s dlouhým názvem"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Přeskočení selhalo"
 
-#: ../gsf/gsf-infile-tar.c:301
+#: ../gsf/gsf-infile-tar.c:310
 #, c-format
 msgid "Truncated archive"
 msgstr "Neúplný archiv"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
+#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Archiv byl interpretován"
 
@@ -342,21 +342,21 @@ msgstr "%s: Soubor je příliš velký, než aby mohl být namapován do paměti
 msgid "mmap not supported"
 msgstr "mmap není podporováno"
 
-#: ../gsf/gsf-libxml.c:1574
+#: ../gsf/gsf-libxml.c:1577
 msgid "Pretty print"
 msgstr "Hezký výstup"
 
-#: ../gsf/gsf-libxml.c:1575
+#: ../gsf/gsf-libxml.c:1578
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Měl by mít výstup automaticky odsazené prvky, aby byl lépe čitelný?"
 
-#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
+#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Cíl"
 
-#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Cíl pro zápisy"
 
@@ -414,43 +414,43 @@ msgstr ""
 "Verze ODF, v podobě celého čísla, na kterou je tento objekt zaměřen; např. "
 "100"
 
-#: ../gsf/gsf-open-pkg-utils.c:384
+#: ../gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Nelze nalézt část id=„%s“ pro „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Nelze nalézt část s type=„%s“ pro „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:441
+#: ../gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Chybí id pro část v „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:450
+#: ../gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Část „%s“ v „%s“ z „%s“ je poškozena!"
 
-#: ../gsf/gsf-open-pkg-utils.c:768
+#: ../gsf/gsf-open-pkg-utils.c:770
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput, který uchovává obsah Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:774
+#: ../gsf/gsf-open-pkg-utils.c:776
 msgid "Content type"
 msgstr "Typ obsahu"
 
-#: ../gsf/gsf-open-pkg-utils.c:775
+#: ../gsf/gsf-open-pkg-utils.c:777
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Typ obsahu uloženého v kořenovém souboru [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:781
+#: ../gsf/gsf-open-pkg-utils.c:783
 msgid "Is Directory"
 msgstr "Jde o složku"
 
-#: ../gsf/gsf-open-pkg-utils.c:782
+#: ../gsf/gsf-open-pkg-utils.c:784
 msgid "Can the outfile have children"
 msgstr "Může mít výstupní soubor potomka"
 
@@ -580,7 +580,7 @@ msgid "The field separator"
 msgstr "Oddělovač polí"
 
 #: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
+msgid "end-of-line"
 msgstr "konec řádku"
 
 #: ../gsf/gsf-output-csv.c:398
