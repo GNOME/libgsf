@@ -115,3 +115,39 @@
    ...
    fun:_g_io_modules_ensure_loaded
 }
+
+{
+   GIO/init1/MLK
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_closure_add_invalidate_notifier
+   fun:g_source_set_closure
+   fun:g_socket_create_source
+   ...
+   fun:g_simple_async_result_complete
+}
+
+{
+   GIO/init2/MLK
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:g_malloc0
+   ...
+   fun:g_socket_create_source
+   ...
+   fun:g_simple_async_result_complete
+}
+
+{
+   GOBJECT/init1/MLK
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:g_malloc0
+   ...
+   fun:_dl_init
+}
