@@ -10,13 +10,8 @@ endif
 SUBDIRS = po gsf gsf-win32 doc tools tests thumbnailer python
 
 EXTRA_DIST = BUGS HACKING	\
-	intltool-extract.in	\
-	intltool-merge.in	\
-	intltool-update.in	\
 	libgsf-1.spec		\
 	dumpdef.pl
-
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc \
 	--enable-schemas-install \
