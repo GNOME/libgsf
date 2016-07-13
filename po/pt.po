@@ -4,17 +4,17 @@
 # António Lima <amrlima@gmail.com>, 2009.
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2014.
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
-# Tiago Santos <tiagofsantos81@sapo.pt>, 2016.
+# Tiago Santos <tiagofsantos81@sapo.pt>, 2014 - 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-01-22 17:25+0000\n"
-"PO-Revision-Date: 2016-05-04 20:18+0100\n"
+"POT-Creation-Date: 2016-05-10 21:33+0000\n"
+"PO-Revision-Date: 2016-07-05 19:51+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
-"Language-Team: Português <palbuquerque73@gmail.com>\n"
+"Language-Team: Português\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,37 +123,37 @@ msgstr "Versão de assinatura VBA 0x%x%x%x%x desconhecida"
 msgid "Unable to parse VBA header"
 msgstr "Impossível processar cabeçalho VBA"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
 #, c-format
 msgid "Invalid tar header"
 msgstr "Cabeçalho tar inválido"
 
-#: ../gsf/gsf-infile-tar.c:266
+#: ../gsf/gsf-infile-tar.c:275
 #, c-format
 msgid "Invalid longname header"
 msgstr "Cabeçalho de nome longo inválido"
 
-#: ../gsf/gsf-infile-tar.c:273
+#: ../gsf/gsf-infile-tar.c:282
 #, c-format
 msgid "Failed to read longname"
 msgstr "Falha ao ler nome longo"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Falha ao procurar"
 
-#: ../gsf/gsf-infile-tar.c:301
+#: ../gsf/gsf-infile-tar.c:310
 #, c-format
 msgid "Truncated archive"
 msgstr "Arquivo truncado"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
+#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Origem"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "O arquivo a ser interpretado"
 
@@ -345,23 +345,23 @@ msgstr "%s: ficheiro demasiado grande para ser mapeado em memória"
 msgid "mmap not supported"
 msgstr "mmap não é suportado"
 
-#: ../gsf/gsf-libxml.c:1574
+#: ../gsf/gsf-libxml.c:1577
 msgid "Pretty print"
 msgstr "Impressão formatada"
 
-#: ../gsf/gsf-libxml.c:1575
+#: ../gsf/gsf-libxml.c:1578
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
 "Deverá a saída indentar automaticamente os elementos para facilitar a "
 "leitura?"
 
-#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
+#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Depósito"
 
-#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "O destino das escritas"
 
@@ -418,43 +418,43 @@ msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "A versão ODF para a qual este objeto aponta como um inteiro, tal como 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:384
+#: ../gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Impossível encontrar a parte id=\"%s\" para \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Impossível encontrar parte com tipo=\"%s\" para \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:441
+#: ../gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Id em falta para a parte em \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:450
+#: ../gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Parte \"%s\" em \"%s\" de \"%s\" está corrompida!"
 
-#: ../gsf/gsf-open-pkg-utils.c:768
+#: ../gsf/gsf-open-pkg-utils.c:770
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "O GsfOutput que armazena o conteúdo Open Package"
 
-#: ../gsf/gsf-open-pkg-utils.c:774
+#: ../gsf/gsf-open-pkg-utils.c:776
 msgid "Content type"
 msgstr "Tipo de conteúdo"
 
-#: ../gsf/gsf-open-pkg-utils.c:775
+#: ../gsf/gsf-open-pkg-utils.c:777
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "O tipo de conteúdo armazenado no ficheiro raiz [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:781
+#: ../gsf/gsf-open-pkg-utils.c:783
 msgid "Is Directory"
 msgstr "É pasta"
 
-#: ../gsf/gsf-open-pkg-utils.c:782
+#: ../gsf/gsf-open-pkg-utils.c:784
 msgid "Can the outfile have children"
 msgstr "Se o ficheiro de saída pode ter filhos"
 
@@ -586,7 +586,8 @@ msgid "The field separator"
 msgstr "O separador de campo"
 
 #: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
+#| msgid "end-on-line"
+msgid "end-of-line"
 msgstr "fim-de-linha"
 
 #: ../gsf/gsf-output-csv.c:398
