@@ -1,4 +1,4 @@
-ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgsf-1.pc
@@ -7,7 +7,7 @@ if WITH_WIN32
   pkgconfig_DATA += libgsf-win32-1.pc
 endif
 
-SUBDIRS = po gsf gsf-win32 doc tools tests m4 thumbnailer python
+SUBDIRS = po gsf gsf-win32 doc tools tests thumbnailer python
 
 EXTRA_DIST = BUGS HACKING	\
 	intltool-extract.in	\

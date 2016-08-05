@@ -4,6 +4,7 @@ Makefile
 gtk-doc.make
 aclocal.m4
 autom4te.cache
+m4
 configure
 config.guess
 config.sub

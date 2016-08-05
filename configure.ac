@@ -1,6 +1,8 @@
 -*- mode: m4 -*-
 dnl We require Automake 1.7.1, which requires Autoconf 2.54.
 AC_PREREQ(2.54)
+AC_CONFIG_MACRO_DIR([m4])
+AX_IS_RELEASE([git-directory])
 
 m4_define([libgsf_version_major], [1])
 m4_define([libgsf_version_minor], [14])
@@ -12,7 +14,6 @@ m4_define([libgsf_full_version],
 AC_INIT(libgsf, [libgsf_full_version],
 	[http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf])
 AC_CONFIG_SRCDIR(gsf/gsf.h)
-AC_CONFIG_MACRO_DIR([m4])
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
 
 AC_SUBST(LIBGSF_MAJOR_VERSION, libgsf_version_major)
@@ -181,9 +182,6 @@ AC_ARG_WITH([typelib-dir],
 AC_SUBST(TYPELIBDIR)
 
 ## this should come after `AC_PROG_CC'
-ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
-CFLAGS="$CFLAGS $WARN_CFLAGS -DG_DISABLE_DEPRECATED"
-
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	dnl Clang needs to option, or else it will appear to support any
@@ -199,7 +197,8 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	AC_MSG_RESULT($has_unknown_warning_option)
 	CFLAGS="$SAVE_CFLAGS"
 
-	warning_options="-Wsign-compare -Wpointer-arith \
+	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
+			 -Wsign-compare -Werror=pointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
 			 -Wmissing-noreturn \
@@ -209,7 +208,7 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
 			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
-			 -Wstrict-prototypes"
+			 -Wstrict-prototypes -Wno-error=format-nonliteral "
 	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $uwoption $option"
@@ -359,6 +358,7 @@ gtk_doc_installed=true
 #ifdef([GTK_DOC_CHECK],[GTK_DOC_CHECK([1.12])],[gtk_doc_installed=false])
 # I would have liked to conditionalize this, but 
 # that appears to break other things http://bugzilla.gnome.org/show_bug.cgi?id=156399
+dnl AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
 GTK_DOC_CHECK([1.12])
 AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
@@ -487,7 +487,6 @@ LDFLAGS="-no-undefined $LDFLAGS"
 
 AC_CONFIG_FILES([
 Makefile
-m4/Makefile
 doc/Makefile
 gsf/Makefile
 gsf-win32/Makefile
