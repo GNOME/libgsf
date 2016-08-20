@@ -7,11 +7,11 @@ msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf&"
 "keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-01-22 17:25+0000\n"
-"PO-Revision-Date: 2016-02-21 08:13+0200\n"
+"POT-Creation-Date: 2016-05-10 21:33+0000\n"
+"PO-Revision-Date: 2016-08-20 23:26+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
-"Language: sr@latin\n"
+"Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -120,37 +120,37 @@ msgstr "Nepoznat potpis VBA izdanja 0x%x%x%x%x"
 msgid "Unable to parse VBA header"
 msgstr "Ne mogu da obradim VBA zaglavlje"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
 #, c-format
 msgid "Invalid tar header"
 msgstr "Neispravno tar zaglavlje"
 
-#: ../gsf/gsf-infile-tar.c:266
+#: ../gsf/gsf-infile-tar.c:275
 #, c-format
 msgid "Invalid longname header"
 msgstr "Neispravno zaglavlje dugog naziva"
 
-#: ../gsf/gsf-infile-tar.c:273
+#: ../gsf/gsf-infile-tar.c:282
 #, c-format
 msgid "Failed to read longname"
 msgstr "Nisam uspeo da pročitam dugi naziv"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Neuspelo traženje"
 
-#: ../gsf/gsf-infile-tar.c:301
+#: ../gsf/gsf-infile-tar.c:310
 #, c-format
 msgid "Truncated archive"
 msgstr "Skraćena arhiva"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
+#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Izvor"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Arhiva koja je prevedena"
 
@@ -341,21 +341,21 @@ msgstr "%s: Datoteka je prevelika da bi bila memorijski mapirana"
 msgid "mmap not supported"
 msgstr "memorijsko mapiranje nije podržano"
 
-#: ../gsf/gsf-libxml.c:1574
+#: ../gsf/gsf-libxml.c:1577
 msgid "Pretty print"
 msgstr "Ulepšano štampanje"
 
-#: ../gsf/gsf-libxml.c:1575
+#: ../gsf/gsf-libxml.c:1578
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Da li izlaz treba da sam uvuče elemente kako bi olakšao čitanje?"
 
-#: ../gsf/gsf-libxml.c:1581 ../gsf/gsf-open-pkg-utils.c:767
+#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
 #: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
 #: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Usaglasi"
 
-#: ../gsf/gsf-libxml.c:1582 ../gsf/gsf-outfile-msole.c:796
+#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
 msgid "The destination for writes"
 msgstr "Odredište za zapisivanja"
 
@@ -411,43 +411,43 @@ msgstr "ODF izdanje"
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "ODF izdanje ovaj objekat označava kao ceo broj kao 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:384
+#: ../gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Ne mogu da pronađem deo ib=„%s“ za „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:411
+#: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Ne mogu da pronađem deo sa vrstom=„%s“ za „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:441
+#: ../gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Nedostaje ib za deo u „%s“"
 
-#: ../gsf/gsf-open-pkg-utils.c:450
+#: ../gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Deo „%s“ u „%s“ iz „%s“ je oštećen!"
 
-#: ../gsf/gsf-open-pkg-utils.c:768
+#: ../gsf/gsf-open-pkg-utils.c:770
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Gsf izlaz koji skladišti sadržaj Otvorenog paketa"
 
-#: ../gsf/gsf-open-pkg-utils.c:774
+#: ../gsf/gsf-open-pkg-utils.c:776
 msgid "Content type"
 msgstr "Vrsta sadržaja"
 
-#: ../gsf/gsf-open-pkg-utils.c:775
+#: ../gsf/gsf-open-pkg-utils.c:777
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Vrsta sadržaja uskladištenog u korenoj datoteci „[Content_Types].xml“"
 
-#: ../gsf/gsf-open-pkg-utils.c:781
+#: ../gsf/gsf-open-pkg-utils.c:783
 msgid "Is Directory"
 msgstr "To je direktorijum"
 
-#: ../gsf/gsf-open-pkg-utils.c:782
+#: ../gsf/gsf-open-pkg-utils.c:784
 msgid "Can the outfile have children"
 msgstr "Može li izlazna datoteka da sadrži druge"
 
@@ -578,8 +578,9 @@ msgid "The field separator"
 msgstr "Razdvajač polja"
 
 #: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
-msgstr "kraj-na-redu"
+#| msgid "end-on-line"
+msgid "end-of-line"
+msgstr "kraj-reda"
 
 #: ../gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
