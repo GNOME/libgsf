@@ -1,27 +1,23 @@
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Aviary.pl
-# Jeśli masz jakiekolwiek uwagi odnoszące się do tłumaczenia lub chcesz
-# pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
-# gnomepl@aviary.pl
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Polish translation for libgsf.
+# Copyright © 2010-2016 the libgsf authors.
+# This file is distributed under the same license as the libgsf package.
 # Piotr Drąg <piotrdrag@gmail.com>, 2010-2016.
-# Aviary.pl <gnomepl@aviary.pl>, 2010-2016.
+# Aviary.pl <community-poland@mozilla.org>, 2010-2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 18:09+0200\n"
-"PO-Revision-Date: 2016-05-11 18:10+0200\n"
+"POT-Creation-Date: 2016-08-21 15:42+0200\n"
+"PO-Revision-Date: 2016-08-21 15:43+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish <gnomepl@aviary.pl>\n"
+"Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Poedit-Language: Polish\n"
-"X-Poedit-Country: Poland\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -32,7 +28,7 @@ msgstr "Brak wystarczającej ilości pamięci do skopiowania %s bajtów danych"
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr ""
-"„clip_data” znajduje się w %s, ale jest mniejsze niż co najmniej %s bajtów"
+"„clip_data” znajduje się w %s, ale jest mniejsze niż co najmniej %s bajtów"
 
 #: ../gsf/gsf-clip-data.c:259
 #, c-format
@@ -40,7 +36,7 @@ msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
-"„clip_data” jest w formacie schowka systemu Windows, ale jest mniejsze niż "
+"„clip_data” jest w formacie schowka systemu Windows, ale jest mniejsze niż "
 "wymagane 4 bajty."
 
 #: ../gsf/gsf-clip-data.c:270
@@ -318,7 +314,7 @@ msgstr "Surowe"
 
 #: ../gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
-msgstr "Czy odczytywać skompresowane dane bez nagłówka i końcówki"
+msgstr "Czy odczytywać skompresowane dane bez nagłówka i końcówki"
 
 #: ../gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
@@ -340,7 +336,7 @@ msgstr "%s: nie jest zwykłym plikiem"
 #: ../gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
-msgstr "%s: plik jest za duży, aby mapować go w pamięci"
+msgstr "%s: plik jest za duży, aby mapować go w pamięci"
 
 #: ../gsf/gsf-input-memory.c:283
 #, c-format
@@ -421,22 +417,22 @@ msgstr "Wersja ODF tego obiektu jako liczba całkowita, taka jak 100"
 #: ../gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
-msgstr "Nie można odnaleźć części id=\"%s\" dla \"%s\""
+msgstr "Nie można odnaleźć części id=\"%s\" dla „%s”"
 
 #: ../gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Nie można odnaleźć części z type=\"%s\" dla \"%s\""
+msgstr "Nie można odnaleźć części z type=\"%s\" dla „%s”"
 
 #: ../gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
-msgstr "Brakująca wartość id dla części w „%s”"
+msgstr "Brakująca wartość id dla części w „%s”"
 
 #: ../gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr "Część „%s” w „%s” z „%s” jest uszkodzona."
+msgstr "Część „%s” w „%s” z „%s” jest uszkodzona."
 
 #: ../gsf/gsf-open-pkg-utils.c:770
 msgid "The GsfOutput that stores the Open Package content"
@@ -448,7 +444,7 @@ msgstr "Typ treści"
 
 #: ../gsf/gsf-open-pkg-utils.c:777
 msgid "The content type stored in the root [Content_Types].xml file"
-msgstr "Typ treści przechowywany w głównym pliku [Content_Types].xml"
+msgstr "Typ treści przechowywany w głównym pliku [Content_Types].xml"
 
 #: ../gsf/gsf-open-pkg-utils.c:783
 msgid "Is Directory"
@@ -484,7 +480,7 @@ msgstr "Nazwa wpisu"
 
 #: ../gsf/gsf-outfile-zip.c:1087
 msgid "The filename of this member in the archive without path"
-msgstr "Nazwa pliku tego elementu w archiwum bez ścieżki"
+msgstr "Nazwa pliku tego elementu w archiwum bez ścieżki"
 
 #: ../gsf/gsf-outfile-zip.c:1107
 msgid "Deflate Level"
@@ -495,7 +491,7 @@ msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
-"Użyty poziom kompresji deflate, zero oznacza brak, a -1 oznacza domyślny "
+"Użyty poziom kompresji deflate, zero oznacza brak, a -1 oznacza domyślny "
 "poziom biblioteki zlib"
 
 #: ../gsf/gsf-outfile-zip.c:1119
@@ -603,7 +599,7 @@ msgstr "Zestaw znaków wejścia"
 
 #: ../gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
-msgstr "Zestaw znaków, z którego skonwertować"
+msgstr "Zestaw znaków, z którego skonwertować"
 
 #: ../gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
@@ -647,13 +643,13 @@ msgstr "Dostępne podpolecenia to…\n"
 #: ../tools/gsf.c:116
 #, c-format
 msgid "* cat        output one or more files in archive\n"
-msgstr "* cat        wyświetla jeden lub więcej plików w archiwum\n"
+msgstr "* cat        wyświetla jeden lub więcej plików w archiwum\n"
 
 #: ../tools/gsf.c:117
 #, c-format
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
-"* dump       zrzuca jeden lub więcej plików w archiwum w postaci "
+"* dump       zrzuca jeden lub więcej plików w archiwum w postaci "
 "szesnastkowej\n"
 
 #: ../tools/gsf.c:118
@@ -664,12 +660,12 @@ msgstr "* help       wyświetla listę podpoleceń\n"
 #: ../tools/gsf.c:119
 #, c-format
 msgid "* list       list files in archive\n"
-msgstr "* list       wyświetla listę plików w archiwum\n"
+msgstr "* list       wyświetla listę plików w archiwum\n"
 
 #: ../tools/gsf.c:120
 #, c-format
 msgid "* listprops  list document properties in archive\n"
-msgstr "* listprops  wyświetla listę właściwości dokumentu w archiwum\n"
+msgstr "* listprops  wyświetla listę właściwości dokumentu w archiwum\n"
 
 #: ../tools/gsf.c:121
 #, c-format
@@ -689,7 +685,7 @@ msgstr "* createzip  tworzy archiwum ZIP\n"
 #: ../tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
-msgstr "Brak właściwości o nazwie %s\n"
+msgstr "Brak właściwości o nazwie %s\n"
 
 #: ../tools/gsf.c:375
 #, c-format
@@ -713,7 +709,7 @@ msgstr ""
 #: ../tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
-msgstr "gsf w wersji %d.%d.%d\n"
+msgstr "gsf w wersji %d.%d.%d\n"
 
 #: ../tools/gsf.c:550
 #, c-format
