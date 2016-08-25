@@ -9,18 +9,18 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-03-12 21:41+0100\n"
-"PO-Revision-Date: 2016-03-12 21:41+0100\n"
+"POT-Creation-Date: 2016-08-25 22:37+0200\n"
+"PO-Revision-Date: 2016-08-25 22:37+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: sl\n"
+"Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../gsf/gsf-blob.c:114
 #, c-format
@@ -123,37 +123,37 @@ msgstr "Neznan podpis različice VBA 0x%x%x%x%x"
 msgid "Unable to parse VBA header"
 msgstr "Glave VBA ni mogoče razčleniti"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
+#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
 #, c-format
 msgid "Invalid tar header"
 msgstr "Neveljavna glava zapisa TAR"
 
-#: ../gsf/gsf-infile-tar.c:266
+#: ../gsf/gsf-infile-tar.c:275
 #, c-format
 msgid "Invalid longname header"
 msgstr "Neveljavna glava dolgega imena"
 
-#: ../gsf/gsf-infile-tar.c:273
+#: ../gsf/gsf-infile-tar.c:282
 #, c-format
 msgid "Failed to read longname"
 msgstr "Branje dolgega imena je spodletelo"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
+#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
 #, c-format
 msgid "Seek failed"
 msgstr "Iskanje je spodletelo"
 
-#: ../gsf/gsf-infile-tar.c:301
+#: ../gsf/gsf-infile-tar.c:310
 #, c-format
 msgid "Truncated archive"
 msgstr "Prirezan arhiv"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:942
+#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
 #: ../gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Vir"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:943
+#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
 msgid "The archive being interpreted"
 msgstr "Obravnavan arhiv"
 
@@ -581,8 +581,8 @@ msgid "The field separator"
 msgstr "Ločilnik polj"
 
 #: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
-msgstr "konec-v-vrstici"
+msgid "end-of-line"
+msgstr "konec vrstice"
 
 #: ../gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
@@ -717,6 +717,9 @@ msgstr "Uporaba: %s %s\n"
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Zaženite '%s help' za izpis seznama podrejenih ukazov.\n"
+
+#~ msgid "end-on-line"
+#~ msgstr "konec-v-vrstici"
 
 #~ msgid "No Zip trailer"
 #~ msgstr "Brez repa Zip"
