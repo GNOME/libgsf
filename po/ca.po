@@ -54,7 +54,7 @@ msgstr "Format de metafitxer millorat del Windows"
 #: ../gsf/gsf-infile-msole.c:471
 #, c-format
 msgid "Failed to duplicate input stream"
-msgstr "No s'ha pogut duplicat el flux d'entrada"
+msgstr "No s'ha pogut duplicar el flux d'entrada"
 
 #: ../gsf/gsf-infile-msole.c:505
 #, c-format
@@ -354,7 +354,7 @@ msgstr "Impressió ben formatada"
 #: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
-"S'hauria d'auto-indentar els elements de sortida per fer-ne més fàcil la "
+"S'haurien de sagnar automàticament els elements de sortida per fer-ne més fàcil la "
 "lectura?"
 
 #: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
