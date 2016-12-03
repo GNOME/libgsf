@@ -181,9 +181,11 @@ tar_directory_for_file (GsfInfileTar *dir, const char *name, gboolean last)
 				gsf_infile_child_by_name (GSF_INFILE (dir),
 							  dirname);
 			if (subdir) {
+				dir = GSF_IS_INFILE_TAR (subdir)
+					? GSF_INFILE_TAR (subdir)
+					: dir;
 				/* Undo the ref. */
 				g_object_unref (subdir);
-				dir = GSF_INFILE_TAR (subdir);
 			} else
 				dir = tar_create_dir (dir, dirname);
 		}

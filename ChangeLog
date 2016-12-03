@@ -1,3 +1,10 @@
+2016-11-30  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-tar.c (tar_directory_for_file): Handle the case
+	where what we expected to be a directory is a file.  (That implies
+	a corrupted tar file.)  Thanks to Behzad Najjarpour Jabbari,
+	Secunia Research at Flexera Software for discovering this.
+
 2016-08-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
