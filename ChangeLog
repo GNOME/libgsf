@@ -1,3 +1,11 @@
+2017-01-22  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-input-textline.c (gsf_input_textline_read): Make current
+	file position follow the source's.
+	(gsf_input_textline_seek): Ditto.
+	(gsf_input_textline_utf8_gets): Ditto.
+	(gsf_input_textline_dup): Duplicate name too.
+
 2016-12-02  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -94,6 +94,7 @@ gsf_input_textline_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
 
 	dst->source = g_object_ref (src->source);
 	gsf_input_set_size (GSF_INPUT (dst), gsf_input_size (src_input));
+	gsf_input_set_name (GSF_INPUT (dst), gsf_input_name (src_input));
 
 	return GSF_INPUT (dst);
 }
@@ -102,16 +103,26 @@ static guint8 const *
 gsf_input_textline_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
+	const guint8 *res;
+
 	textline->remainder = NULL;
-	return gsf_input_read (textline->source, num_bytes, buffer);
+	res = gsf_input_read (textline->source, num_bytes, buffer);
+	input->cur_offset = textline->source->cur_offset;
+
+	return res;
 }
 
 static gboolean
 gsf_input_textline_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
+	gboolean res;
+
 	textline->remainder = NULL;
-	return gsf_input_seek (textline->source, offset, whence);
+	res = gsf_input_seek (textline->source, offset, whence);
+	input->cur_offset = textline->source->cur_offset;
+
+	return res;
 }
 
 static void
@@ -234,11 +245,13 @@ gsf_input_textline_utf8_gets (GsfInputTextline *textline)
 			break;
 		} else
 			textline->remainder = NULL;
-
 	}
 
 	textline->remainder = ptr;
 	textline->remainder_size = end - ptr;
+
+	GSF_INPUT(textline)->cur_offset = textline->source->cur_offset -
+		(textline->remainder ? textline->remainder_size : 0);
 
 	textline->buf[count] = '\0';
 	return textline->buf;
