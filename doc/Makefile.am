@@ -10,7 +10,7 @@ DOC_MAIN_SGML_FILE=gsf-docs.xml
 DOC_SOURCE_DIR=../gsf
 
 # Extra options to pass to gtkdoc-scangobj
-SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="gsf_init ()" 
+SCANGOBJ_OPTIONS= --type-init-func="gsf_init ()"
 
 # Extra options to supply to gtkdoc-scan
 SCAN_OPTIONS=--deprecated-guards="GSF_DISABLE_DEPRECATED"

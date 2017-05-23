@@ -3,6 +3,9 @@ libgsf 1.14.42
 Morten:
 	* Fix GsfInputTextline's file location management.
 
+Ting-Wei Lan:
+	* doc/Makefile.am fix for gtkdoc-scangobj
+
 --------------------------------------------------------------------------
 libgsf 1.14.41
 
