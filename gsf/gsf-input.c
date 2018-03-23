@@ -25,6 +25,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <string.h>
+#include <sys/stat.h>
 
 
 /*
@@ -627,6 +628,32 @@ gsf_input_set_modtime (GsfInput *input, GDateTime *modtime)
 	return TRUE;
 }
 
+gboolean
+gsf_input_set_modtime_from_stat (GsfInput *input,
+				 const struct stat *st)
+{
+	GDateTime *modtime;
+	GTimeVal tv;
+	gboolean res;
+
+	if (st->st_mtime == (time_t)-1)
+		return FALSE;
+
+	tv.tv_sec = st->st_mtime;
+#if defined (HAVE_STRUCT_STAT_ST_MTIMENSEC)
+	tv.tv_usec = st->st_mtimensec / 1000;
+#elif defined (HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC)
+	tv.tv_usec =  st->st_mtim.tv_nsec / 1000;
+#else
+	tv.tv_usec = 0;
+#endif
+
+	modtime = g_date_time_new_from_timeval_utc (&tv);
+	res = gsf_input_set_modtime (GSF_INPUT (input), modtime);
+	g_date_time_unref (modtime);
+
+	return res;
+}
 
 
 /****************************************************************************/

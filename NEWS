@@ -1,5 +1,8 @@
 libgsf 1.14.43
 
+Morten:
+	* Handle modtime for memory mapped files.
+
 --------------------------------------------------------------------------
 libgsf 1.14.42
 
