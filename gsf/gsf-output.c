@@ -261,7 +261,7 @@ GSF_CLASS_ABSTRACT (GsfOutput, gsf_output,
  *
  * Give the name of @output.
  *
- * Returns: (transfer none): @output's name in utf8 form.
+ * Returns: (transfer none) (nullable): @output's name in utf8 form.
  **/
 char const *
 gsf_output_name (GsfOutput const *output)
@@ -274,7 +274,7 @@ gsf_output_name (GsfOutput const *output)
  * gsf_output_container:
  * @output:
  *
- * Returns: (transfer none): @output's container, potentially %NULL.
+ * Returns: (transfer none) (nullable): @output's container
  **/
 GsfOutfile *
 gsf_output_container (GsfOutput const *output)
@@ -299,7 +299,7 @@ gsf_output_size (GsfOutput *output)
 }
 
 /**
- * gsf_output_close:
+ * gsf_output_close: (virtual Close)
  * @output: #GsfOutput
  *
  * Close a stream.
@@ -356,7 +356,7 @@ gsf_output_tell	(GsfOutput *output)
 }
 
 /**
- * gsf_output_seek:
+ * gsf_output_seek: (virtual Seek)
  * @output: #GsfOutput
  * @offset: Relative amount to reposition
  * @whence: What the offset is relative to.
@@ -423,7 +423,7 @@ gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
 }
 
 /**
- * gsf_output_write:
+ * gsf_output_write: (virtual Write)
  * @output: Output stream
  * @num_bytes: Number of bytes to write
  * @data: (in) (array length=num_bytes): Data to write.
@@ -451,7 +451,7 @@ gsf_output_write (GsfOutput *output,
  * gsf_output_error:
  * @output:
  *
- * Returns: (transfer none): the last error logged on the output, or %NULL.
+ * Returns: (transfer none) (nullable): the last error logged on the output
  **/
 GError const *
 gsf_output_error (GsfOutput const *output)
@@ -625,8 +625,8 @@ gsf_output_unwrap (GObject *wrapper, GsfOutput *wrapee)
  * gsf_output_get_modtime:
  * @output: the output stream
  *
- * Returns: (transfer none): A #GDateTime representing when the output
- * was last modified, or %NULL if not known.
+ * Returns: (transfer none) (nullable): A #GDateTime representing when
+ * the output was last modified
  */
 GDateTime *
 gsf_output_get_modtime (GsfOutput *output)
@@ -694,7 +694,7 @@ gsf_output_printf (GsfOutput *output, char const *format, ...)
 }
 
 /**
- * gsf_output_vprintf:
+ * gsf_output_vprintf: (virtual Vprintf)
  * @output: A #GsfOutput
  * @format: The printf-style format string
  * @args: the arguments for @format

@@ -249,7 +249,7 @@ gsf_input_name (GsfInput *input)
  * gsf_input_container:
  * @input: the input stream
  *
- * Returns: (transfer none): @input's container, potentially %NULL.
+ * Returns: (transfer none) (nullable): @input's container
  **/
 GsfInfile *
 gsf_input_container (GsfInput *input)
@@ -259,13 +259,13 @@ gsf_input_container (GsfInput *input)
 }
 
 /**
- * gsf_input_dup:
+ * gsf_input_dup: (virtual Dup):
  * @input: The input to duplicate
  * @err: (allow-none): place to store a #GError if anything goes wrong
  *
  * Duplicates input @src leaving the new one at the same offset.
  *
- * Returns: (transfer full): the duplicate, or %NULL on error
+ * Returns: (transfer full) (nullable): the duplicate
  **/
 GsfInput *
 gsf_input_dup (GsfInput *input, GError **err)
@@ -298,7 +298,7 @@ gsf_input_dup (GsfInput *input, GError **err)
 }
 
 /**
- * gsf_input_sibling:
+ * gsf_input_sibling: (virtual OpenSibling)
  * @input: The input
  * @name: name.
  * @err: (allow-none): place to store a #GError if anything goes wrong
@@ -310,7 +310,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  * Attempts to open a 'sibling' of @input.  The caller is responsible for
  * managing the resulting object.
  *
- * Returns: (transfer full): A related #GsfInput or %NULL on failure.
+ * Returns: (transfer full): A related #GsfInput
  **/
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
@@ -350,17 +350,17 @@ gsf_input_eof (GsfInput *input)
 }
 
 /**
- * gsf_input_read: (skip)
+ * gsf_input_read: (virtual Read) (skip)
  * @input: the input stream
  * @num_bytes: number of bytes to read
- * @optional_buffer: Pointer to destination memory area
+ * @optional_buffer: (array) (allow-none): Pointer to destination memory area
  *
  * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
  * the buffer associated with previous calls to gsf_input_read.
  *
- * Returns: pointer to the buffer or %NULL if there is an error or 0
- * bytes are requested.
+ * Returns: (array) (nullable): pointer to the buffer or %NULL if there is
+ * an error or 0 bytes are requested.
  **/
 
 guint8 const *
@@ -444,7 +444,7 @@ gsf_input_tell (GsfInput *input)
 }
 
 /**
- * gsf_input_seek:
+ * gsf_input_seek: (virtual Seek)
  * @input: the input stream
  * @offset: target offset
  * @whence: determines whether the offset is relative to the beginning or
@@ -488,7 +488,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 /**
  * gsf_input_set_name:
  * @input: the input stream
- * @name: the new name of the stream, or %NULL.
+ * @name: (allow-none): the new name of the stream
  *
  * protected.
  *
@@ -531,7 +531,7 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
 /**
  * gsf_input_set_container:
  * @input: the input stream
- * @container:
+ * @container: (allow-none)
  *
  * Returns: %TRUE if the assignment was ok.
  */

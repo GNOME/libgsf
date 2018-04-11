@@ -600,12 +600,12 @@ gsf_filename_to_utf8 (char const *filename, gboolean quoted)
 
 /**
  * gsf_base64_encode_close:
- * @in: Data to be encoded
+ * @in: (array length=inlen): Data to be encoded
  * @inlen: Length of data to be encoded
  * @break_lines: Whether to use line breaks
- * @out: Encoded data.
- * @state: holds the number of bits that are stored in @save
- * @save: leftover bits that have not yet been decoded
+ * @out: (array): Encoded data.
+ * @state: (inout): holds the number of bits that are stored in @save
+ * @save: (inout): leftover bits that have not yet been decoded
  *
  * This funcion should be called to when finished encoding everything, to
  * flush off the last little bit.
@@ -626,12 +626,12 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 
 /**
  * gsf_base64_encode_step:
- * @in: input stream
+ * @in: (array): input stream
  * @len: max length of data to decode
  * @break_lines: Whether to use line breaks
- * @out: output stream
- * @state: holds the number of bits that are stored in @save
- * @save: leftover bits that have not yet been decoded
+ * @out: (array): output stream
+ * @state: (inout): holds the number of bits that are stored in @save
+ * @save: (inout): leftover bits that have not yet been decoded
  *
  * Performs an 'encode step', only encodes blocks of 3 characters from @in into
  * the output @out at a time, saves left-over state in @state and @save
@@ -649,11 +649,11 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 
 /**
  * gsf_base64_decode_step:
- * @in: input stream
+ * @in: (array): input stream
  * @len: max length of data to decode
- * @out: output stream
- * @state: holds the number of bits that are stored in @save
- * @save: leftover bits that have not yet been decoded
+ * @out: (array): output stream
+ * @state: (inout): holds the number of bits that are stored in @save
+ * @save: (inout): leftover bits that have not yet been decoded
  *
  * Decodes a chunk of base64 encoded data
  *
@@ -668,7 +668,7 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 
 /**
  * gsf_base64_encode_simple:
- * @data: data stream
+ * @data: (array): data stream
  * @len: max length of data to encode
  *
  * Encodes data from @data back into @data using base64 encoding.
@@ -695,7 +695,7 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 
 /**
  * gsf_base64_decode_simple:
- * @data: data stream
+ * @data: (array): data stream
  * @len: max length of data to decode
  *
  * Decodes a chunk of base64 encoded data from @data back into @data.
@@ -797,6 +797,12 @@ gsf_property_settings_collect (GType object_type,
   va_end (var_args);
 }
 
+/**
+ * gsf_property_settings_find:
+ * @name:
+ * @params: (array length=n_params):
+ * @n_params:
+ */
 const GParameter *
 gsf_property_settings_find (const char *name,
 			    const GParameter *params,
@@ -811,6 +817,11 @@ gsf_property_settings_find (const char *name,
 	return NULL;
 }
 
+/**
+ * gsf_property_settings_free:
+ * @params: (array length=n_params) (transfer full):
+ * @n_params:
+ */
 void
 gsf_property_settings_free (GParameter *params,
 			    size_t n_params)

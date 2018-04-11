@@ -756,7 +756,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 /**
  * gsf_doc_meta_data_write_to_odf:
  * @md: #GsfDocMetaData
- * @output: a pointer to a #GsfOutput.
+ * @output: (type GsfXMLOut): a pointer to a #GsfOutput.
  *
  * Since: 1.14.24
  *

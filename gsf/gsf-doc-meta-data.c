@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-doc-meta-data.c:
  *
@@ -87,8 +86,8 @@ gsf_doc_meta_data_new (void)
  * @meta: #GsfDocMetaData
  * @name:
  *
- * Returns: the property with name @id in @meta.  The caller can modify the
- * property value and link but not the name.
+ * Returns: (nullable) (transfer none): the property with @name in @meta.  The caller can
+ * modify the property value and link but not the name.
  **/
 GsfDocProp *
 gsf_doc_meta_data_lookup (GsfDocMetaData const *meta, char const *name)
@@ -101,8 +100,8 @@ gsf_doc_meta_data_lookup (GsfDocMetaData const *meta, char const *name)
 /**
  * gsf_doc_meta_data_insert:
  * @meta: #GsfDocMetaData
- * @name: the id.
- * @value: #GValue
+ * @name: (transfer full): the id.
+ * @value: (transfer full): #GValue
  *
  * Take ownership of @name and @value and insert a property into @meta.
  * If a property exists with @name, it is replaced (The link is lost)
@@ -143,6 +142,7 @@ gsf_doc_meta_data_remove (GsfDocMetaData *meta, char const *name)
  * @meta: #GsfDocMetaData
  * @name:
  *
+ * Returns: (nullable) (transfer full): the property with @name in @meta.
  **/
 GsfDocProp *
 gsf_doc_meta_data_steal (GsfDocMetaData *meta, char const *name)
@@ -188,7 +188,7 @@ deref_strcmp (const char **a, const char **b)
  * gsf_doc_meta_data_foreach:
  * @meta: the collection
  * @func: (scope call): the function called once for each element in the collection
- * @user_data: any supplied user data or %NULL
+ * @user_data: (nullable): any supplied user data
  *
  * Iterate through each (key, value) pair in this collection
  **/
@@ -285,9 +285,9 @@ gsf_doc_prop_new (char *name)
 
 /**
  * gsf_doc_prop_free:
- * @prop: (allow-none): #GsfDocProp
+ * @prop: (transfer full) (allow-none): #GsfDocProp
  *
- * If @prop is non %NULL free the memory associated with it
+ * Release the given property.
  **/
 void
 gsf_doc_prop_free (GsfDocProp *prop)
@@ -399,7 +399,7 @@ gsf_doc_prop_swap_val (GsfDocProp *prop, GValue *val)
  * gsf_doc_prop_get_link:
  * @prop: #GsfDocProp
  *
- * Returns: (transfer none): the current link descriptor of @prop.
+ * Returns: (transfer none) (nullable): the current link descriptor of @prop.
  **/
 char const *
 gsf_doc_prop_get_link (GsfDocProp const *prop)
@@ -411,7 +411,7 @@ gsf_doc_prop_get_link (GsfDocProp const *prop)
 /**
  * gsf_doc_prop_set_link:
  * @prop: #GsfDocProp
- * @link: (transfer full): optionally %NULL
+ * @link: (transfer full) (nullable): a link.
  *
  * Sets @prop's link to @link
  **/

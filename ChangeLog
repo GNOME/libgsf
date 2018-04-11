@@ -1,3 +1,9 @@
+2018-04-10  Morten Welinder  <terra@gnome.org>
+
+	* gsf/*.c: various introspection fixes, mostly from bug 794777 by
+	Corentin Noël and Rico Tzschichholz.  The occasional extra fix by
+	me.
+
 2018-03-22  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-input-memory.c (gsf_input_mmap_new): Set modtime.

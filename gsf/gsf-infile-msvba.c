@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gsf-infile-msvba.c :
  *
@@ -519,7 +518,8 @@ gsf_infile_msvba_new (GsfInfile *source, GError **err)
  *
  * a collection of names and source code.
  *
- * Returns: (transfer none): %NULL, or a hashtable of names and source code (unknown encoding).
+ * Returns: (transfer none) (element-type utf8 gpointer) (nullable):
+ * A #GHashTable of names and source code (unknown encoding).
  **/
 GHashTable *
 gsf_infile_msvba_get_modules (GsfInfileMSVBA const *vba_stream)
@@ -534,7 +534,8 @@ gsf_infile_msvba_get_modules (GsfInfileMSVBA const *vba_stream)
  *
  * A collection of names and source code which the caller is responsible for destroying.
  *
- * Returns: (transfer full): %NULL, or a hashtable of names and source code (unknown encoding).
+ * Returns: (transfer full) (element-type utf8 gpointer) (nullable): A
+ * #GHashTable of names and source code (unknown encoding).
  **/
 GHashTable *
 gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
@@ -549,11 +550,11 @@ gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
 /**
  * gsf_input_find_vba:
  * @input: #GsfInput
- * @err: #GError, optionally %NULL.
+ * @err: (nullable): #GError.
  *
  * A utility routine that attempts to find the VBA file withint a stream.
  *
- * Returns: (transfer full): a GsfInfile
+ * Returns: (transfer full) (nullable): a GsfInfile
  **/
 GsfInfileMSVBA *
 gsf_input_find_vba (GsfInput *input, GError **err)

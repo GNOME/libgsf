@@ -47,7 +47,7 @@ gsf_infile_num_children (GsfInfile *infile)
  * @infile: An #GsfInfile
  * @i: zero-based index of child to find.
  *
- * Returns: (transfer none): the utf8 encoded name of the @i-th child
+ * Returns: (transfer none) (nullable): the utf8 encoded name of the @i-th child
  **/
 const gchar *
 gsf_infile_name_by_index (GsfInfile *infile, int i)
@@ -183,7 +183,7 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 /**
  * gsf_infile_child_by_aname:
  * @infile: #GsfInfile
- * @names: A %NULL terminated array of names (e.g. from g_strsplit)
+ * @names: (array zero-terminated=1): A %NULL terminated array of names (e.g. from g_strsplit)
  *
  * This function finds a child that is several directory levels down
  * the tree.  If, for example, the names "foo", "bar", and "baz" are

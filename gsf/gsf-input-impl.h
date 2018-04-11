@@ -43,7 +43,7 @@ typedef struct {
 	gboolean      (*Seek) (GsfInput *input, gsf_off_t offset,
 			       GSeekType whence);
 	GsfInput     *(*OpenSibling)  (GsfInput const *input,
-				       char const *path, GError **err);
+				       char const *name, GError **err);
 
 	/* Padding for future expansion */
 	void (*_gsf_reserved0) (void);

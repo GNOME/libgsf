@@ -352,7 +352,7 @@ gsf_xml_parser_context_full (GsfInput *input, xmlSAXHandlerPtr sax, gpointer use
  *
  * NOTE: skipped since xmlParserCtxt is not exported to introspection.
  *
- * Returns: A parser context or %NULL
+ * Returns: (nullable): A parser context
  **/
 xmlParserCtxtPtr
 gsf_xml_parser_context (GsfInput *input)
@@ -1117,14 +1117,14 @@ gsf_xml_in_doc_free (GsfXMLInDoc *doc)
 
 /**
  * gsf_xml_in_doc_new:
- * @nodes: an array of node descriptors
- * @ns: an array of namespace identifiers
+ * @nodes: (array zero-terminated=1): an array of node descriptors
+ * @ns: (array zero-terminated=1): an array of namespace identifiers
  *
  * Combine the nodes in the %NULL terminated array starting at @nodes with the
  * name spaces in the %NULL terminated array starting at @ns.  Prepare the
  * data structures necessary to validate a doument based on that description.
  *
- * Returns: %NULL on error
+ * Returns: (nullable): a #GsfXMLInDoc
  **/
 GsfXMLInDoc *
 gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
@@ -1173,7 +1173,7 @@ gsf_xml_in_doc_get_type (void)
 /**
  * gsf_xml_in_doc_add_nodes:
  * @doc: #GsfXMLInDoc
- * @nodes: %NULL terminated array of #GsfXMLInNode
+ * @nodes: (array zero-terminated=1): %NULL terminated array of #GsfXMLInNode
  *
  * Adds additional nodes to the structure of @doc
  **/
@@ -1279,7 +1279,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * @doc: #GsfXMLInDoc
  * @new_state: arbitrary content for the parser
  * @dtor: (scope call): #GsfXMLInExtDtor
- * @attrs: array of xmlChar const *
+ * @attrs: (array) (element-type utf8): array of xmlChar const *
  *
  * Take the first node from @doc as the current node and call its start handler.
  **/
@@ -1408,8 +1408,8 @@ gsf_xml_in_set_silent_unknowns (GsfXMLIn *xin, gboolean silent)
  *
  * According to @state is @str in the namespace @ns_id ?
  *
- * Returns: (transfer none): a pointer to @str after the namespace if
- * successful, otherwise %NULL.
+ * Returns: (transfer none) (nullable): a pointer to @str after the namespace
+ * if successful, otherwise %NULL.
  **/
 char const *
 gsf_xml_in_check_ns (GsfXMLIn const *xin, char const *str, unsigned int ns_id)
@@ -1833,7 +1833,7 @@ close_tag_if_neccessary (GsfXMLOut* xout)
 /**
  * gsf_xml_out_add_cstr_unchecked:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val_utf8: (allow-none): a utf8 encoded string to export
  *
  * dump @val_utf8 to an attribute named @id without checking to see if
@@ -1860,7 +1860,7 @@ gsf_xml_out_add_cstr_unchecked (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_cstr:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val_utf8: (allow-none): a utf8 encoded string
  *
  * dump @val_utf8 to an attribute named @id or as the nodes content escaping
@@ -1939,7 +1939,7 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_bool:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val: a boolean
  *
  * dump boolean value @val to an attribute named @id or as the nodes content
@@ -1956,7 +1956,7 @@ gsf_xml_out_add_bool (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_int:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val: the value
  *
  * dump integer value @val to an attribute named @id or as the nodes content
@@ -1973,7 +1973,7 @@ gsf_xml_out_add_int (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_uint:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val: the value
  *
  * dump unsigned integer value @val to an attribute named @id or as the nodes
@@ -1991,7 +1991,7 @@ gsf_xml_out_add_uint (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_float:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val: the value
  * @precision: the number of significant digits to use, -1 meaning "enough".
  *
@@ -2018,7 +2018,7 @@ gsf_xml_out_add_float (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_color:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @r: Red value
  * @g: Green value
  * @b: Blue value
@@ -2037,7 +2037,7 @@ gsf_xml_out_add_color (GsfXMLOut *xout, char const *id,
 /**
  * gsf_xml_out_add_enum:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @etype: #GType
  * @val: enum element number
  *
@@ -2060,7 +2060,7 @@ gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
 /**
  * gsf_xml_out_add_gvalue:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
+ * @id: (allow-none): tag id, or %NULL for node content
  * @val: #GValue
  *
  * Output the value of @val as a string.  Does NOT store any type information
@@ -2141,8 +2141,8 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 /**
  * gsf_xml_out_add_base64:
  * @xout: #GsfXMLOut
- * @id: (allow-none): tag id or %NULL for content
- * @data: Data to be written
+ * @id: (allow-none): tag id, or %NULL for node content
+ * @data: (array length=len): Data to be written
  * @len: Length of data
  *
  * Dump @len bytes in @data into the content of node @id using base64
@@ -2169,7 +2169,7 @@ gsf_xml_out_add_base64 (GsfXMLOut *xout, char const *id,
  *
  * Get the #GsfOutput we are writing to..
  *
- * Returns: (transfer none): #GsfInput or %NULL.
+ * Returns: (transfer none) (nullable): #GsfInput
  **/
 GsfOutput *
 gsf_xml_out_get_output (GsfXMLOut const *xout)

@@ -53,7 +53,7 @@ typedef GsfInputClass GsfInputMemoryClass;
 
 /**
  * gsf_input_memory_new:
- * @buf: The input bytes
+ * @buf: (array length=length): The input bytes
  * @length: The length of @buf
  * @needs_free: Whether you want this memory to be free'd at object destruction
  *
@@ -70,7 +70,7 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
 
 /**
  * gsf_input_memory_new_clone:
- * @buf: The input bytes
+ * @buf: (array length=length): The input bytes
  * @length: The length of @buf
  *
  * Returns: A new #GsfInputMemory
@@ -192,7 +192,7 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
 /**
  * gsf_input_mmap_new:
  * @filename: The file on disk that you want to mmap
- * @err: A #GError, or optionally %NULL
+ * @err: (nullable): A #GError
  *
  * Returns: A new #GsfInputMemory
  */

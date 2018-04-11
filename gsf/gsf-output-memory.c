@@ -42,7 +42,7 @@ typedef struct {
 /**
  * gsf_output_memory_new:
  *
- * Returns: a new file or %NULL.
+ * Returns: (nullable): a new file.
  **/
 GsfOutput *
 gsf_output_memory_new (void)
@@ -188,7 +188,7 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * gsf_output_memory_get_bytes:
  * @mem: the output device.
  *
- * Returns: The data that has been written to @mem, or %NULL
+ * Returns: (array) (nullable): The data that has been written to @mem
  **/
 const guint8 *
 gsf_output_memory_get_bytes (GsfOutputMemory * mem)
