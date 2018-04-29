@@ -1,3 +1,8 @@
+2018-04-29  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_metadata_write_string): Write the
+	converted length, not the pre-iconv length.  Fixes #795612.
+
 2018-04-19  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

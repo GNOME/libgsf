@@ -1,5 +1,8 @@
 libgsf 1.14.44
 
+Morten:
+	* Fix msole metadata writing for non-ascii.  [#795612]
+
 --------------------------------------------------------------------------
 libgsf 1.14.43
 

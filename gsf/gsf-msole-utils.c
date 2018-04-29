@@ -1423,7 +1423,7 @@ msole_metadata_write_string (WritePropState *state, const char *txt)
 		bytes_written = 0;
 	}
 
-	GSF_LE_SET_GUINT32 (buf, len + 1);
+	GSF_LE_SET_GUINT32 (buf, bytes_written);
 	res = gsf_output_write (state->out, 4, buf);
 
 	res = res && gsf_output_write (state->out, bytes_written, ctxt);
