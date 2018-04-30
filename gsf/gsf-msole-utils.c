@@ -571,7 +571,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 	res = g_new0 (GValue, 1);
 	d (g_print ("%s\n", msole_vt_name (type)););
 	switch (type) {
-	case VT_EMPTY :
+	case VT_EMPTY:
 		/*
 		 * A property with a type indicator of VT_EMPTY has no data
 		 * associated with it; that is, the size of the value is zero.
@@ -579,12 +579,12 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* value::unset == empty */
 		break;
 
-	case VT_NULL :
+	case VT_NULL:
 		/* This is like a pointer to NULL */
 		/* value::unset == null too :-) do we need to distinguish ? */
 		break;
 
-	case VT_I2 :
+	case VT_I2:
 		/* 2-byte signed integer */
 		NEED_BYTES (2);
 		g_value_init (res, G_TYPE_INT);
@@ -592,7 +592,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_I4 :
+	case VT_I4:
 		/* 4-byte signed integer */
 		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_INT);
@@ -600,7 +600,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_R4 :
+	case VT_R4:
 		/* 32-bit IEEE floating-point value */
 		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_FLOAT);
@@ -608,7 +608,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_R8 :
+	case VT_R8:
 		/* 64-bit IEEE floating-point value */
 		NEED_BYTES (8);
 		g_value_init (res, G_TYPE_DOUBLE);
@@ -616,7 +616,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_CY :
+	case VT_CY:
 		/* 8-byte two's complement integer (scaled by 10,000) */
 		NEED_BYTES (8);
 		/* CHEAT : just store as an int64 for now */
@@ -624,7 +624,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
 		break;
 
-	case VT_DATE :
+	case VT_DATE:
 		/*
 		 * 64-bit floating-point number representing the number of days
 		 * (not seconds) since December 31, 1899.
@@ -636,7 +636,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_BSTR :
+	case VT_BSTR:
 		/*
 		 * Pointer to null-terminated Unicode string; the string is pre-
 		 * ceeded by a DWORD representing the byte count of the number
@@ -649,13 +649,13 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_DISPATCH :
+	case VT_DISPATCH:
 		if (msole_debug (DEBUG_UNKNOWN_PROPS))
 			g_warning ("Unhandled property value type %d (0x%x)",
 				   type, type);
 		break;
 
-	case VT_BOOL :
+	case VT_BOOL:
 		/* A boolean (WORD) value containg 0 (false) or -1 (true). */
 		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_BOOLEAN);
@@ -675,7 +675,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		return msole_prop_parse (section, type, data, data_end);
 
-	case VT_UI1 :
+	case VT_UI1:
 		/* 1-byte unsigned integer */
 		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_UCHAR);
@@ -683,7 +683,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_I1 :
+	case VT_I1:
 		/* 1-byte signed integer */
 		NEED_BYTES (1);
 		g_value_init (res, G_TYPE_CHAR);
@@ -691,7 +691,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_UI2 :
+	case VT_UI2:
 		/* 2-byte unsigned integer */
 		NEED_BYTES (2);
 		g_value_init (res, G_TYPE_UINT);
@@ -699,7 +699,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_UI4 :
+	case VT_UI4:
 		/* 4-type unsigned integer */
 		NEED_BYTES (4);
 		g_value_init (res, G_TYPE_UINT);
@@ -715,7 +715,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_UI8 :
+	case VT_UI8:
 		/* 8-byte unsigned integer */
 		NEED_BYTES (8);
 		g_value_init (res, G_TYPE_UINT64);
@@ -723,31 +723,34 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		ADVANCE;
 		break;
 
-	case VT_LPSTR :
+	case VT_LPSTR: {
+		guint32 need;
 		/*
 		 * This is the representation of many strings.  It is stored in
 		 * the same representation as VT_BSTR.  Note that the serialized
-		 * representation of VP_LPSTR has a preceding byte count, whereas
-		 * the in-memory representation does not.
+		 * representation of VP_LPSTR has a preceding byte count,
+		 * whereas the in-memory representation does not.
 		 */
 		NEED_BYTES (4);
 		len = GSF_LE_GET_GUINT32 (*data);
 		ADVANCE;
 
-		NEED_RECS (len, section->char_size);
-
 		g_return_val_if_fail (len < 0x10000, NULL);
+
+		need = len;
+		if (section->char_size > 1 && (need & 3))
+			need = (need & ~3) + 4;
+		NEED_BYTES (need);
 
 		error = NULL;
 		d (gsf_mem_dump (*data, len * section->char_size););
 		str = g_convert_with_iconv (*data,
-			len * section->char_size,
+			len, // That includes the 0x00 or 0x0000 -- probably ok
 			section->iconv_handle, NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
 		if (NULL != str) {
-			g_value_set_string (res, str);
-			g_free (str);
+			g_value_take_string (res, str);
 		} else if (NULL != error) {
 			g_warning ("error: %s", error->message);
 			g_error_free (error);
@@ -756,8 +759,9 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		}
 		ADVANCE;
 		break;
+	}
 
-	case VT_LPWSTR :
+	case VT_LPWSTR:
 		/*
 		 * A counted and null-terminated Unicode string; a DWORD character
 		 * count (where the count includes the terminating null) followed
@@ -813,7 +817,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		break;
 	}
 
-	case VT_BLOB :
+	case VT_BLOB:
 		/*
 		 * A DWORD count of bytes, followed by that many bytes of data.
 		 * The byte count does not include the four bytes for the length
@@ -831,7 +835,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STREAM :
+	case VT_STREAM:
 		/*
 		 * Indicates the value is stored in a stream that is sibling
 		 * to the CONTENTS stream.  Following this type indicator is
@@ -845,7 +849,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STORAGE :
+	case VT_STORAGE:
 		/*
 		 * Indicates the value is stored in an IStorage that is
 		 * sibling to the CONTENTS stream.  Following this type
@@ -872,7 +876,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_STORED_OBJECT :
+	case VT_STORED_OBJECT:
 		/*
 		 * Same as VT_STORAGE, but indicates that the designated
 		 * IStorage contains a loadable object.
@@ -884,7 +888,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_BLOB_OBJECT :
+	case VT_BLOB_OBJECT:
 		/*
 		 * Contains a serialized object in the same representation as
 		 * would appear in a VT_STREAMED_OBJECT.  That is, following
@@ -900,7 +904,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_CF :
+	case VT_CF:
 		error = NULL;
 		if (!parse_vt_cf (res, data, data_end, &error)) {
 			/* suck, we can't propagate the error upwards */
@@ -916,7 +920,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		}
 		break;
 
-	case VT_CLSID :
+	case VT_CLSID:
 		/* A class ID (or other GUID) */
 		NEED_BYTES (16);
 		ADVANCE;
@@ -924,25 +928,25 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		res = NULL;
 		break;
 
-	case VT_ERROR :
+	case VT_ERROR:
 		/* A DWORD containing a status code. */
-	case VT_UNKNOWN :
-	case VT_DECIMAL :
-	case VT_INT :
-	case VT_UINT :
-	case VT_VOID :
-	case VT_HRESULT :
-	case VT_PTR :
-	case VT_SAFEARRAY :
-	case VT_CARRAY :
-	case VT_USERDEFINED :
+	case VT_UNKNOWN:
+	case VT_DECIMAL:
+	case VT_INT:
+	case VT_UINT:
+	case VT_VOID:
+	case VT_HRESULT:
+	case VT_PTR:
+	case VT_SAFEARRAY:
+	case VT_CARRAY:
+	case VT_USERDEFINED:
 		g_warning ("type %s (0x%x) is not permitted in property sets",
 			   msole_vt_name (type), type);
 		g_free (res);
 		res = NULL;
 		break;
 
-	default :
+	default:
 		if (msole_debug (DEBUG_UNKNOWN_PROPS))
 			g_warning ("Unknown property type %d (0x%x)",
 				   type, type);
@@ -1139,7 +1143,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 	   gsf_mem_dump (data, 28);});
 	/*
 	 * Validate the Property Set Header.
-	 * Format (bytes) :
+	 * Format (bytes):
 	 *   00 - 01	Byte order		0xfffe
 	 *   02 - 03	Format			0
 	 *   04 - 05	OS Version		high word is the OS
@@ -1194,7 +1198,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 
 	/*
 	 * A section is the third part of the property set stream.
-	 * Format (bytes) :
+	 * Format (bytes):
 	 *   00 - 03	Section size	A byte count for the section (which is inclusive
 	 *				of the byte count itself and should always be a
 	 *				multiple of 4);
@@ -1233,7 +1237,7 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 
 		/*
 		 * Get and save all the Property ID/Offset pairs.
-		 * Format (bytes) :
+		 * Format (bytes):
 		 *   00 - 03	id	Property ID
 		 *   04 - 07	offset	The distance from the start of the section to the
 		 *			start of the Property Type/Value pair.
@@ -1423,7 +1427,9 @@ msole_metadata_write_string (WritePropState *state, const char *txt)
 		bytes_written = 0;
 	}
 
-	GSF_LE_SET_GUINT32 (buf, bytes_written);
+	// *Bytes*, not characters, including the termination, but not the
+	// padding.
+	GSF_LE_SET_GUINT32 (buf, bytes_written + state->char_size);
 	res = gsf_output_write (state->out, 4, buf);
 
 	res = res && gsf_output_write (state->out, bytes_written, ctxt);
@@ -1767,7 +1773,7 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 	}
 
 	success = TRUE;
-err :
+err:
 	gsf_iconv_close (state.iconv_handle);
 	g_slist_free (state.builtin.props);
 	g_slist_free (state.user.props);
@@ -2098,7 +2104,7 @@ gsf_msole_lid_to_codepage (guint lid)
 
 		case 0x0804:		/* Chinese (PRC) */
 			return 936;
-		default :
+		default:
 			break;
 		}
 		break;
@@ -2134,7 +2140,7 @@ gsf_msole_lid_to_codepage (guint lid)
 			return 1361;
 		case 0x0412:		/* Korean */
 			return 949;
-		default :
+		default:
 			break;
 		}
 		break;
@@ -2160,7 +2166,7 @@ gsf_msole_lid_to_codepage (guint lid)
 			return 1251;
 		case 0x081a:		/* Serbian (Latin) */
 			return 1252;
-		default :
+		default:
 			break;
 		}
 		break;
@@ -2200,7 +2206,7 @@ gsf_msole_lid_to_codepage (guint lid)
 		switch (lid) {
 		case 0x082c:		/* Azeri (Cyrillic) */
 			return 1251;
-		default :
+		default:
 			break;
 		}
 		break;
@@ -2224,7 +2230,7 @@ gsf_msole_lid_to_codepage (guint lid)
 		switch (lid) {
 		case 0x0843:		/* Uzbek (Cyrillic) */
 			return 1251;
-		default :
+		default:
 			break;
 		}
 		break;
