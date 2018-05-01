@@ -463,7 +463,7 @@ gsf_output_error (GsfOutput const *output)
 /**
  * gsf_output_set_name:
  * @output: #GsfOutput
- * @name: the new name
+ * @name: (nullable): the new name
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -487,7 +487,7 @@ gsf_output_set_name (GsfOutput *output, char const *name)
 /**
  * gsf_output_set_name_from_filename:
  * @output: the output stream
- * @filename: the (fs-sys encoded) filename
+ * @filename: (nullable): the (fs-sys encoded) filename
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
@@ -513,7 +513,7 @@ gsf_output_set_name_from_filename (GsfOutput *output, char const *filename)
 /**
  * gsf_output_set_container:
  * @output: #GsfOutput
- * @container: #GsfOutfile
+ * @container: (nullable): #GsfOutfile
  *
  * <note>This is a utility routine that should only be used by derived
  * outputs.</note>
