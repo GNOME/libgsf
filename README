@@ -7,7 +7,7 @@ dealing with different structured file formats.
    libgsf is licensed under the terms of the GNU LGPL included in the
 file COPYING.LIB.
 
-To report libgsf bugs, please visit bugzilla.gnome.org.
+To report libgsf bugs, please visit https://gitlab.gnome.org/GNOME/libgsf/issues
 -- 
 
 This library has taken insight from

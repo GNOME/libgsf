@@ -12,7 +12,7 @@ m4_define([libgsf_full_version],
     [libgsf_version_major.libgsf_version_minor.libgsf_version_micro[]libgsf_version_extra])
 
 AC_INIT(libgsf, [libgsf_full_version],
-	[http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf])
+	[https://gitlab.gnome.org/GNOME/libgsf/issues])
 AC_CONFIG_SRCDIR(gsf/gsf.h)
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
 
