@@ -22,6 +22,8 @@
 #ifndef GSF_INPUT_IMPL_H
 #define GSF_INPUT_IMPL_H
 
+#include <sys/stat.h>
+
 #include <gsf/gsf-fwd.h>
 
 G_BEGIN_DECLS
@@ -63,7 +65,6 @@ gboolean gsf_input_set_size	 (GsfInput *input, gsf_off_t size);
 gboolean gsf_input_set_modtime   (GsfInput *input, GDateTime *modtime);
 gboolean gsf_input_seek_emulate  (GsfInput *input, gsf_off_t pos);
 
-struct stat;
 gboolean gsf_input_set_modtime_from_stat (GsfInput *input,
 					  const struct stat *st);
 
