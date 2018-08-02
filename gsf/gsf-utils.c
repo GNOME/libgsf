@@ -163,7 +163,7 @@ gsf_shutdown (void)
 	} while (0)
 #else
 /* Assign the value to avoid compiler warnings */
-#define REGISTER(prefix)	t = prefix ## _get_type()
+#define REGISTER(prefix)	g_type_ensure (prefix ## _get_type())
 #endif
 
 /**
@@ -176,7 +176,6 @@ void
 gsf_init_dynamic (GTypeModule *module)
 {
 #ifndef _GSF_GTYPE_THREADING_FIXED
-	GType t;
 	if (NULL != module) {
 		g_warning ("glib's support of dynamic types is not thread safe.\n"
 			   "Support for gsf_init_dynamic has been disabled until that is fixed");
@@ -222,12 +221,6 @@ gsf_init_dynamic (GTypeModule *module)
 	REGISTER (gsf_clip_data);
 	REGISTER (gsf_doc_meta_data);
 	REGISTER (gsf_docprop_vector);
-
-#ifndef _GSF_GTYPE_THREADING_FIXED
-	/* add a test to avoid a set but unused variable warning */
-	if (t == 0)
-		g_warning ("Failed to register objects types");
-#endif
 }
 
 /**

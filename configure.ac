@@ -71,7 +71,7 @@ ifelse([
 ])
 dnl Modules required for libgsf
 libgsf_reqs="
-    gobject-2.0 >= 2.16.0
+    gobject-2.0 >= 2.34.0
     glib-2.0 >= 2.26.0
     gio-2.0 >= 2.26.0
     libxml-2.0 >= 2.4.16
