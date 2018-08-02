@@ -2,6 +2,7 @@ libgsf 1.14.44
 
 Morten:
 	* Fix msole metadata writing for non-ascii.  [#795612]
+	* Fix problem with threaded code.  [#10]
 
 --------------------------------------------------------------------------
 libgsf 1.14.43
