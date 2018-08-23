@@ -25,7 +25,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <string.h>
-#include <sys/stat.h>
 
 
 /*
