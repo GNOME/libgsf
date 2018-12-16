@@ -436,7 +436,7 @@ gsf_doc_prop_set_link (GsfDocProp *prop, char *link)
 void
 gsf_doc_prop_dump (GsfDocProp const *prop)
 {
-	GValue const *val = gsf_doc_prop_get_val  (prop);
+	GValue const *val = gsf_doc_prop_get_val (prop);
 	char *tmp;
 	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
 		GValueArray *va = gsf_value_get_docprop_varray (val);

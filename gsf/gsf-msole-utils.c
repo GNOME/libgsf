@@ -751,7 +751,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		error = NULL;
 		d (gsf_mem_dump (*data, len * section->char_size););
 		str = g_convert_with_iconv (*data,
-			len, // That includes the 0x00 or 0x0000 -- probably ok
+					    len > section->char_size ? len - section->char_size : 0,
 			section->iconv_handle, NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
@@ -1052,7 +1052,7 @@ msole_prop_read (GsfInput *in,
 			/* MS documentation blows goats !
 			 * The docs claim there are padding bytes in the dictionary.
 			 * Their examples show padding bytes.
-			 * In reality non-unicode strings do not seem to 
+			 * In reality non-unicode strings do not seem to
 			 * have padding.
 			 */
 			if (section->char_size != 1 && (data - start) % 4)
@@ -1576,39 +1576,38 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 	if (user && state->dict == NULL)
 		return TRUE;
 
-	/* Skip past the size and id/offset pairs */
-	if (!gsf_output_seek (state->out,
-			     4 /* length */ +
-			     4 /* count */ +
-			     8 * count /* id/offset pairs */,
-			     G_SEEK_END))
-		return FALSE;
+	// Skip past the size+count and id/offset pairs
+	GSF_LE_SET_GUINT32 (buf, 0);
+	for (i = 0; i < 1 + 1 + 2 * count; i++)
+		gsf_output_write (state->out, 4, buf);
 
 	memset (&scratch,  0, sizeof (GValue));
 	g_value_init (&scratch, G_TYPE_STRING);
 
 	offsets = g_alloca (sizeof (GsfMSOleMetaDataProp) * count);
 
+	i = 0;
+
 	/* 0) codepage */
-	if (count >= 1) {
+	if (i < count) {
 		offsets[0].id = 1;
 		offsets[0].offset = gsf_output_tell (state->out);
 		GSF_LE_SET_GUINT32 (buf, VT_I2);
 		GSF_LE_SET_GUINT32 (buf+4, state->codepage);
 		gsf_output_write (state->out, 8, buf);
+		i++;
 	}
 
 	/* 1) dictionary */
-	if (user && count >= 2) {
+	if (user && i < count) {
 		offsets[1].id = 0;
 		offsets[1].offset = gsf_output_tell (state->out);
 		GSF_LE_SET_GUINT32 (buf, g_hash_table_size (state->dict));
 		gsf_output_write (state->out, 4, buf);
 		g_hash_table_foreach (state->dict,
 			(GHFunc) cb_write_dict, state);
-		i = 2;
-	} else
-		i = 1;
+		i++;
+	}
 
 	/* 2) props */
 	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {
@@ -1632,7 +1631,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		}
 
 		msole_metadata_write_prop (state, name,
-			gsf_doc_prop_get_val  (prop), FALSE);
+			gsf_doc_prop_get_val (prop), FALSE);
 		if (gsf_doc_prop_get_link (prop)) {
 			i++;
 			offsets[i].id     = offsets[i-1].id | 0x1000000;

@@ -760,7 +760,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 					g_hash_table_insert (state->ns_prefixes, g_strdup (ns_ptr[0] + 6), inst);
 
 					if (ns[i].ns_id >= state->ns_by_id->len)
-						g_ptr_array_set_size  (state->ns_by_id, ns[i].ns_id+1);
+						g_ptr_array_set_size (state->ns_by_id, ns[i].ns_id+1);
 					if (g_ptr_array_index (state->ns_by_id, ns[i].ns_id)) {
 						g_warning ("Damn.  Someone just declared the same namespace '%s' with a different prefix '%s'",
 							   ns[i].uri, inst->tag);

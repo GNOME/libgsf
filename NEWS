@@ -1,5 +1,8 @@
 libgsf 1.14.45
 
+Morten:
+	* Fix problem with ole property writing.  [#14]
+
 --------------------------------------------------------------------------
 libgsf 1.14.44
 

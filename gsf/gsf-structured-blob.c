@@ -76,7 +76,7 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 		gpointer child;
 
 		dst->children = g_ptr_array_sized_new (src->children->len);
-		g_ptr_array_set_size  (dst->children, src->children->len);
+		g_ptr_array_set_size (dst->children, src->children->len);
 		for (i = 0; i < src->children->len ; i++) {
 			child = g_ptr_array_index (src->children, i);
 			g_ptr_array_index (dst->children, i) = child
@@ -233,7 +233,7 @@ gsf_structured_blob_read (GsfInput *input)
 	if (i > 0) {
 
 		blob->children = g_ptr_array_sized_new (i);
-		g_ptr_array_set_size  (blob->children, i);
+		g_ptr_array_set_size (blob->children, i);
 		while (i-- > 0) {
 			GsfInput *child = gsf_infile_child_by_index (GSF_INFILE (input), i);
 			GsfStructuredBlob *child_blob = NULL;
@@ -277,7 +277,7 @@ gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 
 	has_kids = (blob->children != NULL && blob->children->len > 0);
 
-	output = gsf_outfile_new_child  (GSF_OUTFILE (container),
+	output = gsf_outfile_new_child (GSF_OUTFILE (container),
 		gsf_input_name (GSF_INPUT (blob)),
 		has_kids);
 	if (has_kids) {

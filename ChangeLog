@@ -1,3 +1,10 @@
+2018-12-16  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Don't convert the
+	terminator.
+	(msole_metadata_write_section): Don't seek beyond end of stream --
+	use plain writes instead.  Fixes #14.
+
 2018-08-08  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
