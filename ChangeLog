@@ -1,3 +1,8 @@
+2018-12-17  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-outfile-msole.c (gsf_outfile_msole_write): Fix problem
+	with seeks in small blocks.  This alone would also have fixed #14.
+
 2018-12-16  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_parse): Don't convert the

@@ -604,6 +604,13 @@ gsf_outfile_msole_write (GsfOutput *output,
 		}
 		gsf_output_write (ole->sink, wsize, buf);
 		g_free (buf);
+
+		// If we had a seek then we might not be at the right location.
+		// This can happen both with a seek beyond the end of file
+		// (see bug #14) and with a backward seek.
+		gsf_output_seek (ole->sink,
+				 ole->content.big_block.start_offset + output->cur_offset,
+				 G_SEEK_SET);
 	}
 
 	g_return_val_if_fail (ole->type == MSOLE_BIG_BLOCK, FALSE);
