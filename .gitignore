@@ -35,3 +35,5 @@ INSTALL
 py-compile
 libgsf-gvfs-1.pc
 test-driver
+ABOUT-NLS
+config.rpath
