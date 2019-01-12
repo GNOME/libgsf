@@ -384,7 +384,7 @@ gsf_infile_tar_child_by_index (GsfInfile *infile, int target, GError **err)
 
 	c = &g_array_index (tar->children, TarChild, target);
 	if (c->dir)
-		return g_object_ref (c->dir);
+		return GSF_INPUT (g_object_ref (c->dir));
 	else {
 		GsfInput *input = gsf_input_proxy_new_section (tar->source,
 							       c->offset,
