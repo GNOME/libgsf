@@ -1,5 +1,11 @@
 libgsf 1.14.46
 
+Javier Jardón:
+	* Upgrade to newer gettext.  [#7]
+
+Morten:
+	* Warning fixes.
+
 --------------------------------------------------------------------------
 libgsf 1.14.45
 
