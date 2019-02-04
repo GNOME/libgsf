@@ -5,6 +5,7 @@ Javier Jardón:
 
 Morten:
 	* Warning fixes.
+	* Fix gsf-vba-dump crash.  [#15]
 
 --------------------------------------------------------------------------
 libgsf 1.14.45
