@@ -197,6 +197,26 @@ gsf_output_memory_get_bytes (GsfOutputMemory * mem)
 	return mem->buffer;
 }
 
+/**
+ * gsf_output_memory_steal_bytes:
+ * @mem: the output device.
+ *
+ * Returns: (array) (nullable): The data that has been written to @mem.
+ * The caller takes ownership and the buffer belonging to @mem is set
+ * to %NULL.
+ **/
+guint8 *
+gsf_output_memory_steal_bytes (GsfOutputMemory * mem)
+{
+	guint8 *bytes;
+
+	g_return_val_if_fail (mem != NULL, NULL);
+	bytes = mem->buffer;
+	mem->buffer = NULL;
+	mem->capacity = 0;
+	return bytes;
+}
+
 GSF_CLASS (GsfOutputMemory, gsf_output_memory,
 	   gsf_output_memory_class_init, gsf_output_memory_init,
 	   GSF_OUTPUT_TYPE)
