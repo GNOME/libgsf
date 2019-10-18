@@ -2,6 +2,7 @@ libgsf 1.14.47
 
 Allin Cottrell:
 	* GsfOutputMemory improvement.
+	* Teach GsfOutputGzip to control compression level.
 
 --------------------------------------------------------------------------
 libgsf 1.14.46

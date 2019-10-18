@@ -35,10 +35,12 @@ struct _GsfOutputGZip {
 
 	GsfOutput *sink; /* compressed data */
 	gboolean raw; /* No header and no trailer.  */
+	gint deflate_level; /* zlib compression level */
 
 	z_stream  stream;
 	uLong     crc;     /* crc32 of uncompressed data */
 	size_t    isize;
+	gboolean setup;
 
 	guint8   *buf;
 	size_t    buf_size;
@@ -51,7 +53,8 @@ typedef struct {
 enum {
 	PROP_0,
 	PROP_RAW,
-	PROP_SINK
+	PROP_SINK,
+	PROP_DEFLATE_LEVEL
 };
 
 
@@ -63,7 +66,7 @@ init_gzip (GsfOutputGZip *gzip)
 {
 	int ret;
 
-	ret = deflateInit2 (&gzip->stream, Z_DEFAULT_COMPRESSION,
+	ret = deflateInit2 (&gzip->stream, gzip->deflate_level,
 			    Z_DEFLATED, -MAX_WBITS, MAX_MEM_LEVEL,
 			    Z_DEFAULT_STRATEGY);
 	if (ret != Z_OK)
@@ -102,6 +105,24 @@ gzip_output_header (GsfOutputGZip *gzip)
 		ret = gsf_output_write (gzip->sink, nlen, name);
 
 	return ret;
+}
+
+static void
+gsf_output_gzip_setup (GsfOutputGZip *gzip)
+{
+	if (gzip->setup)
+		return;
+
+	if (!init_gzip (gzip))
+		gsf_output_set_error (GSF_OUTPUT (gzip),
+				      0,
+				      "Failed to initialize zlib structure");
+	else if (!gzip->raw && !gzip_output_header (gzip))
+		gsf_output_set_error (GSF_OUTPUT (gzip),
+				      0,
+				      "Failed to write gzip header");
+	else
+		gzip->setup = TRUE;
 }
 
 /**
@@ -204,6 +225,9 @@ gsf_output_gzip_write (GsfOutput *output,
 
 	g_return_val_if_fail (data, FALSE);
 
+	// Write header, if needed
+	gsf_output_gzip_setup (gzip);
+
 	gzip->stream.next_in  = (unsigned char *) data;
 	gzip->stream.avail_in = num_bytes;
 
@@ -246,8 +270,12 @@ gsf_output_gzip_seek (G_GNUC_UNUSED GsfOutput *output,
 static gboolean
 gsf_output_gzip_close (GsfOutput *output)
 {
+	GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
+
+	// Just in case nothing was ever written
+	gsf_output_gzip_setup (gzip);
+
 	if (!gsf_output_error (output)) {
-		GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
 
 		if (!gzip_flush (gzip))
 			return FALSE;
@@ -279,8 +307,10 @@ gsf_output_gzip_init (GObject *obj)
 	gzip->stream.avail_in	= gzip->stream.avail_out = 0;
 	gzip->crc		= crc32 (0L, Z_NULL, 0);
 	gzip->isize             = 0;
+	gzip->setup             = FALSE;
 	gzip->buf		= NULL;
 	gzip->buf_size		= 0;
+	gzip->deflate_level     = Z_DEFAULT_COMPRESSION;
 }
 
 static void
@@ -297,6 +327,9 @@ gsf_output_gzip_get_property (GObject     *object,
 		break;
 	case PROP_SINK:
 		g_value_set_object (value, gzip->sink);
+		break;
+	case PROP_DEFLATE_LEVEL:
+		g_value_set_int (value, gzip->deflate_level);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -329,37 +362,13 @@ gsf_output_gzip_set_property (GObject      *object,
 	case PROP_SINK:
 		gsf_output_gzip_set_sink (gzip, g_value_get_object (value));
 		break;
+	case PROP_DEFLATE_LEVEL:
+		gzip->deflate_level = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
-}
-
-static GObject*
-gsf_output_gzip_constructor (GType                  type,
-			     guint                  n_construct_properties,
-			     GObjectConstructParam *construct_params)
-{
-	GsfOutputGZip *gzip;
-
-	gzip = (GsfOutputGZip *)(parent_class->constructor (type,
-							    n_construct_properties,
-							    construct_params));
-
-	if (!gzip->sink)
-		gsf_output_set_error (GSF_OUTPUT (gzip),
-				      0,
-				      "NULL sink");
-	else if (!init_gzip (gzip))
-		gsf_output_set_error (GSF_OUTPUT (gzip),
-				      0,
-				      "Failed to initialize zlib structure");
-	else if (!gzip->raw && !gzip_output_header (gzip))
-		gsf_output_set_error (GSF_OUTPUT (gzip),
-				      0,
-				      "Failed to write gzip header");
-
-	return (GObject *)gzip;
 }
 
 static void
@@ -367,7 +376,6 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 {
 	GsfOutputClass *output_class = GSF_OUTPUT_CLASS (gobject_class);
 
-	gobject_class->constructor  = gsf_output_gzip_constructor;
 	gobject_class->finalize     = gsf_output_gzip_finalize;
 	gobject_class->set_property = gsf_output_gzip_set_property;
 	gobject_class->get_property = gsf_output_gzip_get_property;
@@ -393,6 +401,17 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DEFLATE_LEVEL,
+		 g_param_spec_int ("deflate-level",
+				   _("Deflate Level"),
+				   _("The level of deflate compression used, zero meaning none "
+				     "and -1 meaning the zlib default"),
+				   -1, 9,
+				   Z_DEFAULT_COMPRESSION,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 }

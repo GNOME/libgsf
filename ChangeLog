@@ -1,3 +1,9 @@
+2019-10-18  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-output-gzip.c (gsf_output_gzip_class_init): Add
+	"deflate-level" attribute to control compression.  Must be set
+	before first write.  Based on code from Allin Cottrell.
+
 2019-10-16  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-output-memory.c (gsf_output_memory_steal_bytes): New
