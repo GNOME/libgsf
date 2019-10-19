@@ -20,6 +20,7 @@ gsf/gsf-outfile-zip.c
 gsf/gsf-output-bzip.c
 gsf/gsf-output.c
 gsf/gsf-output-csv.c
+gsf/gsf-output-gzip.c
 gsf/gsf-output-iconv.c
 gsf/gsf-output-stdio.c
 thumbnailer/main.c
