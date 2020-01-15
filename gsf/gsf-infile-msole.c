@@ -281,15 +281,18 @@ static GDateTime *
 datetime_from_filetime (guint64 ft)
 {
 	static const guint64 epoch = G_GINT64_CONSTANT (11644473600);
-	GTimeVal tv;
+	GDateTime *dt, *res;
+
 	if (!ft)
 		return NULL;
 
 	/* ft is number of 100ns since Jan 1 1601 */
 
-	tv.tv_usec = (ft % 10000000u) / 10;
-	tv.tv_sec = (ft / 10000000u) - epoch;
-	return g_date_time_new_from_timeval_local (&tv);
+	dt = g_date_time_new_from_unix_local (ft / 10000000u - epoch);
+	res = g_date_time_add (dt, (ft % 10000000u) / 10);
+	g_date_time_unref (dt);
+
+	return res;
 }
 
 
