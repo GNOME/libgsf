@@ -25,6 +25,7 @@
 #include <gsf/gsf.h>
 #include <gsf/gsf-zip-impl.h>
 #include <glib/gi18n-lib.h>
+#include "gsf-priv.h"
 
 #include <string.h>
 #include <time.h>
@@ -911,33 +912,38 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 	GsfOutfileZip *zip_parent = (GsfOutfileZip *)parent;
 	GsfOutfileZip *child;
 	size_t n_params = 0;
-	GParameter *params = NULL;
+	GsfParam *params = NULL;
 	char *display_name;
+	g_autofree const char **names = NULL;
+	g_autofree GValue *values = NULL;
 
 	g_return_val_if_fail (zip_parent != NULL, NULL);
 	g_return_val_if_fail (zip_parent->vdir, NULL);
 	g_return_val_if_fail (zip_parent->vdir->is_directory, NULL);
 	g_return_val_if_fail (name && *name, NULL);
 
-	gsf_property_settings_collect (GSF_OUTFILE_ZIP_TYPE,
-				       &params, &n_params,
-				       "sink", zip_parent->sink,
-				       "entry-name", name,
-				       NULL);
-	gsf_property_settings_collect_valist (GSF_OUTFILE_ZIP_TYPE,
-					      &params, &n_params,
-					      first_property_name,
-					      args);
-	if (!gsf_property_settings_find ("modtime", params, n_params))
-		gsf_property_settings_collect (GSF_OUTFILE_ZIP_TYPE,
-					       &params, &n_params,
-					       "modtime", gsf_output_get_modtime (GSF_OUTPUT (parent)),
-					       NULL);
+	gsf_prop_settings_collect (GSF_OUTFILE_ZIP_TYPE,
+				   &params, &n_params,
+				   "sink", zip_parent->sink,
+				   "entry-name", name,
+				   NULL);
+	gsf_prop_settings_collect_valist (GSF_OUTFILE_ZIP_TYPE,
+					  &params, &n_params,
+					  first_property_name,
+					  args);
+	if (!gsf_prop_settings_find ("modtime", params, n_params))
+		gsf_prop_settings_collect (GSF_OUTFILE_ZIP_TYPE,
+					   &params, &n_params,
+					   "modtime", gsf_output_get_modtime (GSF_OUTPUT (parent)),
+					   NULL);
 
-	child = (GsfOutfileZip *)g_object_newv (GSF_OUTFILE_ZIP_TYPE,
-						n_params,
-						params);
-	gsf_property_settings_free (params, n_params);
+	gsf_params_to_properties (params, n_params, &names, &values);
+
+	child = (GsfOutfileZip *)g_object_new_with_properties (GSF_OUTFILE_ZIP_TYPE,
+							       n_params,
+							       names,
+							       values);
+	gsf_prop_settings_free (params, n_params);
 
 	child->zip64 = zip_parent->zip64;
 	child->vdir = gsf_zip_vdir_new (name, is_dir, NULL);

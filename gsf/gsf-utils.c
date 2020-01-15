@@ -700,6 +700,8 @@ gsf_base64_decode_simple (guint8 *data, size_t len)
 }
 
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+
 /* Largely a copy of g_object_new_valist.  */
 /**
  * gsf_property_settings_collect_valist:
@@ -819,6 +821,7 @@ gsf_property_settings_free (GParameter *params,
 		g_value_unset (&params[n_params].value);
 	g_free (params);
 }
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 
 

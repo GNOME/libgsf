@@ -24,6 +24,7 @@ endif
 
 libgsf_1_la_SOURCES =		\
 	gsf-utils.c		\
+	gsf-priv.c		\
 	gsf-libxml.c		\
 	gsf-doc-meta-data.c	\
 	gsf-docprop-vector.c	\
@@ -134,7 +135,8 @@ libgsf_1_include_HEADERS = 	\
 
 noinst_HEADERS = \
 	gsf-msole-impl.h	\
-	gsf-zip-impl.h
+	gsf-zip-impl.h		\
+	gsf-priv.h
 
 
 CPP_CFLAGS = -DGLIB_CHECK_VERSION\(x,y,z\)
