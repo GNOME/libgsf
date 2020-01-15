@@ -71,9 +71,9 @@ ifelse([
 ])
 dnl Modules required for libgsf
 libgsf_reqs="
-    gobject-2.0 >= 2.34.0
-    glib-2.0 >= 2.26.0
-    gio-2.0 >= 2.26.0
+    gobject-2.0 >= 2.36.0
+    glib-2.0 >= 2.36.0
+    gio-2.0 >= 2.36.0
     libxml-2.0 >= 2.4.16
 "
 
@@ -315,7 +315,6 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $LIBGSF_CFLAGS"
 LIBS="$LIBGSF_LIBS $LIBS"
-AC_CHECK_FUNCS(g_value_get_schar g_value_set_schar)
 AC_MSG_CHECKING([for g_chown])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chown("/xxx",-1,-1);]])],
                [AC_DEFINE(HAVE_G_CHOWN, 1, [Define if g_chown is available as macro or function])

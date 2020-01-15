@@ -902,7 +902,7 @@ gsf_odf_out_class_init (GsfODFOutClass *klass)
 				   0,
 				   G_MAXINT,
 				   100,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
 }

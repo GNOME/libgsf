@@ -333,7 +333,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      _("Sink"),
 				      _("Where the formatted output is written"),
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE));
 
 	g_object_class_install_property
@@ -343,7 +343,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      _("Quote"),
 				      _("The string used for quoting fields"),
 				      "\"",
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
 
@@ -355,7 +355,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				    _("When to quote fields"),
 				    GSF_OUTPUT_CSV_QUOTING_MODE_TYPE,
 				    GSF_OUTPUT_CSV_QUOTING_MODE_NEVER,
-				    GSF_PARAM_STATIC |
+				    G_PARAM_STATIC_STRINGS |
 				    G_PARAM_CONSTRUCT |
 				    G_PARAM_READWRITE));
 
@@ -366,7 +366,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      _("Quoting Triggers"),
 				      _("Characters that cause field quoting"),
 				      NULL,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE));
 
 	g_object_class_install_property
@@ -376,7 +376,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				       _("Quoting On Whitespace"),
 				       _("Does initial or terminal whitespace force quoting?"),
 				       TRUE,
-				       GSF_PARAM_STATIC |
+				       G_PARAM_STATIC_STRINGS |
 				       G_PARAM_READWRITE));
 
 	g_object_class_install_property
@@ -386,7 +386,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      _("Separator"),
 				      _("The field separator"),
 				      ",",
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
 
@@ -397,7 +397,7 @@ gsf_output_csv_class_init (GObjectClass *gobject_class)
 				      _("end-of-line"),
 				      _("The end-of-line marker"),
 				      "\n",
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
 

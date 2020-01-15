@@ -562,7 +562,7 @@ gsf_infile_tar_class_init (GObjectClass *gobject_class)
 				      _("Source"),
 				      _("The archive being interpreted"),
 				      GSF_INPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 }

@@ -110,12 +110,6 @@ typedef struct GsfXMLOutClass_		GsfXMLOutClass;
 
 typedef struct _GsfBlob GsfBlob;
 
-#if GLIB_CHECK_VERSION(2,32,0)
-#define GSF_DEPRECATED_FOR(f) G_DEPRECATED_FOR(f)
-#else
-#define GSF_DEPRECATED_FOR(f)
-#endif
-
 G_END_DECLS
 
 #endif /* GSF_H */

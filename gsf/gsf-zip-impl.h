@@ -166,12 +166,12 @@ GsfZipVDir *gsf_zip_vdir_new	(char const *name, gboolean is_directory,
 void	    gsf_zip_vdir_free	(GsfZipVDir *vdir, gboolean free_dirent);
 void	    gsf_zip_vdir_add_child	(GsfZipVDir *vdir, GsfZipVDir *child);
 #ifndef GSF_DISABLE_DEPRECATED
-GSF_DEPRECATED_FOR(gsf_zip_vdir_new)
+G_DEPRECATED_FOR(gsf_zip_vdir_new)
 GsfZipVDir *gsf_vdir_new	(char const *name, gboolean is_directory,
 				 GsfZipDirent *dirent);
-GSF_DEPRECATED_FOR(gsf_zip_vdir_free)
+G_DEPRECATED_FOR(gsf_zip_vdir_free)
 void	    gsf_vdir_free	(GsfZipVDir *vdir, gboolean free_dirent);
-GSF_DEPRECATED_FOR(gsf_zip_vdir_add_child)
+G_DEPRECATED_FOR(gsf_zip_vdir_add_child)
 void	    gsf_vdir_add_child	(GsfZipVDir *vdir, GsfZipVDir *child);
 #endif
 

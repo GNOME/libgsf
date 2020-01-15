@@ -128,7 +128,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				      _("Name"),
 				      _("The input's name"),
 				      NULL,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READABLE));
 
 	/**
@@ -143,7 +143,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     _("Size"),
 				     _("The input's size"),
 				     0, G_MAXINT64, 0,
-				     GSF_PARAM_STATIC |
+				     G_PARAM_STATIC_STRINGS |
 				     G_PARAM_READABLE));
 
 	/**
@@ -158,7 +158,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				       _("EOF"),
 				       _("End of file"),
 				       FALSE,
-				       GSF_PARAM_STATIC |
+				       G_PARAM_STATIC_STRINGS |
 				       G_PARAM_READABLE));
 
 	/**
@@ -173,7 +173,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     _("Remaining"),
 				     _("Amount of data remaining"),
 				     0, G_MAXINT64, 0,
-				     GSF_PARAM_STATIC |
+				     G_PARAM_STATIC_STRINGS |
 				     G_PARAM_READABLE));
 
 	/**
@@ -188,7 +188,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				     _("Position"),
 				     _("The input's current position"),
 				     0, G_MAXINT64, 0,
-				     GSF_PARAM_STATIC |
+				     G_PARAM_STATIC_STRINGS |
 				     G_PARAM_READABLE));
 
 	/**
@@ -206,7 +206,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 		  _("Modification time"),
 		  _("An optional GDateTime representing the time the input was last changed"),
 		  G_TYPE_DATE_TIME,
-		  GSF_PARAM_STATIC |
+		  G_PARAM_STATIC_STRINGS |
 		  G_PARAM_READABLE));
 
 	/**
@@ -220,7 +220,7 @@ gsf_input_class_init (GObjectClass *gobject_class)
 				      _("Container"),
 				      _("The parent GsfInfile"),
 				      GSF_INFILE_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READABLE));
 }
 

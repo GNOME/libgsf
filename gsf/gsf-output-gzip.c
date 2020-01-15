@@ -389,7 +389,7 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("raw", "Raw",
 				       "Whether to write compressed data with no header/tailer.",
 				       FALSE,
-				       GSF_PARAM_STATIC |
+				       G_PARAM_STATIC_STRINGS |
 				       G_PARAM_READWRITE |
 				       G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -398,7 +398,7 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 		 g_param_spec_object ("sink", "Sink",
 				      "Where the compressed data is written.",
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -410,7 +410,7 @@ gsf_output_gzip_class_init (GObjectClass *gobject_class)
 				     "and -1 meaning the zlib default"),
 				   -1, 9,
 				   Z_DEFAULT_COMPRESSION,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);

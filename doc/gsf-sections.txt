@@ -716,7 +716,6 @@ GSF_DYNAMIC_CLASS_FULL
 GSF_DYNAMIC_CLASS_ABSTRACT
 GSF_DYNAMIC_INTERFACE
 GSF_DYNAMIC_INTERFACE_FULL
-GSF_PARAM_STATIC
 <SUBSECTION Errors>
 GSF_ERROR
 GsfError
@@ -790,10 +789,6 @@ gsf_doc_prop_swap_val
 gsf_property_settings_collect
 gsf_property_settings_collect_valist
 gsf_property_settings_free
-
-<SUBSECTION Private>
-GSF_DEPRECATED_FOR
-</SECTION>
 
 <SECTION>
 <FILE>metadata</FILE>

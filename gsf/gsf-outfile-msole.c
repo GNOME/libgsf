@@ -803,7 +803,7 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 				      _("Sink"),
 				      _("The destination for writes"),
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 
@@ -815,7 +815,7 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 				    _("The size of the OLE's small blocks"),
 				    8u, ZERO_PAD_BUF_SIZE,
 				    OLE_DEFAULT_SB_SIZE,
-				    GSF_PARAM_STATIC |
+				    G_PARAM_STATIC_STRINGS |
 				    G_PARAM_READWRITE |
 				    G_PARAM_CONSTRUCT_ONLY));
 
@@ -827,7 +827,7 @@ gsf_outfile_msole_class_init (GObjectClass *gobject_class)
 				    _("The size of the OLE's big blocks"),
 				    DIRENT_SIZE, ZERO_PAD_BUF_SIZE,
 				    OLE_DEFAULT_BB_SIZE,
-				    GSF_PARAM_STATIC |
+				    G_PARAM_STATIC_STRINGS |
 				    G_PARAM_READWRITE |
 				    G_PARAM_CONSTRUCT_ONLY));
 

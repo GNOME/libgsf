@@ -1076,7 +1076,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				      _("Sink"),
 				      _("Where the archive is written"),
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -1086,7 +1086,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				      _("Entry Name"),
 				      _("The filename of this member in the archive without path"),
 				      NULL,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -1097,7 +1097,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   _("The level of compression used, zero meaning none"),
 				   0, 10,
 				   GSF_ZIP_DEFLATED,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -1109,7 +1109,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				     "and -1 meaning the zlib default"),
 				   -1, 9,
 				   Z_DEFAULT_COMPRESSION,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -1120,7 +1120,7 @@ gsf_outfile_zip_class_init (GObjectClass *gobject_class)
 				   _("Whether to use zip64 format, -1 meaning automatic"),
 				   -1, 1,
 				   ZIP_CREATE_DEFAULT_ZIP64,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
 }

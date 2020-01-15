@@ -27,6 +27,7 @@
 
 G_BEGIN_DECLS
 
+/* kept for compatibility reasons */
 #define GSF_PARAM_STATIC G_PARAM_STATIC_STRINGS
 
 /*************************************************************************/

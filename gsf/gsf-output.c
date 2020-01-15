@@ -168,7 +168,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				      _("Name"),
 				      _("The output's name"),
 				      NULL,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE));
 
 	/**
@@ -183,7 +183,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				     _("Size"),
 				     _("The output's size"),
 				     0, G_MAXINT64, 0,
-				     GSF_PARAM_STATIC |
+				     G_PARAM_STATIC_STRINGS |
 				     G_PARAM_READABLE));
 
 	/**
@@ -198,7 +198,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				       _("Is Closed"),
 				       _("Whether the output is closed"),
 				       FALSE,
-				       GSF_PARAM_STATIC |
+				       G_PARAM_STATIC_STRINGS |
 				       G_PARAM_READABLE));
 
 	/**
@@ -213,7 +213,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				     _("Position"),
 				     _("The output's current position"),
 				     0, G_MAXINT64, 0,
-				     GSF_PARAM_STATIC |
+				     G_PARAM_STATIC_STRINGS |
 				     G_PARAM_READABLE));
 
 	/**
@@ -232,7 +232,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 		  _("Modification time"),
 		  _("An optional GDateTime representing the time the output was last changed"),
 		  G_TYPE_DATE_TIME,
-		  GSF_PARAM_STATIC |
+		  G_PARAM_STATIC_STRINGS |
 		  G_PARAM_CONSTRUCT_ONLY |
 		  G_PARAM_READWRITE));
 
@@ -247,7 +247,7 @@ gsf_output_class_init (GObjectClass *gobject_class)
 				      _("Container"),
 				      _("The parent GsfOutfile"),
 				      GSF_OUTFILE_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE));
 }
 

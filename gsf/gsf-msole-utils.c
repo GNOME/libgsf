@@ -31,11 +31,6 @@
 #include <time.h>
 #include <glib/gi18n-lib.h>
 
-/* Dead kittens.  */
-#ifndef HAVE_G_VALUE_SET_SCHAR
-#define g_value_set_schar(v_,sc_) g_value_set_char((v_),(char)(sc_))
-#endif
-
 #define NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)

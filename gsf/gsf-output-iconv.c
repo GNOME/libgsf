@@ -276,7 +276,7 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 				      _("Sink"),
 				      _("Where the converted data is written"),
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 
@@ -287,7 +287,7 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 				      _("Input Charset"),
 				      _("The character set to convert from"),
 				      "UTF-8",
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property
@@ -297,7 +297,7 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 				      _("Output Charset"),
 				      _("The character set to convert to"),
 				      "UTF-8",
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 	/**
@@ -314,7 +314,7 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 				      _("Fallback"),
 				      _("The string to use for invalid characters"),
 				      NULL,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);

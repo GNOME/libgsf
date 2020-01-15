@@ -23,8 +23,6 @@ main (int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	g_type_init();
-
 	out = gsf_output_stdio_new("teststg", NULL);
 	outf = gsf_outfile_msole_new(out);
 	outchild = gsf_outfile_new_child(outf, "small", false);

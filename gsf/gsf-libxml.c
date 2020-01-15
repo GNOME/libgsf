@@ -30,14 +30,6 @@
 
 #undef DEBUG_PUSH_POP
 
-/* Dead kittens.  */
-#ifndef HAVE_G_VALUE_SET_SCHAR
-#define g_value_set_schar(v_,sc_) g_value_set_char((v_),(char)(sc_))
-#endif
-#ifndef HAVE_G_VALUE_GET_SCHAR
-#define g_value_get_schar(v_) (signed char)g_value_get_char((v_))
-#endif
-
 static GObjectClass *parent_class;
 
 static gint
@@ -1580,7 +1572,7 @@ gsf_xml_out_class_init (GsfXMLOutClass *klass)
 		 g_param_spec_boolean ("pretty-print",
 				       _("Pretty print"),
 				       _("Should the output auto-indent elements to make reading easier?"),
-			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+			TRUE, G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class, PROP_SINK,
@@ -1588,7 +1580,7 @@ gsf_xml_out_class_init (GsfXMLOutClass *klass)
 				      _("Sink"),
 				      _("The destination for writes"),
 				      GSF_OUTPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 }

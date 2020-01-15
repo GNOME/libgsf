@@ -942,7 +942,7 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      _("Source"),
 				      _("The archive being interpreted"),
 				      GSF_INPUT_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
 
@@ -959,7 +959,7 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				   _("The level of compression used, zero meaning none"),
 				   0, 10,
 				   0,
-				   GSF_PARAM_STATIC |
+				   G_PARAM_STATIC_STRINGS |
 				   G_PARAM_READABLE));
 
 	g_object_class_install_property
@@ -969,7 +969,7 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      "",
 				      "Internal use only",
 				      GSF_INFILE_ZIP_TYPE,
-				      GSF_PARAM_STATIC |
+				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_WRITABLE |
 				      G_PARAM_CONSTRUCT_ONLY));
 }
