@@ -23,9 +23,13 @@
 #include <gsf/gsf-docprop-vector.h>
 #include <gsf/gsf.h>
 
+/* TODO: Drop GValueArray when breaking API */
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+
 struct _GsfDocPropVector {
 	GObject      parent;
 
+	GArray      *ga;
 	GValueArray *gva;
 };
 typedef GObjectClass  GsfDocPropVectorClass;
@@ -41,6 +45,22 @@ gsf_value_get_docprop_varray (GValue const *value)
 {
 	GsfDocPropVector *v = gsf_value_get_docprop_vector (value);
 	return v ? v->gva : NULL;
+}
+
+/**
+ * gsf_value_get_docprop_array:
+ * @value: A GValue of type #GsfDocPropVector.
+ *
+ * This function returns the array of values inside #GsfDocPropVector or NULL.
+ * No additional references are created.
+ *
+ * Returns: (transfer none) (element-type GValue): A #GArray of #GValue
+ **/
+GArray *
+gsf_value_get_docprop_array (GValue const *value)
+{
+	GsfDocPropVector *v = gsf_value_get_docprop_vector (value);
+	return v ? v->ga : NULL;
 }
 
 /**
@@ -73,8 +93,15 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
 	g_return_if_fail (vector != NULL);
 	g_return_if_fail (value != NULL);
 
-	if (G_IS_VALUE (value))
+	if (G_IS_VALUE (value)) {
+		GValue val = G_VALUE_INIT;
+
+		g_value_init (&val, G_VALUE_TYPE (value));
+		g_value_copy (value, &val);
+		g_array_append_vals (vector->ga, &val, 1);
+
 		vector->gva = g_value_array_append (vector->gva, value);
+	}
 }
 
 /**
@@ -95,16 +122,16 @@ gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 	guint		 num_values;
 
 	g_return_val_if_fail (vector != NULL, NULL);
-	g_return_val_if_fail (vector->gva != NULL, NULL);
+	g_return_val_if_fail (vector->ga != NULL, NULL);
 
 	rstring    = g_new0 (gchar, 1);
-	num_values = vector->gva->n_values;
+	num_values = vector->ga->len;
 
 	for (i = 0; i < num_values; i++) {
 		char    *str;
 		GValue	*v;
 
-		v = g_value_array_get_nth (vector->gva, i);
+		v = &g_array_index (vector->ga, GValue, i);
 		str = g_strdup_value_contents (v);
 		rstring = g_strconcat (rstring, str, ",", NULL);
 		g_free (str);
@@ -121,6 +148,7 @@ gsf_docprop_vector_finalize (GObject *obj)
 		g_value_array_free (vector->gva);
 		vector->gva = NULL;
 	}
+	g_clear_pointer(&vector->ga, g_array_unref);
 	parent_class->finalize (obj);
 }
 
@@ -134,6 +162,8 @@ gsf_docprop_vector_class_init (GObjectClass *gobject_class)
 static void
 gsf_docprop_vector_init (GsfDocPropVector *vector)
 {
+	vector->ga = g_array_sized_new (FALSE, TRUE, sizeof (GValue), 0);
+	g_array_set_clear_func (vector->ga, (GDestroyNotify) g_value_unset);
 	vector->gva = g_value_array_new (0);
 }
 
@@ -154,3 +184,4 @@ gsf_docprop_vector_new (void)
 	return g_object_new (GSF_DOCPROP_VECTOR_TYPE, NULL);
 }
 
+G_GNUC_END_IGNORE_DEPRECATIONS
