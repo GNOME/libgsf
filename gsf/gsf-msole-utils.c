@@ -1385,7 +1385,7 @@ gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 		return VT_UNKNOWN;
 	case G_TYPE_OBJECT:
 		if (VAL_IS_GSF_DOCPROP_VECTOR (value)) {
-			GValueArray *vector = gsf_value_get_docprop_varray (value);
+			GArray *vector = gsf_value_get_docprop_array (value);
 			unsigned i, n;
 			GsfMSOleVariantType type, tmp;
 
@@ -1398,10 +1398,10 @@ gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 					return VT_VECTOR | VT_VARIANT;
 			} else
 				type = VT_UNKNOWN;
-			n = vector->n_values;
+			n = vector->len;
 			for (i = 0; i < n; i++) {
 				tmp = gvalue_to_msole_vt (
-					g_value_array_get_nth (vector, i), NULL);
+					&g_array_index (vector, GValue, i), NULL);
 				if (type == VT_UNKNOWN)
 					type = tmp;
 				else if (type != tmp)
@@ -1479,8 +1479,8 @@ msole_metadata_write_prop (WritePropState *state,
 	}
 
 	if (type & VT_VECTOR) {
-		GValueArray *vector = gsf_value_get_docprop_varray (value);
-		unsigned i, n = vector->n_values;
+		GArray *vector = gsf_value_get_docprop_array (value);
+		unsigned i, n = vector->len;
 		gboolean res;
 
 		GSF_LE_SET_GINT32 (buf, n);
@@ -1488,7 +1488,7 @@ msole_metadata_write_prop (WritePropState *state,
 		for (i = 0; i < n; i++) {
 			gboolean suppress = type != (VT_VECTOR | VT_VARIANT);
 			res &= msole_metadata_write_prop (state, NULL,
-				g_value_array_get_nth (vector, i),
+			        &g_array_index (vector, GValue, i),
 				suppress);
 		}
 		return res;

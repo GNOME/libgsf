@@ -439,12 +439,11 @@ gsf_doc_prop_dump (GsfDocProp const *prop)
 	GValue const *val = gsf_doc_prop_get_val (prop);
 	char *tmp;
 	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
-		GValueArray *va = gsf_value_get_docprop_varray (val);
+		GArray *va = gsf_value_get_docprop_array (val);
 		unsigned i;
 
-		for (i = 0 ; i < va->n_values; i++) {
-			tmp = g_strdup_value_contents (
-				g_value_array_get_nth (va, i));
+		for (i = 0 ; i < va->len; i++) {
+			tmp = g_strdup_value_contents (&g_array_index (va, GValue, i));
 			g_print ("\t[%u] = %s\n", i, tmp);
 			g_free (tmp);
 		}

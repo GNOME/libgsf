@@ -352,11 +352,14 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 						GValue const *old = gsf_doc_prop_get_val (prop);
 						if (G_VALUE_HOLDS (old, GSF_DOCPROP_VECTOR_TYPE)) {
 							GValue *new = g_new0 (GValue, 1);
-							GValueArray *vector;
+							GValue r = G_VALUE_INIT;
+							GArray *vector;
 							g_value_init (new, GSF_DOCPROP_VECTOR_TYPE);
 							g_value_copy (old, new);
-							vector = gsf_value_get_docprop_varray (new);
-							g_value_array_append (vector, res);
+							vector = gsf_value_get_docprop_array (new);
+							g_value_init (&r, G_VALUE_TYPE (res));
+							g_value_copy (res, &r);
+							g_array_append_vals (vector, &r, 1);
 							gsf_doc_prop_set_val (prop, new);
 						} else
 							g_printerr (_("Property \"%s\" used for "
@@ -700,7 +703,7 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 	/* Handle specially */
 	if (0 == strcmp (prop_name, GSF_META_NAME_KEYWORDS)) {
-		GValueArray *va;
+		GArray *va;
 		unsigned i;
 		char *str;
 
@@ -714,9 +717,9 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 				gsf_xml_out_end_element (output);
 			}
 			g_free (str);
-		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
-			for (i = 0 ; i < va->n_values; i++) {
-				str = g_value_dup_string (g_value_array_get_nth	(va, i));
+		} else if (NULL != (va = gsf_value_get_docprop_array (val))) {
+			for (i = 0 ; i < va->len; i++) {
+				str = g_value_dup_string (&g_array_index (va, GValue, i));
 				gsf_xml_out_start_element (output, "meta:keyword");
 				gsf_xml_out_add_cstr (output, NULL, str);
 				gsf_xml_out_end_element (output);
@@ -728,16 +731,16 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 	if (NULL == (mapped_name = od_map_prop_name (prop_name))) {
 		if (GSF_DOCPROP_VECTOR_TYPE == G_VALUE_TYPE (val)) {
-			GValueArray	 *vector = gsf_value_get_docprop_varray	(val);
+			GArray		 *vector = gsf_value_get_docprop_array (val);
 			guint		  i;
-			guint		  num_values = vector->n_values;
+			guint		  num_values = vector->len;
 
 			for (i = 0; i < num_values; i++) {
 				GValue	*v;
 				char    *new_name = g_strdup_printf
 					("GSF_DOCPROP_VECTOR:%.4i:%s", i, prop_name);
 
-				v = g_value_array_get_nth (vector, i);
+				v = &g_array_index (vector, GValue, i);
 				meta_write_props_user_defined (new_name, v, output);
 				g_free (new_name);
 			}
