@@ -13,8 +13,10 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
     --includedir=.
 
+EXTRA_DIST = libgsf.syms
+
 libgsf_1_la_LIBADD  = $(LIBGSF_LIBS) $(Z_LIBS) $(BZ2_LIBS)
-libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO)
+libgsf_1_la_LDFLAGS = -version-info $(VERSION_INFO) -export-symbols libgsf.syms
 if WITH_WIN32
   libgsf_1_la_DEPENDENCIES = lib.def
   libgsf_1_la_LDFLAGS += -no-undefined -export-symbols lib.def
