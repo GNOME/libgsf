@@ -156,7 +156,6 @@ static void
 do_compress (GsfInput *input, GsfOutput *output)
 {
 	CompressBuf real_buf, *buf;
-	GString *string;
 	guint8   data[HEADER_SIZE];
 	int      length;
 
@@ -169,8 +168,6 @@ do_compress (GsfInput *input, GsfOutput *output)
 	data[1] = 0x00;
 	data[2] = 0xb0;
 	gsf_output_write (buf->output, 3, data); /* dummy padding */
-
-	string = g_string_sized_new (64);
 
 	while (gsf_input_remaining (input) > 0) {
 		buf->length = MIN (gsf_input_remaining (input), VBA_COMPRESSION_WINDOW);
