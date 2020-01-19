@@ -830,6 +830,9 @@ enum {
 	PROP_ODF_VERSION
 };
 
+G_DEFINE_TYPE_WITH_CODE (GsfODFOut, gsf_odf_out, GSF_XML_OUT_TYPE,
+			 G_ADD_PRIVATE (GsfODFOut))
+
 static GObjectClass *parent_class;
 
 static void
@@ -871,18 +874,18 @@ gsf_odf_out_get_property (GObject     *object,
 }
 
 static void
-gsf_odf_out_init (GObject *obj)
+gsf_odf_out_init (GsfODFOut *xout)
 {
-	GsfODFOut *xout = GSF_ODF_OUT (obj);
-	GsfODFOutPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE
-		(obj, GSF_ODF_OUT_TYPE, GsfODFOutPrivate);
+	GsfODFOutPrivate *priv = gsf_odf_out_get_instance_private (xout);
+
 	xout->priv = priv;
 	priv->odf_version = 100;
 }
 
 static void
-gsf_odf_out_class_init (GObjectClass *gobject_class)
+gsf_odf_out_class_init (GsfODFOutClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->get_property = gsf_odf_out_get_property;
@@ -899,13 +902,7 @@ gsf_odf_out_class_init (GObjectClass *gobject_class)
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE |
 				   G_PARAM_CONSTRUCT_ONLY));
-
-	g_type_class_add_private (gobject_class, sizeof (GsfODFOutPrivate));
 }
-
-GSF_CLASS (GsfODFOut, gsf_odf_out,
-	   gsf_odf_out_class_init, gsf_odf_out_init,
-	   GSF_XML_OUT_TYPE)
 
 int
 gsf_odf_out_get_version (GsfODFOut *oout)

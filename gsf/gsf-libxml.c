@@ -1487,6 +1487,9 @@ typedef struct _GsfXMLOutPrivate {
 	gboolean	  pretty_print;
 } GsfXMLOutPrivate;
 
+G_DEFINE_TYPE_WITH_CODE (GsfXMLOut, gsf_xml_out, G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GsfXMLOut))
+
 static void
 gsf_xml_out_set_output (GsfXMLOut *xout, GsfOutput *output)
 {
@@ -1547,11 +1550,10 @@ gsf_xml_out_finalize (GObject *obj)
 }
 
 static void
-gsf_xml_out_init (GObject *obj)
+gsf_xml_out_init (GsfXMLOut *xout)
 {
-	GsfXMLOut *xout = GSF_XML_OUT (obj);
-	GsfXMLOutPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE
-		(obj, GSF_XML_OUT_TYPE, GsfXMLOutPrivate);
+	GsfXMLOutPrivate *priv = gsf_xml_out_get_instance_private (xout);
+
 	xout->output = NULL;
 	xout->priv = priv;
 	priv->stack  = NULL;
@@ -1563,8 +1565,10 @@ gsf_xml_out_init (GObject *obj)
 }
 
 static void
-gsf_xml_out_class_init (GObjectClass *gobject_class)
+gsf_xml_out_class_init (GsfXMLOutClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->finalize	    = gsf_xml_out_finalize;
@@ -1587,13 +1591,7 @@ gsf_xml_out_class_init (GObjectClass *gobject_class)
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE |
 				      G_PARAM_CONSTRUCT_ONLY));
-
-	g_type_class_add_private (gobject_class, sizeof (GsfXMLOutPrivate));
 }
-
-GSF_CLASS (GsfXMLOut, gsf_xml_out,
-	   gsf_xml_out_class_init, gsf_xml_out_init,
-	   G_TYPE_OBJECT)
 
 /**
  * gsf_xml_out_new:
