@@ -98,7 +98,6 @@ dump_biff_stream (GsfInput *stream)
 {
 	guint8 const *data;
 	guint16 len, opcode;
-	unsigned pos = gsf_input_tell (stream);
 
 	while (NULL != (data = gsf_input_read (stream, 4, NULL))) {
 		gboolean enable_dump = TRUE;
@@ -128,7 +127,6 @@ dump_biff_stream (GsfInput *stream)
 			if (enable_dump)
 				gsf_mem_dump (data, len);
 		}
-		pos = gsf_input_tell (stream);
 	}
 }
 #endif /* DUMP_CONTENT */
