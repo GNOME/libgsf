@@ -51,10 +51,11 @@ gsf_value_get_docprop_varray (GValue const *value)
  * gsf_value_get_docprop_array:
  * @value: A GValue of type #GsfDocPropVector.
  *
- * This function returns the array of values inside #GsfDocPropVector or NULL.
+ * This function returns the array of values inside #GsfDocPropVector.
  * No additional references are created.
  *
- * Returns: (transfer none) (element-type GValue): A #GArray of #GValue
+ * Returns: (transfer none) (element-type GValue) (nullable): A #GArray
+ * of #GValue
  **/
 GArray *
 gsf_value_get_docprop_array (GValue const *value)
@@ -111,7 +112,7 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
  * This function returns a string which represents all the GValues in @vector.
  * The caller is responsible for freeing the result.
  *
- * Returns: a string of comma-separated values
+ * Returns (transfer full): a string of comma-separated values
  **/
 gchar*
 gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
