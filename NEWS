@@ -4,6 +4,9 @@ Allin Cottrell:
 	* GsfOutputMemory improvement.
 	* Teach GsfOutputGzip to control compression level.
 
+Marc-André Lureau:
+	* Cleanups.  See merge request 5.
+
 --------------------------------------------------------------------------
 libgsf 1.14.46
 
