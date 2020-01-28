@@ -24,7 +24,6 @@
 #include <gsf/gsf.h>
 
 /* TODO: Drop GValueArray when breaking API */
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
 struct _GsfDocPropVector {
 	GObject      parent;
@@ -101,7 +100,9 @@ gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
 		g_value_copy (value, &val);
 		g_array_append_vals (vector->ga, &val, 1);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 		vector->gva = g_value_array_append (vector->gva, value);
+G_GNUC_END_IGNORE_DEPRECATIONS
 	}
 }
 
@@ -145,11 +146,13 @@ static void
 gsf_docprop_vector_finalize (GObject *obj)
 {
 	GsfDocPropVector *vector = (GsfDocPropVector *) obj;
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 	if (vector->gva != NULL) {
 		g_value_array_free (vector->gva);
 		vector->gva = NULL;
 	}
-	g_clear_pointer(&vector->ga, g_array_unref);
+G_GNUC_END_IGNORE_DEPRECATIONS
+	g_clear_pointer (&vector->ga, g_array_unref);
 	parent_class->finalize (obj);
 }
 
@@ -165,7 +168,9 @@ gsf_docprop_vector_init (GsfDocPropVector *vector)
 {
 	vector->ga = g_array_sized_new (FALSE, TRUE, sizeof (GValue), 0);
 	g_array_set_clear_func (vector->ga, (GDestroyNotify) g_value_unset);
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 	vector->gva = g_value_array_new (0);
+G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 GSF_CLASS (GsfDocPropVector, gsf_docprop_vector,
@@ -184,5 +189,3 @@ gsf_docprop_vector_new (void)
 {
 	return g_object_new (GSF_DOCPROP_VECTOR_TYPE, NULL);
 }
-
-G_GNUC_END_IGNORE_DEPRECATIONS
