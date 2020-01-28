@@ -914,8 +914,8 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 	size_t n_params = 0;
 	GsfParam *params = NULL;
 	char *display_name;
-	g_autofree const char **names = NULL;
-	g_autofree GValue *values = NULL;
+	const char **names;
+	GValue *values;
 
 	g_return_val_if_fail (zip_parent != NULL, NULL);
 	g_return_val_if_fail (zip_parent->vdir, NULL);
@@ -944,6 +944,8 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 							       names,
 							       values);
 	gsf_prop_settings_free (params, n_params);
+	g_free (names);
+	g_free (values);
 
 	child->zip64 = zip_parent->zip64;
 	child->vdir = gsf_zip_vdir_new (name, is_dir, NULL);
