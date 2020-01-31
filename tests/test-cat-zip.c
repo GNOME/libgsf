@@ -36,16 +36,16 @@ ls_R (GsfInput *input)
 	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 
-	printf ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
+	g_print ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		(name != NULL) ? name : "",
 		gsf_input_size (GSF_INPUT (input)));
 
 	if (is_dir) {
-		puts ("{");
+		g_print ("{");
 		for (i = 0 ; i < gsf_infile_num_children (GSF_INFILE (input)) ; i++)
 			ls_R (gsf_infile_child_by_index (GSF_INFILE (input), i));
-		puts ("}");
+		g_print ("}");
 	}
 
 	g_object_unref (G_OBJECT (input));
@@ -58,7 +58,7 @@ test (int argc, char *argv[])
 	GsfInfile *infile;
 	GError    *err = NULL;
 
-	fprintf (stderr, "%s\n", argv [1]);
+	g_printerr ("%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 
@@ -85,7 +85,7 @@ test (int argc, char *argv[])
 		int i;
 		GsfInput *child, *ptr = GSF_INPUT (infile);
 		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
-			fprintf (stderr, "--> '%s'\n", argv [i]);
+			g_printerr ("--> '%s'\n", argv [i]);
 			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0) {
 				child = gsf_infile_child_by_name (GSF_INFILE (ptr), argv [i]);
@@ -123,7 +123,7 @@ main (int argc, char *argv[])
 	int res;
 
 	if (argc < 2) {
-		fprintf (stderr, "%s : file stream stream ...\n", argv [0]);
+		g_printerr ("%s : file stream stream ...\n", argv [0]);
 		return 1;
 	}
 

@@ -33,7 +33,7 @@ ls_R (GsfInput *input)
 	gboolean is_dir = GSF_IS_INFILE (input) &&
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 
-	printf ("%c '%s' %" GSF_OFF_T_FORMAT "\n",
+	g_print ("%c '%s' %" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		gsf_input_name (GSF_INPUT (input)),
 		gsf_input_size (GSF_INPUT (input)));
@@ -41,10 +41,10 @@ ls_R (GsfInput *input)
 	if (!is_dir)
 		return;
 
-	puts ("{");
+	g_print ("{");
 	for (i = 0 ; i < gsf_infile_num_children (GSF_INFILE (input)) ; i++)
 		ls_R (gsf_infile_child_by_index (GSF_INFILE (input), i));
-	puts ("}");
+	g_print ("}");
 }
 
 static int
@@ -56,7 +56,7 @@ test (int argc, char *argv[])
 	int i;
 
 	for (i = 1 ; i < argc ; i++) {
-		puts (argv[i]);
+		g_print ("%s", argv[i]);
 		input = gsf_input_stdio_new (argv[i], &err);
 		if (input == NULL) {
 

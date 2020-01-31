@@ -39,7 +39,7 @@ ls_R (GsfInput *input)
 		(gsf_infile_num_children (GSF_INFILE (input)) >= 0);
 	/* Please see the comment on is_dir in test-cp-msole.c. */
 
-	printf ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
+	g_print ("%c '%s'\t\t%" GSF_OFF_T_FORMAT "\n",
 		(is_dir ? 'd' : ' '),
 		(name != NULL) ? name : "",
 		gsf_input_size (input));
@@ -48,10 +48,10 @@ ls_R (GsfInput *input)
 		GsfInfile *infile = GSF_INFILE (input);
 		int i;
 
-		puts ("{");
+		g_print ("{");
 		for (i = 0 ; i < gsf_infile_num_children (infile) ; i++)
 			ls_R (gsf_infile_child_by_index (infile, i));
-		puts ("}");
+		g_print ("}");
 	}
 
 	g_object_unref (G_OBJECT (input));
@@ -64,7 +64,7 @@ test (int argc, char *argv[])
 	GsfInfile *infile;
 	GError    *err = NULL;
 
-	fprintf (stderr, "%s\n", argv [1]);
+	g_printerr ("%s\n", argv [1]);
 	input = gsf_input_stdio_new (argv[1], &err);
 	if (input == NULL) {
 
@@ -92,7 +92,7 @@ test (int argc, char *argv[])
 		GsfInput *child, *ptr = GSF_INPUT (infile);
 
 		for (i = 2 ; i < argc && ptr != NULL; i++, ptr = child) {
-			fprintf (stderr, "--> '%s'\n", argv [i]);
+			g_printerr ("--> '%s'\n", argv [i]);
 			if (GSF_IS_INFILE (ptr) &&
 			    gsf_infile_num_children (GSF_INFILE (ptr)) >= 0) {
 				child = gsf_infile_child_by_name (GSF_INFILE (ptr), argv [i]);
@@ -135,8 +135,8 @@ main (int argc, char *argv[])
 	}
 
 	if (argc < 2) {
-		fprintf (stderr, "Usage: %s [--hex] file stream stream ...\n\n", progname);
-		fprintf (stderr, "For example, \"%s X A B C\" dumps the streem C "
+		g_printerr ("Usage: %s [--hex] file stream stream ...\n\n", progname);
+		g_printerr ("For example, \"%s X A B C\" dumps the streem C "
 			"from directory A/B from file X.\n", progname);
 		return 1;
 	}
