@@ -88,38 +88,6 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 	g_free (stamp);
 }
 
-#if defined(HAVE_STRUCT_TM_TM_GMTOFF)
-#define GMTOFF(t) ((t).tm_gmtoff)
-#elif defined(HAVE_STRUCT_TM___TM_GMTOFF)
-#define GMTOFF(t) ((t).__tm_gmtoff)
-#elif defined(G_OS_WIN32)
-#define GMTOFF(t) (gmt_to_local_win32())
-#else
-/* FIXME: work out the offset anyway. */
-#define GMTOFF(t) (0)
-#endif
-
-#ifdef G_OS_WIN32
-static time_t gmt_to_local_win32(void)
-{
-    TIME_ZONE_INFORMATION tzinfo;
-    DWORD dwStandardDaylight;
-    long bias;
-
-    dwStandardDaylight = GetTimeZoneInformation(&tzinfo);
-    bias = tzinfo.Bias;
-
-    if (dwStandardDaylight == TIME_ZONE_ID_STANDARD)
-        bias += tzinfo.StandardBias;
-
-    if (dwStandardDaylight == TIME_ZONE_ID_DAYLIGHT)
-        bias += tzinfo.DaylightBias;
-
-    return (- bias * 60);
-}
-#endif
-
-
 /**
  * gsf_timestamp_load_from_string:
  * @stamp: #GsfTimestamp
