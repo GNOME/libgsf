@@ -384,7 +384,7 @@ static void
 load_recursively (GsfOutfile *outfile, char const *path)
 {
 	GError *error = NULL;
-	struct stat statbuf;
+	GStatBuf statbuf;
 
 	if (g_stat (path, &statbuf) == -1) {
 		g_printerr ("Failed to stat %s: %s\n",

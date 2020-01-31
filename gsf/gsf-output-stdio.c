@@ -66,7 +66,7 @@ struct _GsfOutputStdio {
 	FILE     *file;
 	char	 *real_filename, *temp_filename;
 	gboolean  create_backup_copy, keep_open;
-	struct stat st;
+	GStatBuf  st;
 };
 
 typedef struct {
@@ -436,7 +436,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 	char *real_filename = follow_symlinks (filename, err);
 	int fd;
 	mode_t saved_umask;
-	struct stat st;
+	GStatBuf st;
 	gboolean fixup_mode = FALSE;
 
 	if (real_filename == NULL)
