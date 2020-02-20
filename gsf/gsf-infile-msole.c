@@ -289,6 +289,8 @@ datetime_from_filetime (guint64 ft)
 	/* ft is number of 100ns since Jan 1 1601 */
 
 	dt = g_date_time_new_from_unix_local (ft / 10000000u - epoch);
+	if (!dt)
+		return NULL;
 	res = g_date_time_add (dt, (ft % 10000000u) / 10);
 	g_date_time_unref (dt);
 

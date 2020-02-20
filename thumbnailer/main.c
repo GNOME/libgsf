@@ -305,11 +305,14 @@ main (int argc, char **argv)
 	    || option_input_filename == NULL
 	    || option_output_filename == NULL) {
 		g_printerr ("Invalid usage; type \"%s --help\" for instructions.  All the options must be used.\n", argv[0]);
+		g_option_context_free (option_ctx);
 		exit (EXIT_FAILURE);
 	}
 
 	gsf_init ();
 	read_thumbnail_and_write (option_input_filename, option_output_filename, option_size);
+
+	g_option_context_free (option_ctx);
 
 	return 0;
 }

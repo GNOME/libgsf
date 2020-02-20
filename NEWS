@@ -7,6 +7,9 @@ Allin Cottrell:
 Marc-André Lureau:
 	* Cleanups.  See merge request 5.
 
+Morten:
+	* Fix fuzzed-file crash.  [#19]
+
 --------------------------------------------------------------------------
 libgsf 1.14.46
 

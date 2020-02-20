@@ -1,3 +1,10 @@
+2020-02-20  Morten Welinder  <terra@gnome.org>
+
+	* thumbnailer/main.c (main): Plug leak.
+
+	* gsf/gsf-infile-msole.c (datetime_from_filetime): Propagate NULL
+	datetime.  Fixes #19.
+
 2020-01-28  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-docprop-vector.c: ignore deprecation warnings only very
