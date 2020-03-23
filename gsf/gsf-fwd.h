@@ -106,7 +106,7 @@ typedef struct _GsfXMLInNode		GsfXMLInNode;
 typedef struct _GsfXMLInNS		GsfXMLInNS;
 typedef struct _GsfXMLBlob		GsfXMLBlob;
 typedef struct _GsfXMLOut		GsfXMLOut;
-typedef struct GsfXMLOutClass_		GsfXMLOutClass;
+typedef struct _GsfXMLOutClass		GsfXMLOutClass;
 
 typedef struct _GsfBlob GsfBlob;
 
