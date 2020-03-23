@@ -792,6 +792,10 @@ gsf_property_settings_collect
 gsf_property_settings_collect_valist
 gsf_property_settings_free
 
+<SUBSECTION Private>
+GSF_DEPRECATED_FOR
+</SECTION>
+
 <SECTION>
 <FILE>metadata</FILE>
 GsfDocMetaData
