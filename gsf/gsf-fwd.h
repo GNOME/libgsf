@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 typedef struct _GsfInput	GsfInput;
 
 /**
- * GsfInfil:
+ * GsfInfile:
  *
  * Class representing an input file.
  */

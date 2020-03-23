@@ -355,10 +355,11 @@ gsf_xml_parser_context (GsfInput *input)
 /**
  * gsf_xml_output_buffer_new: (skip)
  * @output: #GsfOutput
- * @handler (allow-none):
+ * @handler: (allow-none) (scope call):
  *
  * <note>This adds a reference to @output.</note>
  * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
+ * Hmm... @handler.
  **/
 static xmlOutputBufferPtr
 gsf_xml_output_buffer_new (GsfOutput *output,
@@ -539,7 +540,7 @@ gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
  * GsfXMLIn:
  * @user_state: user data
  * @content: the current node content
- * @doc: #GsfXMLInDoc
+ * @doc: Current document being parsed #GsfXMLInDoc
  * @node: current node (not on the stack)
  **/
 
@@ -1086,7 +1087,7 @@ gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
 
 /**
  * gsf_xml_in_doc_free:
- * @doc: #GsfXMLInDoc
+ * @doc: A #GsfXMLInDoc
  *
  * Free up resources
  **/

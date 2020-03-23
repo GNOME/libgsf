@@ -258,11 +258,11 @@ gsf_input_container (GsfInput *input)
 }
 
 /**
- * gsf_input_dup: (virtual Dup):
+ * gsf_input_dup: (virtual Dup)
  * @input: The input to duplicate
  * @err: (allow-none): place to store a #GError if anything goes wrong
  *
- * Duplicates input @src leaving the new one at the same offset.
+ * Duplicates @input leaving the new one at the same offset.
  *
  * Returns: (transfer full) (nullable): the duplicate
  **/
@@ -381,7 +381,7 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 /**
- * gsf_input_read0: (rename-to gsf_input_read):
+ * gsf_input_read0: (rename-to gsf_input_read)
  * @input: the input stream
  * @num_bytes: (in): number of bytes to read
  * @bytes_read: (out): copy of @num_bytes
