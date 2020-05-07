@@ -1,15 +1,17 @@
 # libgsf ja.po.
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013, 2020 Free Software Foundation, Inc.
 # This file is distributed under the same license as the libgsf package.
 # Takeshi AIHANA <takeshi.aihana@gmail.com>, 2012.
+# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2013.
+# sicklylife <translation@sicklylife.jp>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
 "POT-Creation-Date: 2020-03-23 00:53+0000\n"
-"PO-Revision-Date: 2013-09-23 18:32+0900\n"
-"Last-Translator: Jiro Matsuzawa <jmatsuzawa@gnome.org>\n"
+"PO-Revision-Date: 2020-05-07 23:00+0900\n"
+"Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -139,17 +141,15 @@ msgstr "ZIP の冒頭読み取りエラー"
 
 #: gsf/gsf-infile-zip.c:464
 msgid "Broken zip file structure"
-msgstr ""
+msgstr "ZIP ファイル構造の破損"
 
 #: gsf/gsf-infile-zip.c:518
 msgid "Error seeking to zip header"
 msgstr "ZIP ヘッダーシークエラー"
 
 #: gsf/gsf-infile-zip.c:520
-#, fuzzy
-#| msgid "Error reading zip dirent"
 msgid "Error reading zip header"
-msgstr "ZIP の冒頭読み取りエラー"
+msgstr "ZIP ヘッダーの読み取りエラー"
 
 #: gsf/gsf-infile-zip.c:522
 msgid "Error incorrect zip header"
@@ -165,7 +165,7 @@ msgstr "圧縮レベル"
 
 #: gsf/gsf-infile-zip.c:959 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
-msgstr "圧縮するレベル、0にすると非圧縮"
+msgstr "圧縮するレベル、0 にすると非圧縮"
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
@@ -397,7 +397,7 @@ msgstr "Open Package の内容を保管する GsfOutput"
 
 #: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
-msgstr "内容の種類(content type)"
+msgstr "内容の種類 (content type)"
 
 #: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
@@ -441,23 +441,21 @@ msgstr "アーカイブ中でのこの項目のパスを抜いたファイル名
 
 #: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
-msgstr ""
+msgstr "Deflate レベル"
 
 #: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
-#, fuzzy
-#| msgid "The level of compression used, zero meaning none"
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
-msgstr "圧縮するレベル、0にすると非圧縮"
+msgstr "Deflate の圧縮レベル、0 にすると非圧縮で -1 にすると zlib のデフォルト"
 
 #: gsf/gsf-outfile-zip.c:1127
 msgid "Zip64"
-msgstr ""
+msgstr "ZIP64"
 
 #: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
-msgstr ""
+msgstr "zip64 形式を使用するかどうか (-1 で自動適用)"
 
 #: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
@@ -536,8 +534,6 @@ msgid "The field separator"
 msgstr "項目間の区切り文字"
 
 #: gsf/gsf-output-csv.c:397
-#, fuzzy
-#| msgid "end-on-line"
 msgid "end-of-line"
 msgstr "行末"
 
@@ -575,7 +571,7 @@ msgstr "不正な文字に代えて使う文字列"
 
 #: thumbnailer/main.c:301
 msgid "Options"
-msgstr ""
+msgstr "オプション"
 
 #: tools/gsf.c:19
 msgid "Display program version"
@@ -601,7 +597,7 @@ msgstr "* cat        アーカイブに含まれるファイルを出力する\n
 
 #: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       アーカイブに含まれるファイルを16進表記で出力する\n"
+msgstr "* dump       アーカイブに含まれるファイルを 16 進表記で出力する\n"
 
 #: tools/gsf.c:118
 msgid "* help       list subcommands\n"
@@ -649,7 +645,7 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"'%s --help' で利用可能なコマンドライン・オプションの一覧を表示します\n"
+"'%s --help' で利用可能なコマンドラインオプションの一覧を表示します\n"
 
 #: tools/gsf.c:544
 #, c-format
