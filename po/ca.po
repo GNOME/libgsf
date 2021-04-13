@@ -22,7 +22,7 @@ msgstr ""
 #: ../gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
-msgstr "No hi ha prou memòria per copiar %s bytes de dades"
+msgstr "No hi ha prou memòria per a copiar %s bytes de dades"
 
 #: ../gsf/gsf-clip-data.c:165
 #, c-format
@@ -345,7 +345,7 @@ msgstr "%s: el fitxer és massa gran perquè es pugui mapar a la memòria"
 #: ../gsf/gsf-input-memory.c:284
 #, c-format
 msgid "mmap not supported"
-msgstr "No es pot utilitzar l'mmap"
+msgstr "No es pot utilitzar mmap"
 
 #: ../gsf/gsf-libxml.c:1507
 msgid "Pretty print"
@@ -354,7 +354,7 @@ msgstr "Impressió ben formatada"
 #: ../gsf/gsf-libxml.c:1508
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
-"S'haurien de sagnar automàticament els elements de sortida per fer-ne més fàcil la "
+"S'haurien de sagnar automàticament els elements de sortida per a fer-ne més fàcil la "
 "lectura?"
 
 #: ../gsf/gsf-libxml.c:1514 ../gsf/gsf-open-pkg-utils.c:729
@@ -383,7 +383,7 @@ msgid ""
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Hi ha dades malmeses a la propietat VT_CF. La llargada de les dades del "
-"porta-retalls ha d'ésser d'almenys 4 bytes, però les dades contenen només %s "
+"porta-retalls ha de ser d'almenys 4 bytes, però les dades contenen només %s "
 "bytes disponibles."
 
 #: ../gsf/gsf-msole-utils.c:1127 ../gsf/gsf-msole-utils.c:1171
@@ -411,7 +411,7 @@ msgstr ""
 #: ../gsf/gsf-opendoc-utils.c:355
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
-msgstr "La propietat «%s» s'utilitza per diversos tipus!"
+msgstr "La propietat «%s» s'utilitza per a diversos tipus!"
 
 #: ../gsf/gsf-opendoc-utils.c:880
 msgid "ODF version"
@@ -536,7 +536,7 @@ msgstr "Citació"
 
 #: ../gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
-msgstr "La cadena per citar camps"
+msgstr "La cadena per a citar camps"
 
 #: ../gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
@@ -604,7 +604,7 @@ msgstr "Alternatiu"
 
 #: ../gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
-msgstr "La cadena que es farà servir pels caràcters no vàlids"
+msgstr "La cadena que es farà servir per als caràcters no vàlids"
 
 #: ../tools/gsf.c:17
 msgid "Display program version"
@@ -687,7 +687,7 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Executeu «%s --help» per veure una llista de les opcions de la línia "
+"Executeu «%s --help» per a veure una llista de les opcions de la línia "
 "d'ordres.\n"
 
 #: ../tools/gsf.c:518
@@ -703,7 +703,7 @@ msgstr "Forma d'ús: %s %s\n"
 #: ../tools/gsf.c:549
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
-msgstr "Executeu «%s help» per veure una llista de les subordres.\n"
+msgstr "Executeu «%s help» per a veure una llista de les subordres.\n"
 
 #~ msgid ""
 #~ "Boolean options available, true enables thumbnailing and false disables "
