@@ -1,17 +1,48 @@
 # use the official ubuntu image
 # see https://hub.docker.com/_/ubuntu/
-
 image: ubuntu
 
-build:
+variables:
+  DEBIAN_FRONTEND: noninteractive
+
+  TOOLS_DEPS: autoconf
+              automake
+              gtk-doc-tools
+              autopoint
+              libtool
+              make              
+
+  LIBS_DEPS: zlib1g-dev
+             libglib2.0-dev
+             libxml2-dev
+             libbz2-dev
+             libgdk-pixbuf2.0-dev
+
+  MINGW_DEPS: mingw-w64
+              mingw-w64-tools
+              mingw-w64-x86-64-dev
+              mingw-w64-i686-dev
+
+  VCPKG_DEPS: curl
+              zip
+              unzip
+              tar 
+              git
+              build-essential
+              bison
+              python3-pip
+
+  POWERSHELL_DEPS: wget 
+                   apt-transport-https
+                   software-properties-common
+
+build:linux:x64:
   stage: build
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  # before_script:
-  #   - apt update && apt -y install make autoconf
+
   before_script:
-    - DEBIAN_FRONTEND=noninteractive apt update 
-    - DEBIAN_FRONTEND=noninteractive apt -y install autoconf automake zlib1g-dev libglib2.0-dev libxml2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make
+    - apt update
+    - apt -y install $TOOLS_DEPS $LIBS_DEPS
+
   script:
     - ./autogen.sh --disable-dependency-tracking
     - make
@@ -21,10 +52,56 @@ build:
       - gsf/.libs/libgsf-1.a
       - gsf/.libs/libgsf-1.so
       - gsf/.libs/libgsf-1.so.*
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
+      - tools/gsf
+      - tools/gsf-vba-dump
+      - thumbnailer/gsf-office-thumbnailer
+
+
+build:windows:x64:
+  stage: build
+
+  variables:
+    TRIPLET: x64-mingw-dynamic
+    INSTALLED: $CI_PROJECT_DIR/vcpkg/installed/$TRIPLET    
+
+  before_script:
+    - apt update
+    - apt -y install $TOOLS_DEPS
+    - apt -y install $VCPKG_DEPS $MINGW_DEPS
+      # Install pre-requisite packages of PowerShell
+    - apt install -y $POWERSHELL_DEPS
+      # Download the Microsoft repository GPG keys
+    - export VERSION=$(lsb_release -r -s)
+    - wget -q https://packages.microsoft.com/config/ubuntu/$VERSION/packages-microsoft-prod.deb
+      # Register the Microsoft repository GPG keys
+    - dpkg -i packages-microsoft-prod.deb
+      # Update the list of packages after we added packages.microsoft.com
+    - apt-get update
+      # Install PowerShell
+    - apt-get install -y powershell
+
+  script:
+    - git clone https://github.com/microsoft/vcpkg
+    - vcpkg/bootstrap-vcpkg.sh
+    - vcpkg/vcpkg install bzip2 libxml2 glib --triplet=$TRIPLET
+    - export FLAGS="-I$INSTALLED/include -Duid_t=pid_t"
+    - export CFLAGS=$FLAGS
+    - export CPPFLAGS=$FLAGS
+    - export CXXFLAGS=$FLAGS
+    - export LDFLAGS="-L$INSTALLED/lib"
+    - export PKG_CONFIG_PATH=$INSTALLED/lib/pkgconfig
+    - ln -s $INSTALLED/lib/libzlib.dll.a $INSTALLED/lib/libz.dll.a
+    - ln -s /usr/include/unicode/ $INSTALLED/include/unicode
+    - ./autogen.sh --disable-dependency-tracking --host=x86_64-w64-mingw32
+    - make
+
+  artifacts:
+    paths:
+    - gsf/.libs/*.a
+    - gsf/.libs/*.dll
+    - tools/*.exe
+    - thumbnailer/*.exe
+
 
 # run tests using the binary built before
 test:
