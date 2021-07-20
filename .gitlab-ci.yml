@@ -1,0 +1,33 @@
+# use the official ubuntu image
+# see https://hub.docker.com/_/ubuntu/
+
+image: ubuntu
+
+build:
+  stage: build
+  # instead of calling g++ directly you can also use some build toolkit like make
+  # install the necessary build tools when needed
+  # before_script:
+  #   - apt update && apt -y install make autoconf
+  before_script:
+    - DEBIAN_FRONTEND=noninteractive apt update 
+    - DEBIAN_FRONTEND=noninteractive apt -y install autoconf automake zlib1g-dev libglib2.0-dev libxml2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make
+  script:
+    - ./autogen.sh --disable-dependency-tracking
+    - make
+    
+  artifacts:
+    paths:
+      - gsf/.libs/libgsf-1.a
+      - gsf/.libs/libgsf-1.so
+      - gsf/.libs/libgsf-1.so.*
+      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
+      # cache:
+      #   paths:
+      #     - "*.o"
+
+# run tests using the binary built before
+test:
+  stage: test
+  script:
+    - echo "Run Tests Here"
