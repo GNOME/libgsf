@@ -38,6 +38,7 @@ enum {
 	PROP_SOURCE,
 	PROP_COMPRESSION_LEVEL,
 	PROP_INTERNAL_PARENT,
+	PROP_ZIP64
 };
 
 static GObjectClass *parent_class;
@@ -886,6 +887,9 @@ gsf_infile_zip_get_property (GObject     *object,
 				 ? zip->vdir->dirent->compr_method
 				 : 0);
 		break;
+	case PROP_ZIP64:
+                g_value_set_boolean (value, zip->zip64);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -972,6 +976,15 @@ gsf_infile_zip_class_init (GObjectClass *gobject_class)
 				      G_PARAM_STATIC_STRINGS |
 				      G_PARAM_WRITABLE |
 				      G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_ZIP64,
+		 g_param_spec_boolean ("zip64",
+				       _("Zip64"),
+				       _("Whether zip64 is being used"),
+				       FALSE,
+				       G_PARAM_STATIC_STRINGS |
+				       G_PARAM_READABLE));
 }
 
 GSF_CLASS (GsfInfileZip, gsf_infile_zip,

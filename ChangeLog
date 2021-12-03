@@ -1,3 +1,8 @@
+2021-12-02  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_get_property): Add "zip64"
+	property.
+
 2020-03-23  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
