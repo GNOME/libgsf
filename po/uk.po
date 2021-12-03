@@ -3,22 +3,21 @@
 # This file is distributed under the same license as the libgsf package.
 # AlexandrToorchyn <ilex@mail.ua>, 2011.
 # Alexandr Toorchyn <ilex@mail.ua>, 2011.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2020-03-23 00:53+0000\n"
-"PO-Revision-Date: 2020-04-01 14:53+0300\n"
+"POT-Creation-Date: 2021-12-03 00:11+0000\n"
+"PO-Revision-Date: 2021-12-03 17:33+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.07.70\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Project-Style: gnome\n"
 
 #: gsf/gsf-blob.c:114
@@ -130,45 +129,54 @@ msgstr "Помилка позиціювання"
 msgid "Truncated archive"
 msgstr "Обрізаний архів"
 
-#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:942 gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Джерело"
 
-#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Архів, обробка якого відбувається"
 
-#: gsf/gsf-infile-zip.c:453
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Помилка при читанні dirent zip"
 
-#: gsf/gsf-infile-zip.c:464
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Пошкоджена файлова структура у zip"
 
-#: gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Помилка позиціювання на заголовок zip"
 
-#: gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Помилка читання заголовка zip"
 
-#: gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Помилка: некоректний заголовок zip"
 
-#: gsf/gsf-infile-zip.c:553
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "проблема із розпакуванням потоку даних"
 
-#: gsf/gsf-infile-zip.c:958 gsf/gsf-outfile-zip.c:1104
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Рівень стискання"
 
-#: gsf/gsf-infile-zip.c:959 gsf/gsf-outfile-zip.c:1105
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Використаний рівень стискання. 0 — без стискання"
+
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr ""
+"Чи використано zip64"
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
@@ -233,8 +241,8 @@ msgstr "Час внесення змін"
 #: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr ""
-"Необов'язковий запис GDateTime, який вказує на час, коли вхідні дані було"
-" востаннє змінено"
+"Необов'язковий запис GDateTime, який вказує на час, коли вхідні дані було "
+"востаннє змінено"
 
 #: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
@@ -317,8 +325,8 @@ msgstr "Форматування за стилем друку"
 #: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
-"Чи слід використовувати автоматичні відступи у оброблених даних для спрощення"
-" читання?"
+"Чи слід використовувати автоматичні відступи у оброблених даних для "
+"спрощення читання?"
 
 #: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
 #: gsf/gsf-outfile-msole.c:803 gsf/gsf-outfile-zip.c:1084
@@ -455,12 +463,8 @@ msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
-"Рівень використаного пакування deflate. 0 — без пакування; -1 — типовий"
-" рівень пакування zlib"
-
-#: gsf/gsf-outfile-zip.c:1127
-msgid "Zip64"
-msgstr "Zip64"
+"Рівень використаного пакування deflate. 0 — без пакування; -1 — типовий "
+"рівень пакування zlib"
 
 #: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
@@ -493,8 +497,8 @@ msgstr "Поточна позиція у результаті"
 #: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr ""
-"Необов'язковий запис GDateTime, який вказує на час, коли вихідні дані було"
-" востаннє змінено"
+"Необов'язковий запис GDateTime, який вказує на час, коли вихідні дані було "
+"востаннє змінено"
 
 #: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
@@ -535,8 +539,8 @@ msgstr "Лапки при пробілах"
 #: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
 msgstr ""
-"Чи слід виконувати примусове взяття у лапки за початковим або завершальними"
-" пробілом?"
+"Чи слід виконувати примусове взяття у лапки за початковим або завершальними "
+"пробілом?"
 
 #: gsf/gsf-output-csv.c:386
 msgid "Separator"
@@ -659,9 +663,8 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Віддайте команду «%s --help» для виведення повного списку доступних"
-" параметрів "
-"командного рядка.\n"
+"Віддайте команду «%s --help» для виведення повного списку доступних "
+"параметрів командного рядка.\n"
 
 #: tools/gsf.c:544
 #, c-format
@@ -675,6 +678,5 @@ msgstr "Користування: %s %s\n"
 
 #: tools/gsf.c:575
 #, c-format
-#| msgid "Run '%s help' to see a list subcommands.\n"
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Віддайте команду «%s help», щоб переглянути список підкоманд.\n"
