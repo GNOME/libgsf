@@ -1,362 +1,336 @@
 # Swedish translation of libgsf.
-# Copyright (C) 2006-2009 Free Software Foundation, Inc.
+# Copyright © 2006-2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the libgsf package.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2009.
+# Sebastian Rasmussen <sebras@gmail.com>, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-05-10 21:33+0000\n"
-"PO-Revision-Date: 2016-05-15 10:14+0200\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
+"POT-Creation-Date: 2021-12-03 00:11+0000\n"
+"PO-Revision-Date: 2021-12-04 01:26+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 3.0\n"
 
-#: ../gsf/gsf-blob.c:114
+#: gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Det finns inte tillräckligt minne för att kopiera %s byte data"
 
-#: ../gsf/gsf-clip-data.c:165
+#: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data är i %s, men det är mindre än %s byte"
 
-#: ../gsf/gsf-clip-data.c:259
-#, c-format
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
 "clip_data är i Windows-urklippsformat, men det är mindre än kravet på 4 byte."
 
-#: ../gsf/gsf-clip-data.c:270
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows Metafile-format"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:276
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB eller BITMAP-format"
 
-#: ../gsf/gsf-clip-data.c:281
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Enhanced Metafile-format"
 
-#: ../gsf/gsf-infile-msole.c:472
-#, c-format
+#: gsf/gsf-infile-msole.c:477
 msgid "Failed to duplicate input stream"
 msgstr "Misslyckades med att duplicera indataström"
 
-#: ../gsf/gsf-infile-msole.c:506
-#, c-format
+#: gsf/gsf-infile-msole.c:511
 msgid "No OLE2 signature"
 msgstr "Ingen OLE2-signatur"
 
-#: ../gsf/gsf-infile-msole.c:538
-#, c-format
+#: gsf/gsf-infile-msole.c:543
 msgid "Unreasonable block sizes"
 msgstr "Orimliga blockstorlekar"
 
-#: ../gsf/gsf-infile-msole.c:574
-#, c-format
+#: gsf/gsf-infile-msole.c:579
 msgid "Insufficient memory"
 msgstr "Otillräckligt minne"
 
-#: ../gsf/gsf-infile-msole.c:633
-#, c-format
+#: gsf/gsf-infile-msole.c:638
 msgid "Inconsistent block allocation table"
 msgstr "Inkonsekvent blockallokeringstabell"
 
-#: ../gsf/gsf-infile-msole.c:641
-#, c-format
+#: gsf/gsf-infile-msole.c:646
 msgid "Problems making block allocation table"
 msgstr "Misslyckades med att skapa blockallokeringstabell"
 
-#: ../gsf/gsf-infile-msole.c:653
-#, c-format
+#: gsf/gsf-infile-msole.c:658
 msgid "Problems reading directory"
 msgstr "Misslyckades med att läsa katalog"
 
-#: ../gsf/gsf-infile-msole.c:817
-#, c-format
+#: gsf/gsf-infile-msole.c:822
 msgid "Failed to access child"
 msgstr "Misslyckades med åtkomst av barn"
 
-#: ../gsf/gsf-infile-msole.c:849
-#, c-format
+#: gsf/gsf-infile-msole.c:854
 msgid "failure reading block"
 msgstr "felaktig läsning av block"
 
-#: ../gsf/gsf-infile-msvba.c:172 ../gsf/gsf-infile-msvba.c:390
-#, c-format
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
 msgid "Can't find the VBA directory stream"
 msgstr "Kan inte hitta VBA-katalogström"
 
-#: ../gsf/gsf-infile-msvba.c:219 ../gsf/gsf-infile-msvba.c:227
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "problem med vba-projekthuvud"
 
-#: ../gsf/gsf-infile-msvba.c:399
-#, c-format
+#: gsf/gsf-infile-msvba.c:398
 msgid "No VBA signature"
 msgstr "Ingen VBA-signatur"
 
-#: ../gsf/gsf-infile-msvba.c:410
+#: gsf/gsf-infile-msvba.c:409
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Okänd VBA-versionssignatur 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:510
-#, c-format
+#: gsf/gsf-infile-msvba.c:509
 msgid "Unable to parse VBA header"
 msgstr "Kunde inte tolka VBA-huvud"
 
-#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
-#, c-format
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
 msgid "Invalid tar header"
 msgstr "Ogiltigt tar-huvud"
 
-#: ../gsf/gsf-infile-tar.c:275
-#, c-format
+#: gsf/gsf-infile-tar.c:277
 msgid "Invalid longname header"
 msgstr "Ogiltigt huvud med långt namn"
 
-#: ../gsf/gsf-infile-tar.c:282
-#, c-format
+#: gsf/gsf-infile-tar.c:284
 msgid "Failed to read longname"
 msgstr "Misslyckades med att läsa långt namn"
 
-#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
-#, c-format
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:288
 msgid "Seek failed"
 msgstr "Sökning misslyckades"
 
-#: ../gsf/gsf-infile-tar.c:310
-#, c-format
+#: gsf/gsf-infile-tar.c:312
 msgid "Truncated archive"
 msgstr "Trunkerat arkiv"
 
-#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
-#: ../gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Källa"
 
-#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Arkivet som tolkas"
 
-#: ../gsf/gsf-infile-zip.c:453
-#, c-format
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Fel vid läsning av zip-katalogpost"
 
-#: ../gsf/gsf-infile-zip.c:464
-#, c-format
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Trasig struktur för zip-fil"
 
-#: ../gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Fel vid sökning till zip-huvud"
 
-#: ../gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Fel vid läsning av zip-huvud"
 
-#: ../gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Felaktigt zip-huvud"
 
-#: ../gsf/gsf-infile-zip.c:553
-#, c-format
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "problem vid dekomprimering av ström"
 
-#: ../gsf/gsf-infile-zip.c:958 ../gsf/gsf-outfile-zip.c:1096
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Komprimeringsgrad"
 
-#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1097
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Nivån av komprimering som använts, noll betyder ingen"
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
-#, c-format
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "Huruvida zip64 används"
+
+#: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
 msgstr "BZ2-stöd inte aktiverat"
 
-#: ../gsf/gsf-input-bzip.c:63
-#, c-format
+#: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
 msgstr "Initiering av BZ2-dekomprimering misslyckades"
 
-#: ../gsf/gsf-input-bzip.c:82
-#, c-format
+#: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
 msgstr "BZ2-dekomprimering misslyckades"
 
-#: ../gsf/gsf-input-bzip.c:99
-#, c-format
+#: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
 msgstr "Misslyckades med att slutföra BZ2-dekomprimering"
 
-#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
 msgid "Name"
 msgstr "Namn"
 
-#: ../gsf/gsf-input.c:129
+#: gsf/gsf-input.c:129
 msgid "The input's name"
 msgstr "Indatanamnet"
 
-#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Storlek"
 
-#: ../gsf/gsf-input.c:144
+#: gsf/gsf-input.c:144
 msgid "The input's size"
 msgstr "Indatastorleken"
 
-#: ../gsf/gsf-input.c:158
+#: gsf/gsf-input.c:158
 msgid "EOF"
 msgstr "Filslut"
 
-#: ../gsf/gsf-input.c:159
+#: gsf/gsf-input.c:159
 msgid "End of file"
 msgstr "Slut på filen"
 
-#: ../gsf/gsf-input.c:173
+#: gsf/gsf-input.c:173
 msgid "Remaining"
 msgstr "Återstår"
 
-#: ../gsf/gsf-input.c:174
+#: gsf/gsf-input.c:174
 msgid "Amount of data remaining"
 msgstr "Data som återstår"
 
-#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Position"
 
-#: ../gsf/gsf-input.c:189
+#: gsf/gsf-input.c:189
 msgid "The input's current position"
 msgstr "Aktuell indataposition"
 
-#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Ändringstid"
 
-#: ../gsf/gsf-input.c:207
+#: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr "En valfri GDateTime som representerar tiden när indata senast ändrades"
 
-#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Behållare"
 
-#: ../gsf/gsf-input.c:221
+#: gsf/gsf-input.c:221
 msgid "The parent GsfInfile"
 msgstr "Överordnad GstInfile"
 
-#: ../gsf/gsf-input.c:281
-#, c-format
+#: gsf/gsf-input.c:281
 msgid "Duplicate size mismatch"
 msgstr "Duplicerad storlek stämmer inte"
 
-#: ../gsf/gsf-input-gzip.c:169
-#, c-format
+#: gsf/gsf-input-gzip.c:169
 msgid "Unable to initialize zlib"
 msgstr "Kunde inte initiera zlib"
 
-#: ../gsf/gsf-input-gzip.c:177
-#, c-format
+#: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
 msgstr "Misslyckades med att spola tillbaka källa"
 
-#: ../gsf/gsf-input-gzip.c:184
-#, c-format
+#: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
 msgstr "Ogiltigt gzip-huvud"
 
-#: ../gsf/gsf-input-gzip.c:313
-#, c-format
+#: gsf/gsf-input-gzip.c:313
 msgid "truncated source"
 msgstr "trunkerad källa"
 
-#: ../gsf/gsf-input-gzip.c:330
-#, c-format
+#: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
 msgstr "Misslyckades med att läsa från källa"
 
-#: ../gsf/gsf-input-gzip.c:474
-#, c-format
+#: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
 msgstr "NULL-källa"
 
-#: ../gsf/gsf-input-gzip.c:478
-#, c-format
+#: gsf/gsf-input-gzip.c:478
 msgid "Uncompressed size not set"
 msgstr "Okomprimerad storlek inte inställd"
 
-#: ../gsf/gsf-input-gzip.c:503
+#: gsf/gsf-input-gzip.c:503
 msgid "Raw"
 msgstr "Rå"
 
-#: ../gsf/gsf-input-gzip.c:504
+#: gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
 msgstr "Huruvida komprimerad data ska läsas utan huvud och svans"
 
-#: ../gsf/gsf-input-gzip.c:515
+#: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
 msgstr "Var komprimerad data kommer ifrån"
 
-#: ../gsf/gsf-input-gzip.c:531
+#: gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
 msgstr "Storlek efter dekomprimering"
 
-#: ../gsf/gsf-input-gzip.c:532
+#: gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
 msgstr "Källans okomprimerade storlek"
 
-#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: Är inte en vanlig fil"
 
-#: ../gsf/gsf-input-memory.c:240
+#: gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: Filen är för stor för att minnesmappas"
 
-#: ../gsf/gsf-input-memory.c:283
-#, c-format
+#: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
 msgstr "mmap stöds inte"
 
-#: ../gsf/gsf-libxml.c:1577
+#: gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Snygg utskrift"
 
-#: ../gsf/gsf-libxml.c:1578
+#: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Ska utdata autoindentera element för att göra det lättare att läsa?"
 
-#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:803 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Utgång"
 
-#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:804
 msgid "The destination for writes"
 msgstr "Destinationen för skrivningar"
 
-#: ../gsf/gsf-msole-utils.c:312
+#: gsf/gsf-msole-utils.c:313
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -364,7 +338,7 @@ msgid ""
 msgstr ""
 "Data saknas vid läsning av egenskapen %s; fick %s byte men minst %s behövs."
 
-#: ../gsf/gsf-msole-utils.c:363
+#: gsf/gsf-msole-utils.c:364
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -373,113 +347,109 @@ msgstr ""
 "Skadad data i egenskapen VT_CF; urklippets datalängd måste vara minst 4 "
 "byte, men data säger att det endast har %s byte."
 
-#: ../gsf/gsf-msole-utils.c:1135 ../gsf/gsf-msole-utils.c:1179
-#, c-format
+#: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
 msgid "Unable to read MS property stream header"
 msgstr "Kunde inte läsa huvud för MS-egenskapsström"
 
-#: ../gsf/gsf-msole-utils.c:1162
-#, c-format
+#: gsf/gsf-msole-utils.c:1167
 msgid "Invalid MS property stream header"
 msgstr "Ogiltigt huvud för MS-egenskapsström"
 
-#: ../gsf/gsf-msole-utils.c:1209 ../gsf/gsf-msole-utils.c:1247
-#: ../gsf/gsf-msole-utils.c:1271
-#, c-format
+#: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
+#: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
 msgstr "Ogiltigt avsnitt för MS-egenskap"
 
-#: ../gsf/gsf-msole-utils.c:1228 ../gsf/gsf-msole-utils.c:1232
-#, c-format
+#: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Ogiltigt huvud för MS-egenskapsström eller så är filen trunkerad"
 
-#: ../gsf/gsf-opendoc-utils.c:362
+#: gsf/gsf-opendoc-utils.c:365
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Egenskap ”%s” använd för flera typer!"
 
-#: ../gsf/gsf-opendoc-utils.c:894
+#: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
 msgstr "ODF-version"
 
-#: ../gsf/gsf-opendoc-utils.c:895
+#: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "ODF-versionen som är målet för detta objekt som ett heltal så som 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:386
+#: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Kunde inte hitta delen id=\"%s\" för \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Kunde inte hitta delen med type=\"%s\" för \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:443
+#: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Saknar id för delen i \"%s\""
 
-#: ../gsf/gsf-open-pkg-utils.c:452
+#: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Delen \"%s\" i \"%s\" från \"%s\" är skadad!"
 
-#: ../gsf/gsf-open-pkg-utils.c:770
+#: gsf/gsf-open-pkg-utils.c:774
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "GsfOutput som lagrar Open Package-innehållet"
 
-#: ../gsf/gsf-open-pkg-utils.c:776
+#: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
 msgstr "Innehållstyp"
 
-#: ../gsf/gsf-open-pkg-utils.c:777
+#: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Innehållstypen lagrad i rotfilen [Content_Types].xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:783
+#: gsf/gsf-open-pkg-utils.c:787
 msgid "Is Directory"
 msgstr "Är en katalog"
 
-#: ../gsf/gsf-open-pkg-utils.c:784
+#: gsf/gsf-open-pkg-utils.c:788
 msgid "Can the outfile have children"
 msgstr "Kan utdatafilen ha barn"
 
-#: ../gsf/gsf-outfile-msole.c:806
+#: gsf/gsf-outfile-msole.c:814
 msgid "Small block size"
 msgstr "Storlek för små block"
 
-#: ../gsf/gsf-outfile-msole.c:807
+#: gsf/gsf-outfile-msole.c:815
 msgid "The size of the OLE's small blocks"
 msgstr "Storleken för OLE:s små block"
 
-#: ../gsf/gsf-outfile-msole.c:818
+#: gsf/gsf-outfile-msole.c:826
 msgid "Big block size"
 msgstr "Storlek för stora block"
 
-#: ../gsf/gsf-outfile-msole.c:819
+#: gsf/gsf-outfile-msole.c:827
 msgid "The size of the OLE's big blocks"
 msgstr "Storleken för OLE:s stora block"
 
-#: ../gsf/gsf-outfile-zip.c:1077
+#: gsf/gsf-outfile-zip.c:1085
 msgid "Where the archive is written"
 msgstr "Var arkivet skrivs"
 
-#: ../gsf/gsf-outfile-zip.c:1086
+#: gsf/gsf-outfile-zip.c:1094
 msgid "Entry Name"
 msgstr "Postnamn"
 
-#: ../gsf/gsf-outfile-zip.c:1087
+#: gsf/gsf-outfile-zip.c:1095
 msgid "The filename of this member in the archive without path"
 msgstr "Filnamnet för denna medlem i tar-arkivet utan sökväg"
 
-#: ../gsf/gsf-outfile-zip.c:1107
+#: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
 msgstr "Komprimeringsnivå"
 
-#: ../gsf/gsf-outfile-zip.c:1108
+#: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
@@ -487,205 +457,191 @@ msgstr ""
 "Nivån av komprimering som använts, noll betyder ingen och -1 innebär zlibs "
 "standardvärde"
 
-#: ../gsf/gsf-outfile-zip.c:1119
-msgid "Zip64"
-msgstr "Zip64"
-
-#: ../gsf/gsf-outfile-zip.c:1120
+#: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
 msgstr "Huruvida zip64-formatet ska användas, -1 innebär automatiskt"
 
-#: ../gsf/gsf-output-bzip.c:76
-#, c-format
+#: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
 msgstr "Kunde inte initiera BZ2-bibliotek"
 
-#: ../gsf/gsf-output.c:169
+#: gsf/gsf-output.c:169
 msgid "The output's name"
 msgstr "Utdatanamnet"
 
-#: ../gsf/gsf-output.c:184
+#: gsf/gsf-output.c:184
 msgid "The output's size"
 msgstr "Utdatastorleken"
 
-#: ../gsf/gsf-output.c:198
+#: gsf/gsf-output.c:198
 msgid "Is Closed"
 msgstr "Är stängd"
 
-#: ../gsf/gsf-output.c:199
+#: gsf/gsf-output.c:199
 msgid "Whether the output is closed"
 msgstr "Huruvida utdata är stängd"
 
-#: ../gsf/gsf-output.c:214
+#: gsf/gsf-output.c:214
 msgid "The output's current position"
 msgstr "Aktuell position för utdata"
 
-#: ../gsf/gsf-output.c:233
+#: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr "En valfri GDateTime som representerar tiden när utdata senast ändrats"
 
-#: ../gsf/gsf-output.c:248
+#: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
 msgstr "Överordnad GsfOutfile"
 
-#: ../gsf/gsf-output-csv.c:334
+#: gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
 msgstr "Var formaterade utdata skrivs"
 
-#: ../gsf/gsf-output-csv.c:343
+#: gsf/gsf-output-csv.c:343
 msgid "Quote"
 msgstr "Citat"
 
-#: ../gsf/gsf-output-csv.c:344
+#: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
 msgstr "Strängen som används för att citera fält"
 
-#: ../gsf/gsf-output-csv.c:354
+#: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
 msgstr "Citeringsläge"
 
-#: ../gsf/gsf-output-csv.c:355
+#: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
 msgstr "När fält ska citeras"
 
-#: ../gsf/gsf-output-csv.c:366
+#: gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
 msgstr "Citeringsutlösare"
 
-#: ../gsf/gsf-output-csv.c:367
+#: gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
 msgstr "Tecken som orsakar fältcitering"
 
-#: ../gsf/gsf-output-csv.c:376
+#: gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
 msgstr "Citering vid blanktecken"
 
-#: ../gsf/gsf-output-csv.c:377
+#: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
 msgstr "Orsakar inledande eller avslutande blanktecken citering?"
 
-#: ../gsf/gsf-output-csv.c:386
+#: gsf/gsf-output-csv.c:386
 msgid "Separator"
 msgstr "Avgränsare"
 
-#: ../gsf/gsf-output-csv.c:387
+#: gsf/gsf-output-csv.c:387
 msgid "The field separator"
 msgstr "Fältavgränsare"
 
-#: ../gsf/gsf-output-csv.c:397
+#: gsf/gsf-output-csv.c:397
 msgid "end-of-line"
 msgstr "radslut"
 
-#: ../gsf/gsf-output-csv.c:398
+#: gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
 msgstr "Radslutstecken"
 
-#: ../gsf/gsf-output-iconv.c:277
+#: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
 msgstr "Var konverterad data skrivs"
 
-#: ../gsf/gsf-output-iconv.c:287
+#: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
 msgstr "Indatateckenkodning"
 
-#: ../gsf/gsf-output-iconv.c:288
+#: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
 msgstr "Teckenkodning att konvertera från"
 
-#: ../gsf/gsf-output-iconv.c:297
+#: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
 msgstr "Utdatateckenkodning"
 
-#: ../gsf/gsf-output-iconv.c:298
+#: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
 msgstr "Teckenkodning att konvertera till"
 
-#: ../gsf/gsf-output-iconv.c:314
+#: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
 msgstr "Reserv"
 
-#: ../gsf/gsf-output-iconv.c:315
+#: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Strängen som används för ogiltiga tecken"
 
-#: ../thumbnailer/main.c:301
+#: thumbnailer/main.c:301
 msgid "Options"
 msgstr "Alternativ"
 
-#: ../tools/gsf.c:19
+#: tools/gsf.c:19
 msgid "Display program version"
 msgstr "Visa programversion"
 
-#: ../tools/gsf.c:49
+#: tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: Misslyckades med att öppna %s: %s\n"
 
-#: ../tools/gsf.c:76
+#: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: Misslyckades med att känna igen %s som ett arkiv\n"
 
-#: ../tools/gsf.c:115
-#, c-format
+#: tools/gsf.c:115
 msgid "Available subcommands are...\n"
 msgstr "Tillgängliga underkommandon är...\n"
 
-#: ../tools/gsf.c:116
-#, c-format
+#: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        skriv ut en eller flera filer i arkivet\n"
 
-#: ../tools/gsf.c:117
-#, c-format
+#: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr "* dump       dumpa en eller flera filer i arkivet som hex\n"
 
-#: ../tools/gsf.c:118
-#, c-format
+#: tools/gsf.c:118
 msgid "* help       list subcommands\n"
 msgstr "* help       lista underkommandon\n"
 
-#: ../tools/gsf.c:119
-#, c-format
+#: tools/gsf.c:119
 msgid "* list       list files in archive\n"
 msgstr "* list       lista filer i arkivet\n"
 
-#: ../tools/gsf.c:120
-#, c-format
+#: tools/gsf.c:120
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  lista dokumentegenskaper i arkiv\n"
 
-#: ../tools/gsf.c:121
-#, c-format
+#: tools/gsf.c:121
 msgid "* props      print specified document properties\n"
 msgstr "* props      skriv ut angivna dokumentegenskaper\n"
 
-#: ../tools/gsf.c:122
-#, c-format
+#: tools/gsf.c:122
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  skapa OLE-arkiv\n"
 
-#: ../tools/gsf.c:123
-#, c-format
+#: tools/gsf.c:123
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  skapa ZIP-arkiv\n"
 
-#: ../tools/gsf.c:315
+#: tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "Ingen egenskap med namnet %s\n"
 
-#: ../tools/gsf.c:375
+#: tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: Fel vid behandling av fil %s: %s\n"
 
-#: ../tools/gsf.c:530
+#: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "UNDERKOMMANDO ARKIV..."
 
-#: ../tools/gsf.c:537
+#: tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
@@ -695,387 +651,17 @@ msgstr ""
 "Kör \"%s --help\" för att se en fullständig lista över tillgängliga "
 "kommandoradsflaggor.\n"
 
-#: ../tools/gsf.c:544
+#: tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf version %d.%d.%d\n"
 
-#: ../tools/gsf.c:550
+#: tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Användning: %s %s\n"
 
-#: ../tools/gsf.c:575
+#: tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Kör ”%s help” för att se en lista över underkommandon.\n"
-
-#~ msgid ""
-#~ "Boolean options available, true enables thumbnailing and false disables "
-#~ "the creation of new thumbnails"
-#~ msgstr ""
-#~ "Booleska flaggor är tillgängliga, sant aktiverar miniatyrbilder och "
-#~ "falskt inaktiverar skapandet av nya miniatyrbilder"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Calc-kalkylblad"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Drawing-mallar"
-
-#~ msgid ""
-#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-"
-#~ "presentationsmallar"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Impress-"
-#~ "presentationer"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Math-dokument"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x-kalkylbladsmallar"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Writer-dokument"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för globala OpenOffice 1.x Writer-"
-#~ "mallar"
-
-#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenOffice 1.x Writer-mallar"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för Microsoft Excel 2007-kalkylblad"
-
-#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för Microsoft Excel-kalkylblad"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för Microsoft PowerPoint 2007-"
-#~ "presentationer"
-
-#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för Microsoft PowerPoint-"
-#~ "presentationer"
-
-#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för Microsoft Word 2007-dokument"
-
-#~ msgid "Enable thumbnailing of Microsoft Word documents"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för Microsoft Word-dokument"
-
-#~ msgid "Enable thumbnailing of OpenDocument charts"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-diagram"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-ritmallar"
-
-#~ msgid "Enable thumbnailing of OpenDocument drawings"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-ritningar"
-
-#~ msgid "Enable thumbnailing of OpenDocument formulas"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-formler"
-
-#~ msgid "Enable thumbnailing of OpenDocument images"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-bilder"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-presentationsmallar"
-
-#~ msgid "Enable thumbnailing of OpenDocument presentations"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-presentationer"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylbladsmallar"
-
-#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
-#~ msgstr "Aktivera skapandet av miniatyrbilder för OpenDocument-kalkylblad"
-
-#~ msgid ""
-#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-dokumentmallar för "
-#~ "ordbehandling"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-dokument för "
-#~ "ordbehandling"
-
-#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-#~ msgstr ""
-#~ "Aktivera skapandet av miniatyrbilder för OpenDocument-huvuddokument för "
-#~ "ordbehandling"
-
-#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-#~ msgstr "Kommando för miniatyrbild för Microsoft Excel 2007-kalkylblad"
-
-#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
-#~ msgstr "Kommando för miniatyrbild för Microsoft Excel-kalkylblad"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-#~ msgstr ""
-#~ "Kommando för miniatyrbild för Microsoft PowerPoint 2007-presentationer"
-
-#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
-#~ msgstr "Kommando för miniatyrbild för Microsoft PowerPoint-presentationer"
-
-#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
-#~ msgstr "Kommando för miniatyrbild för Microsoft Word 2007-dokument"
-
-#~ msgid "Thumbnail command for Microsoft Word documents"
-#~ msgstr "Kommando för miniatyrbild för Microsoft Word-dokument"
-
-#~ msgid "Thumbnail command for OpenDocument charts"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-diagram"
-
-#~ msgid "Thumbnail command for OpenDocument drawing templates"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-ritmallar"
-
-#~ msgid "Thumbnail command for OpenDocument drawings"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-ritningar"
-
-#~ msgid "Thumbnail command for OpenDocument formulas"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-formler"
-
-#~ msgid "Thumbnail command for OpenDocument images"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-bilder"
-
-#~ msgid "Thumbnail command for OpenDocument presentation templates"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-presentationsmallar"
-
-#~ msgid "Thumbnail command for OpenDocument presentations"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-presentationer"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-kalkylbladsmallar"
-
-#~ msgid "Thumbnail command for OpenDocument spreadsheets"
-#~ msgstr "Kommando för miniatyrbild för OpenDocument-kalkylblad"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-#~ msgstr ""
-#~ "Kommando för miniatyrbild för OpenDocument-dokumentmallar för "
-#~ "ordbehandling"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
-#~ msgstr ""
-#~ "Kommando för miniatyrbild för OpenDocument-dokument för ordbehandling"
-
-#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-#~ msgstr ""
-#~ "Kommando för miniatyrbild för OpenDocument-huvuddokument för ordbehandling"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Calc-kalkylblad"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Drawing-mallar"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-#~ msgstr ""
-#~ "Kommando för miniatyrbild för OpenOffice 1.x Impress-presentationsmallar"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Impress-presentationer"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Math-dokument"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Spreadsheet-mallar"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Writer-dokument"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-#~ msgstr "Kommando för miniatyrbild för globala OpenOffice 1.x Writer-mallar"
-
-#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-#~ msgstr "Kommando för miniatyrbild för OpenOffice 1.x Writer-mallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-#~ msgstr "Giltigt kommando plus argument för Microsoft Excel 2007-kalkylblad."
-
-#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-#~ msgstr "Giltigt kommando plus argument för Microsoft Excel-kalkylblad."
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft "
-#~ "PowerPoint 2007"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft "
-#~ "PowerPoint"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft Word "
-#~ "2007"
-
-#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för Microsoft Word"
-
-#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "diagram"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "ritmallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "ritningar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "formel"
-
-#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "bilder"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "presentationsmallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "presentationer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "kalkylbladsmallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "kalkylblad"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "dokumentmallar för ordbehandling"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "dokument för ordbehandling"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
-#~ "document thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenDocument-"
-#~ "huvuddokument för ordbehandling"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Drawing-mallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Drawing"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Impress-presentationsmallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Impress-presentationer"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Math-dokument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Writer-dokument"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
-#~ "template thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för globala "
-#~ "OpenOffice 1.x Writer-mallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x "
-#~ "Writer-mallar"
-
-#~ msgid ""
-#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
-#~ "thumbnailer"
-#~ msgstr ""
-#~ "Giltigt kommando plus argument för miniatyrbildskapare för OpenOffice 1.x-"
-#~ "kalkylblad"
