@@ -1,3 +1,7 @@
+2021-12-27  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.48
+
 2021-12-02  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-zip.c (gsf_infile_zip_get_property): Add "zip64"
