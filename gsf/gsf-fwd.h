@@ -75,7 +75,7 @@ typedef struct _GsfDocMetaData	GsfDocMetaData;
  * @date :	#GDate in local timezone
  * @seconds :	#glong number of seconds since @date.
  * @time_zone :	possibly blank #GString of the timezone
- * @timet : as from mktime.
+ * @timet : as from g_date_time_to_unix.
  *
  * A point in time.
  */

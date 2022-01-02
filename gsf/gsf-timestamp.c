@@ -25,9 +25,6 @@
 
 #include <string.h>
 #include <time.h>
-#ifdef G_OS_WIN32
-#include <windows.h>
-#endif
 
 static void
 timestamp_to_string (GValue const *src_value, GValue *dest_value)
@@ -93,9 +90,7 @@ gsf_timestamp_free (GsfTimestamp *stamp)
  * @stamp: #GsfTimestamp
  * @spec: The string to parse
  *
- * Very simple parser for time stamps.  Currently requires a format of
- * 	'YYYY-MM-DDThh:mm:ss'
- * and does only rudimentary range checking
+ * Parser for time stamps.  Requires a ISO 8601 formatted string.
  *
  * Since: 1.14.24
  *
@@ -104,10 +99,20 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 int
 gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
 {
+#ifdef HAVE_G_DATE_TIME_NEW_FROM_ISO8601
+	GTimeZone *utc;
+#else /*!HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
 	guint year, month, day, hour, minute;
 	float second;
+#endif /*HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
 	GDateTime *dt;
 
+#ifdef HAVE_G_DATE_TIME_NEW_FROM_ISO8601
+	/* Use g_date_time_new_from_iso8601 when GLib >= 2.56.0 */
+	utc = g_time_zone_new_utc ();
+	dt = g_date_time_new_from_iso8601 (spec, utc);
+	g_time_zone_unref (utc);
+#else /*!HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
 	/* 'YYYY-MM-DDThh:mm:ss' */
 	if (6 != sscanf (spec, "%u-%u-%uT%u:%u:%f",
 			 &year, &month, &day, &hour, &minute, &second))
@@ -125,6 +130,8 @@ gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
 		return FALSE;
 
 	dt = g_date_time_new_utc ((int)year, (int)month, (int)day, (int)hour, (int)minute, second);
+#endif /*HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
+
 	if (!dt)
 		return FALSE;
 
@@ -139,9 +146,7 @@ gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
  * @spec: The string to parse
  * @stamp: #GsfTimestamp
  *
- * Very simple parser for time stamps.  Currently requires a format of
- * 	'YYYY-MM-DDThh:mm:ss'
- * and does no bounds checking.
+ * Parser for time stamps.  Requires a ISO 8601 formatted string.
  *
  * Deprecated: 1.14.24, use gsf_timestamp_load_from_string
  *
@@ -158,9 +163,7 @@ gsf_timestamp_from_string (char const *spec, GsfTimestamp *stamp)
  * @spec: The string to parse
  * @stamp: #GsfTimestamp
  *
- * Very simple parser for time stamps.  Currently requires a format of
- * 	'YYYY-MM-DDThh:mm:ss'
- * and does no bounds checking.
+ * Parser for time stamps.  Requires a ISO 8601 formatted string.
  *
  * Deprecated: Use gsf_timestamp_load_from_string
  *
@@ -178,30 +181,47 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
  *
  * Produce a string representation (ISO 8601 format) of @stamp.
  *
- * Returns: a string representation of @stamp. When @stamp is %NULL, the
+ * Returns: a string representation of @stamp. When @stamp is invalid, the
  * representation is "&lt;invalid&gt;".
  */
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
+#ifdef HAVE_G_DATE_TIME_FORMAT_ISO8601
+	GDateTime *dt;
+	gchar *iso8601_string;
+#else /*!HAVE_G_DATE_TIME_FORMAT_ISO8601*/
 	time_t    t;
 	struct tm tm;
+#endif /*HAVE_G_DATE_TIME_FORMAT_ISO8601*/
 
 	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
 
+#ifdef HAVE_G_DATE_TIME_FORMAT_ISO8601
+	/* Use g_date_time_format_iso8601 when GLib >= 2.62.0 */
+	dt = g_date_time_new_from_unix_utc (stamp->timet);
+	if (!dt)
+		return g_strdup ("<invalid>");
+
+	iso8601_string = g_date_time_format_iso8601 (dt);
+	g_date_time_unref (dt);
+
+	return iso8601_string;
+#else /*!HAVE_G_DATE_TIME_FORMAT_ISO8601*/
 	t = stamp->timet;	/* Use an honest time_t for gmtime_r.  */
 #ifdef HAVE_GMTIME_R
 	gmtime_r (&t, &tm);
 #else
+#warning "Using gmtime which is not thread safe -- perhaps upgrade glib"
 	/* -NOT- thread-safe */
 	tm = *gmtime (&t);
 #endif
-
 
 	/* using 'YYYY-MM-DDThh:mm:ss' */
 	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02dZ",
 		tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
 		tm.tm_hour, tm.tm_min, tm.tm_sec);
+#endif /*HAVE_G_DATE_TIME_FORMAT_ISO8601*/
 }
 
 guint

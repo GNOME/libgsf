@@ -1,5 +1,9 @@
 libgsf 1.14.49
 
+Kleis Auke Wolthuizen:
+	* Use g_date_time_new_from_iso8601 and g_date_time_format_iso8601
+	  when available.  See merge request 9.
+
 --------------------------------------------------------------------------
 libgsf 1.14.48
 

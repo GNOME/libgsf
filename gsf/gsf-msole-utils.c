@@ -1522,10 +1522,9 @@ msole_metadata_write_prop (WritePropState *state,
 
 	case VT_FILETIME : {
 		GsfTimestamp const *ts = g_value_get_boxed (value);
-		gint32  timet_signed = (gint32) ts->timet;
 		guint64 ft;
 
-		ft = timet_signed + G_GINT64_CONSTANT (11644473600);
+		ft = ts->timet + G_GINT64_CONSTANT (11644473600);
 		ft *= 10000000;
 
 		GSF_LE_SET_GUINT64 (buf, ft);

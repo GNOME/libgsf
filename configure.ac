@@ -301,13 +301,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 AC_DEFINE(HAVE_2ARG_STATFS, 1, [Define if you have two-argument statfs like linux])],
 	[AC_MSG_RESULT([none, or unknown])])
 
-AC_CHECK_FUNCS(chown setrlimit)
-
-AC_CHECK_FUNCS(gmtime_r, [],
-	       [AC_CHECK_FUNCS(gmtime,
-	       		       [AC_MSG_WARN(*** Please note that gmtime_r() is missing and I will use gmtime() which is not thread safe ***)],
-			       [AC_MSG_ERROR([Neither gmtime_r or gmtime is available])])])
-
+AC_CHECK_FUNCS(chown setrlimit gmtime_r gmtime)
 AC_CHECK_MEMBERS(struct tm.tm_gmtoff,,,
 [#include <time.h>])
 
@@ -320,6 +314,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chown("/
                [AC_DEFINE(HAVE_G_CHOWN, 1, [Define if g_chown is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
+AC_CHECK_FUNCS(g_date_time_new_from_iso8601 g_date_time_format_iso8601)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
