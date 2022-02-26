@@ -1694,6 +1694,91 @@ cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
 	}
 }
 
+static void
+guess_codepage_string (WritePropState *state, const char *str)
+{
+	const char *p;
+	gboolean is_ascii;
+	gsize bytes_written;
+	char *cstr;
+
+	if (state->codepage)
+		return;
+
+	if (!str)
+		return;
+
+	// Don't bother with ascii strings
+	is_ascii = TRUE;
+	for (p = str; *p && is_ascii; p++)
+		is_ascii = (*p & 0x80) == 0;
+	if (is_ascii)
+		return;
+
+	cstr = g_convert_with_iconv (str, strlen (str), state->iconv_handle,
+				     NULL, &bytes_written, NULL);
+	if (cstr) {
+		g_free (cstr);
+		return;
+	}
+
+	// Conversion failed.  Switch to UTF-8
+	state->codepage = -535;
+}
+
+static void
+guess_codepage_prop (WritePropState *state, const char *name, GValue const *value)
+{
+	GsfMSOleMetaDataPropMap const *map =
+		(name != NULL) ? msole_gsf_name_to_prop (name) : NULL;
+	GsfMSOleVariantType type;
+
+	type = gvalue_to_msole_vt (value, map);
+
+	if (type & VT_VECTOR) {
+		GArray *vector = gsf_value_get_docprop_array (value);
+		unsigned i, n = vector->len;
+		for (i = 0; i < n; i++)
+			guess_codepage_prop (state, NULL, &g_array_index (vector, GValue, i));
+		return;
+	}
+
+	switch (type) {
+	case VT_LPSTR:
+		guess_codepage_string (state, g_value_get_string (value));
+		return;
+	default:
+		// Don't care.
+		return;
+	}
+}
+
+static void
+guess_codepage (WritePropState *state, gboolean user)
+{
+	GSList   *ptr   = user ? state->user.props : state->builtin.props;
+	unsigned  count = user ? state->user.count : state->builtin.count;
+	unsigned i = 0;
+
+	if (i < count) {
+		// Codepage
+		i++;
+	}
+
+	if (user && i < count) {
+		// Dictionary
+		i++;
+	}
+
+	for (; ptr != NULL && i < count ; ptr = ptr->next, i++) {
+		GsfDocProp const *prop = ptr->data;
+		const char *name = gsf_doc_prop_get_name (prop);
+		guess_codepage_string (state, name);
+		guess_codepage_prop (state, name, gsf_doc_prop_get_val (prop));
+	}
+}
+
+
 /**
  * gsf_doc_meta_data_write_to_msole:
  * @out: #GsfOutput
@@ -1720,8 +1805,9 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 	gboolean	success = FALSE;
 	guint8		buf [4];
 	WritePropState	state;
+	const int default_codepage = 1252;
 
-	state.codepage		= 1252;
+	state.codepage		= 0;
 	state.iconv_handle      = (GIConv)-1;
 	state.char_size         = 1;
 	state.out		= out;
@@ -1735,6 +1821,16 @@ gsf_doc_meta_data_write_to_msole (GsfDocMetaData const *meta_data,
 		(GHFunc) cb_count_props, &state);
 	d (g_print ("Done\n"
 		    "================================\n"););
+
+	state.iconv_handle = gsf_msole_iconv_open_codepage_for_export (default_codepage);
+	if (state.codepage == 0) {
+		guess_codepage (&state, FALSE);
+		if (state.dict)
+			guess_codepage (&state, TRUE);
+		if (state.codepage == 0)
+			state.codepage = default_codepage;
+	}
+	gsf_iconv_close (state.iconv_handle);
 
 	state.iconv_handle = gsf_msole_iconv_open_codepage_for_export (state.codepage);
 	state.char_size = msole_codepage_char_size (state.codepage);
