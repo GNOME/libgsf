@@ -4,6 +4,9 @@ Kleis Auke Wolthuizen:
 	* Use g_date_time_new_from_iso8601 and g_date_time_format_iso8601
 	  when available.  See merge request 9.
 
+Morten:
+	* Fix problems with non-western text in OLE properties.  [#17]
+
 --------------------------------------------------------------------------
 libgsf 1.14.48
 
