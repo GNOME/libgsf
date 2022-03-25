@@ -1,22 +1,22 @@
 # Dutch translation for libgsf.
 # Copyright (C) 2021 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
-# Nathan Follens <nthn@unseen.is>, 2021.
+# Nathan Follens <nfollens@gnome.org>, 2021-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2020-07-23 11:07+0000\n"
-"PO-Revision-Date: 2021-04-02 19:24+0200\n"
+"POT-Creation-Date: 2021-12-03 00:11+0000\n"
+"PO-Revision-Date: 2022-03-25 20:44+0100\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: gsf/gsf-blob.c:114
 #, c-format
@@ -127,45 +127,53 @@ msgstr "Zoeken is mislukt"
 msgid "Truncated archive"
 msgstr "Beschadigd archief"
 
-#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:942 gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Bron"
 
-#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Het archief dat geïnterpreteerd wordt"
 
-#: gsf/gsf-infile-zip.c:453
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Fout bij lezen van zip-dirent"
 
-#: gsf/gsf-infile-zip.c:464
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Beschadigde zipbestandsstructuur"
 
-#: gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Fout bij zoeken in zip-hoofding"
 
-#: gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Fout bij lezen van zip-hoofding"
 
-#: gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Fout bij onjuiste zip-hoofding"
 
-#: gsf/gsf-infile-zip.c:553
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "probleem bij uitpakken van stroom"
 
-#: gsf/gsf-infile-zip.c:958 gsf/gsf-outfile-zip.c:1104
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Compressieniveau"
 
-#: gsf/gsf-infile-zip.c:959 gsf/gsf-outfile-zip.c:1105
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Het gebruikte compressieniveau, waarbij nul staat voor geen compressie"
+
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "Of zip64 gebruikt wordt"
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
@@ -458,10 +466,6 @@ msgid ""
 msgstr ""
 "Het niveau van de gebruikte deflate-compressie, waarbij nul staat voor geen "
 "deflate-compressie en -1 staat voor de zlib-standaardinstelling"
-
-#: gsf/gsf-outfile-zip.c:1127
-msgid "Zip64"
-msgstr "Zip64"
 
 #: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
