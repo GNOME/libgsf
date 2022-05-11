@@ -300,9 +300,9 @@ ole_pad_bat_unused (GsfOutfileMSOle *ole, unsigned residual)
 		(ole_bytes_left_in_block (ole) / BAT_INDEX_SIZE) - residual);
 }
 
-/* write the metadata (dirents, small block, xbats) and close the sink */
+/* write the metadata (dirents, small block, xbats) */
 static gboolean
-gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
+gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 {
 	GsfOutfile *tmp;
 	guint8  buf [OLE_HEADER_SIZE];
@@ -454,22 +454,29 @@ gsf_outfile_msole_close_root (GsfOutfileMSOle *ole)
 	 */
 	num_bat = 0;
 	num_xbat = 0;
-recalc_bat_bat :
-	i = ((ole->sink->cur_size
-	      + BAT_INDEX_SIZE * (num_bat + num_xbat)
-	      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
-	i -= bat_start;
-	if (num_bat != i) {
-		num_bat = i;
-		goto recalc_bat_bat;
-	}
-	i = 0;
-	if (num_bat > OLE_HEADER_METABAT_SIZE)
-		i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
-			 / metabat_size);
-	if (num_xbat != i) {
-		num_xbat = i;
-		goto recalc_bat_bat;
+	while (gsf_output_error (ole->sink) == NULL) {
+		// If we have an error, then the actual size as reported
+		// by _tell and ->cur_size may be out of sync.  We don't
+		// want to loop forever here.
+
+		unsigned i = ((ole->sink->cur_size
+		      + BAT_INDEX_SIZE * (num_bat + num_xbat)
+		      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
+		i -= bat_start;
+		if (num_bat != i) {
+			num_bat = i;
+			continue;
+		}
+		i = 0;
+		if (num_bat > OLE_HEADER_METABAT_SIZE)
+			i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
+				 / metabat_size);
+		if (num_xbat != i) {
+			num_xbat = i;
+			continue;
+		}
+
+		break;
 	}
 
 	ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
@@ -541,16 +548,32 @@ recalc_bat_bat :
 	g_ptr_array_free (elem, TRUE);
 	ole->content.dir.root_order = NULL;
 
-	return gsf_output_close (ole->sink);
+	return TRUE;
 }
+
+static void
+gsf_outfile_msole_hoist_error (GsfOutfileMSOle *ole)
+{
+	GsfOutput *oole = GSF_OUTPUT (ole);
+	if (gsf_output_error (oole) == NULL &&
+	    gsf_output_error (ole->sink)) {
+		oole->err = g_error_copy (ole->sink->err);
+	}
+}
+
 
 static gboolean
 gsf_outfile_msole_close (GsfOutput *output)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 
-	if (gsf_output_container (output) == NULL)	/* The root dir */
-		return gsf_outfile_msole_close_root (ole);
+	if (gsf_output_container (output) == NULL) {	/* The root dir */
+		gboolean ok = gsf_outfile_msole_write_directory (ole);
+		gsf_outfile_msole_hoist_error (ole);
+		if (!gsf_output_close (ole->sink))
+			ok = FALSE;
+		return ok;
+	}
 
 	if (ole->type == MSOLE_BIG_BLOCK) {
 		gsf_outfile_msole_seek (output, 0, G_SEEK_END);

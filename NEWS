@@ -1,5 +1,8 @@
 libgsf 1.14.50
 
+Morten:
+	* Fix error handling problem when writing ole files.  [#27]
+
 --------------------------------------------------------------------------
 libgsf 1.14.49
 
