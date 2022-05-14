@@ -1,6 +1,7 @@
 # Turkish translation for libgsf.
 # Copyright (C) 2012 libgsf's COPYRIGHT HOLDER
 # This file is distributed under the same license as the libgsf package.
+#
 # Muhammet Kara <muhammetk@gmail.com>, 2012, 2014.
 # Necdet Yücel <necdetyucel@gmail.com>, 2014.
 #
@@ -8,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2018-06-10 17:48+0000\n"
-"PO-Revision-Date: 2019-01-08 11:53+0200\n"
+"POT-Creation-Date: 2022-04-17 11:24+0000\n"
+"PO-Revision-Date: 2022-04-24 12:03+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -17,21 +18,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-POOTLE-MTIME: 1419297886.000000\n"
 
-#: ../gsf/gsf-blob.c:114
+#: gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "%s bayt veri kopyalamak için yeterli bellek yok"
 
-#: ../gsf/gsf-clip-data.c:165
+#: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data %s'de ama, en az büyüklük olan %s bayttan daha küçük"
 
-#: ../gsf/gsf-clip-data.c:259
-#, c-format
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
@@ -39,327 +39,301 @@ msgstr ""
 "clip_data, Windows pano biçiminde, ama gerekli büyüklük olan 4 bayttan daha "
 "küçük."
 
-#: ../gsf/gsf-clip-data.c:270
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows Metafile biçimi"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:276
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB ya da BITMAP biçimi"
 
-#: ../gsf/gsf-clip-data.c:281
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows Zengin Metafile biçimi"
 
-#: ../gsf/gsf-infile-msole.c:472
-#, c-format
+#: gsf/gsf-infile-msole.c:477
 msgid "Failed to duplicate input stream"
 msgstr "Girdi akışını çoklamak başarısız oldu"
 
-#: ../gsf/gsf-infile-msole.c:506
-#, c-format
+#: gsf/gsf-infile-msole.c:511
 msgid "No OLE2 signature"
 msgstr "OLE2 imzası yok"
 
-#: ../gsf/gsf-infile-msole.c:538
-#, c-format
+#: gsf/gsf-infile-msole.c:543
 msgid "Unreasonable block sizes"
 msgstr "Kabul edilemeyen blok boyutları"
 
-#: ../gsf/gsf-infile-msole.c:574
-#, c-format
+#: gsf/gsf-infile-msole.c:579
 msgid "Insufficient memory"
 msgstr "Yetersiz bellek"
 
-#: ../gsf/gsf-infile-msole.c:633
-#, c-format
+#: gsf/gsf-infile-msole.c:638
 msgid "Inconsistent block allocation table"
 msgstr "Tutarsız blok ayırma tablosu"
 
-#: ../gsf/gsf-infile-msole.c:641
-#, c-format
+#: gsf/gsf-infile-msole.c:646
 msgid "Problems making block allocation table"
 msgstr "Blok ayırma tablosu yapılırken sorunlar"
 
-#: ../gsf/gsf-infile-msole.c:653
-#, c-format
+#: gsf/gsf-infile-msole.c:658
 msgid "Problems reading directory"
 msgstr "Dizin okunurken sorunlar"
 
-#: ../gsf/gsf-infile-msole.c:817
-#, c-format
+#: gsf/gsf-infile-msole.c:822
 msgid "Failed to access child"
 msgstr "Alt sürece erişim başarısız oldu"
 
-#: ../gsf/gsf-infile-msole.c:849
-#, c-format
+#: gsf/gsf-infile-msole.c:854
 msgid "failure reading block"
 msgstr "blok okuma başarısız oldu"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:389
-#, c-format
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
 msgid "Can't find the VBA directory stream"
 msgstr "VBA dizin akışı bulunamadı"
 
-#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "vna proje başlığı sorunu"
 
-#: ../gsf/gsf-infile-msvba.c:398
-#, c-format
+#: gsf/gsf-infile-msvba.c:398
 msgid "No VBA signature"
 msgstr "VBA imzası yok"
 
-#: ../gsf/gsf-infile-msvba.c:409
+#: gsf/gsf-infile-msvba.c:409
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Bilinmeyen VBA sürüm imzası 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:509
-#, c-format
+#: gsf/gsf-infile-msvba.c:509
 msgid "Unable to parse VBA header"
 msgstr "VBA başlığı ayrıştırılamadı"
 
-#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:228
-#, c-format
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
 msgid "Invalid tar header"
 msgstr "Geçersiz tar başlığı"
 
-#: ../gsf/gsf-infile-tar.c:277
-#, c-format
+#: gsf/gsf-infile-tar.c:277
 msgid "Invalid longname header"
 msgstr "Geçersiz uzun isim başlığı"
 
-#: ../gsf/gsf-infile-tar.c:284
-#, c-format
+#: gsf/gsf-infile-tar.c:284
 msgid "Failed to read longname"
 msgstr "Uzun isim okunamadı"
 
-#: ../gsf/gsf-infile-tar.c:304 ../gsf/gsf-input.c:289
-#, c-format
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:288
 msgid "Seek failed"
 msgstr "Arama başarısız"
 
-#: ../gsf/gsf-infile-tar.c:312
-#, c-format
+#: gsf/gsf-infile-tar.c:312
 msgid "Truncated archive"
 msgstr "Kesilmiş arşiv"
 
-#: ../gsf/gsf-infile-tar.c:562 ../gsf/gsf-infile-zip.c:942
-#: ../gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Kaynak"
 
-#: ../gsf/gsf-infile-tar.c:563 ../gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Arşiv yorumlanıyor"
 
-#: ../gsf/gsf-infile-zip.c:453
-#, c-format
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Zip dosyası okuma hatası"
 
-#: ../gsf/gsf-infile-zip.c:464
-#, c-format
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Bozuk zip dosya yapısı"
 
-#: ../gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Zip başlığı tarama hatası"
 
-#: ../gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Zip başlığı okuma hatası"
 
-#: ../gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Yanlış zip başlığı hatası"
 
-#: ../gsf/gsf-infile-zip.c:553
-#, c-format
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "sıkıştırma yapmayan akış sorunu"
 
-#: ../gsf/gsf-infile-zip.c:958 ../gsf/gsf-outfile-zip.c:1096
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Sıkıştırma Oranı"
 
-#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1097
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Kullanılan sıkıştırma oranı, sıfır sıkıştırma yok demektir"
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
-#, c-format
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "Zip64 biçiminin kullanıp kullanılmayacağı"
+
+#: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
 msgstr "BZ2 desteği etkin değil"
 
-#: ../gsf/gsf-input-bzip.c:63
-#, c-format
+#: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
 msgstr "BZ2 açma başlatması başarısız"
 
-#: ../gsf/gsf-input-bzip.c:82
-#, c-format
+#: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
 msgstr "BZ2 açması başarısız"
 
-#: ../gsf/gsf-input-bzip.c:99
-#, c-format
+#: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
 msgstr "BZ2 açma bitişi başarısız"
 
-#: ../gsf/gsf-input.c:129 ../gsf/gsf-output.c:168
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
 msgid "Name"
 msgstr "İsim"
 
-#: ../gsf/gsf-input.c:130
+#: gsf/gsf-input.c:129
 msgid "The input's name"
 msgstr "Girdinin adı"
 
-#: ../gsf/gsf-input.c:144 ../gsf/gsf-output.c:183
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Boyut"
 
-#: ../gsf/gsf-input.c:145
+#: gsf/gsf-input.c:144
 msgid "The input's size"
 msgstr "Girdi boyutu"
 
-#: ../gsf/gsf-input.c:159
+#: gsf/gsf-input.c:158
 msgid "EOF"
 msgstr "EOF"
 
-#: ../gsf/gsf-input.c:160
+#: gsf/gsf-input.c:159
 msgid "End of file"
 msgstr "Dosya sonu"
 
-#: ../gsf/gsf-input.c:174
+#: gsf/gsf-input.c:173
 msgid "Remaining"
 msgstr "Kalan"
 
-#: ../gsf/gsf-input.c:175
+#: gsf/gsf-input.c:174
 msgid "Amount of data remaining"
 msgstr "Kalan veri miktarı"
 
-#: ../gsf/gsf-input.c:189 ../gsf/gsf-output.c:213
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Konum"
 
-#: ../gsf/gsf-input.c:190
+#: gsf/gsf-input.c:189
 msgid "The input's current position"
 msgstr "Girdinin mevcut konumu"
 
-#: ../gsf/gsf-input.c:207 ../gsf/gsf-output.c:232
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Değiştirilme zamanı"
 
-#: ../gsf/gsf-input.c:208
+#: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr "Girdinin son değiştirilme zamanını temsil eden isteğe bağlı GDateTime"
 
-#: ../gsf/gsf-input.c:221 ../gsf/gsf-output.c:247
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Taşıyıcı"
 
-#: ../gsf/gsf-input.c:222
+#: gsf/gsf-input.c:221
 msgid "The parent GsfInfile"
 msgstr "Üst GsfInfile"
 
-#: ../gsf/gsf-input.c:282
-#, c-format
+#: gsf/gsf-input.c:281
 msgid "Duplicate size mismatch"
 msgstr "Yinelenen boyut uyumsuz"
 
-#: ../gsf/gsf-input-gzip.c:169
-#, c-format
+#: gsf/gsf-input-gzip.c:169
 msgid "Unable to initialize zlib"
 msgstr "Zlib başlatılamadı"
 
-#: ../gsf/gsf-input-gzip.c:177
-#, c-format
+#: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
 msgstr "Kaynağı geri almak başarısız"
 
-#: ../gsf/gsf-input-gzip.c:184
-#, c-format
+#: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
 msgstr "Geçersiz gzip başlığı"
 
-#: ../gsf/gsf-input-gzip.c:313
-#, c-format
+#: gsf/gsf-input-gzip.c:313
 msgid "truncated source"
 msgstr "kesilmiş kaynak"
 
-#: ../gsf/gsf-input-gzip.c:330
-#, c-format
+#: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
 msgstr "Kaynaktan okuma başarısız"
 
-#: ../gsf/gsf-input-gzip.c:474
-#, c-format
+#: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
 msgstr "BOŞ kaynak"
 
-#: ../gsf/gsf-input-gzip.c:478
-#, c-format
+#: gsf/gsf-input-gzip.c:478
 msgid "Uncompressed size not set"
 msgstr "Sıkıştırılmamış boyut ayarlanmadı"
 
-#: ../gsf/gsf-input-gzip.c:503
+#: gsf/gsf-input-gzip.c:503
 msgid "Raw"
 msgstr "Ham"
 
-#: ../gsf/gsf-input-gzip.c:504
+#: gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
 msgstr "Başlığı ve eki olmayan sıkıştırılmış verinin okunup okunmayacağı"
 
-#: ../gsf/gsf-input-gzip.c:515
+#: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
 msgstr "Sıkıştırılmış verinin geldiği yer"
 
-#: ../gsf/gsf-input-gzip.c:531
+#: gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
 msgstr "Açma sonrası boyut"
 
-#: ../gsf/gsf-input-gzip.c:532
+#: gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
 msgstr "Kaynağın açılmış boyutu"
 
-#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: normal bir dosya değil"
 
-#: ../gsf/gsf-input-memory.c:240
+#: gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: Dosya bellekte haritalamak için fazla büyük"
 
-#: ../gsf/gsf-input-memory.c:284
-#, c-format
+#: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
 msgstr "mmap desteklenmiyor"
 
-#: ../gsf/gsf-libxml.c:1577
+#: gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Güzel yazdırma"
 
-#: ../gsf/gsf-libxml.c:1578
+#: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Çıktı okumayı kolaylaştırması için ögeleri otomatik girintilesin mi?"
 
-#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:803 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "İşle"
 
-#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:804
 msgid "The destination for writes"
 msgstr "Yazma için hedef"
 
-#: ../gsf/gsf-msole-utils.c:318
+#: gsf/gsf-msole-utils.c:313
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -367,7 +341,7 @@ msgid ""
 msgstr ""
 "%s özelliğini okurken eksik veri; %s byte alındı ancak en az %s byte gerekli."
 
-#: ../gsf/gsf-msole-utils.c:369
+#: gsf/gsf-msole-utils.c:364
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -376,113 +350,109 @@ msgstr ""
 "VT_CF özelliğinde bozuk veri; pano veri uzunluğu en az 4 byte olmalı; fakat "
 "veri, kullanılabilir %s byte olduğunu söylüyor."
 
-#: ../gsf/gsf-msole-utils.c:1145 ../gsf/gsf-msole-utils.c:1189
-#, c-format
+#: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
 msgid "Unable to read MS property stream header"
 msgstr "MS özelliği akış başlığı okunamadı"
 
-#: ../gsf/gsf-msole-utils.c:1172
-#, c-format
+#: gsf/gsf-msole-utils.c:1167
 msgid "Invalid MS property stream header"
 msgstr "Geçersiz MS özelliği akış başlığı"
 
-#: ../gsf/gsf-msole-utils.c:1219 ../gsf/gsf-msole-utils.c:1257
-#: ../gsf/gsf-msole-utils.c:1281
-#, c-format
+#: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
+#: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
 msgstr "Geçersiz MS özellik alanı"
 
-#: ../gsf/gsf-msole-utils.c:1238 ../gsf/gsf-msole-utils.c:1242
-#, c-format
+#: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Geçersiz MS özelliği akış başlığı veya eksik dosya"
 
-#: ../gsf/gsf-opendoc-utils.c:362
+#: gsf/gsf-opendoc-utils.c:365
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "\"%s\" özelliği çok tür için kullanılmış!"
 
-#: ../gsf/gsf-opendoc-utils.c:894
+#: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
 msgstr "ODF sürümü"
 
-#: ../gsf/gsf-opendoc-utils.c:895
+#: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Bu nesnenin ODF sürümü 100 gibi bir tamsayıyı hedefliyor"
 
-#: ../gsf/gsf-open-pkg-utils.c:386
+#: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "'%2$s' için id='%1$s' olan bölüm bulunamadı"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "'%2$s' için type='%1$s' olan bölüm bulunamadı"
 
-#: ../gsf/gsf-open-pkg-utils.c:443
+#: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "'%s'deki bölümün kimliği eksik"
 
-#: ../gsf/gsf-open-pkg-utils.c:452
+#: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "'%3$s'den '%2$s'in '%1$s' bölümü bozuk!"
 
-#: ../gsf/gsf-open-pkg-utils.c:770
+#: gsf/gsf-open-pkg-utils.c:774
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Açık Paket içeriğini depolayan GsfOutput"
 
-#: ../gsf/gsf-open-pkg-utils.c:776
+#: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
 msgstr "İçerik türü"
 
-#: ../gsf/gsf-open-pkg-utils.c:777
+#: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "Kök [Content_Types].xml dosyasında depolanan içerik türü"
 
-#: ../gsf/gsf-open-pkg-utils.c:783
+#: gsf/gsf-open-pkg-utils.c:787
 msgid "Is Directory"
 msgstr "Bir Dizindir"
 
-#: ../gsf/gsf-open-pkg-utils.c:784
+#: gsf/gsf-open-pkg-utils.c:788
 msgid "Can the outfile have children"
 msgstr "Çıkış dosyasının çocukları olabilir"
 
-#: ../gsf/gsf-outfile-msole.c:806
+#: gsf/gsf-outfile-msole.c:814
 msgid "Small block size"
 msgstr "Küçük blok boyutu"
 
-#: ../gsf/gsf-outfile-msole.c:807
+#: gsf/gsf-outfile-msole.c:815
 msgid "The size of the OLE's small blocks"
 msgstr "OLE'nin küçük bloklarının boyutu"
 
-#: ../gsf/gsf-outfile-msole.c:818
+#: gsf/gsf-outfile-msole.c:826
 msgid "Big block size"
 msgstr "Büyük blok boyutu"
 
-#: ../gsf/gsf-outfile-msole.c:819
+#: gsf/gsf-outfile-msole.c:827
 msgid "The size of the OLE's big blocks"
 msgstr "OLE'nin büyük bloklarının boyutu"
 
-#: ../gsf/gsf-outfile-zip.c:1077
+#: gsf/gsf-outfile-zip.c:1085
 msgid "Where the archive is written"
 msgstr "Arşivin yazılacağı konum"
 
-#: ../gsf/gsf-outfile-zip.c:1086
+#: gsf/gsf-outfile-zip.c:1094
 msgid "Entry Name"
 msgstr "Girdi Adı"
 
-#: ../gsf/gsf-outfile-zip.c:1087
+#: gsf/gsf-outfile-zip.c:1095
 msgid "The filename of this member in the archive without path"
 msgstr "Bu üyenin yolu hariç arşivdeki dosya adı"
 
-#: ../gsf/gsf-outfile-zip.c:1107
+#: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
 msgstr "Seviyeyi Azalt"
 
-#: ../gsf/gsf-outfile-zip.c:1108
+#: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
@@ -490,207 +460,193 @@ msgstr ""
 "Kullanılan sıkıştırma seviyesi, sıfır sıkıştırma yapma, -1 de zlib'in "
 "varsayılanı anlamına gelir"
 
-#: ../gsf/gsf-outfile-zip.c:1119
-msgid "Zip64"
-msgstr "Zip64"
-
-#: ../gsf/gsf-outfile-zip.c:1120
+#: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
 msgstr ""
-"zip64 biçiminin kullanılıp kullanılmayacağı, -1 otomatik anlamına gelir"
+"Zip64 biçiminin kullanılıp kullanılmayacağı, -1 otomatik anlamına gelir"
 
-#: ../gsf/gsf-output-bzip.c:76
-#, c-format
+#: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
 msgstr "BZ2 kitaplığı başlatılamadı"
 
-#: ../gsf/gsf-output.c:169
+#: gsf/gsf-output.c:169
 msgid "The output's name"
 msgstr "Çıktı adı"
 
-#: ../gsf/gsf-output.c:184
+#: gsf/gsf-output.c:184
 msgid "The output's size"
 msgstr "Çıktının boyutu"
 
-#: ../gsf/gsf-output.c:198
+#: gsf/gsf-output.c:198
 msgid "Is Closed"
 msgstr "Kapatıldı"
 
-#: ../gsf/gsf-output.c:199
+#: gsf/gsf-output.c:199
 msgid "Whether the output is closed"
 msgstr "Çıktının kapatılıp kapatılmadığı"
 
-#: ../gsf/gsf-output.c:214
+#: gsf/gsf-output.c:214
 msgid "The output's current position"
 msgstr "Çıktının mevcut konumu"
 
-#: ../gsf/gsf-output.c:233
+#: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr "Çıktının son değiştirilme zamanını temsil eden isteğe bağlı GDateTime"
 
-#: ../gsf/gsf-output.c:248
+#: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
 msgstr "Üst GsfOutfile"
 
-#: ../gsf/gsf-output-csv.c:334
+#: gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
 msgstr "Biçimlendirilmiş çıktının yazılacağı konum"
 
-#: ../gsf/gsf-output-csv.c:343
+#: gsf/gsf-output-csv.c:343
 msgid "Quote"
 msgstr "Alıntı"
 
-#: ../gsf/gsf-output-csv.c:344
+#: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
 msgstr "Alıntı alanları için kullanılan karakter dizisi"
 
-#: ../gsf/gsf-output-csv.c:354
+#: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
 msgstr "Alıntılama Kipi"
 
-#: ../gsf/gsf-output-csv.c:355
+#: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
 msgstr "Alanların ne zaman alıntılanacağı"
 
-#: ../gsf/gsf-output-csv.c:366
+#: gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
 msgstr "Alıntılama Tetikleyicileri"
 
-#: ../gsf/gsf-output-csv.c:367
+#: gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
 msgstr "Alan alıntılamasına neden olan karakterler"
 
-#: ../gsf/gsf-output-csv.c:376
+#: gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
 msgstr "Boşluklarda Alıntılama"
 
-#: ../gsf/gsf-output-csv.c:377
+#: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
 msgstr "Başlangıçtaki veya terminaldeki beyaz boşluk alıntılamayı zorlasın mı?"
 
-#: ../gsf/gsf-output-csv.c:386
+#: gsf/gsf-output-csv.c:386
 msgid "Separator"
 msgstr "Ayıraç"
 
-#: ../gsf/gsf-output-csv.c:387
+#: gsf/gsf-output-csv.c:387
 msgid "The field separator"
 msgstr "Alan ayırıcı"
 
-#: ../gsf/gsf-output-csv.c:397
+#: gsf/gsf-output-csv.c:397
 msgid "end-of-line"
 msgstr "satır sonunda"
 
-#: ../gsf/gsf-output-csv.c:398
+#: gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
 msgstr "Satır sonu işaretçisi"
 
-#: ../gsf/gsf-output-iconv.c:277
+#: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
 msgstr "Dönüştürülen verinin yazılacağı konum"
 
-#: ../gsf/gsf-output-iconv.c:287
+#: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
 msgstr "Giriş Karakter Kümesi"
 
-#: ../gsf/gsf-output-iconv.c:288
+#: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
 msgstr "Dönüştürülecek karakter kümesi"
 
-#: ../gsf/gsf-output-iconv.c:297
+#: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
 msgstr "Çıktı Karakter Kümesi"
 
-#: ../gsf/gsf-output-iconv.c:298
+#: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
 msgstr "Dönüştürülecek karakter kümesi"
 
-#: ../gsf/gsf-output-iconv.c:314
+#: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
 msgstr "Yedek"
 
-#: ../gsf/gsf-output-iconv.c:315
+#: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Geçersiz karakterler için kullanılacak karakter dizisi"
 
-#: ../thumbnailer/main.c:301
+#: thumbnailer/main.c:301
 msgid "Options"
 msgstr "Seçenekler"
 
-#: ../tools/gsf.c:19
+#: tools/gsf.c:19
 msgid "Display program version"
 msgstr "Program sürümünü görüntüle"
 
-#: ../tools/gsf.c:49
+#: tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: %s açılamadı: %s\n"
 
-#: ../tools/gsf.c:76
+#: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: %s'in arşiv olarak tanınması başarısız oldu\n"
 
-#: ../tools/gsf.c:115
-#, c-format
+#: tools/gsf.c:115
 msgid "Available subcommands are...\n"
 msgstr "Kullanılabilir alt komutlar:...\n"
 
-#: ../tools/gsf.c:116
-#, c-format
+#: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        arşivdeki bir ya da daha fazla dosyayı çıktı ver\n"
 
-#: ../tools/gsf.c:117
-#, c-format
+#: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       bir ya da daha fazla dosyayı onaltılı olarak arşive ekle\n"
 
-#: ../tools/gsf.c:118
-#, c-format
+#: tools/gsf.c:118
 msgid "* help       list subcommands\n"
 msgstr "* help       alt komutları listele\n"
 
-#: ../tools/gsf.c:119
-#, c-format
+#: tools/gsf.c:119
 msgid "* list       list files in archive\n"
 msgstr "* list       arşivdeki dosyaları listele\n"
 
-#: ../tools/gsf.c:120
-#, c-format
+#: tools/gsf.c:120
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  arşivdeki belge özelliklerini listele\n"
 
-#: ../tools/gsf.c:121
-#, c-format
+#: tools/gsf.c:121
 msgid "* props      print specified document properties\n"
 msgstr "* props      belirtilen belge özelliklerini ekrana yaz\n"
 
-#: ../tools/gsf.c:122
-#, c-format
+#: tools/gsf.c:122
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  OLE arşivi oluştur\n"
 
-#: ../tools/gsf.c:123
-#, c-format
+#: tools/gsf.c:123
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  ZIP arşivi oluştur\n"
 
-#: ../tools/gsf.c:315
+#: tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "%s adlı bir özellik yok\n"
 
-#: ../tools/gsf.c:375
+#: tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: %s dosyası işlenirken hata: %s\n"
 
-#: ../tools/gsf.c:530
+#: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "ALTKOMUT ARŞİVİ..."
 
-#: ../tools/gsf.c:537
+#: tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
@@ -700,17 +656,17 @@ msgstr ""
 "Kullanılabilir komut satırı seçeneklerinin tam listesini görmek için '%s --"
 "help' çalıştırın.\n"
 
-#: ../tools/gsf.c:544
+#: tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf sürümü %d.%d.%d\n"
 
-#: ../tools/gsf.c:550
+#: tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Kullanımı: %s %s\n"
 
-#: ../tools/gsf.c:575
+#: tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Alt komutların listesini görmek için '%s help' çalıştırın.\n"
