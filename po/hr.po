@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
 "POT-Creation-Date: 2022-07-21 15:27+0000\n"
-"PO-Revision-Date: 2022-08-31 15:36+0200\n"
+"PO-Revision-Date: 2022-08-31 15:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -361,7 +361,7 @@ msgstr "Nevaljalo zaglavlje strujanja MS svojstva"
 #: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
 #: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
-msgstr "Nevaljalo odjeljak MS svojstva"
+msgstr "Nevaljali odjeljak MS svojstva"
 
 #: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
