@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the libgsf package.
 #
 # Matej Urbančič <mateju@svn.gnome.org>, 2009-2016.
+# Martin Srebotnjak <miles@filmsi.net>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2016-08-25 22:37+0200\n"
-"PO-Revision-Date: 2016-08-25 22:37+0200\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
+"POT-Creation-Date: 2022-07-13 18:47+0000\n"
+"PO-Revision-Date: 2022-09-22 12:32+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
@@ -20,20 +20,19 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
-#: ../gsf/gsf-blob.c:114
+#: gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Ni dovolj pomnilnika za kopiranje %s bajtov podatkov"
 
-#: ../gsf/gsf-clip-data.c:165
+#: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "Clip_data je del %s, vendar je manjši kot %s bajtov"
 
-#: ../gsf/gsf-clip-data.c:259
-#, c-format
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
@@ -41,327 +40,301 @@ msgstr ""
 "Clip_data je običajni Windows zapis odložišča, vendar je manjši od "
 "zahtevanih 4 bajtov."
 
-#: ../gsf/gsf-clip-data.c:270
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Zapis Windows Metafile"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:276
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Zapis Windows DIB ali BITMAP"
 
-#: ../gsf/gsf-clip-data.c:281
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Zapis Windows Enhanced Metafile"
 
-#: ../gsf/gsf-infile-msole.c:472
-#, c-format
+#: gsf/gsf-infile-msole.c:477
 msgid "Failed to duplicate input stream"
 msgstr "Podvajanje vhodnega pretoka je spodletelo"
 
-#: ../gsf/gsf-infile-msole.c:506
-#, c-format
+#: gsf/gsf-infile-msole.c:511
 msgid "No OLE2 signature"
 msgstr "Ni podpisa OLE2"
 
-#: ../gsf/gsf-infile-msole.c:538
-#, c-format
+#: gsf/gsf-infile-msole.c:543
 msgid "Unreasonable block sizes"
 msgstr "Nelogična velikost bloka"
 
-#: ../gsf/gsf-infile-msole.c:574
-#, c-format
+#: gsf/gsf-infile-msole.c:579
 msgid "Insufficient memory"
 msgstr "Nezadostna količina pomnilnika"
 
-#: ../gsf/gsf-infile-msole.c:633
-#, c-format
+#: gsf/gsf-infile-msole.c:638
 msgid "Inconsistent block allocation table"
 msgstr "Neskladna razpredelnica dodeljevanja blokov"
 
-#: ../gsf/gsf-infile-msole.c:641
-#, c-format
+#: gsf/gsf-infile-msole.c:646
 msgid "Problems making block allocation table"
 msgstr "Težave pri izdelavi razpredelnice dodeljevanja blokov"
 
-#: ../gsf/gsf-infile-msole.c:653
-#, c-format
+#: gsf/gsf-infile-msole.c:658
 msgid "Problems reading directory"
 msgstr "Napaka branja mape"
 
-#: ../gsf/gsf-infile-msole.c:817
-#, c-format
+#: gsf/gsf-infile-msole.c:822
 msgid "Failed to access child"
 msgstr "Dostop do podrejenega predmeta je spodletel"
 
-#: ../gsf/gsf-infile-msole.c:849
-#, c-format
+#: gsf/gsf-infile-msole.c:854
 msgid "failure reading block"
 msgstr "napaka branja bloka"
 
-#: ../gsf/gsf-infile-msvba.c:172 ../gsf/gsf-infile-msvba.c:390
-#, c-format
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
 msgid "Can't find the VBA directory stream"
 msgstr "Ni mogoče najti pretoka mape VBA"
 
-#: ../gsf/gsf-infile-msvba.c:219 ../gsf/gsf-infile-msvba.c:227
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "napaka glave projekta VBA"
 
-#: ../gsf/gsf-infile-msvba.c:399
-#, c-format
+#: gsf/gsf-infile-msvba.c:398
 msgid "No VBA signature"
 msgstr "Ni ustreznega podpisa VBA"
 
-#: ../gsf/gsf-infile-msvba.c:410
+#: gsf/gsf-infile-msvba.c:409
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "Neznan podpis različice VBA 0x%x%x%x%x"
 
-#: ../gsf/gsf-infile-msvba.c:510
-#, c-format
+#: gsf/gsf-infile-msvba.c:509
 msgid "Unable to parse VBA header"
 msgstr "Glave VBA ni mogoče razčleniti"
 
-#: ../gsf/gsf-infile-tar.c:123 ../gsf/gsf-infile-tar.c:226
-#, c-format
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
 msgid "Invalid tar header"
 msgstr "Neveljavna glava zapisa TAR"
 
-#: ../gsf/gsf-infile-tar.c:275
-#, c-format
+#: gsf/gsf-infile-tar.c:277
 msgid "Invalid longname header"
 msgstr "Neveljavna glava dolgega imena"
 
-#: ../gsf/gsf-infile-tar.c:282
-#, c-format
+#: gsf/gsf-infile-tar.c:284
 msgid "Failed to read longname"
 msgstr "Branje dolgega imena je spodletelo"
 
-#: ../gsf/gsf-infile-tar.c:302 ../gsf/gsf-input.c:288
-#, c-format
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:288
 msgid "Seek failed"
 msgstr "Iskanje je spodletelo"
 
-#: ../gsf/gsf-infile-tar.c:310
-#, c-format
+#: gsf/gsf-infile-tar.c:312
 msgid "Truncated archive"
 msgstr "Prirezan arhiv"
 
-#: ../gsf/gsf-infile-tar.c:560 ../gsf/gsf-infile-zip.c:942
-#: ../gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Vir"
 
-#: ../gsf/gsf-infile-tar.c:561 ../gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Obravnavan arhiv"
 
-#: ../gsf/gsf-infile-zip.c:453
-#, c-format
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Napaka branja zapisa zip"
 
-#: ../gsf/gsf-infile-zip.c:464
-#, c-format
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Okvarjena vsebina datoteke zip"
 
-#: ../gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Napaka pri iskanju glave zip"
 
-#: ../gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Napaka med branjem podpisa arhiva zip"
 
-#: ../gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Napaka - nepravilna glava zip"
 
-#: ../gsf/gsf-infile-zip.c:553
-#, c-format
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "Težava pri razpakiranju pretoka"
 
-#: ../gsf/gsf-infile-zip.c:958 ../gsf/gsf-outfile-zip.c:1096
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Raven stiskanja"
 
-#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1097
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Raven stiskanja, ki je v uporabi. Vrednost nič pomeni brez stiskanja."
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
-#, c-format
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "Ali se uporablja zip64"
+
+#: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
 msgstr "Podpora za BZ2 ni omogočena"
 
-#: ../gsf/gsf-input-bzip.c:63
-#, c-format
+#: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
 msgstr "Začenjanje razpakiranja BZ2 je spodletelo"
 
-#: ../gsf/gsf-input-bzip.c:82
-#, c-format
+#: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
 msgstr "Razpakiranje BZ2 je spodletelo"
 
-#: ../gsf/gsf-input-bzip.c:99
-#, c-format
+#: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
 msgstr "Zaključevanje razpakiranja BZ2 je spodletelo"
 
-#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
 msgid "Name"
 msgstr "Ime"
 
-#: ../gsf/gsf-input.c:129
+#: gsf/gsf-input.c:129
 msgid "The input's name"
 msgstr "Ime vnosa"
 
-#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Velikost"
 
-#: ../gsf/gsf-input.c:144
+#: gsf/gsf-input.c:144
 msgid "The input's size"
 msgstr "Velikost vnosa"
 
-#: ../gsf/gsf-input.c:158
+#: gsf/gsf-input.c:158
 msgid "EOF"
 msgstr "EOF"
 
-#: ../gsf/gsf-input.c:159
+#: gsf/gsf-input.c:159
 msgid "End of file"
 msgstr "Življenjska doba"
 
-#: ../gsf/gsf-input.c:173
+#: gsf/gsf-input.c:173
 msgid "Remaining"
 msgstr "Preostanek"
 
-#: ../gsf/gsf-input.c:174
+#: gsf/gsf-input.c:174
 msgid "Amount of data remaining"
 msgstr "Količina preostalih podatkov"
 
-#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Položaj"
 
-#: ../gsf/gsf-input.c:189
+#: gsf/gsf-input.c:189
 msgid "The input's current position"
 msgstr "Trenutni položaj vnosa"
 
-#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Čas spreminjanja"
 
-#: ../gsf/gsf-input.c:207
+#: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr "Izbirna možnost, ki določa, kdaj je bil vnos nazadnje spremenjen."
 
-#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Vsebnik"
 
-#: ../gsf/gsf-input.c:221
+#: gsf/gsf-input.c:221
 msgid "The parent GsfInfile"
 msgstr "Nadrejeni GsfInfile"
 
-#: ../gsf/gsf-input.c:281
-#, c-format
+#: gsf/gsf-input.c:281
 msgid "Duplicate size mismatch"
 msgstr "Neujemanje podvojene velikosti"
 
-#: ../gsf/gsf-input-gzip.c:169
-#, c-format
+#: gsf/gsf-input-gzip.c:169
 msgid "Unable to initialize zlib"
 msgstr "Knjižnice zlib ni mogoče začeti"
 
-#: ../gsf/gsf-input-gzip.c:177
-#, c-format
+#: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
 msgstr "Vira ni mogoče prevrteti nazaj"
 
-#: ../gsf/gsf-input-gzip.c:184
-#, c-format
+#: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
 msgstr "Neveljavna glava gzip"
 
-#: ../gsf/gsf-input-gzip.c:313
-#, c-format
+#: gsf/gsf-input-gzip.c:313
 msgid "truncated source"
 msgstr "prirezan vir"
 
-#: ../gsf/gsf-input-gzip.c:330
-#, c-format
+#: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
 msgstr "Branje iz vira ni uspelo"
 
-#: ../gsf/gsf-input-gzip.c:474
-#, c-format
+#: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
 msgstr "Prazen vir"
 
-#: ../gsf/gsf-input-gzip.c:478
-#, c-format
+#: gsf/gsf-input-gzip.c:478
 msgid "Uncompressed size not set"
 msgstr "Nestisnjena velikost ni določena"
 
-#: ../gsf/gsf-input-gzip.c:503
+#: gsf/gsf-input-gzip.c:503
 msgid "Raw"
 msgstr "Surovo"
 
-#: ../gsf/gsf-input-gzip.c:504
+#: gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
 msgstr "Ali naj bodo prebrani stisnjeni podatki brez glave in brez sledilnika."
 
-#: ../gsf/gsf-input-gzip.c:515
+#: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
 msgstr "Od kje izvirajo stisnjeni podatki"
 
-#: ../gsf/gsf-input-gzip.c:531
+#: gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
 msgstr "Velikost po odpakiranju"
 
-#: ../gsf/gsf-input-gzip.c:532
+#: gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
 msgstr "Odpakirana velikost vira"
 
-#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "%s: ni pravilna datoteka"
 
-#: ../gsf/gsf-input-memory.c:240
+#: gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: datoteka je prevelika za preslikavo v pomnilnik"
 
-#: ../gsf/gsf-input-memory.c:283
-#, c-format
+#: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
 msgstr "mmap ni podprt"
 
-#: ../gsf/gsf-libxml.c:1577
+#: gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Oblikovno izrisovanje"
 
-#: ../gsf/gsf-libxml.c:1578
+#: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Ali naj se v odvodu predmeti samodejno zamaknejo za lažje branje?"
 
-#: ../gsf/gsf-libxml.c:1584 ../gsf/gsf-open-pkg-utils.c:769
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Ponor"
 
-#: ../gsf/gsf-libxml.c:1585 ../gsf/gsf-outfile-msole.c:796
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
 msgstr "Cilj za izvozne datoteke"
 
-#: ../gsf/gsf-msole-utils.c:312
+#: gsf/gsf-msole-utils.c:313
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
@@ -370,7 +343,7 @@ msgstr ""
 "Manjkajoči podatki med branjem lastnosti %s; dobljenih %s bajtov, vendar je "
 "zahtevanih vsaj %s bajtov."
 
-#: ../gsf/gsf-msole-utils.c:363
+#: gsf/gsf-msole-utils.c:364
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
@@ -379,322 +352,304 @@ msgstr ""
 "Pokvarjeni podatki lastnosti VT_CF; velikost podatkov odložišča mora biti "
 "vsaj 4 bajte, podatki pa kažejo na le %s razpoložljive bajte."
 
-#: ../gsf/gsf-msole-utils.c:1135 ../gsf/gsf-msole-utils.c:1179
-#, c-format
+#: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
 msgid "Unable to read MS property stream header"
 msgstr "Glave pretoka lastnosti MS ni mogoče brati"
 
-#: ../gsf/gsf-msole-utils.c:1162
-#, c-format
+#: gsf/gsf-msole-utils.c:1167
 msgid "Invalid MS property stream header"
 msgstr "Neveljavna glava pretoka lastnosti MS"
 
-#: ../gsf/gsf-msole-utils.c:1209 ../gsf/gsf-msole-utils.c:1247
-#: ../gsf/gsf-msole-utils.c:1271
-#, c-format
+#: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
+#: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
 msgstr "Neveljaven odsek lastnosti MS"
 
-#: ../gsf/gsf-msole-utils.c:1228 ../gsf/gsf-msole-utils.c:1232
-#, c-format
+#: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Neveljavna glava pretoka lastnosti MS ali prirezana datoteka"
 
-#: ../gsf/gsf-opendoc-utils.c:362
+#: gsf/gsf-opendoc-utils.c:365
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Lastnost \"%s\" je uporabljena za več vrst!"
 
-#: ../gsf/gsf-opendoc-utils.c:894
+#: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
 msgstr "Različica ODF"
 
-#: ../gsf/gsf-opendoc-utils.c:895
+#: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Različica ODF, na katerega cilja predmet, določena kot celo število; na "
 "primer 100"
 
-#: ../gsf/gsf-open-pkg-utils.c:386
+#: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Ni mogoče najti dela id='%s' za '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:413
+#: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Ni mogoče najti dela vrsta='%s' za '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:443
+#: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "Manjkajoči id za del v '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:452
+#: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del '%s' v '%s' iz '%s' je pokvarjen!"
 
-#: ../gsf/gsf-open-pkg-utils.c:770
+#: gsf/gsf-open-pkg-utils.c:774
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "Predmet, ki hrani vsebino odprtega arhiva"
 
-#: ../gsf/gsf-open-pkg-utils.c:776
+#: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
 msgstr "Vrsta vsebine"
 
-#: ../gsf/gsf-open-pkg-utils.c:777
+#: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
 "Podatek o vrsti vsebine, kot je shranjen v korenu datoteke [Content_Types]."
 "xml"
 
-#: ../gsf/gsf-open-pkg-utils.c:783
+#: gsf/gsf-open-pkg-utils.c:787
 msgid "Is Directory"
 msgstr "Je mapa"
 
-#: ../gsf/gsf-open-pkg-utils.c:784
+#: gsf/gsf-open-pkg-utils.c:788
 msgid "Can the outfile have children"
 msgstr "Ali ima lahko zunanja datoteka podrejene predmete"
 
-#: ../gsf/gsf-outfile-msole.c:806
+#: gsf/gsf-outfile-msole.c:837
 msgid "Small block size"
 msgstr "Velikost malih blokov"
 
-#: ../gsf/gsf-outfile-msole.c:807
+#: gsf/gsf-outfile-msole.c:838
 msgid "The size of the OLE's small blocks"
 msgstr "Velikost malih blokov OLE"
 
-#: ../gsf/gsf-outfile-msole.c:818
+#: gsf/gsf-outfile-msole.c:849
 msgid "Big block size"
 msgstr "Velikost velikih blokov"
 
-#: ../gsf/gsf-outfile-msole.c:819
+#: gsf/gsf-outfile-msole.c:850
 msgid "The size of the OLE's big blocks"
 msgstr "Velikost velikih blokov OLE"
 
-#: ../gsf/gsf-outfile-zip.c:1077
+#: gsf/gsf-outfile-zip.c:1085
 msgid "Where the archive is written"
 msgstr "Kje je arhiv zapisan"
 
-#: ../gsf/gsf-outfile-zip.c:1086
+#: gsf/gsf-outfile-zip.c:1094
 msgid "Entry Name"
 msgstr "Ime vnosa"
 
-#: ../gsf/gsf-outfile-zip.c:1087
+#: gsf/gsf-outfile-zip.c:1095
 msgid "The filename of this member in the archive without path"
 msgstr "Ime datoteke tega predmeta arhiva je brez poti"
 
-#: ../gsf/gsf-outfile-zip.c:1107
+#: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
 msgstr "Raven stiskanja"
 
-#: ../gsf/gsf-outfile-zip.c:1108
+#: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr "Raven stiskanja, ki je v uporabi. Vrednost nič pomeni brez stiskanja."
 
-#: ../gsf/gsf-outfile-zip.c:1119
-msgid "Zip64"
-msgstr "Zip64"
-
-#: ../gsf/gsf-outfile-zip.c:1120
+#: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
 msgstr "Ali naj bo uporabljen zapis zip64, vrednost -1 določa samodejno izbiro"
 
-#: ../gsf/gsf-output-bzip.c:76
-#, c-format
+#: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
 msgstr "Knjižnice BZ2 ni mogoče začeti"
 
-#: ../gsf/gsf-output.c:169
+#: gsf/gsf-output.c:169
 msgid "The output's name"
 msgstr "Ime odvoda"
 
-#: ../gsf/gsf-output.c:184
+#: gsf/gsf-output.c:184
 msgid "The output's size"
 msgstr "Velikost odvoda"
 
-#: ../gsf/gsf-output.c:198
+#: gsf/gsf-output.c:198
 msgid "Is Closed"
 msgstr "Je zaprt"
 
-#: ../gsf/gsf-output.c:199
+#: gsf/gsf-output.c:199
 msgid "Whether the output is closed"
 msgstr "Ali je odvod zaprt"
 
-#: ../gsf/gsf-output.c:214
+#: gsf/gsf-output.c:214
 msgid "The output's current position"
 msgstr "Trenutni položaj odvoda"
 
-#: ../gsf/gsf-output.c:233
+#: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr "Izbirna vrednost GDateTime, ki določa čas zadnje spremembe odvoda"
 
-#: ../gsf/gsf-output.c:248
+#: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
 msgstr "Nadrejeni GsfOutfile"
 
-#: ../gsf/gsf-output-csv.c:334
+#: gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
 msgstr "Kam se zapiše oblikovani odvod"
 
-#: ../gsf/gsf-output-csv.c:343
+#: gsf/gsf-output-csv.c:343
 msgid "Quote"
 msgstr "Navedek"
 
-#: ../gsf/gsf-output-csv.c:344
+#: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
 msgstr "Niz za navajanje vsebine polj"
 
-#: ../gsf/gsf-output-csv.c:354
+#: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
 msgstr "Način navajanja"
 
-#: ../gsf/gsf-output-csv.c:355
+#: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
 msgstr "Kdaj se polja navajajo"
 
-#: ../gsf/gsf-output-csv.c:366
+#: gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
 msgstr "Prožilci navajanja"
 
-#: ../gsf/gsf-output-csv.c:367
+#: gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
 msgstr "Znaki, ki povzročijo navajanje polj"
 
-#: ../gsf/gsf-output-csv.c:376
+#: gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
 msgstr "Navajanje preslednih znakov"
 
-#: ../gsf/gsf-output-csv.c:377
+#: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
 msgstr "Ali začetni oziroma končni presledni znak vsili navajanje?"
 
-#: ../gsf/gsf-output-csv.c:386
+#: gsf/gsf-output-csv.c:386
 msgid "Separator"
 msgstr "Ločilnik"
 
-#: ../gsf/gsf-output-csv.c:387
+#: gsf/gsf-output-csv.c:387
 msgid "The field separator"
 msgstr "Ločilnik polj"
 
-#: ../gsf/gsf-output-csv.c:397
+#: gsf/gsf-output-csv.c:397
 msgid "end-of-line"
 msgstr "konec vrstice"
 
-#: ../gsf/gsf-output-csv.c:398
+#: gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
 msgstr "Oznaka konca-vrstice"
 
-#: ../gsf/gsf-output-iconv.c:277
+#: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
 msgstr "Kam se zapisujejo pretvorjeni podatki"
 
-#: ../gsf/gsf-output-iconv.c:287
+#: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
 msgstr "Dovodni nabor znakov"
 
-#: ../gsf/gsf-output-iconv.c:288
+#: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
 msgstr "Nabor znakov, iz katerega se pretvarja"
 
-#: ../gsf/gsf-output-iconv.c:297
+#: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
 msgstr "Odvodni nabor znakov"
 
-#: ../gsf/gsf-output-iconv.c:298
+#: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
 msgstr "Nabor znakov, v katerega se pretvarja"
 
-#: ../gsf/gsf-output-iconv.c:314
+#: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
 msgstr "Povrnitev"
 
-#: ../gsf/gsf-output-iconv.c:315
+#: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Niz za neveljavne znake"
 
-#: ../thumbnailer/main.c:301
+#: thumbnailer/main.c:301
 msgid "Options"
 msgstr "Možnosti"
 
-#: ../tools/gsf.c:19
+#: tools/gsf.c:19
 msgid "Display program version"
 msgstr "Pokaži različico programa"
 
-#: ../tools/gsf.c:49
+#: tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
 msgstr "%s: napaka med odpiranjem %s: %s\n"
 
-#: ../tools/gsf.c:76
+#: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
 msgstr "%s: napaka med prepoznavanjem datoteke %s kot vrste arhiva\n"
 
-#: ../tools/gsf.c:115
-#, c-format
+#: tools/gsf.c:115
 msgid "Available subcommands are...\n"
 msgstr "Razpoložljivi podrejeni ukazi so ...\n"
 
-#: ../tools/gsf.c:116
-#, c-format
+#: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        izpis enega ali več datotek v arhivu\n"
 
-#: ../tools/gsf.c:117
-#, c-format
+#: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
 msgstr ""
 "* dump       izpiši enega ali več datotek v arhivu v šestnajstiškem zapisu\n"
 
-#: ../tools/gsf.c:118
-#, c-format
+#: tools/gsf.c:118
 msgid "* help       list subcommands\n"
 msgstr "* help       izpis podrejenih ukazov\n"
 
-#: ../tools/gsf.c:119
-#, c-format
+#: tools/gsf.c:119
 msgid "* list       list files in archive\n"
 msgstr "* list       izpis datotek v arhivu\n"
 
-#: ../tools/gsf.c:120
-#, c-format
+#: tools/gsf.c:120
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops  izpis lastnosti dokumentov v arhivu\n"
 
-#: ../tools/gsf.c:121
-#, c-format
+#: tools/gsf.c:121
 msgid "* props      print specified document properties\n"
 msgstr "* props      natisne določene lastnosti dokumenta\n"
 
-#: ../tools/gsf.c:122
-#, c-format
+#: tools/gsf.c:122
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  ustvari arhiv OLE\n"
 
-#: ../tools/gsf.c:123
-#, c-format
+#: tools/gsf.c:123
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  ustvari arhiv ZIP\n"
 
-#: ../tools/gsf.c:315
+#: tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "Ni lastnosti z imenom %s\n"
 
-#: ../tools/gsf.c:375
+#: tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: napaka med obravnavo datoteke %s: %s\n"
 
-#: ../tools/gsf.c:530
+#: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "Arhiv podrejenih ukazov ..."
 
-#: ../tools/gsf.c:537
+#: tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
@@ -703,32 +658,17 @@ msgstr ""
 "%s\n"
 "Zaženite '%s --help' za izpis popolnega seznama ukazov na voljo.\n"
 
-#: ../tools/gsf.c:544
+#: tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf različica %d.%d.%d\n"
 
-#: ../tools/gsf.c:550
+#: tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Uporaba: %s %s\n"
 
-#: ../tools/gsf.c:575
+#: tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Zaženite '%s help' za izpis seznama podrejenih ukazov.\n"
-
-#~ msgid "end-on-line"
-#~ msgstr "konec-v-vrstici"
-
-#~ msgid "No Zip trailer"
-#~ msgstr "Brez repa Zip"
-
-#~ msgid "Error reading Zip signature"
-#~ msgstr "Napaka branja podpisa ZIP"
-
-#~ msgid "Something went wrong in ar_dup"
-#~ msgstr "Nekaj je šlo narobe v ar_dup"
-
-#~ msgid "Something went wrong in ar_child_init"
-#~ msgstr "Nekaj je šlo narobe v ar_child_init"
