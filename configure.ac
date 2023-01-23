@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 dnl We require Automake 1.7.1, which requires Autoconf 2.54.
-AC_PREREQ(2.54)
+AC_PREREQ([2.54])
 AC_CONFIG_MACRO_DIR([m4])
 AX_IS_RELEASE([git-directory])
 
@@ -11,8 +11,7 @@ m4_define([libgsf_version_extra], [])
 m4_define([libgsf_full_version],
     [libgsf_version_major.libgsf_version_minor.libgsf_version_micro[]libgsf_version_extra])
 
-AC_INIT(libgsf, [libgsf_full_version],
-	[https://gitlab.gnome.org/GNOME/libgsf/issues])
+AC_INIT([libgsf],[libgsf_full_version],[https://gitlab.gnome.org/GNOME/libgsf/issues])
 AC_CONFIG_SRCDIR(gsf/gsf.h)
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
 
