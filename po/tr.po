@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2022-04-17 11:24+0000\n"
-"PO-Revision-Date: 2022-04-24 12:03+0300\n"
+"POT-Creation-Date: 2022-07-13 18:47+0000\n"
+"PO-Revision-Date: 2023-02-23 06:37+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-POOTLE-MTIME: 1419297886.000000\n"
 
 #: gsf/gsf-blob.c:114
@@ -54,7 +54,7 @@ msgstr "Windows Zengin Metafile biçimi"
 
 #: gsf/gsf-infile-msole.c:477
 msgid "Failed to duplicate input stream"
-msgstr "Girdi akışını çoklamak başarısız oldu"
+msgstr "Girdi akışı çoklanamadı"
 
 #: gsf/gsf-infile-msole.c:511
 msgid "No OLE2 signature"
@@ -82,7 +82,7 @@ msgstr "Dizin okunurken sorunlar"
 
 #: gsf/gsf-infile-msole.c:822
 msgid "Failed to access child"
-msgstr "Alt sürece erişim başarısız oldu"
+msgstr "Alt sürece erişilemedi"
 
 #: gsf/gsf-infile-msole.c:854
 msgid "failure reading block"
@@ -183,11 +183,11 @@ msgstr "BZ2 desteği etkin değil"
 
 #: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
-msgstr "BZ2 açma başlatması başarısız"
+msgstr "BZ2 açma başlatılamadı"
 
 #: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
-msgstr "BZ2 açması başarısız"
+msgstr "BZ2 açılamadı"
 
 #: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
@@ -259,7 +259,7 @@ msgstr "Zlib başlatılamadı"
 
 #: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
-msgstr "Kaynağı geri almak başarısız"
+msgstr "Kaynağ geri alınamadı"
 
 #: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
@@ -271,7 +271,7 @@ msgstr "kesilmiş kaynak"
 
 #: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
-msgstr "Kaynaktan okuma başarısız"
+msgstr "Kaynaktan okunamadı"
 
 #: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
@@ -324,12 +324,12 @@ msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Çıktı okumayı kolaylaştırması için ögeleri otomatik girintilesin mi?"
 
 #: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
-#: gsf/gsf-outfile-msole.c:803 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
 #: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "İşle"
 
-#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:804
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
 msgstr "Yazma için hedef"
 
@@ -420,19 +420,19 @@ msgstr "Bir Dizindir"
 msgid "Can the outfile have children"
 msgstr "Çıkış dosyasının çocukları olabilir"
 
-#: gsf/gsf-outfile-msole.c:814
+#: gsf/gsf-outfile-msole.c:837
 msgid "Small block size"
 msgstr "Küçük blok boyutu"
 
-#: gsf/gsf-outfile-msole.c:815
+#: gsf/gsf-outfile-msole.c:838
 msgid "The size of the OLE's small blocks"
 msgstr "OLE'nin küçük bloklarının boyutu"
 
-#: gsf/gsf-outfile-msole.c:826
+#: gsf/gsf-outfile-msole.c:849
 msgid "Big block size"
 msgstr "Büyük blok boyutu"
 
-#: gsf/gsf-outfile-msole.c:827
+#: gsf/gsf-outfile-msole.c:850
 msgid "The size of the OLE's big blocks"
 msgstr "OLE'nin büyük bloklarının boyutu"
 
@@ -593,7 +593,7 @@ msgstr "%s: %s açılamadı: %s\n"
 #: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr "%s: %s'in arşiv olarak tanınması başarısız oldu\n"
+msgstr "%s: %s arşiv olarak tanınamadı\n"
 
 #: tools/gsf.c:115
 msgid "Available subcommands are...\n"
