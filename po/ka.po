@@ -1,27 +1,27 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Georgian translation for libgsf.
+# Copyright (C) 2023 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2022-07-13 23:58+0000\n"
-"PO-Revision-Date: 2022-07-21 17:26+0200\n"
-"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2022-07-21 15:26+0000\n"
+"PO-Revision-Date: 2023-03-25 16:30+0100\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
-msgstr ""
+msgstr "%s ბაიტი ინფორმაციის დასაკოპირებლად მეხსიერება საკმარისი არაა"
 
 #: gsf/gsf-clip-data.c:165
 #, c-format
@@ -65,11 +65,11 @@ msgstr "არასაკმარისი მეხსიერება"
 
 #: gsf/gsf-infile-msole.c:638
 msgid "Inconsistent block allocation table"
-msgstr ""
+msgstr "არათანმიმდევრული ბლოკის განაწილების ცხრილი"
 
 #: gsf/gsf-infile-msole.c:646
 msgid "Problems making block allocation table"
-msgstr ""
+msgstr "ბლოკის გამოყოფის ცხრილის შექმნის პრობლემები"
 
 #: gsf/gsf-infile-msole.c:658
 msgid "Problems reading directory"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
-msgstr ""
+msgstr "შეცდომა zip dirent- ის წაკითხვისას"
 
 #: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
@@ -154,11 +154,11 @@ msgstr "არასწორი zip თავსართი"
 
 #: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
-msgstr ""
+msgstr "ნაკადის გაშლის შეცდომა"
 
 #: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
-msgstr ""
+msgstr "შეკუმშვის დონე"
 
 #: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
@@ -174,19 +174,19 @@ msgstr ""
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
-msgstr ""
+msgstr "BZ2-ის მხარდაჭერა ჩართული არაა"
 
 #: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
-msgstr ""
+msgstr "BZ2 გაშლის ინიციალიზაციის შეცდომა"
 
 #: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
-msgstr ""
+msgstr "BZ2 გაშლის შეცდომა"
 
 #: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
-msgstr ""
+msgstr "BZ2 გაშლის დასრულების შეცდომა"
 
 #: gsf/gsf-input.c:128 gsf/gsf-output.c:168
 msgid "Name"
@@ -194,7 +194,7 @@ msgstr "სახელი"
 
 #: gsf/gsf-input.c:129
 msgid "The input's name"
-msgstr ""
+msgstr "შეყვანის სახელი"
 
 #: gsf/gsf-input.c:143 gsf/gsf-output.c:183
 msgid "Size"
@@ -202,7 +202,7 @@ msgstr "ზომა"
 
 #: gsf/gsf-input.c:144
 msgid "The input's size"
-msgstr ""
+msgstr "შეყვანის ზომა"
 
 #: gsf/gsf-input.c:158
 msgid "EOF"
@@ -218,7 +218,7 @@ msgstr "დარჩენილი დრო"
 
 #: gsf/gsf-input.c:174
 msgid "Amount of data remaining"
-msgstr ""
+msgstr "დარჩენილი მონაცემების რაოდენობა"
 
 #: gsf/gsf-input.c:188 gsf/gsf-output.c:213
 msgid "Position"
@@ -226,11 +226,11 @@ msgstr "თანამდებობა"
 
 #: gsf/gsf-input.c:189
 msgid "The input's current position"
-msgstr ""
+msgstr "შეყვანის მიმდინარე პოზიცია"
 
 #: gsf/gsf-input.c:206 gsf/gsf-output.c:232
 msgid "Modification time"
-msgstr ""
+msgstr "მოდიფიკაციის დრო"
 
 #: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
@@ -242,39 +242,39 @@ msgstr "კონტეინერი"
 
 #: gsf/gsf-input.c:221
 msgid "The parent GsfInfile"
-msgstr ""
+msgstr "მშობელი GsfInfile"
 
 #: gsf/gsf-input.c:281
 msgid "Duplicate size mismatch"
-msgstr ""
+msgstr "დუბლიკატის ზომა არ ემთხვევა"
 
 #: gsf/gsf-input-gzip.c:169
 msgid "Unable to initialize zlib"
-msgstr ""
+msgstr "ZLib-ის ინიციალიზაციის შეცდომა"
 
 #: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
-msgstr ""
+msgstr "წყაროს გადახვევის შეცდომა"
 
 #: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
-msgstr ""
+msgstr "არასწორი gzip თავსართი"
 
 #: gsf/gsf-input-gzip.c:313
 msgid "truncated source"
-msgstr ""
+msgstr "წაკვეთილი წყარო"
 
 #: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
-msgstr ""
+msgstr "წყაროდან წაკითხვის შეცდომა"
 
 #: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
-msgstr ""
+msgstr "NULL წყარო"
 
 #: gsf/gsf-input-gzip.c:478
 msgid "Uncompressed size not set"
-msgstr ""
+msgstr "გაშლილი ზომა დაყენებული არაა"
 
 #: gsf/gsf-input-gzip.c:503
 msgid "Raw"
@@ -286,20 +286,20 @@ msgstr ""
 
 #: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
-msgstr ""
+msgstr "საიდან მოდის შეკუმშული მონაცემები"
 
 #: gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
-msgstr ""
+msgstr "ზომა გაშლის შემდეგ"
 
 #: gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
-msgstr ""
+msgstr "წყაროს გაშლილი ზომა"
 
 #: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
-msgstr ""
+msgstr "%s ჩვეულებრივი ფაილი არაა"
 
 #: gsf/gsf-input-memory.c:240
 #, c-format
@@ -308,7 +308,7 @@ msgstr ""
 
 #: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
-msgstr ""
+msgstr "mmap მხარდაჭერილი არაა"
 
 #: gsf/gsf-libxml.c:1574
 msgid "Pretty print"
@@ -326,7 +326,7 @@ msgstr ""
 
 #: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
-msgstr ""
+msgstr "სამიზნე ჩასაწერად"
 
 #: gsf/gsf-msole-utils.c:313
 #, c-format
@@ -366,7 +366,7 @@ msgstr ""
 
 #: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
-msgstr ""
+msgstr "ODF-ის ვერსია"
 
 #: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
@@ -442,7 +442,7 @@ msgstr ""
 
 #: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
-msgstr ""
+msgstr "Deflate დონე"
 
 #: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
 msgid ""
@@ -456,7 +456,7 @@ msgstr ""
 
 #: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
-msgstr ""
+msgstr "BZ2 ბიბლიოთეკის ინიციალიზაციის შეცდომა"
 
 #: gsf/gsf-output.c:169
 msgid "The output's name"
@@ -484,15 +484,15 @@ msgstr ""
 
 #: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
-msgstr ""
+msgstr "მშობელი GsfOutfile"
 
 #: gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
-msgstr ""
+msgstr "სად ჩაიწერება დაფორმატებული გამოტანა"
 
 #: gsf/gsf-output-csv.c:343
 msgid "Quote"
-msgstr ""
+msgstr "ციტატა"
 
 #: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
-msgstr ""
+msgstr "ციტირების რეჟიმი"
 
 #: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
@@ -528,15 +528,15 @@ msgstr "გამყოფი"
 
 #: gsf/gsf-output-csv.c:387
 msgid "The field separator"
-msgstr ""
+msgstr "ველის გამყოფი"
 
 #: gsf/gsf-output-csv.c:397
 msgid "end-of-line"
-msgstr ""
+msgstr "ხაზის-დასასრული"
 
 #: gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
-msgstr ""
+msgstr "ხაზის-დასასრულის სიმბოლო"
 
 #: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
@@ -544,7 +544,7 @@ msgstr ""
 
 #: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
-msgstr ""
+msgstr "შეყვანის სიმბილოების კოდირება"
 
 #: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
@@ -552,7 +552,7 @@ msgstr ""
 
 #: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
-msgstr ""
+msgstr "გამომავალი სიმბოლოების ნაკრები"
 
 #: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
@@ -560,7 +560,7 @@ msgstr ""
 
 #: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
-msgstr ""
+msgstr "გადართვა შეცდომის შემთხვევაში"
 
 #: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
@@ -572,12 +572,12 @@ msgstr ""
 
 #: tools/gsf.c:19
 msgid "Display program version"
-msgstr ""
+msgstr "პროგრამის ვერსიის ჩვენება"
 
 #: tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
-msgstr ""
+msgstr "%s: %s-ის გახსნა შეუძლებელია: %s\n"
 
 #: tools/gsf.c:76
 #, c-format
@@ -586,7 +586,7 @@ msgstr ""
 
 #: tools/gsf.c:115
 msgid "Available subcommands are...\n"
-msgstr ""
+msgstr "ხელმისაწვდომი ქვებრძანებებია...\n"
 
 #: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
@@ -632,7 +632,7 @@ msgstr ""
 
 #: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
-msgstr ""
+msgstr "ქვებრძანება არქივი...."
 
 #: tools/gsf.c:537
 #, c-format
@@ -644,7 +644,7 @@ msgstr ""
 #: tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
-msgstr ""
+msgstr "gsf ვერსია %d.%d.%d\n"
 
 #: tools/gsf.c:550
 #, c-format
