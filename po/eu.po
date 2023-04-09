@@ -3,713 +3,656 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2009, 2010, 2014, 2015.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2023.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: libgsf master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgsf&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2015-01-19 21:39+0100\n"
-"PO-Revision-Date: 2015-01-19 21:40+0100\n"
-"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
-"Language-Team: Basque <librezale@librezale.org>\n"
+msgstr "Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
+"POT-Creation-Date: 2022-07-13 18:47+0000\n"
+"PO-Revision-Date: 2023-04-09 21:40+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+"Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:114
+#: gsf/gsf-blob.c:114
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
 msgstr "Ez dago nahikoa memoriarik datuen %s byte kopiatzeko"
 
-#: ../gsf/gsf-clip-data.c:165
+#: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
 msgstr "clip_data %s(e)n dago, honakoa baino txikiegia da ordea: %s byte"
 
-#: ../gsf/gsf-clip-data.c:259
-#, c-format
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
-msgstr ""
-"clip_data Windows-eko arbeleko formatuan dago,  beharrezkoa den 4 byte baino "
-"txikiagoa da ordea."
+msgstr "clip_data Windows-eko arbeleko formatuan dago,  beharrezkoa den 4 byte baino txikiagoa da ordea."
 
-#: ../gsf/gsf-clip-data.c:270
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Windows-eko metafitxategi formatua"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:276
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Windows DIB edo BITMAP formatua"
 
-#: ../gsf/gsf-clip-data.c:281
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Windows-eko hobetutako metafitxategi formatua"
 
-#: ../gsf/gsf-infile-msole.c:471
-#, c-format
+#: gsf/gsf-infile-msole.c:477
 msgid "Failed to duplicate input stream"
 msgstr "Huts egin du sarrerako korrontea bikoiztean"
 
-#: ../gsf/gsf-infile-msole.c:505
-#, c-format
+#: gsf/gsf-infile-msole.c:511
 msgid "No OLE2 signature"
 msgstr "Ez dago OLE2 sinadurarik"
 
-#: ../gsf/gsf-infile-msole.c:525
-#, c-format
+#: gsf/gsf-infile-msole.c:543
 msgid "Unreasonable block sizes"
 msgstr "Arrazoirik gabeko bloke-tamainak"
 
-#: ../gsf/gsf-infile-msole.c:561
-#, c-format
+#: gsf/gsf-infile-msole.c:579
 msgid "Insufficient memory"
 msgstr "Ez dago nahikoa memoria"
 
-#: ../gsf/gsf-infile-msole.c:620
-#, c-format
+#: gsf/gsf-infile-msole.c:638
 msgid "Inconsistent block allocation table"
 msgstr "blokeen esleipen-taula ez dator bat"
 
-#: ../gsf/gsf-infile-msole.c:628
-#, c-format
+#: gsf/gsf-infile-msole.c:646
 msgid "Problems making block allocation table"
 msgstr "Arazoak blokeen esleipen-taula egitean"
 
-#: ../gsf/gsf-infile-msole.c:640
-#, c-format
+#: gsf/gsf-infile-msole.c:658
 msgid "Problems reading directory"
 msgstr "Arazoak direktorioa irakurtzean"
 
-#: ../gsf/gsf-infile-msole.c:804
-#, c-format
+#: gsf/gsf-infile-msole.c:822
 msgid "Failed to access child"
 msgstr "Huts egin du umea sarbidetzean"
 
-#: ../gsf/gsf-infile-msole.c:837
-#, c-format
+#: gsf/gsf-infile-msole.c:854
 msgid "failure reading block"
 msgstr "huts egin du blokea irakurtzean"
 
-#: ../gsf/gsf-infile-msvba.c:171 ../gsf/gsf-infile-msvba.c:390
-#, c-format
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
 msgid "Can't find the VBA directory stream"
 msgstr "Ezin da VBA direktorioaren korrontea aurkitu"
 
-#: ../gsf/gsf-infile-msvba.c:218 ../gsf/gsf-infile-msvba.c:226
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
 msgstr "arazoa VBA proiektuaren goiburuan"
 
-#: ../gsf/gsf-infile-msvba.c:399
-#, c-format
+#: gsf/gsf-infile-msvba.c:398
 msgid "No VBA signature"
 msgstr "Ez dago VBA sinadurarik"
 
-#: ../gsf/gsf-infile-msvba.c:410
+#: gsf/gsf-infile-msvba.c:409
 #, c-format
 msgid "Unknown VBA version signature 0x%x%x%x%x"
 msgstr "VBA 0x%x%x%x%x bertsioaren sinadura ezezaguna"
 
-#: ../gsf/gsf-infile-msvba.c:510
-#, c-format
+#: gsf/gsf-infile-msvba.c:509
 msgid "Unable to parse VBA header"
 msgstr "Ezin da VBA goiburua analizatu"
 
-#: ../gsf/gsf-infile-tar.c:109 ../gsf/gsf-infile-tar.c:217
-#, c-format
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
 msgid "Invalid tar header"
 msgstr "Baliogabeko Tar goiburua"
 
-#: ../gsf/gsf-infile-tar.c:266
-#, c-format
+#: gsf/gsf-infile-tar.c:277
 msgid "Invalid longname header"
 msgstr "Baliogabeko 'longname' goiburua"
 
-#: ../gsf/gsf-infile-tar.c:273
-#, c-format
+#: gsf/gsf-infile-tar.c:284
 msgid "Failed to read longname"
 msgstr "Huts egin du 'longname' irakurtzean"
 
-#: ../gsf/gsf-infile-tar.c:293 ../gsf/gsf-input.c:288
-#, c-format
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:288
 msgid "Seek failed"
 msgstr "Huts egin du kokatzean"
 
-#: ../gsf/gsf-infile-tar.c:301
-#, c-format
+#: gsf/gsf-infile-tar.c:312
 msgid "Truncated archive"
 msgstr "Trunkatutako artxiboa"
 
-#: ../gsf/gsf-infile-tar.c:551 ../gsf/gsf-infile-zip.c:943
-#: ../gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Iturburua"
 
-#: ../gsf/gsf-infile-tar.c:552 ../gsf/gsf-infile-zip.c:944
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Artxiboa interpretatzen ari da"
 
-#: ../gsf/gsf-infile-zip.c:453
-#, c-format
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Errorea Zip 'dirent' irakurtzean"
 
-#: ../gsf/gsf-infile-zip.c:464
-#, c-format
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Zip fitxategiaren egitura hondatuta"
 
-#: ../gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Errora Zip-en goiburuan kokatzean"
 
-#: ../gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Errorea Zip-en goiburua irakurtzean"
 
-#: ../gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
-msgstr "Errorea: Zip-en goiburua ez da zuzena "
+msgstr "Errorea: Zip-en goiburua ez da zuzena"
 
-#: ../gsf/gsf-infile-zip.c:553
-#, c-format
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
-msgstr "arazoa korrontea deskonprimitzean"
+msgstr "Arazoa korrontea deskonprimitzean"
 
-#: ../gsf/gsf-infile-zip.c:959 ../gsf/gsf-outfile-zip.c:1096
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Konpresio-maila"
 
-#: ../gsf/gsf-infile-zip.c:960 ../gsf/gsf-outfile-zip.c:1097
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Erabilitako konpresio-maila, zero balioak 'bat ere ez' adierazten du"
 
-#: ../gsf/gsf-input-bzip.c:48 ../gsf/gsf-output-bzip.c:265
-#, c-format
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "zip64 erabiltzen ari den ala ez"
+
+#: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
 msgstr "BZ2 euskarria ez dago gaituta"
 
-#: ../gsf/gsf-input-bzip.c:63
-#, c-format
+#: gsf/gsf-input-bzip.c:63
 msgid "BZ2 decompress init failed"
-msgstr "Huts egin du BZ2 deskonprimitzen hastean"
+msgstr "Huts egin du BZ2 deskonprimitzen hasteak"
 
-#: ../gsf/gsf-input-bzip.c:82
-#, c-format
+#: gsf/gsf-input-bzip.c:82
 msgid "BZ2 decompress failed"
-msgstr "Huts egin du BZ2 deskonprimitzean"
+msgstr "Huts egin du BZ2 deskonprimitzeak"
 
-#: ../gsf/gsf-input-bzip.c:99
-#, c-format
+#: gsf/gsf-input-bzip.c:99
 msgid "BZ2 decompress end failed"
-msgstr "Huts egin du BZ2 deskonprimitzea amaitzean"
+msgstr "Huts egin du BZ2 deskonprimitzea amaitzeak"
 
-#: ../gsf/gsf-input.c:128 ../gsf/gsf-output.c:168
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
 msgid "Name"
 msgstr "Izena"
 
-#: ../gsf/gsf-input.c:129
+#: gsf/gsf-input.c:129
 msgid "The input's name"
 msgstr "Sarreraren izena"
 
-#: ../gsf/gsf-input.c:143 ../gsf/gsf-output.c:183
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
 msgid "Size"
 msgstr "Tamaina"
 
-#: ../gsf/gsf-input.c:144
+#: gsf/gsf-input.c:144
 msgid "The input's size"
 msgstr "Sarreraren tamaina"
 
-#: ../gsf/gsf-input.c:158
+#: gsf/gsf-input.c:158
 msgid "EOF"
 msgstr "EOF"
 
-#: ../gsf/gsf-input.c:159
+#: gsf/gsf-input.c:159
 msgid "End of file"
 msgstr "Fitxategiaren amaiera"
 
-#: ../gsf/gsf-input.c:173
+#: gsf/gsf-input.c:173
 msgid "Remaining"
 msgstr "Falta da"
 
-#: ../gsf/gsf-input.c:174
+#: gsf/gsf-input.c:174
 msgid "Amount of data remaining"
 msgstr "Falta diren datuen kopurua adierazten du"
 
-#: ../gsf/gsf-input.c:188 ../gsf/gsf-output.c:213
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
 msgid "Position"
 msgstr "Posizioa"
 
-#: ../gsf/gsf-input.c:189
+#: gsf/gsf-input.c:189
 msgid "The input's current position"
 msgstr "Sarreraren uneko posizioa"
 
-#: ../gsf/gsf-input.c:206 ../gsf/gsf-output.c:232
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
 msgid "Modification time"
 msgstr "Eraldatze-data"
 
-#: ../gsf/gsf-input.c:207
+#: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr "Sarrera azken aldiz aldatu zen data adierazten duen aukerako GDateTime"
 
-#: ../gsf/gsf-input.c:220 ../gsf/gsf-output.c:247
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
 msgstr "Edukiontzia"
 
-#: ../gsf/gsf-input.c:221
+#: gsf/gsf-input.c:221
 msgid "The parent GsfInfile"
 msgstr "GsfInfile gurasoa"
 
-#: ../gsf/gsf-input.c:281
-#, c-format
+#: gsf/gsf-input.c:281
 msgid "Duplicate size mismatch"
 msgstr "Bikoiztutako tamaina gaizki parekatuta"
 
-#: ../gsf/gsf-input-gzip.c:169
-#, c-format
+#: gsf/gsf-input-gzip.c:169
 msgid "Unable to initialize zlib"
 msgstr "Ezin da zlib hasieratu"
 
-#: ../gsf/gsf-input-gzip.c:177
-#, c-format
+#: gsf/gsf-input-gzip.c:177
 msgid "Failed to rewind source"
 msgstr "Huts egin du iturburua birbobinatzean"
 
-#: ../gsf/gsf-input-gzip.c:184
-#, c-format
+#: gsf/gsf-input-gzip.c:184
 msgid "Invalid gzip header"
 msgstr "Baliogabeko Gzip goiburua"
 
-#: ../gsf/gsf-input-gzip.c:313
-#, c-format
+#: gsf/gsf-input-gzip.c:313
 msgid "truncated source"
 msgstr "trunkatutako iturburua"
 
-#: ../gsf/gsf-input-gzip.c:330
-#, c-format
+#: gsf/gsf-input-gzip.c:330
 msgid "Failed to read from source"
 msgstr "Huts egin du iturburutik irakurtzean"
 
-#: ../gsf/gsf-input-gzip.c:474
-#, c-format
+#: gsf/gsf-input-gzip.c:474
 msgid "NULL source"
 msgstr "Iturburu NULUA"
 
-#: ../gsf/gsf-input-gzip.c:478
-#, c-format
+#: gsf/gsf-input-gzip.c:478
 msgid "Uncompressed size not set"
 msgstr "Konprimitu gabeko tamaina ez da ezarri"
 
-#: ../gsf/gsf-input-gzip.c:503
+#: gsf/gsf-input-gzip.c:503
 msgid "Raw"
 msgstr "Gordina"
 
-#: ../gsf/gsf-input-gzip.c:504
+#: gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
 msgstr "Konprimitutako datuak goibururik eta laburpenik gabe irakurri edo ez"
 
-#: ../gsf/gsf-input-gzip.c:515
+#: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
 msgstr "Konprimitutako datuen jatorria"
 
-#: ../gsf/gsf-input-gzip.c:531
+#: gsf/gsf-input-gzip.c:531
 msgid "Size after decompression"
 msgstr "Deskonprimitu osteko tamaina"
 
-#: ../gsf/gsf-input-gzip.c:532
+#: gsf/gsf-input-gzip.c:532
 msgid "The source's uncompressed size"
 msgstr "Iturburuaren deskonprimitutako tamaina"
 
-#: ../gsf/gsf-input-memory.c:227 ../gsf/gsf-output-stdio.c:454
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
 #, c-format
 msgid "%s: Is not a regular file"
 msgstr "'%s' ez da fitxategi arrunta"
 
-#: ../gsf/gsf-input-memory.c:240
+#: gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
 msgstr "%s: fitxategia handiegia da memorian mapatzeko"
 
-#: ../gsf/gsf-input-memory.c:283
-#, c-format
+#: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
 msgstr "mmap ez dago onartuta"
 
-#: ../gsf/gsf-libxml.c:1513
+#: gsf/gsf-libxml.c:1574
 msgid "Pretty print"
 msgstr "Irteera formateatuta"
 
-#: ../gsf/gsf-libxml.c:1514
+#: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr "Irteeraren elementuak automatikoki koskatu errazago irakurtzeko?"
 
-#: ../gsf/gsf-libxml.c:1520 ../gsf/gsf-open-pkg-utils.c:743
-#: ../gsf/gsf-outfile-msole.c:795 ../gsf/gsf-outfile-zip.c:1076
-#: ../gsf/gsf-output-csv.c:333 ../gsf/gsf-output-iconv.c:276
+#: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Helburua"
 
-#: ../gsf/gsf-libxml.c:1521 ../gsf/gsf-outfile-msole.c:796
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
 msgstr "Idazketen helburua"
 
-#: ../gsf/gsf-msole-utils.c:312
+#: gsf/gsf-msole-utils.c:313
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
-msgstr ""
-"Datuak falta dira %s(r)en propietateak irakurtzean. Lortutakoa: %s byte, "
-"baino gutxienez %s byte behar dira."
+msgstr "Datuak falta dira %s(r)en propietateak irakurtzean. Lortutakoa: %s byte, baino gutxienez %s byte behar dira."
 
-#: ../gsf/gsf-msole-utils.c:363
+#: gsf/gsf-msole-utils.c:364
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
-msgstr ""
-"Hondatutako datuak VT_CF propietatean. Arbeleko datuen luzera gutxienez 4 "
-"byte-ekoa izan behar duen arren, datuek honakoa dutela diote: erabilgarri %s "
-"byte"
+msgstr "Hondatutako datuak VT_CF propietatean. Arbeleko datuen luzera gutxienez 4 byte-ekoa izan behar duen arren, datuek honakoa dutela diote: erabilgarri %s byte"
 
-#: ../gsf/gsf-msole-utils.c:1129 ../gsf/gsf-msole-utils.c:1173
-#, c-format
+#: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
 msgid "Unable to read MS property stream header"
 msgstr "Ezin da MS propietatearen korrontearen goiburua irakurri"
 
-#: ../gsf/gsf-msole-utils.c:1156
-#, c-format
+#: gsf/gsf-msole-utils.c:1167
 msgid "Invalid MS property stream header"
 msgstr "Baliogabeko MS propietatearen korrontearen goiburua"
 
-#: ../gsf/gsf-msole-utils.c:1203 ../gsf/gsf-msole-utils.c:1241
-#: ../gsf/gsf-msole-utils.c:1265
-#, c-format
+#: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
+#: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
 msgstr "Baliogabeko MS propietatearen atala"
 
-#: ../gsf/gsf-msole-utils.c:1222 ../gsf/gsf-msole-utils.c:1226
-#, c-format
+#: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
-msgstr ""
-"Baliogabeko MS propietatearen korrontearen goiburua edo fitxategia trunkatuta"
+msgstr "Baliogabeko MS propietatearen korrontearen goiburua edo fitxategia trunkatuta"
 
-#: ../gsf/gsf-opendoc-utils.c:356
+#: gsf/gsf-opendoc-utils.c:365
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "'%s' propietatea hainbat motentzako erabilita!"
 
-#: ../gsf/gsf-opendoc-utils.c:881
+#: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
 msgstr "ODF bertsioa"
 
-#: ../gsf/gsf-opendoc-utils.c:882
+#: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
-msgstr ""
-"Objektu honek adierazten duen ODF bertsioa zenbaki 100 bezalako osoko gisa"
+msgstr "Objektu honek adierazten duen ODF bertsioa zenbaki 100 bezalako osoko gisa"
 
-#: ../gsf/gsf-open-pkg-utils.c:368
+#: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
 msgstr "Ezin da id='%s' zatia aurkitu '%s'(r)entzako"
 
-#: ../gsf/gsf-open-pkg-utils.c:395
+#: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
 msgstr "Ezin da type='%s' zatia aurkitu '%s'(r)entzako"
 
-#: ../gsf/gsf-open-pkg-utils.c:425
+#: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "ID zatia falta da  '%s'(e)n"
 
-#: ../gsf/gsf-open-pkg-utils.c:434
+#: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "'%2$s'(e)ko '%1$s' zatia '%3$s'(e)tik hondatuta dago!"
 
-#: ../gsf/gsf-open-pkg-utils.c:744
+#: gsf/gsf-open-pkg-utils.c:774
 msgid "The GsfOutput that stores the Open Package content"
 msgstr "'Open Package'-ren edukia gordetzen duen GsfOutput"
 
-#: ../gsf/gsf-open-pkg-utils.c:750
+#: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
 msgstr "Eduki mota"
 
-#: ../gsf/gsf-open-pkg-utils.c:751
+#: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr "[Content_Types].xml fitxategi erroan gordetako eduki mota"
 
-#: ../gsf/gsf-open-pkg-utils.c:757
+#: gsf/gsf-open-pkg-utils.c:787
 msgid "Is Directory"
 msgstr "Direktorioa da"
 
-#: ../gsf/gsf-open-pkg-utils.c:758
+#: gsf/gsf-open-pkg-utils.c:788
 msgid "Can the outfile have children"
 msgstr "Irteerako fitxategiak umeak eduki ditzake"
 
-#: ../gsf/gsf-outfile-msole.c:806
+#: gsf/gsf-outfile-msole.c:837
 msgid "Small block size"
 msgstr "Blokeen tamaina txikia"
 
-#: ../gsf/gsf-outfile-msole.c:807
+#: gsf/gsf-outfile-msole.c:838
 msgid "The size of the OLE's small blocks"
 msgstr "OLE bloke txikien tamaina"
 
-#: ../gsf/gsf-outfile-msole.c:818
+#: gsf/gsf-outfile-msole.c:849
 msgid "Big block size"
 msgstr "Blokeen tamaina handia"
 
-#: ../gsf/gsf-outfile-msole.c:819
+#: gsf/gsf-outfile-msole.c:850
 msgid "The size of the OLE's big blocks"
 msgstr "OLE bloke handien tamaina"
 
-#: ../gsf/gsf-outfile-zip.c:1077
+#: gsf/gsf-outfile-zip.c:1085
 msgid "Where the archive is written"
 msgstr "Artxiboa idazten den lekua"
 
-#: ../gsf/gsf-outfile-zip.c:1086
+#: gsf/gsf-outfile-zip.c:1094
 msgid "Entry Name"
 msgstr "Sarreraren izena"
 
-#: ../gsf/gsf-outfile-zip.c:1087
+#: gsf/gsf-outfile-zip.c:1095
 msgid "The filename of this member in the archive without path"
 msgstr "Kide honen bide-izenik gabeko fitxategi-izena artxiboan"
 
-#: ../gsf/gsf-outfile-zip.c:1107
+#: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
 msgstr "Txikiagotzeko maila"
 
-#: ../gsf/gsf-outfile-zip.c:1108
+#: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
 msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
-msgstr ""
-"Txikiagotzeko konpresioaren maila: zero balioak 'bat ere ez' adierazten du, "
-"eta -1 balioak berriz zlib lehenetsia"
+msgstr "Txikiagotzeko konpresioaren maila: zero balioak 'bat ere ez' adierazten du, eta -1 balioak berriz zlib lehenetsia"
 
-#: ../gsf/gsf-outfile-zip.c:1119
-msgid "Zip64"
-msgstr "Zip64"
-
-#: ../gsf/gsf-outfile-zip.c:1120
+#: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
 msgstr "zip64 formatua erabili ala ez (-1 balioak automatikoa adierazten du)"
 
-#: ../gsf/gsf-output-bzip.c:76
-#, c-format
+#: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
 msgstr "Ezin da BZ2 liburutegia hasieratu"
 
-#: ../gsf/gsf-output.c:169
+#: gsf/gsf-output.c:169
 msgid "The output's name"
 msgstr "Irteeraren izena"
 
-#: ../gsf/gsf-output.c:184
+#: gsf/gsf-output.c:184
 msgid "The output's size"
 msgstr "Irteeraren tamaina"
 
-#: ../gsf/gsf-output.c:198
+#: gsf/gsf-output.c:198
 msgid "Is Closed"
 msgstr "Itxita dago"
 
-#: ../gsf/gsf-output.c:199
+#: gsf/gsf-output.c:199
 msgid "Whether the output is closed"
 msgstr "Irteera itxita dagoen edo ez"
 
-#: ../gsf/gsf-output.c:214
+#: gsf/gsf-output.c:214
 msgid "The output's current position"
 msgstr "Irteeraren uneko posizioa"
 
-#: ../gsf/gsf-output.c:233
+#: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr "Irteera azken aldiz aldatu zen data adierazten duen aukerako GDateTime"
 
-#: ../gsf/gsf-output.c:248
+#: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
 msgstr "GsfOutfile gurasoa"
 
-#: ../gsf/gsf-output-csv.c:334
+#: gsf/gsf-output-csv.c:334
 msgid "Where the formatted output is written"
 msgstr "Formateatutako irteera non idatziko den"
 
-#: ../gsf/gsf-output-csv.c:343
+#: gsf/gsf-output-csv.c:343
 msgid "Quote"
 msgstr "Komatxoa"
 
-#: ../gsf/gsf-output-csv.c:344
+#: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
 msgstr "Erabiliko den komatxo mota eremuetan jartzeko"
 
-#: ../gsf/gsf-output-csv.c:354
+#: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
 msgstr "Komatxoen modua"
 
-#: ../gsf/gsf-output-csv.c:355
+#: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
 msgstr "Noiz jarri eremuak komatxoen artean"
 
-#: ../gsf/gsf-output-csv.c:366
+#: gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
 msgstr "Komatxoen abiarazleak"
 
-#: ../gsf/gsf-output-csv.c:367
+#: gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
 msgstr "Eremuak komatxoekin jartzea eragiten duten karaktereak"
 
-#: ../gsf/gsf-output-csv.c:376
+#: gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
 msgstr "Komatxoak zuriunean"
 
-#: ../gsf/gsf-output-csv.c:377
+#: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
 msgstr "Hasierako edo amaierako zuriuneak komatxoak derrigortu?"
 
-#: ../gsf/gsf-output-csv.c:386
+#: gsf/gsf-output-csv.c:386
 msgid "Separator"
 msgstr "Bereizlea"
 
-#: ../gsf/gsf-output-csv.c:387
+#: gsf/gsf-output-csv.c:387
 msgid "The field separator"
 msgstr "Eremu bereizlea"
 
-#: ../gsf/gsf-output-csv.c:397
-msgid "end-on-line"
-msgstr "Lerro-amaiera"
+#: gsf/gsf-output-csv.c:397
+msgid "end-of-line"
+msgstr "Lerroaren amaiera"
 
-#: ../gsf/gsf-output-csv.c:398
+#: gsf/gsf-output-csv.c:398
 msgid "The end-of-line marker"
 msgstr "Lerroaren amaieraren markatzailea"
 
-#: ../gsf/gsf-output-iconv.c:277
+#: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
 msgstr "Bihurtutako datuak non idazten diren"
 
-#: ../gsf/gsf-output-iconv.c:287
+#: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
 msgstr "Sarreraren karaktere-jokoa"
 
-#: ../gsf/gsf-output-iconv.c:288
+#: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
 msgstr "Zer karaktere-jokotik bihurtu"
 
-#: ../gsf/gsf-output-iconv.c:297
+#: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
 msgstr "Irteeraren karaktere-jokoa"
 
-#: ../gsf/gsf-output-iconv.c:298
+#: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
 msgstr "Zer karaktere-jokora bihurtzeko"
 
-#: ../gsf/gsf-output-iconv.c:314
+#: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
 msgstr "Babeseko karakterea"
 
-#: ../gsf/gsf-output-iconv.c:315
+#: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
 msgstr "Karaktere baliogabeetan erabiliko den katea"
 
-#: ../tools/gsf.c:19
+#: thumbnailer/main.c:301
+msgid "Options"
+msgstr "Aukerak"
+
+#: tools/gsf.c:19
 msgid "Display program version"
 msgstr "Bistaratu programaren bertsioa"
 
-#: ../tools/gsf.c:49
+#: tools/gsf.c:49
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
-msgstr "%s: huts egin du %s irekitzean: %s\n"
+msgstr "%s: huts egin du %s irekitzeak: %s\n"
 
-#: ../tools/gsf.c:76
+#: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr "%s: huts egin du %s artxibo gisa onartzean\n"
+msgstr "%s: huts egin du %s artxibo gisa onartzeak\n"
 
-#: ../tools/gsf.c:115
-#, c-format
+#: tools/gsf.c:115
 msgid "Available subcommands are...\n"
 msgstr "Azpikomando erabilgarriak...\n"
 
-#: ../tools/gsf.c:116
-#, c-format
+#: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
 msgstr "* cat        artxiboko fitxategi bate edo gehiago erakusten du\n"
 
-#: ../tools/gsf.c:117
-#, c-format
+#: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr ""
-"* dump       artxiboko fitxategi bat edo gehiago iraultzen du hamaseitar "
-"gisa\n"
+msgstr "* dump       artxiboko fitxategi bat edo gehiago iraultzen du hamaseitar gisa\n"
 
-#: ../tools/gsf.c:118
-#, c-format
+#: tools/gsf.c:118
 msgid "* help       list subcommands\n"
 msgstr "* help       azpikomandoak zerrendatzen ditu\n"
 
-#: ../tools/gsf.c:119
-#, c-format
+#: tools/gsf.c:119
 msgid "* list       list files in archive\n"
 msgstr "* list       artxiboko fitxategiak zerrendatzen ditu\n"
 
-#: ../tools/gsf.c:120
-#, c-format
+#: tools/gsf.c:120
 msgid "* listprops  list document properties in archive\n"
 msgstr "* listprops   artxiboko dokumentuen propietateak zerrendatzen ditu\n"
 
-#: ../tools/gsf.c:121
-#, c-format
+#: tools/gsf.c:121
 msgid "* props      print specified document properties\n"
 msgstr "* props      zehaztutako dokumentuaren propietateak erakusten ditu\n"
 
-#: ../tools/gsf.c:122
-#, c-format
+#: tools/gsf.c:122
 msgid "* createole  create OLE archive\n"
 msgstr "* createole  sortu OLE artxiboa\n"
 
-#: ../tools/gsf.c:123
-#, c-format
+#: tools/gsf.c:123
 msgid "* createzip  create ZIP archive\n"
 msgstr "* createzip  sortu ZIP artxiboa\n"
 
-#: ../tools/gsf.c:315
+#: tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
 msgstr "Ez dago '%s' izeneko propietaterik\n"
 
-#: ../tools/gsf.c:375
+#: tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
 msgstr "%s: errorea '%s' fitxategia prozesatzean: %s\n"
 
-#: ../tools/gsf.c:530
+#: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
 msgstr "AZPIKOMANDOA ARTXIBOA..."
 
-#: ../tools/gsf.c:537
+#: tools/gsf.c:537
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
-msgstr ""
-"%s\n"
+msgstr "%s\n"
 "Exekutatu '%s --help' komando-lerroko aukera guztiak zerrendatzeko.\n"
 
-#: ../tools/gsf.c:544
+#: tools/gsf.c:544
 #, c-format
 msgid "gsf version %d.%d.%d\n"
 msgstr "gsf %d.%d.%d bertsioa\n"
 
-#: ../tools/gsf.c:550
+#: tools/gsf.c:550
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Erabilera: %s %s\n"
 
-#: ../tools/gsf.c:575
+#: tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
 msgstr "Exekutatu '%s help' azpikomandoen zerrenda ikusteko.\n"
