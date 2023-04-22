@@ -191,7 +191,7 @@ msole_thumbnail (GsfInfile *infile, const char *out_filename, int thumb_size)
 	if (!thumb_value)
 		show_error_string_and_exit ("We got the thumbnail property, but it didn't have a value!?");
 
-	clip_data = GSF_CLIP_DATA (g_value_get_object (thumb_value));
+	clip_data = GSF_CLIP_DATA (g_value_dup_object (thumb_value));
 
 	clip_format = gsf_clip_data_get_format (clip_data);
 
