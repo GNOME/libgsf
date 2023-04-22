@@ -1,3 +1,8 @@
+2023-04-21  Morten Welinder  <terra@gnome.org>
+
+	* thumbnailer/main.c (write_thumbnail): Plug leak.
+	(read_thumbnail_and_write): Plug leak.
+
 2022-07-13  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

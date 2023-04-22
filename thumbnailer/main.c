@@ -100,11 +100,11 @@ static void
 write_thumbnail (const char *filename, gconstpointer data, gsize size, int thumb_size)
 {
 	GError *error = NULL;
-	char *tmp_name;
+	char *tmp_name = NULL;
 	int fd;
 	FILE *file;
 
-	fd = g_file_open_tmp("gsf-thumbnailer-XXXXXX", &tmp_name, &error);
+	fd = g_file_open_tmp ("gsf-thumbnailer-XXXXXX", &tmp_name, &error);
 	if (error) {
 		if (error->message) {
 			g_printerr ("error: %s\n", error->message);
@@ -133,6 +133,8 @@ write_thumbnail (const char *filename, gconstpointer data, gsize size, int thumb
 
 	call_convert (tmp_name, filename, thumb_size);
 	unlink (tmp_name);
+
+	g_free (tmp_name);
 }
 
 static void
@@ -240,6 +242,8 @@ read_thumbnail_and_write (const char *in_filename, const char *out_filename, int
 		zip_thumbnail (infile, out_filename, thumb_size);
 	else
 		show_error_and_exit (error);
+
+	g_clear_error (&error);
 
 	g_object_unref (infile);
 	g_object_unref (input);
