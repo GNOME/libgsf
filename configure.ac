@@ -427,7 +427,7 @@ if test "x$test_bz2" = xtrue ; then
 	  #undef VERSION
 	  #undef HAVE_STDLIB_H
 	  #include <bzlib.h>
-          main ()
+          int main (void)
           {
             return BZ2_bzDecompressInit (NULL, 0, 0);
           }
