@@ -8,8 +8,8 @@
   <shortdesc xml:lang="en">An extensible I/O abstraction library for dealing with structured file formats</shortdesc>
   <description>Libgsf is a library for reading structured files such as zip files or csv files</description>
   <homepage rdf:resource="http://www.gnumeric.org/" />
-  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnumeric-list" />
-  <download-page rdf:resource="http://download.gnome.org/sources/libgsf/" />
+  <support-forum rdf:resource="https://discourse.gnome.org/tag/gnumeric" />
+  <download-page rdf:resource="https://download.gnome.org/sources/libgsf/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/libgsf/issues" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#core" />
