@@ -8,9 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2020-03-23 00:53+0000\n"
-"PO-Revision-Date: 2020-07-23 14:06+0300\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"POT-Creation-Date: 2022-07-13 18:47+0000\n"
+"PO-Revision-Date: 2023-10-21 15:48+0300\n"
+"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
+"gmail [dot] com>\n"
 "Language-Team: Romanian Gnome Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 3.4\n"
 "X-Project-Style: gnome\n"
 
 #: gsf/gsf-blob.c:114
@@ -129,45 +130,53 @@ msgstr "Derularea a eșuat"
 msgid "Truncated archive"
 msgstr "Arhivă trunchiată"
 
-#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:942 gsf/gsf-input-gzip.c:514
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
 msgid "Source"
 msgstr "Sursă"
 
-#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:943
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
 msgstr "Arhiva care se interpretează"
 
-#: gsf/gsf-infile-zip.c:453
+#: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
 msgstr "Eroare la citirea direntului zip"
 
-#: gsf/gsf-infile-zip.c:464
+#: gsf/gsf-infile-zip.c:465
 msgid "Broken zip file structure"
 msgstr "Structură de fișiere zip deteriorată"
 
-#: gsf/gsf-infile-zip.c:518
+#: gsf/gsf-infile-zip.c:519
 msgid "Error seeking to zip header"
 msgstr "Eroare la derularea la antetul zip"
 
-#: gsf/gsf-infile-zip.c:520
+#: gsf/gsf-infile-zip.c:521
 msgid "Error reading zip header"
 msgstr "Eroare la citirea antetului zip"
 
-#: gsf/gsf-infile-zip.c:522
+#: gsf/gsf-infile-zip.c:523
 msgid "Error incorrect zip header"
 msgstr "Eroare antet zip incorect"
 
-#: gsf/gsf-infile-zip.c:553
+#: gsf/gsf-infile-zip.c:554
 msgid "problem uncompressing stream"
 msgstr "probleme la decomprimarea fluxului"
 
-#: gsf/gsf-infile-zip.c:958 gsf/gsf-outfile-zip.c:1104
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
 msgid "Compression Level"
 msgstr "Nivel de comprimare"
 
-#: gsf/gsf-infile-zip.c:959 gsf/gsf-outfile-zip.c:1105
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
 msgstr "Nivelul de comprimare utilizat, zero însemnând nimic"
+
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "Dacă zip64 este utilizat"
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
@@ -321,12 +330,12 @@ msgstr ""
 "facilă?"
 
 #: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
-#: gsf/gsf-outfile-msole.c:803 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
 #: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
 msgstr "Sink"
 
-#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:804
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
 msgstr "Destinația pentru scrieri"
 
@@ -418,19 +427,19 @@ msgstr "Este director"
 msgid "Can the outfile have children"
 msgstr "Poate fișierul de ieșire să aibă copii"
 
-#: gsf/gsf-outfile-msole.c:814
+#: gsf/gsf-outfile-msole.c:837
 msgid "Small block size"
 msgstr "Dimensiune de bloc mică"
 
-#: gsf/gsf-outfile-msole.c:815
+#: gsf/gsf-outfile-msole.c:838
 msgid "The size of the OLE's small blocks"
 msgstr "Dimensiunea blocurilor mici ale OLE"
 
-#: gsf/gsf-outfile-msole.c:826
+#: gsf/gsf-outfile-msole.c:849
 msgid "Big block size"
 msgstr "Dimensiune bloc mare"
 
-#: gsf/gsf-outfile-msole.c:827
+#: gsf/gsf-outfile-msole.c:850
 msgid "The size of the OLE's big blocks"
 msgstr "Dimensiunea blocurilor mari ale OLE"
 
@@ -457,10 +466,6 @@ msgid ""
 msgstr ""
 "Nivelul de comprimare de dezumflare utilizat, zero însemnând nimic, și -1 "
 "însemnând implicitul zlib"
-
-#: gsf/gsf-outfile-zip.c:1127
-msgid "Zip64"
-msgstr "Zip64"
 
 #: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
