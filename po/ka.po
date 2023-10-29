@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2022-07-21 15:26+0000\n"
-"PO-Revision-Date: 2023-03-25 16:30+0100\n"
+"POT-Creation-Date: 2023-03-25 15:32+0000\n"
+"PO-Revision-Date: 2023-10-29 16:45+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: gsf/gsf-blob.c:114
 #, c-format
@@ -26,13 +26,15 @@ msgstr "%s ბაიტი ინფორმაციის დასაკო�
 #: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
-msgstr ""
+msgstr "ელემენტი clip_data %s-ში არსებობს, მაგრამ %s ბაიტზე პატარაა"
 
 #: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
+"ელემენტი clip_data Windows-ის ბუფერის ფორმატშია, მაგრამ, აუცილებელ 4 ბაიტზე "
+"მცირეა."
 
 #: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
@@ -85,11 +87,11 @@ msgstr "ბლოკის კითხვის შეცდომა"
 
 #: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
 msgid "Can't find the VBA directory stream"
-msgstr ""
+msgstr "VBA კატალოგის ნაკადი ვერ ვიპოვე"
 
 #: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
 msgid "vba project header problem"
-msgstr ""
+msgstr "vba პროექტის თავსართის პრობლემა"
 
 #: gsf/gsf-infile-msvba.c:398
 msgid "No VBA signature"
@@ -130,7 +132,7 @@ msgstr "წყარო"
 
 #: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
 msgid "The archive being interpreted"
-msgstr ""
+msgstr "მიმდინარეობს არქივის ინტერპრეტაცია"
 
 #: gsf/gsf-infile-zip.c:454
 msgid "Error reading zip dirent"
@@ -162,7 +164,7 @@ msgstr "შეკუმშვის დონე"
 
 #: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
 msgid "The level of compression used, zero meaning none"
-msgstr ""
+msgstr "გამოყენებული შეკუმშვის დონე. ნული ნიშნავს, რომ შეკუმშვა არ მოხდება"
 
 #: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
 msgid "Zip64"
@@ -170,7 +172,7 @@ msgstr "Zip64"
 
 #: gsf/gsf-infile-zip.c:984
 msgid "Whether zip64 is being used"
-msgstr ""
+msgstr "გამოიყენება თუ არა zip64"
 
 #: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
 msgid "BZ2 support not enabled"
@@ -235,6 +237,8 @@ msgstr "მოდიფიკაციის დრო"
 #: gsf/gsf-input.c:207
 msgid "An optional GDateTime representing the time the input was last changed"
 msgstr ""
+"არასავალდებულო GDateTime ობიექტი, რომელიც წარმოადგენს დროს, როცა შეყვანა "
+"ბოლოს შეიცვალა"
 
 #: gsf/gsf-input.c:220 gsf/gsf-output.c:247
 msgid "Container"
@@ -282,7 +286,7 @@ msgstr "დაუმუშავებელი"
 
 #: gsf/gsf-input-gzip.c:504
 msgid "Whether to read compressed data with no header and no trailer"
-msgstr ""
+msgstr "წავიკითხო თუ არა შეკუმშული მონაცემები თავსართისა და ბოლოსართის გარეშე"
 
 #: gsf/gsf-input-gzip.c:515
 msgid "Where the compressed data comes from"
@@ -304,7 +308,7 @@ msgstr "%s ჩვეულებრივი ფაილი არაა"
 #: gsf/gsf-input-memory.c:240
 #, c-format
 msgid "%s: File too large to be memory mapped"
-msgstr ""
+msgstr "%s: მეხსიერებაში ასახვისთვის ფაილი ძალიან დიდია"
 
 #: gsf/gsf-input-memory.c:284
 msgid "mmap not supported"
@@ -317,12 +321,14 @@ msgstr "ხარისხიანად დაბეჭდვა"
 #: gsf/gsf-libxml.c:1575
 msgid "Should the output auto-indent elements to make reading easier?"
 msgstr ""
+"უნდა მოხდეს თუ არა გამოტანილი ინფორმაციის ავტომატური სწორება, რათა წაკითხვა "
+"უფრო იოლი გახდეს?"
 
 #: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
 #: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
 #: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
 msgid "Sink"
-msgstr ""
+msgstr "მიმღები"
 
 #: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
 msgid "The destination for writes"
@@ -334,6 +340,8 @@ msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
 msgstr ""
+"ნაკლული მონაცემები თვისების %s კითხვისას. მივიღე %s ბაიტი, მაგრამ, სულ ცოტა "
+"%s ბაიტია საჭირო."
 
 #: gsf/gsf-msole-utils.c:364
 #, c-format
@@ -341,28 +349,30 @@ msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
+"დაზიანებული მონაცემები თვისებაში VT_CF. ბუფერის მონაცემების სიგრძე, სულ "
+"ცოტა, 4 ბაიტი უნდა იყოს, მაგრამ მონაცემებში, მხოლოდ, %s ბაიტია ხელმისაწვდომი."
 
 #: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
 msgid "Unable to read MS property stream header"
-msgstr ""
+msgstr "MS თვისების ნაკადის თავსართის წაკითხვა შეუძლებელია"
 
 #: gsf/gsf-msole-utils.c:1167
 msgid "Invalid MS property stream header"
-msgstr ""
+msgstr "არასწორი MS თვისების ნაკადის თავსართი"
 
 #: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
 #: gsf/gsf-msole-utils.c:1276
 msgid "Invalid MS property section"
-msgstr ""
+msgstr "არასწორი MS თვისების სექცია"
 
 #: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
 msgid "Invalid MS property stream header or file truncated"
-msgstr ""
+msgstr "არასწორი MS თვისების ნაკადის თავსართი ან ფაილი წაკვეთილია"
 
 #: gsf/gsf-opendoc-utils.c:365
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
-msgstr ""
+msgstr "თვისება \"%s\" ერთზე მეტი ტიპისთვის გამოიყენება!"
 
 #: gsf/gsf-opendoc-utils.c:900
 msgid "ODF version"
@@ -370,31 +380,31 @@ msgstr "ODF-ის ვერსია"
 
 #: gsf/gsf-opendoc-utils.c:901
 msgid "The ODF version this object is targeting as an integer like 100"
-msgstr ""
+msgstr "ამ ობიექტის ODF ვერსია მთელი რიცხვი უნდა იყოს, მაგალითად 100"
 
 #: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
-msgstr ""
+msgstr "ვერ ვიპოვე ნაწილის id='%s' '%s'-თვის"
 
 #: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
-msgstr ""
+msgstr "ვერ ვიპოვე ნაწილი ტიპით='%s' '%s'-თვის"
 
 #: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
-msgstr ""
+msgstr "ვერ ვიპოვე ID ნაწილისთვის '%s'"
 
 #: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr ""
+msgstr "ნაწილი '%s' '%s'-ში '%s'-დან დაზიანებულია!"
 
 #: gsf/gsf-open-pkg-utils.c:774
 msgid "The GsfOutput that stores the Open Package content"
-msgstr ""
+msgstr "GsfOutput ობიექტი, რომელიც Open Package-ის შემცველობას ინახავს"
 
 #: gsf/gsf-open-pkg-utils.c:780
 msgid "Content type"
@@ -403,6 +413,8 @@ msgstr "შემცველობის ტიპი"
 #: gsf/gsf-open-pkg-utils.c:781
 msgid "The content type stored in the root [Content_Types].xml file"
 msgstr ""
+"შემცველობის ტიპი, რომელიც დამახსოვრებულია ძირითად საქაღალდეში, "
+"[Content_Types].xml ფაილში"
 
 #: gsf/gsf-open-pkg-utils.c:787
 msgid "Is Directory"
@@ -410,7 +422,7 @@ msgstr "საქაღალდეა"
 
 #: gsf/gsf-open-pkg-utils.c:788
 msgid "Can the outfile have children"
-msgstr ""
+msgstr "შეიძლება, თუ არა, გამოტანილ ფაილს შვილები ჰყავდეს"
 
 #: gsf/gsf-outfile-msole.c:837
 msgid "Small block size"
@@ -418,7 +430,7 @@ msgstr "პატარა ბლოკის ზომა"
 
 #: gsf/gsf-outfile-msole.c:838
 msgid "The size of the OLE's small blocks"
-msgstr ""
+msgstr "OLE-ის პატარა ბლოკების ზომა"
 
 #: gsf/gsf-outfile-msole.c:849
 msgid "Big block size"
@@ -426,11 +438,11 @@ msgstr "დიდი ბლოკის ზომა"
 
 #: gsf/gsf-outfile-msole.c:850
 msgid "The size of the OLE's big blocks"
-msgstr ""
+msgstr "OLE-ის დიდი ბლოკების ზომა"
 
 #: gsf/gsf-outfile-zip.c:1085
 msgid "Where the archive is written"
-msgstr ""
+msgstr "სად ჩაიწერება არქივი"
 
 #: gsf/gsf-outfile-zip.c:1094
 msgid "Entry Name"
@@ -438,7 +450,7 @@ msgstr "ჩანაწერის სახელი"
 
 #: gsf/gsf-outfile-zip.c:1095
 msgid "The filename of this member in the archive without path"
-msgstr ""
+msgstr "ამ წევრის ფაილის სახელი არქივში, ბილიკის გარეშე"
 
 #: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
 msgid "Deflate Level"
@@ -449,10 +461,12 @@ msgid ""
 "The level of deflate compression used, zero meaning none and -1 meaning the "
 "zlib default"
 msgstr ""
+"დონე, რომელიც deflate შეკუმშვისთვის გამოიყენება. 0 ნიშნავს, რომ შეკუმშვა არ "
+"მოხდება და -1 zlib-ის ნაგულისხმევს ნიშნავს"
 
 #: gsf/gsf-outfile-zip.c:1128
 msgid "Whether to use zip64 format, -1 meaning automatic"
-msgstr ""
+msgstr "გამოვიყენო თუ არა ფორმატი zip64. -1 ნიშნავს ავტომატურს"
 
 #: gsf/gsf-output-bzip.c:76
 msgid "Unable to initialize BZ2 library"
@@ -472,15 +486,17 @@ msgstr "დახურულია"
 
 #: gsf/gsf-output.c:199
 msgid "Whether the output is closed"
-msgstr ""
+msgstr "დახურულია თუ არა გამოტანა"
 
 #: gsf/gsf-output.c:214
 msgid "The output's current position"
-msgstr ""
+msgstr "გამოტანის მიმდინარე მდებარეობა"
 
 #: gsf/gsf-output.c:233
 msgid "An optional GDateTime representing the time the output was last changed"
 msgstr ""
+"არასავალდებულო GDateTime, რომელიც წარმოადგენს დროს, როცა გამოტანა, ბოლოს, "
+"შეიცვალა"
 
 #: gsf/gsf-output.c:248
 msgid "The parent GsfOutfile"
@@ -496,7 +512,7 @@ msgstr "ციტატა"
 
 #: gsf/gsf-output-csv.c:344
 msgid "The string used for quoting fields"
-msgstr ""
+msgstr "ციტირების ველებისთვის გამოყენებული სტრიქონი"
 
 #: gsf/gsf-output-csv.c:354
 msgid "Quoting Mode"
@@ -504,23 +520,23 @@ msgstr "ციტირების რეჟიმი"
 
 #: gsf/gsf-output-csv.c:355
 msgid "When to quote fields"
-msgstr ""
+msgstr "როდის დავაციტირო ველები"
 
 #: gsf/gsf-output-csv.c:366
 msgid "Quoting Triggers"
-msgstr ""
+msgstr "ციტირების ტრიგერები"
 
 #: gsf/gsf-output-csv.c:367
 msgid "Characters that cause field quoting"
-msgstr ""
+msgstr "სიმბოლოები, რომლებიც ველის ციტირებას იწვევენ"
 
 #: gsf/gsf-output-csv.c:376
 msgid "Quoting On Whitespace"
-msgstr ""
+msgstr "ციტირება ცარიელ ადგილზე"
 
 #: gsf/gsf-output-csv.c:377
 msgid "Does initial or terminal whitespace force quoting?"
-msgstr ""
+msgstr "პირველი გამოტოვება იწვევს ციტირებას, თუ ბოლო?"
 
 #: gsf/gsf-output-csv.c:386
 msgid "Separator"
@@ -540,7 +556,7 @@ msgstr "ხაზის-დასასრულის სიმბოლო"
 
 #: gsf/gsf-output-iconv.c:277
 msgid "Where the converted data is written"
-msgstr ""
+msgstr "სად ჩაიწერება გადაყვანილ მონაცემები"
 
 #: gsf/gsf-output-iconv.c:287
 msgid "Input Charset"
@@ -548,7 +564,7 @@ msgstr "შეყვანის სიმბილოების კოდი�
 
 #: gsf/gsf-output-iconv.c:288
 msgid "The character set to convert from"
-msgstr ""
+msgstr "სიმბოლოების კოდირება, საიდანაც გარდაქმნა ხდება"
 
 #: gsf/gsf-output-iconv.c:297
 msgid "Output Charset"
@@ -556,7 +572,7 @@ msgstr "გამომავალი სიმბოლოების ნა�
 
 #: gsf/gsf-output-iconv.c:298
 msgid "The character set to convert to"
-msgstr ""
+msgstr "სიმბოლოების კოდირება, სადაც გარდაქმნა ხდება"
 
 #: gsf/gsf-output-iconv.c:314
 msgid "Fallback"
@@ -564,11 +580,11 @@ msgstr "გადართვა შეცდომის შემთხვე�
 
 #: gsf/gsf-output-iconv.c:315
 msgid "The string to use for invalid characters"
-msgstr ""
+msgstr "არასწორი სიმბოლოებისთვის გამოყენებული სტრიქონი"
 
 #: thumbnailer/main.c:301
 msgid "Options"
-msgstr ""
+msgstr "პარამეტრები"
 
 #: tools/gsf.c:19
 msgid "Display program version"
@@ -582,7 +598,7 @@ msgstr "%s: %s-ის გახსნა შეუძლებელია: %s\n
 #: tools/gsf.c:76
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr ""
+msgstr "%s: %s არქივად ვერ აღვიქვი\n"
 
 #: tools/gsf.c:115
 msgid "Available subcommands are...\n"
@@ -590,45 +606,45 @@ msgstr "ხელმისაწვდომი ქვებრძანებ�
 
 #: tools/gsf.c:116
 msgid "* cat        output one or more files in archive\n"
-msgstr ""
+msgstr "* cat        ფაილიდან ერთი ან მეტი ფაილის ეკრანზე გამოტანა\n"
 
 #: tools/gsf.c:117
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr ""
+msgstr "* dump       არქივიდან ერთი ან მეტი ფაილის თექვსმეტობითში გამოტანა\n"
 
 #: tools/gsf.c:118
 msgid "* help       list subcommands\n"
-msgstr ""
+msgstr "* help       ქვებრძანებების სია\n"
 
 #: tools/gsf.c:119
 msgid "* list       list files in archive\n"
-msgstr ""
+msgstr "* list       არქივის ფაილების ჩამონათვალი\n"
 
 #: tools/gsf.c:120
 msgid "* listprops  list document properties in archive\n"
-msgstr ""
+msgstr "* listprops  არქივში არსებული დოკუმენტის თვისებების გამოტანა\n"
 
 #: tools/gsf.c:121
 msgid "* props      print specified document properties\n"
-msgstr ""
+msgstr "* props      მითითებული დოკუმენტის თვისებების გამოტანა\n"
 
 #: tools/gsf.c:122
 msgid "* createole  create OLE archive\n"
-msgstr ""
+msgstr "* createole  OLE არქივის შექმნა\n"
 
 #: tools/gsf.c:123
 msgid "* createzip  create ZIP archive\n"
-msgstr ""
+msgstr "* createzip  ZIP არქივის შექმნა\n"
 
 #: tools/gsf.c:315
 #, c-format
 msgid "No property named %s\n"
-msgstr ""
+msgstr "თვისება სახელით %s  ვერ ვიპოვე\n"
 
 #: tools/gsf.c:375
 #, c-format
 msgid "%s: Error processing file %s: %s\n"
-msgstr ""
+msgstr "%s: დამუშავების შეცდომა ფაილისთვის %s: %s\n"
 
 #: tools/gsf.c:530
 msgid "SUBCOMMAND ARCHIVE..."
@@ -640,6 +656,9 @@ msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
+"%s\n"
+"გაუშვით '%s --help' ხელმისაწვდომი ბრძანების სტრიქონის პარამეტრების სრული "
+"სიის სანახავად.\n"
 
 #: tools/gsf.c:544
 #, c-format
@@ -654,4 +673,4 @@ msgstr "გამოყენება: %s %s\n"
 #: tools/gsf.c:575
 #, c-format
 msgid "Run '%s help' to see a list of subcommands.\n"
-msgstr ""
+msgstr "გაუშვით '%s help' ქვებრძანებების სიის სანახავად.\n"
