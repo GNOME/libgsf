@@ -6,7 +6,7 @@ AX_IS_RELEASE([git-directory])
 
 m4_define([libgsf_version_major], [1])
 m4_define([libgsf_version_minor], [14])
-m4_define([libgsf_version_micro], [51])
+m4_define([libgsf_version_micro], [52])
 m4_define([libgsf_version_extra], [])
 m4_define([libgsf_full_version],
     [libgsf_version_major.libgsf_version_minor.libgsf_version_micro[]libgsf_version_extra])
