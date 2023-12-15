@@ -23,6 +23,7 @@
 #define GSF_LIBXML_H
 
 #include <gsf/gsf-fwd.h>
+#include <libxml/parser.h>
 #include <libxml/tree.h>
 
 G_BEGIN_DECLS
