@@ -264,6 +264,7 @@ gsf_timestamp_new
 gsf_timestamp_parse
 gsf_timestamp_set_time
 gsf_timestamp_to_value
+gsf_value_get_docprop_array
 gsf_value_get_docprop_varray
 gsf_value_get_docprop_vector
 gsf_value_set_timestamp
