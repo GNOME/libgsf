@@ -21,7 +21,7 @@ HAVE_SYS_STAT_H=1
 HAVE_SYS_TYPES_H=1
 HAVE_UNISTD_H
 PACKAGE="libgsf"
-PACKAGE_BUGREPORT="http://bugzilla.gnome.org/enter_bug.cgi?product=libgsf"
+PACKAGE_BUGREPORT="https://gitlab.gnome.org/GNOME/libgsf/-/issues/"
 PACKAGE_NAME="libgsf"
 PACKAGE_STRING="libgsf @VERSION@"
 PACKAGE_TARNAME="libgsf"
