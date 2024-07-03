@@ -23,7 +23,10 @@
 #include <gsf/gsf-input-http.h>
 #include <gsf/gsf.h>
 
+#ifdef HAVE_XMLNANOHTTPOPEN
+// It's going away, so make it conditional
 #include <libxml/nanohttp.h>
+#endif
 
 struct _GsfInputHTTP {
         GsfInput input;
@@ -74,7 +77,9 @@ gsf_input_http_finalize (GObject *obj_input)
 	input->content_type = NULL;
 
         if (input->ctx) {
+#ifdef HAVE_XMLNANOHTTPCLOSE
                 xmlNanoHTTPClose ((gpointer) input->ctx);
+#endif
                 input->ctx = NULL;
         }
 
@@ -215,6 +220,7 @@ gsf_input_http_get_content_type (GsfInputHTTP *input)
         return content_type;
 }
 
+#ifdef HAVE_XMLNANOHTTPOPEN
 static GsfInput *
 make_local_copy (gpointer *ctx)
 {
@@ -254,6 +260,7 @@ make_local_copy (gpointer *ctx)
 
 	return copy;
 }
+#endif
 
 /**
  * gsf_input_http_new:
@@ -265,6 +272,7 @@ make_local_copy (gpointer *ctx)
 GsfInput *
 gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
 {
+#ifdef HAVE_XMLNANOHTTPOPEN
         GObject *obj;
 	GsfInput *input;
         gpointer ctx;
@@ -293,6 +301,10 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
         GSF_INPUT_HTTP (obj)->ctx = ctx;
 
         return GSF_INPUT (obj);
+#else
+        g_return_val_if_fail(url != NULL, NULL);
+	return NULL;
+#endif
 }
 
 static GsfInput *
@@ -304,6 +316,7 @@ gsf_input_http_dup (GsfInput *src, GError **err)
 static guint8 const *
 gsf_input_http_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
+#ifdef HAVE_XMLNANOHTTPOPEN
         int nread;
         size_t total_read;
         gpointer ctx = GSF_INPUT_HTTP (input)->ctx;
@@ -324,6 +337,12 @@ gsf_input_http_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
                         return NULL;
         }
         return buffer;
+#else
+	(void)input;
+	(void)num_bytes;
+	(void)buffer;
+	return NULL;
+#endif
 }
 
 static gboolean
