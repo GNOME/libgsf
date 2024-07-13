@@ -1,0 +1,665 @@
+# Hindi translation for libgsf master.
+# Copyright (C) 2024 libgsf's COPYRIGHT HOLDER
+# This file is distributed under the same license as the libgsf package.
+# Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libgsf master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
+"POT-Creation-Date: 2024-03-17 09:10+0000\n"
+"PO-Revision-Date: 2024-06-30 21:47+0530\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 46.1\n"
+
+#: gsf/gsf-blob.c:114
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "डेटा के %s बाइट्स को कॉपी करने के लिए पर्याप्त मेमोरी नहीं है"
+
+#: gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "Clip_data %s में है, लेकिन यह कम से कम %s बाइट्स से छोटा है"
+
+#: gsf/gsf-clip-data.c:259
+msgid ""
+"The clip_data is in Windows clipboard format, but it is smaller than the "
+"required 4 bytes."
+msgstr "Clip_data विंडोज क्लिपबोर्ड प्रारूप में है, लेकिन यह आवश्यक 4 बाइट्स से छोटा है।"
+
+#: gsf/gsf-clip-data.c:270
+msgid "Windows Metafile format"
+msgstr "Windows Metafile प्रारूप"
+
+#. CF_BITMAP
+#: gsf/gsf-clip-data.c:276
+msgid "Windows DIB or BITMAP format"
+msgstr "Windows DIB या BITMAP प्रारूप"
+
+#: gsf/gsf-clip-data.c:281
+msgid "Windows Enhanced Metafile format"
+msgstr "Windows Enhanced Metafile प्रारूप"
+
+#: gsf/gsf-infile-msole.c:477
+msgid "Failed to duplicate input stream"
+msgstr "इनपुट स्ट्रीम की प्रतिलिपि बनाने में विफल"
+
+#: gsf/gsf-infile-msole.c:511
+msgid "No OLE2 signature"
+msgstr "कोई OLE2 हस्ताक्षर नहीं"
+
+#: gsf/gsf-infile-msole.c:543
+msgid "Unreasonable block sizes"
+msgstr "अनुचित ब्लॉक आकार"
+
+#: gsf/gsf-infile-msole.c:579
+msgid "Insufficient memory"
+msgstr "अपर्याप्त मेमोरी"
+
+#: gsf/gsf-infile-msole.c:638
+msgid "Inconsistent block allocation table"
+msgstr "असंगत ब्लॉक आवंटन तालिका"
+
+#: gsf/gsf-infile-msole.c:646
+msgid "Problems making block allocation table"
+msgstr "ब्लॉक आवंटन तालिका बनाने में समस्याएँ"
+
+#: gsf/gsf-infile-msole.c:658
+msgid "Problems reading directory"
+msgstr "निर्देशिका पढ़ने में समस्याएँ"
+
+#: gsf/gsf-infile-msole.c:822
+msgid "Failed to access child"
+msgstr "चाइल्ड तक पहुंचने में विफल"
+
+#: gsf/gsf-infile-msole.c:854
+msgid "failure reading block"
+msgstr "ब्लॉक पढ़ने में विफलता"
+
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:389
+msgid "Can't find the VBA directory stream"
+msgstr "VBA निर्देशिका स्ट्रीम नहीं मिल सकी"
+
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "VBA परियोजना शीर्षलेख समस्या"
+
+#: gsf/gsf-infile-msvba.c:398
+msgid "No VBA signature"
+msgstr "कोई VBA हस्ताक्षर नहीं"
+
+#: gsf/gsf-infile-msvba.c:409
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "अज्ञात VBA संस्करण हस्ताक्षर 0x%x%x%x%x"
+
+#: gsf/gsf-infile-msvba.c:509
+msgid "Unable to parse VBA header"
+msgstr "VBA शीर्षलेख का विश्लेषण करने में असमर्थ"
+
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
+msgid "Invalid tar header"
+msgstr "अमान्य tar शीर्षलेख"
+
+#: gsf/gsf-infile-tar.c:277
+msgid "Invalid longname header"
+msgstr "अमान्य दीर्घनाम शीर्षलेख"
+
+#: gsf/gsf-infile-tar.c:284
+msgid "Failed to read longname"
+msgstr "दीर्घनाम पढ़ने में विफल"
+
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:288
+msgid "Seek failed"
+msgstr "खोज विफल"
+
+#: gsf/gsf-infile-tar.c:312
+msgid "Truncated archive"
+msgstr "छोटा किया गया पुरालेख"
+
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:946 gsf/gsf-input-gzip.c:514
+msgid "Source"
+msgstr "स्रोत"
+
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:947
+msgid "The archive being interpreted"
+msgstr "पुरालेख की व्याख्या की जा रही है"
+
+#: gsf/gsf-infile-zip.c:454
+msgid "Error reading zip dirent"
+msgstr "Zip फाइल पढ़ने में त्रुटि"
+
+#: gsf/gsf-infile-zip.c:465
+msgid "Broken zip file structure"
+msgstr "टूटी हुई zip फाइल संरचना"
+
+#: gsf/gsf-infile-zip.c:519
+msgid "Error seeking to zip header"
+msgstr "Zip शीर्षलेख खोजने में त्रुटि"
+
+#: gsf/gsf-infile-zip.c:521
+msgid "Error reading zip header"
+msgstr "Zip शीर्षलेख पढ़ने में त्रुटि"
+
+#: gsf/gsf-infile-zip.c:523
+msgid "Error incorrect zip header"
+msgstr "त्रुटि ग़लत zip शीर्षलेख"
+
+#: gsf/gsf-infile-zip.c:554
+msgid "problem uncompressing stream"
+msgstr "स्ट्रीम को असंपीड़ित करने में समस्या"
+
+#: gsf/gsf-infile-zip.c:962 gsf/gsf-outfile-zip.c:1104
+msgid "Compression Level"
+msgstr "संपीड़न स्तर"
+
+#: gsf/gsf-infile-zip.c:963 gsf/gsf-outfile-zip.c:1105
+msgid "The level of compression used, zero meaning none"
+msgstr "प्रयुक्त संपीड़न स्तर, शून्य अर्थात कोई नहीं"
+
+#: gsf/gsf-infile-zip.c:983 gsf/gsf-outfile-zip.c:1127
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:984
+msgid "Whether zip64 is being used"
+msgstr "क्या zip64 का उपयोग किया जा रहा है"
+
+#: gsf/gsf-input-bzip.c:48 gsf/gsf-output-bzip.c:265
+msgid "BZ2 support not enabled"
+msgstr "BZ2 समर्थन सक्षम नहीं है"
+
+#: gsf/gsf-input-bzip.c:63
+msgid "BZ2 decompress init failed"
+msgstr "BZ2 विसंपीड़न init विफल"
+
+#: gsf/gsf-input-bzip.c:82
+msgid "BZ2 decompress failed"
+msgstr "BZ2 विसंपीड़न विफल"
+
+#: gsf/gsf-input-bzip.c:99
+msgid "BZ2 decompress end failed"
+msgstr "BZ2 विसंपीड़न अंत विफल"
+
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
+msgid "Name"
+msgstr "नाम"
+
+#: gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "इनपुट का नाम"
+
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
+msgid "Size"
+msgstr "आकार"
+
+#: gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "इनपुट का आकार"
+
+#: gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "फाइल का अंत"
+
+#: gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "शेष"
+
+#: gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "शेष डेटा की मात्रा"
+
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
+msgid "Position"
+msgstr "स्थिति"
+
+#: gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "इनपुट की वर्तमान स्थिति"
+
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "संशोधन समय"
+
+#: gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "एक वैकल्पिक GDateTime जो इनपुट को अंतिम बार बदले जाने के समय को दर्शाता है"
+
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
+msgid "Container"
+msgstr "कंटेनर"
+
+#: gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "मूल GsfInfile"
+
+#: gsf/gsf-input.c:281
+msgid "Duplicate size mismatch"
+msgstr "डुप्लिकेट आकार बेमेल"
+
+#: gsf/gsf-input-gzip.c:169
+msgid "Unable to initialize zlib"
+msgstr "zlib आरंभ करने में असमर्थ"
+
+#: gsf/gsf-input-gzip.c:177
+msgid "Failed to rewind source"
+msgstr "स्रोत को रिवाइंड करने में विफल"
+
+#: gsf/gsf-input-gzip.c:184
+msgid "Invalid gzip header"
+msgstr "अमान्य gzip शीर्षलेख"
+
+#: gsf/gsf-input-gzip.c:313
+msgid "truncated source"
+msgstr "छोटा किया गया स्रोत"
+
+#: gsf/gsf-input-gzip.c:330
+msgid "Failed to read from source"
+msgstr "स्रोत से पढ़ने में विफल"
+
+#: gsf/gsf-input-gzip.c:474
+msgid "NULL source"
+msgstr "शून्य स्रोत"
+
+#: gsf/gsf-input-gzip.c:478
+msgid "Uncompressed size not set"
+msgstr "असंपीड़ित आकार निर्धारित नहीं है"
+
+#: gsf/gsf-input-gzip.c:503
+msgid "Raw"
+msgstr "कच्चा"
+
+#: gsf/gsf-input-gzip.c:504
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "क्या बिना शीर्षलेख और बिना अनुयान के संपीड़ित डेटा को पढ़ना है"
+
+#: gsf/gsf-input-gzip.c:515
+msgid "Where the compressed data comes from"
+msgstr "संपीड़ित डेटा कहां से आता है"
+
+#: gsf/gsf-input-gzip.c:531
+msgid "Size after decompression"
+msgstr "विसंपीडन के बाद आकार"
+
+#: gsf/gsf-input-gzip.c:532
+msgid "The source's uncompressed size"
+msgstr "स्रोत का असंपीड़ित आकार"
+
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: यह कोई नियमित फाइल नहीं है"
+
+#: gsf/gsf-input-memory.c:240
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: फाइल मेमोरी मैप करने के लिए बहुत बड़ी है"
+
+#: gsf/gsf-input-memory.c:284
+msgid "mmap not supported"
+msgstr "mmap समर्थित नहीं है"
+
+#: gsf/gsf-libxml.c:1574
+msgid "Pretty print"
+msgstr "सुंदर प्रिंट"
+
+#: gsf/gsf-libxml.c:1575
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "क्या आउटपुट में तत्वों को पढ़ना आसान बनाने के लिए उन्हें स्वतः इंडेंट किया जाना चाहिए?"
+
+#: gsf/gsf-libxml.c:1581 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:826 gsf/gsf-outfile-zip.c:1084
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "सिंक"
+
+#: gsf/gsf-libxml.c:1582 gsf/gsf-outfile-msole.c:827
+msgid "The destination for writes"
+msgstr "लिखने का गंतव्य"
+
+#: gsf/gsf-msole-utils.c:313
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"%s प्रॉपर्टी पढ़ते समय डेटा गुम है; %s बाइट्स मिले हैं, लेकिन कम से कम %s बाइट्स की "
+"आवश्यकता है।"
+
+#: gsf/gsf-msole-utils.c:364
+#, c-format
+msgid ""
+"Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
+"bytes, but the data says it only has %s bytes available."
+msgstr ""
+"VT_CF प्रॉपर्टी में डेटा दूषित है; क्लिपबोर्ड डेटा की लंबाई कम से कम 4 बाइट्स होनी चाहिए, "
+"लेकिन डेटा कहता है कि इसमें केवल %s बाइट्स ही उपलब्ध हैं।"
+
+#: gsf/gsf-msole-utils.c:1140 gsf/gsf-msole-utils.c:1184
+msgid "Unable to read MS property stream header"
+msgstr "MS प्रॉपर्टी स्ट्रीम शीर्षलेख पढ़ने में असमर्थ"
+
+#: gsf/gsf-msole-utils.c:1167
+msgid "Invalid MS property stream header"
+msgstr "अमान्य MS प्रॉपर्टी स्ट्रीम शीर्षलेख"
+
+#: gsf/gsf-msole-utils.c:1214 gsf/gsf-msole-utils.c:1252
+#: gsf/gsf-msole-utils.c:1276
+msgid "Invalid MS property section"
+msgstr "अमान्य MS प्रॉपर्टी अनुभाग"
+
+#: gsf/gsf-msole-utils.c:1233 gsf/gsf-msole-utils.c:1237
+msgid "Invalid MS property stream header or file truncated"
+msgstr "अमान्य MS प्रॉपर्टी स्ट्रीम शीर्षलेख या फाइल काट दी गई"
+
+#: gsf/gsf-opendoc-utils.c:365
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "प्रॉपर्टी \"%s\" एकाधिक प्रकारों के लिए उपयोग किया जाता है!"
+
+#: gsf/gsf-opendoc-utils.c:900
+msgid "ODF version"
+msgstr "ODF संस्करण"
+
+#: gsf/gsf-opendoc-utils.c:901
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr "ODF संस्करण जिसे यह वस्तु 100 जैसे पूर्णांक के रूप में लक्षित कर रहा है"
+
+#: gsf/gsf-open-pkg-utils.c:386
+#, c-format
+msgid "Unable to find part id='%s' for '%s'"
+msgstr "'%2$s' के लिए भाग id='%1$s' खोजने में असमर्थ"
+
+#: gsf/gsf-open-pkg-utils.c:413
+#, c-format
+msgid "Unable to find part with type='%s' for '%s'"
+msgstr "'%2$s' के लिए प्रकार='%1$s' वाला भाग खोजने में असमर्थ"
+
+#: gsf/gsf-open-pkg-utils.c:443
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "'%s' में भाग के लिए आईडी गुम है"
+
+#: gsf/gsf-open-pkg-utils.c:452
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "'%3$s' से '%2$s' में भाग '%1$s' भ्रष्ट है!"
+
+#: gsf/gsf-open-pkg-utils.c:774
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "GsfOutput जो ओपन पैकेज सामग्री को संग्रहीत करता है"
+
+#: gsf/gsf-open-pkg-utils.c:780
+msgid "Content type"
+msgstr "सामग्री प्रकार"
+
+#: gsf/gsf-open-pkg-utils.c:781
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "मूल [Content_Types].xml फाइल में संग्रहीत सामग्री प्रकार"
+
+#: gsf/gsf-open-pkg-utils.c:787
+msgid "Is Directory"
+msgstr "निर्देशिका है"
+
+#: gsf/gsf-open-pkg-utils.c:788
+msgid "Can the outfile have children"
+msgstr "क्या आउटफाइल में चाइल्ड हो सकते हैं"
+
+#: gsf/gsf-outfile-msole.c:837
+msgid "Small block size"
+msgstr "छोटे ब्लॉक आकार"
+
+#: gsf/gsf-outfile-msole.c:838
+msgid "The size of the OLE's small blocks"
+msgstr "OLE के छोटे ब्लॉकों का आकार"
+
+#: gsf/gsf-outfile-msole.c:849
+msgid "Big block size"
+msgstr "बड़ा ब्लॉक आकार"
+
+#: gsf/gsf-outfile-msole.c:850
+msgid "The size of the OLE's big blocks"
+msgstr "OLE के बड़े ब्लॉकों का आकार"
+
+#: gsf/gsf-outfile-zip.c:1085
+msgid "Where the archive is written"
+msgstr "पुरालेख कहां लिखा गया है"
+
+#: gsf/gsf-outfile-zip.c:1094
+msgid "Entry Name"
+msgstr "प्रविष्टि का नाम"
+
+#: gsf/gsf-outfile-zip.c:1095
+msgid "The filename of this member in the archive without path"
+msgstr "पथ के बिना पुरालेख में इस सदस्य का फाइल नाम"
+
+#: gsf/gsf-outfile-zip.c:1115 gsf/gsf-output-gzip.c:408
+msgid "Deflate Level"
+msgstr "डिफ्लेट स्तर"
+
+#: gsf/gsf-outfile-zip.c:1116 gsf/gsf-output-gzip.c:409
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr ""
+"डिफ्लेट संपीड़न का उपयोग किया गया स्तर, शून्य का अर्थ है कोई नहीं और -1 का अर्थ है zlib "
+"तयशुदा"
+
+#: gsf/gsf-outfile-zip.c:1128
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "क्या ज़िप64 प्रारूप का उपयोग करना है, -1 अर्थात स्वचालित"
+
+#: gsf/gsf-output-bzip.c:76
+msgid "Unable to initialize BZ2 library"
+msgstr "BZ2 लाइब्रेरी आरंभ करने में असमर्थ"
+
+#: gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "आउटपुट का नाम"
+
+#: gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "आउटपुट का आकार"
+
+#: gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "बंद है"
+
+#: gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "क्या आउटपुट बंद है"
+
+#: gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "आउटपुट की वर्तमान स्थिति"
+
+#: gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr "वैकल्पिक GDateTime जो आउटपुट को अंतिम बार बदले जाने के समय को दर्शाता है"
+
+#: gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "मूल GsfOutfile"
+
+#: gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "स्वरूपित आउटपुट कहां लिखा जाता है"
+
+#: gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "उद्धरण"
+
+#: gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "क्षेत्र को उद्धृत करने के लिए प्रयुक्त स्ट्रिंग"
+
+#: gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "उद्धरण मोड"
+
+#: gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "क्षेत्र कब उद्धृत करें"
+
+#: gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "ट्रिगर्स उद्धृत करना"
+
+#: gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "क्षेत्र उद्धरण का कारण बनने वाले वर्ण"
+
+#: gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "रिक्त स्थान पर उद्धरण"
+
+#: gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr "क्या आरंभिक या अंतिम रिक्त स्थान उद्धरण को बाध्य करता है?"
+
+#: gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "विभाजक"
+
+#: gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "क्षेत्र विभाजक"
+
+#: gsf/gsf-output-csv.c:397
+msgid "end-of-line"
+msgstr "पंक्ति का अंत"
+
+#: gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "पंक्ति के अंत का चिह्न"
+
+#: gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "परिवर्तित डेटा कहां लिखा जाता है"
+
+#: gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "इनपुट वर्णसमूह"
+
+#: gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "वह वर्ण समूह जिससे रूपांतरण किया जाना है"
+
+#: gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "आउटपुट वर्णसमूह"
+
+#: gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "वह वर्ण समूह जिसे परिवर्तित करना है"
+
+#: gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "फॉलबैक"
+
+#: gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "अमान्य वर्णों के लिए उपयोग की जाने वाली स्ट्रिंग"
+
+#: thumbnailer/main.c:305
+msgid "Options"
+msgstr "विकल्प"
+
+#: tools/gsf.c:19
+msgid "Display program version"
+msgstr "प्रोग्राम संस्करण दिखाएं"
+
+#: tools/gsf.c:49
+#, c-format
+msgid "%s: Failed to open %s: %s\n"
+msgstr "%s: %s खोलने में विफल: %s\n"
+
+#: tools/gsf.c:76
+#, c-format
+msgid "%s: Failed to recognize %s as an archive\n"
+msgstr "%s: %s को पुरालेख के रूप में पहचानने में विफल\n"
+
+#: tools/gsf.c:115
+msgid "Available subcommands are...\n"
+msgstr "उपलब्ध उपकमांड हैं...\n"
+
+#: tools/gsf.c:116
+msgid "* cat        output one or more files in archive\n"
+msgstr "* cat        संग्रह में एक या अधिक फाइलें आउटपुट करें\n"
+
+#: tools/gsf.c:117
+msgid "* dump       dump one or more files in archive as hex\n"
+msgstr "* dump       एक या अधिक फाइलों को हेक्स के रूप में संग्रह में डंप करें\n"
+
+#: tools/gsf.c:118
+msgid "* help       list subcommands\n"
+msgstr "* help       उपकमांडों की सूची बनाएं\n"
+
+#: tools/gsf.c:119
+msgid "* list       list files in archive\n"
+msgstr "* list       संग्रह में फाइलें सूचीबद्ध करें\n"
+
+#: tools/gsf.c:120
+msgid "* listprops  list document properties in archive\n"
+msgstr "* listprops  संग्रह में दस्तावेज़ गुण सूचीबद्ध करें\n"
+
+#: tools/gsf.c:121
+msgid "* props      print specified document properties\n"
+msgstr "* props      निर्दिष्ट दस्तावेज़ गुणों को छापें\n"
+
+#: tools/gsf.c:122
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  OLE पुरालेख बनाएँ\n"
+
+#: tools/gsf.c:123
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  ZIP पुरालेख बनाएँ\n"
+
+#: tools/gsf.c:315
+#, c-format
+msgid "No property named %s\n"
+msgstr "%s नाम की कोई प्रॉपर्टी नहीं है\n"
+
+#: tools/gsf.c:375
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: फाइल %s संसाधित करने में त्रुटि: %s\n"
+
+#: tools/gsf.c:530
+msgid "SUBCOMMAND ARCHIVE..."
+msgstr "उपकमांड पुरालेख..."
+
+#: tools/gsf.c:537
+#, c-format
+msgid ""
+"%s\n"
+"Run '%s --help' to see a full list of available command line options.\n"
+msgstr ""
+"%s\n"
+"उपलब्ध कमांड लाइन विकल्पों की पूरी सूची देखने के लिए '%s --help' चलाएँ।\n"
+
+#: tools/gsf.c:544
+#, c-format
+msgid "gsf version %d.%d.%d\n"
+msgstr "gsf संस्करण %d.%d.%d\n"
+
+#: tools/gsf.c:550
+#, c-format
+msgid "Usage: %s %s\n"
+msgstr "उपयोग: %s %s\n"
+
+#: tools/gsf.c:575
+#, c-format
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "उपकमांडों की सूची देखने के लिए '%s help' चलाएँ।\n"
