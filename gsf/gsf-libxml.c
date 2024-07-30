@@ -146,6 +146,7 @@ glade_flags_from_string (GType type, const char *string)
 
     return ret;
 }
+
 static gchar *
 glade_string_from_flags (GType type, guint flags)
 {
@@ -155,30 +156,27 @@ glade_string_from_flags (GType type, guint flags)
 
     flags_class = g_type_class_ref (type);
 
-    string = g_string_new ("");
+    string = g_string_new (NULL);
 
-    if (flags_class->n_values)
-      {
-	GFlagsValue *fval;
+    if (flags_class->n_values) {
+	    GFlagsValue *fval;
 
-	for (fval = flags_class->values; fval->value_name; fval++)
-	  {
-	    /* We have to be careful as some flags include 0 values, e.g.
-	       BonoboDockItemBehavior uses 0 for BONOBO_DOCK_ITEM_BEH_NORMAL.
-	       If a 0 value is available, we only output it if the entire
-	       flags value is 0, otherwise we check if the bit-flag is set. */
-	    if ((fval->value == 0 && flags == 0)
-		|| (fval->value && (fval->value & flags) == fval->value))
-	      {
-		if (string->len)
-		  g_string_append_c (string, '|');
-		g_string_append (string, fval->value_name);
-	      }
-	  }
-      }
+	    for (fval = flags_class->values; fval->value_name; fval++) {
+		    /* We have to be careful as some flags include 0 values, e.g.
+		       BonoboDockItemBehavior uses 0 for BONOBO_DOCK_ITEM_BEH_NORMAL.
+		       If a 0 value is available, we only output it if the entire
+		       flags value is 0, otherwise we check if the bit-flag is set. */
+		    if ((fval->value == 0 && flags == 0) ||
+			(fval->value && (fval->value & flags) == fval->value))
+		    {
+			    if (string->len)
+				    g_string_append_c (string, '|');
+			    g_string_append (string, fval->value_name);
+		    }
+	    }
+    }
 
-    ret = string->str;
-    g_string_free (string, FALSE);
+    ret = g_string_free (string, FALSE);
 
     g_type_class_unref (flags_class);
 
