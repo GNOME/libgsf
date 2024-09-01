@@ -1,3 +1,8 @@
+2024-08-31  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msvba.c (vba_extract_module_source):
+	force nul-termination of the data.
+
 2024-02-04  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

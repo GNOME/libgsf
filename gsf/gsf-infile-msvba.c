@@ -130,7 +130,7 @@ vba_extract_module_source (GsfInfileMSVBA *vba, char const *name, guint32 src_of
 	module = gsf_infile_child_by_name (vba->source, name);
 	if (module == NULL)
 		return;
-	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, FALSE);
+	code = gsf_vba_inflate (module, (gsf_off_t) src_offset, &inflated_size, TRUE);
 
 	if (code != NULL) {
 		if (NULL == vba->modules)

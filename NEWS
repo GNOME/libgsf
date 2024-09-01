@@ -2,6 +2,7 @@ libgsf 1.14.53
 
 Morten:
 	* Compilation fixes for libxml 2.13
+	* Fix ABR in gsf-vba-dump.
 
 --------------------------------------------------------------------------
 libgsf 1.14.52
