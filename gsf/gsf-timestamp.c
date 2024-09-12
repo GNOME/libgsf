@@ -99,38 +99,12 @@ gsf_timestamp_free (GsfTimestamp *stamp)
 int
 gsf_timestamp_load_from_string (GsfTimestamp *stamp, char const *spec)
 {
-#ifdef HAVE_G_DATE_TIME_NEW_FROM_ISO8601
 	GTimeZone *utc;
-#else /*!HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
-	guint year, month, day, hour, minute;
-	float second;
-#endif /*HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
 	GDateTime *dt;
 
-#ifdef HAVE_G_DATE_TIME_NEW_FROM_ISO8601
-	/* Use g_date_time_new_from_iso8601 when GLib >= 2.56.0 */
 	utc = g_time_zone_new_utc ();
 	dt = g_date_time_new_from_iso8601 (spec, utc);
 	g_time_zone_unref (utc);
-#else /*!HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
-	/* 'YYYY-MM-DDThh:mm:ss' */
-	if (6 != sscanf (spec, "%u-%u-%uT%u:%u:%f",
-			 &year, &month, &day, &hour, &minute, &second))
-		return FALSE;
-
-	/* g_date_time_new_utc documentation says: */
-	/* It not considered a programmer error for the values to this function to be out of range,*/
-	/* but in the case that they are, the function will return NULL. */
-	/* Nevertheless it seems to fail on values that are extremely out of range, see bug #702671 */
-	if (second < 0.0 || second >= 60.0)
-		return FALSE;
-	if (minute > 59 || hour > 23)
-		return FALSE;
-	if (day > 32 || month > 12 || year > 9999)
-		return FALSE;
-
-	dt = g_date_time_new_utc ((int)year, (int)month, (int)day, (int)hour, (int)minute, second);
-#endif /*HAVE_G_DATE_TIME_NEW_FROM_ISO8601*/
 
 	if (!dt)
 		return FALSE;
@@ -187,18 +161,11 @@ gsf_timestamp_parse (char const *spec, GsfTimestamp *stamp)
 char *
 gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 {
-#ifdef HAVE_G_DATE_TIME_FORMAT_ISO8601
 	GDateTime *dt;
-	gchar *iso8601_string;
-#else /*!HAVE_G_DATE_TIME_FORMAT_ISO8601*/
-	time_t    t;
-	struct tm tm;
-#endif /*HAVE_G_DATE_TIME_FORMAT_ISO8601*/
+	char *iso8601_string;
 
 	g_return_val_if_fail (stamp != NULL, g_strdup ("<invalid>"));
 
-#ifdef HAVE_G_DATE_TIME_FORMAT_ISO8601
-	/* Use g_date_time_format_iso8601 when GLib >= 2.62.0 */
 	dt = g_date_time_new_from_unix_utc (stamp->timet);
 	if (!dt)
 		return g_strdup ("<invalid>");
@@ -207,21 +174,6 @@ gsf_timestamp_as_string	(GsfTimestamp const *stamp)
 	g_date_time_unref (dt);
 
 	return iso8601_string;
-#else /*!HAVE_G_DATE_TIME_FORMAT_ISO8601*/
-	t = stamp->timet;	/* Use an honest time_t for gmtime_r.  */
-#ifdef HAVE_GMTIME_R
-	gmtime_r (&t, &tm);
-#else
-#warning "Using gmtime which is not thread safe -- perhaps upgrade glib"
-	/* -NOT- thread-safe */
-	tm = *gmtime (&t);
-#endif
-
-	/* using 'YYYY-MM-DDThh:mm:ss' */
-	return g_strdup_printf ("%4d-%02d-%02dT%02d:%02d:%02dZ",
-		tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
-		tm.tm_hour, tm.tm_min, tm.tm_sec);
-#endif /*HAVE_G_DATE_TIME_FORMAT_ISO8601*/
 }
 
 guint

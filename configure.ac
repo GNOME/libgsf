@@ -61,22 +61,18 @@ GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 
-dnl Checks for libraries.
-ifelse([
-  If we defined the module lists on the M4 level, we could have problems
-  with PKG_CHECK_MODULES from pkgconfig 0.16.0, which double quotes its
-  second argument (the module list).
-  As a handy workaround, we use shell variables.
-])
 dnl Modules required for libgsf
-libgsf_reqs="
-    gobject-2.0 >= 2.36.0
-    glib-2.0 >= 2.36.0
-    gio-2.0 >= 2.36.0
-    libxml-2.0 >= 2.4.16
-"
 
-PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
+PKG_CHECK_MODULES(LIBGSF, [
+    gobject-2.0 >= 2.62.0
+    glib-2.0 >= 2.62.0
+    gio-2.0 >= 2.62.0
+    libxml-2.0 >= 2.4.16
+])
+
+AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, [GLIB_VERSION_2_62], [GLib symbol visibility])
+AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, [GLIB_VERSION_2_62], [GLib symbol visibility])
+
 # GObject Introspection
 GIR_REQ=1.0.0
 AC_ARG_ENABLE(introspection,
@@ -300,20 +296,12 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 AC_DEFINE(HAVE_2ARG_STATFS, 1, [Define if you have two-argument statfs like linux])],
 	[AC_MSG_RESULT([none, or unknown])])
 
-AC_CHECK_FUNCS(chown setrlimit gmtime_r gmtime)
-AC_CHECK_MEMBERS(struct tm.tm_gmtoff,,,
-[#include <time.h>])
+AC_CHECK_FUNCS(chown setrlimit)
 
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $LIBGSF_CFLAGS"
 LIBS="$LIBGSF_LIBS $LIBS"
-AC_MSG_CHECKING([for g_chown])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chown("/xxx",-1,-1);]])],
-               [AC_DEFINE(HAVE_G_CHOWN, 1, [Define if g_chown is available as macro or function])
-		AC_MSG_RESULT(yes)],
-	       [AC_MSG_RESULT(no)])
-AC_CHECK_FUNCS(g_date_time_new_from_iso8601 g_date_time_format_iso8601)
 AC_CHECK_FUNCS(xmlNanoHTTPOpen xmlNanoHTTPClose)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS

@@ -108,18 +108,6 @@ unlink_and_retry:
 	goto done;
 }
 
-#ifdef HAVE_CHOWN
-static int
-chown_wrapper (const char *filename, uid_t owner, gid_t group)
-{
-#ifdef HAVE_G_CHOWN
-	return g_chown (filename, owner, group);
-#else
-	return chown (filename, owner, group);
-#endif
-}
-#endif
-
 #define GSF_MAX_LINK_LEVEL 256
 
 /* Calls g_file_read_link() until we find a real filename. */
@@ -287,12 +275,10 @@ gsf_output_stdio_close (GsfOutput *output)
 	 */
 	g_chmod (stdio->real_filename, stdio->st.st_mode);
 #ifdef HAVE_CHOWN
-	if (chown_wrapper (stdio->real_filename,
-			   stdio->st.st_uid,
-			   stdio->st.st_gid)) {
+	if (chown (stdio->real_filename, stdio->st.st_uid, stdio->st.st_gid)) {
 		/* We cannot set both.  Maybe we can set one.  */
-		chown_wrapper (stdio->real_filename, -1, stdio->st.st_gid);
-		chown_wrapper (stdio->real_filename, stdio->st.st_uid, -1);
+		chown (stdio->real_filename, -1, stdio->st.st_gid);
+		chown (stdio->real_filename, stdio->st.st_uid, -1);
 	}
 	g_chmod (stdio->real_filename, stdio->st.st_mode);
 #endif
