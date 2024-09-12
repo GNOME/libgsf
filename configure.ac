@@ -68,6 +68,7 @@ PKG_CHECK_MODULES(LIBGSF, [
     glib-2.0 >= 2.62.0
     gio-2.0 >= 2.62.0
     libxml-2.0 >= 2.4.16
+    zlib >= 1.1.3
 ])
 
 AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, [GLIB_VERSION_2_62], [GLib symbol visibility])
@@ -343,45 +344,6 @@ gtk_doc_installed=true
 dnl AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
 GTK_DOC_CHECK([1.12])
 AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
-
-dnl ***********************************************************************************
-# Check for zlib.
-_cppflags=$CPPFLAGS
-_ldflags=$LDFLAGS
-
-Z_DIR= Z_LIBS= Z_CPPFLAGS=
-
-AC_ARG_WITH(zlib,
-        [[  --with-zlib=DIR       use libz in DIR]],
-        [case $withval in
-         yes|no) ;;
-         *)     Z_DIR=$withval
-                CPPFLAGS="${CPPFLAGS} -I$withval/include"
-                LDFLAGS="${LDFLAGS} -L$withval/lib"
-                ;;
-         esac])
-
-if test "x$with_zlib" != xno; then
-        with_zlib=no
-        AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzread, [with_zlib=yes])])
-fi
-if test "$with_zlib" = no; then
-        AC_MSG_ERROR([*** zlib is required])
-fi
-if test "x$Z_DIR" != "x"; then
-        Z_CPPFLAGS="-I$Z_DIR/include"
-        case $host in
-        *-*-solaris*)   Z_LIBS="-L$Z_DIR/lib -R$Z_DIR/lib -lz" ;;
-        *)              Z_LIBS="-L$Z_DIR/lib -lz" ;;
-        esac
-else
-        Z_LIBS="-lz"
-fi
-AC_SUBST(Z_CPPFLAGS)
-AC_SUBST(Z_LIBS)
-
-CPPFLAGS=${_cppflags}
-LDFLAGS=${_ldflags}
 
 dnl ***********************************************************************************
 
