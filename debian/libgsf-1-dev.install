@@ -1,6 +1,0 @@
-usr/include/libgsf-*/gsf/*
-usr/lib/libgsf-[0-9]*.a
-usr/lib/libgsf-[0-9]*.so
-usr/lib/pkgconfig/libgsf-[0-9]*.pc
-usr/share/doc/libgsf-1-dev/html/*
-usr/share/gir-1.0/Gsf-1.gir
