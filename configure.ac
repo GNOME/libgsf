@@ -480,7 +480,6 @@ po/Makefile.in
 gsf/version.c
 doc/version.xml
 libgsf-1.pc
-libgsf-1.spec
 libgsf-win32-1.pc
 libgsf-zip
 ])

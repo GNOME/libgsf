@@ -10,7 +10,6 @@ endif
 SUBDIRS = po gsf gsf-win32 doc tools tests thumbnailer python
 
 EXTRA_DIST = BUGS HACKING	\
-	libgsf-1.spec		\
 	dumpdef.pl
 
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc \
