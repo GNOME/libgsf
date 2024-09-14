@@ -49,9 +49,7 @@
 #include <wchar.h>
 #include <direct.h>
 #include <glib.h>
-#ifdef HAVE_IO_H
 #include <io.h>
-#endif
 #endif /* G_OS_WIN32 */
 
 #ifndef W_OK

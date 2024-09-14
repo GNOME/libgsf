@@ -227,58 +227,8 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 fi
 AC_SUBST(WARN_CFLAGS)
 
-AC_CHECK_DECL(fdopen, fdopen_works=yes, fdopen_works=no)
-if test $fdopen_works = no ; then
-	unset ac_cv_have_decl_fdopen
-	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
-	AC_MSG_NOTICE([adding -D_POSIX_SOURCE to CFLAGS])
-	AC_CHECK_DECL(fdopen, fdopen_works=yes, fdopen_works=no)
-	if test $fdopen_works = no ; then
-		AC_MSG_ERROR([fdopen is not available])
-	fi
-fi
-
-# Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
-AC_MSG_CHECKING([whether struct timeval is available])
-for try in 1 2; do
-	AC_COMPILE_IFELSE(
-		[AC_LANG_PROGRAM(
-			[[#include <sys/time.h>]],
-			[[struct timeval tv;]])],
-		struct_timeval_works=yes,
-		struct_timeval_works=no)
-	test $struct_timeval_works = yes && break
-	# Try this for the second attempt:
-	test $try = 1 && CFLAGS="$CFLAGS -D__EXTENSIONS__"
-done
-AC_MSG_RESULT($struct_timeval_works)
-if test $struct_timeval_works = no ; then
-	AC_MSG_ERROR([struct timeval is not available])
-fi
-
 AC_CHECK_MEMBERS([struct stat.st_mtimensec, struct stat.st_mtim.tv_nsec])
-
-AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
-AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM([[#include <sys/types.h>]], [[caddr_t ca]])],
-	need_bsd1=no,
-	need_bsd1=yes)
-AC_MSG_RESULT($need_bsd1)
-
-AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for lstat])
-AC_LINK_IFELSE([AC_LANG_PROGRAM(
-[[#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>]],
-[[void *ptr = &lstat]])],
-need_bsd2=no, need_bsd2=yes)
-AC_MSG_RESULT($need_bsd2)
-if test $need_bsd1 = yes -o $need_bsd2 = yes; then
-	CFLAGS="$CFLAGS -D_BSD_SOURCE"
-fi
-
-AC_TYPE_MODE_T
-AC_CHECK_HEADERS(fcntl.h malloc.h unistd.h io.h sys/statfs.h sys/param.h sys/mount.h utime.h sys/utime.h)
+AC_CHECK_HEADERS(fcntl.h unistd.h sys/statfs.h sys/param.h sys/mount.h utime.h sys/utime.h)
 AC_FUNC_MMAP
 
 AC_MSG_CHECKING([form of statfs])
@@ -323,8 +273,6 @@ with_win32=no
 case $host_os in
   mingw* | pw32* | cygwin*)
     with_win32=yes
-    AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
-    AC_CHECK_TOOL(WINDRES, windres)
     AC_ARG_VAR(LIBEXE, [The lib.exe executable (used by win32 builds only).])
     AC_CHECK_PROG(LIBEXE, lib.exe, yes, no)
     ;;
