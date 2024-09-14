@@ -163,11 +163,11 @@ Gsf_1_gir_LIBS = libgsf-1.la
 Gsf_1_gir_FILES = $(libgsf_1_include_HEADERS) $(libgsf_1_la_SOURCES)
 
 
-girdir = $(GIRDIR)
+girdir = $(datadir)/gir-1.0
 gir_DATA = $(INTROSPECTION_GIRS)
 
-typelibsdir = $(TYPELIBDIR)
-typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 

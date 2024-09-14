@@ -12,9 +12,4 @@ SUBDIRS = po gsf gsf-win32 doc tools tests thumbnailer python
 EXTRA_DIST = BUGS HACKING	\
 	dumpdef.pl
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --enable-gtk-doc \
-	--enable-schemas-install \
-	--enable-introspection=auto \
-	--with-gir-dir=\$${datadir}/gir-1.0 \
-	--with-typelib-dir=\$${libdir}/girepository-1.0
-
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-introspection
