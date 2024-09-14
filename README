@@ -43,16 +43,3 @@ Requirements
     glib	>= 1.3.10
     zlib	>= 1.1.3
     libxml2	>= 2.4.16	(not really, but it is the first to be tested)
-
-Mailing lists
--------------
-
-   There is NO mailing list used to discuss libgsf specificly as yet.  For now
-please use the gnumeric list. To subscribe send a mail to:
-
-	gnumeric-list-request@gnome.org
-And in the body of the message write "subscribe"
-
-An archive of the mailing lists is available in:
-	http://mail.gnome.org/archives/gnumeric-list/
-
