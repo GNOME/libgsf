@@ -11,7 +11,7 @@ build:
   #   - apt update && apt -y install make autoconf
   before_script:
     - DEBIAN_FRONTEND=noninteractive apt update 
-    - DEBIAN_FRONTEND=noninteractive apt -y install autoconf automake zlib1g-dev libglib2.0-dev libxml2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make
+    - DEBIAN_FRONTEND=noninteractive apt -y install autoconf autoconf-archive automake zlib1g-dev libglib2.0-dev libxml2-dev libbz2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make libgirepository1.0-dev 
   script:
     - ./autogen.sh --disable-dependency-tracking
     - make
