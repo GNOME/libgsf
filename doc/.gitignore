@@ -4,6 +4,7 @@ tmpl
 html
 xml
 gsf.args
+gsf.actions
 gsf.hierarchy
 gsf.signals
 gsf-decl.txt
@@ -14,7 +15,6 @@ gsf-unused.txt
 gsf-scan.c
 gsf.interfaces
 gsf.prerequisites
-version.xml
 *.stamp
 *.lo
 *.o
