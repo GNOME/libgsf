@@ -10,6 +10,6 @@ endif
 SUBDIRS = po gsf gsf-win32 doc tools tests thumbnailer python
 
 EXTRA_DIST = BUGS HACKING	\
-	dumpdef.pl
+	msvc/dumpdef.pl
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-introspection

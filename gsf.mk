@@ -6,7 +6,7 @@ noinst_DATA = lib.def
 lib.def: stamp-lib.def
 	@true
 
-stamp-lib.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
+stamp-lib.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/msvc/dumpdef.pl
 	hdrs='$(LIB_PUBLIC_HDRS)'; \
 	hdrs_list=''; \
 	for hdr in $$hdrs; do \
@@ -20,7 +20,7 @@ stamp-lib.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
 		sed -e 's/^#[ \t]*include[ \t]\+.*$$//g' | \
 		$(CPP) $(AM_CPPFLAGS) $(CPP_CFLAGS) -P - > xgen-libdef.1 && \
 	echo EXPORTS> xgen-libdef.2 && \
-	perl $(top_srcdir)/dumpdef.pl \
+	perl $(top_srcdir)/msvc/dumpdef.pl \
 		xgen-libdef.1 >> xgen-libdef.2 \
 	&& (cmp -s xgen-libdef.2 lib.def || \
 		cp xgen-libdef.2 lib.def) \
