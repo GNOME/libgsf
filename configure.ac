@@ -494,7 +494,6 @@ tools/Makefile
 thumbnailer/Makefile
 po/Makefile.in
 gsf/version.c
-doc/version.xml
 libgsf-1.pc
 libgsf-win32-1.pc
 libgsf-zip
