@@ -7,6 +7,11 @@ Morten:
 ThomasK:
 	* Add missing "DocumentStatus" ole2 property.  [#35]
 
+Zander Brown:
+	* Avoid some undefined C behaviour in overflow checks.
+	(Part of merge request 16; blame Morten for problems with
+	the hand edits.)
+
 --------------------------------------------------------------------------
 libgsf 1.14.52
 

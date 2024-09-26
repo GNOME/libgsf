@@ -411,16 +411,24 @@ gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	return FALSE;
 }
 
+
 static inline gboolean
 gsf_output_inc_cur_offset (GsfOutput *output, gsf_off_t num_bytes)
 {
-	output->cur_offset += num_bytes;
-	if (output->cur_offset < num_bytes)
+	if (G_UNLIKELY (num_bytes < 0 ||
+			(GSF_OFF_T_MAX - num_bytes) < output->cur_offset)) {
 		return gsf_output_set_error (output, 0, "Output size overflow.");
-	if (output->cur_size < output->cur_offset)
+	}
+
+	output->cur_offset += num_bytes;
+
+	if (output->cur_size < output->cur_offset) {
 		output->cur_size = output->cur_offset;
+	}
+
 	return TRUE;
 }
+
 
 /**
  * gsf_output_write: (virtual Write)

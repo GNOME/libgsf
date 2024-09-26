@@ -25,7 +25,6 @@
 #include <string.h>
 
 #define MIN_BLOCK 512
-#define MAX_STEP  (MIN_BLOCK * 128)
 
 static GsfOutputClass *parent_class;
 
@@ -77,34 +76,57 @@ gsf_output_memory_seek (G_GNUC_UNUSED GsfOutput *output,
 	return TRUE;
 }
 
-static gboolean
-gsf_output_memory_expand (GsfOutputMemory *mem, gsf_off_t needed)
+
+/* Taken from gutilsprivate.h: (g_nearest_pow)
+ * Returns the smallest power of 2 greater than or equal to n,
+ * or 0 if such power does not fit in a gsize
+ */
+static inline gsize
+gsf_round_up_to_pow2 (gsize num)
 {
-	gsf_off_t capacity = MAX (mem->capacity, MIN_BLOCK);
-	gsize lcapacity;
+	gsize n = num - 1;
 
-	/* If we need >= MAX_STEP, align to a next multiple of MAX_STEP.
-	 * Since MAX_STEP is probably a power of two, this computation
-	 * should reduce to "dec, shr, inc, shl", which is probably
-	 * quicker then branching.
-	 */
-	if (needed < MAX_STEP)
-		while (capacity < needed)
-			capacity *= 2;
-	else
-		capacity = ((needed - 1) / MAX_STEP + 1) * MAX_STEP;
+	g_assert (num > 0 && num <= G_MAXSIZE / 2);
 
-	/* Check for overflow: g_renew() casts its parameters to gsize. */
-	lcapacity = capacity;
-	if ((gsf_off_t) lcapacity != capacity || capacity < 0) {
-		g_warning ("overflow in gsf_output_memory_expand");
+	n |= n >> 1;
+	n |= n >> 2;
+	n |= n >> 4;
+	n |= n >> 8;
+	n |= n >> 16;
+#if GLIB_SIZEOF_SIZE_T == 8
+	n |= n >> 32;
+#endif
+
+	return n + 1;
+}
+
+
+/* Returns false in the event of overflow */
+static inline gboolean
+maybe_expand (GsfOutputMemory *mem, size_t offset, size_t requested)
+{
+	size_t needed, new_capacity;
+
+	needed = offset + requested;
+	if (G_UNLIKELY (needed < requested /*!g_size_checked_add (&needed, offset, requested)*/)) {
 		return FALSE;
 	}
-	mem->buffer   = g_renew (guint8, mem->buffer, lcapacity);
-	mem->capacity = capacity;
+
+	if (needed < mem->capacity) {
+		/* We've already allocated enough, nothing more to do */
+		return TRUE;
+	}
+
+	new_capacity = gsf_round_up_to_pow2 (MAX (needed, MIN_BLOCK));
+	/* if we can't over-allocate, allocate exactly */
+	new_capacity = G_LIKELY (new_capacity > 0) ? new_capacity : needed;
+
+	mem->buffer = g_renew (guint8, mem->buffer, new_capacity);
+	mem->capacity = new_capacity;
 
 	return TRUE;
 }
+
 
 static gboolean
 gsf_output_memory_write (GsfOutput *output,
@@ -119,9 +141,12 @@ gsf_output_memory_write (GsfOutput *output,
 		mem->buffer   = g_new (guint8, MIN_BLOCK);
 		mem->capacity = MIN_BLOCK;
 	}
-	if (num_bytes + output->cur_offset > mem->capacity) {
-		if (!gsf_output_memory_expand (mem, output->cur_offset + num_bytes))
-			return FALSE;
+
+	/* We can't allocate more than MAXSIZE bytes, so the offset will always
+	 * be within size_t's range */
+	if (!maybe_expand (mem, (size_t) output->cur_offset, num_bytes)) {
+		g_warning ("overflow in gsf_output_memory_write");
+		return FALSE;
 	}
 
 	memcpy (mem->buffer + output->cur_offset, buffer, num_bytes);
