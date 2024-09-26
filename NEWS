@@ -4,6 +4,9 @@ Morten:
 	* Compilation fixes for libxml 2.13
 	* Fix ABR in gsf-vba-dump.
 
+ThomasK:
+	* Add missing "DocumentStatus" ole2 property.  [#35]
+
 --------------------------------------------------------------------------
 libgsf 1.14.52
 

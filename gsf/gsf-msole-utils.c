@@ -200,6 +200,7 @@ static GsfMSOleMetaDataPropMap const builtin_props [] = {
 	{ "DocSumInfo_22",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_22,    22,	VT_BOOL },
 	// Possible match: { 0x0017, 0x0003, "PIDDSI_VERSION", "Creating application version" },
 	{ "DocSumInfo_23",      DOC_PROP,	GSF_META_NAME_MSOLE_UNKNOWN_23,    23,	VT_I4 },
+	{ "ContentStatus", 		DOC_PROP,	GSF_META_NAME_STATUS,			27, 	VT_LPSTR},
 	{ "Title",		COMPONENT_PROP, GSF_META_NAME_TITLE,		    2,	VT_LPSTR },
 	{ "Subject",		COMPONENT_PROP, GSF_META_NAME_SUBJECT,		    3,	VT_LPSTR },
 	{ "Author",		COMPONENT_PROP, GSF_META_NAME_CREATOR,		    4,	VT_LPSTR },

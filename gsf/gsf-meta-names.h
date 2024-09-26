@@ -143,6 +143,13 @@
 #define GSF_META_NAME_CHARACTER_COUNT			"gsf:character-count"
 
 /**
+ * GSF_META_NAME_STATUS:
+ *
+ * (String) Current status of the content. Can be related to signature or user set in the document.
+ */
+#define GSF_META_NAME_STATUS			        "gsf:content-status"
+
+/**
  * GSF_META_NAME_DICTIONARY:
  *
  * (None) Reserved name (PID) for Dictionary
