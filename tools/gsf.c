@@ -279,6 +279,20 @@ get_meta_data (GsfInfile *infile, const char *filename)
 
 			g_object_unref (G_OBJECT (in));
 		}
+	} else if (GSF_IS_INFILE_ZIP (infile)) {
+		GsfInput *in;
+		GError *err;
+
+		in = gsf_infile_child_by_name (infile, "meta.xml");
+		if (NULL != in) {
+			err = gsf_doc_meta_data_read_from_odf (meta_data, in);
+			if (err != NULL) {
+				g_warning ("'%s' error: %s", filename, err->message);
+				g_error_free (err);
+				err = NULL;
+			}
+			g_object_unref (G_OBJECT (in));
+		}
 	}
 
 	return meta_data;
