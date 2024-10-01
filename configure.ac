@@ -70,13 +70,17 @@ ifelse([
 ])
 dnl Modules required for libgsf
 libgsf_reqs="
-    gobject-2.0 >= 2.36.0
-    glib-2.0 >= 2.36.0
-    gio-2.0 >= 2.36.0
+    gobject-2.0 >= 2.62.0
+    glib-2.0 >= 2.62.0
+    gio-2.0 >= 2.62.0
     libxml-2.0 >= 2.4.16
 "
 
 PKG_CHECK_MODULES(LIBGSF, $libgsf_reqs)
+
+AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, [GLIB_VERSION_2_62], [GLib symbol visibility])
+AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, [GLIB_VERSION_2_62], [GLib symbol visibility])
+
 # GObject Introspection
 GIR_REQ=1.0.0
 AC_ARG_ENABLE(introspection,
