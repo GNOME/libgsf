@@ -107,8 +107,7 @@ maybe_expand (GsfOutputMemory *mem, size_t offset, size_t requested)
 {
 	size_t needed, new_capacity;
 
-	needed = offset + requested;
-	if (G_UNLIKELY (needed < requested /*!g_size_checked_add (&needed, offset, requested)*/)) {
+	if (G_UNLIKELY (!g_size_checked_add (&needed, offset, requested))) {
 		return FALSE;
 	}
 
