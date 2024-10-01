@@ -4,6 +4,7 @@ Morten:
 	* Compilation fixes for libxml 2.13
 	* Fix ABR in gsf-vba-dump.
 	* Teach gsf (the tool) to handle odf properties.
+	* Fix integer overflows affecting memory allocation.  [#34]
 
 ThomasK:
 	* Add missing "DocumentStatus" ole2 property.  [#35]

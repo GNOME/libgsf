@@ -1,3 +1,12 @@
+2024-09-26  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_init_info): Don't over-allocate for
+	"seen_before".  A multiply should have been a divide.  At the same
+	time, use a GByteArray instead of a raw pointer.  (We could use a
+	bit array, but that's more work and we're already cutting the
+	allocation down by 16384.)
+	(ole_init_info): Range check num_blocks.
+
 2024-08-31  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msvba.c (vba_extract_module_source):

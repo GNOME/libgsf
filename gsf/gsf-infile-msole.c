@@ -302,7 +302,7 @@ datetime_from_filetime (guint64 ft)
  * parent is optional. */
 static MSOleDirent *
 ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
-		guint8 *seen_before)
+		GByteArray *seen_before)
 {
 	MSOleDirent *dirent;
 	guint32 block, next, prev, child, size;
@@ -315,12 +315,13 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		return NULL;
 
 	g_return_val_if_fail (entry <= G_MAXUINT / DIRENT_SIZE, NULL);
+	g_return_val_if_fail (entry < seen_before->len, NULL);
 
 	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
 
-	g_return_val_if_fail (!seen_before[entry], NULL);
-	seen_before[entry] = TRUE;
+	g_return_val_if_fail (!seen_before->data[entry], NULL);
+	seen_before->data[entry] = TRUE;
 
 	data = ole_get_block (ole, ole->bat.block [block], NULL);
 	if (data == NULL)
@@ -494,13 +495,14 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 {
 	static guint8 const signature[] =
 		{ 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1 };
-	guint8 *seen_before;
+	GByteArray *seen_before;
 	guint8 const *header, *tmp;
 	guint32 *metabat = NULL;
 	MSOleInfo *info;
 	guint32 bb_shift, sb_shift, num_bat, num_sbat, num_metabat, threshold, last, dirent_start;
 	guint32 metabat_block, *ptr;
 	gboolean fail;
+	size_t num_blocks, isize;
 
 	/* check the header */
 	if (gsf_input_seek (ole->input, 0, G_SEEK_SET) ||
@@ -536,8 +538,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	 * 2) It makes no sense to have a block larger than 2^31 for now.
 	 *    Maybe relax this later, but not much.
 	 */
+	isize = gsf_input_size (ole->input);
 	if (6 > bb_shift || bb_shift >= 31 || sb_shift > bb_shift ||
-	    (gsf_input_size (ole->input) >> bb_shift) < 1) {
+	    (isize >> bb_shift) < 1) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
 					    _("Unreasonable block sizes"));
@@ -557,7 +560,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	info->threshold	     = threshold;
         info->sbat_start     = GSF_LE_GET_GUINT32 (header + OLE_HEADER_SBAT_START);
 	info->num_sbat       = num_sbat;
-	info->max_block	     = (gsf_input_size (ole->input) - OLE_HEADER_SIZE + info->bb.size -1) / info->bb.size;
+	info->max_block	     = (isize - OLE_HEADER_SIZE + info->bb.size -1) / info->bb.size;
 	info->sb_file	     = NULL;
 
 	if (info->num_sbat == 0 &&
@@ -566,9 +569,11 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		g_warning ("There are not supposed to be any blocks in the small block allocation table, yet there is a link to some.  Ignoring it.");
 	}
 
+	num_blocks = num_bat * (info->bb.size / BAT_INDEX_SIZE);
+
 	/* very rough heuristic, just in case */
-	if (num_bat < info->max_block && info->num_sbat < info->max_block) {
-		info->bb.bat.num_blocks = num_bat * (info->bb.size / BAT_INDEX_SIZE);
+	if (num_bat < info->max_block && info->num_sbat < info->max_block && num_blocks < G_MAXINT) {
+		info->bb.bat.num_blocks = num_blocks;
 		info->bb.bat.block	= g_new0 (guint32, info->bb.bat.num_blocks);
 
 		metabat = g_try_new (guint32, MAX (info->bb.size, OLE_HEADER_SIZE));
@@ -648,10 +653,12 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	}
 
 	/* Read the directory */
-	seen_before = g_malloc0 ((ole->bat.num_blocks << info->bb.shift) * DIRENT_SIZE + 1);
+	seen_before = g_byte_array_new ();
+	g_byte_array_set_size (seen_before, ((size_t)(ole->bat.num_blocks) << info->bb.shift) / DIRENT_SIZE + 1);
+	memset (seen_before->data, 0, seen_before->len);
 	ole->dirent = info->root_dir =
 		ole_dirent_new (ole, 0, NULL, seen_before);
-	g_free (seen_before);
+	g_byte_array_unref (seen_before);
 	if (ole->dirent == NULL) {
 		if (err != NULL)
 			*err = g_error_new (gsf_input_error_id (), 0,
