@@ -1,3 +1,7 @@
+2024-09-30  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.53
+
 2024-09-26  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-infile-msole.c (ole_init_info): Don't over-allocate for
