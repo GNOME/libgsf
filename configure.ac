@@ -184,7 +184,23 @@ AC_ARG_WITH([typelib-dir],
 )
 AC_SUBST(TYPELIBDIR)
 
-AX_APPEND_COMPILE_FLAGS([-Wall -Werror=init-self -Werror=missing-include-dirs \
+## this should come after `AC_PROG_CC'
+set_more_warnings=yes
+if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
+	dnl Clang needs to option, or else it will appear to support any
+	dnl warning option
+	uwoption="-Werror=unknown-warning-option"
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $uwoption"
+	AC_MSG_CHECKING([whether gcc understands $uwoption])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([], [])],
+		[has_unknown_warning_option=yes],
+		[has_unknown_warning_option=no; uwoption=""])
+	AC_MSG_RESULT($has_unknown_warning_option)
+	CFLAGS="$SAVE_CFLAGS"
+
+	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
 			 -Wsign-compare -Werror=pointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
@@ -195,7 +211,28 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror=init-self -Werror=missing-include-dirs \
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
 			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
-			 -Wstrict-prototypes -Wno-error=format-nonliteral])
+			 -Wstrict-prototypes -Wno-error=format-nonliteral "
+	for option in $warning_options ; do
+		SAVE_CFLAGS="$CFLAGS"
+		CFLAGS="$CFLAGS $uwoption $option"
+		AC_MSG_CHECKING([whether gcc understands $option])
+		dnl Include a system header so we ignore Werror=... flags
+		dnl that cause trouble.
+		AC_COMPILE_IFELSE(
+			[AC_LANG_PROGRAM([[#include <stdio.h>]], [])],
+			[has_option=yes],
+			[has_option=no])
+		CFLAGS="$SAVE_CFLAGS"
+		if test $has_option = yes; then
+			CFLAGS="$CFLAGS $option"
+		fi
+		AC_MSG_RESULT($has_option)
+		unset has_option
+		unset SAVE_CFLAGS
+	done
+	unset option
+fi
+AC_SUBST(WARN_CFLAGS)
 
 AC_CHECK_DECL(fdopen, fdopen_works=yes, fdopen_works=no)
 if test $fdopen_works = no ; then
