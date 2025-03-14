@@ -658,7 +658,7 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 /**
  * gsf_base64_encode_simple:
  * @data: (array): data stream
- * @len: max length of data to encode
+ * @len: length of data to encode
  *
  * Encodes data from @data back into @data using base64 encoding.
  *
