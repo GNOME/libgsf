@@ -25,7 +25,17 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Jean Bréfort</foaf:name>
+      <foaf:mbox rdf:resource="mailto:jean.brefort@normalesup.org" />
       <gnome:userid>jbrefort</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <!-- Inactive
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Andreas J. Guelzow</foaf:name>
+      <foaf:mbox rdf:resource="mailto:aguelzow@pyrshep.ca" />
+      <gnome:userid>guelzow</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+  -->
 </Project>
