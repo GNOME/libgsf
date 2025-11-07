@@ -1,3 +1,8 @@
+2025-11-06  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-msole-utils.c (msole_prop_read): Fix checks for reading
+	past the end.  Fixes #41.
+
 2024-10-01  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

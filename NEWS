@@ -1,5 +1,8 @@
 libgsf 1.14.54
 
+Morten:
+	* Fix ABR is msole properties code.  [#41]
+
 Zander Brown:
 	* Various build fixes.
 

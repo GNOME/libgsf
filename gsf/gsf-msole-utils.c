@@ -1026,18 +1026,20 @@ msole_prop_read (GsfInput *in,
 		d ({ g_print ("Dictionary = \n"); gsf_mem_dump (data-4, size); });
 		n = type;
 		for (j = 0; j < n; j++) {
+			guint32 byte_len;
+
 			g_return_val_if_fail (end - data >= 8, FALSE);
 
 			id = GSF_LE_GET_GUINT32 (data);
 			len = GSF_LE_GET_GUINT32 (data + 4);
 
 			g_return_val_if_fail (len < 0x10000, FALSE);
-			g_return_val_if_fail (len <= end - data + 8, FALSE);
+			byte_len = len * section->char_size;
+			g_return_val_if_fail (byte_len <= end - (data + 8), FALSE);
 
 			gslen = 0;
-			name = g_convert_with_iconv (data + 8,
-				len * section->char_size,
-				section->iconv_handle, &gslen, NULL, NULL);
+			name = g_convert_with_iconv (data + 8, byte_len,
+						     section->iconv_handle, &gslen, NULL, NULL);
 			len = (guint32)gslen;
 			data += 8 + len;
 
