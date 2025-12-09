@@ -1,3 +1,7 @@
+2025-12-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.14.54
+
 2025-11-06  Morten Welinder  <terra@gnome.org>
 
 	* gsf/gsf-msole-utils.c (msole_prop_read): Fix checks for reading
