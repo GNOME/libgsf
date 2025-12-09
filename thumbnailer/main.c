@@ -265,7 +265,7 @@ set_resource_limits (void)
 
 	limit.rlim_cur = MAX_HELPER_MEMORY;
 	limit.rlim_max = MAX_HELPER_MEMORY;
-	setrlimit (RLIMIT_AS, &limit);
+	setrlimit (RLIMIT_DATA, &limit);
 
 	limit.rlim_cur = MAX_HELPER_SECONDS;
 	limit.rlim_max = MAX_HELPER_SECONDS;
