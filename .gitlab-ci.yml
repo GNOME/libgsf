@@ -1,33 +1,36 @@
-# use the official ubuntu image
-# see https://hub.docker.com/_/ubuntu/
+include:
+  # - component: gitlab.gnome.org/GNOME/citemplates/release-service@release-service-sandbox # <-- instead of @master
+  - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
+    inputs:
+      job-stage: "release"
+      dist-job-name: "build-release-tarball"
+      tarball-artifact-path: ${TARBALL_ARTIFACT_PATH}
 
 image: ubuntu
 
-build:
-  stage: build
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  # before_script:
-  #   - apt update && apt -y install make autoconf
+stages:
+  - "build"
+  - "release"
+
+variables:
+  TARBALL_ARTIFACT_PATH: ${CI_PROJECT_NAME}-${CI_COMMIT_TAG_MESSAGE}.tar.xz
+
+build-release-tarball:
+  stage: "build"
   before_script:
     - DEBIAN_FRONTEND=noninteractive apt update 
     - DEBIAN_FRONTEND=noninteractive apt -y install autoconf autoconf-archive automake zlib1g-dev libglib2.0-dev libxml2-dev libbz2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make libgirepository1.0-dev 
   script:
+    - ACVER=`perl -ne '$ep=$1 if /^m4_define.*libgsf_version_epoch.*\[(\d+)\]/; $ma=$1 if /^m4_define.*libgsf_version_major.*\[(\d+)\]/; $mi=$1 if /^m4_define.*libgsf_version_minor.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
+    - echo ${ACVER}
+    - echo ${TARBALL_ARTIFACT_PATH}
     - ./autogen.sh --disable-dependency-tracking
-    - make
-    
+    - make -j4
+    - make dist
+    - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > ${TARBALL_ARTIFACT_PATH}
+    - rm -f "${CI_PROJECT_NAME}-${ACVER}.tar.gz" "${CI_PROJECT_NAME}-${ACVER}.tar.bz2"
   artifacts:
+    name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    when: "always"
     paths:
-      - gsf/.libs/libgsf-1.a
-      - gsf/.libs/libgsf-1.so
-      - gsf/.libs/libgsf-1.so.*
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
-
-# run tests using the binary built before
-test:
-  stage: test
-  script:
-    - echo "Run Tests Here"
+      - "${TARBALL_ARTIFACT_PATH}"
