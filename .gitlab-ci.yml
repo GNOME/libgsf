@@ -21,7 +21,7 @@ build-release-tarball:
     - DEBIAN_FRONTEND=noninteractive apt update 
     - DEBIAN_FRONTEND=noninteractive apt -y install autoconf autoconf-archive automake zlib1g-dev libglib2.0-dev libxml2-dev libbz2-dev gtk-doc-tools autopoint libtool libbz2-dev libgdk-pixbuf2.0-dev make libgirepository1.0-dev 
   script:
-    - ACVER=`perl -ne '$ep=$1 if /^m4_define.*libgsf_version_epoch.*\[(\d+)\]/; $ma=$1 if /^m4_define.*libgsf_version_major.*\[(\d+)\]/; $mi=$1 if /^m4_define.*libgsf_version_minor.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
+    - ACVER=`perl -ne '$ep=$1 if /^m4_define.*libgsf_version_major.*\[(\d+)\]/; $ma=$1 if /^m4_define.*libgsf_version_minor.*\[(\d+)\]/; $mi=$1 if /^m4_define.*libgsf_version_micro.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
     - echo ${ACVER}
     - echo ${TARBALL_ARTIFACT_PATH}
     - ./autogen.sh --disable-dependency-tracking
