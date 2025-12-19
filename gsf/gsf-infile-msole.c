@@ -297,10 +297,43 @@ datetime_from_filetime (guint64 ft)
 	return res;
 }
 
+// Helper function for ole_dirent_new.  Two purposes: (1) shrink the
+// stack frame of ole_dirent_new, and (2) fewer casts.
+static char *
+#ifndef __GNUC__
+__attribute__ ((noinline))
+#endif
+get_dirent_name (gchar const *data, guint16 name_len)
+{
+	gchar const *end;
+
+	if (name_len <= 0 || name_len > DIRENT_MAX_NAME_SIZE)
+		return NULL;
+
+	/* !#%!@$#^
+	 * Sometimes, rarely, people store the stream name as ascii
+	 * rather than utf16.  Do a validation first just in case.
+	 */
+	if (!g_utf8_validate (data, name_len, &end) ||
+	    end - data + 1 != name_len) {
+		gunichar2 uni_name[DIRENT_MAX_NAME_SIZE + 1];
+		int i;
+
+		/* be wary about endianness */
+		for (i = 0 ; i < name_len ; i += 2)
+			uni_name[i/2] = GSF_LE_GET_GUINT16 (data + i);
+		uni_name[i/2] = 0;
+		return g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
+	} else {
+		return g_strndup (data, end - data + 1);
+	}
+}
+
+
 
 /* Parse dirent number @entry and recursively handle its siblings and children.
  * parent is optional. */
-static MSOleDirent *
+static void
 ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		GByteArray *seen_before)
 {
@@ -311,21 +344,22 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	guint16 name_len;
 	guint64 ft;
 
+tailcall:
 	if (entry >= DIRENT_MAGIC_END)
-		return NULL;
+		return;
 
-	g_return_val_if_fail (entry <= G_MAXUINT / DIRENT_SIZE, NULL);
-	g_return_val_if_fail (entry < seen_before->len, NULL);
+	g_return_if_fail (entry <= G_MAXUINT / DIRENT_SIZE);
+	g_return_if_fail (entry < seen_before->len);
 
 	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
-	g_return_val_if_fail (block < ole->bat.num_blocks, NULL);
+	g_return_if_fail (block < ole->bat.num_blocks);
 
-	g_return_val_if_fail (!seen_before->data[entry], NULL);
+	g_return_if_fail (!seen_before->data[entry]);
 	seen_before->data[entry] = TRUE;
 
 	data = ole_get_block (ole, ole->bat.block [block], NULL);
 	if (data == NULL)
-		return NULL;
+		return;
 	data += (DIRENT_SIZE * entry) % ole->info->bb.size;
 
 	type = GSF_LE_GET_GUINT8 (data + DIRENT_TYPE);
@@ -333,7 +367,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	    type != DIRENT_TYPE_FILE &&
 	    type != DIRENT_TYPE_ROOTDIR) {
 		g_warning ("Unknown stream type 0x%x", type);
-		return NULL;
+		return;
 	}
 	if (!parent && type != DIRENT_TYPE_ROOTDIR) {
 		/* See bug 346118.  */
@@ -343,8 +377,8 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 
 	/* It looks like directory (and root directory) sizes are sometimes bogus */
 	size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
-	g_return_val_if_fail (type == DIRENT_TYPE_DIR || type == DIRENT_TYPE_ROOTDIR ||
-			      size <= (guint32)ole->input->size, NULL);
+	g_return_if_fail (type == DIRENT_TYPE_DIR || type == DIRENT_TYPE_ROOTDIR ||
+			  size <= (guint32)ole->input->size);
 
 	ft = GSF_LE_GET_GUINT64 (data + DIRENT_MODIFY_TIME);
 
@@ -364,27 +398,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	next  = GSF_LE_GET_GUINT32 (data + DIRENT_NEXT);
 	child = GSF_LE_GET_GUINT32 (data + DIRENT_CHILD);
 	name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
-	dirent->name = NULL;
-	if (0 < name_len && name_len <= DIRENT_MAX_NAME_SIZE) {
-		gunichar2 uni_name [DIRENT_MAX_NAME_SIZE+1];
-		gchar const *end;
-		int i;
-
-		/* !#%!@$#^
-		 * Sometimes, rarely, people store the stream name as ascii
-		 * rather than utf16.  Do a validation first just in case.
-		 */
-		if (!g_utf8_validate (data, -1, &end) ||
-		    ((guint8 const *)end - data + 1) != name_len) {
-			/* be wary about endianness */
-			for (i = 0 ; i < name_len ; i += 2)
-				uni_name [i/2] = GSF_LE_GET_GUINT16 (data + i);
-			uni_name [i/2] = 0;
-
-			dirent->name = g_utf16_to_utf8 (uni_name, -1, NULL, NULL, NULL);
-		} else
-			dirent->name = g_strndup ((gchar *)data, (gsize)((guint8 const *)end - data + 1));
-	}
+	dirent->name = get_dirent_name((const char *)data, name_len);
 	/* be really anal in the face of screwups */
 	if (dirent->name == NULL)
 		dirent->name = g_strdup ("");
@@ -396,20 +410,24 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		dirent->name, dirent->size, dirent->first_block);
 #endif
 
-	if (parent != NULL)
+	if (parent)
 		parent->children = g_list_insert_sorted (parent->children,
 			dirent, (GCompareFunc)ole_dirent_cmp);
+	else
+		ole->dirent = dirent;
 
-	/* NOTE : These links are a tree, not a linked list */
+	/* NOTE: "prev" and "next" links are a tree, not a linked list */
 	ole_dirent_new (ole, prev, parent, seen_before);
-	ole_dirent_new (ole, next, parent, seen_before);
 
 	if (dirent->is_directory)
 		ole_dirent_new (ole, child, dirent, seen_before);
 	else if (child != DIRENT_MAGIC_END)
-		g_warning ("A non directory stream with children ?");
+		g_warning ("A non directory stream with children?");
 
-	return dirent;
+	// ole_dirent_new (ole, next, parent, seen_before);
+	// gcc isn't optimizing this for me, so do it by hand
+	entry = next;
+	goto tailcall;
 }
 
 static void
@@ -656,8 +674,8 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	seen_before = g_byte_array_new ();
 	g_byte_array_set_size (seen_before, ((size_t)(ole->bat.num_blocks) << info->bb.shift) / DIRENT_SIZE + 1);
 	memset (seen_before->data, 0, seen_before->len);
-	ole->dirent = info->root_dir =
-		ole_dirent_new (ole, 0, NULL, seen_before);
+	ole_dirent_new (ole, 0, NULL, seen_before);
+	info->root_dir = ole->dirent;
 	g_byte_array_unref (seen_before);
 	if (ole->dirent == NULL) {
 		if (err != NULL)

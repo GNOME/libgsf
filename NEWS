@@ -3,6 +3,7 @@ libgsf 1.14.54
 Morten:
 	* Fix ABR is msole properties code.  [#41]
 	* Up thumbnailer's memory limit to 512MB.  [#42]
+	* Reduce stack usage.  [#43]
 
 Zander Brown:
 	* Various build fixes.

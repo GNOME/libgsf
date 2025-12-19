@@ -1,3 +1,9 @@
+2025-12-18  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-infile-msole.c (ole_dirent_new): reduce stack frame
+	size; eliminate need for return value; tail call optimization.
+	Fixes #43.  Hopefully.
+
 2025-12-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.14.54
