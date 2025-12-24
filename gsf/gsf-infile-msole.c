@@ -300,7 +300,7 @@ datetime_from_filetime (guint64 ft)
 // Helper function for ole_dirent_new.  Two purposes: (1) shrink the
 // stack frame of ole_dirent_new, and (2) fewer casts.
 static char *
-#ifndef __GNUC__
+#ifdef __GNUC__
 __attribute__ ((noinline))
 #endif
 get_dirent_name (gchar const *data, guint16 name_len)
@@ -344,7 +344,6 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 	guint16 name_len;
 	guint64 ft;
 
-tailcall:
 	if (entry >= DIRENT_MAGIC_END)
 		return;
 
@@ -424,10 +423,12 @@ tailcall:
 	else if (child != DIRENT_MAGIC_END)
 		g_warning ("A non directory stream with children?");
 
-	// ole_dirent_new (ole, next, parent, seen_before);
-	// gcc isn't optimizing this for me, so do it by hand
-	entry = next;
-	goto tailcall;
+	// Tail call (does not add to stack usage).
+	//
+	// Don't do anything that makes the address of a local variable
+	// escape (such as printing it using %p).  Doing so forces gcc
+	// to drop tail calling
+	ole_dirent_new (ole, next, parent, seen_before);
 }
 
 static void
@@ -986,7 +987,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 /**
  * gsf_infile_msole_new:
  * @source: #GsfInput
- * @err: optional place to store an error
+ * @err: (nullable): place to store an error
  *
  * Opens the root directory of an MS OLE file.
  * <note>This adds a reference to @source.</note>
@@ -1020,7 +1021,8 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 /**
  * gsf_infile_msole_get_class_id:
  * @ole: a #GsfInfileMSOle
- * @res: 16 byte identifier (often a GUID in MS Windows apps)
+ * @res: (out) (array fixed-size=16): identifier (often a GUID in
+ * MS Windows apps)
  *
  * Retrieves the 16 byte indentifier (often a GUID in MS Windows apps)
  * stored within the directory associated with @ole and stores it in @res.
