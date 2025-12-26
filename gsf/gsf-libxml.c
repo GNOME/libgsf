@@ -532,6 +532,7 @@ gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
 /**
  * GsfXMLInNS:
  * @uri: URI
+ * @ns_id:
  **/
 
 /**

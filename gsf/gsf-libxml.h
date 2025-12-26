@@ -75,7 +75,7 @@ typedef gboolean (*GsfXMLInUnknownFunc) (GsfXMLIn *xin,
 typedef void     (*GsfXMLInExtDtor)     (GsfXMLIn *xin, gpointer old_state);
 
 struct _GsfXMLIn {
-	/* public state : read only */
+	/*< public >*/
 	gpointer	    user_state;
 	GString		   *content;
 	GsfXMLInDoc  const *doc;
@@ -105,8 +105,9 @@ struct _GsfXMLInNode {
 };
 
 struct _GsfXMLInNS {
+	/*< public >*/
 	char const *uri;
-	unsigned    ns_id;
+	unsigned int  ns_id;
 };
 
 #define GSF_XML_IN_NS(id, uri) \
