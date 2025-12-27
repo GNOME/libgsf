@@ -99,6 +99,12 @@ typedef gint64 gsf_off_t;
  * #gsf_off_t.
  */
 #define GSF_OFF_T_FORMAT	G_GINT64_FORMAT
+
+/**
+ * GSF_OFF_T_MAX:
+ *
+ * The largest value that can be stored in a #gsf_off_t.
+ */
 #define GSF_OFF_T_MAX G_MAXINT64
 
 typedef struct _GsfXMLIn		GsfXMLIn;

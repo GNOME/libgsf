@@ -9,12 +9,15 @@ gsf_input_container
 gsf_input_dup
 gsf_input_size
 gsf_input_eof
+gsf_input_get_modtime
 gsf_input_remaining
 gsf_input_error_id
 gsf_input_sibling
 gsf_input_error
 gsf_input_name
 gsf_input_set_name_from_filename
+gsf_input_set_modtime
+gsf_input_set_modtime_from_stat
 
 <SUBSECTION Proxy>
 GsfInputProxy
@@ -55,7 +58,9 @@ gsf_output_write
 gsf_output_puts
 gsf_output_printf
 gsf_output_vprintf
-
+gsf_output_get_modtime
+gsf_output_memory_steal_bytes
+gsf_output_set_modtime
 gsf_output_container
 gsf_output_name
 gsf_output_set_name_from_filename
@@ -644,6 +649,7 @@ gsf_xml_in_push_state
 gsf_xml_in_namecmp
 gsf_xml_in_check_ns
 gsf_xml_in_get_input
+gsf_xml_in_set_silent_unknowns
 
 gsf_xml_probe
 <SUBSECTION Creation>
@@ -669,6 +675,8 @@ gsf_xml_out_add_gvalue
 gsf_xml_out_simple_element
 gsf_xml_out_simple_float_element
 gsf_xml_out_simple_int_element
+gsf_xml_out_get_pretty_print
+gsf_xml_out_set_pretty_print
 
 <SUBSECTION NanoHTTP>
 gsf_input_http_get_content_type
@@ -764,6 +772,7 @@ GSF_LE_SET_DOUBLE
 gsf_le_set_float
 gsf_le_set_double
 GSF_OFF_T_FORMAT
+GSF_OFF_T_MAX
 gsf_off_t
 
 <SUBSECTION TimeStamps>

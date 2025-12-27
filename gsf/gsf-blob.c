@@ -86,7 +86,8 @@ GSF_CLASS (GsfBlob, gsf_blob,
  * copied internally, so the blob does not hold references to external chunks
  * of memory.
  *
- * Return value: A newly-created #GsfBlob, or %NULL if the data could not be copied.
+ * Returns: (transfer full) (nullable): A newly-created #GsfBlob, or
+ * %NULL if the data could not be copied.
  *
  * Error domain: #GSF_ERROR
  *
