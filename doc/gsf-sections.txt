@@ -799,6 +799,7 @@ gsf_timestamp_parse
 gsf_doc_prop_swap_val
 gsf_property_settings_collect
 gsf_property_settings_collect_valist
+gsf_property_settings_find
 gsf_property_settings_free
 
 <SUBSECTION Private>
@@ -837,6 +838,7 @@ GsfDocPropVector
 gsf_docprop_vector_new
 gsf_docprop_vector_append
 gsf_docprop_vector_as_string
+gsf_value_get_docprop_array
 gsf_value_get_docprop_varray
 gsf_value_get_docprop_vector
 

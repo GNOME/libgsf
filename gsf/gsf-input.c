@@ -234,8 +234,7 @@ GSF_CLASS_ABSTRACT (GsfInput, gsf_input,
  *
  * The name of the input stream.
  *
- * Returns: (transfer none): @input's name in utf8 form, or %NULL if it
- * has no name.
+ * Returns: (transfer none) (nullable): @input's name.
  **/
 char const *
 gsf_input_name (GsfInput *input)
@@ -260,11 +259,11 @@ gsf_input_container (GsfInput *input)
 /**
  * gsf_input_dup: (virtual Dup)
  * @input: The input to duplicate
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Duplicates @input leaving the new one at the same offset.
  *
- * Returns: (transfer full) (nullable): the duplicate
+ * Returns: (transfer full): the duplicate
  **/
 GsfInput *
 gsf_input_dup (GsfInput *input, GError **err)
@@ -323,7 +322,7 @@ gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
  * gsf_input_size:
  * @input: The input
  *
- * Returns: the total number of bytes in the input or -1 on error
+ * Returns: the total number of bytes in @input or -1 on error
  **/
 gsf_off_t
 gsf_input_size (GsfInput *input)
@@ -361,7 +360,6 @@ gsf_input_eof (GsfInput *input)
  * Returns: (array) (nullable): pointer to the buffer or %NULL if there is
  * an error or 0 bytes are requested.
  **/
-
 guint8 const *
 gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
@@ -392,7 +390,6 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
  * Returns: (array length=bytes_read) (element-type guint8) (transfer full):
  * the data read.
  **/
-
 guint8 *
 gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
 {
@@ -487,7 +484,7 @@ gsf_input_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 /**
  * gsf_input_set_name:
  * @input: the input stream
- * @name: (allow-none): the new name of the stream
+ * @name: (nullable): the new name of the stream
  *
  * protected.
  *
@@ -591,7 +588,7 @@ gsf_input_seek_emulate (GsfInput *input, gsf_off_t pos)
  * gsf_input_get_modtime:
  * @input: the input stream
  *
- * Returns: (transfer none): A #GDateTime representing when the input
+ * Returns: (transfer none) (nullable): A #GDateTime representing when the input
  * was last modified, or %NULL if not known.
  */
 GDateTime *
@@ -605,7 +602,7 @@ gsf_input_get_modtime (GsfInput *input)
 /**
  * gsf_input_set_modtime:
  * @input: the input stream
- * @modtime: (transfer none) (allow-none): the new modification time.
+ * @modtime: (transfer none) (nullable): the new modification time.
  *
  * protected.
  *
@@ -692,8 +689,8 @@ gsf_input_error (void)
 
 /**
  * gsf_input_copy:
- * @input: a non-null #GsfInput
- * @output: a non-null #GsfOutput
+ * @input: (not nullable): #GsfInput
+ * @output: (not nullable): #GsfOutput
  *
  * Copy the contents from @input to @output from their respective
  * current positions. So if you want to be sure to copy *everything*,

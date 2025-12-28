@@ -29,7 +29,7 @@
 /*
  * FIXME!
  *
- * We cannot extend GsfInput, so for now we hang this on the object as
+ * We cannot extend GsfOutput, so for now we hang this on the object as
  * an attribute.
  */
 #define MODTIME_ATTR "GsfOutput::modtime"

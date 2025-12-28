@@ -79,7 +79,7 @@ GSF_CLASS (GsfBlob, gsf_blob,
  * @size: Size of the data in bytes.
  * @data_to_copy: (in) (array length=size) (element-type guint8):
  * Data which will be copied into the blob, or %NULL if @size is zero.
- * @error: location to store error, or %NULL.
+ * @error: (out) (nullable) (optional): location to store error, or %NULL.
  *
  * Creates a new #GsfBlob object to hold the specified data.  The blob can then
  * be used as a facility for reference-counting for the data.  The data is
