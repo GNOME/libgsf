@@ -297,12 +297,7 @@ datetime_from_filetime (guint64 ft)
 	return res;
 }
 
-// Helper function for ole_dirent_new.  Two purposes: (1) shrink the
-// stack frame of ole_dirent_new, and (2) fewer casts.
 static char *
-#ifdef __GNUC__
-__attribute__ ((noinline))
-#endif
 get_dirent_name (gchar const *data, guint16 name_len)
 {
 	gchar const *end;
@@ -330,6 +325,19 @@ get_dirent_name (gchar const *data, guint16 name_len)
 }
 
 
+typedef struct {
+	MSOleDirent *parent;
+	guint32 entry;
+} DirentEntry;
+
+static void
+add_todo (GArray *todo, MSOleDirent *parent, guint32 entry)
+{
+	size_t i = todo->len;
+	g_array_set_size (todo, i + 1);
+	g_array_index (todo, DirentEntry, i).parent = parent;
+	g_array_index (todo, DirentEntry, i).entry = entry;
+}
 
 /* Parse dirent number @entry and recursively handle its siblings and children.
  * parent is optional. */
@@ -337,98 +345,102 @@ static void
 ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		GByteArray *seen_before)
 {
-	MSOleDirent *dirent;
-	guint32 block, next, prev, child, size;
-	guint8 const *data;
-	guint8 type;
-	guint16 name_len;
-	guint64 ft;
+	GArray *todo = g_array_new (FALSE, FALSE, sizeof (DirentEntry));
+	add_todo (todo, parent, entry);
 
-	if (entry >= DIRENT_MAGIC_END)
-		return;
+	while (todo->len) {
+		parent = g_array_index (todo, DirentEntry, todo->len - 1).parent;
+		entry = g_array_index (todo, DirentEntry, todo->len - 1).entry;
+		g_array_set_size (todo, todo->len - 1);
 
-	g_return_if_fail (entry <= G_MAXUINT / DIRENT_SIZE);
-	g_return_if_fail (entry < seen_before->len);
+		if (entry >= DIRENT_MAGIC_END)
+			continue;
 
-	block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
-	g_return_if_fail (block < ole->bat.num_blocks);
+		if (entry >= G_MAXUINT / DIRENT_SIZE ||
+		    entry >= seen_before->len ||
+		    seen_before->data[entry]) {
+		fail:
+			g_printerr ("Problem with directory entry %d\n", entry);
+			continue;
+		}
 
-	g_return_if_fail (!seen_before->data[entry]);
-	seen_before->data[entry] = TRUE;
+		guint32 block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
+		if (block >= ole->bat.num_blocks)
+			goto fail;
 
-	data = ole_get_block (ole, ole->bat.block [block], NULL);
-	if (data == NULL)
-		return;
-	data += (DIRENT_SIZE * entry) % ole->info->bb.size;
+		guint8 const *data = ole_get_block (ole, ole->bat.block [block], NULL);
+		if (data == NULL)
+			goto fail;
+		data += (DIRENT_SIZE * entry) % ole->info->bb.size;
 
-	type = GSF_LE_GET_GUINT8 (data + DIRENT_TYPE);
-	if (type != DIRENT_TYPE_DIR &&
-	    type != DIRENT_TYPE_FILE &&
-	    type != DIRENT_TYPE_ROOTDIR) {
-		g_warning ("Unknown stream type 0x%x", type);
-		return;
-	}
-	if (!parent && type != DIRENT_TYPE_ROOTDIR) {
-		/* See bug 346118.  */
-		g_warning ("Root directory is not marked as such.");
-		type = DIRENT_TYPE_ROOTDIR;
-	}
+		guint8 type = GSF_LE_GET_GUINT8 (data + DIRENT_TYPE);
+		if (type != DIRENT_TYPE_DIR &&
+		    type != DIRENT_TYPE_FILE &&
+		    type != DIRENT_TYPE_ROOTDIR) {
+			g_warning ("Unknown stream type 0x%x", type);
+			continue;
+		}
 
-	/* It looks like directory (and root directory) sizes are sometimes bogus */
-	size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
-	g_return_if_fail (type == DIRENT_TYPE_DIR || type == DIRENT_TYPE_ROOTDIR ||
-			  size <= (guint32)ole->input->size);
+		if (!parent && type != DIRENT_TYPE_ROOTDIR) {
+			/* See bug 346118.  */
+			g_warning ("Root directory is not marked as such.");
+			type = DIRENT_TYPE_ROOTDIR;
+		}
 
-	ft = GSF_LE_GET_GUINT64 (data + DIRENT_MODIFY_TIME);
+		/* It looks like directory (and root directory) sizes are sometimes bogus */
+		guint32 size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
+		if (type != DIRENT_TYPE_DIR && type != DIRENT_TYPE_ROOTDIR &&
+		    size > (guint64)ole->input->size)
+			goto fail;
 
-	dirent = g_new0 (MSOleDirent, 1);
-	dirent->index	     = entry;
-	dirent->size	     = size;
-	dirent->modtime = datetime_from_filetime (ft);
-	/* Store the class id which is 16 byte identifier used by some apps */
-	memcpy(dirent->clsid, data + DIRENT_CLSID, sizeof(dirent->clsid));
+		guint64 ft = GSF_LE_GET_GUINT64 (data + DIRENT_MODIFY_TIME);
 
-	/* root dir is always big block */
-	dirent->use_sb	     = parent && (size < ole->info->threshold);
-	dirent->first_block  = (GSF_LE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
-	dirent->is_directory = (type != DIRENT_TYPE_FILE);
-	dirent->children     = NULL;
-	prev  = GSF_LE_GET_GUINT32 (data + DIRENT_PREV);
-	next  = GSF_LE_GET_GUINT32 (data + DIRENT_NEXT);
-	child = GSF_LE_GET_GUINT32 (data + DIRENT_CHILD);
-	name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
-	dirent->name = get_dirent_name((const char *)data, name_len);
-	/* be really anal in the face of screwups */
-	if (dirent->name == NULL)
-		dirent->name = g_strdup ("");
-	dirent->key = gsf_msole_sorting_key_new (dirent->name);
+		MSOleDirent *dirent = g_new0 (MSOleDirent, 1);
+		dirent->index	     = entry;
+		dirent->size	     = size;
+		dirent->modtime = datetime_from_filetime (ft);
+		/* Store the class id which is 16 byte identifier used by some apps */
+		memcpy (dirent->clsid, data + DIRENT_CLSID, sizeof (dirent->clsid));
+
+		/* root dir is always big block */
+		dirent->use_sb	     = parent && (size < ole->info->threshold);
+		dirent->first_block  = (GSF_LE_GET_GUINT32 (data + DIRENT_FIRSTBLOCK));
+		dirent->is_directory = (type != DIRENT_TYPE_FILE);
+		dirent->children     = NULL;
+		guint32 prev  = GSF_LE_GET_GUINT32 (data + DIRENT_PREV);
+		guint32 next  = GSF_LE_GET_GUINT32 (data + DIRENT_NEXT);
+		guint32 child = GSF_LE_GET_GUINT32 (data + DIRENT_CHILD);
+		guint16 name_len = GSF_LE_GET_GUINT16 (data + DIRENT_NAME_LEN);
+		dirent->name = get_dirent_name ((const char *)data, name_len);
+		/* be really anal in the face of screwups */
+		if (dirent->name == NULL)
+			dirent->name = g_strdup ("");
+		dirent->key = gsf_msole_sorting_key_new (dirent->name);
 
 #if 0
-	printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
-		dirent->is_directory ? 'd' : ' ',
-		dirent->name, dirent->size, dirent->first_block);
+		printf ("%c '%s' :\tsize = %d\tfirst_block = 0x%x\n",
+			dirent->is_directory ? 'd' : ' ',
+			dirent->name, dirent->size, dirent->first_block);
 #endif
 
-	if (parent)
-		parent->children = g_list_insert_sorted (parent->children,
-			dirent, (GCompareFunc)ole_dirent_cmp);
-	else
-		ole->dirent = dirent;
+		if (parent)
+			parent->children = g_list_insert_sorted (parent->children,
+								 dirent, (GCompareFunc)ole_dirent_cmp);
+		else
+			ole->dirent = dirent;
 
-	/* NOTE: "prev" and "next" links are a tree, not a linked list */
-	ole_dirent_new (ole, prev, parent, seen_before);
+		/* NOTE: "prev" and "next" links are a tree, not a linked list */
+		add_todo (todo, parent, prev);
 
-	if (dirent->is_directory)
-		ole_dirent_new (ole, child, dirent, seen_before);
-	else if (child != DIRENT_MAGIC_END)
-		g_warning ("A non directory stream with children?");
+		if (dirent->is_directory) {
+			add_todo (todo, dirent, child);
+		} else if (child != DIRENT_MAGIC_END)
+			g_warning ("A non directory stream with children?");
 
-	// Tail call (does not add to stack usage).
-	//
-	// Don't do anything that makes the address of a local variable
-	// escape (such as printing it using %p).  Doing so forces gcc
-	// to drop tail calling
-	ole_dirent_new (ole, next, parent, seen_before);
+		add_todo (todo, parent, next);
+	}
+
+	g_array_free (todo, TRUE);
 }
 
 static void
