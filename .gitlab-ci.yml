@@ -24,7 +24,7 @@ build-release-tarball:
     - ACVER=`perl -ne '$ep=$1 if /^m4_define.*libgsf_version_major.*\[(\d+)\]/; $ma=$1 if /^m4_define.*libgsf_version_minor.*\[(\d+)\]/; $mi=$1 if /^m4_define.*libgsf_version_micro.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
     - echo ${ACVER}
     - echo ${TARBALL_ARTIFACT_PATH}
-    - ./autogen.sh --disable-dependency-tracking
+    - ./autogen.sh --disable-dependency-tracking --enable-gtk-doc
     - make -j4
     - make dist
     - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > ${TARBALL_ARTIFACT_PATH}
@@ -34,3 +34,16 @@ build-release-tarball:
     when: "always"
     paths:
       - "${TARBALL_ARTIFACT_PATH}"
+      - doc/html
+
+pages:
+  stage: build
+  needs: ["build-release-tarball"]
+  script:
+  - mkdir -p public/api
+  - cp -pr doc/html/* public/api/.
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
