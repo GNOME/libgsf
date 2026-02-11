@@ -1,5 +1,8 @@
 libgsf 1.14.56
 
+liren:
+	* Fix problems with ole files using codepage 1200 (unicode). [#44]
+
 --------------------------------------------------------------------------
 libgsf 1.14.55
 
