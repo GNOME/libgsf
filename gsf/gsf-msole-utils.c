@@ -226,7 +226,7 @@ static GHashTable *name_to_prop_hash = NULL;
 static char const *
 msole_vt_name (GsfMSOleVariantType type)
 {
-	static char const *names[] = {
+	static char const * const names[] = {
 		"VT_EMPTY",	"VT_NULL",	"VT_I2",	"VT_I4",	"VT_R4",
 		"VT_R8",	"VT_CY",	"VT_DATE",	"VT_BSTR",	"VT_DISPATCH",
 		"VT_ERROR",	"VT_BOOL",	"VT_VARIANT",	"VT_UNKNOWN",	"VT_DECIMAL",
@@ -235,7 +235,7 @@ msole_vt_name (GsfMSOleVariantType type)
 		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",	"VT_USERDEFINED",
 		"VT_LPSTR",	"VT_LPWSTR",
 	};
-	static char const *names2[] = {
+	static char const * const names2[] = {
 		"VT_FILETIME",
 		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
 		"VT_STORED_OBJECT", "VT_BLOB_OBJECT", "VT_CF",	"VT_CLSID"
