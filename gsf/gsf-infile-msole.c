@@ -159,8 +159,11 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 	GArray *bat = g_array_sized_new (FALSE, FALSE,
 		sizeof (guint32), size_guess);
 
-	guint8 *used = (guint8*)g_alloca (1 + metabat->num_blocks / 8);
-	memset (used, 0, 1 + metabat->num_blocks / 8);
+	guint8 *used = g_try_malloc0 (1 + metabat->num_blocks / 8);
+	if (used == NULL) {
+		g_array_free (bat, TRUE);
+		return TRUE;
+	}
 
 	while (block < metabat->num_blocks) {
 		/* Catch cycles in the bat list */
@@ -171,6 +174,8 @@ ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
 		g_array_append_val (bat, block);
 		block = metabat->block [block];
 	}
+
+	g_free (used);
 
 	res->num_blocks = bat->len;
 	res->block = (guint32 *) (gpointer) g_array_free (bat, FALSE);
