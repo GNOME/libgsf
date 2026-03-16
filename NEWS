@@ -5,6 +5,8 @@ libgsf 1.14.56
 
 liren:
 	* Fix problems with ole files using codepage 1200 (unicode). [#44]
+
+Morten:
 	* Restore check for ole cycles accidentally removed in fixing #43.
 
 --------------------------------------------------------------------------
