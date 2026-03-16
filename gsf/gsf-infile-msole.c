@@ -358,7 +358,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		entry = g_array_index (todo, DirentEntry, todo->len - 1).entry;
 		g_array_set_size (todo, todo->len - 1);
 
-		if (entry >= DIRENT_MAGIC_END)
+		if (entry >= (guint32)DIRENT_MAGIC_END)
 			continue;
 
 		if (entry >= G_MAXUINT / DIRENT_SIZE ||
@@ -368,6 +368,7 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 			g_printerr ("Problem with directory entry %d\n", entry);
 			continue;
 		}
+		seen_before->data[entry] = 1;
 
 		guint32 block = OLE_BIG_BLOCK (entry * DIRENT_SIZE, ole);
 		if (block >= ole->bat.num_blocks)
