@@ -64,7 +64,8 @@ G_BEGIN_DECLS
 #define DIRENT_MODIFY_TIME	0x6c	/* for files */
 #define DIRENT_FIRSTBLOCK	0x74
 #define DIRENT_FILE_SIZE	0x78
-/* 0x7c..0x7f reserved == 0 */
+#define DIRENT_FILE_SIZE_HIGH	0x7c    /* probably 2 bytes -- docs unclear */
+/* unsure: 0x7e..0x7f reserved == 0 */
 
 #define DIRENT_TYPE_INVALID	0
 #define DIRENT_TYPE_DIR		1

@@ -11,6 +11,8 @@
 
 static gboolean show_version;
 static int opt_zip64 = -1;
+static int opt_ole_sbsize = 64;
+static int opt_ole_bbsize = 512;
 
 static GOptionEntry const gsf_options [] = {
 	{
@@ -20,10 +22,16 @@ static GOptionEntry const gsf_options [] = {
 		NULL
 	},
 
-	/* All options below are for gsf testing only.  */
+	{
+		"ole-big-block-size", 0,
+		0, G_OPTION_ARG_INT, &opt_ole_bbsize,
+		"",
+		NULL
+	},
+
 	{
 		"zip64", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &opt_zip64,
+		0, G_OPTION_ARG_INT, &opt_zip64,
 		"",
 		NULL
 	},
@@ -492,7 +500,7 @@ gsf_create (int argc, char **argv, GType type)
 	}
 
 	if (type == GSF_OUTFILE_MSOLE_TYPE)
-		outfile = gsf_outfile_msole_new (dest);
+		outfile = gsf_outfile_msole_new_full (dest, opt_ole_bbsize, opt_ole_sbsize);
 	else if (type == GSF_OUTFILE_ZIP_TYPE) {
 		outfile = g_object_new (GSF_OUTFILE_ZIP_TYPE,
 					"sink", dest,

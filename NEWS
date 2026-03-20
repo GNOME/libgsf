@@ -1,5 +1,8 @@
 libgsf 1.14.57
 
+Morten:
+	* Fix problems with old files bigger than 4G.  [#45]
+
 --------------------------------------------------------------------------
 libgsf 1.14.56
 

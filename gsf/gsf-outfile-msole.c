@@ -338,7 +338,7 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	sb_data_size = data_size;
 	if ((gsf_off_t) sb_data_size != data_size) {
 		/* Check for overflow */
-		g_warning ("File too big");
+		g_warning ("File too big [1]");
 		return FALSE;
 	}
 	ole_pad_zero (ole);
@@ -384,21 +384,29 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK,
 				(sb_data_size > 0) ? sb_data_start : BAT_MAGIC_END_OF_CHAIN);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, sb_data_size);
+			GSF_LE_SET_GUINT16 (buf + DIRENT_FILE_SIZE_HIGH, 0);
 			memcpy (buf + DIRENT_CLSID, child->clsid, sizeof (child->clsid));
 		} else if (child->type == MSOLE_DIR) {
 			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_DIR);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, BAT_MAGIC_END_OF_CHAIN);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, 0);
+			GSF_LE_SET_GUINT16 (buf + DIRENT_FILE_SIZE_HIGH, 0);
 			/* write the class id */
 			memcpy (buf + DIRENT_CLSID, child->clsid, sizeof (child->clsid));
 		} else {
-			guint32 size = child->parent.parent.cur_size;
-
-			if ((gsf_off_t) size != child->parent.parent.cur_size)
-				g_warning ("File too big");
+			guint64 size64 = child->parent.parent.cur_size;
+			if (child->type == MSOLE_SMALL_BLOCK) {
+				if ((size64 >> 32) > 0)  // 31?
+					g_warning ("File too big [2a]");
+			} else {
+				if ((size64 >> 48) > 0)  // 47?
+					g_warning ("File too big [2b]");
+			}
 			GSF_LE_SET_GUINT8 (buf + DIRENT_TYPE, DIRENT_TYPE_FILE);
 			GSF_LE_SET_GUINT32 (buf + DIRENT_FIRSTBLOCK, child->first_block);
-			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, size);
+			GSF_LE_SET_GUINT32 (buf + DIRENT_FILE_SIZE, (guint32)size64);
+			// We really only should be using this field for v4
+			GSF_LE_SET_GUINT16 (buf + DIRENT_FILE_SIZE_HIGH, (guint16)(size64 >> 32));
 		}
 		GSF_LE_SET_GUINT64 (buf + DIRENT_MODIFY_TIME,
 				    datetime_to_filetime (gsf_output_get_modtime (GSF_OUTPUT (child))));
@@ -590,13 +598,13 @@ gsf_outfile_msole_write (GsfOutput *output,
 			 size_t num_bytes, guint8 const *data)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
-	size_t wsize;
 
 	g_return_val_if_fail (ole->type != MSOLE_DIR, FALSE);
 	if (ole->type == MSOLE_SMALL_BLOCK) {
 		gboolean ok;
 		guint8 *buf;
 		gsf_off_t start_offset;
+		size_t wsize;
 
 		if ((output->cur_offset + num_bytes) < OLE_DEFAULT_THRESHOLD) {
 			memcpy (ole->content.small_block.buf + output->cur_offset,
@@ -614,7 +622,7 @@ gsf_outfile_msole_write (GsfOutput *output,
 		if ((gsf_off_t) ole->content.big_block.start_offset
 		    != start_offset) {
 			/* Check for overflow */
-			g_warning ("File too big");
+			g_warning ("File too big [3]");
 			return FALSE;
 		}
 
@@ -623,7 +631,7 @@ gsf_outfile_msole_write (GsfOutput *output,
 		wsize = output->cur_size;
 		if ((gsf_off_t) wsize != output->cur_size) {
 			/* Check for overflow */
-			g_warning ("File too big");
+			g_warning ("File too big [4]");
 			return FALSE;
 		}
 		gsf_output_write (ole->sink, wsize, buf);

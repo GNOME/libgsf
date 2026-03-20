@@ -47,7 +47,7 @@ typedef struct {
 	char	 *name;
 	GsfMSOleSortingKey *key;
 	int	  index;
-	size_t    size;
+	gsf_off_t size;
 	gboolean  use_sb;
 	guint32   first_block;
 	gboolean  is_directory;
@@ -108,11 +108,12 @@ ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
 {
 	g_return_val_if_fail (block < ole->info->max_block, FALSE);
 
-	/* OLE_HEADER_SIZE is fixed at 512, but the sector containing the
-	 * header is padded out to bb.size (sector size) when bb.size > 512. */
-	if (gsf_input_seek (ole->input,
-		(gsf_off_t)(MAX (OLE_HEADER_SIZE, ole->info->bb.size) + (block << ole->info->bb.shift)) + offset,
-		G_SEEK_SET))
+	// OLE_HEADER_SIZE is fixed at 512, but the sector containing the
+	// header is padded out to bb.size (sector size) when bb.size > 512.
+	gsf_off_t loc = MAX (OLE_HEADER_SIZE, ole->info->bb.size);
+	loc += (gsf_off_t)block << ole->info->bb.shift;
+	loc += offset;
+	if (gsf_input_seek (ole->input, loc, G_SEEK_SET))
 		return FALSE;
 
 	return TRUE;
@@ -394,7 +395,8 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 		}
 
 		/* It looks like directory (and root directory) sizes are sometimes bogus */
-		guint32 size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE);
+		guint64 size = GSF_LE_GET_GUINT32 (data + DIRENT_FILE_SIZE) |
+			((guint64)(GSF_LE_GET_GUINT16 (data + DIRENT_FILE_SIZE_HIGH)) << 32);
 		if (type != DIRENT_TYPE_DIR && type != DIRENT_TYPE_ROOTDIR &&
 		    size > (guint64)ole->input->size)
 			goto fail;
