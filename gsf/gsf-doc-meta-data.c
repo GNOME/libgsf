@@ -279,6 +279,7 @@ gsf_doc_prop_new (char *name)
 	prop->name = name;
 	prop->val  = NULL;
 	prop->linked_to = NULL;
+	prop->ref_count = 1;
 
 	return prop;
 }

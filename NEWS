@@ -18,6 +18,7 @@ libgsf 1.14.55
 Morten:
 	* Reduce stack usage.  [#43]
 	* Documentation fixes.
+	* Document property fix.
 
 --------------------------------------------------------------------------
 libgsf 1.14.54
