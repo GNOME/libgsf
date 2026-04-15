@@ -2,6 +2,7 @@ libgsf 1.14.57
 
 Morten:
 	* Fix problems with old files bigger than 4G.  [#45]
+	* Document property fix.
 
 --------------------------------------------------------------------------
 libgsf 1.14.56
@@ -18,7 +19,6 @@ libgsf 1.14.55
 Morten:
 	* Reduce stack usage.  [#43]
 	* Documentation fixes.
-	* Document property fix.
 
 --------------------------------------------------------------------------
 libgsf 1.14.54
