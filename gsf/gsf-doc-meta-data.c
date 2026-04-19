@@ -286,7 +286,7 @@ gsf_doc_prop_new (char *name)
 
 /**
  * gsf_doc_prop_free:
- * @prop: (transfer full) (allow-none): #GsfDocProp
+ * @prop: (transfer full) (nullable): #GsfDocProp
  *
  * Release the given property.
  **/

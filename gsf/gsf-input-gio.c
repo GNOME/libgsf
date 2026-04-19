@@ -114,7 +114,7 @@ make_local_copy (GFile *file, GInputStream *stream)
 /**
  * gsf_input_gio_new:
  * @file:
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: A new #GsfInputGio or %NULL
  */
@@ -168,7 +168,7 @@ gsf_input_gio_new (GFile *file, GError **err)
 /**
  * gsf_input_gio_new_for_path:
  * @path:
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: A new #GsfInputGio or %NULL
  */
@@ -190,7 +190,7 @@ gsf_input_gio_new_for_path (char const *path, GError **err)
 /**
  * gsf_input_gio_new_for_uri:
  * @uri:
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: A new #GsfInputGio or %NULL
  */

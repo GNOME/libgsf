@@ -647,7 +647,7 @@ gsf_output_get_modtime (GsfOutput *output)
 /**
  * gsf_output_set_modtime:
  * @output: the output stream
- * @modtime: (transfer none) (allow-none): the new modification time.
+ * @modtime: (transfer none) (nullable): the new modification time.
  *
  * Returns: %TRUE if the assignment was ok.
  */

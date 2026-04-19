@@ -83,7 +83,7 @@ gsf_output_gio_new (GFile *file)
 /**
  * gsf_output_gio_new_for_path:
  * @path:
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */
@@ -105,7 +105,7 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 /**
  * gsf_output_gio_new_for_uri:
  * @uri:
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: (transfer full): A new #GsfOutputGio or %NULL
  */

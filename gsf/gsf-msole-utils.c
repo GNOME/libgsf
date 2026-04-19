@@ -2162,7 +2162,7 @@ static struct {
 
 /**
  * gsf_msole_lid_for_language:
- * @lang: (allow-none): Language id, i.e., locale name.
+ * @lang: (nullable): Language id, i.e., locale name.
  *
  * Returns: the LID (Language Identifier) for the input language.
  * 	If lang is %NULL, return 0x0400 ("-none-"), and not 0x0000 ("no proofing")

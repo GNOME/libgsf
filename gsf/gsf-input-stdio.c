@@ -103,7 +103,7 @@ error:
 /**
  * gsf_input_stdio_new:
  * @filename: in utf8.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: a new file or %NULL.
  **/

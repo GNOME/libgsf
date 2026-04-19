@@ -548,7 +548,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 /**
  * gsf_output_stdio_new_full:
  * @filename: name of file to create or replace.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  * @first_property_name: %NULL terminated list of properties
  * @...:
  *
@@ -571,7 +571,7 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
 /**
  * gsf_output_stdio_new:
  * @filename: name of file to create or replace.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: a new file or %NULL.
  **/

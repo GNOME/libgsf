@@ -299,7 +299,7 @@ gsf_input_dup (GsfInput *input, GError **err)
  * gsf_input_sibling: (virtual OpenSibling)
  * @input: The input
  * @name: name.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * UNIMPLEMENTED BY ANY BACKEND
  * 	and it is probably unnecessary.   gsf_input_get_container provides
@@ -351,7 +351,7 @@ gsf_input_eof (GsfInput *input)
  * gsf_input_read: (virtual Read) (skip)
  * @input: the input stream
  * @num_bytes: number of bytes to read
- * @optional_buffer: (array) (allow-none): Pointer to destination memory area
+ * @optional_buffer: (array) (nullable): Pointer to destination memory area
  *
  * Read at least @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.  Invalidates
@@ -527,7 +527,7 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
 /**
  * gsf_input_set_container:
  * @input: the input stream
- * @container: (allow-none)
+ * @container: (nullable)
  *
  * Returns: %TRUE if the assignment was ok.
  */

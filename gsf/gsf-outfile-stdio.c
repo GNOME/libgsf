@@ -104,7 +104,7 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
 /**
  * gsf_outfile_stdio_new_valist:
  * @root: root directory in utf8.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  * @first_property_name: name of first property to set
  * @var_args: a %NULL-terminated #va_list
  *
@@ -140,7 +140,7 @@ gsf_outfile_stdio_new_valist (char const *root, GError **err,
 /**
  * gsf_outfile_stdio_new_full:
  * @root: root directory in utf8.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  * @first_property_name: name of first property to set
  * @...: value of first property, followed by more properties,
  * 		%NULL-terminated
@@ -165,7 +165,7 @@ gsf_outfile_stdio_new_full (char const *root, GError **err,
 /**
  * gsf_outfile_stdio_new:
  * @root: root directory in utf8.
- * @err: (allow-none): place to store a #GError if anything goes wrong
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: a new outfile or %NULL.
  **/
