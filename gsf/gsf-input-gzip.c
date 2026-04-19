@@ -216,6 +216,9 @@ gsf_input_gzip_new (GsfInput *source, GError **err)
 {
 	GsfInputGZip *gzip;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	gzip = g_object_new (GSF_INPUT_GZIP_TYPE,

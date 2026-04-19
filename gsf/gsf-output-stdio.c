@@ -561,6 +561,9 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
 	GsfOutput *res;
 	va_list var_args;
 
+	if (err)
+		*err = NULL;
+
 	va_start (var_args, first_property_name);
 	res = gsf_output_stdio_new_valist (filename, err, first_property_name, var_args);
 	va_end (var_args);

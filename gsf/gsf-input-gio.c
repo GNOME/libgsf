@@ -200,6 +200,9 @@ gsf_input_gio_new_for_uri (char const *uri, GError **err)
 	GFile *file;
 	GsfInput *input;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	file = g_file_new_for_uri (uri);

@@ -54,6 +54,8 @@ gsf_output_gio_new_full (GFile *file, GError **err)
 	GsfOutputGio *output;
 	GOutputStream *stream;
 
+	if (err)
+		*err = NULL;
 	g_return_val_if_fail (file != NULL, NULL);
 
 	stream = (GOutputStream *)g_file_replace (file, NULL, 0, FALSE, NULL, err);
@@ -93,6 +95,9 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
 	GFile *file;
 	GsfOutput *output;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (path != NULL, NULL);
 
 	file = g_file_new_for_path (path);
@@ -114,6 +119,9 @@ gsf_output_gio_new_for_uri (char const *uri, GError **err)
 {
 	GFile *file;
 	GsfOutput *output;
+
+	if (err)
+		*err = NULL;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 

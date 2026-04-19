@@ -1006,6 +1006,9 @@ gsf_infile_zip_new (GsfInput *source, GError **err)
 {
 	GsfInfileZip *zip;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
 	zip = g_object_new (GSF_INFILE_ZIP_TYPE,

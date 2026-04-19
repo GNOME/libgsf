@@ -41,6 +41,8 @@
 GsfInput *
 gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 {
+	if (err)
+		*err = NULL;
 #ifndef HAVE_BZ2
 	(void)source;
 	if (err)

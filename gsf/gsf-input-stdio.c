@@ -116,6 +116,9 @@ gsf_input_stdio_new (char const *filename, GError **err)
 	FILE *file;
 	gsf_off_t size;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	file = g_fopen (filename, "rb");

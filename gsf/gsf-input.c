@@ -270,6 +270,8 @@ gsf_input_dup (GsfInput *input, GError **err)
 {
 	GsfInput *dst;
 
+	if (err)
+		*err = NULL;
 	g_return_val_if_fail (input != NULL, NULL);
 
 	dst = GET_CLASS (input)->Dup (input, err);
@@ -313,6 +315,9 @@ gsf_input_dup (GsfInput *input, GError **err)
 GsfInput *
 gsf_input_sibling (GsfInput const *input, char const *name, GError **err)
 {
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (GET_CLASS (input)->OpenSibling, NULL);
 
 	return GET_CLASS (input)->OpenSibling (input, name, err);

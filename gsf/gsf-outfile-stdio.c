@@ -172,5 +172,8 @@ gsf_outfile_stdio_new_full (char const *root, GError **err,
 GsfOutfile *
 gsf_outfile_stdio_new (char const *root, GError **err)
 {
+	if (err)
+		*err = NULL;
+
 	return gsf_outfile_stdio_new_full (root, err, NULL);
 }

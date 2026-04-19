@@ -352,6 +352,8 @@ fail_stream :
 static gboolean
 vba_project_read (GsfInfileMSVBA *vba, GError **err)
 {
+	if (err)
+		*err = NULL;
 	/* NOTE : This seems constant, find some confirmation */
 	static guint8 const signature[]	  = { 0xcc, 0x61 };
 	static struct {
