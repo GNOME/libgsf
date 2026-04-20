@@ -282,15 +282,16 @@ ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 static guint64
 datetime_to_filetime (GDateTime *dt)
 {
-	static const guint64 epoch = G_GINT64_CONSTANT (11644473600);
+	static const gint64 epoch = G_GINT64_CONSTANT (11644473600);
 
 	if (!dt)
 		return 0u;
 
-	/* ft is number of 100ns since Jan 1 1601 */
+	/* ft is number of 100ns since Jan 1 1601 (UTC) */
+	/* dt is converted to UTC seconds by g_date_time_to_unix */
 
-	return (g_date_time_to_unix(dt) + epoch) * 10000000u
-		+ g_date_time_get_microsecond(dt) * 10u;
+	return (guint64)(g_date_time_to_unix (dt) + epoch) * 10000000u
+		+ (guint64)g_date_time_get_microsecond (dt) * 10u;
 }
 
 static void
@@ -467,20 +468,35 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		// by _tell and ->cur_size may be out of sync.  We don't
 		// want to loop forever here.
 
-		unsigned i = ((ole->sink->cur_size
-		      + BAT_INDEX_SIZE * (num_bat + num_xbat)
+		gsf_off_t i_full = ((ole->sink->cur_size
+		      + (gsf_off_t)BAT_INDEX_SIZE * (num_bat + num_xbat)
 		      - OLE_HEADER_SIZE - 1) >> ole->bb.shift) + 1;
-		i -= bat_start;
-		if (num_bat != i) {
-			num_bat = i;
+
+		if (i_full < (gsf_off_t)bat_start)
+			break;
+
+		gsf_off_t n_bat = i_full - bat_start;
+		if (n_bat > G_MAXUINT32) {
+			g_warning ("File too big: too many BAT blocks (%" GSF_OFF_T_FORMAT ")", n_bat);
+			return FALSE;
+		}
+
+		if (num_bat != (guint32)n_bat) {
+			num_bat = (guint32)n_bat;
 			continue;
 		}
-		i = 0;
+
+		gsf_off_t n_xbat = 0;
 		if (num_bat > OLE_HEADER_METABAT_SIZE)
-			i = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
-				 / metabat_size);
-		if (num_xbat != i) {
-			num_xbat = i;
+			n_xbat = 1 + ((num_bat - OLE_HEADER_METABAT_SIZE - 1)
+				 / (gsf_off_t)metabat_size);
+		if (n_xbat > G_MAXUINT32) {
+			g_warning ("File too big: too many X-BAT blocks (%" GSF_OFF_T_FORMAT ")", n_xbat);
+			return FALSE;
+		}
+
+		if (num_xbat != (unsigned)n_xbat) {
+			num_xbat = (unsigned)n_xbat;
 			continue;
 		}
 
@@ -964,6 +980,7 @@ gboolean
 gsf_outfile_msole_set_class_id (GsfOutfileMSOle *ole, guint8 const *clsid)
 {
 	g_return_val_if_fail (ole != NULL && ole->type == MSOLE_DIR, FALSE);
+	g_return_val_if_fail (clsid != NULL, FALSE);
 	memcpy (ole->clsid, clsid, sizeof (ole->clsid));
 	return TRUE;
 }

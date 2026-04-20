@@ -286,17 +286,21 @@ ole_dirent_cmp (MSOleDirent const *a, MSOleDirent const *b)
 static GDateTime *
 datetime_from_filetime (guint64 ft)
 {
-	static const guint64 epoch = G_GINT64_CONSTANT (11644473600);
+	static const gint64 epoch = G_GINT64_CONSTANT (11644473600);
 	GDateTime *dt, *res;
 
 	if (!ft)
 		return NULL;
 
-	/* ft is number of 100ns since Jan 1 1601 */
+	/* ft is number of 100ns since Jan 1 1601 (UTC) */
+	/* Convert to signed seconds since 1970 (UTC) */
+	gint64 seconds = (gint64)(ft / 10000000u) - epoch;
 
-	dt = g_date_time_new_from_unix_local (ft / 10000000u - epoch);
+	dt = g_date_time_new_from_unix_utc (seconds);
 	if (!dt)
 		return NULL;
+
+	/* Add the remaining microseconds */
 	res = g_date_time_add (dt, (ft % 10000000u) / 10);
 	g_date_time_unref (dt);
 
@@ -508,6 +512,9 @@ ole_dup (GsfInfileMSOle const *src, GError **err)
 	GsfInfileMSOle	*dst;
 	GsfInput *input;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (src != NULL, NULL);
 
 	input = gsf_input_dup (src->input, err);
@@ -542,6 +549,9 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	guint32 metabat_block, *ptr;
 	gboolean fail;
 	size_t num_blocks, isize;
+
+	if (err)
+		*err = NULL;
 
 	/* check the header */
 	if (gsf_input_seek (ole->input, 0, G_SEEK_SET) ||
@@ -617,6 +627,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 
 		metabat = g_try_new (guint32, MAX (info->bb.size, OLE_HEADER_SIZE));
 		if (!metabat) {
+			ole->info = NULL;
 			g_free (info);
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
@@ -741,6 +752,9 @@ gsf_infile_msole_dup (GsfInput *src_input, GError **err)
 	GsfInfileMSOle const *src = GSF_INFILE_MSOLE (src_input);
 	GsfInfileMSOle *parent = GSF_INFILE_MSOLE (gsf_input_container (src_input));
 
+	if (err)
+		*err = NULL;
+
 	return gsf_infile_msole_new_child (parent, src->dirent, err);
 }
 
@@ -834,6 +848,9 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 	GsfInput *sb_file = NULL;
 	size_t size_guess;
 
+	if (err)
+		*err = NULL;
+
 	child = ole_dup (parent, err);
 	if (!child)
 		return NULL;
@@ -919,6 +936,9 @@ gsf_infile_msole_child_by_index (GsfInfile *infile, int target, GError **err)
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
 
+	if (err)
+		*err = NULL;
+
 	for (p = ole->dirent->children; p != NULL ; p = p->next) {
 		MSOleDirent *dirent = p->data;
 		if (target-- <= 0)
@@ -947,6 +967,9 @@ gsf_infile_msole_child_by_name (GsfInfile *infile, char const *name, GError **er
 {
 	GsfInfileMSOle *ole = GSF_INFILE_MSOLE (infile);
 	GList *p;
+
+	if (err)
+		*err = NULL;
 
 	for (p = ole->dirent->children; p != NULL ; p = p->next) {
 		MSOleDirent *dirent = p->data;
@@ -1007,7 +1030,7 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 /**
  * gsf_infile_msole_new:
  * @source: #GsfInput
- * @err: (nullable): place to store an error
+ * @err: (out) (optional) (nullable): place to store an error
  *
  * Opens the root directory of an MS OLE file.
  * <note>This adds a reference to @source.</note>
@@ -1019,6 +1042,9 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
 {
 	GsfInfileMSOle *ole;
 	gsf_off_t calling_pos;
+
+	if (err)
+		*err = NULL;
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 
