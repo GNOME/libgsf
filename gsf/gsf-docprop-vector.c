@@ -88,7 +88,7 @@ gsf_value_get_docprop_vector (GValue const *value)
  * Insert a copy of @value as the last element of @vector.
  **/
 void
-gsf_docprop_vector_append (GsfDocPropVector *vector, GValue *value)
+gsf_docprop_vector_append (GsfDocPropVector *vector, GValue const *value)
 {
 	g_return_if_fail (vector != NULL);
 	g_return_if_fail (value != NULL);
@@ -119,7 +119,6 @@ gchar*
 gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 {
 	gchar		*rstring;
-
 	guint		 i;
 	guint		 num_values;
 

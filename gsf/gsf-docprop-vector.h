@@ -35,7 +35,7 @@ GType gsf_docprop_vector_get_type	(void);
 /* void  gsf_docprop_vector_register_type	(GTypeModule *module); glib dynamic types are not thread safe */
 
 GsfDocPropVector *gsf_docprop_vector_new	(void);
-void		  gsf_docprop_vector_append	(GsfDocPropVector *vector, GValue *value);
+void		  gsf_docprop_vector_append	(GsfDocPropVector *vector, GValue const *value);
 gchar		 *gsf_docprop_vector_as_string	(GsfDocPropVector const *vector);
 
 #define VAL_IS_GSF_DOCPROP_VECTOR(v) (G_TYPE_CHECK_VALUE_TYPE((v), GSF_DOCPROP_VECTOR_TYPE))
