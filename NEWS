@@ -1,9 +1,11 @@
 libgsf 1.14.57
 
 Morten:
-	* Fix problems with old files bigger than 4G.  [#45]
+	* Fix problems with ole files bigger than 4G.  [#45]
 	* Document property fix.
 	* Introspection fixes.
+	* Make gzip handle 4G+ writes.
+	* Make bzip handle 4G+ writes.
 
 --------------------------------------------------------------------------
 libgsf 1.14.56

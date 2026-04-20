@@ -27,7 +27,7 @@
 
 #ifdef HAVE_BZ2
 #include <bzlib.h>
-#define BZ_BUFSIZE 1024
+#define BZ_BUFSIZE (32 * 1024)
 #endif
 
 static GObjectClass *parent_class;
@@ -130,27 +130,32 @@ static gboolean
 gsf_output_bzip_write (GsfOutput *output,
 		       size_t num_bytes, guint8 const *data)
 {
+	g_return_val_if_fail (GSF_IS_OUTPUT_BZIP (output), FALSE);
+
 #ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 
-	g_return_val_if_fail (data, FALSE);
+	g_return_val_if_fail (num_bytes == 0 || data != NULL, FALSE);
 
 	bzip->stream.next_in  = (unsigned char *) data;
-	bzip->stream.avail_in = num_bytes;
+	while (num_bytes > 0) {
+		bzip->stream.avail_in = (num_bytes > G_MAXUINT32) ? G_MAXUINT32 : (unsigned int)num_bytes;
+		num_bytes -= bzip->stream.avail_in;
 
-	while (bzip->stream.avail_in > 0) {
-		int zret;
+		while (bzip->stream.avail_in > 0) {
+			int zret;
 
-		if (bzip->stream.avail_out == 0) {
-			if (!bzip_output_block (bzip))
+			if (bzip->stream.avail_out == 0) {
+				if (!bzip_output_block (bzip))
+					return FALSE;
+			}
+
+			zret = BZ2_bzCompress (&bzip->stream, BZ_RUN);
+			if (zret != BZ_RUN_OK) {
+				g_warning ("Unexpected error code %d from bzlib during compression.",
+					   zret);
 				return FALSE;
-		}
-
-		zret = BZ2_bzCompress (&bzip->stream, BZ_RUN);
-		if (zret != BZ_RUN_OK) {
-			g_warning ("Unexpected error code %d from bzlib during compression.",
-				   zret);
-			return FALSE;
+			}
 		}
 	}
 
@@ -161,7 +166,6 @@ gsf_output_bzip_write (GsfOutput *output,
 
 	return TRUE;
 #else
-	(void)output;
 	(void)num_bytes;
 	(void)data;
 	return FALSE;
@@ -173,12 +177,16 @@ gsf_output_bzip_seek (G_GNUC_UNUSED GsfOutput *output,
 		      G_GNUC_UNUSED gsf_off_t offset,
 		      G_GNUC_UNUSED GSeekType whence)
 {
+	g_return_val_if_fail (GSF_IS_OUTPUT_BZIP (output), FALSE);
+
 	return FALSE;
 }
 
 static gboolean
 gsf_output_bzip_close (GsfOutput *output)
 {
+	g_return_val_if_fail (GSF_IS_OUTPUT_BZIP (output), FALSE);
+
 #ifdef HAVE_BZ2
 	GsfOutputBzip *bzip = GSF_OUTPUT_BZIP (output);
 	gboolean rt;
@@ -242,6 +250,9 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 GsfOutput *
 gsf_output_bzip_new (GsfOutput *sink, GError **err)
 {
+	if (err)
+		*err = NULL;
+
 #ifdef HAVE_BZ2
 	GsfOutputBzip *bzip;
 
