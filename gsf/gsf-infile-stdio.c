@@ -162,7 +162,7 @@ GSF_CLASS (GsfInfileStdio, gsf_infile_stdio,
 /**
  * gsf_infile_stdio_new:
  * @root: in locale dependent encoding
- * @err: optionally %NULL.
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
  * Returns: a new file or %NULL.
  **/

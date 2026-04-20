@@ -27,7 +27,7 @@
 /**
  * gsf_input_memory_new_from_iochannel:
  * @channel: a #GIOChannel.
- * @error: a #GError
+ * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: a new #GsfInputMemory or %NULL.
  **/

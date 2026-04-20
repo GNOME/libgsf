@@ -128,7 +128,7 @@ gsf_output_gzip_setup (GsfOutputGZip *gzip)
 /**
  * gsf_output_gzip_new:
  * @sink: The underlying data source.
- * @err: (out) (optional) (nullable): GError
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Adds a reference to @sink.
  *

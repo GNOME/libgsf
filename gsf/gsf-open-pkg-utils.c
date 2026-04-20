@@ -211,7 +211,7 @@ gsf_open_pkg_get_rels (GsfInput *opkg)
  * gsf_open_pkg_open_rel:
  * @opkg: #GsfInput
  * @rel: #GsfOpenPkgRel
- * @err: #GError.
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Returns: (transfer full): a new #GsfInput which the called needs to unref, or %NULL and sets @err
  **/
@@ -365,7 +365,7 @@ gsf_open_pkg_foreach_rel (GsfInput *opkg,
  * gsf_open_pkg_open_rel_by_id:
  * @opkg: #GsfInput
  * @id: target id
- * @err: optionally %NULL
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * New in 1.14.7
  *
@@ -392,7 +392,7 @@ gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
  * gsf_open_pkg_open_rel_by_type:
  * @opkg: #GsfInput
  * @type: target type
- * @err: optionally %NULL
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * New in 1.14.9
  *

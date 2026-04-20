@@ -574,7 +574,7 @@ GSF_CLASS (GsfInfileTar, gsf_infile_tar,
 /**
  * gsf_infile_tar_new:
  * @source: A base #GsfInput
- * @err: A #GError, optionally %NULL
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Opens the root directory of a Tar file.
  * <note>This adds a reference to @source.</note>

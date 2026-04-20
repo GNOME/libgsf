@@ -197,7 +197,7 @@ get_windows_clipboard_data_offset (GsfClipFormatWindows format)
  * @format: #GsfClipFormatWindows
  * @format_name: const char *
  * @blob_size: #gsize
- * @error: #GError
+ * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Checks that the specified blob size matches the expected size for the format.
  *
@@ -221,7 +221,7 @@ check_format_windows (GsfClipFormatWindows format, const char *format_name, gsiz
 /**
  * gsf_clip_data_get_windows_clipboard_format:
  * @clip_data: A #GsfClipData.
- * @error: Location to store error, or %NULL
+ * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Queries the Windows clipboard data format for a #GsfClipData.  The @clip_data must
  * have been created with #GSF_CLIP_FORMAT_WINDOWS_CLIPBOARD.
@@ -290,7 +290,7 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
  * gsf_clip_data_peek_real_data:
  * @clip_data: A #GsfClipData.
  * @ret_size: Location to return the size of the returned data buffer.
- * @error: Location to store error, or %NULL.
+ * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
  * Queries a pointer directly to the clipboard data of a #GsfClipData.  The
  * resulting pointer is not necessarily the same data pointer that was passed to

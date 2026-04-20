@@ -233,7 +233,7 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 /**
  * gsf_output_bzip_new:
  * @sink: The underlying data source.
- * @err: optionally %NULL.
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
  * Adds a reference to @sink.
  *

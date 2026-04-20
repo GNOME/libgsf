@@ -552,7 +552,7 @@ gsf_infile_msvba_steal_modules (GsfInfileMSVBA *vba_stream)
 /**
  * gsf_input_find_vba:
  * @input: #GsfInput
- * @err: (nullable): #GError.
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * A utility routine that attempts to find the VBA file withint a stream.
  *

@@ -123,7 +123,7 @@ ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
  * ole_get_block: (skip)
  * @ole: the infile
  * @block: block number
- * @buffer: optionally %NULL
+ * @buffer: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Read a block of data from the underlying input.
  * Be really anal.

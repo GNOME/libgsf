@@ -511,7 +511,7 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
  *
  * Since: 1.14.24
  *
- * Returns: (transfer full): a #GError if there is a problem.
+ * Returns: (transfer full): (out) (optional) (nullable): place to store a #GError if anything goes wrong if there is a problem.
  **/
 GError*
 gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
@@ -554,7 +554,7 @@ gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
  *
  * Deprecated: 1.14.24, use gsf_doc_meta_data_read_from_odf
  *
- * Returns: (transfer full): a #GError if there is a problem.
+ * Returns: (transfer full): (out) (optional) (nullable): place to store a #GError if anything goes wrong if there is a problem.
  **/
 GError *
 gsf_opendoc_metadata_read (GsfInput *input, GsfDocMetaData *md)
