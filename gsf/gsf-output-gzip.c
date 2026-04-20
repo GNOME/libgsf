@@ -73,7 +73,7 @@ init_gzip (GsfOutputGZip *gzip)
 		return FALSE;
 
 	if (!gzip->buf) {
-		gzip->buf_size = 0x100;
+		gzip->buf_size = 32 * 1024;
 		gzip->buf = g_new (guint8, gzip->buf_size);
 	}
 	gzip->stream.next_out  = gzip->buf;
@@ -98,7 +98,7 @@ gzip_output_header (GsfOutputGZip *gzip)
 	memcpy (buf, gzip_signature, 3);
 	if (nlen > 0)
 		buf[3] = GZIP_ORIGINAL_NAME;
-	GSF_LE_SET_GUINT32 (buf + 4, (guint32) mtime);
+	GSF_LE_SET_GUINT32 (buf + 4, (guint32) (guint64) mtime);
 	buf[9] = 3;	/* UNIX */
 	ret = gsf_output_write (gzip->sink, sizeof buf, buf);
 	if (ret && name && nlen > 0)
@@ -128,7 +128,7 @@ gsf_output_gzip_setup (GsfOutputGZip *gzip)
 /**
  * gsf_output_gzip_new:
  * @sink: The underlying data source.
- * @err: optionally %NULL.
+ * @err: (out) (optional) (nullable): GError
  *
  * Adds a reference to @sink.
  *
@@ -139,6 +139,9 @@ gsf_output_gzip_new (GsfOutput *sink, GError **err)
 {
 	GsfOutput *output;
 	GError const *con_err;
+
+	if (err)
+		*err = NULL;
 
 	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
@@ -221,35 +224,46 @@ static gboolean
 gsf_output_gzip_write (GsfOutput *output,
 		       size_t num_bytes, guint8 const *data)
 {
-	GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
+	GsfOutputGZip *gzip;
+	size_t original_num_bytes = num_bytes;
 
+	g_return_val_if_fail (GSF_IS_OUTPUT_GZIP (output), FALSE);
 	g_return_val_if_fail (data, FALSE);
+
+	gzip = GSF_OUTPUT_GZIP (output);
 
 	// Write header, if needed
 	gsf_output_gzip_setup (gzip);
 
 	gzip->stream.next_in  = (unsigned char *) data;
-	gzip->stream.avail_in = num_bytes;
+	while (num_bytes > 0) {
+		guint32 chunk = (num_bytes > G_MAXUINT32)
+			? G_MAXUINT32 : (guint32)num_bytes;
 
-	while (gzip->stream.avail_in > 0) {
-		int zret;
-		if (gzip->stream.avail_out == 0) {
-			if (!gzip_output_block (gzip))
+		gzip->crc = crc32 (gzip->crc, gzip->stream.next_in, chunk);
+
+		gzip->stream.avail_in = chunk;
+		num_bytes -= chunk;
+
+		while (gzip->stream.avail_in > 0) {
+			int zret;
+			if (gzip->stream.avail_out == 0) {
+				if (!gzip_output_block (gzip))
+					return FALSE;
+			}
+
+			zret = deflate (&gzip->stream, Z_NO_FLUSH);
+			if (zret != Z_OK) {
+				gsf_output_set_error (output, 0,
+						      "Unexpected compression failure");
+				g_warning ("Unexpected error code %d from zlib during compression.",
+					   zret);
 				return FALSE;
-		}
-
-		zret = deflate (&gzip->stream, Z_NO_FLUSH);
-		if (zret != Z_OK) {
-			gsf_output_set_error (output, 0,
-					      "Unexpected compression failure");
-			g_warning ("Unexpected error code %d from zlib during compression.",
-				   zret);
-			return FALSE;
+			}
 		}
 	}
 
-	gzip->crc = crc32 (gzip->crc, data, num_bytes);
-	gzip->isize += num_bytes;
+	gzip->isize += original_num_bytes;
 
 	if (gzip->stream.avail_out == 0) {
 		if (!gzip_output_block (gzip))
@@ -260,17 +274,23 @@ gsf_output_gzip_write (GsfOutput *output,
 }
 
 static gboolean
-gsf_output_gzip_seek (G_GNUC_UNUSED GsfOutput *output,
+gsf_output_gzip_seek (GsfOutput *output,
 		      G_GNUC_UNUSED gsf_off_t offset,
 		      G_GNUC_UNUSED GSeekType whence)
 {
+	g_return_val_if_fail (GSF_IS_OUTPUT_GZIP (output), FALSE);
+
 	return FALSE;
 }
 
 static gboolean
 gsf_output_gzip_close (GsfOutput *output)
 {
-	GsfOutputGZip *gzip = GSF_OUTPUT_GZIP (output);
+	GsfOutputGZip *gzip;
+
+	g_return_val_if_fail (GSF_IS_OUTPUT_GZIP (output), FALSE);
+
+	gzip = GSF_OUTPUT_GZIP (output);
 
 	// Just in case nothing was ever written
 	gsf_output_gzip_setup (gzip);
