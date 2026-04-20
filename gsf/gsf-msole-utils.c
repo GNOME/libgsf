@@ -226,27 +226,50 @@ static GHashTable *name_to_prop_hash = NULL;
 static char const *
 msole_vt_name (GsfMSOleVariantType type)
 {
-	static char const * const names[] = {
-		"VT_EMPTY",	"VT_NULL",	"VT_I2",	"VT_I4",	"VT_R4",
-		"VT_R8",	"VT_CY",	"VT_DATE",	"VT_BSTR",	"VT_DISPATCH",
-		"VT_ERROR",	"VT_BOOL",	"VT_VARIANT",	"VT_UNKNOWN",	"VT_DECIMAL",
-		NULL,		"VT_I1",	"VT_UI1",	"VT_UI2",	"VT_UI4",
-		"VT_I8",	"VT_UI8",	"VT_INT",	"VT_UINT",	"VT_VOID",
-		"VT_HRESULT",	"VT_PTR",	"VT_SAFEARRAY",	"VT_CARRAY",	"VT_USERDEFINED",
-		"VT_LPSTR",	"VT_LPWSTR",
-	};
-	static char const * const names2[] = {
-		"VT_FILETIME",
-		"VT_BLOB",	"VT_STREAM",	"VT_STORAGE",	"VT_STREAMED_OBJECT",
-		"VT_STORED_OBJECT", "VT_BLOB_OBJECT", "VT_CF",	"VT_CLSID"
-	};
-
 	type &= ~VT_VECTOR;
-	if (type <= VT_LPWSTR)
-		return names[type];
-	g_return_val_if_fail (type >= VT_FILETIME, "_UNKNOWN_");
-	g_return_val_if_fail (type <= VT_CLSID, "_UNKNOWN_");
-	return names2[type-VT_FILETIME];
+	switch (type) {
+	case VT_EMPTY:           return "VT_EMPTY";
+	case VT_NULL:            return "VT_NULL";
+	case VT_I2:              return "VT_I2";
+	case VT_I4:              return "VT_I4";
+	case VT_R4:              return "VT_R4";
+	case VT_R8:              return "VT_R8";
+	case VT_CY:              return "VT_CY";
+	case VT_DATE:            return "VT_DATE";
+	case VT_BSTR:            return "VT_BSTR";
+	case VT_DISPATCH:        return "VT_DISPATCH";
+	case VT_ERROR:           return "VT_ERROR";
+	case VT_BOOL:            return "VT_BOOL";
+	case VT_VARIANT:         return "VT_VARIANT";
+	case VT_UNKNOWN:         return "VT_UNKNOWN";
+	case VT_DECIMAL:         return "VT_DECIMAL";
+	case VT_I1:              return "VT_I1";
+	case VT_UI1:             return "VT_UI1";
+	case VT_UI2:             return "VT_UI2";
+	case VT_UI4:             return "VT_UI4";
+	case VT_I8:              return "VT_I8";
+	case VT_UI8:             return "VT_UI8";
+	case VT_INT:             return "VT_INT";
+	case VT_UINT:            return "VT_UINT";
+	case VT_VOID:            return "VT_VOID";
+	case VT_HRESULT:         return "VT_HRESULT";
+	case VT_PTR:             return "VT_PTR";
+	case VT_SAFEARRAY:       return "VT_SAFEARRAY";
+	case VT_CARRAY:          return "VT_CARRAY";
+	case VT_USERDEFINED:     return "VT_USERDEFINED";
+	case VT_LPSTR:           return "VT_LPSTR";
+	case VT_LPWSTR:          return "VT_LPWSTR";
+	case VT_FILETIME:        return "VT_FILETIME";
+	case VT_BLOB:            return "VT_BLOB";
+	case VT_STREAM:          return "VT_STREAM";
+	case VT_STORAGE:         return "VT_STORAGE";
+	case VT_STREAMED_OBJECT: return "VT_STREAMED_OBJECT";
+	case VT_STORED_OBJECT:   return "VT_STORED_OBJECT";
+	case VT_BLOB_OBJECT:     return "VT_BLOB_OBJECT";
+	case VT_CF:              return "VT_CF";
+	case VT_CLSID:           return "VT_CLSID";
+	default:                 return "_UNKNOWN_";
+	}
 }
 
 static char const *
