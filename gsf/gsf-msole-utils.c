@@ -264,7 +264,7 @@ msole_prop_id_to_gsf (GsfMSOleMetaDataSection *section, guint32 id, gboolean *li
 			d (g_print ("LINKED "););
 		}
 
-		res = g_hash_table_lookup (section->dict, GINT_TO_POINTER (id));
+		res = g_hash_table_lookup (section->dict, GUINT_TO_POINTER (id));
 
 		if (res != NULL) {
 			d (g_print ("%s", res););
@@ -1090,7 +1090,7 @@ msole_prop_read (GsfInput *in,
 
 			d (g_print ("\t%u == %s\n", id, name););
 			g_hash_table_replace (section->dict,
-				GINT_TO_POINTER (id), name);
+				GUINT_TO_POINTER (id), name);
 
 			/* MS documentation blows goats !
 			 * The docs claim there are padding bytes in the dictionary.
@@ -1681,7 +1681,7 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		name = gsf_doc_prop_get_name (prop);
 		if (user) {
 			tmp = g_hash_table_lookup (state->dict, name);
-			offsets[i].id = GPOINTER_TO_INT (tmp);
+			offsets[i].id = GPOINTER_TO_UINT (tmp);
 			if (offsets[i].id < 2) {
 				g_warning ("Invalid ID (%d) for custom name '%s'", offsets[i].id, name);
 				continue;
@@ -1759,7 +1759,7 @@ cb_count_props (char const *name, GsfDocProp *prop, WritePropState *state)
 		if (NULL == state->dict)
 			state->dict = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (state->dict,
-			(gpointer) name, GINT_TO_POINTER (state->user.count));
+			(gpointer) name, GUINT_TO_POINTER (state->user.count));
 		state->user.count += gsf_doc_prop_get_link (prop) ? 2 : 1;
 		state->user.props = g_slist_prepend (state->user.props, prop);
 	}
