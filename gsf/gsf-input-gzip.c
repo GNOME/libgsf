@@ -28,7 +28,7 @@
 #include <zlib.h>
 #include <string.h>
 
-#define Z_BUFSIZE 0x100
+#define Z_BUFSIZE (32 * 1024)
 
 static GObjectClass *parent_class;
 
@@ -260,6 +260,11 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 	GsfInputGZip *dst;
 	GsfInput *src_source_copy;
 
+	if (err)
+		*err = NULL;
+
+	g_return_val_if_fail (GSF_IS_INPUT_GZIP (src_input), NULL);
+
 	if (src->source) {
 		src_source_copy = gsf_input_dup (src->source, err);
 		if (err)
@@ -291,7 +296,13 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 static guint8 const *
 gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
-	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
+	GsfInputGZip *gzip;
+	size_t bytes_to_read;
+	guint8 *out_ptr;
+
+	g_return_val_if_fail (GSF_IS_INPUT_GZIP (input), NULL);
+
+	gzip = GSF_INPUT_GZIP (input);
 
 	if (buffer == NULL) {
 		if (gzip->buf_size < num_bytes) {
@@ -302,62 +313,75 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 		buffer = gzip->buf;
 	}
 
-	gzip->stream.next_out = buffer;
-	gzip->stream.avail_out = num_bytes;
-	while (gzip->stream.avail_out != 0) {
-		int zerr;
-		if (gzip->stream.avail_in == 0) {
-			gsf_off_t remain = gsf_input_remaining (gzip->source);
-			if (remain <= gzip->trailer_size) {
-				if (remain < gzip->trailer_size || gzip->stop_byte_added) {
-					g_clear_error (&gzip->err);
-					gzip->err = g_error_new
-						(gsf_input_error_id (), 0,
-						 _("truncated source"));
-					return NULL;
-				}
-				/* zlib requires an extra byte.  */
-				gzip->stream.avail_in = 1;
-				gzip->gzipped_data = "";
-				gzip->stop_byte_added = TRUE;
-			} else {
-				size_t n = MIN (remain - gzip->trailer_size,
-						Z_BUFSIZE);
+	bytes_to_read = num_bytes;
+	out_ptr = buffer;
+	while (bytes_to_read > 0) {
+		guint32 chunk = (bytes_to_read > G_MAXUINT32) ? G_MAXUINT32 : (guint32)bytes_to_read;
 
-				gzip->gzipped_data =
-					gsf_input_read (gzip->source, n, NULL);
-				if (!gzip->gzipped_data) {
-					g_clear_error (&gzip->err);
-					gzip->err = g_error_new
-						(gsf_input_error_id (), 0,
-						 _("Failed to read from source"));
-					return NULL;
+		gzip->stream.next_out = out_ptr;
+		gzip->stream.avail_out = chunk;
+		while (gzip->stream.avail_out != 0) {
+			int zerr;
+			if (gzip->stream.avail_in == 0) {
+				gsf_off_t remain = gsf_input_remaining (gzip->source);
+				if (remain <= gzip->trailer_size) {
+					if (remain < gzip->trailer_size || gzip->stop_byte_added) {
+						g_clear_error (&gzip->err);
+						gzip->err = g_error_new
+							(gsf_input_error_id (), 0,
+							 _("truncated source"));
+						return NULL;
+					}
+					/* zlib requires an extra byte.  */
+					gzip->stream.avail_in = 1;
+					gzip->gzipped_data = (guint8 const *)"";
+					gzip->stop_byte_added = TRUE;
+				} else {
+					size_t n = MIN (remain - gzip->trailer_size,
+							(gsf_off_t)Z_BUFSIZE);
+
+					gzip->gzipped_data =
+						gsf_input_read (gzip->source, n, NULL);
+					if (!gzip->gzipped_data) {
+						g_clear_error (&gzip->err);
+						gzip->err = g_error_new
+							(gsf_input_error_id (), 0,
+							 _("Failed to read from source"));
+						return NULL;
+					}
+					gzip->stream.avail_in = n;
 				}
-				gzip->stream.avail_in = n;
+				gzip->stream.next_in = (guint8 *)gzip->gzipped_data;
 			}
-			gzip->stream.next_in = (Byte *)gzip->gzipped_data;
+			zerr = inflate (&(gzip->stream), Z_NO_FLUSH);
+			if (zerr != Z_OK) {
+				if (zerr != Z_STREAM_END)
+					return NULL;
+				/* Premature end of stream.  */
+				if (gzip->stream.avail_out != 0)
+					return NULL;
+			}
 		}
-		zerr = inflate (&(gzip->stream), Z_NO_FLUSH);
-		if (zerr != Z_OK) {
-			if (zerr != Z_STREAM_END)
-				return NULL;
-			/* Premature end of stream.  */
-			if (gzip->stream.avail_out != 0)
-				return NULL;
-		}
+
+		gzip->crc = crc32 (gzip->crc, out_ptr, chunk);
+		bytes_to_read -= chunk;
+		out_ptr += chunk;
 	}
 
-	gzip->crc = crc32 (gzip->crc, buffer, (uInt)(gzip->stream.next_out - buffer));
 	return buffer;
 }
 
 static gboolean
 gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
-	GsfInputGZip *gzip = GSF_INPUT_GZIP (input);
+	GsfInputGZip *gzip;
 	/* Global flag -- we don't want one per stream.  */
 	static gboolean warned = FALSE;
 	gsf_off_t pos = offset;
+
+	g_return_val_if_fail (GSF_IS_INPUT_GZIP (input), TRUE);
+
+	gzip = GSF_INPUT_GZIP (input);
 
 	/* Note, that pos has already been sanity checked.  */
 	switch (whence) {
@@ -544,4 +568,3 @@ gsf_input_gzip_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GsfInputGZip, gsf_input_gzip,
 	   gsf_input_gzip_class_init, gsf_input_gzip_init,
 	   GSF_INPUT_TYPE)
-

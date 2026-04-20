@@ -257,7 +257,7 @@ gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 		hexpart[3 * 16] = 0;
 		pic[16] = 0 ;
 
-		g_print ("%8lx | %s| %s\n", (long)offset, hexpart, pic);
+		g_print ("%08" GSF_OFF_T_FORMAT " | %s| %s\n", offset, hexpart, pic);
 		offset += 16;
 	}
 }

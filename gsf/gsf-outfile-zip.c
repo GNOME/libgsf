@@ -156,6 +156,8 @@ gsf_outfile_zip_seek (G_GNUC_UNUSED GsfOutput *output,
 		      G_GNUC_UNUSED gsf_off_t offset,
 		      G_GNUC_UNUSED GSeekType whence)
 {
+	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (output), FALSE);
+
 	return FALSE;
 }
 
@@ -671,7 +673,7 @@ zip_init_write (GsfOutput *output)
 		if (ret != Z_OK)
 			return FALSE;
 		if (!zip->buf) {
-			zip->buf_size = ZIP_BUF_SIZE;
+			zip->buf_size = 32 * 1024;
 			zip->buf = g_new (guint8, zip->buf_size);
 		}
 		zip->stream->next_out  = zip->buf;
@@ -821,6 +823,8 @@ gsf_outfile_zip_close (GsfOutput *output)
 	GsfOutfileZip *zip = GSF_OUTFILE_ZIP (output);
 	gboolean ret;
 
+	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (output), FALSE);
+
 	/* The root dir */
 	if (zip == zip->root)
 		ret = zip_close_root (output);
@@ -842,9 +846,9 @@ gsf_outfile_zip_write (GsfOutput *output,
 	GsfZipDirent *dirent;
 	int ret;
 
-	g_return_val_if_fail (zip && zip->vdir, FALSE);
+	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (output), FALSE);
+	g_return_val_if_fail (num_bytes == 0 || data != NULL, FALSE);
 	g_return_val_if_fail (!zip->vdir->is_directory, FALSE);
-	g_return_val_if_fail (data, FALSE);
 
 	if (!zip->writing)
 		if (!zip_init_write (output))
@@ -860,24 +864,43 @@ gsf_outfile_zip_write (GsfOutput *output,
 	}
 
 	if (zip->compression_method == GSF_ZIP_DEFLATED) {
-		zip->stream->next_in  = (unsigned char *) data;
-		zip->stream->avail_in = num_bytes;
+		size_t remaining = num_bytes;
+		guint8 const *cur = data;
 
-		while (zip->stream->avail_in > 0) {
-			if (zip->stream->avail_out == 0) {
-				if (!zip_output_block (zip))
+		do {
+			guint32 chunk = (remaining > G_MAXUINT32) ? G_MAXUINT32 : (guint32)remaining;
+			zip->stream->next_in  = (guint8 *)cur;
+			zip->stream->avail_in = chunk;
+
+			while (zip->stream->avail_in > 0) {
+				if (zip->stream->avail_out == 0) {
+					if (!zip_output_block (zip))
+						return FALSE;
+				}
+				ret = deflate (zip->stream, Z_NO_FLUSH);
+				if (ret != Z_OK)
 					return FALSE;
 			}
-			ret = deflate (zip->stream, Z_NO_FLUSH);
-			if (ret != Z_OK)
-				return FALSE;
-		}
+			cur += chunk;
+			remaining -= chunk;
+		} while (remaining > 0);
 	} else {
 		if (!gsf_output_write (zip->sink, num_bytes, data))
 			return FALSE;
 		dirent->csize += num_bytes;
 	}
-	dirent->crc32 = crc32 (dirent->crc32, data, num_bytes);
+
+	{
+		size_t remaining = num_bytes;
+		guint8 const *cur = data;
+		do {
+			guint32 chunk = (remaining > G_MAXUINT32) ? G_MAXUINT32 : (guint32)remaining;
+			dirent->crc32 = crc32 (dirent->crc32, cur, chunk);
+			cur += chunk;
+			remaining -= chunk;
+		} while (remaining > 0);
+	}
+
 	dirent->usize += num_bytes;
 
 	return TRUE;
@@ -917,7 +940,7 @@ gsf_outfile_zip_new_child (GsfOutfile *parent,
 	const char **names;
 	GValue *values;
 
-	g_return_val_if_fail (zip_parent != NULL, NULL);
+	g_return_val_if_fail (GSF_IS_OUTFILE_ZIP (parent), NULL);
 	g_return_val_if_fail (zip_parent->vdir, NULL);
 	g_return_val_if_fail (zip_parent->vdir->is_directory, NULL);
 	g_return_val_if_fail (name && *name, NULL);
@@ -1152,10 +1175,10 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 GsfOutfile *
 gsf_outfile_zip_new (GsfOutput *sink, GError **err)
 {
-	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
-
 	if (err)
 		*err = NULL;
+
+	g_return_val_if_fail (GSF_IS_OUTPUT (sink), NULL);
 
 	return (GsfOutfile *)g_object_new (GSF_OUTFILE_ZIP_TYPE,
 					   "sink", sink,

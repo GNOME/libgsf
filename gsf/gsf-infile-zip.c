@@ -364,6 +364,9 @@ zip_dup (GsfInfileZip const *src, GError **err)
 {
 	GsfInfileZip *dst;
 
+	if (err)
+		*err = NULL;
+
 	g_return_val_if_fail (src != NULL, NULL);
 
 	dst = g_object_new (GSF_INFILE_ZIP_TYPE,
@@ -511,6 +514,9 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 
 	GsfZipDirent *dirent = child->vdir->dirent;
 
+	if (errmsg)
+		*errmsg = NULL;
+
 	/* skip local header
 	 * should test tons of other info, but trust that those are correct
 	 */
@@ -564,8 +570,16 @@ zip_child_init (GsfInfileZip *child, GError **errmsg)
 static GsfInput *
 gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 {
-	GsfInfileZip const *src = GSF_INFILE_ZIP (src_input);
-	GsfInfileZip *dst = zip_dup (src, err);
+	GsfInfileZip const *src;
+	GsfInfileZip *dst;
+
+	if (err)
+		*err = NULL;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (src_input), NULL);
+
+	src = GSF_INFILE_ZIP (src_input);
+	dst = zip_dup (src, err);
 
 	if (dst == NULL)
 		return NULL;
@@ -608,9 +622,14 @@ zip_update_stream_in (GsfInfileZip *zip)
 static guint8 const *
 gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 {
-	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
-	GsfZipVDir *vdir = zip->vdir;
+	GsfInfileZip *zip;
+	GsfZipVDir *vdir;
 	gsf_off_t pos;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (input), NULL);
+
+	zip = GSF_INFILE_ZIP (input);
+	vdir = zip->vdir;
 
 	if (zip->restlen < (gsf_off_t)num_bytes)
 		return NULL;
@@ -623,40 +642,52 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 			return NULL;
 		return gsf_input_read (zip->source, num_bytes, buffer);
 
-	case GSF_ZIP_DEFLATED:
-		if (buffer == NULL) {
+	case GSF_ZIP_DEFLATED: {
+		guint8 *out = buffer;
+		if (out == NULL) {
 			if (zip->buf_size < num_bytes) {
-				zip->buf_size = MAX (num_bytes, 256);
+				zip->buf_size = MAX (num_bytes, 32 * 1024);
 				g_free (zip->buf);
 				zip->buf = g_new (guint8, zip->buf_size);
 			}
-			buffer = zip->buf;
+			out = zip->buf;
+		}
+		buffer = out;
+
+		while (num_bytes > 0) {
+			guint chunk = (num_bytes > G_MAXUINT32) ? G_MAXUINT32 : (guint)num_bytes;
+			zip->stream->avail_out = chunk;
+			zip->stream->next_out = (guint8 *)out;
+
+			do {
+				int zerr;
+				gsf_off_t startlen;
+
+				if (zip->crestlen > 0 && zip->stream->avail_in == 0)
+					if (!zip_update_stream_in (zip))
+						break;
+
+				startlen = zip->stream->total_out;
+				zerr = inflate (zip->stream, Z_NO_FLUSH);
+
+				if (zerr == Z_STREAM_END)
+					zip->restlen = 0;
+				else if (zerr == Z_OK)
+					zip->restlen -= (zip->stream->total_out - startlen);
+				else
+					return NULL;  /* Error, probably corrupted */
+
+			} while (zip->restlen && zip->stream->avail_out);
+
+			if (zip->stream->avail_out > 0)
+				break;
+
+			num_bytes -= chunk;
+			out += chunk;
 		}
 
-		zip->stream->avail_out = num_bytes;
-		zip->stream->next_out = (unsigned char *)buffer;
-
-		do {
-			int err;
-			gsf_off_t startlen;
-
-			if (zip->crestlen > 0 && zip->stream->avail_in == 0)
-				if (!zip_update_stream_in (zip))
-					break;
-
-			startlen = zip->stream->total_out;
-			err = inflate(zip->stream, Z_NO_FLUSH);
-
-			if (err == Z_STREAM_END)
-				zip->restlen = 0;
-			else if (err == Z_OK)
-				zip->restlen -= (zip->stream->total_out - startlen);
-			else
-				return NULL;  /* Error, probably corrupted */
-
-		} while (zip->restlen && zip->stream->avail_out);
-
 		return buffer;
+	}
 
 	default:
 		break;
@@ -668,10 +699,14 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 static gboolean
 gsf_infile_zip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
-	GsfInfileZip *zip = GSF_INFILE_ZIP (input);
+	GsfInfileZip *zip;
 	/* Global flag -- we don't want one per stream.  */
 	static gboolean warned = FALSE;
 	gsf_off_t pos = offset;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (input), TRUE);
+
+	zip = GSF_INFILE_ZIP (input);
 
 	/* Note, that pos has already been sanity checked.  */
 	switch (whence) {
@@ -715,6 +750,10 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 {
 	GsfInfileZip *child;
 	GsfZipDirent *dirent = vdir->dirent;
+
+	if (err)
+		*err = NULL;
+
 	child = zip_dup (parent, err);
 
 	if (child == NULL)
@@ -747,8 +786,16 @@ gsf_infile_zip_new_child (GsfInfileZip *parent, GsfZipVDir *vdir, GError **err)
 static GsfInput *
 gsf_infile_zip_child_by_index (GsfInfile *infile, int target, GError **err)
 {
-	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GsfZipVDir *child_vdir = vdir_child_by_index (zip->vdir, target);
+	GsfInfileZip *zip;
+	GsfZipVDir *child_vdir;
+
+	if (err)
+		*err = NULL;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
+
+	zip = GSF_INFILE_ZIP (infile);
+	child_vdir = vdir_child_by_index (zip->vdir, target);
 
 	if (child_vdir)
 		return gsf_infile_zip_new_child (zip, child_vdir, err);
@@ -759,8 +806,13 @@ gsf_infile_zip_child_by_index (GsfInfile *infile, int target, GError **err)
 static char const *
 gsf_infile_zip_name_by_index (GsfInfile *infile, int target)
 {
-	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GsfZipVDir *child_vdir = vdir_child_by_index (zip->vdir, target);
+	GsfInfileZip *zip;
+	GsfZipVDir *child_vdir;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
+
+	zip = GSF_INFILE_ZIP (infile);
+	child_vdir = vdir_child_by_index (zip->vdir, target);
 
 	if (child_vdir)
 		return child_vdir->name;
@@ -771,8 +823,16 @@ gsf_infile_zip_name_by_index (GsfInfile *infile, int target)
 static GsfInput *
 gsf_infile_zip_child_by_name (GsfInfile *infile, char const *name, GError **err)
 {
-	GsfInfileZip *zip = GSF_INFILE_ZIP (infile);
-	GsfZipVDir *child_vdir = vdir_child_by_name (zip->vdir, name);
+	GsfInfileZip *zip;
+	GsfZipVDir *child_vdir;
+
+	if (err)
+		*err = NULL;
+
+	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
+
+	zip = GSF_INFILE_ZIP (infile);
+	child_vdir = vdir_child_by_name (zip->vdir, name);
 
 	if (child_vdir)
 		return gsf_infile_zip_new_child (zip, child_vdir, err);

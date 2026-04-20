@@ -28,7 +28,7 @@
 
 #ifdef HAVE_BZ2
 #include <bzlib.h>
-#define BZ_BUFSIZ 1024
+#define BZ_BUFSIZ (32 * 1024)
 #endif
 
 /**
@@ -67,14 +67,31 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 	}
 
 	sink = gsf_output_memory_new ();
+	if (sink == NULL) {
+		BZ2_bzDecompressEnd (&bzstm);
+		return NULL;
+	}
 
 	for (;;) {
 		bzstm.next_out  = (char *)out_buf;
 		bzstm.avail_out = (unsigned int)sizeof (out_buf);
 
 		if (bzstm.avail_in == 0) {
-			bzstm.avail_in = (unsigned int)MIN (gsf_input_remaining (source), BZ_BUFSIZ);
+			gsf_off_t remaining = gsf_input_remaining (source);
+			if (remaining <= 0)
+				break;
+
+			bzstm.avail_in = (unsigned int)MIN (remaining, BZ_BUFSIZ);
 			bzstm.next_in  = (char *)gsf_input_read (source, bzstm.avail_in, NULL);
+			if (bzstm.next_in == NULL) {
+				if (err)
+					*err = g_error_new (gsf_input_error_id (), 0,
+							    _("Read error"));
+				BZ2_bzDecompressEnd (&bzstm);
+				gsf_output_close (sink);
+				g_object_unref (sink);
+				return NULL;
+			}
 		}
 
 		bzerr = BZ2_bzDecompress (&bzstm);
@@ -88,7 +105,7 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 			return NULL;
 		}
 
-		gsf_output_write (sink, BZ_BUFSIZ - bzstm.avail_out, out_buf);
+		gsf_output_write (sink, sizeof (out_buf) - bzstm.avail_out, out_buf);
 		if (bzerr == BZ_STREAM_END)
 			break;
 	}
