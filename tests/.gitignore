@@ -23,6 +23,7 @@ test-msole1
 test-msole2
 test-msvba
 test-msvba-zip
+test-ole
 test-out-bzip
 test-out-gzip
 test-out-gzip1

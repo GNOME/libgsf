@@ -6,6 +6,7 @@ Morten:
 	* Introspection fixes.
 	* Make gzip, bzip, zip handle 4G+ writes.
 	* Make gzip, bzip, zip handle 4G+ reads.
+	* Improve testing.
 
 --------------------------------------------------------------------------
 libgsf 1.14.56

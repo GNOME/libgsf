@@ -29,7 +29,15 @@ $topsrc =~ s|/[^/]+$|/..|;
 $topsrc =~ s|^\./(.)|$1|;
 $topsrc =~ s|/tests/\.\.$||;
 
-$top_builddir = "..";
+if (-d "../tests") {
+    $top_builddir = "..";
+    # Probably correct
+} elsif (-d "./tests") {
+    $top_builddir = ".";
+} else {
+    die "$0: Cannot determine top_builddir\n";
+}
+
 $gsf = "$top_builddir/tools/gsf";
 $verbose = 0;
 
