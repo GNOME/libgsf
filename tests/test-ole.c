@@ -30,6 +30,8 @@ test_write_streams (GsfOutfile *outfile)
 	GsfDocMetaData *meta;
 	GValue *val;
 
+	printf ("Creating archive\n");
+
 	/* Data streams */
 	child = gsf_outfile_new_child (outfile, "Stream1", FALSE);
 	if (!child) return FALSE;
@@ -111,6 +113,8 @@ test_read_streams (GsfInfile *infile)
 	GsfDocMetaData *meta;
 	GError *err = NULL;
 
+	printf ("Verifying archive\n");
+
 	/* Data streams */
 	child = gsf_infile_child_by_name (infile, "Stream1");
 	if (!child) {
@@ -172,6 +176,45 @@ test_read_streams (GsfInfile *infile)
 	return TRUE;
 }
 
+static gboolean
+test_write_many_streams (GsfOutfile *outfile, int n)
+{
+	int i;
+
+	printf ("Creating %d children\n", n);
+
+	for (i = 0; i < n; i++) {
+		char name[32];
+		sprintf (name, "S%d", i);
+		GsfOutput *child = gsf_outfile_new_child (outfile, name, FALSE);
+		if (!child) return FALSE;
+		if (!gsf_output_write (child, 1, (const guint8 *)"X")) return FALSE;
+		gsf_output_close (child);
+		g_object_unref (child);
+	}
+	return TRUE;
+}
+
+static gboolean
+test_read_many_streams (GsfInfile *infile, int n)
+{
+	int i;
+
+	printf ("Verifying %d children\n", n);
+
+	for (i = 0; i < n; i++) {
+		char name[32];
+		sprintf (name, "S%d", i);
+		GsfInput *child = gsf_infile_child_by_name (infile, name);
+		if (!child) {
+			fprintf (stderr, "Stream %s not found\n", name);
+			return FALSE;
+		}
+		g_object_unref (child);
+	}
+	return TRUE;
+}
+
 static int
 test (int argc, char *argv[])
 {
@@ -181,9 +224,12 @@ test (int argc, char *argv[])
 	GsfInfile  *infile;
 	GError     *err = NULL;
 	const char *filename = "test-archive.ole";
+	int num_extra = 0;
 
 	if (argc > 1)
 		filename = argv[1];
+	if (argc > 2)
+		num_extra = atoi (argv[2]);
 
 	/* Write */
 	output = gsf_output_stdio_new (filename, &err);
@@ -200,8 +246,16 @@ test (int argc, char *argv[])
 		return 1;
 	}
 
+	if (num_extra > 0) {
+		if (!test_write_many_streams (outfile, num_extra)) {
+			fprintf (stderr, "Failed to write many streams\n");
+			return 1;
+		}
+	}
+
 	if (!gsf_output_close (GSF_OUTPUT (outfile))) return 1;
 	g_object_unref (outfile);
+	printf ("Archive created.\n");
 
 	/* Read */
 	input = gsf_input_stdio_new (filename, &err);
@@ -221,6 +275,13 @@ test (int argc, char *argv[])
 	if (!test_read_streams (infile)) {
 		fprintf (stderr, "Failed to read streams back correctly\n");
 		return 1;
+	}
+
+	if (num_extra > 0) {
+		if (!test_read_many_streams (infile, num_extra)) {
+			fprintf (stderr, "Failed to read many streams back correctly\n");
+			return 1;
+		}
 	}
 
 	g_object_unref (infile);

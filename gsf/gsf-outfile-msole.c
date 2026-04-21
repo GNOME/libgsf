@@ -62,7 +62,7 @@ struct _GsfOutfileMSOle {
 
 	union {
 		struct {
-			GSList 	  *children;
+			GPtrArray *children;
 			GPtrArray *root_order;	/* only valid for the root */
 		} dir;
 		struct {
@@ -130,8 +130,10 @@ gsf_outfile_msole_finalize (GObject *obj)
 
 	switch (ole->type) {
 	case MSOLE_DIR:
-		g_slist_free (ole->content.dir.children);
-		ole->content.dir.children = NULL;
+		if (ole->content.dir.children != NULL) {
+			g_ptr_array_free (ole->content.dir.children, TRUE);
+			ole->content.dir.children = NULL;
+		}
 		if (ole->content.dir.root_order != NULL)
 			g_warning ("Finalizing a MSOle Outfile without closing it.");
 		break;
@@ -418,23 +420,22 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		tmp = gsf_output_container (GSF_OUTPUT (child));
 		next = DIRENT_MAGIC_END;
 		if (child->root != child && tmp != NULL) {
-			GSList *ptr = GSF_OUTFILE_MSOLE (tmp)->content.dir.children;
-			for (; ptr != NULL ; ptr = ptr->next)
-				if (ptr->data == child) {
-					if (ptr->next != NULL) {
-						GsfOutfileMSOle *sibling = ptr->next->data;
-						next = sibling->child_index;
-					}
-					break;
+			GPtrArray *children = GSF_OUTFILE_MSOLE (tmp)->content.dir.children;
+			guint idx;
+			if (g_ptr_array_find (children, child, &idx)) {
+				if (idx + 1 < children->len) {
+					GsfOutfileMSOle *sibling = g_ptr_array_index (children, idx + 1);
+					next = sibling->child_index;
 				}
+			}
 		}
 		/* make linked list rather than tree, only use next */
 		GSF_LE_SET_GUINT32 (buf + DIRENT_PREV, DIRENT_MAGIC_END);
 		GSF_LE_SET_GUINT32 (buf + DIRENT_NEXT, next);
 
 		child_index = DIRENT_MAGIC_END;
-		if (child->type == MSOLE_DIR && child->content.dir.children != NULL) {
-			GsfOutfileMSOle *first = child->content.dir.children->data;
+		if (child->type == MSOLE_DIR && child->content.dir.children != NULL && child->content.dir.children->len > 0) {
+			GsfOutfileMSOle *first = g_ptr_array_index (child->content.dir.children, 0);
 			child_index = first->child_index;
 		}
 		GSF_LE_SET_GUINT32 (buf + DIRENT_CHILD, child_index);
@@ -728,7 +729,7 @@ gsf_outfile_msole_new_child (GsfOutfile *parent,
 		GSF_OUTFILE_MSOLE_TYPE, first_property_name, args);
 	if (is_dir) {
 		child->type = MSOLE_DIR;
-		child->content.dir.children = NULL;
+		child->content.dir.children = g_ptr_array_new ();
 	} else {
 		/* start as small block */
 		child->type = MSOLE_SMALL_BLOCK;
@@ -741,9 +742,18 @@ gsf_outfile_msole_new_child (GsfOutfile *parent,
 	gsf_output_set_name (GSF_OUTPUT (child), name);
 	gsf_output_set_container (GSF_OUTPUT (child), parent);
 
-	ole_parent->content.dir.children = g_slist_insert_sorted (
-		ole_parent->content.dir.children, child,
-		(GCompareFunc)ole_name_cmp);
+	{
+		GPtrArray *children = ole_parent->content.dir.children;
+		guint lower = 0, upper = children->len;
+		while (lower < upper) {
+			guint mid = lower + (upper - lower) / 2;
+			if (ole_name_cmp (g_ptr_array_index (children, mid), child) < 0)
+				lower = mid + 1;
+			else
+				upper = mid;
+		}
+		g_ptr_array_insert (children, lower, child);
+	}
 	ole_register_child (ole_parent->root, child);
 
 	return GSF_OUTPUT (child);
@@ -758,8 +768,7 @@ gsf_outfile_msole_init (GObject *obj)
 	ole->root   = NULL;
 	ole->type   = MSOLE_DIR;
 
-	ole->content.dir.children = NULL;
-	ole->content.dir.root_order = NULL;
+	memset (&ole->content, 0, sizeof (ole->content));
 	memset (ole->clsid, 0, sizeof (ole->clsid));
 }
 
@@ -927,6 +936,7 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 			    "name", gsf_output_name (sink),
 			    NULL);
 	ole->type = MSOLE_DIR;
+	ole->content.dir.children = g_ptr_array_new ();
 	ole->content.dir.root_order = g_ptr_array_new ();
 	ole_register_child (ole, ole);
 

@@ -19,6 +19,7 @@ TESTS =	t1000-zip-single.pl				\
 	t1004-zip-zip64.pl				\
 	t1005-zip-nonseekable.pl			\
 	t1100-ole.pl					\
+	t1101-ole-many.pl				\
 	t8000-valgrind-zip.pl				\
 	t8020-valgrind-ole.pl				\
 	t9999-epilogue.pl
