@@ -52,13 +52,13 @@ enum {
 
 /**
  * gsf_output_iconv_new:
- * @sink: The underlying data source.
- * @dst: The target character set.
- * @src: The source character set.
+ * @sink: (transfer none): The underlying data source.
+ * @dst: (nullable): The target character set.  %NULL for "UTF-8"
+ * @src: (nullable): The source character set.  %NULL for "UTF-8"
  *
  * Adds a reference to @sink.
  *
- * Returns: a new GsfOutput object or %NULL.
+ * Returns: (transfer full) (nullable): a new GsfOutput object.
  **/
 GsfOutput *
 gsf_output_iconv_new (GsfOutput *sink, char const *dst, char const *src)

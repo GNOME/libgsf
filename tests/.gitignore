@@ -16,6 +16,7 @@ test-gio
 test-gzip1
 test-gzip2
 test-http
+test-iconv
 test-input1
 test-ls-zip
 test-msole-printf

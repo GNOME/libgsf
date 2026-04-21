@@ -20,6 +20,7 @@ TESTS =	t1000-zip-single.pl				\
 	t1005-zip-nonseekable.pl			\
 	t1100-ole.pl					\
 	t1101-ole-many.pl				\
+	t2000-iconv.pl					\
 	t8000-valgrind-zip.pl				\
 	t8020-valgrind-ole.pl				\
 	t9999-epilogue.pl
@@ -38,7 +39,7 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-out-gzip1 test-out-gzip2 test-gzip1 test-gzip2	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
-		 test-http test-gio test-xml test-ole
+		 test-http test-gio test-xml test-ole test-iconv
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TESTS)
 .PHONY: $(TESTS)
