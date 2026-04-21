@@ -8,6 +8,7 @@ Makefile.in
 ID
 test-bzip
 test-cat-zip
+test-compress
 test-cp
 test-cp-msole
 test-cp-zip
