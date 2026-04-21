@@ -11,6 +11,7 @@ test-cat-zip
 test-cp
 test-cp-msole
 test-cp-zip
+test-csv
 test-dump-msole
 test-gio
 test-gzip1
