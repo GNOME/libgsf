@@ -212,7 +212,8 @@ gsf_output_memory_class_init (GObjectClass *gobject_class)
  * gsf_output_memory_get_bytes:
  * @mem: the output device.
  *
- * Returns: (array) (nullable): The data that has been written to @mem
+ * Returns: (array) (nullable) (transfer none): The data that has been
+ * written to @mem
  **/
 const guint8 *
 gsf_output_memory_get_bytes (GsfOutputMemory * mem)
@@ -225,9 +226,9 @@ gsf_output_memory_get_bytes (GsfOutputMemory * mem)
  * gsf_output_memory_steal_bytes:
  * @mem: the output device.
  *
- * Returns: (array) (nullable): The data that has been written to @mem.
- * The caller takes ownership and the buffer belonging to @mem is set
- * to %NULL.
+ * Returns: (array) (nullable) (transfer full): The data that has been
+ * written to @mem.  The caller takes ownership and the buffer
+ * belonging to @mem is set to %NULL.
  **/
 guint8 *
 gsf_output_memory_steal_bytes (GsfOutputMemory * mem)

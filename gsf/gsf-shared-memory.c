@@ -2,7 +2,7 @@
 /*
  * gsf-shared-memory.c:
  *
- * Copyright (C) 2002-2006 Morten Welinder (terra@diku.dk)
+ * Copyright (C) 2002-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
@@ -36,6 +36,14 @@ typedef struct {
 
 static GObjectClass *parent_class;
 
+/**
+ * gsf_shared_memory_new:
+ * @buf: (transfer none): The memory area to share.
+ * @size: The size of @buf.
+ * @needs_free: Whether @buf should be freed with g_free when the object is finalized.
+ *
+ * Returns: (transfer full): a new #GsfSharedMemory object.
+ **/
 GsfSharedMemory *
 gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free)
 {
@@ -47,6 +55,13 @@ gsf_shared_memory_new (void *buf, gsf_off_t size, gboolean needs_free)
 	return mem;
 }
 
+/**
+ * gsf_shared_memory_mmapped_new:
+ * @buf: (transfer none): The mmapped memory area to share.
+ * @size: The size of @buf.
+ *
+ * Returns: (transfer full) (nullable): a new #GsfSharedMemory object.
+ **/
 GsfSharedMemory *
 gsf_shared_memory_mmapped_new (void *buf, gsf_off_t size)
 {

@@ -2,7 +2,7 @@
 /*
  * gsf-shared-memory.h
  *
- * Copyright (C) 2002-2006 Morten Welinder (terra@diku.dk)
+ * Copyright (C) 2002-2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2.1 of the GNU Lesser General Public
