@@ -40,6 +40,12 @@
 #define G_FLOAT_BYTE_ORDER G_BYTE_ORDER
 #endif
 
+/**
+ * gsf_debug_flag:
+ * @flag: The debug flag to check.
+ *
+ * Returns: %TRUE if the debug flag @flag is set in the GSF_DEBUG environment variable.
+ **/
 gboolean
 gsf_debug_flag (const char *flag)
 {
@@ -164,9 +170,10 @@ gsf_shutdown (void)
 
 /**
  * gsf_init_dynamic:
- * @module: #GTypeModule.
+ * @module: (nullable): #GTypeModule.
  *
- * Initializes the GSF library and associates it with a type module @mod.
+ * Initializes the GSF library and associates it with a type module @module.
+ * If @module is %NULL, types are registered statically.
  **/
 void
 gsf_init_dynamic (GTypeModule *module)
@@ -221,7 +228,7 @@ gsf_init_dynamic (GTypeModule *module)
 
 /**
  * gsf_shutdown_dynamic:
- * @module: currently unused
+ * @module: (nullable): #GTypeModule.
  *
  * De-intializes the GSF library from a type module.
  * Currently does nothing.
@@ -264,7 +271,7 @@ gsf_mem_dump_full (guint8 const *ptr, size_t len, gsf_off_t offset)
 
 /**
  * gsf_mem_dump:
- * @ptr: memory area to be dumped.
+ * @ptr: (transfer none) (array length=len): memory area to be dumped.
  * @len: how many bytes will be dumped.
  *
  * Dump @len bytes from the memory location given by @ptr.
@@ -354,7 +361,6 @@ gsf_le_get_guint64 (void const *p)
  * @p: pointer to storage
  *
  * Interpret binary data as a float in little endian order.
- *
  *
  * Returns: interpreted data
  */
@@ -568,9 +574,8 @@ gsf_iconv_close (GIConv handle)
  *    (unless it is invalid).
  *
  * A utility wrapper to make sure filenames are valid utf8.
- * Caller must g_free the result.
  *
- * Returns: @filename using utf-8 encoding for display
+ * Returns: (transfer full): @filename using utf-8 encoding for display
  **/
 char *
 gsf_filename_to_utf8 (char const *filename, gboolean quoted)
@@ -615,7 +620,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 
 /**
  * gsf_base64_encode_step:
- * @in: (array): input stream
+ * @in: (array length=len): input stream
  * @len: max length of data to decode
  * @break_lines: Whether to use line breaks
  * @out: (array): output stream
@@ -638,7 +643,7 @@ gsf_base64_encode_step (guint8 const *in, size_t len,
 
 /**
  * gsf_base64_decode_step:
- * @in: (array): input stream
+ * @in: (array length=len): input stream
  * @len: max length of data to decode
  * @out: (array): output stream
  * @state: (inout): holds the number of bits that are stored in @save
@@ -657,12 +662,12 @@ gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 
 /**
  * gsf_base64_encode_simple:
- * @data: (array): data stream
+ * @data: (array length=len): data stream
  * @len: length of data to encode
  *
  * Encodes data from @data back into @data using base64 encoding.
  *
- * Returns: the number of bytes encoded
+ * Returns: (transfer full): the encoded string.
  */
 guint8 *
 gsf_base64_encode_simple (guint8 const *data, size_t len)
@@ -688,7 +693,7 @@ gsf_base64_encode_simple (guint8 const *data, size_t len)
 
 /**
  * gsf_base64_decode_simple:
- * @data: (array): data stream
+ * @data: (array length=len): data stream
  * @len: max length of data to decode
  *
  * Decodes a chunk of base64 encoded data from @data back into @data.
@@ -709,12 +714,9 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 /* Largely a copy of g_object_new_valist.  */
 /**
  * gsf_property_settings_collect_valist:
- * @object_type: the GType for which the properties are being set.
- * @p_n_params: a pointer to the number of properties collected.  (Used for
- *   both input and output.)
- * @p_params: a pointer to the GParameter array that holds the properties.
- *   (Used for both input and output.  This may point to a %NULL pointer if
- *   there are no properties collected yet.)
+ * @object_type: the #GType for which the properties are being set.
+ * @p_params: (inout): a pointer to the #GParameter array that holds the properties.
+ * @p_n_params: (inout): a pointer to the number of properties collected.
  * @first_property_name: the name of the first property being set, or %NULL.
  * @var_args: a va_list holding the remainder of the property names and
  *   values, terminated by a %NULL.
@@ -778,7 +780,16 @@ gsf_property_settings_collect_valist (GType object_type,
   *p_n_params = n_params;
 }
 
-/* This is a vararg version of gsf_property_settings_collect_valist.  */
+/**
+ * gsf_property_settings_collect:
+ * @object_type: the #GType for which the properties are being set.
+ * @p_params: (inout): a pointer to the #GParameter array that holds the properties.
+ * @p_n_params: (inout): a pointer to the number of properties collected.
+ * @first_property_name: the name of the first property being set, or %NULL.
+ * @...: the remainder of the property names and values, terminated by %NULL.
+ *
+ * This function builds a GParameter array suitable for g_object_newv.
+ **/
 void
 gsf_property_settings_collect (GType object_type,
 			       GParameter **p_params,
@@ -786,17 +797,20 @@ gsf_property_settings_collect (GType object_type,
 			       const gchar *first_property_name,
 			       ...)
 {
-  va_list var_args;
-  va_start (var_args, first_property_name);
-  gsf_property_settings_collect_valist (object_type, p_params, p_n_params, first_property_name, var_args);
-  va_end (var_args);
+	va_list var_args;
+	va_start (var_args, first_property_name);
+	gsf_property_settings_collect_valist (object_type, p_params, p_n_params,
+					      first_property_name, var_args);
+	va_end (var_args);
 }
 
 /**
  * gsf_property_settings_find:
- * @name:
- * @params: (array length=n_params):
- * @n_params:
+ * @name: The name of the property to find.
+ * @params: (array length=n_params): The #GParameter array to search.
+ * @n_params: The number of parameters in the array.
+ *
+ * Returns: (transfer none) (nullable): the #GParameter with @name in @params, or %NULL.
  */
 const GParameter *
 gsf_property_settings_find (const char *name,
@@ -814,12 +828,11 @@ gsf_property_settings_find (const char *name,
 
 /**
  * gsf_property_settings_free:
- * @params: (array length=n_params) (transfer full):
- * @n_params:
+ * @params: (array length=n_params) (transfer full): The #GParameter array to free.
+ * @n_params: The number of parameters in the array.
  */
 void
-gsf_property_settings_free (GParameter *params,
-			    size_t n_params)
+gsf_property_settings_free (GParameter *params, size_t n_params)
 {
 	while (n_params--)
 		g_value_unset (&params[n_params].value);
