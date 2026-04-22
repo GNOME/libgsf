@@ -37,9 +37,9 @@ test (void)
 	const char expected1[] = "Field1,\"Field,2\",\"Field\"\"3\"\"\"\n";
 	
 	if (size != (gsf_off_t)strlen (expected1) || memcmp (buf, expected1, size) != 0) {
-		fprintf (stderr, "Test 1 failed\n");
-		fprintf (stderr, "Expected: %s", expected1);
-		fprintf (stderr, "Got:      %.*s", (int)size, (const char *)buf);
+		g_printerr ("Test 1 failed\n");
+		g_printerr ("Expected: %s", expected1);
+		g_printerr ("Got:      %.*s", (int)size, (const char *)buf);
 		return 1;
 	}
 	g_object_unref (csv);
@@ -63,13 +63,13 @@ test (void)
 	const char expected2[] = "\"A\";\"B\"\n";
 
 	if (size != (gsf_off_t)strlen (expected2) || memcmp (buf, expected2, size) != 0) {
-		fprintf (stderr, "Test 2 failed\n");
+		g_printerr ("Test 2 failed\n");
 		return 1;
 	}
 	g_object_unref (csv);
 	g_object_unref (sink);
 
-	printf ("CSV test passed\n");
+	g_print ("CSV test passed\n");
 	return 0;
 }
 

@@ -21,6 +21,7 @@ test-http
 test-iconv
 test-input1
 test-ls-zip
+test-msole-dup
 test-msole-printf
 test-msole1
 test-msole2

@@ -36,27 +36,27 @@ test_gzip (const char *orig_data, size_t orig_len)
 	gsf_off_t compressed_size;
 	GError *err = NULL;
 
-	printf ("Testing GZip...\n");
+	g_print ("Testing GZip...\n");
 
 	/* Compress */
 	sink = GSF_OUTPUT_MEMORY (gsf_output_memory_new ());
 	gzip_out = gsf_output_gzip_new (GSF_OUTPUT (sink), &err);
 	if (!gzip_out) {
-		fprintf (stderr, "Failed to create GsfOutputGZip: %s\n", err->message);
+		g_printerr ("Failed to create GsfOutputGZip: %s\n", err->message);
 		g_error_free (err);
 		return 1;
 	}
 
 	if (!gsf_output_write (gzip_out, orig_len, (const guint8 *)orig_data)) {
-		fprintf (stderr, "Failed to write to GZip output\n");
+		g_printerr ("Failed to write to GZip output\n");
 		return 1;
 	}
 	gsf_output_close (gzip_out);
 	compressed_size = gsf_output_size (GSF_OUTPUT (sink));
-	printf ("  Original size: %zu, Compressed size: %" GSF_OFF_T_FORMAT "\n", orig_len, compressed_size);
+	g_print ("  Original size: %zu, Compressed size: %" GSF_OFF_T_FORMAT "\n", orig_len, compressed_size);
 
 	if (compressed_size * 4 > (gsf_off_t)orig_len) {
-		fprintf (stderr, "  Compression ratio too low!\n");
+		g_printerr ("  Compression ratio too low!\n");
 		return 1;
 	}
 
@@ -64,18 +64,18 @@ test_gzip (const char *orig_data, size_t orig_len)
 	input_compressed = gsf_input_memory_new (gsf_output_memory_get_bytes (sink), compressed_size, FALSE);
 	gzip_in = gsf_input_gzip_new (input_compressed, &err);
 	if (!gzip_in) {
-		fprintf (stderr, "Failed to create GsfInputGZip: %s\n", err ? err->message : "unknown");
+		g_printerr ("Failed to create GsfInputGZip: %s\n", err ? err->message : "unknown");
 		return 1;
 	}
 
 	decompressed = g_malloc (orig_len);
 	if (!gsf_input_read (gzip_in, orig_len, decompressed)) {
-		fprintf (stderr, "Failed to read from GZip input\n");
+		g_printerr ("Failed to read from GZip input\n");
 		return 1;
 	}
 
 	if (memcmp (decompressed, orig_data, orig_len) != 0) {
-		fprintf (stderr, "  Decompressed data mismatch!\n");
+		g_printerr ("  Decompressed data mismatch!\n");
 		return 1;
 	}
 
@@ -85,7 +85,7 @@ test_gzip (const char *orig_data, size_t orig_len)
 	g_object_unref (gzip_out);
 	g_object_unref (sink);
 
-	printf ("  GZip test passed.\n");
+	g_print ("  GZip test passed.\n");
 	return 0;
 }
 
@@ -100,28 +100,28 @@ test_bzip (const char *orig_data, size_t orig_len)
 	gsf_off_t compressed_size;
 	GError *err = NULL;
 
-	printf ("Testing BZip2...\n");
+	g_print ("Testing BZip2...\n");
 
 	/* Compress */
 	sink = GSF_OUTPUT_MEMORY (gsf_output_memory_new ());
 	bzip_out = gsf_output_bzip_new (GSF_OUTPUT (sink), &err);
 	if (!bzip_out) {
-		printf ("  BZip2 not supported or initialization failed: %s\n", err->message);
+		g_print ("  BZip2 not supported or initialization failed: %s\n", err->message);
 		g_error_free (err);
 		g_object_unref (sink);
 		return 0; /* Not an error */
 	}
 
 	if (!gsf_output_write (bzip_out, orig_len, (const guint8 *)orig_data)) {
-		fprintf (stderr, "Failed to write to BZip2 output\n");
+		g_printerr ("Failed to write to BZip2 output\n");
 		return 1;
 	}
 	gsf_output_close (bzip_out);
 	compressed_size = gsf_output_size (GSF_OUTPUT (sink));
-	printf ("  Original size: %zu, Compressed size: %" GSF_OFF_T_FORMAT "\n", orig_len, compressed_size);
+	g_print ("  Original size: %zu, Compressed size: %" GSF_OFF_T_FORMAT "\n", orig_len, compressed_size);
 
 	if (compressed_size * 4 > (gsf_off_t)orig_len) {
-		fprintf (stderr, "  Compression ratio too low!\n");
+		g_printerr ("  Compression ratio too low!\n");
 		return 1;
 	}
 
@@ -129,23 +129,23 @@ test_bzip (const char *orig_data, size_t orig_len)
 	input_compressed = gsf_input_memory_new (gsf_output_memory_get_bytes (sink), compressed_size, FALSE);
 	bzip_in = gsf_input_memory_new_from_bzip (input_compressed, &err);
 	if (!bzip_in) {
-		fprintf (stderr, "Failed to create BZip input: %s\n", err ? err->message : "unknown");
+		g_printerr ("Failed to create BZip input: %s\n", err ? err->message : "unknown");
 		return 1;
 	}
 
 	if (gsf_input_size (bzip_in) != (gsf_off_t)orig_len) {
-		fprintf (stderr, "  Decompressed size mismatch!\n");
+		g_printerr ("  Decompressed size mismatch!\n");
 		return 1;
 	}
 
 	decompressed = gsf_input_read (bzip_in, orig_len, NULL);
 	if (!decompressed) {
-		fprintf (stderr, "Failed to read from BZip input\n");
+		g_printerr ("Failed to read from BZip input\n");
 		return 1;
 	}
 
 	if (memcmp (decompressed, orig_data, orig_len) != 0) {
-		fprintf (stderr, "  Decompressed data mismatch!\n");
+		g_printerr ("  Decompressed data mismatch!\n");
 		return 1;
 	}
 
@@ -154,7 +154,7 @@ test_bzip (const char *orig_data, size_t orig_len)
 	g_object_unref (bzip_out);
 	g_object_unref (sink);
 
-	printf ("  BZip2 test passed.\n");
+	g_print ("  BZip2 test passed.\n");
 	return 0;
 }
 

@@ -30,7 +30,7 @@ test_write_streams (GsfOutfile *outfile)
 	GsfDocMetaData *meta;
 	GValue *val;
 
-	printf ("Creating archive\n");
+	g_print ("Creating archive\n");
 
 	/* Data streams */
 	child = gsf_outfile_new_child (outfile, "Stream1", FALSE);
@@ -88,16 +88,16 @@ verify_prop (GsfDocMetaData *meta, const char *name, const char *expected_val)
 {
 	GsfDocProp *prop = gsf_doc_meta_data_lookup (meta, name);
 	if (!prop) {
-		fprintf (stderr, "Property %s not found\n", name);
+		g_printerr ("Property %s not found\n", name);
 		return FALSE;
 	}
 	const GValue *val = gsf_doc_prop_get_val (prop);
 	if (!G_VALUE_HOLDS_STRING (val)) {
-		fprintf (stderr, "Property %s is not a string\n", name);
+		g_printerr ("Property %s is not a string\n", name);
 		return FALSE;
 	}
 	if (strcmp (g_value_get_string (val), expected_val) != 0) {
-		fprintf (stderr, "Property %s mismatch: expected %s, got %s\n", 
+		g_printerr ("Property %s mismatch: expected %s, got %s\n", 
 			 name, expected_val, g_value_get_string (val));
 		return FALSE;
 	}
@@ -113,12 +113,12 @@ test_read_streams (GsfInfile *infile)
 	GsfDocMetaData *meta;
 	GError *err = NULL;
 
-	printf ("Verifying archive\n");
+	g_print ("Verifying archive\n");
 
 	/* Data streams */
 	child = gsf_infile_child_by_name (infile, "Stream1");
 	if (!child) {
-		fprintf (stderr, "Stream1 not found\n");
+		g_printerr ("Stream1 not found\n");
 		return FALSE;
 	}
 	size = gsf_input_size (child);
@@ -129,7 +129,7 @@ test_read_streams (GsfInfile *infile)
 
 	child = gsf_infile_child_by_name (infile, "Stream2");
 	if (!child) {
-		fprintf (stderr, "Stream2 not found\n");
+		g_printerr ("Stream2 not found\n");
 		return FALSE;
 	}
 	size = gsf_input_size (child);
@@ -141,13 +141,13 @@ test_read_streams (GsfInfile *infile)
 	/* Summary Information */
 	child = gsf_infile_child_by_name (infile, "\005SummaryInformation");
 	if (!child) {
-		fprintf (stderr, "SummaryInformation not found\n");
+		g_printerr ("SummaryInformation not found\n");
 		return FALSE;
 	}
 	meta = gsf_doc_meta_data_new ();
 	err = gsf_doc_meta_data_read_from_msole (meta, child);
 	if (err) {
-		fprintf (stderr, "Error reading SummaryInformation: %s\n", err->message);
+		g_printerr ("Error reading SummaryInformation: %s\n", err->message);
 		g_error_free (err);
 		return FALSE;
 	}
@@ -159,13 +159,13 @@ test_read_streams (GsfInfile *infile)
 	/* Document Summary Information */
 	child = gsf_infile_child_by_name (infile, "\005DocumentSummaryInformation");
 	if (!child) {
-		fprintf (stderr, "DocumentSummaryInformation not found\n");
+		g_printerr ("DocumentSummaryInformation not found\n");
 		return FALSE;
 	}
 	meta = gsf_doc_meta_data_new ();
 	err = gsf_doc_meta_data_read_from_msole (meta, child);
 	if (err) {
-		fprintf (stderr, "Error reading DocumentSummaryInformation: %s\n", err->message);
+		g_printerr ("Error reading DocumentSummaryInformation: %s\n", err->message);
 		g_error_free (err);
 		return FALSE;
 	}
@@ -181,7 +181,7 @@ test_write_many_streams (GsfOutfile *outfile, int n)
 {
 	int i;
 
-	printf ("Creating %d children\n", n);
+	g_print ("Creating %d children\n", n);
 
 	for (i = 0; i < n; i++) {
 		char name[32];
@@ -200,14 +200,14 @@ test_read_many_streams (GsfInfile *infile, int n)
 {
 	int i;
 
-	printf ("Verifying %d children\n", n);
+	g_print ("Verifying %d children\n", n);
 
 	for (i = 0; i < n; i++) {
 		char name[32];
 		sprintf (name, "S%d", i);
 		GsfInput *child = gsf_infile_child_by_name (infile, name);
 		if (!child) {
-			fprintf (stderr, "Stream %s not found\n", name);
+			g_printerr ("Stream %s not found\n", name);
 			return FALSE;
 		}
 		g_object_unref (child);
@@ -234,7 +234,7 @@ test (int argc, char *argv[])
 	/* Write */
 	output = gsf_output_stdio_new (filename, &err);
 	if (!output) {
-		fprintf (stderr, "Failed to create output: %s\n", err->message);
+		g_printerr ("Failed to create output: %s\n", err->message);
 		g_error_free (err);
 		return 1;
 	}
@@ -242,44 +242,44 @@ test (int argc, char *argv[])
 	g_object_unref (output);
 
 	if (!test_write_streams (outfile)) {
-		fprintf (stderr, "Failed to write streams\n");
+		g_printerr ("Failed to write streams\n");
 		return 1;
 	}
 
 	if (num_extra > 0) {
 		if (!test_write_many_streams (outfile, num_extra)) {
-			fprintf (stderr, "Failed to write many streams\n");
+			g_printerr ("Failed to write many streams\n");
 			return 1;
 		}
 	}
 
 	if (!gsf_output_close (GSF_OUTPUT (outfile))) return 1;
 	g_object_unref (outfile);
-	printf ("Archive created.\n");
+	g_print ("Archive created.\n");
 
 	/* Read */
 	input = gsf_input_stdio_new (filename, &err);
 	if (!input) {
-		fprintf (stderr, "Failed to open input: %s\n", err->message);
+		g_printerr ("Failed to open input: %s\n", err->message);
 		g_error_free (err);
 		return 1;
 	}
 	infile = gsf_infile_msole_new (input, &err);
 	if (!infile) {
-		fprintf (stderr, "Failed to open OLE infile: %s\n", err ? err->message : "unknown error");
+		g_printerr ("Failed to open OLE infile: %s\n", err ? err->message : "unknown error");
 		if (err) g_error_free (err);
 		g_object_unref (input);
 		return 1;
 	}
 
 	if (!test_read_streams (infile)) {
-		fprintf (stderr, "Failed to read streams back correctly\n");
+		g_printerr ("Failed to read streams back correctly\n");
 		return 1;
 	}
 
 	if (num_extra > 0) {
 		if (!test_read_many_streams (infile, num_extra)) {
-			fprintf (stderr, "Failed to read many streams back correctly\n");
+			g_printerr ("Failed to read many streams back correctly\n");
 			return 1;
 		}
 	}
@@ -287,7 +287,7 @@ test (int argc, char *argv[])
 	g_object_unref (infile);
 	g_object_unref (input);
 
-	printf ("OLE read/write test passed\n");
+	g_print ("OLE read/write test passed\n");
 	return 0;
 }
 
