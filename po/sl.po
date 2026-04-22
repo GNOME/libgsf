@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2026-04-21 02:11+0000\n"
-"PO-Revision-Date: 2026-04-22 07:52+0200\n"
+"POT-Creation-Date: 2026-04-22 12:58+0000\n"
+"PO-Revision-Date: 2026-04-22 19:47+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,15 +22,17 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 3.8\n"
 
-#: gsf/gsf-blob.c:112
-msgid "Not enough memory to copy %"
-msgstr "Ni dovolj pomnilnika za kopiranje %"
+#: gsf/gsf-blob.c:115
+#, c-format
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Ni dovolj pomnilnika za kopiranje %s bajtov podatkov"
 
-#: gsf/gsf-clip-data.c:162
-msgid "The clip_data is in %s, but it is smaller than at least %"
-msgstr "Clip_data je del %s, vendar je manjši kot %"
+#: gsf/gsf-clip-data.c:165
+#, c-format
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr "Clip_data je del %s, vendar je manjši kot %s bajtov"
 
-#: gsf/gsf-clip-data.c:255
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
@@ -38,16 +40,16 @@ msgstr ""
 "Clip_data je običajni Windows zapis odložišča, vendar je manjši od "
 "zahtevanih 4 bajtov."
 
-#: gsf/gsf-clip-data.c:266
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Zapis Windows Metafile"
 
 #. CF_BITMAP
-#: gsf/gsf-clip-data.c:272
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Zapis Windows DIB ali BITMAP"
 
-#: gsf/gsf-clip-data.c:277
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Zapis Windows Enhanced Metafile"
 
@@ -336,45 +338,51 @@ msgstr "Ponor"
 msgid "The destination for writes"
 msgstr "Cilj za izvozne datoteke"
 
-#: gsf/gsf-msole-utils.c:333
-msgid "Missing data when reading the %s property; got %"
-msgstr "Manjkajoči podatki med branjem lastnosti %s; dobljeno %"
+#: gsf/gsf-msole-utils.c:337
+#, c-format
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"Manjkajoči podatki med branjem lastnosti %s; dobljeno %s bajtov, potrebno pa "
+"je najmanj %s bajtov."
 
-#: gsf/gsf-msole-utils.c:379
+#: gsf/gsf-msole-utils.c:388
+#, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
+"bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Pokvarjeni podatki lastnosti VT_CF; velikost podatkov odložišča mora biti "
-"vsaj 4 bajte, podatki pa kažejo na le %"
+"vsaj 4 bajte, podatki pa kažejo na le %s razpoložljivih bajtov."
 
-#: gsf/gsf-msole-utils.c:1183 gsf/gsf-msole-utils.c:1227
+#: gsf/gsf-msole-utils.c:1193 gsf/gsf-msole-utils.c:1237
 msgid "Unable to read MS property stream header"
 msgstr "Glave pretoka lastnosti MS ni mogoče brati"
 
-#: gsf/gsf-msole-utils.c:1210
+#: gsf/gsf-msole-utils.c:1220
 msgid "Invalid MS property stream header"
 msgstr "Neveljavna glava pretoka lastnosti MS"
 
-#: gsf/gsf-msole-utils.c:1257 gsf/gsf-msole-utils.c:1295
-#: gsf/gsf-msole-utils.c:1319
+#: gsf/gsf-msole-utils.c:1267 gsf/gsf-msole-utils.c:1305
+#: gsf/gsf-msole-utils.c:1329
 msgid "Invalid MS property section"
 msgstr "Neveljaven odsek lastnosti MS"
 
-#: gsf/gsf-msole-utils.c:1276 gsf/gsf-msole-utils.c:1280
+#: gsf/gsf-msole-utils.c:1286 gsf/gsf-msole-utils.c:1290
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Neveljavna glava pretoka lastnosti MS ali prirezana datoteka"
 
-#: gsf/gsf-opendoc-utils.c:365
+#: gsf/gsf-opendoc-utils.c:367
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Lastnost \"%s\" je uporabljena za več vrst!"
 
-#: gsf/gsf-opendoc-utils.c:900
+#: gsf/gsf-opendoc-utils.c:903
 msgid "ODF version"
 msgstr "Različica ODF"
 
-#: gsf/gsf-opendoc-utils.c:901
+#: gsf/gsf-opendoc-utils.c:904
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr ""
 "Različica ODF, na katerega cilja predmet, določena kot celo število; na "
