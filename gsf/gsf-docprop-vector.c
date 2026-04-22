@@ -113,32 +113,32 @@ G_GNUC_END_IGNORE_DEPRECATIONS
  * This function returns a string which represents all the GValues in @vector.
  * The caller is responsible for freeing the result.
  *
- * Returns (transfer full): a string of comma-separated values
+ * Returns: (transfer full): a string of comma-separated values
  **/
 gchar*
 gsf_docprop_vector_as_string (GsfDocPropVector const *vector)
 {
-	gchar		*rstring;
-	guint		 i;
-	guint		 num_values;
+	GString *res;
+	guint    i;
 
 	g_return_val_if_fail (vector != NULL, NULL);
 	g_return_val_if_fail (vector->ga != NULL, NULL);
 
-	rstring    = g_new0 (gchar, 1);
-	num_values = vector->ga->len;
+	res = g_string_new (NULL);
 
-	for (i = 0; i < num_values; i++) {
+	for (i = 0; i < vector->ga->len; i++) {
 		char    *str;
 		GValue	*v;
 
 		v = &g_array_index (vector->ga, GValue, i);
 		str = g_strdup_value_contents (v);
-		rstring = g_strconcat (rstring, str, ",", NULL);
+		if (res->len > 0)
+			g_string_append_c (res, ',');
+		g_string_append (res, str);
 		g_free (str);
 	}
 
-	return rstring;
+	return g_string_free (res, FALSE);
 }
 
 static void

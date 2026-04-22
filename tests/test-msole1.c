@@ -47,6 +47,7 @@ read_types (char const *fname, GPtrArray **types)
 	if (!file) {
 		char *newname = g_strconcat ("../", fname, NULL);
 		file = fopen (newname, "r");
+		g_free (newname);
 	}
 	if (!file) {
 		g_printerr ("Can't find vital file '%s'\n", fname);
