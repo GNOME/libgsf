@@ -230,8 +230,10 @@ od_get_meta_prop (GsfXMLIn *xin, char const *prop_name, GType g_type)
 	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str))
 		gsf_doc_meta_data_insert (((GsfOOMetaIn *)xin->user_state)->md,
 			g_strdup (prop_name), res);
-	else
+	else {
+		g_value_unset (res);
 		g_free (res);
+	}
 }
 
 /* Avoid duplication */
@@ -375,6 +377,7 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 			gsf_doc_meta_data_insert (mi->md, mi->name, res);
 		} else {
+			g_value_unset (res);
 			g_free (res);
 			g_free (mi->name);
 		}
