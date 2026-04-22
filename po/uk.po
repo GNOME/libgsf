@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgsf master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
-"POT-Creation-Date: 2026-04-21 02:11+0000\n"
-"PO-Revision-Date: 2026-04-22 15:42+0300\n"
+"POT-Creation-Date: 2026-04-22 12:58+0000\n"
+"PO-Revision-Date: 2026-04-22 16:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21,15 +21,20 @@ msgstr ""
 "X-Generator: Lokalize 23.04.3\n"
 "X-Project-Style: gnome\n"
 
-#: gsf/gsf-blob.c:112
-msgid "Not enough memory to copy %"
-msgstr "Недостатньо пам'яті для копіювання %"
+#: gsf/gsf-blob.c:115
+#, c-format
+#| msgid "Not enough memory to copy %"
+msgid "Not enough memory to copy %s bytes of data"
+msgstr "Недостатньо пам'яті для копіювання %s байтів даних"
 
-#: gsf/gsf-clip-data.c:162
-msgid "The clip_data is in %s, but it is smaller than at least %"
-msgstr "Розмір clip_data становить %s, але це менше за мінімальне значення %"
+#: gsf/gsf-clip-data.c:165
+#, c-format
+#| msgid "The clip_data is in %s, but it is smaller than at least %"
+msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
+msgstr ""
+"Розмір clip_data становить %s, але це менше за мінімальне значення %s  байт"
 
-#: gsf/gsf-clip-data.c:255
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
@@ -37,16 +42,16 @@ msgstr ""
 "Clip_data має формат буфера обміну Windows, але його розмір менший потрібних "
 "4 байти."
 
-#: gsf/gsf-clip-data.c:266
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
 msgstr "Формат Windows Metafile"
 
 #. CF_BITMAP
-#: gsf/gsf-clip-data.c:272
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
 msgstr "Формат Windows DIB або BITMAP"
 
-#: gsf/gsf-clip-data.c:277
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
 msgstr "Формат для Windows Enhanced Metafile"
 
@@ -339,48 +344,55 @@ msgstr "Приймач"
 msgid "The destination for writes"
 msgstr "Призначення для запису"
 
-#: gsf/gsf-msole-utils.c:333
-msgid "Missing data when reading the %s property; got %"
-msgstr "При читанні властивості %s не вистачило даних, одержано %"
+#: gsf/gsf-msole-utils.c:337
+#, c-format
+#| msgid "Missing data when reading the %s property; got %"
+msgid ""
+"Missing data when reading the %s property; got %s bytes, but %s bytes at "
+"least are needed."
+msgstr ""
+"При читанні властивості %s не вистачило даних, одержано %s байт, але "
+"потрібно %s байтів."
 
-#: gsf/gsf-msole-utils.c:379
+#: gsf/gsf-msole-utils.c:388
+#, c-format
 #| msgid ""
 #| "Corrupt data in the VT_CF property; clipboard data length must be at "
-#| "least 4 bytes, but the data says it only has %s bytes available."
+#| "least 4 bytes, but the data says it only has %"
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
-"bytes, but the data says it only has %"
+"bytes, but the data says it only has %s bytes available."
 msgstr ""
 "Пошкоджено дані у властивості VT_CF ; розмір даних буфера обміну повинен "
-"бути щонайменше 4 байти, але згідно з даними доступно лише %"
+"бути щонайменше 4 байти, але згідно з даними доступно лише %s байтів."
 
-#: gsf/gsf-msole-utils.c:1183 gsf/gsf-msole-utils.c:1227
+#: gsf/gsf-msole-utils.c:1193 gsf/gsf-msole-utils.c:1237
 msgid "Unable to read MS property stream header"
 msgstr "Не вдалося прочитати заголовок потоку властивостей MS"
 
-#: gsf/gsf-msole-utils.c:1210
+#: gsf/gsf-msole-utils.c:1220
 msgid "Invalid MS property stream header"
 msgstr "Некоректний заголовок потоку властивостей MS"
 
-#: gsf/gsf-msole-utils.c:1257 gsf/gsf-msole-utils.c:1295
-#: gsf/gsf-msole-utils.c:1319
+#: gsf/gsf-msole-utils.c:1267 gsf/gsf-msole-utils.c:1305
+#: gsf/gsf-msole-utils.c:1329
 msgid "Invalid MS property section"
 msgstr "Некоректний розділ властивості MS"
 
-#: gsf/gsf-msole-utils.c:1276 gsf/gsf-msole-utils.c:1280
+#: gsf/gsf-msole-utils.c:1286 gsf/gsf-msole-utils.c:1290
 msgid "Invalid MS property stream header or file truncated"
 msgstr "Некоректний заголовок потоку властивостей MS або файл було обрізано"
 
-#: gsf/gsf-opendoc-utils.c:365
+#: gsf/gsf-opendoc-utils.c:367
 #, c-format
 msgid "Property \"%s\" used for multiple types!"
 msgstr "Властивість «%s» використано декілька разів!"
 
-#: gsf/gsf-opendoc-utils.c:900
+#: gsf/gsf-opendoc-utils.c:903
 msgid "ODF version"
 msgstr "Версія ODF"
 
-#: gsf/gsf-opendoc-utils.c:901
+#: gsf/gsf-opendoc-utils.c:904
 msgid "The ODF version this object is targeting as an integer like 100"
 msgstr "Версія ODF цього об'єкта має бути цілим числом, наприклад 100"
 
