@@ -951,7 +951,7 @@ gsf_infile_msole_child_by_index (GsfInfile *infile, int target, GError **err)
 	if (err)
 		*err = NULL;
 
-	if (children == NULL && target >= 0 && (unsigned)target < children->len)
+	if (children != NULL && target >= 0 && (unsigned)target < children->len)
 		return gsf_infile_msole_new_child
 			(ole, g_ptr_array_index (children, target), err);
 

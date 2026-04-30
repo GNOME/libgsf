@@ -215,6 +215,60 @@ test_read_many_streams (GsfInfile *infile, int n)
 	return TRUE;
 }
 
+static gboolean
+test_read_by_index (GsfInfile *infile, int num_extra)
+{
+	int i, n;
+	int found_extra = 0;
+	gboolean found1 = FALSE, found2 = FALSE;
+	gboolean found_summary = FALSE, found_doc_summary = FALSE;
+
+	n = gsf_infile_num_children (infile);
+	g_print ("Verifying %d children by index\n", n);
+
+	for (i = 0; i < n; i++) {
+		GsfInput *child = gsf_infile_child_by_index (infile, i);
+		if (!child) {
+			g_printerr ("Child at index %d is NULL\n", i);
+			return FALSE;
+		}
+		const char *name = gsf_input_name (child);
+		if (strcmp (name, "Stream1") == 0) found1 = TRUE;
+		else if (strcmp (name, "Stream2") == 0) found2 = TRUE;
+		else if (strcmp (name, "\005SummaryInformation") == 0) found_summary = TRUE;
+		else if (strcmp (name, "\005DocumentSummaryInformation") == 0) found_doc_summary = TRUE;
+		else if (name[0] == 'S' && g_ascii_isdigit (name[1])) {
+			int idx = atoi (name + 1);
+			if (idx >= 0 && idx < num_extra)
+				found_extra++;
+		}
+
+		g_object_unref (child);
+	}
+
+	if (!found1 || !found2 || !found_summary || !found_doc_summary) {
+		g_printerr ("Not all expected standard children found by index\n");
+		return FALSE;
+	}
+
+	if (found_extra != num_extra) {
+		g_printerr ("Found %d extra children, expected %d\n", found_extra, num_extra);
+		return FALSE;
+	}
+
+	/* Test out of bounds */
+	if (gsf_infile_child_by_index (infile, -1) != NULL) {
+		g_printerr ("Index -1 should return NULL\n");
+		return FALSE;
+	}
+	if (gsf_infile_child_by_index (infile, n) != NULL) {
+		g_printerr ("Index %d should return NULL\n", n);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 static int
 test (int argc, char *argv[])
 {
@@ -274,6 +328,11 @@ test (int argc, char *argv[])
 
 	if (!test_read_streams (infile)) {
 		g_printerr ("Failed to read streams back correctly\n");
+		return 1;
+	}
+
+	if (!test_read_by_index (infile, num_extra)) {
+		g_printerr ("Failed to read streams back by index correctly\n");
 		return 1;
 	}
 
