@@ -236,11 +236,27 @@ read_thumbnail_and_write (const char *in_filename, const char *out_filename, int
 	input = gsf_input_uncompress (input);
 
 	error = NULL;
-	if (NULL != (infile = gsf_infile_msole_new (input, &error)))
+	gboolean done = FALSE;
+
+	// Messy.  We try msole and zip.  If nothing works, which
+	// error should we print?  Punt and use the last.
+
+	infile = gsf_infile_msole_new (input, &error);
+	if (infile) {
 		msole_thumbnail (infile, out_filename, thumb_size);
-	else if (NULL != (infile = gsf_infile_zip_new (input, &error)))
-		zip_thumbnail (infile, out_filename, thumb_size);
-	else
+		done = TRUE;
+	}
+	g_clear_error (&error);
+
+	if (!done) {
+		infile = gsf_infile_zip_new (input, &error);
+		if (infile) {
+			zip_thumbnail (infile, out_filename, thumb_size);
+			done = TRUE;
+		}
+	}
+
+	if (!done)
 		show_error_and_exit (error);
 
 	g_clear_error (&error);
