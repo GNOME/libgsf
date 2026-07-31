@@ -269,8 +269,11 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 
 	parent->info->sb.bat.num_blocks = meta_sbat.num_blocks * (parent->info->bb.size / BAT_INDEX_SIZE);
 	parent->info->sb.bat.block = g_try_new0 (guint32, parent->info->sb.bat.num_blocks);
-	if (!parent->info->sb.bat.block)
+	if (!parent->info->sb.bat.block) {
+		// OOM or zero-size allocation
+		ols_bat_release (&meta_sbat);
 		return NULL;
+	}
 
 	ole_info_read_metabat (parent, parent->info->sb.bat.block,
 		parent->info->sb.bat.num_blocks,
@@ -368,6 +371,17 @@ ole_dirent_new (GsfInfileMSOle *ole, guint32 entry, MSOleDirent *parent,
 
 		if (entry >= (guint32)DIRENT_MAGIC_END)
 			continue;
+
+		// The root directory entry has no siblings, so its "prev"
+		// and "next" links -- queued below with a NULL parent --
+		// should always be DIRENT_MAGIC_END.  A malformed file can
+		// point them at further entries, and each one reaching the
+		// "ole->dirent = dirent" below would overwrite the root we
+		// already built, leaking that whole tree
+		if (parent == NULL && ole->dirent != NULL) {
+			g_warning ("Multiple root directory entries");
+			continue;
+		}
 
 		if (entry >= G_MAXUINT / DIRENT_SIZE ||
 		    entry >= seen_before->len ||

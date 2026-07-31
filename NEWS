@@ -5,6 +5,7 @@ Morten:
 	* Plug leak [#49]
 	* Improve thread safety of GSF_CLASS_FULL [#52]
 	* Fix zip read for corrupted stream.  [#50]
+	* Fix ole2 leaks.
 
 --------------------------------------------------------------------------
 libgsf 1.14.58
