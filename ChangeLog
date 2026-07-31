@@ -1,5 +1,9 @@
 2026-07-31  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-msole-utils.c (gsf_doc_meta_data_read_from_msole): Plug
+	leak related to malformed ole2 properties sections.  Patch from
+	Christian Grothoff <grothoff@gnu.org>.
+
 	* gsf/gsf-infile-msole.c (ole_dirent_new): Plug minor leaks.
 	Patch from Christian Grothoff <grothoff@gnu.org>.
 

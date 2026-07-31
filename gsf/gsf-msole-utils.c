@@ -1343,6 +1343,13 @@ gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
 					GValue const *val = gsf_doc_prop_get_val (prop);
 					if (NULL != val && G_VALUE_HOLDS_INT (val)) {
 						int codepage = g_value_get_int (val);
+						// [MS-OLEPS] gives a section at most one
+						// codepage property, but a malformed file can
+						// contain several.
+						// It's unclear which one we should honour, so
+						// arbitrarily pick the last one.
+						if (sections[i].iconv_handle != (GIConv)-1)
+							gsf_iconv_close (sections[i].iconv_handle);
 						sections[i].iconv_handle =
 							gsf_msole_iconv_open_for_import (codepage);
 						sections[i].char_size = msole_codepage_char_size (codepage);
