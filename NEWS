@@ -6,6 +6,7 @@ Morten:
 	* Improve thread safety of GSF_CLASS_FULL [#52]
 	* Fix zip read for corrupted stream.  [#50]
 	* Fix ole2 leaks.
+	* Protect ole2 loader from crazy recursion.  [#51]
 
 --------------------------------------------------------------------------
 libgsf 1.14.58

@@ -1,5 +1,8 @@
 2026-07-31  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-msole-utils.c (msole_prop_parse): Add recursion limit.
+	Fixes #51.
+
 	* gsf/gsf-msole-utils.c (gsf_doc_meta_data_read_from_msole): Plug
 	leak related to malformed ole2 properties sections.  Patch from
 	Christian Grothoff <grothoff@gnu.org>.
