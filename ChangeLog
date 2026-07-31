@@ -1,3 +1,8 @@
+2026-07-31  Morten Welinder  <terra@gnome.org>
+
+	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Guard with
+	g_once_init_enter etc.  Patch from Vova+ [#53]
+
 2026-04-30  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

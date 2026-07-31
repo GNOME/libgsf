@@ -3,6 +3,7 @@ libgsf 1.14.59
 Morten:
 	* Fix some OLE2 edge cases.  [#46] [#47]
 	* Plug leak [#49]
+	* Improve thread safety of GSF_CLASS_FULL [#52]
 
 --------------------------------------------------------------------------
 libgsf 1.14.58

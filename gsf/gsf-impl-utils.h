@@ -38,8 +38,8 @@ G_BEGIN_DECLS
 GType									\
 prefix ## _get_type (void)						\
 {									\
-	static GType type = 0;						\
-	if (G_UNLIKELY  (type == 0)) {					\
+	static gsize type_id = 0;					\
+	if (g_once_init_enter (&type_id)) {				\
 		static GTypeInfo const object_info = {			\
 			sizeof (name ## Class),				\
 			(GBaseInitFunc) base_init,			\
@@ -52,11 +52,12 @@ prefix ## _get_type (void)						\
 			(GInstanceInitFunc) instance_init,		\
 			NULL						\
 		};							\
-		type = g_type_register_static (parent_type, #name,	\
+		GType type = g_type_register_static (parent_type, #name, \
 			&object_info, (GTypeFlags) abstract);		\
 		interface_decl						\
+		g_once_init_leave (&type_id, type);			\
 	}								\
-	return type;							\
+	return type_id;							\
 }
 
 /**
