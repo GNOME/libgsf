@@ -679,8 +679,12 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 
 			} while (zip->restlen && zip->stream->avail_out);
 
-			if (zip->stream->avail_out > 0)
-				break;
+			if (zip->stream->avail_out > 0) {
+				// The stream didn't give us enough.  Fail
+				// rather than pretend we filled the output
+				// buffer.
+				return NULL;
+			}
 
 			num_bytes -= chunk;
 			out += chunk;

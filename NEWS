@@ -4,6 +4,7 @@ Morten:
 	* Fix some OLE2 edge cases.  [#46] [#47]
 	* Plug leak [#49]
 	* Improve thread safety of GSF_CLASS_FULL [#52]
+	* Fix zip read for corrupted stream.  [#50]
 
 --------------------------------------------------------------------------
 libgsf 1.14.58

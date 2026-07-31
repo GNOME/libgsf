@@ -1,5 +1,8 @@
 2026-07-31  Morten Welinder  <terra@gnome.org>
 
+	* gsf/gsf-infile-zip.c (gsf_infile_zip_read): Fail if the
+	underlying stream doesn't give us all the data we need.  [#50]
+
 	* gsf/gsf-impl-utils.h (GSF_CLASS_FULL): Guard with
 	g_once_init_enter etc.  Patch from Vova+ [#53]
 
