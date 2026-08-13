@@ -697,7 +697,7 @@ gsf_xml_in_dump_state (GsfXMLInInternal *state)
 	GSList *ptr = state->pub.node_stack = g_slist_reverse (state->pub.node_stack);
 	if (ptr != NULL)	/* skip toplevel catch all */
 		ptr = ptr->next;
-	for (;ptr != NULL && ptr != NULL; ptr = ptr->next) {
+	for (;ptr != NULL; ptr = ptr->next) {
 		GsfXMLInNodeInternal const *node = ptr->data;
 		if (node != NULL)
 			g_printerr ("%s -> ", node_name (&node->pub));
