@@ -2,548 +2,981 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Alexander Mackinnon Jansen <alexander.jansen@hesbynett.no>, 2011.
+# Roy-Magne Mo <rmo@sunnmore.net>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libgsf 0.9\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-19 18:16+0200\n"
-"PO-Revision-Date: 2011-08-12 11:49+0100\n"
-"Last-Translator: Alexander Mackinnon Jansen <alexander.jansen@hesbynett.no>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/libgsf/issues\n"
+"POT-Creation-Date: 2026-09-26 20:50+0000\n"
+"PO-Revision-Date: 2026-10-01 14:00+0200\n"
+"Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norsk <kmaraas@gnome.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gsf/gsf-blob.c:111
+#: gsf/gsf-blob.c:115
 #, c-format
 msgid "Not enough memory to copy %s bytes of data"
-msgstr "Ikkje nok minne til å kopiera %s byte data"
+msgstr "Ikkje nok minne til å kopiere %s byte data"
 
-#: ../gsf/gsf-clip-data.c:153
+#: gsf/gsf-clip-data.c:165
 #, c-format
 msgid "The clip_data is in %s, but it is smaller than at least %s bytes"
-msgstr "clip_dataet er i %s, men det er mindre en minst %s byte"
+msgstr "clip_data er i %s, men er mindre enn minst %s byte"
 
-#: ../gsf/gsf-clip-data.c:247
-#, c-format
+#: gsf/gsf-clip-data.c:259
 msgid ""
 "The clip_data is in Windows clipboard format, but it is smaller than the "
 "required 4 bytes."
 msgstr ""
-"Clip_dataet er i Windows utklippstavleformat, men det er mindre enn trong 4 "
-"byte."
+"clip_data er i utklippstavleformatet til Windows, men er mindre enn dei "
+"nødvendige 4 byte."
 
-#: ../gsf/gsf-clip-data.c:258
+#: gsf/gsf-clip-data.c:270
 msgid "Windows Metafile format"
-msgstr "Windows Metafile format"
+msgstr "Windows Metafile-format"
 
 #. CF_BITMAP
-#: ../gsf/gsf-clip-data.c:264
+#: gsf/gsf-clip-data.c:276
 msgid "Windows DIB or BITMAP format"
-msgstr "Windows DIB eller BITMAP format"
+msgstr "Windows DIB- eller BITMAP-format"
 
-#: ../gsf/gsf-clip-data.c:269
+#: gsf/gsf-clip-data.c:281
 msgid "Windows Enhanced Metafile format"
-msgstr "Windows Enhanced Metafile format"
+msgstr "Windows Enhanced Metafile-format"
 
-#: ../gsf/gsf-msole-utils.c:315
+#: gsf/gsf-infile-msole.c:556
+msgid "Failed to duplicate input stream"
+msgstr "Klarte ikkje duplisere inndatastraumen"
+
+#: gsf/gsf-infile-msole.c:594
+msgid "No OLE2 signature"
+msgstr "Ingen OLE2-signatur"
+
+#: gsf/gsf-infile-msole.c:627
+msgid "Unreasonable block sizes"
+msgstr "Urimelege blokkstorleikar"
+
+#: gsf/gsf-infile-msole.c:666 gsf/gsf-infile-msole.c:952
+msgid "Insufficient memory"
+msgstr "For lite minne"
+
+#: gsf/gsf-infile-msole.c:725
+msgid "Inconsistent block allocation table"
+msgstr "Inkonsistent blokktildelingstabell"
+
+#: gsf/gsf-infile-msole.c:733
+msgid "Problems making block allocation table"
+msgstr "Problem med å lage blokktildelingstabellen"
+
+#: gsf/gsf-infile-msole.c:747
+msgid "Problems reading directory"
+msgstr "Problem med å lese katalogen"
+
+#: gsf/gsf-infile-msole.c:917
+msgid "Failed to access child"
+msgstr "Klarte ikkje få tilgang til underelement"
+
+#: gsf/gsf-infile-msole.c:984
+msgid "failure reading block"
+msgstr "feil ved lesing av blokk"
+
+#: gsf/gsf-infile-msvba.c:171 gsf/gsf-infile-msvba.c:391
+msgid "Can't find the VBA directory stream"
+msgstr "Fann ikkje VBA-katalogstraumen"
+
+#: gsf/gsf-infile-msvba.c:218 gsf/gsf-infile-msvba.c:226
+msgid "vba project header problem"
+msgstr "problem med hovudet i VBA-prosjektet"
+
+#: gsf/gsf-infile-msvba.c:400
+msgid "No VBA signature"
+msgstr "Ingen VBA-signatur"
+
+#: gsf/gsf-infile-msvba.c:411
+#, c-format
+msgid "Unknown VBA version signature 0x%x%x%x%x"
+msgstr "Ukjend VBA-versjonssignatur 0x%x%x%x%x"
+
+#: gsf/gsf-infile-msvba.c:511
+msgid "Unable to parse VBA header"
+msgstr "Klarte ikkje tolke VBA-hovudet"
+
+#: gsf/gsf-infile-tar.c:123 gsf/gsf-infile-tar.c:228
+msgid "Invalid tar header"
+msgstr "Ugyldig tar-hovud"
+
+#: gsf/gsf-infile-tar.c:277
+msgid "Invalid longname header"
+msgstr "Ugyldig hovud for langt namn"
+
+#: gsf/gsf-infile-tar.c:284
+msgid "Failed to read longname"
+msgstr "Klarte ikkje lese det lange namnet"
+
+#: gsf/gsf-infile-tar.c:304 gsf/gsf-input.c:289
+msgid "Seek failed"
+msgstr "Søking feila"
+
+#: gsf/gsf-infile-tar.c:312
+msgid "Truncated archive"
+msgstr "Avkorta arkiv"
+
+#: gsf/gsf-infile-tar.c:562 gsf/gsf-infile-zip.c:1010 gsf/gsf-input-gzip.c:541
+msgid "Source"
+msgstr "Kjelde"
+
+#: gsf/gsf-infile-tar.c:563 gsf/gsf-infile-zip.c:1011
+msgid "The archive being interpreted"
+msgstr "Arkivet som vert tolka"
+
+#: gsf/gsf-infile-zip.c:457
+msgid "Error reading zip dirent"
+msgstr "Feil ved lesing av katalogoppføring i zip"
+
+#: gsf/gsf-infile-zip.c:468
+msgid "Broken zip file structure"
+msgstr "Øydelagt zip-filstruktur"
+
+#: gsf/gsf-infile-zip.c:525
+msgid "Error seeking to zip header"
+msgstr "Feil ved søking til zip-hovudet"
+
+#: gsf/gsf-infile-zip.c:527
+msgid "Error reading zip header"
+msgstr "Feil ved lesing av zip-hovudet"
+
+#: gsf/gsf-infile-zip.c:529
+msgid "Error incorrect zip header"
+msgstr "Feil: ugyldig zip-hovud"
+
+#: gsf/gsf-infile-zip.c:560
+msgid "problem uncompressing stream"
+msgstr "problem med å pakke ut straumen"
+
+#: gsf/gsf-infile-zip.c:1026 gsf/gsf-outfile-zip.c:1127
+msgid "Compression Level"
+msgstr "Komprimeringsnivå"
+
+#: gsf/gsf-infile-zip.c:1027 gsf/gsf-outfile-zip.c:1128
+msgid "The level of compression used, zero meaning none"
+msgstr "Komprimeringsnivået som vert brukt, der null tyder inga komprimering"
+
+#: gsf/gsf-infile-zip.c:1047 gsf/gsf-outfile-zip.c:1150
+msgid "Zip64"
+msgstr "Zip64"
+
+#: gsf/gsf-infile-zip.c:1048
+msgid "Whether zip64 is being used"
+msgstr "Om zip64 vert brukt"
+
+#: gsf/gsf-input-bzip.c:50 gsf/gsf-output-bzip.c:276
+msgid "BZ2 support not enabled"
+msgstr "BZ2-støtte er ikkje slått på"
+
+#: gsf/gsf-input-bzip.c:65
+msgid "BZ2 decompress init failed"
+msgstr "Klarte ikkje starte BZ2-utpakking"
+
+#: gsf/gsf-input-bzip.c:89
+msgid "Read error"
+msgstr "Lesefeil"
+
+#: gsf/gsf-input-bzip.c:101
+msgid "BZ2 decompress failed"
+msgstr "BZ2-utpakking feila"
+
+#: gsf/gsf-input-bzip.c:118
+msgid "BZ2 decompress end failed"
+msgstr "Klarte ikkje avslutte BZ2-utpakking"
+
+#: gsf/gsf-input.c:128 gsf/gsf-output.c:168
+msgid "Name"
+msgstr "Namn"
+
+#: gsf/gsf-input.c:129
+msgid "The input's name"
+msgstr "Namnet på inndataa"
+
+#: gsf/gsf-input.c:143 gsf/gsf-output.c:183
+msgid "Size"
+msgstr "Storleik"
+
+#: gsf/gsf-input.c:144
+msgid "The input's size"
+msgstr "Storleiken på inndataa"
+
+#: gsf/gsf-input.c:158
+msgid "EOF"
+msgstr "EOF"
+
+#: gsf/gsf-input.c:159
+msgid "End of file"
+msgstr "Slutten av fila"
+
+#: gsf/gsf-input.c:173
+msgid "Remaining"
+msgstr "Att"
+
+#: gsf/gsf-input.c:174
+msgid "Amount of data remaining"
+msgstr "Mengd data som står att"
+
+#: gsf/gsf-input.c:188 gsf/gsf-output.c:213
+msgid "Position"
+msgstr "Posisjon"
+
+#: gsf/gsf-input.c:189
+msgid "The input's current position"
+msgstr "Den noverande posisjonen i inndataa"
+
+#: gsf/gsf-input.c:206 gsf/gsf-output.c:232
+msgid "Modification time"
+msgstr "Endringstid"
+
+#: gsf/gsf-input.c:207
+msgid "An optional GDateTime representing the time the input was last changed"
+msgstr "Ein valfri GDateTime som viser når inndataa sist vart endra"
+
+#: gsf/gsf-input.c:220 gsf/gsf-output.c:247
+msgid "Container"
+msgstr "Behaldar"
+
+#: gsf/gsf-input.c:221
+msgid "The parent GsfInfile"
+msgstr "Overordna GsfInfile"
+
+#: gsf/gsf-input.c:282
+msgid "Duplicate size mismatch"
+msgstr "Storleiken på duplikatet samsvarar ikkje"
+
+#: gsf/gsf-input-gzip.c:169
+msgid "Unable to initialize zlib"
+msgstr "Klarte ikkje initialisere zlib"
+
+#: gsf/gsf-input-gzip.c:177
+msgid "Failed to rewind source"
+msgstr "Klarte ikkje spole tilbake kjelda"
+
+#: gsf/gsf-input-gzip.c:184
+msgid "Invalid gzip header"
+msgstr "Ugyldig gzip-hovud"
+
+#: gsf/gsf-input-gzip.c:332
+msgid "truncated source"
+msgstr "avkorta kjelde"
+
+#: gsf/gsf-input-gzip.c:349
+msgid "Failed to read from source"
+msgstr "Klarte ikkje lese frå kjelda"
+
+#: gsf/gsf-input-gzip.c:501
+msgid "NULL source"
+msgstr "NULL-kjelde"
+
+#: gsf/gsf-input-gzip.c:505
+msgid "Uncompressed size not set"
+msgstr "Storleiken utan komprimering er ikkje sett"
+
+#: gsf/gsf-input-gzip.c:530
+msgid "Raw"
+msgstr "Rå"
+
+#: gsf/gsf-input-gzip.c:531
+msgid "Whether to read compressed data with no header and no trailer"
+msgstr "Om komprimerte data utan hovud og avslutning skal lesast"
+
+#: gsf/gsf-input-gzip.c:542
+msgid "Where the compressed data comes from"
+msgstr "Kvar dei komprimerte dataa kjem frå"
+
+#: gsf/gsf-input-gzip.c:558
+msgid "Size after decompression"
+msgstr "Storleik etter dekomprimering"
+
+#: gsf/gsf-input-gzip.c:559
+msgid "The source's uncompressed size"
+msgstr "Storleiken på kjelda utan komprimering"
+
+#: gsf/gsf-input-memory.c:227 gsf/gsf-output-stdio.c:454
+#, c-format
+msgid "%s: Is not a regular file"
+msgstr "%s: Er ikkje ei vanleg fil"
+
+#: gsf/gsf-input-memory.c:240
+#, c-format
+msgid "%s: File too large to be memory mapped"
+msgstr "%s: Fila er for stor til å minnetilordnast"
+
+#: gsf/gsf-input-memory.c:284
+msgid "mmap not supported"
+msgstr "mmap er ikkje støtta"
+
+#: gsf/gsf-libxml.c:1573
+msgid "Pretty print"
+msgstr "Pen utskrift"
+
+#: gsf/gsf-libxml.c:1574
+msgid "Should the output auto-indent elements to make reading easier?"
+msgstr "Skal utdataa få automatisk innrykk for å vere lettare å lese?"
+
+#: gsf/gsf-libxml.c:1580 gsf/gsf-open-pkg-utils.c:773
+#: gsf/gsf-outfile-msole.c:859 gsf/gsf-outfile-zip.c:1107
+#: gsf/gsf-output-csv.c:333 gsf/gsf-output-iconv.c:276
+msgid "Sink"
+msgstr "Mål"
+
+#: gsf/gsf-libxml.c:1581 gsf/gsf-outfile-msole.c:860
+msgid "The destination for writes"
+msgstr "Mål for skriving"
+
+#: gsf/gsf-msole-utils.c:337
 #, c-format
 msgid ""
 "Missing data when reading the %s property; got %s bytes, but %s bytes at "
 "least are needed."
 msgstr ""
-"Månglande data då eg las %s eigenskapen; fekk %s byte, men trong minst %s "
+"Data manglar ved lesing av eigenskapen %s: fekk %s byte, men treng minst %s "
 "byte."
 
-#: ../gsf/gsf-msole-utils.c:366
+#: gsf/gsf-msole-utils.c:388
 #, c-format
 msgid ""
 "Corrupt data in the VT_CF property; clipboard data length must be at least 4 "
 "bytes, but the data says it only has %s bytes available."
 msgstr ""
-"Øydelagd data i VT_CF eigenskapa; lengda på utklipstavledataet må verte "
-"minst 4 byte, men dataet seier at det kun har %s byte tilgjengeleg."
+"Øydelagde data i eigenskapen VT_CF: lengda på utklippsdataa må vere minst 4 "
+"byte, men dataa seier at berre %s byte er tilgjengelege."
 
-#: ../gsf/gsf-open-pkg-utils.c:351
+#: gsf/gsf-msole-utils.c:1198 gsf/gsf-msole-utils.c:1242
+msgid "Unable to read MS property stream header"
+msgstr "Klarte ikkje lese hovudet i MS-eigenskapsstraumen"
+
+#: gsf/gsf-msole-utils.c:1225
+msgid "Invalid MS property stream header"
+msgstr "Ugyldig hovud i MS-eigenskapsstraumen"
+
+#: gsf/gsf-msole-utils.c:1272 gsf/gsf-msole-utils.c:1310
+#: gsf/gsf-msole-utils.c:1334
+msgid "Invalid MS property section"
+msgstr "Ugyldig MS-eigenskapsseksjon"
+
+#: gsf/gsf-msole-utils.c:1291 gsf/gsf-msole-utils.c:1295
+msgid "Invalid MS property stream header or file truncated"
+msgstr "Ugyldig hovud i MS-eigenskapsstraumen, eller fila er avkorta"
+
+#: gsf/gsf-opendoc-utils.c:367
+#, c-format
+msgid "Property \"%s\" used for multiple types!"
+msgstr "Eigenskapen «%s» er brukt for fleire typar!"
+
+#: gsf/gsf-opendoc-utils.c:903
+msgid "ODF version"
+msgstr "ODF-versjon"
+
+#: gsf/gsf-opendoc-utils.c:904
+msgid "The ODF version this object is targeting as an integer like 100"
+msgstr ""
+"ODF-versjonen dette objektet siktar mot, som eit heiltal, til dømes 100"
+
+#: gsf/gsf-open-pkg-utils.c:386
 #, c-format
 msgid "Unable to find part id='%s' for '%s'"
-msgstr "Klarte ikkje å finne delid='%s' til '%s'"
+msgstr "Klarte ikkje finne del med id='%s' for '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:379
+#: gsf/gsf-open-pkg-utils.c:413
 #, c-format
 msgid "Unable to find part with type='%s' for '%s'"
-msgstr "Klarte ikkje å finne del med type='%s' til '%s'"
+msgstr "Klarte ikkje finne del med type='%s' for '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:409
+#: gsf/gsf-open-pkg-utils.c:443
 #, c-format
 msgid "Missing id for part in '%s'"
-msgstr "Månglar id til del i '%s'"
+msgstr "Id manglar for del i '%s'"
 
-#: ../gsf/gsf-open-pkg-utils.c:418
+#: gsf/gsf-open-pkg-utils.c:452
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr "Del '%s' i '%s' frå '%s' er øydelagt!"
 
-#: ../tools/gsf.c:22
+#: gsf/gsf-open-pkg-utils.c:774
+msgid "The GsfOutput that stores the Open Package content"
+msgstr "GsfOutput-en som lagrar innhaldet i Open Package"
+
+#: gsf/gsf-open-pkg-utils.c:780
+msgid "Content type"
+msgstr "Innhaldstype"
+
+#: gsf/gsf-open-pkg-utils.c:781
+msgid "The content type stored in the root [Content_Types].xml file"
+msgstr "Innhaldstypen som er lagra i rotfila [Content_Types].xml"
+
+#: gsf/gsf-open-pkg-utils.c:787
+msgid "Is Directory"
+msgstr "Er mappe"
+
+#: gsf/gsf-open-pkg-utils.c:788
+msgid "Can the outfile have children"
+msgstr "Kan utfila ha underelement?"
+
+#: gsf/gsf-outfile-msole.c:870
+msgid "Small block size"
+msgstr "Liten blokkstorleik"
+
+#: gsf/gsf-outfile-msole.c:871
+msgid "The size of the OLE's small blocks"
+msgstr "Storleiken på dei små blokkene i OLE"
+
+#: gsf/gsf-outfile-msole.c:882
+msgid "Big block size"
+msgstr "Stor blokkstorleik"
+
+#: gsf/gsf-outfile-msole.c:883
+msgid "The size of the OLE's big blocks"
+msgstr "Storleiken på dei store blokkene i OLE"
+
+#: gsf/gsf-outfile-zip.c:1108
+msgid "Where the archive is written"
+msgstr "Kvar arkivet vert skrive"
+
+#: gsf/gsf-outfile-zip.c:1117
+msgid "Entry Name"
+msgstr "Oppføringsnamn"
+
+#: gsf/gsf-outfile-zip.c:1118
+msgid "The filename of this member in the archive without path"
+msgstr "Filnamnet til dette elementet i arkivet, utan sti"
+
+#: gsf/gsf-outfile-zip.c:1138 gsf/gsf-output-gzip.c:428
+msgid "Deflate Level"
+msgstr "Deflate-nivå"
+
+#: gsf/gsf-outfile-zip.c:1139 gsf/gsf-output-gzip.c:429
+msgid ""
+"The level of deflate compression used, zero meaning none and -1 meaning the "
+"zlib default"
+msgstr ""
+"Nivået for deflate-komprimering som vert brukt, der 0 tyder ingen og -1 "
+"tyder standardverdien i zlib"
+
+#: gsf/gsf-outfile-zip.c:1151
+msgid "Whether to use zip64 format, -1 meaning automatic"
+msgstr "Om zip64-formatet skal brukast, der -1 tyder automatisk"
+
+#: gsf/gsf-output-bzip.c:76
+msgid "Unable to initialize BZ2 library"
+msgstr "Klarte ikkje initialisere BZ2-biblioteket"
+
+#: gsf/gsf-output.c:169
+msgid "The output's name"
+msgstr "Namnet på utdataa"
+
+#: gsf/gsf-output.c:184
+msgid "The output's size"
+msgstr "Storleiken på utdataa"
+
+#: gsf/gsf-output.c:198
+msgid "Is Closed"
+msgstr "Er lukka"
+
+#: gsf/gsf-output.c:199
+msgid "Whether the output is closed"
+msgstr "Om utdataa er lukka"
+
+#: gsf/gsf-output.c:214
+msgid "The output's current position"
+msgstr "Den noverande posisjonen i utdataa"
+
+#: gsf/gsf-output.c:233
+msgid "An optional GDateTime representing the time the output was last changed"
+msgstr "Ein valfri GDateTime som viser når utdataa sist vart endra"
+
+#: gsf/gsf-output.c:248
+msgid "The parent GsfOutfile"
+msgstr "Overordna GsfOutfile"
+
+#: gsf/gsf-output-csv.c:334
+msgid "Where the formatted output is written"
+msgstr "Kvar dei formaterte utdataa vert skrivne"
+
+#: gsf/gsf-output-csv.c:343
+msgid "Quote"
+msgstr "Sitat"
+
+#: gsf/gsf-output-csv.c:344
+msgid "The string used for quoting fields"
+msgstr "Strengen som vert brukt til å sitere felt"
+
+#: gsf/gsf-output-csv.c:354
+msgid "Quoting Mode"
+msgstr "Siteringsmodus"
+
+#: gsf/gsf-output-csv.c:355
+msgid "When to quote fields"
+msgstr "Når felt skal setjast i hermeteikn"
+
+#: gsf/gsf-output-csv.c:366
+msgid "Quoting Triggers"
+msgstr "Utløysarar for sitering"
+
+#: gsf/gsf-output-csv.c:367
+msgid "Characters that cause field quoting"
+msgstr "Teikn som gjer at felt vert sette i hermeteikn"
+
+#: gsf/gsf-output-csv.c:376
+msgid "Quoting On Whitespace"
+msgstr "Sitering ved mellomrom"
+
+#: gsf/gsf-output-csv.c:377
+msgid "Does initial or terminal whitespace force quoting?"
+msgstr ""
+"Fører mellomrom i starten eller slutten til at feltet vert sett i "
+"hermeteikn?"
+
+#: gsf/gsf-output-csv.c:386
+msgid "Separator"
+msgstr "Skiljeteikn"
+
+#: gsf/gsf-output-csv.c:387
+msgid "The field separator"
+msgstr "Skiljeteiknet mellom felt"
+
+#: gsf/gsf-output-csv.c:397
+msgid "end-of-line"
+msgstr "linjeslutt"
+
+#: gsf/gsf-output-csv.c:398
+msgid "The end-of-line marker"
+msgstr "Markøren for linjeslutt"
+
+#: gsf/gsf-output-iconv.c:277
+msgid "Where the converted data is written"
+msgstr "Kvar dei konverterte dataa vert skrivne"
+
+#: gsf/gsf-output-iconv.c:287
+msgid "Input Charset"
+msgstr "Teiknsett for inndata"
+
+#: gsf/gsf-output-iconv.c:288
+msgid "The character set to convert from"
+msgstr "Teiknsettet som skal konverterast frå"
+
+#: gsf/gsf-output-iconv.c:297
+msgid "Output Charset"
+msgstr "Teiknsett for utdata"
+
+#: gsf/gsf-output-iconv.c:298
+msgid "The character set to convert to"
+msgstr "Teiknsettet som skal konverterast til"
+
+#: gsf/gsf-output-iconv.c:314
+msgid "Fallback"
+msgstr "Reserve"
+
+#: gsf/gsf-output-iconv.c:315
+msgid "The string to use for invalid characters"
+msgstr "Strengen som skal brukast for ugyldige teikn"
+
+#: thumbnailer/main.c:321
+msgid "Options"
+msgstr "Innstillingar"
+
+#: tools/gsf.c:21
 msgid "Display program version"
 msgstr "Vis programversjon"
 
-#: ../tools/gsf.c:44
+#: tools/gsf.c:57
 #, c-format
 msgid "%s: Failed to open %s: %s\n"
-msgstr "%s: Klarte ikkje å opne %s: %s\n"
+msgstr "%s: Klarte ikkje opne %s: %s\n"
 
-#: ../tools/gsf.c:65
+#: tools/gsf.c:84
 #, c-format
 msgid "%s: Failed to recognize %s as an archive\n"
-msgstr "%s: Klarte ikkje å gjenkjenne %s som eit arkiv\n"
+msgstr "%s: Klarte ikkje kjenne att %s som eit arkiv\n"
 
-#: ../tools/gsf.c:102
-#, c-format
+#: tools/gsf.c:123
 msgid "Available subcommands are...\n"
-msgstr "Tilgjengelege underkomandoar er...\n"
+msgstr "Tilgjengelege underkommandoar er …\n"
 
-#: ../tools/gsf.c:103
-#, c-format
+#: tools/gsf.c:124
 msgid "* cat        output one or more files in archive\n"
-msgstr "* cat        skriv ut ein eller fleire filar i arkiv\n"
+msgstr "* cat        skriv ut ei eller fleire filer i arkivet\n"
 
-#: ../tools/gsf.c:104
-#, c-format
+#: tools/gsf.c:125
 msgid "* dump       dump one or more files in archive as hex\n"
-msgstr "* dump       dump ein eller fleire filar i arkivet som hex\n"
+msgstr "* dump       skriv ut ei eller fleire filer i arkivet som hex\n"
 
-#: ../tools/gsf.c:105
-#, c-format
+#: tools/gsf.c:126
 msgid "* help       list subcommands\n"
-msgstr "* hjelp       list underkomandoar\n"
+msgstr "* help       list opp underkommandoar\n"
 
-#: ../tools/gsf.c:106
-#, c-format
+#: tools/gsf.c:127
 msgid "* list       list files in archive\n"
-msgstr "* list       list filar i arkiv\n"
+msgstr "* list       list opp filer i arkivet\n"
 
-#: ../tools/gsf.c:107
-#, c-format
+#: tools/gsf.c:128
 msgid "* listprops  list document properties in archive\n"
-msgstr "* listeigenskapar  list dokumenteigenskapar i arkiv\n"
+msgstr "* listprops  list opp dokumenteigenskapar i arkivet\n"
 
-#: ../tools/gsf.c:108
-#, c-format
+#: tools/gsf.c:129
 msgid "* props      print specified document properties\n"
-msgstr "* eigenskapar      skriv ut spesifiserte dokumenteigenskapar\n"
+msgstr "* props      skriv ut bestemte dokumenteigenskapar\n"
 
-#: ../tools/gsf.c:291
+#: tools/gsf.c:130
+msgid "* createole  create OLE archive\n"
+msgstr "* createole  lag OLE-arkiv\n"
+
+#: tools/gsf.c:131
+msgid "* createzip  create ZIP archive\n"
+msgstr "* createzip  lag ZIP-arkiv\n"
+
+#: tools/gsf.c:337
 #, c-format
 msgid "No property named %s\n"
-msgstr "Inga eigenskap heiter %s\n"
+msgstr "Ingen eigenskap heiter %s\n"
 
-#: ../tools/gsf.c:364
+#: tools/gsf.c:397
+#, c-format
+msgid "%s: Error processing file %s: %s\n"
+msgstr "%s: Feil ved handsaming av fil %s: %s\n"
+
+#: tools/gsf.c:552
 msgid "SUBCOMMAND ARCHIVE..."
-msgstr "UNDERKOMANDOARKIV …"
+msgstr "SUBCOMMAND ARCHIVE..."
 
-#: ../tools/gsf.c:371
+#: tools/gsf.c:559
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Kjøyr '%s --hjelp' for å sjå ei full liste over tilgjengelege "
-"kommandolinjeval.\n"
+"Køyr «%s --help» for å sjå ei fullstendig liste over tilgjengelege kommandolinjeval.\n"
 
-#: ../tools/gsf.c:378
+#: tools/gsf.c:566
 #, c-format
 msgid "gsf version %d.%d.%d\n"
-msgstr "gsf version %d.%d.%d\n"
+msgstr "gsf versjon %d.%d.%d\n"
 
-#: ../tools/gsf.c:384
+#: tools/gsf.c:572
 #, c-format
 msgid "Usage: %s %s\n"
 msgstr "Bruk: %s %s\n"
 
-#: ../tools/gsf.c:405
+#: tools/gsf.c:597
 #, c-format
-msgid "Run '%s help' to see a list subcommands.\n"
-msgstr "Kjøyr '%s hjelp' for å sjå ei listeunderkommandoar.\n"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:1
-msgid ""
-"Boolean options available, true enables thumbnailing and false disables the "
-"creation of new thumbnails"
-msgstr ""
-"Boolean instillingar tilgjengelege, ekte tillatar miniatyrar og falsk "
-"deaktiverar laging av nye miniatyrbilete"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:2
-msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Calcrekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:3
-msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Drawingmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:4
-msgid "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Impresspresentasjonsmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:5
-msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Impresspresentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:6
-msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Mathdokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:7
-msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Spreadsheetmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:8
-msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Writerdokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:9
-msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Writer globale malar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:10
-msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
-msgstr "Tillét miniatyrering for OpenOffice 1.x Writermalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:11
-msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
-msgstr "Tillét miniatyrering for Microsoft Excel 2007 rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:12
-msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
-msgstr "Tillét miniatyrering for Microsoft Excel rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:13
-msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
-msgstr "Tillét miniatyrering for Microsoft PowerPoint 2007 presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:14
-msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
-msgstr "Tillét miniatyrering for Microsoft PowerPoint presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:15
-msgid "Enable thumbnailing of Microsoft Word 2007 documents"
-msgstr "Tillét miniatyrering for Microsoft Word 2007 dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:16
-msgid "Enable thumbnailing of Microsoft Word documents"
-msgstr "Tillét miniatyrering for Microsoft Word dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:17
-msgid "Enable thumbnailing of OpenDocument charts"
-msgstr "Tillét miniatyrering for OpenDocument diagram"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:18
-msgid "Enable thumbnailing of OpenDocument drawing templates"
-msgstr "Tillét miniatyrering for OpenDocument teiknemalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:19
-msgid "Enable thumbnailing of OpenDocument drawings"
-msgstr "Tillét miniatyrering for OpenDocument teikningar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:20
-msgid "Enable thumbnailing of OpenDocument formulas"
-msgstr "Tillét miniatyrering for OpenDocument formelar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:21
-msgid "Enable thumbnailing of OpenDocument images"
-msgstr "Tillét miniatyrering for OpenDocument bilete"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:22
-msgid "Enable thumbnailing of OpenDocument presentation templates"
-msgstr "Tillét miniatyrering for OpenDocument bilete"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:23
-msgid "Enable thumbnailing of OpenDocument presentations"
-msgstr "Tillét miniatyrering for OpenDocument presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:24
-msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
-msgstr "Tillét miniatyrering for OpenDocument reknearkmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:25
-msgid "Enable thumbnailing of OpenDocument spreadsheets"
-msgstr "Tillét miniatyrering for OpenDocument rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:26
-msgid "Enable thumbnailing of OpenDocument wordprocessing document templates"
-msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingsdokumentmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:27
-msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
-msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingsdokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:28
-msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
-msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingshovuddokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:29
-msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
-msgstr "Miniatyrkommando for Microsoft Excel 2007 rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:30
-msgid "Thumbnail command for Microsoft Excel spreadsheets"
-msgstr "Miniatyrkommando for Microsoft Excel rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:31
-msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
-msgstr "Miniatyrkommando for Microsoft PowerPoint 2007 presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:32
-msgid "Thumbnail command for Microsoft PowerPoint presentations"
-msgstr "Miniatyrkommando for Microsoft PowerPoint presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:33
-msgid "Thumbnail command for Microsoft Word 2007 documents"
-msgstr "Miniatyrkommando for Microsoft Word 2007 dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:34
-msgid "Thumbnail command for Microsoft Word documents"
-msgstr "Miniatyrkommando for Microsoft Word dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:35
-msgid "Thumbnail command for OpenDocument charts"
-msgstr "Miniatyrkomando for OpenDocument diagram"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:36
-msgid "Thumbnail command for OpenDocument drawing templates"
-msgstr "Miniatyrkomando for OpenDocument teiknemalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:37
-msgid "Thumbnail command for OpenDocument drawings"
-msgstr "Miniatyrkomando for OpenDocument teikningar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:38
-msgid "Thumbnail command for OpenDocument formulas"
-msgstr "Miniatyrkomando for OpenDocument formelar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:39
-msgid "Thumbnail command for OpenDocument images"
-msgstr "Miniatyrkomando for OpenDocument bilete"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:40
-msgid "Thumbnail command for OpenDocument presentation templates"
-msgstr "Miniatyrkomando for OpenDocument presentasjonsmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:41
-msgid "Thumbnail command for OpenDocument presentations"
-msgstr "Miniatyrkomando for OpenDocument presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:42
-msgid "Thumbnail command for OpenDocument spreadsheet templates"
-msgstr "Miniatyrkomando for OpenDocument reknearkmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:43
-msgid "Thumbnail command for OpenDocument spreadsheets"
-msgstr "Miniatyrkomando for OpenDocument rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:44
-msgid "Thumbnail command for OpenDocument wordprocessing document templates"
-msgstr "Miniatyrkomando for OpenDocument tekstbehandlardokumentmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:45
-msgid "Thumbnail command for OpenDocument wordprocessing documents"
-msgstr "Miniatyrkomando for OpenDocument tekstbehandlardokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:46
-msgid "Thumbnail command for OpenDocument wordprocessing master documents"
-msgstr "Miniatyrkomando for OpenDocument tekstbehandlarmeisterdokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:47
-msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
-msgstr "Miniatyrkomando for OpenOffice 1.x Calc rekneark"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:48
-msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
-msgstr "Miniatyrkomando for OpenOffice 1.x Drawing malar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:49
-msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
-msgstr "Miniatyrkomando for OpenOffice 1.x Impress Presentasjonsmalar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:50
-msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
-msgstr "Miniatyrkomando for OpenOffice 1.x Impress Presentasjonar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:51
-msgid "Thumbnail command for OpenOffice 1.x Math documents"
-msgstr "Miniatyrkomando for OpenOffice 1.x Math dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:52
-msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
-msgstr "Miniatyrkomando for OpenOffice 1.x Spreadsheet malar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:53
-msgid "Thumbnail command for OpenOffice 1.x Writer documents"
-msgstr "Miniatyrkomando for OpenOffice 1.x Writer dokument"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:54
-msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
-msgstr "Miniatyrkomando for OpenOffice 1.x Writer globale malar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:55
-msgid "Thumbnail command for OpenOffice 1.x Writer templates"
-msgstr "Miniatyrkomando for OpenOffice 1.x Writer malar"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:56
-msgid "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
-msgstr "Gyldeg kommando pluss argument for Microsoft Excel 2007 reknearka."
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:57
-msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
-msgstr "Gyldeg kommando pluss argument for Microsoft Excel reknearka."
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:58
-msgid ""
-"Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for Microsoft PowerPoint 2007 miniatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:59
-msgid "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
-msgstr "Gyldeg kommando pluss argument for Microsoft PowerPoint miniatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:60
-msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
-msgstr "Gyldeg kommando pluss argument for Microsoft Word 2007 miniatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:61
-msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
-msgstr "Gyldeg kommando pluss argument for Microsoft Word miniatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:62
-msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice diagramminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:63
-msgid ""
-"Valid command plus arguments for the OpenDocument drawing template "
-"thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice teikningsmalminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:64
-msgid "Valid command plus arguments for the OpenDocument drawing thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice teikningminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:65
-msgid "Valid command plus arguments for the OpenDocument formula thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice formelminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:66
-msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice bileteminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:67
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation template "
-"thumbnailer"
-msgstr ""
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:68
-msgid ""
-"Valid command plus arguments for the OpenDocument presentation thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice presentasjonsmalminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:69
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet template "
-"thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice reknearkmalminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:70
-msgid ""
-"Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice reknearkminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:71
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"template thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice "
-"tekstbehandlingsdokumentmalminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:72
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing document "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice "
-"tekstbehandlingsdokumentminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:73
-msgid ""
-"Valid command plus arguments for the OpenDocument wordprocessing master "
-"document thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenDokument "
-"tekstbehandlingsmeisterdokumentminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:74
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Drawing template "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Drawing malminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:75
-msgid "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
-msgstr "Gyldeg kommando pluss argumenr for OpenOffice 1.x Drawing miniatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:76
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"template thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
-"presentasjonsmalminiatyren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:77
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Impress presentation "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
-"presentasjonsminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:78
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Math document thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Math dokumentminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:79
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer document "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Writer dokumentminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:80
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer global template "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Writer global "
-"malminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:81
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x Writer template "
-"thumbnailer"
-msgstr ""
-"Gyldeg kommando pluss argument for OpenOffice 1.x Writer malminiatyraren"
-
-#: ../thumbnailer/gsf-office-thumbnailer.schemas.in.h:82
-msgid ""
-"Valid command plus arguments for the OpenOffice 1.x spreadsheet thumbnailer"
-msgstr "Gyldeg kommando pluss argument for OpenOffice 1.x reknearkminiatyraren"
+msgid "Run '%s help' to see a list of subcommands.\n"
+msgstr "Køyr «%s help» for å sjå ei liste over underkommandoar.\n"
+
+#~ msgid ""
+#~ "Boolean options available, true enables thumbnailing and false disables "
+#~ "the creation of new thumbnails"
+#~ msgstr ""
+#~ "Boolean instillingar tilgjengelege, ekte tillatar miniatyrar og falsk "
+#~ "deaktiverar laging av nye miniatyrbilete"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Calcrekneark"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Drawing templates"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Drawingmalar"
+
+#~ msgid ""
+#~ "Enable thumbnailing for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Impresspresentasjonsmalar"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Impress presentations"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Impresspresentasjonar"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Math documents"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Mathdokument"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Spreadsheetmalar"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer documents"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Writerdokument"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer global templates"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Writer globale malar"
+
+#~ msgid "Enable thumbnailing for OpenOffice 1.x Writer templates"
+#~ msgstr "Tillét miniatyrering for OpenOffice 1.x Writermalar"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel 2007 spreadsheets"
+#~ msgstr "Tillét miniatyrering for Microsoft Excel 2007 rekneark"
+
+#~ msgid "Enable thumbnailing of Microsoft Excel spreadsheets"
+#~ msgstr "Tillét miniatyrering for Microsoft Excel rekneark"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint 2007 presentations"
+#~ msgstr "Tillét miniatyrering for Microsoft PowerPoint 2007 presentasjonar"
+
+#~ msgid "Enable thumbnailing of Microsoft PowerPoint presentations"
+#~ msgstr "Tillét miniatyrering for Microsoft PowerPoint presentasjonar"
+
+#~ msgid "Enable thumbnailing of Microsoft Word 2007 documents"
+#~ msgstr "Tillét miniatyrering for Microsoft Word 2007 dokument"
+
+#~ msgid "Enable thumbnailing of Microsoft Word documents"
+#~ msgstr "Tillét miniatyrering for Microsoft Word dokument"
+
+#~ msgid "Enable thumbnailing of OpenDocument charts"
+#~ msgstr "Tillét miniatyrering for OpenDocument diagram"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawing templates"
+#~ msgstr "Tillét miniatyrering for OpenDocument teiknemalar"
+
+#~ msgid "Enable thumbnailing of OpenDocument drawings"
+#~ msgstr "Tillét miniatyrering for OpenDocument teikningar"
+
+#~ msgid "Enable thumbnailing of OpenDocument formulas"
+#~ msgstr "Tillét miniatyrering for OpenDocument formelar"
+
+#~ msgid "Enable thumbnailing of OpenDocument images"
+#~ msgstr "Tillét miniatyrering for OpenDocument bilete"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentation templates"
+#~ msgstr "Tillét miniatyrering for OpenDocument bilete"
+
+#~ msgid "Enable thumbnailing of OpenDocument presentations"
+#~ msgstr "Tillét miniatyrering for OpenDocument presentasjonar"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheet templates"
+#~ msgstr "Tillét miniatyrering for OpenDocument reknearkmalar"
+
+#~ msgid "Enable thumbnailing of OpenDocument spreadsheets"
+#~ msgstr "Tillét miniatyrering for OpenDocument rekneark"
+
+#~ msgid ""
+#~ "Enable thumbnailing of OpenDocument wordprocessing document templates"
+#~ msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingsdokumentmalar"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing documents"
+#~ msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingsdokument"
+
+#~ msgid "Enable thumbnailing of OpenDocument wordprocessing master documents"
+#~ msgstr "Tillét miniatyrering for OpenDocument tekstbehandlingshovuddokument"
+
+#~ msgid "Thumbnail command for Microsoft Excel 2007 spreadsheets"
+#~ msgstr "Miniatyrkommando for Microsoft Excel 2007 rekneark"
+
+#~ msgid "Thumbnail command for Microsoft Excel spreadsheets"
+#~ msgstr "Miniatyrkommando for Microsoft Excel rekneark"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint 2007 presentations"
+#~ msgstr "Miniatyrkommando for Microsoft PowerPoint 2007 presentasjonar"
+
+#~ msgid "Thumbnail command for Microsoft PowerPoint presentations"
+#~ msgstr "Miniatyrkommando for Microsoft PowerPoint presentasjonar"
+
+#~ msgid "Thumbnail command for Microsoft Word 2007 documents"
+#~ msgstr "Miniatyrkommando for Microsoft Word 2007 dokument"
+
+#~ msgid "Thumbnail command for Microsoft Word documents"
+#~ msgstr "Miniatyrkommando for Microsoft Word dokument"
+
+#~ msgid "Thumbnail command for OpenDocument charts"
+#~ msgstr "Miniatyrkomando for OpenDocument diagram"
+
+#~ msgid "Thumbnail command for OpenDocument drawing templates"
+#~ msgstr "Miniatyrkomando for OpenDocument teiknemalar"
+
+#~ msgid "Thumbnail command for OpenDocument drawings"
+#~ msgstr "Miniatyrkomando for OpenDocument teikningar"
+
+#~ msgid "Thumbnail command for OpenDocument formulas"
+#~ msgstr "Miniatyrkomando for OpenDocument formelar"
+
+#~ msgid "Thumbnail command for OpenDocument images"
+#~ msgstr "Miniatyrkomando for OpenDocument bilete"
+
+#~ msgid "Thumbnail command for OpenDocument presentation templates"
+#~ msgstr "Miniatyrkomando for OpenDocument presentasjonsmalar"
+
+#~ msgid "Thumbnail command for OpenDocument presentations"
+#~ msgstr "Miniatyrkomando for OpenDocument presentasjonar"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheet templates"
+#~ msgstr "Miniatyrkomando for OpenDocument reknearkmalar"
+
+#~ msgid "Thumbnail command for OpenDocument spreadsheets"
+#~ msgstr "Miniatyrkomando for OpenDocument rekneark"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing document templates"
+#~ msgstr "Miniatyrkomando for OpenDocument tekstbehandlardokumentmalar"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing documents"
+#~ msgstr "Miniatyrkomando for OpenDocument tekstbehandlardokument"
+
+#~ msgid "Thumbnail command for OpenDocument wordprocessing master documents"
+#~ msgstr "Miniatyrkomando for OpenDocument tekstbehandlarmeisterdokument"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Calc spreadsheets"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Calc rekneark"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Drawing templates"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Drawing malar"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress Presentation templates"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Impress Presentasjonsmalar"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Impress presentations"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Impress Presentasjonar"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Math documents"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Math dokument"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Spreadsheet templates"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Spreadsheet malar"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer documents"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Writer dokument"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer global templates"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Writer globale malar"
+
+#~ msgid "Thumbnail command for OpenOffice 1.x Writer templates"
+#~ msgstr "Miniatyrkomando for OpenOffice 1.x Writer malar"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft Excel 2007 spreadsheets."
+#~ msgstr "Gyldeg kommando pluss argument for Microsoft Excel 2007 reknearka."
+
+#~ msgid "Valid command plus arguments for the Microsoft Excel spreadsheets."
+#~ msgstr "Gyldeg kommando pluss argument for Microsoft Excel reknearka."
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint 2007 thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for Microsoft PowerPoint 2007 miniatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the Microsoft PowerPoint thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for Microsoft PowerPoint miniatyraren"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word 2007 thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for Microsoft Word 2007 miniatyraren"
+
+#~ msgid "Valid command plus arguments for the Microsoft Word thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for Microsoft Word miniatyraren"
+
+#~ msgid "Valid command plus arguments for the OpenDocument chart thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for OpenOffice diagramminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice teikningsmalminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument drawing thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for OpenOffice teikningminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument formula thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for OpenOffice formelminiatyraren"
+
+#~ msgid "Valid command plus arguments for the OpenDocument image thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for OpenOffice bileteminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument presentation thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice presentasjonsmalminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice reknearkmalminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument spreadsheet thumbnailer"
+#~ msgstr "Gyldeg kommando pluss argument for OpenOffice reknearkminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice "
+#~ "tekstbehandlingsdokumentmalminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice "
+#~ "tekstbehandlingsdokumentminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenDocument wordprocessing master "
+#~ "document thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenDokument "
+#~ "tekstbehandlingsmeisterdokumentminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Drawing malminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Drawing thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argumenr for OpenOffice 1.x Drawing miniatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
+#~ "presentasjonsmalminiatyren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Impress presentation "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Impress "
+#~ "presentasjonsminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Math document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Math "
+#~ "dokumentminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer document "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Writer "
+#~ "dokumentminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer global "
+#~ "template thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Writer global "
+#~ "malminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x Writer template "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x Writer malminiatyraren"
+
+#~ msgid ""
+#~ "Valid command plus arguments for the OpenOffice 1.x spreadsheet "
+#~ "thumbnailer"
+#~ msgstr ""
+#~ "Gyldeg kommando pluss argument for OpenOffice 1.x reknearkminiatyraren"
