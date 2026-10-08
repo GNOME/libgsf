@@ -159,7 +159,7 @@ test_bzip (const char *orig_data, size_t orig_len)
 }
 
 int
-main (int argc, char *argv[])
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char *argv[])
 {
 	GString *data;
 	int res;
