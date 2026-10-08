@@ -1475,7 +1475,7 @@ gvalue_to_msole_vt (GValue const *value, GsfMSOleMetaDataPropMap const *map)
 }
 
 static gboolean
-msole_metadata_write_string (WritePropState *state, const char *txt, gboolean for_dict)
+msole_metadata_write_string (WritePropState *state, const char *txt)
 {
 	guint8 buf[4];
 	guint32 len;
@@ -1606,7 +1606,7 @@ msole_metadata_write_prop (WritePropState *state,
 
 	case VT_LPSTR:
 	case VT_LPWSTR:
-		return msole_metadata_write_string (state, g_value_get_string (value), FALSE);
+		return msole_metadata_write_string (state, g_value_get_string (value));
 
 	case VT_FILETIME : {
 		GsfTimestamp const *ts = g_value_get_boxed (value);
@@ -1637,7 +1637,7 @@ cb_write_dict (char const *name, gpointer id, WritePropState *state)
 
 	GSF_LE_SET_GUINT32 (buf, GPOINTER_TO_UINT (id));
 	gsf_output_write (state->out, 4, buf);
-	msole_metadata_write_string (state, name, TRUE);
+	msole_metadata_write_string (state, name);
 }
 
 static gboolean

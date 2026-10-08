@@ -256,7 +256,7 @@ test (const char *stream_name, GsfInfile *inf)
 }
 
 int
-main (int argc, char **argv)
+main (G_GNUC_UNUSED int argc, char **argv)
 {
 	GsfInput *in = gsf_input_stdio_new (argv[1], NULL);
 	GsfInfile *inf = gsf_infile_msole_new (in, NULL);
