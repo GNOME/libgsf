@@ -55,8 +55,9 @@ read_types (char const *fname, GPtrArray **types)
 	}
 	while (!feof(file)) {
 		unsigned char *p;
-		fgets ((char *)buffer, sizeof (buffer)-1, file);
-		for (p=buffer;*p;p++)
+		p = fgets ((char *)buffer, sizeof (buffer)-1, file);
+		g_assert (p != NULL);
+		for (;*p;p++)
 			if (*p=='0' && *(p+1)=='x') {
 				GENERIC_TYPE *bt = g_new (GENERIC_TYPE,1);
 				unsigned char *name, *pt;

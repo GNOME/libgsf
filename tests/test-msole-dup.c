@@ -39,7 +39,8 @@ main (int argc, char **argv)
 	indup = gsf_input_dup(inchild, NULL);
 	size = gsf_input_size(inchild);
 
-	write(1, gsf_input_read(indup, size, NULL), size);
+	size_t nwritten = write(1, gsf_input_read(indup, size, NULL), size);
+	g_assert (nwritten == size);
 	g_object_unref(G_OBJECT(indup));
 	g_object_unref(G_OBJECT(inchild));
 	g_object_unref(G_OBJECT(inf));
