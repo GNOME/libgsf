@@ -54,7 +54,7 @@ test (int argc, char *argv[])
 				GHashTable *modules = gsf_infile_msvba_get_modules (vba);
 				if (NULL != modules)
 					g_hash_table_foreach (modules,
-						(GHFunc) cb_dump_vba, NULL);
+						(GHFunc)(GCallback) cb_dump_vba, NULL);
 				g_object_unref (G_OBJECT (vba));
 			}
 			g_object_unref (G_OBJECT (input));

@@ -32,6 +32,7 @@ G_BEGIN_DECLS
 
 /*************************************************************************/
 
+/* Casts go via GCallback (void (*)(void)) to silence -Wcast-function-type; GObject calls these with compatible ABIs. */
 #define	GSF_CLASS_FULL(name, prefix, base_init, base_finalize, \
 		       class_init, class_finalize, instance_init, parent_type, \
 		       abstract, interface_decl) \
@@ -42,14 +43,14 @@ prefix ## _get_type (void)						\
 	if (g_once_init_enter (&type_id)) {				\
 		static GTypeInfo const object_info = {			\
 			sizeof (name ## Class),				\
-			(GBaseInitFunc) base_init,			\
-			(GBaseFinalizeFunc) base_finalize,		\
-			(GClassInitFunc) class_init,			\
-			(GClassFinalizeFunc) class_finalize,		\
+			(GBaseInitFunc)(GCallback) base_init,			\
+			(GBaseFinalizeFunc)(GCallback) base_finalize,		\
+			(GClassInitFunc)(GCallback) class_init,			\
+			(GClassFinalizeFunc)(GCallback) class_finalize,		\
 			NULL,	/* class_data */			\
 			sizeof (name),					\
 			0,	/* n_preallocs */			\
-			(GInstanceInitFunc) instance_init,		\
+			(GInstanceInitFunc)(GCallback) instance_init,		\
 			NULL						\
 		};							\
 		GType type = g_type_register_static (parent_type, #name, \
@@ -82,7 +83,7 @@ prefix ## _get_type (void)						\
 
 #define GSF_INTERFACE_FULL(type, init_func, iface_type) {	\
 	static GInterfaceInfo const iface = {			\
-		(GInterfaceInitFunc) init_func, NULL, NULL };	\
+		(GInterfaceInitFunc)(GCallback) init_func, NULL, NULL };	\
 	g_type_add_interface_static (type, iface_type, &iface);	\
 }
 
@@ -110,14 +111,14 @@ prefix ## _register_type (GTypeModule *module)				\
 {									\
 	GTypeInfo const type_info = {					\
 		sizeof (name ## Class),					\
-		(GBaseInitFunc) base_init,				\
-		(GBaseFinalizeFunc) base_finalize,			\
-		(GClassInitFunc) class_init,				\
-		(GClassFinalizeFunc) class_finalize,			\
+		(GBaseInitFunc)(GCallback) base_init,				\
+		(GBaseFinalizeFunc)(GCallback) base_finalize,			\
+		(GClassInitFunc)(GCallback) class_init,				\
+		(GClassFinalizeFunc)(GCallback) class_finalize,			\
 		NULL,	/* class_data */				\
 		sizeof (name),						\
 		0,	/* n_preallocs */				\
-		(GInstanceInitFunc) instance_init,			\
+		(GInstanceInitFunc)(GCallback) instance_init,			\
 		NULL							\
 	};								\
 	GType type;							\
@@ -138,7 +139,7 @@ prefix ## _register_type (GTypeModule *module)				\
 
 #define GSF_DYNAMIC_INTERFACE_FULL(type, init_func, iface_type, module) {	\
 	GInterfaceInfo const iface = {						\
-		(GInterfaceInitFunc) init_func, NULL, NULL };			\
+		(GInterfaceInitFunc)(GCallback) init_func, NULL, NULL };			\
 	g_type_module_add_interface (module, type, iface_type, &iface);		\
 }
 

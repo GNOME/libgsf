@@ -257,7 +257,7 @@ void
 gsf_doc_meta_dump (GsfDocMetaData const *meta)
 {
 	gsf_doc_meta_data_foreach (meta,
-		(GHFunc) cb_print_property, NULL);
+		(GHFunc)(GCallback) cb_print_property, NULL);
 }
 
 /**********************************************************************/

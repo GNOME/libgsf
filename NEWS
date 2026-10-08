@@ -1,5 +1,8 @@
 libgsf 1.14.61
 
+Morten:
+	* Deal with newer compiler warnings.
+
 --------------------------------------------------------------------------
 libgsf 1.14.60
 

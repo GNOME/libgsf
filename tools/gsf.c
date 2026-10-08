@@ -379,7 +379,7 @@ gsf_list_props (int argc, char **argv)
 	meta_data = get_meta_data (infile, filename);
 	gsf_doc_meta_data_foreach (meta_data, cb_collect_names, &names);
 	names = g_slist_sort (names, (GCompareFunc)strcmp);
-	g_slist_foreach (names, (GFunc)cb_print_names, NULL);
+	g_slist_foreach (names, (GFunc)(GCallback)cb_print_names, NULL);
 	g_slist_free (names);
 
 	g_object_unref (meta_data);
