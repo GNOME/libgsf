@@ -28,6 +28,10 @@
 
 #include <string.h>
 
+/* Sequester the xmlChar <-> char signedness casts here. */
+#define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:open_pkg"
 
@@ -78,32 +82,32 @@ open_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean is_extern = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "Id"))
+		if (0 == strcmp (CXML2C (attrs[0]), "Id"))
 			id = attrs[1];
-		else if (0 == strcmp (attrs[0], "Type"))
+		else if (0 == strcmp (CXML2C (attrs[0]), "Type"))
 			type = attrs[1];
-		else if (0 == strcmp (attrs[0], "Target"))
+		else if (0 == strcmp (CXML2C (attrs[0]), "Target"))
 			target = attrs[1];
-		else if (0 == strcmp (attrs[0], "TargetMode"))
-			is_extern = 0 == strcmp (attrs[1], "External");
+		else if (0 == strcmp (CXML2C (attrs[0]), "TargetMode"))
+			is_extern = 0 == strcmp (CXML2C (attrs[1]), "External");
 
 	if (id == NULL) {
 		g_warning ("Broken relation: missing id");
-		id = "?";
+		id = CC2XML ("?");
 	}
 	if (type == NULL) {
 		g_warning ("Broken relation: missing type");
-		type = "?";
+		type = CC2XML ("?");
 	}
 	if (target == NULL) {
 		g_warning ("Broken relation: missing target");
-		target = "?";
+		target = CC2XML ("?");
 	}
 
 	rel = g_new0 (GsfOpenPkgRel, 1);
-	rel->id		= g_strdup (id);
-	rel->type	= g_strdup (type);
-	rel->target	= g_strdup (target);
+	rel->id		= g_strdup (CXML2C (id));
+	rel->type	= g_strdup (CXML2C (type));
+	rel->target	= g_strdup (CXML2C (target));
 	rel->is_extern	= is_extern;
 
 	/* Make sure we don't point to a freed rel in the type hash.  */

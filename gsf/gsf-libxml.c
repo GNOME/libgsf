@@ -28,6 +28,9 @@
 #include <math.h>
 #include <string.h>
 
+/* Sequester the xmlChar <-> char signedness casts here. */
+#define CXML2C(s) ((char const *)(s))
+
 #undef DEBUG_PUSH_POP
 
 static GObjectClass *parent_class;
@@ -667,8 +670,8 @@ lookup_child (GsfXMLInInternal *state, int default_ns_id,
 		if (group->ns_id >= 0 &&
 		    group->ns_id < (int)state->ns_by_id->len &&
 		    NULL != (inst = g_ptr_array_index (state->ns_by_id, group->ns_id)) &&
-		    0 == strncmp (name, inst->tag, inst->taglen))
-			tmp = name + inst->taglen;
+		    0 == strncmp (CXML2C (name), inst->tag, inst->taglen))
+			tmp = CXML2C (name) + inst->taglen;
 		else if (group->ns_id < 0 ||			/* target is unqualified */
 			 group->ns_id == default_ns_id) {	/* target is in default ns */
 #if 0
@@ -676,7 +679,7 @@ lookup_child (GsfXMLInInternal *state, int default_ns_id,
 			inst = g_ptr_array_index (state->ns_by_id, group->ns_id);
 			g_warning ("accepted ns = '%s' looking for '%s'", inst->tag, name);
 #endif
-			tmp = name;
+			tmp = CXML2C (name);
 		} else
 			continue;
 
@@ -730,12 +733,12 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	ns = state->pub.doc->ns;
 	if (ns != NULL && state->pub.node->check_children_for_ns) {
 		for (ns_ptr = attrs; ns_ptr != NULL && ns_ptr[0] && ns_ptr[1] ; ns_ptr += 2) {
-			if (strncmp (*ns_ptr, "xmlns", 5))
+			if (strncmp (CXML2C (*ns_ptr), "xmlns", 5))
 				continue;
 			if (ns_ptr[0][5] != '\0' && ns_ptr[0][5] != ':')
 				continue;
 			for (i = 0; (tmp = ns[i].uri) != NULL ; i++) {
-				if (strcmp (tmp, ns_ptr[1]))
+				if (strcmp (tmp, CXML2C (ns_ptr[1])))
 					continue;
 
 				if (ns_ptr[0][5] == '\0') {
@@ -746,10 +749,10 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 				inst = g_hash_table_lookup (state->ns_prefixes, ns_ptr[0] + 6);
 				if (inst == NULL) {
 					inst = g_new0 (GsfXMLInNSInstance, 1);
-					inst->tag    = g_strconcat (ns_ptr[0] + 6, ":", NULL);
+					inst->tag    = g_strconcat (CXML2C (ns_ptr[0] + 6), ":", NULL);
 					inst->taglen = strlen (inst->tag);
 					inst->ref_count = 1;
-					g_hash_table_insert (state->ns_prefixes, g_strdup (ns_ptr[0] + 6), inst);
+					g_hash_table_insert (state->ns_prefixes, g_strdup (CXML2C (ns_ptr[0] + 6)), inst);
 
 					if (ns[i].ns_id >= state->ns_by_id->len)
 						g_ptr_array_set_size (state->ns_by_id, ns[i].ns_id+1);
@@ -764,7 +767,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 			}
 
 			if (NULL == tmp) {
-				char *s = g_strdup (ns_ptr[0] + 6);
+				char *s = g_strdup (CXML2C (ns_ptr[0] + 6));
 				g_hash_table_replace (state->ns_unknowns, s, s);
 				if (gsf_debug_flag ("xml-ns"))
 					g_warning ("Unknown namespace uri = '%s'", ns_ptr[1]);
@@ -810,9 +813,9 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	if (state->unknown_depth++ > 0)
 		return;
 
-	tmp = strchr (name, ':');
+	tmp = strchr (CXML2C (name), ':');
 	if (tmp) {
-		char *nsstr = g_strndup (name, tmp - (const char *)name);
+		char *nsstr = g_strndup (CXML2C (name), tmp - CXML2C (name));
 		if (g_hash_table_lookup (state->ns_unknowns, nsstr))
 			complain = FALSE;
 		g_free (nsstr);
@@ -910,7 +913,7 @@ gsf_xml_in_characters (GsfXMLInInternal *state, xmlChar const *chars, int len)
 		return;
 
 	if (state->pub.node->has_content != GSF_XML_NO_CONTENT)
-		g_string_append_len (state->pub.content, chars, len);
+		g_string_append_len (state->pub.content, CXML2C (chars), len);
 }
 
 static xmlEntityPtr
