@@ -765,7 +765,7 @@ gsf_input_uncompress (GsfInput *src)
 
 	/* Let's try bzip.  */
 	{
-		guint8 const *bzip_sig = "BZh";
+		char const *bzip_sig = "BZh";
 
 		if (memcmp (bzip_sig, header, strlen (bzip_sig)) == 0) {
 			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);

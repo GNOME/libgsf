@@ -26,6 +26,9 @@
 
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+
 /*
  * FIXME!
  *
@@ -757,7 +760,7 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 	va_end (args2);
 
 	if (reslen == 0 ||
-	    GET_CLASS (output)->Write (output, reslen, output->printf_buf))
+	    GET_CLASS (output)->Write (output, reslen, CC2U (output->printf_buf)))
 		return reslen;
 
 	return -1;
@@ -780,5 +783,5 @@ gsf_output_puts (GsfOutput *output, char const *line)
 	g_return_val_if_fail (line != NULL, FALSE);
 
 	nbytes = strlen (line);
-	return gsf_output_write (output, nbytes, line);
+	return gsf_output_write (output, nbytes, CC2U (line));
 }

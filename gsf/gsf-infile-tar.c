@@ -30,6 +30,9 @@
 
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CU2C(s) ((char const *)(s))
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "libgsf:tar"
 
@@ -278,7 +281,7 @@ tar_init_info (GsfInfileTar *tar)
 				break;
 			}
 
-			n = gsf_input_read (tar->source, length, NULL);
+			n = CU2C (gsf_input_read (tar->source, length, NULL));
 			if (!n) {
 				tar->err = g_error_new (gsf_input_error_id (), 0,
 							_("Failed to read longname"));

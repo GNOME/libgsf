@@ -33,6 +33,10 @@
 
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 static GObjectClass *parent_class;
 
 struct _GsfInfileMSVBA {
@@ -112,7 +116,7 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 	if (res == NULL)
 		return NULL;
 	if (add_null_terminator)
-		g_byte_array_append (res, "", 1);
+		g_byte_array_append (res, CC2U (""), 1);
 	*size = res->len;
 
 	return g_byte_array_free (res, FALSE);
@@ -229,7 +233,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 
 		switch (tag) {
 		case 4:
-			name = g_strndup (ptr, len);
+			name = g_strndup (CU2C (ptr), len);
 #ifdef OLD_VBA_DUMP
 			puts ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			printf ("<project name=\"%s\">", name);
@@ -261,7 +265,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		case 0x3e : break;
 		case 0x16:
 #if 0
-			name = g_strndup (ptr, len);
+			name = g_strndup (CU2C (ptr), len);
 			g_print ("Depend Name : '%s'\n", name);
 			g_free (name);
 #endif
@@ -272,14 +276,14 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		case 0x32 : break;
 		case 0x1a:
 #if 0
-			name = g_strndup (ptr, len);
+			name = g_strndup (CU2C (ptr), len);
 			g_print ("Element Name : '%s'\n", name);
 			g_free (name);
 #endif
 			break;
 		case 0x19:
 			g_free (elem_stream);
-			elem_stream = g_strndup (ptr, len);
+			elem_stream = g_strndup (CU2C (ptr), len);
 			break;
 
 		case 0x31:

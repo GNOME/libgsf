@@ -29,6 +29,11 @@
 #include <ctype.h>
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CU2C(s) ((char const *)(s))
+#define U2C(s) ((char *)(s))
+#define UI2I(s) ((int *)(s))
+
 /*
  * Glib gets this wrong, really.  ARM's floating point format is a weird
  * mixture.
@@ -614,7 +619,7 @@ gsf_base64_encode_close (guint8 const *in, size_t inlen,
 	if (inlen > 0)
 		outptr += gsf_base64_encode_step (in, inlen, break_lines,
 						  outptr, state, save);
-	outptr += g_base64_encode_close (break_lines, outptr, state, save);
+	outptr += g_base64_encode_close (break_lines, U2C (outptr), state, UI2I (save));
 	return outptr-out;
 }
 
@@ -637,7 +642,7 @@ size_t
 gsf_base64_encode_step (guint8 const *in, size_t len,
 			gboolean break_lines, guint8 *out, int *state, unsigned int *save)
 {
-	return g_base64_encode_step (in, len, break_lines, out, state, save);
+	return g_base64_encode_step (in, len, break_lines, U2C (out), state, UI2I (save));
 }
 
 
@@ -657,7 +662,7 @@ size_t
 gsf_base64_decode_step (guint8 const *in, size_t len, guint8 *out,
 			int *state, guint *save)
 {
-	return g_base64_decode_step (in, len, out, state, save);
+	return g_base64_decode_step (CU2C (in), len, out, state, save);
 }
 
 /**

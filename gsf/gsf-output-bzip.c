@@ -25,6 +25,9 @@
 #include <gsf/gsf.h>
 #include <glib/gi18n-lib.h>
 
+/* Sequester signedness casts here. */
+#define U2C(s) ((char *)(s))
+
 #ifdef HAVE_BZ2
 #include <bzlib.h>
 #define BZ_BUFSIZE (32 * 1024)
@@ -80,7 +83,7 @@ init_bzip (GsfOutputBzip *bzip, GError **err)
 		bzip->buf_size = BZ_BUFSIZE;
 		bzip->buf = g_new (guint8, bzip->buf_size);
 	}
-	bzip->stream.next_out  = bzip->buf;
+	bzip->stream.next_out  = U2C (bzip->buf);
 	bzip->stream.avail_out = bzip->buf_size;
 
 	return TRUE;
@@ -94,7 +97,7 @@ bzip_output_block (GsfOutputBzip *bzip)
 	if (!gsf_output_write (bzip->sink, num_bytes, bzip->buf))
 		return FALSE;
 
-	bzip->stream.next_out  = bzip->buf;
+	bzip->stream.next_out  = U2C (bzip->buf);
 	bzip->stream.avail_out = bzip->buf_size;
 
 	return TRUE;
@@ -137,7 +140,7 @@ gsf_output_bzip_write (GsfOutput *output,
 
 	g_return_val_if_fail (num_bytes == 0 || data != NULL, FALSE);
 
-	bzip->stream.next_in  = (unsigned char *) data;
+	bzip->stream.next_in  = U2C (data);
 	while (num_bytes > 0) {
 		bzip->stream.avail_in = (num_bytes > G_MAXUINT32) ? G_MAXUINT32 : (unsigned int)num_bytes;
 		num_bytes -= bzip->stream.avail_in;

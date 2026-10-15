@@ -28,6 +28,9 @@
 #include <glib.h>
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+
 static GObjectClass *parent_class;
 
 enum {
@@ -157,7 +160,7 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 	} else
 		g_string_append_len (csv->buf, field, len);
 
-	ok = gsf_output_write (csv->sink, csv->buf->len, csv->buf->str);
+	ok = gsf_output_write (csv->sink, csv->buf->len, CC2U (csv->buf->str));
 
 	g_string_truncate (csv->buf, 0);
 
@@ -172,7 +175,7 @@ gsf_output_csv_write_eol (GsfOutputCsv *csv)
 	g_return_val_if_fail (GSF_IS_OUTPUT_CSV (csv), FALSE);
 
 	csv->fields_on_line = FALSE;
-	return gsf_output_write (csv->sink, csv->eol_len, csv->eol);
+	return gsf_output_write (csv->sink, csv->eol_len, CC2U (csv->eol));
 }
 
 /* ------------------------------------------------------------------------- */

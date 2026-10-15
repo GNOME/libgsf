@@ -31,6 +31,10 @@
 #include <time.h>
 #include <zlib.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 #define ZIP_CREATE_DEFAULT_ZIP64 -1
 #define ZIP_ADD_UNIXTIME_FIELD TRUE
 
@@ -264,10 +268,10 @@ zip_dirent_write (GsfOutfileZip *zip, const GsfZipDirent *dirent)
 			    offset_in_zip64 ? G_MAXUINT32 : dirent->offset);
 
 	/* Stuff everything into extras so we can do just one write.  */
-	g_string_insert_len (extras,          0, buf, sizeof buf);
+	g_string_insert_len (extras,          0, CU2C (buf), sizeof buf);
 	g_string_insert_len (extras, sizeof buf, dirent->name, nlen);
 
-	ret = gsf_output_write (zip->sink, extras->len, extras->str);
+	ret = gsf_output_write (zip->sink, extras->len, CC2U (extras->str));
 
 	g_string_free (extras, TRUE);
 
@@ -618,12 +622,12 @@ zip_header_write (GsfOutfileZip *zip)
 	GSF_LE_SET_GUINT16 (hbuf + ZIP_HEADER_EXTRAS_SIZE, extras->len);
 
 	/* Stuff everything into extras so we can do just one write.  */
-	g_string_insert_len (extras,           0, hbuf, sizeof hbuf);
+	g_string_insert_len (extras,           0, CU2C (hbuf), sizeof hbuf);
 	g_string_insert_len (extras, sizeof hbuf, name, nlen);
 	if (sig_written)
 		g_string_erase (extras, 0, 4);
 
-	ret = gsf_output_write (zip->sink, extras->len, extras->str);
+	ret = gsf_output_write (zip->sink, extras->len, CC2U (extras->str));
 
 	g_string_free (extras, TRUE);
 

@@ -24,6 +24,9 @@
 
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define U2C(s) ((char *)(s))
+
 #define MIN_BLOCK 512
 
 static GsfOutputClass *parent_class;
@@ -170,7 +173,7 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 		 */
 		G_VA_COPY (args2, args);
 
-		len = g_vsnprintf (mem->buffer + output->cur_offset,
+		len = g_vsnprintf (U2C (mem->buffer + output->cur_offset),
 				   mem->capacity - output->cur_offset,
 				   format, args);
 

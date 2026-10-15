@@ -26,6 +26,10 @@
 
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 #define BUF_SIZE 0x400
 
 static GObjectClass *parent_class;
@@ -105,7 +109,7 @@ iconv_flush (GsfOutputIconv *ic, gboolean must_empty)
 	if (ic->buf_len > 0) {
 		gsize bytes_read, bytes_written;
 		gboolean ok;
-		char *data = g_convert_with_fallback (ic->buf, ic->buf_len,
+		char *data = g_convert_with_fallback (CU2C (ic->buf), ic->buf_len,
 						      ic->output_charset,
 						      ic->input_charset,
 						      ic->fallback,
@@ -121,7 +125,7 @@ iconv_flush (GsfOutputIconv *ic, gboolean must_empty)
 			ic->buf_len -= bytes_read;
 			memmove (ic->buf, ic->buf + bytes_read, ic->buf_len);
 
-			ok = gsf_output_write (ic->sink, bytes_written, data);
+			ok = gsf_output_write (ic->sink, bytes_written, CC2U (data));
 			if (!ok) {
 				gsf_output_set_error (GSF_OUTPUT (ic),
 						      0,

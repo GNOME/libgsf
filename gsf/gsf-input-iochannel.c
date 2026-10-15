@@ -24,6 +24,9 @@
 #include <gsf-input-iochannel.h>
 #include <gsf.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+
 /**
  * gsf_input_memory_new_from_iochannel:
  * @channel: a #GIOChannel.
@@ -43,5 +46,5 @@ gsf_input_memory_new_from_iochannel (GIOChannel *channel,
 	if (G_IO_STATUS_NORMAL != g_io_channel_read_to_end (channel, &buf, &len, err))
 		return NULL;
 
-	return gsf_input_memory_new (buf, len, TRUE);
+	return gsf_input_memory_new (CC2U (buf), len, TRUE);
 }

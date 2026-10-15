@@ -31,6 +31,10 @@
 #include <time.h>
 #include <glib/gi18n-lib.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 #define NO_DEBUG_OLE_PROPS
 #ifndef NO_DEBUG_OLE_PROPS
 #define d(code)	do { code } while (0)
@@ -766,7 +770,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		error = NULL;
 		d (gsf_mem_dump (*data, len * section->char_size););
-		str = g_convert_with_iconv (*data,
+		str = g_convert_with_iconv (CU2C (*data),
 					    len > section->char_size ? len - section->char_size : 0,
 			section->iconv_handle, NULL, NULL, &error);
 
@@ -801,7 +805,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 
 		error = NULL;
 		d (gsf_mem_dump (*data, len * 2););
-		str = g_convert (*data, len * 2,
+		str = g_convert (CU2C (*data), len * 2,
 				 "UTF-8", "UTF-16LE", NULL, NULL, &error);
 
 		g_value_init (res, G_TYPE_STRING);
@@ -1093,7 +1097,7 @@ msole_prop_read (GsfInput *in,
 			g_return_val_if_fail (byte_len <= end - (data + 8), FALSE);
 
 			gslen = 0;
-			name = g_convert_with_iconv (data + 8, byte_len,
+			name = g_convert_with_iconv (CU2C (data + 8), byte_len,
 						     section->iconv_handle, &gslen, NULL, NULL);
 			len = (guint32)gslen;
 			data += 8 + len;
@@ -1512,7 +1516,7 @@ msole_metadata_write_string (WritePropState *state, const char *txt)
 	}
 	res = gsf_output_write (state->out, 4, buf);
 
-	res = res && gsf_output_write (state->out, bytes_written, ctxt);
+	res = res && gsf_output_write (state->out, bytes_written, CC2U (ctxt));
 
 	GSF_LE_SET_GUINT32 (buf, 0);
 	res = res && gsf_output_write (state->out, state->char_size, buf);

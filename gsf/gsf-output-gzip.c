@@ -28,6 +28,9 @@
 #include <time.h>
 #include <string.h>
 
+/* Sequester signedness casts here. */
+#define CC2U(s) ((guint8 const *)(s))
+
 static GObjectClass *parent_class;
 
 struct _GsfOutputGZip {
@@ -102,7 +105,7 @@ gzip_output_header (GsfOutputGZip *gzip)
 	buf[9] = 3;	/* UNIX */
 	ret = gsf_output_write (gzip->sink, sizeof buf, buf);
 	if (ret && name && nlen > 0)
-		ret = gsf_output_write (gzip->sink, nlen, name);
+		ret = gsf_output_write (gzip->sink, nlen, CC2U (name));
 
 	return ret;
 }
