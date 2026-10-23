@@ -902,6 +902,12 @@ gsf_infile_msole_new_child (GsfInfileMSOle *parent,
 			gsf_input_set_size (GSF_INPUT (child), 0);
 			return GSF_INPUT (child);
 		}
+
+		/* An empty stream has nothing to read, and the file may
+		 * not even have a small block file if all its small
+		 * streams are empty.  */
+		if (dirent->size == 0)
+			return GSF_INPUT (child);
 	}
 
 	info = parent->info;

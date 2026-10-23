@@ -45,6 +45,11 @@ test_write_streams (GsfOutfile *outfile)
 	gsf_output_close (child);
 	g_object_unref (child);
 
+	child = gsf_outfile_new_child (outfile, "Empty", FALSE);
+	if (!child) return FALSE;
+	gsf_output_close (child);
+	g_object_unref (child);
+
 	/* Summary Information */
 	child = gsf_outfile_new_child (outfile, "\005SummaryInformation", FALSE);
 	if (!child) return FALSE;
@@ -136,6 +141,14 @@ test_read_streams (GsfInfile *infile)
 	if (size != (gsf_off_t)(sizeof (data2) - 1)) return FALSE;
 	if (!gsf_input_read (child, size, buf)) return FALSE;
 	if (memcmp (buf, data2, size) != 0) return FALSE;
+	g_object_unref (child);
+
+	child = gsf_infile_child_by_name (infile, "Empty");
+	if (!child) {
+		g_printerr ("Empty not found\n");
+		return FALSE;
+	}
+	if (gsf_input_size (child) != 0) return FALSE;
 	g_object_unref (child);
 
 	/* Summary Information */
@@ -269,6 +282,61 @@ test_read_by_index (GsfInfile *infile, int num_extra)
 	return TRUE;
 }
 
+/* An archive whose only stream is empty has no small block file.  */
+static gboolean
+test_empty_only (const char *filename)
+{
+	GsfOutput  *output;
+	GsfOutfile *outfile;
+	GsfOutput  *child;
+	GsfInput   *input;
+	GsfInfile  *infile;
+	GsfInput   *empty;
+	GError     *err = NULL;
+	gboolean    ok;
+
+	g_print ("Testing archive with only an empty stream\n");
+
+	output = gsf_output_stdio_new (filename, &err);
+	if (!output) {
+		g_printerr ("Failed to create output: %s\n", err->message);
+		g_error_free (err);
+		return FALSE;
+	}
+	outfile = gsf_outfile_msole_new (output);
+	g_object_unref (output);
+	child = gsf_outfile_new_child (outfile, "Empty", FALSE);
+	if (!child) return FALSE;
+	gsf_output_close (child);
+	g_object_unref (child);
+	if (!gsf_output_close (GSF_OUTPUT (outfile))) return FALSE;
+	g_object_unref (outfile);
+
+	input = gsf_input_stdio_new (filename, &err);
+	if (!input) {
+		g_printerr ("Failed to open input: %s\n", err->message);
+		g_error_free (err);
+		return FALSE;
+	}
+	infile = gsf_infile_msole_new (input, &err);
+	g_object_unref (input);
+	if (!infile) {
+		g_printerr ("Failed to open OLE infile: %s\n", err ? err->message : "unknown error");
+		if (err) g_error_free (err);
+		return FALSE;
+	}
+
+	empty = gsf_infile_child_by_index (infile, 0);
+	ok = empty != NULL && gsf_input_size (empty) == 0;
+	if (!ok)
+		g_printerr ("Empty stream did not open\n");
+	if (empty)
+		g_object_unref (empty);
+	g_object_unref (infile);
+
+	return ok;
+}
+
 static int
 test (int argc, char *argv[])
 {
@@ -345,6 +413,11 @@ test (int argc, char *argv[])
 
 	g_object_unref (infile);
 	g_object_unref (input);
+
+	if (!test_empty_only (filename)) {
+		g_printerr ("Failed to read archive with only an empty stream\n");
+		return 1;
+	}
 
 	g_print ("OLE read/write test passed\n");
 	return 0;
