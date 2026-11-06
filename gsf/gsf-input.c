@@ -387,13 +387,13 @@ gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
  * gsf_input_read0: (rename-to gsf_input_read)
  * @input: the input stream
  * @num_bytes: (in): number of bytes to read
- * @bytes_read: (out): copy of @num_bytes
+ * @bytes_read: (out): @num_bytes on success, 0 on error
  *
  * Read @num_bytes.  Does not change the current position if there
  * is an error.  Will only read if the entire amount can be read.
  *
- * Returns: (array length=bytes_read) (element-type guint8) (transfer full):
- * the data read.
+ * Returns: (array length=bytes_read) (element-type guint8) (transfer full) (nullable):
+ * the data read, or %NULL on error, in which case @bytes_read is set to 0.
  **/
 guint8 *
 gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
@@ -403,14 +403,16 @@ gsf_input_read0 (GsfInput *input, size_t num_bytes, size_t *bytes_read)
 	g_return_val_if_fail (input != NULL, NULL);
 	g_return_val_if_fail (bytes_read != NULL, NULL);
 
-	*bytes_read = num_bytes;
+	*bytes_read = 0;
 
 	if ((gsf_off_t)num_bytes < 0 || (gsf_off_t)num_bytes > gsf_input_remaining (input))
 		return NULL;
 
 	res = g_new (guint8, num_bytes);
-	if (gsf_input_read (input, num_bytes, res))
+	if (gsf_input_read (input, num_bytes, res)) {
+		*bytes_read = num_bytes;
 		return res;
+	}
 
 	g_free (res);
 	return NULL;
