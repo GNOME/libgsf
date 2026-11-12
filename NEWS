@@ -3,6 +3,9 @@ libgsf 1.14.61
 Morten:
 	* Deal with newer compiler warnings.
 
+Jan-Otto:
+	* Fix reading empty OLE2 streams.
+
 --------------------------------------------------------------------------
 libgsf 1.14.60
 
