@@ -1,3 +1,9 @@
+2026-11-06  Vitaly Lipatov  <lav@etersoft.ru>
+
+	* gsf/gsf-input.c (gsf_input_read0): Set *bytes_read to 0 on
+	failure.  Introspected bindings used it as the length of the NULL
+	result and crashed.
+
 2026-09-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
