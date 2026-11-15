@@ -1,10 +1,13 @@
 libgsf 1.14.61
 
+Jan-Otto:
+	* Fix reading empty OLE2 streams.
+
 Morten:
 	* Deal with newer compiler warnings.
 
-Jan-Otto:
-	* Fix reading empty OLE2 streams.
+Vitaly:
+	* Fix crash in introspection bindings when gsf_input_read fails.
 
 --------------------------------------------------------------------------
 libgsf 1.14.60
@@ -126,7 +129,7 @@ Allin Cottrell:
 	* GsfOutputMemory improvement.
 	* Teach GsfOutputGzip to control compression level.
 
-Marc-André Lureau:
+Marc-AndrÃ© Lureau:
 	* Cleanups.  See merge request 5.
 
 Morten:
@@ -135,7 +138,7 @@ Morten:
 --------------------------------------------------------------------------
 libgsf 1.14.46
 
-Javier Jardón:
+Javier JardÃ³n:
 	* Upgrade to newer gettext.  [#7]
 
 Morten:
@@ -161,7 +164,7 @@ libgsf 1.14.43
 Morten:
 	* Handle modtime for memory mapped files.
 
-Corentin Noël and Rico Tzschichholz:
+Corentin NoÃ«l and Rico Tzschichholz:
 	* Introspection fixes.
 
 --------------------------------------------------------------------------
@@ -194,7 +197,7 @@ Morten:
 --------------------------------------------------------------------------
 libgsf 1.14.38
 
-Felix Bünemann:
+Felix BÃ¼nemann:
 	* BSD compatibility for test.  [#767044]
 	* Fix zip64 problem.  [#767043]
 
@@ -761,7 +764,7 @@ Jody:
 	* Handle 0x8000 and 0x8001 codepages.
 	* Fix leak in array properties.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Fix VT_FILETIME OLE property export.
 
 Morten:
@@ -844,7 +847,7 @@ Jody:
 	  specs
 	* An extra wrapper to GsfOutputStdio to handle FILE* directly
 
-Jon Kåre:
+Jon KÃ¥re:
 	* make xml string export more convenient by ignoring NULL
 
 Kasal:
@@ -868,7 +871,7 @@ Veerapuram Varadhan:
 ------------------------------------------------------------------------------
 libgsf 1.10.1
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Fix base64 decoding.
 
 Kasal:
@@ -999,7 +1002,7 @@ Jody:
 	* Catch invalid OLE files with cycles.
 	* Fix exporting OLE files larger than 6.8 Meg
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Only unset valid GValues when reading msole properties.
 
 Morten:
@@ -1017,7 +1020,7 @@ Jody:
 	* Fix a subtle leak that Morten found.
 	* Suppress some warnings in the test suite.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Add printf mechanism.
 	* Fix misc bugs.
 	* Add gzip output.
@@ -1051,7 +1054,7 @@ Jody:
 	* Add some structured blob utilites for easy in/out of blob trees
 	* Support unicode property values and names in ole files.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* sync the directory semantics of infile-zip with infile-msole.
 	* Support seeking within zip streams.
 	* Make dup work properly for gzip and zip children.
@@ -1067,7 +1070,7 @@ Jody:
 	* Some initial work on MS OLE property streams (doc metadata)
 	* Some initial work on doc meta data (expect changes as ole settles)
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Work and plan to support big files.
 
 ------------------------------------------------------------------------------
@@ -1110,6 +1113,6 @@ Morten:
 	* mmap/buffer wrapper
 	* testing & purification
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Some configure cleanup
 	* Bonobo Stream wrapper
