@@ -62,6 +62,32 @@ sub removejunk {
     }
 }
 
+sub invent_junkfile {
+    my ($base) = @_;
+
+    die "$0: problem with invent_junkfile $base\n" if $base =~ m{/};
+    die "$0: problem with invent_junkfile $base\n" if $base !~ /^[^.]+\.[^.]+$/;
+
+    my $me = $0;
+    $me =~ s{^.*/}{};
+    $me =~ s{\.pl$}{};
+    $me =~ s/^(t\d+)-.*/$1/ or
+	die "$0: problem with invent_junkfile $base $0\n";
+
+    my $res = $base;
+    $res =~ s/\./-$me./;
+
+    $res =~ s{^(|.*/)(.*)$}{$1tmp-$2};
+
+    if (-e $res) {
+	die "$0: failed to remove $res: $!\n" unless unlink $res;
+    }
+
+    &junkfile ($res);
+
+    return $res;
+}
+
 # -----------------------------------------------------------------------------
 
 sub system_failure {
@@ -69,22 +95,22 @@ sub system_failure {
 
     if ($code == -1) {
 	die "failed to run $program: $!\n";
-    } elsif ($code >> 8) {
-	my $sig = $code >> 8;
+    } elsif ($code & 127) {
+	my $sig = $code & 127;
 	die "$program died due to signal $sig\n";
     } else {
-	die "$program exited with exit code $code\n";
+	my $ec = $code >> 8;
+	die "$program exited with exit code $ec\n";
     }
 }
 
 sub read_file {
     my ($fn) = @_;
 
-    local (*FIL);
-    open (FIL, $fn) or die "Cannot open $fn: $!\n";
+    open (my $f, '<', $fn) or die "Cannot open $fn: $!\n";
     local $/ = undef;
-    my $lines = <FIL>;
-    close FIL;
+    my $lines = <$f>;
+    close $f;
 
     return $lines;
 }
@@ -92,11 +118,10 @@ sub read_file {
 sub write_file {
     my ($fn,$contents) = @_;
 
-    local (*FIL);
-    open (FIL, ">$fn.tmp") or die "Cannot create $fn.tmp: $!\n";
-    print FIL $contents;
-    close FIL;
-    rename "$fn.tmp", $fn;
+    open (my $f, '>', "$fn.tmp") or die "Cannot create $fn.tmp: $!\n";
+    print $f $contents or die "Cannot write $fn.tmp: $!\n";
+    close $f or die "Cannot close $fn.tmp: $!\n";
+    rename "$fn.tmp", $fn or die "Cannot close $fn.tmp: $!\n"
 }
 
 sub update_file {
@@ -179,10 +204,7 @@ sub test_valgrind {
     $ENV{'G_SLICE'} = 'always-malloc';
     delete $ENV{'VALGRIND_OPTS'};
 
-    my $outfile = 'valgrind.log';
-    unlink $outfile;
-    die "Cannot remove $outfile.\n" if -f $outfile;
-    &junkfile ($outfile);
+    my $outfile = &invent_junkfile ('valgrind.log');
 
     my $valhelp = `valgrind --help 2>&1`;
     &report_skip ("Valgrind is not available") unless defined $valhelp;
@@ -365,8 +387,7 @@ sub test_archive {
     my $member_tests = $pargs->{'member-tests'};
     my $infofunc = $pargs->{'infofunc'};
 
-    my $archive = "test.$ext";
-    &junkfile ($archive);
+    my $archive = &invent_junkfile ("test.$ext");
 
     {
 	my $gsfcmd = $pargs->{'create-arg'};
@@ -419,7 +440,7 @@ sub test_archive {
 	print STDERR "# Member $file matched.\n";
     }
 
-    if ($infofunc) {
+    if ($infofunc && $member_tests) {
 	my ($ainfo,$minfo) = &$infofunc ($archive);
 
 	foreach my $test (@$member_tests) {

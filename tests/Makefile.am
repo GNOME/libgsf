@@ -12,7 +12,8 @@
 # 90xx: Misc stuff.
 
 TESTS_EXTENSIONS=.pl
-TESTS =	t1000-zip-single.pl				\
+TSCRIPTS = \
+	t1000-zip-single.pl				\
 	t1001-zip-multiple.pl				\
 	t1002-zip-aaaa.pl				\
 	t1003-zip-noise.pl				\
@@ -26,6 +27,8 @@ TESTS =	t1000-zip-single.pl				\
 	t8000-valgrind-zip.pl				\
 	t8020-valgrind-ole.pl				\
 	t9999-epilogue.pl
+
+TESTS = $(TSCRIPTS)
 
 SUPPS = common.supp
 
@@ -43,6 +46,6 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
 		 test-http test-gio test-xml test-ole test-iconv test-csv test-compress
 
-EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TESTS)
-.PHONY: $(TESTS)
+EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)
+
 .NOTPARALLEL:
