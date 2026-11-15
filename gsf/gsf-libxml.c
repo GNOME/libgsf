@@ -359,7 +359,7 @@ gsf_xml_parser_context (GsfInput *input)
 /**
  * gsf_xml_output_buffer_new: (skip)
  * @output: #GsfOutput
- * @handler: (nullable) (scope call):
+ * @handler: (nullable) (scope async):
  *
  * <note>This adds a reference to @output.</note>
  * <note>This is <emphasis>not</emphasis> releated to #GsfXMLOut.</note>
@@ -1259,7 +1259,7 @@ gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
 /**
  * gsf_xml_in_doc_set_unknown_handler:
  * @doc: #GsfXMLInDoc
- * @handler: (scope call): The function to call
+ * @handler: (scope async): The function to call
  *
  * Call the function @handler when an unexpected child node is found
  **/
@@ -1276,7 +1276,7 @@ gsf_xml_in_doc_set_unknown_handler (GsfXMLInDoc *doc,
  * @xin: #GsfXMLIn
  * @doc: #GsfXMLInDoc
  * @new_state: arbitrary content for the parser
- * @dtor: (scope call): #GsfXMLInExtDtor
+ * @dtor: (scope async): #GsfXMLInExtDtor
  * @attrs: (array) (element-type utf8): array of xmlChar const *
  *
  * Take the first node from @doc as the current node and call its start handler.
@@ -2060,7 +2060,7 @@ gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
  * @val: #GValue
  *
  * Output the value of @val as a string.  Does NOT store any type information
- * with the string, just thevalue.
+ * with the string, just the value.
  **/
 void
 gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
