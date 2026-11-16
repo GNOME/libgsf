@@ -105,8 +105,9 @@ glade_flags_from_string (GType type, const char *string)
             endptr = &flagstr [i];
 
 	    if (!eos) {
-		flagstr [i++] = '\0';
-		j = i;
+		/* The loop's own i++ steps past the separator. */
+		flagstr [i] = '\0';
+		j = i + 1;
 	    }
 
             /* trim spaces */
@@ -197,7 +198,7 @@ glade_string_from_flags (GType type, guint flags)
  *
  * Try to parse @str as a value of type @t into @res.
  *
- * Returns: True when parsing of @str as a value of type @t was succesfull;
+ * Returns: True when parsing of @str as a value of type @t was successful;
  * false otherwise.
  */
 gboolean
@@ -629,7 +630,7 @@ push_child (GsfXMLInInternal *state, GsfXMLInNode const *node, int default_ns_id
 	if (state->debug_parsing)
 		g_printerr ("push: %-*s%s\n",
 			    (int)g_slist_length (state->pub.node_stack), "",
-			    node->name);
+			    node_name (node));
 
 	if (node->has_content == GSF_XML_CONTENT) {
 		if (state->pub.content->len) {
@@ -776,7 +777,8 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 				break;
 			}
 
-			if (NULL == tmp) {
+			/* Only "xmlns:prefix" has a prefix; plain "xmlns" is 5 chars. */
+			if (NULL == tmp && ns_ptr[0][5] == ':') {
 				char *s = g_strdup (CXML2C (ns_ptr[0] + 6));
 				g_hash_table_replace (state->ns_unknowns, s, s);
 				if (gsf_debug_flag ("xml-ns"))
@@ -788,6 +790,8 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 	node = (GsfXMLInNodeInternal const *) state->pub.node;
 
 	if (state->unknown_depth == 0) {
+		GsfXMLInNodeInternal const *cur_node = node;
+
 		if (lookup_child (state, default_ns_id, node->groups, name, attrs, NULL))
 			return;
 
@@ -803,7 +807,7 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 		}
 
 		/* Check for extensions */
-		for (ptr = node->extensions; ptr != NULL ; ptr = ptr->next) {
+		for (ptr = cur_node->extensions; ptr != NULL ; ptr = ptr->next) {
 			GsfXMLInExtension *ext = ptr->data;
 			if (lookup_child (state, default_ns_id,
 					  ext->doc->root_node->groups, name, attrs, ext))
@@ -967,6 +971,19 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 }
 
 static void
+gsf_xml_in_drop_node_extensions (GsfXMLInNodeInternal *node)
+{
+	GSList *l;
+
+	if (node == NULL)
+		return;
+	for (l = node->extensions; l != NULL; l = l->next)
+		g_free (l->data);
+	g_slist_free (node->extensions);
+	node->extensions = NULL;
+}
+
+static void
 gsf_xml_in_free_parser_state (GsfXMLInInternal *state)
 {
 	GSList *ptr;
@@ -1000,6 +1017,14 @@ gsf_xml_in_free_parser_state (GsfXMLInInternal *state)
 		if (ext != NULL && ext->from_unknown)
 			g_free (ext);
 	}
+
+	/*
+	 * Extensions registered on still-open nodes live in the shared doc.
+	 * Drop them so they neither leak nor leak into the next parse.
+	 */
+	for (ptr = state->pub.node_stack; ptr != NULL; ptr = ptr->next)
+		gsf_xml_in_drop_node_extensions (ptr->data);
+	gsf_xml_in_drop_node_extensions ((gpointer) state->pub.node);
 	g_slist_free (state->extension_stack);
 	state->extension_stack = NULL;
 
@@ -1220,8 +1245,13 @@ gsf_xml_in_doc_add_nodes (GsfXMLInDoc *doc,
 	g_return_if_fail (nodes != NULL);
 
 	for (e_node = nodes; e_node->id != NULL ; e_node++ ) {
-		GsfXMLInNodeInternal *tmp, *node =
-			g_hash_table_lookup (doc->symbols, e_node->id);
+		GsfXMLInNodeInternal *tmp, *node;
+
+		if (e_node->parent_id == NULL) {
+			g_warning ("ID '%s' has no parent ID.", e_node->id);
+			continue;
+		}
+		node = g_hash_table_lookup (doc->symbols, e_node->id);
 		if (node != NULL) {
 			/*
 			 * We use the repeat of a node name to attach an
@@ -1939,8 +1969,8 @@ gsf_xml_out_add_cstr (GsfXMLOut *xout, char const *id,
 				gsf_output_write (xout->output, cur-start, start);
 			start = ++cur;
 			gsf_output_write (xout->output, 6, CC2U ("&quot;"));
-		} else if ((*cur == '\n' || *cur == '\r' || *cur == '\t') &&
-			   id != NULL) {
+		} else if (*cur == '\r' ||
+			   ((*cur == '\n' || *cur == '\t') && id != NULL)) {
 			char buf[8];
 			sprintf (buf, "&#%d;", *cur);
 
