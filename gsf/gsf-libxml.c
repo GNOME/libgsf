@@ -282,6 +282,10 @@ gsf_libxml_read (void *context, guint8 *buffer, int len)
 	gsf_off_t remaining = gsf_input_remaining ((GsfInput *)context);
 	guint8* res;
 
+	if (remaining < 0)
+		return -1;
+	if (remaining == 0 || len <= 0)
+		return 0;
 	if (len > remaining)
 		len = remaining;
 	res = (guint8 *) gsf_input_read ((GsfInput *)context,
@@ -303,7 +307,7 @@ static int
 gsf_libxml_close (void *context)
 {
 	g_object_unref (context);
-	return TRUE;
+	return 0;
 }
 
 static xmlParserCtxtPtr
@@ -418,13 +422,16 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, char const *encoding,
 		}
 		if (enc != XML_CHAR_ENCODING_UTF8) {
 			handler = xmlFindCharEncodingHandler(encoding);
-			if (handler == NULL) {
-				xmlFree((char *) cur->encoding);
-				cur->encoding = NULL;
-			}
+			if (handler == NULL)
+				return(-1);
 		}
 	}
 	buf = gsf_xml_output_buffer_new (output, handler);
+	if (buf == NULL) {
+		if (handler != NULL)
+			xmlCharEncCloseFunc (handler);
+		return(-1);
+	}
 	return xmlSaveFormatFileTo (buf, cur, encoding, format);
 }
 
@@ -960,38 +967,66 @@ gsf_xml_in_start_document (GsfXMLInInternal *state)
 }
 
 static void
+gsf_xml_in_free_parser_state (GsfXMLInInternal *state)
+{
+	GSList *ptr;
+
+	if (!state->initialized)
+		return;
+
+	for (ptr = state->contents_stack; ptr != NULL; ptr = ptr->next) {
+		if (ptr->data != NULL)
+			g_string_free (ptr->data, TRUE);
+	}
+	g_slist_free (state->contents_stack);
+	state->contents_stack = NULL;
+
+	g_ptr_array_free (state->ns_by_id, TRUE);
+	state->ns_by_id = NULL;
+
+	g_hash_table_destroy (state->ns_prefixes);
+	state->ns_prefixes = NULL;
+
+	g_hash_table_destroy (state->ns_unknowns);
+	state->ns_unknowns = NULL;
+
+	/*
+	 * Do not call extension destructors while cleaning up after a failed
+	 * parse: they are user handlers.  Only the extensions owned by the
+	 * stack itself (those from an unknown handler) are freed here.
+	 */
+	for (ptr = state->extension_stack; ptr != NULL; ptr = ptr->next) {
+		GsfXMLInExtension *ext = ptr->data;
+		if (ext != NULL && ext->from_unknown)
+			g_free (ext);
+	}
+	g_slist_free (state->extension_stack);
+	state->extension_stack = NULL;
+
+	g_slist_free (state->pub.node_stack);
+	state->pub.node_stack = NULL;
+
+	g_slist_free (state->ns_stack);
+	state->ns_stack = NULL;
+
+	state->initialized = FALSE;
+}
+
+static void
 gsf_xml_in_end_document (GsfXMLInInternal *state)
 {
 	g_string_free (state->pub.content, TRUE);
 	state->pub.content = NULL;
 
 	if (state->initialized) {
-		g_ptr_array_free (state->ns_by_id, TRUE);
-		state->ns_by_id = NULL;
-
-		g_hash_table_destroy (state->ns_prefixes);
-		state->ns_prefixes = NULL;
-
-		g_hash_table_destroy (state->ns_unknowns);
-		state->ns_unknowns = NULL;
-
-		g_slist_free (state->extension_stack);
-		state->extension_stack = NULL;
-
-		g_slist_free (state->pub.node_stack);
-		state->pub.node_stack = NULL;
-
-		g_slist_free (state->ns_stack);
-		state->ns_stack = NULL;
-
-		state->initialized = FALSE;
-
 		if (state->pub.node != &state->pub.doc->root_node->pub) {
 			g_warning ("Document likely damaged.");
 		}
 		if (state->unknown_depth > 0) {
 			g_warning ("Document likely damaged.");
 		}
+
+		gsf_xml_in_free_parser_state (state);
 	}
 }
 
@@ -1099,18 +1134,18 @@ gsf_xml_in_node_internal_free (GsfXMLInNodeInternal *node)
 void
 gsf_xml_in_doc_free (GsfXMLInDoc *doc)
 {
-	doc->ref_count--;
-	if (doc->ref_count == 0) {
-		g_return_if_fail (doc != NULL);
-		g_return_if_fail (doc->symbols != NULL);
+	g_return_if_fail (doc != NULL);
+	g_return_if_fail (doc->ref_count > 0);
 
-		g_hash_table_destroy (doc->symbols);
+	if (--doc->ref_count > 0)
+		return;
 
-		/* poison the well just in case */
-		doc->symbols   = NULL;
-		doc->root_node = NULL;
-		g_free (doc);
-	}
+	g_hash_table_destroy (doc->symbols);
+
+	/* poison the well just in case */
+	doc->symbols   = NULL;
+	doc->root_node = NULL;
+	g_free (doc);
 }
 
 /**
@@ -1132,6 +1167,7 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 	g_return_val_if_fail (nodes != NULL, NULL);
 
 	doc = g_new0 (GsfXMLInDoc, 1);
+	doc->ref_count = 1;
 	doc->root_node = NULL;
 	doc->symbols   = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gsf_xml_in_node_internal_free);
@@ -1141,9 +1177,8 @@ gsf_xml_in_doc_new (GsfXMLInNode const *nodes, GsfXMLInNS const *ns)
 
 	if (NULL == doc->root_node) {
 		gsf_xml_in_doc_free (doc);
-		g_return_val_if_fail (NULL != doc->root_node, NULL);
+		return NULL;
 	}
-	doc->ref_count = 1;
 
 	return doc;
 }
@@ -1336,6 +1371,9 @@ gsf_xml_in_doc_parse (GsfXMLInDoc *doc, GsfInput *input, gpointer user_state)
 	xmlParseDocument (ctxt);
 	res = ctxt->wellFormed;
 	xmlFreeParserCtxt (ctxt);
+
+	if (state.initialized)
+		gsf_xml_in_free_parser_state (&state);
 
 	if (state.pub.content)
 		g_string_free (state.pub.content, TRUE);
@@ -1544,6 +1582,7 @@ gsf_xml_out_finalize (GObject *obj)
 {
 	GsfXMLOut *xout = GSF_XML_OUT (obj);
 	g_free (xout->priv->doc_type);
+	g_slist_free (xout->priv->stack);
 	parent_class->finalize (obj);
 }
 
@@ -1958,10 +1997,9 @@ gsf_xml_out_add_bool (GsfXMLOut *xout, char const *id,
  * dump integer value @val to an attribute named @id or as the nodes content
  **/
 void
-gsf_xml_out_add_int (GsfXMLOut *xout, char const *id,
-		     int val)
+gsf_xml_out_add_int (GsfXMLOut *xout, char const *id, int val)
 {
-	char buf [4 * sizeof (int)];
+	char buf [4 * sizeof (val)];
 	sprintf (buf, "%d", val);
 	gsf_xml_out_add_cstr_unchecked (xout, id, buf);
 }
@@ -1976,11 +2014,44 @@ gsf_xml_out_add_int (GsfXMLOut *xout, char const *id,
  * content
  **/
 void
-gsf_xml_out_add_uint (GsfXMLOut *xout, char const *id,
-		      unsigned int val)
+gsf_xml_out_add_uint (GsfXMLOut *xout, char const *id, unsigned int val)
 {
-	char buf [4 * sizeof (unsigned int)];
+	char buf [4 * sizeof (val)];
 	sprintf (buf, "%u", val);
+	gsf_xml_out_add_cstr_unchecked (xout, id, buf);
+}
+
+/**
+ * gsf_xml_out_add_long:
+ * @xout: #GsfXMLOut
+ * @id: (nullable): tag id, or %NULL for node content
+ * @val: the value
+ *
+ * dump long integer value @val to an attribute named @id or as the nodes
+ * content
+ **/
+void
+gsf_xml_out_add_long (GsfXMLOut *xout, char const *id, glong val)
+{
+	char buf [4 * sizeof (val)];
+	sprintf (buf, "%ld", val);
+	gsf_xml_out_add_cstr_unchecked (xout, id, buf);
+}
+
+/**
+ * gsf_xml_out_add_ulong:
+ * @xout: #GsfXMLOut
+ * @id: (nullable): tag id, or %NULL for node content
+ * @val: the value
+ *
+ * dump unsigned long integer value @val to an attribute named @id or as the
+ * nodes content
+ **/
+void
+gsf_xml_out_add_ulong (GsfXMLOut *xout, char const *id, gulong val)
+{
+	char buf [4 * sizeof (val)];
+	sprintf (buf, "%lu", val);
 	gsf_xml_out_add_cstr_unchecked (xout, id, buf);
 }
 
@@ -2066,11 +2137,13 @@ void
 gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 {
 	GType t;
+	GType fundamental;
 	g_return_if_fail (xout != NULL);
 	g_return_if_fail (val != NULL);
 
 	t = G_VALUE_TYPE (val);
-	switch (t) {
+	fundamental = G_TYPE_FUNDAMENTAL (t);
+	switch (fundamental) {
 	case G_TYPE_CHAR: {
 		char c[2] = { 0, 0 };
 		c[0] = (char)g_value_get_schar (val);
@@ -2098,19 +2171,21 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 		gsf_xml_out_add_uint (xout, id, g_value_get_uint (val));
 		break;
 	case G_TYPE_LONG:
-		gsf_xml_out_add_uint (xout, id, g_value_get_long (val));
+		gsf_xml_out_add_long (xout, id, g_value_get_long (val));
 		break;
 	case G_TYPE_ULONG:
-		gsf_xml_out_add_uint (xout, id, g_value_get_ulong (val));
+		gsf_xml_out_add_ulong (xout, id, g_value_get_ulong (val));
 		break;
 	case G_TYPE_ENUM:
 		gsf_xml_out_add_cstr (xout, id,
 			glade_string_from_enum (t, g_value_get_enum (val)));
 		break;
-	case G_TYPE_FLAGS:
-		gsf_xml_out_add_cstr (xout, id,
-			glade_string_from_flags (t, g_value_get_flags (val)));
+	case G_TYPE_FLAGS: {
+		char *flags = glade_string_from_flags (t, g_value_get_flags (val));
+		gsf_xml_out_add_cstr (xout, id, flags);
+		g_free (flags);
 		break;
+	}
 	case G_TYPE_FLOAT:
 		gsf_xml_out_add_float (xout, id, g_value_get_float (val), -1);
 		break;

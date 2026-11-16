@@ -28,7 +28,7 @@ TSCRIPTS = \
 	t8020-valgrind-ole.pl				\
 	t9999-epilogue.pl
 
-TESTS = $(TSCRIPTS)
+TESTS = $(TSCRIPTS) test-xml-fixes
 
 SUPPS = common.supp
 
@@ -44,7 +44,8 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-out-gzip1 test-out-gzip2 test-gzip1 test-gzip2	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
-		 test-http test-gio test-xml test-ole test-iconv test-csv test-compress
+		 test-http test-gio test-xml test-ole test-iconv test-csv test-compress	\
+		 test-xml-fixes
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)
 

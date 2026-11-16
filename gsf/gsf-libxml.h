@@ -206,6 +206,10 @@ void gsf_xml_out_add_int		(GsfXMLOut *xout, char const *id,
 					 int val);
 void gsf_xml_out_add_uint		(GsfXMLOut *xout, char const *id,
 					 unsigned int val);
+void gsf_xml_out_add_long		(GsfXMLOut *xout, char const *id,
+					 glong val);
+void gsf_xml_out_add_ulong		(GsfXMLOut *xout, char const *id,
+					 gulong val);
 void gsf_xml_out_add_float		(GsfXMLOut *xout, char const *id,
 					 double val, int precision);
 void gsf_xml_out_add_color		(GsfXMLOut *xout, char const *id,

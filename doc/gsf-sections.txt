@@ -667,6 +667,8 @@ gsf_xml_out_add_cstr_unchecked
 gsf_xml_out_add_bool
 gsf_xml_out_add_int
 gsf_xml_out_add_uint
+gsf_xml_out_add_long
+gsf_xml_out_add_ulong
 gsf_xml_out_add_float
 gsf_xml_out_add_enum
 gsf_xml_out_add_color
