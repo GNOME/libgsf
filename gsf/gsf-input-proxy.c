@@ -39,7 +39,8 @@ typedef struct {
 
 /**
  * gsf_input_proxy_new_section:
- * @source: The underlying data source.
+ * @source: (transfer none): The underlying data source.  The new proxy
+ *   adds a reference to it.
  * @offset: Offset into source for start of section.
  * @size: Length of section.
  *
@@ -50,9 +51,7 @@ typedef struct {
  * If a proxy to a proxy is created, the intermediate proxy is short-
  * circuited.
  *
- * This function will ref the source.
- *
- * Returns: a new input object.
+ * Returns: (transfer full) (nullable): a new input object.
  **/
 GsfInput *
 gsf_input_proxy_new_section (GsfInput *source,
@@ -64,6 +63,7 @@ gsf_input_proxy_new_section (GsfInput *source,
 
 	g_return_val_if_fail (GSF_IS_INPUT (source), NULL);
 	g_return_val_if_fail (offset >= 0, NULL);
+	g_return_val_if_fail (size >= 0, NULL);
 
 	source_size = gsf_input_size (source);
 	g_return_val_if_fail (offset <= source_size, NULL);
@@ -88,12 +88,13 @@ gsf_input_proxy_new_section (GsfInput *source,
 
 /**
  * gsf_input_proxy_new:
- * @source: The underlying data source.
+ * @source: (transfer none): The underlying data source.  The new proxy
+ *   adds a reference to it.
  *
  * This creates a new proxy to the entire, given input source.  See
  * gsf_input_proxy_new_section for details.
  *
- * Returns: a new input object.
+ * Returns: (transfer full) (nullable): a new input object.
  **/
 GsfInput *
 gsf_input_proxy_new (GsfInput *source)

@@ -89,7 +89,9 @@ gsf_round_up_to_pow2 (gsize num)
 {
 	gsize n = num - 1;
 
-	g_assert (num > 0 && num <= G_MAXSIZE / 2);
+	g_assert (num > 0);
+	if (num >= G_MAXSIZE / 2)
+		return 0;
 
 	n |= n >> 1;
 	n |= n >> 2;
@@ -163,7 +165,10 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 {
 	GsfOutputMemory *mem = (GsfOutputMemory *)output;
 
-	if (mem->buffer) {
+	if (mem->buffer &&
+	    output->cur_offset >= 0 &&
+	    output->cur_offset < (gsf_off_t)mem->capacity) {
+		gsize avail = mem->capacity - (size_t)output->cur_offset;
 		va_list args2;
 		gsf_off_t len;
 
@@ -173,18 +178,19 @@ gsf_output_memory_vprintf (GsfOutput *output, char const *format, va_list args)
 		 */
 		G_VA_COPY (args2, args);
 
-		len = g_vsnprintf (U2C (mem->buffer + output->cur_offset),
-				   mem->capacity - output->cur_offset,
-				   format, args);
+		len = g_vsnprintf (U2C (mem->buffer + (size_t)output->cur_offset),
+				   avail, format, args);
 
 		/* There was insufficient space */
-		if (len >= (gsf_off_t)(mem->capacity - output->cur_offset))
+		if (len >= (gsf_off_t)avail)
 			len = parent_class->Vprintf (output, format, args2);
 
 		va_end (args2);
 
 		return len;
 	}
+	/* Seeking past the end leaves cur_offset beyond the buffer; let the
+	 * base class handle the write (which grows the buffer).  */
 	return parent_class->Vprintf (output, format, args);
 }
 

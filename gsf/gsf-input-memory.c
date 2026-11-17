@@ -53,11 +53,16 @@ typedef GsfInputClass GsfInputMemoryClass;
 
 /**
  * gsf_input_memory_new:
- * @buf: (array length=length): The input bytes
+ * @buf: (array length=length): The input bytes.  When
+ *   @needs_free is %TRUE the input takes ownership of the buffer (which
+ *   must have been allocated with g_malloc or equivalent) and frees it
+ *   when the input is finalized.  When @needs_free is %FALSE the buffer
+ *   is not freed and the caller remains responsible for it.  Ownership
+ *   is conditional on @needs_free, which introspection cannot model.
  * @length: The length of @buf
  * @needs_free: Whether you want this memory to be free'd at object destruction
  *
- * Returns: A new #GsfInputMemory
+ * Returns: (transfer full): A new #GsfInputMemory
  */
 GsfInput *
 gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
@@ -73,7 +78,7 @@ gsf_input_memory_new (guint8 const *buf, gsf_off_t length, gboolean needs_free)
  * @buf: (array length=length): The input bytes
  * @length: The length of @buf
  *
- * Returns: A new #GsfInputMemory
+ * Returns: (transfer full): A new #GsfInputMemory
  **/
 GsfInput *
 gsf_input_memory_new_clone (guint8 const *buf, gsf_off_t length)
@@ -194,7 +199,7 @@ GSF_CLASS (GsfInputMemory, gsf_input_memory,
  * @filename: The file on disk that you want to mmap
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: A new #GsfInputMemory
+ * Returns: (transfer full): A new #GsfInputMemory
  */
 GsfInput *
 gsf_input_mmap_new (char const *filename, GError **err)

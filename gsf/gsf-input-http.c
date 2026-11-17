@@ -276,7 +276,7 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
         GObject *obj;
 	GsfInput *input;
         gpointer ctx;
-        char *content_type;
+        char *content_type = NULL;
 
         g_return_val_if_fail(url != NULL, NULL);
 
@@ -288,6 +288,12 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
 	 see https://bugzilla.gnome.org/show_bug.cgi?id=724970 */
 	input = make_local_copy (ctx);
 	if (input) {
+		/* The copy is self-contained; release the connection and
+		   the content type that nanohttp allocated for us.  */
+#ifdef HAVE_XMLNANOHTTPCLOSE
+		xmlNanoHTTPClose (ctx);
+#endif
+		xmlFree (content_type);
 		gsf_input_set_name (input, url);
 		return input;
 	}
@@ -296,6 +302,8 @@ gsf_input_http_new (gchar const * url, GError **error G_GNUC_UNUSED)
 		"url",		url,
 		"content-type", content_type,
 		NULL);
+	/* The property setter made its own copy.  */
+	xmlFree (content_type);
 
         gsf_input_set_size (GSF_INPUT (obj), xmlNanoHTTPContentLength (ctx));
         GSF_INPUT_HTTP (obj)->ctx = ctx;

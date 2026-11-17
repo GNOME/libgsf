@@ -93,8 +93,17 @@ disconnect_children (GsfOutfileZip *zip)
 	for (i = 0 ; i < zip->root_order->len ; i++) {
 		GsfOutfileZip *child =
 			g_ptr_array_index (zip->root_order, i);
-		if (child)
+		if (child) {
+			/* Break the container cycle here: once we are being
+			 * finalized our own refcount is already 0, and
+			 * letting the child unref us from its own dispose
+			 * would be at best a no-op.  On the normal close
+			 * path this simply releases the container reference
+			 * early, which the child's dispose would have done
+			 * anyway.  */
+			gsf_output_set_container (GSF_OUTPUT (child), NULL);
 			g_object_unref (child);
+		}
 	}
 	g_ptr_array_free (zip->root_order, TRUE);
 	zip->root_order = NULL;
@@ -360,13 +369,23 @@ zip_close_root (GsfOutput *output)
 	/* Check that children are closed */
 	for (i = 0 ; i < elem->len ; i++) {
 		GsfOutfileZip *child = g_ptr_array_index (elem, i);
-		GsfZipDirent *dirent = child->vdir->dirent;
-		if (dirent->zip64 == TRUE)
-			zip64 = TRUE;
 		if (!gsf_output_is_closed (GSF_OUTPUT (child))) {
 			g_warning ("Child still open");
+			/* Disconnect so that the container/child reference
+			 * cycle cannot keep the archive and its members
+			 * alive after the failed close.  */
+			disconnect_children (zip);
 			return FALSE;
 		}
+		/* A member that was created but never written has no dirent
+		 * and cannot appear in the central directory.  */
+		if (child->vdir->dirent == NULL) {
+			g_warning ("Zip member was never written");
+			disconnect_children (zip);
+			return FALSE;
+		}
+		if (child->vdir->dirent->zip64 == TRUE)
+			zip64 = TRUE;
 	}
 
 	if (1) {
@@ -500,8 +519,10 @@ zip_dirent_new_out (GsfOutfileZip *zip)
 		g_date_time_unref (modtime);
 
 		return dirent;
-	} else
+	} else {
+		g_free (name);
 		return NULL;
+	}
 }
 
 static gboolean
@@ -1166,15 +1187,14 @@ GSF_CLASS (GsfOutfileZip, gsf_outfile_zip,
 
 /**
  * gsf_outfile_zip_new:
- * @sink: a #GsfOutput to hold the ZIP file
+ * @sink: (transfer none): a #GsfOutput to hold the ZIP file.  The
+ *   outfile adds a reference to it.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
  * Creates the root directory of a Zip file and manages the addition of
  * children.
  *
- * <note>This adds a reference to @sink.</note>
- *
- * Returns: the new zip file handler
+ * Returns: (transfer full) (nullable): the new zip file handler
  **/
 GsfOutfile *
 gsf_outfile_zip_new (GsfOutput *sink, GError **err)

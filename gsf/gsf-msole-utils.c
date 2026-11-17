@@ -341,8 +341,8 @@ set_error_missing_data (GError **error, const char *property_name, gsize size_ne
 		     _("Missing data when reading the %s property; got %s bytes, "
 		       "but %s bytes at least are needed."),
 		     property_name,
-		     size_needed_str,
-		     size_gotten_str);
+		     size_gotten_str,
+		     size_needed_str);
 	g_free (size_needed_str);
 	g_free (size_gotten_str);
 }
@@ -465,11 +465,11 @@ msole_prop_min_size (guint32 type)
 	case VT_NULL:
 		return 0;
 
-	case VT_BOOL:
 	case VT_I1:
 	case VT_UI1:
 		return 1;
 
+	case VT_BOOL:	/* a 16-bit VARIANT_BOOL */
 	case VT_I2:
 	case VT_UI2:
 		return 2;
@@ -649,6 +649,7 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		/* CHEAT : just store as an int64 for now */
 		g_value_init (res, G_TYPE_INT64);
 		g_value_set_int64 (res, GSF_LE_GET_GINT64 (*data));
+		ADVANCE;
 		return TRUE;
 
 	case VT_DATE:
@@ -683,10 +684,11 @@ msole_prop_parse (GsfMSOleMetaDataSection *section,
 		return FALSE;
 
 	case VT_BOOL:
-		/* A boolean (WORD) value containg 0 (false) or -1 (true). */
-		NEED_BYTES (1);
+		/* A boolean (WORD) value containg 0 (false) or -1 (true).
+		 * It is two bytes wide, which matters inside vectors.  */
+		NEED_BYTES (2);
 		g_value_init (res, G_TYPE_BOOLEAN);
-		g_value_set_boolean (res, **data ? TRUE : FALSE);
+		g_value_set_boolean (res, GSF_LE_GET_GUINT16 (*data) != 0);
 		ADVANCE;
 		return TRUE;
 
@@ -1170,15 +1172,15 @@ msole_prop_cmp (gconstpointer a, gconstpointer b)
 
 /**
  * gsf_doc_meta_data_read_from_msole:
- * @accum: #GsfDocMetaData
- * @in: #GsfInput
+ * @accum: (transfer none): #GsfDocMetaData to fill in.
+ * @in: (transfer none): #GsfInput to read from.
  *
  * Read a stream formated as a set of MS OLE properties from @in and store the
  * results in @accum.
  *
  * Since: 1.14.24
  *
- * Returns: (transfer full): A #GError if there was an error.
+ * Returns: (transfer full) (nullable): A #GError if there was an error, or %NULL on success.
  **/
 GError *
 gsf_doc_meta_data_read_from_msole (GsfDocMetaData *accum, GsfInput *in)
@@ -1550,9 +1552,12 @@ msole_metadata_write_prop (WritePropState *state,
 
 	/* For Unicode codepage (1200), use VT_LPWSTR instead of VT_LPSTR.
 	 * VT_LPWSTR uses character count which is what we write for Unicode.
-	 */
-	if (type == VT_LPSTR && state->char_size == 2) {
-		type = VT_LPWSTR;
+	 * This applies to plain strings and to string vectors alike.  */
+	if (state->char_size == 2) {
+		if (type == VT_LPSTR)
+			type = VT_LPWSTR;
+		else if (type == (VT_VECTOR | VT_LPSTR))
+			type = VT_VECTOR | VT_LPWSTR;
 	}
 
 	if (!suppress_type) {
@@ -1662,6 +1667,10 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 	if (user && state->dict == NULL)
 		return TRUE;
 
+	offsets = g_try_new (GsfMSOleMetaDataProp, MAX (count, 1));
+	if (offsets == NULL)
+		return FALSE;
+
 	// Skip past the size+count and id/offset pairs
 	GSF_LE_SET_GUINT32 (buf, 0);
 	for (i = 0; i < 1 + 1 + 2 * count; i++)
@@ -1669,8 +1678,6 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 
 	memset (&scratch,  0, sizeof (GValue));
 	g_value_init (&scratch, G_TYPE_STRING);
-
-	offsets = g_alloca (sizeof (GsfMSOleMetaDataProp) * count);
 
 	i = 0;
 
@@ -1749,6 +1756,8 @@ msole_metadata_write_section (WritePropState *state, gboolean user)
 		GSF_LE_SET_GUINT32 (buf+4, offsets[i].offset - base);
 		gsf_output_write (state->out, 8, buf);
 	}
+
+	g_free (offsets);
 
 	return gsf_output_seek (state->out, 0, G_SEEK_END);
 }
@@ -2015,7 +2024,6 @@ static struct {
 	{ "as",     0x044d }, /* Assamese */
 	{ "az",     0x042c }, /* Azerbaijani */
 	{ "hy_AM",  0x042b }, /* Armenian */
-	{ "az",     0x044c }, /* Azeri (Latin) az_ */
 	{ "az",     0x082c }, /* Azeri (Cyrillic) az_ */
 	{ "eu_ES",  0x042d }, /* Basque */
 	{ "be_BY",  0x0423 }, /* Belarussian */
@@ -2058,7 +2066,7 @@ static struct {
 	{ "fr_MC",  0x180c }, /* French (Monaco) */
 	{ "gl",     0x0456 }, /* Galician gl_ */
 	{ "ga_IE",  0x083c }, /* Irish Gaelic */
-	{ "gd_GB",  0x100c }, /* Scottish Gaelic */
+	{ "gd_GB",  0x0491 }, /* Scottish Gaelic */
 	{ "ka_GE",  0x0437 }, /* Georgian */
 	{ "de_DE",  0x0407 }, /* German (Germany) */
 	{ "de_CH",  0x0807 }, /* German (Switzerland) */
@@ -2090,8 +2098,8 @@ static struct {
 	{ "lt_LT",  0x0427 }, /* Lithuanian */
 	{ "lt_LT",  0x0827 }, /* Lithuanian (Classic) */
 	{ "mk",     0x042f }, /* FYRO Macedonian */
-	{ "my_MY",  0x043e }, /* Malaysian */
-	{ "my_BN",  0x083e }, /* Malay Brunei Darussalam */
+	{ "ms_MY",  0x043e }, /* Malay (Malaysia) */
+	{ "ms_BN",  0x083e }, /* Malay (Brunei Darussalam) */
 	{ "ml",     0x044c }, /* Malayalam ml_ */
 	{ "mr",     0x044e }, /* Marathi mr_ */
 	{ "mt",     0x043a }, /* Maltese */

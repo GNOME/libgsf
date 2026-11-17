@@ -129,7 +129,7 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 			p = g_utf8_next_char (p);
 		}
 
-		if (!quote && *field &&
+		if (!quote && len > 0 &&
 		    (g_unichar_isspace (g_utf8_get_char (field)) ||
 		     g_unichar_isspace (g_utf8_get_char (g_utf8_prev_char (p)))) &&
 		    g_object_get_data (G_OBJECT (csv),

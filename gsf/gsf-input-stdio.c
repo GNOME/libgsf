@@ -105,7 +105,7 @@ error:
  * @filename: in utf8.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 /* coverity[ -tainted_string_sink_content : arg-0 ] */
 GsfInput *
@@ -179,7 +179,11 @@ gsf_input_stdio_new_FILE (char const *filename, FILE *file, gboolean keep_open)
 	g_return_val_if_fail (file != NULL, NULL);
 
 	if (fstat (fileno (file), &st) < 0 || !S_ISREG (st.st_mode)) {
-		return make_local_copy (file, filename, NULL);
+		GsfInput *copy = make_local_copy (file, filename, NULL);
+		/* make_local_copy only reads the stream; we own @file and
+		 * must not leak it.  */
+		fclose (file);
+		return copy;
 	}
 
 	size = st.st_size;

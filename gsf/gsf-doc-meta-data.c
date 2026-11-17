@@ -205,7 +205,7 @@ gsf_doc_meta_data_foreach (GsfDocMetaData const *meta, GHFunc func, gpointer use
 
 	/* Sort the pairs by property name in order to generate consistent
 	   files. */
-	pairs = g_ptr_array_new ();
+	pairs = g_ptr_array_sized_new (2 * g_hash_table_size (meta->table));
 	g_hash_table_foreach (meta->table, (GHFunc)cb_collect_pairs, pairs);
 
 	qsort (&g_ptr_array_index (pairs, 0),

@@ -38,6 +38,14 @@ if (-d "../tests") {
     die "$0: Cannot determine top_builddir\n";
 }
 
+# Keep valgrind and libxml2 away from the network: debuginfod causes
+# multi-minute stalls on symbol lookups, and the gvfs D-Bus module
+# produces fd-not-closed and thread-pool reports that are not libgsf's
+# doing.
+delete $ENV{'DEBUGINFOD_URLS'};
+$ENV{'DEBUGINFOD_URLS'} = '';
+$ENV{'GIO_USE_VFS'} = 'local';
+
 $gsf = "$top_builddir/tools/gsf";
 $verbose = 0;
 

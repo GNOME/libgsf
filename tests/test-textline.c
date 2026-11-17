@@ -55,7 +55,7 @@ test (int argc, char *argv[])
 	}
 
 	while (NULL != (line = gsf_input_textline_ascii_gets (textline)))
-		puts (line);
+		puts ((const char *)line);
 
 	g_object_unref (G_OBJECT (input));
 

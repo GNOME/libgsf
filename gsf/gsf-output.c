@@ -114,6 +114,8 @@ gsf_output_get_property (GObject     *object,
 	}
 }
 
+static void cb_output_unwrap (GsfOutput *wrapee, GObject *wrapper);
+
 static void
 gsf_output_dispose (GObject *obj)
 {
@@ -122,6 +124,15 @@ gsf_output_dispose (GObject *obj)
 	if (!output->is_closed) {
 		/* g_warning ("Disposing of an unclosed stream"); */
 		gsf_output_close (output);
+	}
+
+	/* If we die while still wrapped, the wrapper's weak reference
+	 * would later write through a dangling pointer to us.  Detach it.
+	 */
+	if (output->wrapped_by != NULL) {
+		g_object_weak_unref (output->wrapped_by,
+				     (GWeakNotify) cb_output_unwrap, output);
+		output->wrapped_by = NULL;
 	}
 
 	gsf_output_set_container (output, NULL);

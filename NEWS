@@ -6,7 +6,8 @@ Jan-Otto:
 Morten:
 	* Deal with newer compiler warnings.
 	* Introspection fixes
-	* Test improvements
+	* Major test improvements
+	* General code review and hardening
 
 Vitaly:
 	* Fix crash in introspection bindings when gsf_input_read fails.

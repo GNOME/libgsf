@@ -35,9 +35,11 @@ typedef struct {
 
 /**
  * gsf_output_iochannel_new:
- * @channel: A #GIOChannel
+ * @channel: (transfer full): A #GIOChannel.  The new output takes
+ *   ownership of the channel: it will be unref'd and shut down when the
+ *   output is closed or finalized.
  *
- * Returns: (transfer full): a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_iochannel_new (GIOChannel *channel)

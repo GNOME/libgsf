@@ -243,12 +243,11 @@ GSF_CLASS (GsfOutputBzip, gsf_output_bzip,
 
 /**
  * gsf_output_bzip_new:
- * @sink: The underlying data source.
+ * @sink: (transfer none): The underlying data source.  The new output
+ *   adds a reference to it.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
- * Adds a reference to @sink.
- *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_bzip_new (GsfOutput *sink, GError **err)

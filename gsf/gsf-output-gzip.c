@@ -44,6 +44,8 @@ struct _GsfOutputGZip {
 	uLong     crc;     /* crc32 of uncompressed data */
 	size_t    isize;
 	gboolean setup;
+	gboolean inited;       /* deflateInit2 has succeeded */
+	gboolean setup_failed; /* setup failed; never retry */
 
 	guint8   *buf;
 	size_t    buf_size;
@@ -110,32 +112,47 @@ gzip_output_header (GsfOutputGZip *gzip)
 	return ret;
 }
 
-static void
+/* Returns FALSE if the stream could not be set up.  A failure is final: the
+ * header may have been partly written and the zlib state must not be
+ * initialised a second time, so later calls just report failure again.  */
+static gboolean
 gsf_output_gzip_setup (GsfOutputGZip *gzip)
 {
 	if (gzip->setup)
-		return;
+		return TRUE;
+	if (gzip->setup_failed)
+		return FALSE;
 
-	if (!init_gzip (gzip))
-		gsf_output_set_error (GSF_OUTPUT (gzip),
-				      0,
-				      "Failed to initialize zlib structure");
-	else if (!gzip->raw && !gzip_output_header (gzip))
+	if (!gzip->inited) {
+		if (!init_gzip (gzip)) {
+			gsf_output_set_error (GSF_OUTPUT (gzip),
+					      0,
+					      "Failed to initialize zlib structure");
+			gzip->setup_failed = TRUE;
+			return FALSE;
+		}
+		gzip->inited = TRUE;
+	}
+
+	if (!gzip->raw && !gzip_output_header (gzip)) {
 		gsf_output_set_error (GSF_OUTPUT (gzip),
 				      0,
 				      "Failed to write gzip header");
-	else
-		gzip->setup = TRUE;
+		gzip->setup_failed = TRUE;
+		return FALSE;
+	}
+
+	gzip->setup = TRUE;
+	return TRUE;
 }
 
 /**
  * gsf_output_gzip_new:
- * @sink: The underlying data source.
+ * @sink: (transfer none): The underlying data source.  The new output
+ *   adds a reference to it.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Adds a reference to @sink.
- *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_gzip_new (GsfOutput *sink, GError **err)
@@ -236,7 +253,8 @@ gsf_output_gzip_write (GsfOutput *output,
 	gzip = GSF_OUTPUT_GZIP (output);
 
 	// Write header, if needed
-	gsf_output_gzip_setup (gzip);
+	if (!gsf_output_gzip_setup (gzip))
+		return FALSE;
 
 	gzip->stream.next_in  = (unsigned char *) data;
 	while (num_bytes > 0) {
@@ -296,7 +314,8 @@ gsf_output_gzip_close (GsfOutput *output)
 	gzip = GSF_OUTPUT_GZIP (output);
 
 	// Just in case nothing was ever written
-	gsf_output_gzip_setup (gzip);
+	if (!gsf_output_gzip_setup (gzip))
+		return FALSE;
 
 	if (!gsf_output_error (output)) {
 
@@ -331,6 +350,8 @@ gsf_output_gzip_init (GObject *obj)
 	gzip->crc		= crc32 (0L, Z_NULL, 0);
 	gzip->isize             = 0;
 	gzip->setup             = FALSE;
+	gzip->inited            = FALSE;
+	gzip->setup_failed      = FALSE;
 	gzip->buf		= NULL;
 	gzip->buf_size		= 0;
 	gzip->deflate_level     = Z_DEFAULT_COMPRESSION;

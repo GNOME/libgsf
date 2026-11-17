@@ -169,7 +169,7 @@ GsfXMLInNS gsf_ooo_ns[] = {
 	/* Other OpenDocument v 1.1 */
 	GSF_XML_IN_NS (OO_NS_CONFIG,    "urn:oasis:names:tc:opendocument:xmlns:config:1.0"),
 	GSF_XML_IN_NS (OO_NS_ANIM,      "urn:oasis:names:tc:opendocument:xmlns:animation:1.0"),
-	GSF_XML_IN_NS (OO_NS_DATASTYLE, "urn:oasis:names:tc:opendocument:xmlns:data style:1.0"),
+	GSF_XML_IN_NS (OO_NS_DATASTYLE, "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0"),
 	GSF_XML_IN_NS (OO_NS_MANIFEST,  "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"),
 	GSF_XML_IN_NS (OO_NS_SMIL,      "urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0"),
 
@@ -506,15 +506,15 @@ static GsfXMLInNode const gsf_opendoc_meta_dtd[] = {
 
 /**
  * gsf_doc_meta_data_read_from_odf:
- * @md: #GsfDocMetaData
- * @input: #GsfInput
+ * @md: (transfer none): #GsfDocMetaData to fill in.
+ * @input: (transfer none): #GsfInput to read from.
  *
  * Read an OpenDocument metadata stream from @input and store the properties
  * into @md.  Overwrite any existing properties with the same id.
  *
  * Since: 1.14.24
  *
- * Returns: (transfer full): (out) (optional) (nullable): place to store a #GError if anything goes wrong if there is a problem.
+ * Returns: (transfer full) (nullable): A #GError if there was an error, or %NULL on success.
  **/
 GError*
 gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
@@ -529,7 +529,13 @@ gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
 	state.doc = NULL;
 
 	doc = gsf_xml_in_doc_new (gsf_opendoc_meta_dtd, gsf_ooo_ns);
-	gsf_xml_in_doc_parse (doc, input, &state);
+	if (doc == NULL) {
+		return g_error_new (gsf_input_error_id (), 0,
+				    _("Failed to create the OpenDocument metadata parser"));
+	}
+	if (!gsf_xml_in_doc_parse (doc, input, &state) && state.err == NULL)
+		state.err = g_error_new (gsf_input_error_id (), 0,
+					 _("Failed to parse the OpenDocument metadata"));
 	gsf_xml_in_doc_free (doc);
 
 	if (state.doc)

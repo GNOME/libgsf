@@ -96,6 +96,7 @@ gsf_output_iconv_finalize (GObject *obj)
 	g_free (ic->input_charset);
 	g_free (ic->output_charset);
 	g_free (ic->buf);
+	g_free (ic->fallback);
 
 	parent_class->finalize (obj);
 }
@@ -307,9 +308,9 @@ gsf_output_iconv_class_init (GObjectClass *gobject_class)
 	/**
 	 * GsfOutputIconv:fallback:
 	 *
-	 * Either NULL or a UTF-8 string (representable in the target encoding)
+	 * Either %NULL or a UTF-8 string (representable in the target encoding)
 	 * to convert and output in place of characters that cannot be represented
-	 * in the target encoding.  NULL means use \u1234 or \U12345678 format.
+	 * in the target encoding.  %NULL means use \u1234 or \U12345678 format.
 	 */
 	g_object_class_install_property
 		(gobject_class,

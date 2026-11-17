@@ -162,12 +162,7 @@ gsf_shutdown (void)
 }
 
 #ifdef _GSF_GTYPE_THREADING_FIXED
-#define REGISTER(prefix)						\
-	do {								\
-		prefix ## _register_type (module);			\
-		types = g_slist_prepend (types,				\
-			g_type_class_ref (prefix ## _get_type()));	\
-	} while (0)
+#error "Someone needs to fix this"
 #else
 /* Assign the value to avoid compiler warnings */
 #define REGISTER(prefix)	g_type_ensure (prefix ## _get_type())

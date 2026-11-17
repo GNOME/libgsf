@@ -128,7 +128,7 @@ ole_seek_block (GsfInfileMSOle const *ole, guint32 block, gsf_off_t offset)
  * Read a block of data from the underlying input.
  * Be really anal.
  *
- * Returns: pointer to the buffer or %NULL if there is an error or 0 bytes are
+ * Returns: (transfer none) (nullable): pointer to the buffer or %NULL if there is an error or 0 bytes are
  * requested.
  **/
 static guint8 const *
@@ -150,7 +150,7 @@ ole_get_block (GsfInfileMSOle const *ole, guint32 block, guint8 *buffer)
  * Walk the linked list of the supplied block allocation table and build up a
  * table for the list starting in @block.
  *
- * Returns: TRUE on error.
+ * Returns: %TRUE on error.
  **/
 static gboolean
 ole_make_bat (MSOleBAT const *metabat, size_t size_guess, guint32 block,
@@ -735,8 +735,22 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 	}
 
 	/* Read the directory */
-	seen_before = g_byte_array_new ();
-	g_byte_array_set_size (seen_before, ((size_t)(ole->bat.num_blocks) << info->bb.shift) / DIRENT_SIZE + 1);
+	/* One flag per directory entry.  The chain length comes from the
+	 * file and can be wildly larger than the file itself (with big
+	 * sectors, a small crafted file would make us allocate gigabytes),
+	 * but every entry we can read has to live in the input, so the
+	 * input size bounds the number of usable entries.  */
+	{
+		guint64 ndirents = ((guint64)ole->bat.num_blocks << info->bb.shift) / DIRENT_SIZE;
+		guint64 max_dirents = (guint64)isize / DIRENT_SIZE;
+		if (ndirents > max_dirents)
+			ndirents = max_dirents;
+		/* Entries at or beyond this are rejected anyway.  */
+		if (ndirents > G_MAXUINT / DIRENT_SIZE)
+			ndirents = G_MAXUINT / DIRENT_SIZE;
+		seen_before = g_byte_array_new ();
+		g_byte_array_set_size (seen_before, (guint)ndirents + 1);
+	}
 	memset (seen_before->data, 0, seen_before->len);
 	ole_dirent_new (ole, 0, NULL, seen_before);
 	info->root_dir = ole->dirent;
@@ -1095,13 +1109,13 @@ GSF_CLASS (GsfInfileMSOle, gsf_infile_msole,
 
 /**
  * gsf_infile_msole_new:
- * @source: #GsfInput
+ * @source: (transfer none): #GsfInput.  The new infile adds a reference
+ *   to it.
  * @err: (out) (optional) (nullable): place to store an error
  *
  * Opens the root directory of an MS OLE file.
- * <note>This adds a reference to @source.</note>
  *
- * Returns: the new ole file handler
+ * Returns: (transfer full) (nullable): the new ole file handler
  **/
 GsfInfile *
 gsf_infile_msole_new (GsfInput *source, GError **err)
@@ -1139,7 +1153,7 @@ gsf_infile_msole_new (GsfInput *source, GError **err)
  * Retrieves the 16 byte indentifier (often a GUID in MS Windows apps)
  * stored within the directory associated with @ole and stores it in @res.
  *
- * Returns: TRUE on success
+ * Returns: %TRUE on success
  **/
 gboolean
 gsf_infile_msole_get_class_id (GsfInfileMSOle const *ole, guint8 *res)

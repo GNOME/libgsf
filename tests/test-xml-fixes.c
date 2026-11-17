@@ -564,6 +564,32 @@ test_cr_escaping (void)
 }
 
 
+static gboolean
+probe_accept (G_GNUC_UNUSED xmlChar const *name, G_GNUC_UNUSED xmlChar const *prefix,
+	      G_GNUC_UNUSED xmlChar const *URI, G_GNUC_UNUSED int nb_namespaces,
+	      G_GNUC_UNUSED xmlChar const **namespaces, G_GNUC_UNUSED int nb_attributes,
+	      G_GNUC_UNUSED int nb_defaulted, G_GNUC_UNUSED xmlChar const **attributes)
+{
+	return TRUE;
+}
+
+/* gsf_xml_probe: the first four input bytes are only buffered by the push
+ * parser, so a document of exactly four bytes was never parsed. */
+static void
+test_probe_minimal_document (void)
+{
+	static char const *docs[] = { "<a/>", "<a />", "<ab/>", NULL };
+	int i;
+
+	for (i = 0; docs[i]; i++) {
+		GsfInput *in = gsf_input_memory_new ((guint8 const *) docs[i],
+						     strlen (docs[i]), FALSE);
+		check (gsf_xml_probe (in, probe_accept),
+		       "probe accepts the minimal document");
+		g_object_unref (in);
+	}
+}
+
 int
 main (void)
 {
@@ -580,6 +606,7 @@ main (void)
 	test_stale_extension ();
 	test_extension_on_sharing_node ();
 	test_cr_escaping ();
+	test_probe_minimal_document ();
 	/* Crashes unpatched libgsf, so keep it last. */
 	test_null_parent_id ();
 

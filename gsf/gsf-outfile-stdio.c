@@ -108,7 +108,7 @@ GSF_CLASS (GsfOutfileStdio, gsf_outfile_stdio,
  * @first_property_name: name of first property to set
  * @var_args: a %NULL-terminated #va_list
  *
- * Returns: (transfer full): a new outfile or %NULL.
+ * Returns: (transfer full) (nullable): a new outfile or %NULL.
  **/
 GsfOutfile *
 gsf_outfile_stdio_new_valist (char const *root, GError **err,
@@ -145,7 +145,7 @@ gsf_outfile_stdio_new_valist (char const *root, GError **err,
  * @...: value of first property, followed by more properties,
  * 		%NULL-terminated
  *
- * Returns: (transfer full): a new outfile or %NULL.
+ * Returns: (transfer full) (nullable): a new outfile or %NULL.
  **/
 GsfOutfile *
 gsf_outfile_stdio_new_full (char const *root, GError **err,
@@ -167,7 +167,7 @@ gsf_outfile_stdio_new_full (char const *root, GError **err,
  * @root: root directory in utf8.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: a new outfile or %NULL.
+ * Returns: (transfer full) (nullable): a new outfile or %NULL.
  **/
 GsfOutfile *
 gsf_outfile_stdio_new (char const *root, GError **err)

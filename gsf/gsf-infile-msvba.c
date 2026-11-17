@@ -28,6 +28,8 @@
  */
 #include <gsf-config.h>
 #include <gsf/gsf-infile-msvba.h>
+#include <gsf/gsf-infile-impl.h>
+#include <gsf/gsf-input-impl.h>
 #include <gsf/gsf.h>
 #include <glib/gi18n-lib.h>
 
@@ -54,9 +56,9 @@ typedef GsfInfileClass GsfInfileMSVBAClass;
 
 /**
  * gsf_vba_inflate:
- * @input: stream to read from
+ * @input: (transfer none): stream to read from
  * @offset: offset into it for start byte of compressed stream
- * @size: size of the returned array
+ * @size: (out): size of the returned array
  * @add_null_terminator: whenever add or not null at the end of array
  * 
  * Decompresses VBA stream.
@@ -66,22 +68,35 @@ typedef GsfInfileClass GsfInfileMSVBAClass;
 guint8 *
 gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null_terminator)
 {
-	guint8 sig;
 	GByteArray *res;
 	gsf_off_t length;
 
+	g_return_val_if_fail (input != NULL, NULL);
+
 	res = g_byte_array_new();
 
-	gsf_input_read (input, 1, &sig);
-	if (1 != sig) /* should start with 0x01 */
+	/* The compressed container starts at @offset, not at the input's
+	 * current position.  */
+	if (gsf_input_seek (input, offset, G_SEEK_SET)) {
+		g_byte_array_free (res, TRUE);
 		return NULL;
+	}
+
+	{
+		guint8 sig;
+		if (NULL == gsf_input_read (input, 1, &sig) || 1 != sig) {
+			/* should start with 0x01 */
+			g_byte_array_free (res, TRUE);
+			return NULL;
+		}
+	}
 	offset++;
 
 	length = gsf_input_size (input);
 	while (offset < length) {
-		GsfInput *chunk;
-		guint16 chunk_hdr;
 		guint8 const *tmp;
+		guint16 chunk_hdr;
+		guint16 data_len;
 
 		tmp = gsf_input_read (input, 2, NULL);
 		if (!tmp)
@@ -90,31 +105,39 @@ gsf_vba_inflate (GsfInput *input, gsf_off_t offset, int *size, gboolean add_null
 		chunk_hdr = GSF_LE_GET_GUINT16 (tmp);
 		offset += 2;
 
-		if (0xB000 == (chunk_hdr&0xF000) && (chunk_hdr&0xFFF) > 0 && (length - offset < 4094)){
-			if (length < offset + (chunk_hdr&0xFFF))
-				break;
-			chunk = gsf_input_proxy_new_section (input, offset, (gsf_off_t) (chunk_hdr&0xFFF) + 1);
-			offset += (chunk_hdr&0xFFF) + 1;
-		} else {
-			if (length < offset + 4094){
-				chunk = gsf_input_proxy_new_section (input, offset, length-offset);
-				offset = length;
-			} else {
-				chunk = gsf_input_proxy_new_section (input, offset, 4094);
-				offset += 4094;
+		if (0x3 != ((chunk_hdr >> 12) & 0x7))
+			break;		/* invalid chunk signature */
+
+		/* The chunk holds (SizeField + 1) bytes after its 2-byte
+		 * header, i.e. (SizeField + 3) bytes in total.  */
+		data_len = (chunk_hdr & 0xFFF) + 1;
+		if (length < offset + data_len)
+			break;		/* truncated chunk */
+
+		if (chunk_hdr & 0x8000) {
+			/* Compressed chunk: inflate the data.  */
+			GsfInput *chunk = gsf_input_proxy_new_section
+				(input, offset, (gsf_off_t)data_len);
+			if (chunk) {
+				GByteArray *tmpres = gsf_msole_inflate (chunk, 0);
+				if (tmpres != NULL) {
+					g_byte_array_append (res, tmpres->data, tmpres->len);
+					g_byte_array_free (tmpres, TRUE);
+				}
+				g_object_unref (chunk);
 			}
+		} else {
+			/* Raw chunk: the data is stored uncompressed.  */
+			guint8 const *raw = gsf_input_read (input, data_len, NULL);
+			if (raw != NULL)
+				g_byte_array_append (res, raw, data_len);
 		}
-		if (chunk) {
-			GByteArray *tmpres = gsf_msole_inflate (chunk, 0);
-			gsf_input_seek (input, offset, G_SEEK_CUR);
-			g_byte_array_append (res, tmpres->data, tmpres->len);
-			g_byte_array_free (tmpres, TRUE);
-			g_object_unref (chunk);
-		}
+
+		/* Both branches leave the input positioned at the end of the
+		 * chunk, which is the new value of @offset.  */
+		offset += data_len;
 	}
-	
-	if (res == NULL)
-		return NULL;
+
 	if (add_null_terminator)
 		g_byte_array_append (res, CC2U (""), 1);
 	*size = res->len;
@@ -218,7 +241,10 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		 *	00 00 00 00 00 00
 		 *	and sometimes some trailing junk
 		 **/
-		if ((ptr + 6) > end) {
+		/* Compare lengths, not pointers: len comes from the stream, and
+		 * ptr + len can wrap around on 32-bit systems, defeating the
+		 * check.  ptr <= end is an invariant of this loop.  */
+		if ((size_t)(end - ptr) < 6) {
 			msg = _("vba project header problem");
 			goto fail_content;
 		}
@@ -226,7 +252,7 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		len = GSF_LE_GET_GUINT32 (ptr + 2);
 
 		ptr += 6;
-		if ((ptr + len) > end) {
+		if (len > (size_t)(end - ptr)) {
 			msg = _("vba project header problem");
 			goto fail_content;
 		}
@@ -243,6 +269,10 @@ vba_dir_read (GsfInfileMSVBA *vba, GError **err)
 		case 9:
 			/* this seems to have an extra two bytes that are not
 			 * part of the length ..?? */
+			if ((size_t)(end - ptr) - len < 2) {
+				msg = _("vba project header problem");
+				goto fail_content;
+			}
 			len += 2;
 			break;
 		case 0xf  :
@@ -483,10 +513,81 @@ gsf_infile_msvba_init (GObject *obj)
 	vba->children		= NULL;
 }
 
+/*
+ * A GsfInfileMSVBA has no byte stream and does not expose its modules as
+ * children (use gsf_infile_msvba_get_modules for those).  It is still handed
+ * out as a GsfInfile, so every virtual method the generic GsfInput/GsfInfile
+ * API can reach must exist; the base classes install no defaults, and calling
+ * a missing one is a NULL function-pointer call.
+ */
+static GsfInput *
+gsf_infile_msvba_dup (G_GNUC_UNUSED GsfInput *src, GError **err)
+{
+	if (err != NULL)
+		*err = g_error_new_literal (gsf_input_error_id (), 0,
+					    _("A VBA project cannot be duplicated"));
+	return NULL;
+}
+
+static guint8 const *
+gsf_infile_msvba_read (G_GNUC_UNUSED GsfInput *input,
+		       G_GNUC_UNUSED size_t num_bytes,
+		       G_GNUC_UNUSED guint8 *optional_buffer)
+{
+	return NULL;
+}
+
+static gboolean
+gsf_infile_msvba_seek (G_GNUC_UNUSED GsfInput *input,
+		       G_GNUC_UNUSED gsf_off_t offset,
+		       G_GNUC_UNUSED GSeekType whence)
+{
+	return TRUE;	/* TRUE means failure for Seek */
+}
+
+static int
+gsf_infile_msvba_num_children (G_GNUC_UNUSED GsfInfile *infile)
+{
+	return -1;	/* not a storage as far as the infile API goes */
+}
+
+static char const *
+gsf_infile_msvba_name_by_index (G_GNUC_UNUSED GsfInfile *infile,
+				G_GNUC_UNUSED int i)
+{
+	return NULL;
+}
+
+static GsfInput *
+gsf_infile_msvba_child_by_index (G_GNUC_UNUSED GsfInfile *infile,
+				 G_GNUC_UNUSED int i,
+				 G_GNUC_UNUSED GError **err)
+{
+	return NULL;
+}
+
+static GsfInput *
+gsf_infile_msvba_child_by_name (G_GNUC_UNUSED GsfInfile *infile,
+				G_GNUC_UNUSED char const *name,
+				G_GNUC_UNUSED GError **err)
+{
+	return NULL;
+}
+
 static void
 gsf_infile_msvba_class_init (GObjectClass *gobject_class)
 {
+	GsfInputClass  *input_class  = GSF_INPUT_CLASS (gobject_class);
+	GsfInfileClass *infile_class = GSF_INFILE_CLASS (gobject_class);
+
 	gobject_class->finalize		= gsf_infile_msvba_finalize;
+	input_class->Dup		= gsf_infile_msvba_dup;
+	input_class->Read		= gsf_infile_msvba_read;
+	input_class->Seek		= gsf_infile_msvba_seek;
+	infile_class->num_children	= gsf_infile_msvba_num_children;
+	infile_class->name_by_index	= gsf_infile_msvba_name_by_index;
+	infile_class->child_by_index	= gsf_infile_msvba_child_by_index;
+	infile_class->child_by_name	= gsf_infile_msvba_child_by_name;
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
@@ -494,6 +595,13 @@ GSF_CLASS (GsfInfileMSVBA, gsf_infile_msvba,
 	   gsf_infile_msvba_class_init, gsf_infile_msvba_init,
 	   GSF_INFILE_TYPE)
 
+/**
+ * gsf_infile_msvba_new:
+ * @source: (transfer none): The OLE2 infile containing the VBA project.
+ * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
+ *
+ * Returns: (transfer full) (nullable): a new #GsfInfileMSVBA or %NULL on error.
+ **/
 GsfInfile *
 gsf_infile_msvba_new (GsfInfile *source, GError **err)
 {

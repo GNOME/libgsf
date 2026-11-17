@@ -134,8 +134,26 @@ gsf_outfile_msole_finalize (GObject *obj)
 			g_ptr_array_free (ole->content.dir.children, TRUE);
 			ole->content.dir.children = NULL;
 		}
-		if (ole->content.dir.root_order != NULL)
-			g_warning ("Finalizing a MSOle Outfile without closing it.");
+		if (ole->content.dir.root_order != NULL) {
+			/* If the outfile was never closed (or closing
+			 * failed), the root still holds references to all of
+			 * its children; release them to break the container
+			 * cycle.  */
+			unsigned i;
+			GsfOutfileMSOle *root = ole->root;
+			GPtrArray *elem = ole->content.dir.root_order;
+
+			for (i = 0 ; i < elem->len ; i++) {
+				GsfOutfileMSOle *child =
+					g_ptr_array_index (elem, i);
+				if (root != NULL &&
+				    GSF_OUTPUT (child)->container == GSF_OUTFILE (root))
+					GSF_OUTPUT (child)->container = NULL;
+				g_object_unref (child);
+			}
+			g_ptr_array_free (elem, TRUE);
+			ole->content.dir.root_order = NULL;
+		}
 		break;
 
 	case MSOLE_SMALL_BLOCK:
@@ -265,6 +283,18 @@ ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 	FLUSH;
 }
 
+/* Order chains by the first block they describe: ole_write_bat appends
+ * entries sequentially, so they must be emitted in sector order.  */
+static gint
+ole_first_block_cmp (gconstpointer a_, gconstpointer b_)
+{
+	GsfOutfileMSOle const *a = *(GsfOutfileMSOle const* const*)a_;
+	GsfOutfileMSOle const *b = *(GsfOutfileMSOle const* const*)b_;
+
+	return (a->first_block < b->first_block) ? -1 :
+	       (a->first_block > b->first_block) ? +1 : 0;
+}
+
 static void
 ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 {
@@ -371,8 +401,12 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 				? "Root Entry" : gsf_output_name (GSF_OUTPUT (child));
 			gunichar2 *name_utf16 = g_utf8_to_utf16 (name,
 				-1, NULL, &name_len, NULL);
-			if (name_len >= DIRENT_MAX_NAME_SIZE)
-				name_len = DIRENT_MAX_NAME_SIZE-1;
+			/* DIRENT_MAX_NAME_SIZE is the size of the name field
+			 * in bytes, and DIRENT_NAME_LEN stores the byte
+			 * length including the terminator, so at most 31
+			 * characters fit.  */
+			if (name_len > DIRENT_MAX_NAME_SIZE/2 - 1)
+				name_len = DIRENT_MAX_NAME_SIZE/2 - 1;
 
 			/* be wary about endianness */
 			for (j = 0 ; j < name_len ; j++)
@@ -445,12 +479,24 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	ole_pad_zero (ole);
 	num_dirent_blocks = ole_cur_block (ole) - dirent_start;
 
-	/* write BAT */
+	/* write BAT.  The chains are appended sequentially, so they must be
+	 * emitted in sector (i.e. first_block) order -- the order in which
+	 * the streams were written -- not the order in which the children
+	 * were created.  */
 	bat_start = ole_cur_block (ole);
-	for (i = 0 ; i < elem->len ; i++) {
-		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
-		if (child->type == MSOLE_BIG_BLOCK)
+	{
+		GPtrArray *bat_order = g_ptr_array_new ();
+		for (i = 0 ; i < elem->len ; i++) {
+			GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
+			if (child->type == MSOLE_BIG_BLOCK && child->blocks > 0)
+				g_ptr_array_add (bat_order, child);
+		}
+		g_ptr_array_sort (bat_order, ole_first_block_cmp);
+		for (i = 0 ; i < bat_order->len ; i++) {
+			GsfOutfileMSOle *child = g_ptr_array_index (bat_order, i);
 			ole_write_bat (ole->sink, child->first_block, child->blocks);
+		}
+		g_ptr_array_free (bat_order, TRUE);
 	}
 	if (sb_data_blocks > 0)
 		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
@@ -587,13 +633,41 @@ gsf_outfile_msole_hoist_error (GsfOutfileMSOle *ole)
 }
 
 
+static void
+gsf_outfile_msole_close_children (GsfOutfileMSOle *root)
+{
+	GPtrArray *elem = root->content.dir.root_order;
+	unsigned i;
+
+	if (elem == NULL)
+		return;
+
+	for (i = 0 ; i < elem->len ; i++) {
+		GsfOutput *child = g_ptr_array_index (elem, i);
+		/* root_order also lists the root itself, which is what is
+		 * being closed right now.  */
+		if (child != GSF_OUTPUT (root) && !gsf_output_is_closed (child))
+			gsf_output_close (child);
+	}
+}
+
 static gboolean
 gsf_outfile_msole_close (GsfOutput *output)
 {
 	GsfOutfileMSOle *ole = (GsfOutfileMSOle *)output;
 
 	if (gsf_output_container (output) == NULL) {	/* The root dir */
-		gboolean ok = gsf_outfile_msole_write_directory (ole);
+		gboolean ok;
+
+		/* A stream's block count is only computed when it is closed,
+		 * and closing pads and unwraps the shared sink, which must
+		 * happen while the sink is still positioned at the end of
+		 * that stream's data.  Streams the caller left open (at most
+		 * one can be writing to the sink) are therefore closed here,
+		 * before any table or directory is written.  */
+		gsf_outfile_msole_close_children (ole);
+
+		ok = gsf_outfile_msole_write_directory (ole);
 		gsf_outfile_msole_hoist_error (ole);
 		if (!gsf_output_close (ole->sink))
 			ok = FALSE;
@@ -904,7 +978,7 @@ GSF_CLASS (GsfOutfileMSOle, gsf_outfile_msole,
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
- * <note>This adds a reference to @sink.</note>
+ * The outfile adds a reference to @sink.
  *
  * Returns: the new ole file handler.
  **/
@@ -961,14 +1035,13 @@ gsf_outfile_msole_new_full (GsfOutput *sink, guint bb_size, guint sb_size)
 
 /**
  * gsf_outfile_msole_new:
- * @sink: a #GsfOutput to hold the OLE2 file
+ * @sink: (transfer none): a #GsfOutput to hold the OLE2 file.  The
+ *   outfile adds a reference to it.
  *
  * Creates the root directory of an MS OLE file and manages the addition of
  * children.
  *
- * <note>This adds a reference to @sink.</note>
- *
- * Returns: the new ole file handler.
+ * Returns: (transfer full): the new ole file handler.
  **/
 GsfOutfile *
 gsf_outfile_msole_new (GsfOutput *sink)

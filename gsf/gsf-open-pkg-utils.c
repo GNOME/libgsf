@@ -217,7 +217,7 @@ gsf_open_pkg_get_rels (GsfInput *opkg)
  * @rel: #GsfOpenPkgRel
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: (transfer full): a new #GsfInput which the called needs to unref, or %NULL and sets @err
+ * Returns: (transfer full) (nullable): a new #GsfInput which the called needs to unref, or %NULL and sets @err
  **/
 GsfInput *
 gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
@@ -296,7 +296,7 @@ gsf_open_pkg_open_rel (GsfInput *opkg, GsfOpenPkgRel const *rel,
  *
  * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
- * Returns: (transfer none): A #GsfOpenPkgRel or %NULL
+ * Returns: (transfer none) (nullable): A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
@@ -316,7 +316,7 @@ gsf_open_pkg_lookup_rel_by_type (GsfInput *opkg, char const *type)
  *
  * NOTE: skipping because gsf_open_pkg_rel_get_type() does not return a GType.
  *
- * Returns: (transfer none): A #GsfOpenPkgRel or %NULL
+ * Returns: (transfer none) (nullable): A #GsfOpenPkgRel or %NULL
  **/
 GsfOpenPkgRel *
 gsf_open_pkg_lookup_rel_by_id (GsfInput *opkg, char const *id)
@@ -375,7 +375,7 @@ gsf_open_pkg_foreach_rel (GsfInput *opkg,
  *
  * Open @opkg's relation @id
  *
- * Returns: (transfer full): A new GsfInput or %NULL, and sets @err if possible.
+ * Returns: (transfer full) (nullable): A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
 gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
@@ -402,7 +402,7 @@ gsf_open_pkg_open_rel_by_id (GsfInput *opkg, char const *id, GError **err)
  *
  * Open one of @opkg's relationships with type=@type.
  *
- * Returns: (transfer full): A new GsfInput or %NULL, and sets @err if possible.
+ * Returns: (transfer full) (nullable): A new GsfInput or %NULL, and sets @err if possible.
  **/
 GsfInput *
 gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
@@ -428,7 +428,7 @@ gsf_open_pkg_open_rel_by_type (GsfInput *opkg, char const *type, GError **err)
  *
  * Convenience function to parse a related part.
  *
- * Returns: (transfer full): %NULL on success or a #GError on failure.
+ * Returns: (transfer full) (nullable): %NULL on success or a #GError on failure.
  **/
 GError *
 gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *id,

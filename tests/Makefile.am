@@ -12,6 +12,9 @@
 # 90xx: Misc stuff.
 
 TESTS_EXTENSIONS=.pl
+check_LTLIBRARIES = libregress.la
+libregress_la_SOURCES = libgsf-regress.c libgsf-regress.h
+
 TSCRIPTS = \
 	t1000-zip-single.pl				\
 	t1001-zip-multiple.pl				\
@@ -26,14 +29,28 @@ TSCRIPTS = \
 	t2002-compress.pl				\
 	t8000-valgrind-zip.pl				\
 	t8020-valgrind-ole.pl				\
+	t8050-valgrind-regress.pl			\
+	t1200-cli.pl					\
 	t9999-epilogue.pl
 
-TESTS = $(TSCRIPTS) test-xml-fixes
+TESTS = $(TSCRIPTS) test-xml-fixes			\
+	test-regress-blob test-regress-tar test-regress-zipdup		\
+	test-regress-iconv test-regress-compress test-regress-textline	\
+	test-regress-timestamp test-regress-meta test-regress-msvba	\
+	test-regress-msole test-regress-output test-regress-input	\
+	test-regress-zip test-regress-stdio test-regress-iochannel \
+	test-regress-shared-memory test-regress-docprop-vector \
+	test-regress-doc-meta-data test-regress-xmlin-unknown	\
+	test-regress-gio test-regress-gzip-setup test-regress-msole-vt-cy	\
+	test-regress-structured-blob
 
 SUPPS = common.supp
 
+# White-box test: includes gsf-msole-utils.c to reach a static function.
+test_regress_msole_vt_cy_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_builddir) -I$(top_srcdir)/gsf
+
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
-LDADD = $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
+LDADD = libregress.la $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
 
 check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-msole-dup						\
@@ -45,7 +62,20 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-out-bzip test-bzip				\
 		 test-dump-msole test-restore-msole test-msvba-zip	\
 		 test-http test-gio test-xml test-ole test-iconv test-csv test-compress	\
-		 test-xml-fixes
+		 test-xml-fixes						\
+		 test-regress-blob test-regress-tar test-regress-zipdup	\
+		 test-regress-iconv test-regress-compress		\
+		 test-regress-textline test-regress-timestamp		\
+		 test-regress-meta test-regress-msvba test-regress-msole \
+		 test-regress-outmem-printf test-regress-xmlout-uaf	\
+		 test-regress-infile-leak test-regress-stdio		\
+		 test-regress-outzip-open				\
+		 test-regress-output test-regress-input test-regress-zip	\
+		 test-regress-iochannel test-regress-shared-memory	\
+		 test-regress-docprop-vector test-regress-doc-meta-data	\
+		 test-regress-xmlin-unknown test-regress-gio		\
+		 test-regress-gzip-setup test-regress-msole-vt-cy	\
+		 test-regress-structured-blob
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)
 

@@ -85,6 +85,8 @@ blob_dup (GsfInput *input, G_GNUC_UNUSED GError **err)
 		}
 	}
 
+	gsf_input_set_size (GSF_INPUT (dst), gsf_input_size (input));
+
 	return GSF_INPUT (dst);
 }
 
@@ -92,8 +94,11 @@ static guint8 const *
 blob_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	GsfStructuredBlob *blob = (GsfStructuredBlob *) input;
-	guchar const *src = blob->data->buf;
+	guchar const *src;
 
+	if (blob->data == NULL)
+		return NULL;
+	src = blob->data->buf;
 	if (src == NULL)
 		return NULL;
 	if (optional_buffer) {
@@ -104,10 +109,29 @@ blob_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 }
 
 static gboolean
-blob_seek (G_GNUC_UNUSED GsfInput *input,
-	   G_GNUC_UNUSED gsf_off_t offset,
-	   G_GNUC_UNUSED GSeekType whence)
+blob_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
+	GsfStructuredBlob *blob = (GsfStructuredBlob *) input;
+	gsf_off_t size = (blob->data != NULL) ? (gsf_off_t)blob->data->size : 0;
+	gsf_off_t pos;
+
+	switch (whence) {
+	case G_SEEK_CUR:
+		pos = input->cur_offset + offset;
+		break;
+	case G_SEEK_SET:
+		pos = offset;
+		break;
+	case G_SEEK_END:
+		pos = size + offset;
+		break;
+	default:
+		return TRUE;
+	}
+
+	if (pos < 0 || pos > size)
+		return TRUE;
+	input->cur_offset = pos;
 	return FALSE;
 }
 
@@ -126,18 +150,20 @@ blob_name_by_index (GsfInfile *infile, int i)
 {
 	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
 	if (blob->children != NULL) {
-		g_return_val_if_fail (i < 0 || (unsigned)i >= blob->children->len, NULL);
+		if (i < 0 || (unsigned)i >= blob->children->len)
+			return NULL;
 		return gsf_input_name (g_ptr_array_index (blob->children, i));
 	}
 	return NULL;
 }
 
-static GsfInput   *
+static GsfInput *
 blob_child_by_index (GsfInfile *infile, int i, GError **err)
 {
 	GsfStructuredBlob const *blob = (GsfStructuredBlob *) infile;
 	if (blob->children != NULL) {
-		g_return_val_if_fail (i < 0 || (unsigned)i >= blob->children->len, NULL);
+		if (i < 0 || (unsigned)i >= blob->children->len)
+			return NULL;
 		return gsf_input_dup (g_ptr_array_index (blob->children, i), err);
 	}
 	return NULL;
@@ -150,9 +176,12 @@ blob_child_by_name (GsfInfile *infile, char const *name, GError **err)
 	if (blob->children != NULL) {
 		unsigned i;
 
-		for (i = 0 ; i < blob->children->len ;) {
+		for (i = 0 ; i < blob->children->len ; i++) {
 			GsfInput *child = g_ptr_array_index (blob->children, i);
-			if (child && !strcmp (gsf_input_name (child), name))
+			char const *child_name =
+				(child != NULL) ? gsf_input_name (child) : NULL;
+
+			if (child_name != NULL && 0 == strcmp (child_name, name))
 				return gsf_input_dup (child, err);
 		}
 	}
@@ -222,9 +251,21 @@ gsf_structured_blob_read (GsfInput *input)
 			return NULL;
 		}
 
-		gsf_input_read (input, content_size, buf);
+		if (!gsf_input_read (input, content_size, buf)) {
+			/* Don't wrap a buffer we failed to fill: it holds
+			 * uninitialised heap memory.  */
+			g_warning ("Failed reading %" GSF_OFF_T_FORMAT " bytes",
+				   content_size);
+			g_free (buf);
+			g_object_unref (blob);
+			return NULL;
+		}
 		blob->data = gsf_shared_memory_new (buf, content_size, TRUE);
 	}
+
+	/* The blob's own stream is its content; without a size every read
+	 * through the GsfInput API is rejected.  */
+	gsf_input_set_size (GSF_INPUT (blob), content_size);
 
 	gsf_input_set_name (GSF_INPUT (blob), gsf_input_name (input));
 
@@ -280,14 +321,21 @@ gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 	output = gsf_outfile_new_child (GSF_OUTFILE (container),
 		gsf_input_name (GSF_INPUT (blob)),
 		has_kids);
+	if (output == NULL)
+		return FALSE;
+
 	if (has_kids) {
 		GsfStructuredBlob *child_blob;
 		unsigned i;
 
 		for (i = 0 ; i < blob->children->len ; i++) {
 			child_blob = g_ptr_array_index (blob->children, i);
-			if (!gsf_structured_blob_write (child_blob, GSF_OUTFILE (output)))
+			if (!gsf_structured_blob_write (child_blob, GSF_OUTFILE (output))) {
+				/* Release the output we own, as on success.  */
+				gsf_output_close (output);
+				g_object_unref (output);
 				return FALSE;
+			}
 		}
 	}
 

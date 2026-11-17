@@ -60,19 +60,22 @@ glade_enum_from_string (GType type, const char *string)
     return ret;
 }
 
-static char const *
+static char *
 glade_string_from_enum (GType type, gint value)
 {
     GEnumClass *eclass;
     GEnumValue *ev;
+    char *res;
 
     eclass = g_type_class_ref (type);
 
     ev = g_enum_get_value (eclass, value);
+    /* The GEnumValue is owned by the class; copy before unreffing it.  */
+    res = g_strdup (ev ? ev->value_name : "0");
 
     g_type_class_unref (eclass);
 
-    return ev ? ev->value_name : "0";
+    return res;
 }
 
 static guint
@@ -438,7 +441,7 @@ gsf_xmlDocFormatDump (GsfOutput *output, xmlDocPtr cur, char const *encoding,
 
 /**************************************************************************/
 /* We parse and do some limited validation of the XML file, if this passes,
- * then we return TRUE
+ * then we return %TRUE
  */
 typedef struct {
 	GsfXMLProbeFunc	func;
@@ -475,7 +478,7 @@ gsf_xml_probe_element (GsfXMLProbeState *state,
  * @input: #GsfInput
  * @func: (scope call): #GsfXMLProbeFunc
  *
- * Returns: TRUE on success.
+ * Returns: %TRUE on success.
  */
 gboolean
 gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
@@ -533,6 +536,14 @@ gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
 			while (NULL != probe_state.func &&
 			       NULL != (buf = CU2C (gsf_input_read (input, 1, NULL))))
 				xmlParseChunk (parse_context, (char *)buf, 1, 0);
+
+			/* The first four bytes are only buffered by
+			 * xmlCreatePushParserCtxt.  If the input ended
+			 * before the probe was decided (e.g. the 4-byte
+			 * document "<a/>"), flush the parser so it
+			 * actually sees them.  */
+			if (NULL != probe_state.func)
+				xmlParseChunk (parse_context, NULL, 0, 1);
 		}
 		xmlFreeParserCtxt (parse_context);
 	}
@@ -817,11 +828,19 @@ gsf_xml_in_start_element (GsfXMLInInternal *state, xmlChar const *name, xmlChar 
 
 	if (state->pub.doc->unknown_handler != NULL) {
 		gboolean handled;
+		GSList *stack_before = state->pub.node_stack;
 		state->from_unknown_handler = TRUE;
 		handled = (state->pub.doc->unknown_handler) (&state->pub, name, attrs);
 		state->from_unknown_handler = FALSE;
-		if (handled)
+		if (handled) {
+			/* A handler that claims the element without calling
+			 * gsf_xml_in_push_state leaves no frame for
+			 * end_element to pop.  Track it as a (silently)
+			 * skipped element so start and end stay balanced.  */
+			if (state->pub.node_stack == stack_before)
+				state->unknown_depth++;
 			return;
+		}
 	}
 
 	if (state->unknown_depth++ > 0)
@@ -1560,7 +1579,7 @@ static void
 gsf_xml_out_set_output (GsfXMLOut *xout, GsfOutput *output)
 {
 	if (gsf_output_wrap (G_OBJECT (xout), output))
-		xout->output = output;
+		xout->output = g_object_ref (output);
 }
 
 static void
@@ -1611,6 +1630,16 @@ static void
 gsf_xml_out_finalize (GObject *obj)
 {
 	GsfXMLOut *xout = GSF_XML_OUT (obj);
+
+	/* The weak reference installed by gsf_output_wrap() has already
+	 * cleared the wrapee's wrapped_by marker by the time we get here
+	 * (weak notifies run before finalize), so only our own reference
+	 * needs to go.  */
+	if (xout->output != NULL) {
+		g_object_unref (xout->output);
+		xout->output = NULL;
+	}
+
 	g_free (xout->priv->doc_type);
 	g_slist_free (xout->priv->stack);
 	parent_class->finalize (obj);
@@ -2145,13 +2174,16 @@ gsf_xml_out_add_enum (GsfXMLOut *xout, char const *id, GType etype, gint val)
 {
 	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_ref (etype));
 	GEnumValue *ev = g_enum_get_value (eclass, val);
-	g_type_class_unref (eclass);
 
+	/* The GEnumValue is owned by the class; keep the class alive
+	 * until we are done with it.  */
 	if (ev)
 		gsf_xml_out_add_cstr_unchecked (xout, id, ev->value_name);
 	else
 		g_warning ("Invalid value %d for type %s",
 			   val, g_type_name (etype));
+
+	g_type_class_unref (eclass);
 }
 
 /**
@@ -2206,10 +2238,12 @@ gsf_xml_out_add_gvalue (GsfXMLOut *xout, char const *id, GValue const *val)
 	case G_TYPE_ULONG:
 		gsf_xml_out_add_ulong (xout, id, g_value_get_ulong (val));
 		break;
-	case G_TYPE_ENUM:
-		gsf_xml_out_add_cstr (xout, id,
-			glade_string_from_enum (t, g_value_get_enum (val)));
+	case G_TYPE_ENUM: {
+		char *name = glade_string_from_enum (t, g_value_get_enum (val));
+		gsf_xml_out_add_cstr (xout, id, name);
+		g_free (name);
 		break;
+	}
 	case G_TYPE_FLAGS: {
 		char *flags = glade_string_from_flags (t, g_value_get_flags (val));
 		gsf_xml_out_add_cstr (xout, id, flags);

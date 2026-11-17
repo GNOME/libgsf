@@ -151,7 +151,7 @@ static gsf_off_t
 zip_find_trailer (GsfInfileZip *zip, guint32 sig, gssize size)
 {
 	gsf_off_t offset, trailer_offset, filesize;
-	gsf_off_t maplen;
+	gsf_off_t maplen, earliest;
 	guint8 const *data;
 	guchar sig1 = sig & 0xff;
 
@@ -159,6 +159,9 @@ zip_find_trailer (GsfInfileZip *zip, guint32 sig, gssize size)
 	if (filesize < size)
 		return -1;
 
+	/* The trailer is followed by a comment of at most 64K-1 bytes, so
+	 * it cannot start earlier than this.  */
+	earliest = filesize - (G_MAXUINT16 + size);
 	trailer_offset = filesize;
 	maplen = filesize & (ZIP_BUF_SIZE - 1);
 	if (maplen == 0)
@@ -180,6 +183,9 @@ zip_find_trailer (GsfInfileZip *zip, guint32 sig, gssize size)
 			if (*s == sig1 &&
 			    p + maplen - 1 - s > size - 2 &&
 			    GSF_LE_GET_GUINT32 (s) == sig) {
+				/* trailer_offset - 1 is the position of s.  */
+				if (trailer_offset - 1 < earliest)
+					return -1;
 				return --trailer_offset;
 			}
 		}
@@ -199,7 +205,9 @@ zip_find_trailer (GsfInfileZip *zip, guint32 sig, gssize size)
 		maplen = MIN (filesize - offset, ZIP_BUF_SIZE);
 		trailer_offset = offset + maplen;
 
-		if (filesize - offset > 64 * 1024)
+		/* Nothing left to scan once the window lies entirely before
+		 * the earliest possible trailer position.  */
+		if (offset + maplen <= earliest)
 			return -1;
 	} /*outer loop*/
 
@@ -489,7 +497,7 @@ zip_build_vdirs (GsfInfileZip *zip)
  * Read zip headers and do some sanity checking
  * along the way.
  *
- * Returns: TRUE on error setting zip->err.
+ * Returns: %TRUE on error setting zip->err.
  **/
 static gboolean
 zip_init_info (GsfInfileZip *zip)
@@ -586,10 +594,21 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 
 	dst->vdir = src->vdir;
 
-	if (dst->vdir->dirent && zip_child_init (dst, err)) {
-		g_object_unref (dst);
-		return NULL;
-	}
+	if (dst->vdir->dirent) {
+		gsf_input_set_size (GSF_INPUT (dst), dst->vdir->dirent->usize);
+
+		if (dst->vdir->dirent->dostime) {
+			GDateTime *modtime = zip_make_modtime (dst->vdir->dirent->dostime);
+			gsf_input_set_modtime (GSF_INPUT (dst), modtime);
+			g_date_time_unref (modtime);
+		}
+
+		if (zip_child_init (dst, err)) {
+			g_object_unref (dst);
+			return NULL;
+		}
+	} else
+		gsf_input_set_size (GSF_INPUT (dst), 0);
 
 	return GSF_INPUT (dst);
 }
@@ -1057,13 +1076,13 @@ GSF_CLASS (GsfInfileZip, gsf_infile_zip,
 
 /**
  * gsf_infile_zip_new:
- * @source: A base #GsfInput
+ * @source: (transfer none): A base #GsfInput.  The new infile adds a
+ *   reference to it.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
  * Opens the root directory of a Zip file.
- * <note>This adds a reference to @source.</note>
  *
- * Returns: the new zip file handler
+ * Returns: (transfer full) (nullable): the new zip file handler
  **/
 GsfInfile *
 gsf_infile_zip_new (GsfInput *source, GError **err)

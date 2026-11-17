@@ -36,7 +36,7 @@
  * @source: a #GsfInput
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: a new #GsfInputMemory or %NULL.
+ * Returns: (transfer full) (nullable): a new #GsfInputMemory or %NULL.
  */
 GsfInput *
 gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
@@ -108,6 +108,19 @@ gsf_input_memory_new_from_bzip (GsfInput *source, GError **err)
 		gsf_output_write (sink, sizeof (out_buf) - bzstm.avail_out, out_buf);
 		if (bzerr == BZ_STREAM_END)
 			break;
+	}
+
+	if (bzerr != BZ_STREAM_END) {
+		/* The loop above also exits on input exhaustion, so reaching
+		 * the end of the input without BZ_STREAM_END means the
+		 * stream was truncated (or empty).  */
+		if (err)
+			*err = g_error_new (gsf_input_error_id (), 0,
+					    _("Truncated bzip2 stream"));
+		BZ2_bzDecompressEnd (&bzstm);
+		gsf_output_close (sink);
+		g_object_unref (sink);
+		return NULL;
 	}
 
 	gsf_output_close (sink);

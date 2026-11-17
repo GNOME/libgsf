@@ -401,8 +401,9 @@ show_error (char const *name, GError *error)
 	g_free (display_name);
 }
 
-/* Walks "path" directory structure while loading it in "outfile" */
-static void
+/* Walks "path" directory structure while loading it in "outfile".
+ * Returns TRUE on success, FALSE if any input could not be loaded. */
+static gboolean
 load_recursively (GsfOutfile *outfile, char const *path)
 {
 	GError *error = NULL;
@@ -411,7 +412,7 @@ load_recursively (GsfOutfile *outfile, char const *path)
 	if (g_stat (path, &statbuf) == -1) {
 		g_printerr ("Failed to stat %s: %s\n",
 			    path, g_strerror (errno));
-		return;
+		return FALSE;
 	}
 
 	if (S_ISDIR (statbuf.st_mode)) {
@@ -419,10 +420,11 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		GsfOutfile *out;
 		int i, n;
 		char *base;
+		gboolean ok = TRUE;
 
 		if (!in) {
 			show_error (path, error);
-			return;
+			return FALSE;
 		}
 
 		base = g_path_get_basename (path);
@@ -433,12 +435,14 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		for (i = 0; i < n; i++) {
 			char const *child = gsf_infile_name_by_index (in, i);
 			char *name = g_build_filename (path, child, NULL);
-			load_recursively (out, name);
+			if (!load_recursively (out, name))
+				ok = FALSE;
 			g_free (name);
 		}
 
 		g_object_unref (out);
 		g_object_unref (in);
+		return ok;
 	} else if (S_ISREG (statbuf.st_mode)) {
 		char *base;
 		GsfInput *in;
@@ -448,7 +452,7 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		in = gsf_input_stdio_new (path, &error);
 		if (!in) {
 			show_error (path, error);
-			return;
+			return FALSE;
 		}
 
 		base = g_path_get_basename (path);
@@ -462,17 +466,21 @@ load_recursively (GsfOutfile *outfile, char const *path)
 		if (!ok)
 			g_printerr ("Error in adding member.\n");
 
-		ok = gsf_output_close (out);
-		if (!ok)
+		if (ok && !gsf_output_close (out)) {
 			g_printerr ("Error in adding member (at close)\n");
+			ok = FALSE;
+		}
 
 		g_object_unref (out);
 		g_free (base);
 
 
 		g_object_unref (in);
+		return ok;
 	} else {
-		g_printerr ("Ignoring %s\n", path);
+		g_printerr ("Ignoring %s: not a regular file or directory\n",
+			    path);
+		return FALSE;
 	}
 }
 
@@ -514,21 +522,26 @@ gsf_create (int argc, char **argv, GType type)
 		return 1;
 	}
 
+	gboolean all_ok = TRUE;
+
 	for (i = 1; i < argc; i++) {
 		GFile *file = g_file_new_for_commandline_arg (argv[i]);
 		char *path = g_file_get_path (file);
-		load_recursively (outfile, path);
+		if (!load_recursively (outfile, path))
+			all_ok = FALSE;
 		g_free (path);
 		g_object_unref (file);
 	}
 
 	ok = gsf_output_close (GSF_OUTPUT (outfile));
-	if (!ok)
+	if (!ok) {
 		g_printerr ("Error while closing archive\n");
+		all_ok = FALSE;
+	}
 
 	g_object_unref (dest);
 	g_object_unref (outfile);
-	return 0;
+	return all_ok ? 0 : 1;
 }
 
 /* ------------------------------------------------------------------------- */

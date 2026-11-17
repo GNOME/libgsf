@@ -292,8 +292,8 @@ gsf_clip_data_get_windows_clipboard_format (GsfClipData *clip_data, GError **err
 
 /**
  * gsf_clip_data_peek_real_data:
- * @clip_data: A #GsfClipData.
- * @ret_size: Location to return the size of the returned data buffer.
+ * @clip_data: (transfer none): A #GsfClipData.
+ * @ret_size: (out): Location to return the size of the returned data buffer.
  * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  *
  * Queries a pointer directly to the clipboard data of a #GsfClipData.  The

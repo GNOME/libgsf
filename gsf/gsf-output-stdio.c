@@ -258,12 +258,20 @@ gsf_output_stdio_close (GsfOutput *output)
 	/* Move the temp file to the original file */
 	if (rename_wrapper (stdio->temp_filename, stdio->real_filename) != 0) {
 		gint saved_errno = errno;
+		gboolean restored = TRUE;
 		if (backup_filename != NULL &&
-		    rename_wrapper (backup_filename, stdio->real_filename) != 0)
+		    rename_wrapper (backup_filename, stdio->real_filename) != 0) {
 			saved_errno = errno;
+			restored = FALSE;
+		}
 		res = gsf_output_set_error (output,
 					    saved_errno,
 					    "%s", g_strerror (saved_errno));
+		/* Don't leave the temp file behind -- unless we also failed
+		 * to put the original back, in which case it holds the only
+		 * copy of the new data.  */
+		if (restored)
+			unlink_file_helper (stdio);
 		goto out;
 	}
 
@@ -393,7 +401,12 @@ static gsf_off_t gsf_output_stdio_vprintf (GsfOutput *output,
 static gsf_off_t
 gsf_output_stdio_vprintf (GsfOutput *output, char const *fmt, va_list args)
 {
-	return vfprintf (((GsfOutputStdio *)output)->file, fmt, args);
+	GsfOutputStdio *stdio = (GsfOutputStdio *)output;
+
+	/* As in Write and Seek: the FILE is gone once the output is closed.  */
+	g_return_val_if_fail (stdio->file != NULL, -1);
+
+	return vfprintf (stdio->file, fmt, args);
 }
 
 static void
@@ -552,7 +565,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
  * @first_property_name: %NULL terminated list of properties
  * @...:
  *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_stdio_new_full (char const *filename, GError **err,
@@ -576,7 +589,7 @@ gsf_output_stdio_new_full (char const *filename, GError **err,
  * @filename: name of file to create or replace.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfOutput *
 gsf_output_stdio_new (char const *filename, GError **err)

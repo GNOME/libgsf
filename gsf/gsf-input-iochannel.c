@@ -29,10 +29,12 @@
 
 /**
  * gsf_input_memory_new_from_iochannel:
- * @channel: a #GIOChannel.
+ * @channel: (transfer none): a #GIOChannel.  The input reads the channel
+ *   to end but does not take ownership; the caller remains responsible
+ *   for unreffing it.
  * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: a new #GsfInputMemory or %NULL.
+ * Returns: (transfer full) (nullable): a new #GsfInputMemory or %NULL.
  **/
 GsfInput *
 gsf_input_memory_new_from_iochannel (GIOChannel *channel,

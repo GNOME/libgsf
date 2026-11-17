@@ -369,10 +369,11 @@ guint8 const *
 gsf_input_read (GsfInput *input, size_t num_bytes, guint8 *optional_buffer)
 {
 	guint8 const *res;
-	gsf_off_t newpos = input->cur_offset + num_bytes;
+	gsf_off_t newpos;
 
 	g_return_val_if_fail (input != NULL, NULL);
 
+	newpos = input->cur_offset + num_bytes;
 	if (newpos <= input->cur_offset || newpos > input->size)
 		return NULL;
 	res = GET_CLASS (input)->Read (input, num_bytes, optional_buffer);
@@ -525,8 +526,12 @@ gsf_input_set_name_from_filename (GsfInput *input, char const *filename)
 {
 	g_return_val_if_fail (input != NULL, FALSE);
 
+	char *name8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	if (!name8)
+		return FALSE;
+
 	g_free (input->name);
-	input->name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	input->name = name8;
 	return TRUE;
 }
 
@@ -631,6 +636,15 @@ gsf_input_set_modtime (GsfInput *input, GDateTime *modtime)
 	return TRUE;
 }
 
+/**
+ * gsf_input_set_modtime_from_stat:
+ * @input: the input stream
+ * @st: (transfer none): the stat structure with the new modification time.
+ *
+ * protected.
+ *
+ * Returns: %TRUE if the assignment was ok.
+ */
 gboolean
 gsf_input_set_modtime_from_stat (GsfInput *input,
 				 const struct stat *st)
@@ -652,10 +666,13 @@ gsf_input_set_modtime_from_stat (GsfInput *input,
 #endif
 
 	ut = g_date_time_new_from_unix_utc (sec);
-	modtime = g_date_time_add (ut, usec);
-	res = gsf_input_set_modtime (GSF_INPUT (input), modtime);
-	g_date_time_unref (ut);
-	g_date_time_unref (modtime);
+	if (ut) {
+		modtime = g_date_time_add (ut, usec);
+		res = gsf_input_set_modtime (GSF_INPUT (input), modtime);
+		g_date_time_unref (ut);
+		g_date_time_unref (modtime);
+	} else
+		res = FALSE;
 
 	return res;
 }
@@ -770,7 +787,13 @@ gsf_input_uncompress (GsfInput *src)
 		char const *bzip_sig = "BZh";
 
 		if (memcmp (bzip_sig, header, strlen (bzip_sig)) == 0) {
-			GsfInput *res = gsf_input_memory_new_from_bzip (src, NULL);
+			GsfInput *res;
+
+			/* The header probe above left the source positioned
+			 * 4 bytes in, but the bzip2 decoder needs the "BZh"
+			 * magic at the front of its input.  Rewind first.  */
+			(void) gsf_input_seek (src, 0, G_SEEK_SET);
+			res = gsf_input_memory_new_from_bzip (src, NULL);
 			if (res) {
 				g_object_unref (src);
 				return gsf_input_uncompress (res);

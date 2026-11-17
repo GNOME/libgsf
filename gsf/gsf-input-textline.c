@@ -47,9 +47,8 @@ typedef struct {
 
 /**
  * gsf_input_textline_new:
- * @source: in some combination of ascii and utf8
- *
- * <note>This adds a reference to @source.</note>
+ * @source: (transfer none): in some combination of ascii and utf8.  The
+ *   new input adds a reference to it.
  *
  * Returns: (nullable): a new file
  **/
@@ -105,7 +104,13 @@ gsf_input_textline_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	GsfInputTextline *textline = GSF_INPUT_TEXTLINE (input);
 	const guint8 *res;
 
+	/* Position the source at the input's logical position (which accounts
+	 * for the buffered remainder) before delegating, and drop the
+	 * remainder: it will be re-read from the source.  */
+	if (gsf_input_seek (textline->source, input->cur_offset, G_SEEK_SET))
+		return NULL;
 	textline->remainder = NULL;
+	textline->remainder_size = 0;
 	res = gsf_input_read (textline->source, num_bytes, buffer);
 	input->cur_offset = textline->source->cur_offset;
 

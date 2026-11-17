@@ -46,7 +46,7 @@ can_seek (GOutputStream *stream)
  * gsf_output_gio_new_full:
  * @file: an existing GFile
  *
- * Returns: (transfer full): A new #GsfOutputGio or %NULL
+ * Returns: (transfer full) (nullable): A new #GsfOutputGio or %NULL
  */
 static GsfOutput *
 gsf_output_gio_new_full (GFile *file, GError **err)
@@ -72,9 +72,10 @@ gsf_output_gio_new_full (GFile *file, GError **err)
 
 /**
  * gsf_output_gio_new:
- * @file: an existing GFile
+ * @file: (transfer none): an existing #GFile.  The new output adds a
+ *   reference to it.
  *
- * Returns: (transfer full): A new #GsfOutputGio or %NULL
+ * Returns: (transfer full) (nullable): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new (GFile *file)
@@ -87,7 +88,7 @@ gsf_output_gio_new (GFile *file)
  * @path:
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: (transfer full): A new #GsfOutputGio or %NULL
+ * Returns: (transfer full) (nullable): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new_for_path (char const *path, GError **err)
@@ -112,7 +113,7 @@ gsf_output_gio_new_for_path (char const *path, GError **err)
  * @uri:
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Returns: (transfer full): A new #GsfOutputGio or %NULL
+ * Returns: (transfer full) (nullable): A new #GsfOutputGio or %NULL
  */
 GsfOutput *
 gsf_output_gio_new_for_uri (char const *uri, GError **err)
@@ -138,11 +139,20 @@ gsf_output_gio_close (GsfOutput *output)
 	GsfOutputGio *gio = GSF_OUTPUT_GIO (output);
 
 	if (gio->stream != NULL) {
-		g_output_stream_close (gio->stream, NULL, NULL);
+		GError *err = NULL;
+		gboolean ok = g_output_stream_close (gio->stream, NULL, &err);
+
+		/* Closing flushes and, for replace streams, moves the new
+		 * file into place; a failure here means data loss.  */
+		if (!ok)
+			gsf_output_set_error (output, 0, "%s",
+					      err ? err->message : "Failed to close stream");
+		g_clear_error (&err);
+
 		g_object_unref (gio->stream);
 		gio->stream = NULL;
 
-		return TRUE;
+		return ok;
 	}
 
 	return FALSE;

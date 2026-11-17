@@ -91,7 +91,9 @@ GSF_CLASS (GsfBlob, gsf_blob,
  *
  * Error domain: #GSF_ERROR
  *
- * Possible errors: #GSF_ERROR_OUT_OF_MEMORY if the @data_to_copy could not be copied.
+ * @size: The size in bytes of the data to copy.
+ * @data_to_copy: (array length=size): The data to copy.
+ * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  **/
 GsfBlob *
 gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
@@ -155,13 +157,10 @@ gsf_blob_get_size (GsfBlob const *blob)
  * gsf_blob_peek_data:
  * @blob: A #GsfBlob.
  *
- * Queries a pointer to the data stored in the blob.  This does not
- * copy the data for you; it returns a pointer to the actual buffer
- * which the blob uses internally, so you should not free this buffer
- * on your own.
+ * Queries a pointer to the data stored in the blob.
  *
- * Return value: (transfer none): Pointer to the data stored in the
- * blob, or %NULL if the size of the data is zero.
+ * Return value: (transfer none) (nullable): Pointer to the data
+ * stored in the blob, or %NULL if the size of the data is zero.
  **/
 gconstpointer
 gsf_blob_peek_data (GsfBlob const *blob)

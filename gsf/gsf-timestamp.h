@@ -35,6 +35,10 @@ struct _GsfTimestamp {
 	glong     seconds;		/* time of day */
 	GString	  time_zone;		/* possibly blank */
 
+	/* Seconds since the epoch.  Values must be in the range
+	 * 0 .. (guint32)-2; (guint32)-1 is reserved as the "invalid"
+	 * marker (see gsf_timestamp_as_string()).  Values outside the
+	 * representable range wrap.  */
 	guint32	  timet;
 };
 

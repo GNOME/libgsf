@@ -317,7 +317,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chown("/
                [AC_DEFINE(HAVE_G_CHOWN, 1, [Define if g_chown is available as macro or function])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
-AC_CHECK_FUNCS(g_date_time_new_from_iso8601 g_date_time_format_iso8601)
 AC_CHECK_FUNCS(xmlNanoHTTPOpen xmlNanoHTTPClose)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS

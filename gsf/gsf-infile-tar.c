@@ -348,7 +348,7 @@ gsf_infile_tar_dup (GsfInput *src_input, GError **err)
 		g_array_append_val (res->children, c);
 	}
 
-	return NULL;
+	return GSF_INPUT (res);
 }
 
 static guint8 const *

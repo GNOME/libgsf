@@ -159,22 +159,36 @@ gsf_infile_child_by_vname (GsfInfile *infile,  ...)
 GsfInput *
 gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 {
-	GsfInput  *child = GSF_INPUT (infile);
-	GsfInfile *tmp = NULL;
+	GsfInput  *child;
 	char const *name;
 
 	g_return_val_if_fail (GSF_IS_INFILE (infile), NULL);
 
+	/* The empty path yields the infile itself; since the result is
+	 * documented as transfer-full, take a reference.  */
+	child = g_object_ref (GSF_INPUT (infile));
+
 	while (NULL != (name = va_arg (names, char const *))) {
-		child = gsf_infile_child_by_name (infile, name);
-		if (tmp != NULL)
-			g_object_unref (tmp);
-		if (child == NULL)
+		GsfInput *next = gsf_infile_child_by_name (infile, name);
+
+		g_object_unref (child);
+		if (next == NULL)
+			return NULL;
+		child = next;
+
+		/* An intermediate path element must be a directory; only the
+		 * final element may be a plain file. */
+		if (!GSF_IS_INFILE (next)) {
+			if (va_arg (names, char const *) != NULL) {
+				g_warning ("Path element '%s' is not a directory",
+					   name);
+				g_object_unref (child);
+				return NULL;
+			}
 			break;
+		}
 
-		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
-
-		infile = tmp = GSF_INFILE (child);
+		infile = GSF_INFILE (next);
 	}
 
 	return child;
@@ -199,22 +213,36 @@ gsf_infile_child_by_vaname (GsfInfile *infile, va_list names)
 GsfInput *
 gsf_infile_child_by_aname (GsfInfile *infile, char const *names[])
 {
-	GsfInput  *child = GSF_INPUT (infile);
-	GsfInfile *tmp = NULL;
+	GsfInput  *child;
 
 	g_return_val_if_fail (GSF_IS_INFILE (infile), NULL);
 	g_return_val_if_fail (names != NULL, NULL);
 
-	for (;*names ; names++) {
-		child = gsf_infile_child_by_name (infile, *names);
-		if (tmp != NULL)
-			g_object_unref (tmp);
-		if (child == NULL)
+	/* The empty path yields the infile itself; since the result is
+	 * documented as transfer-full, take a reference.  */
+	child = g_object_ref (GSF_INPUT (infile));
+
+	for (; *names ; names++) {
+		GsfInput *next = gsf_infile_child_by_name (infile, *names);
+
+		g_object_unref (child);
+		if (next == NULL)
+			return NULL;
+		child = next;
+
+		/* An intermediate path element must be a directory; only the
+		 * final element may be a plain file. */
+		if (!GSF_IS_INFILE (next)) {
+			if (names[1] != NULL) {
+				g_warning ("Path element '%s' is not a directory",
+					   *names);
+				g_object_unref (child);
+				return NULL;
+			}
 			break;
+		}
 
-		g_return_val_if_fail (GSF_IS_INFILE (child), NULL);
-
-		infile = tmp = GSF_INFILE (child);
+		infile = GSF_INFILE (next);
 	}
 
 	return child;

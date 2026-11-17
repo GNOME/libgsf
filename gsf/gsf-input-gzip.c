@@ -122,7 +122,7 @@ check_header (GsfInputGZip *input)
 			if (NULL == (data = gsf_input_read (input->source, 2, NULL)))
 				return TRUE;
 			len = GSF_LE_GET_GUINT16 (data);
-			if (NULL == gsf_input_read (input->source, len, NULL))
+			if (len > 0 && NULL == gsf_input_read (input->source, len, NULL))
 				return TRUE;
 		}
 		if (flags & GZIP_ORIGINAL_NAME) {
@@ -204,12 +204,11 @@ gsf_input_gzip_set_source (GsfInputGZip *gzip, GsfInput *source)
 
 /**
  * gsf_input_gzip_new:
- * @source: The underlying data source.
+ * @source: (transfer none): The underlying data source.  The new input
+ *   adds a reference to it.
  * @err: (out) (optional) (nullable): place to store a #GError if anything goes wrong
  *
- * Adds a reference to @source.
- *
- * Returns: a new file or %NULL.
+ * Returns: (transfer full) (nullable): a new file or %NULL.
  **/
 GsfInput *
 gsf_input_gzip_new (GsfInput *source, GError **err)
@@ -267,7 +266,7 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 
 	if (src->source) {
 		src_source_copy = gsf_input_dup (src->source, err);
-		if (err)
+		if (src_source_copy == NULL)
 			return NULL;
 	} else
 		src_source_copy = NULL;
