@@ -493,6 +493,76 @@ test_close_root_with_open_streams (void)
 	g_free (payload);
 }
 
+/*
+ * If loading the small-block allocation table (SBAT) fails part-way,
+ * ole_info_get_sb_file used to ignore the failure: the unfilled tail of
+ * the table stayed zero and small-block streams opened "successfully".
+ * Corrupt one SBAT entry (to a value beyond the table, but not a magic
+ * marker) that lies past the chain of the stream we read, and make sure
+ * the failure is reported.  An undamaged file must still work.
+ */
+static void
+test_corrupt_sbat (void)
+{
+	enum { LEN = 100, SECTOR = 512 };
+	GsfOutput *mem = gsf_output_memory_new ();
+	GsfOutfile *root = gsf_outfile_msole_new (mem);
+	GsfOutput *o = gsf_outfile_new_child (root, "a", FALSE);
+	guint8 payload[LEN];
+	guint8 *bytes;
+	gsf_off_t size;
+	guint32 sbat_start;
+	int pass;
+
+	regress_fill_pattern (payload, LEN);
+	gsf_output_write (o, LEN, payload);
+	gsf_output_close (o);
+	g_object_unref (o);
+	check (gsf_output_close (GSF_OUTPUT (root)), "root closes");
+	g_object_unref (root);
+
+	size = gsf_output_size (mem);
+	bytes = g_memdup2 (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (mem)), size);
+	g_object_unref (mem);
+
+	sbat_start = GSF_LE_GET_GUINT32 (bytes + 0x3c);
+	check ((gsf_off_t)(sbat_start + 2) * SECTOR <= size,
+	       "SBAT sector lies inside the file");
+
+	for (pass = 0; pass < 2; pass++) {
+		GsfInput *in;
+		GsfInfile *ole;
+		GsfInput *s;
+
+		/* pass 0: undamaged; pass 1: entry 5 of the SBAT is bad */
+		if (pass == 1)
+			GSF_LE_SET_GUINT32 (bytes + (sbat_start + 1) * SECTOR + 5 * 4,
+					    0x00000800);
+
+		in = gsf_input_memory_new (bytes, size, FALSE);
+		ole = gsf_infile_msole_new (in, NULL);
+		check (ole != NULL, "pass %d: file opens", pass);
+		if (ole != NULL) {
+			inhibit_g_log_messages ();
+			s = gsf_infile_child_by_name (ole, "a");
+			restore_g_log_messages ();
+			if (pass == 0) {
+				guint8 const *d = s ? gsf_input_read (s, LEN, NULL) : NULL;
+				check (d != NULL && memcmp (d, payload, LEN) == 0,
+				       "undamaged small stream reads correctly");
+			} else {
+				check (s == NULL,
+				       "small stream is refused when the SBAT is damaged");
+			}
+			if (s != NULL)
+				g_object_unref (s);
+			g_object_unref (ole);
+		}
+		g_object_unref (in);
+	}
+	g_free (bytes);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -505,6 +575,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_small_big_boundary ();
 	test_dirent_bitmap_is_bounded ();
 	test_close_root_with_open_streams ();
+	test_corrupt_sbat ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

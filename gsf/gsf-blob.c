@@ -102,10 +102,10 @@ gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
 	GsfBlobPrivate *priv;
 	gpointer data;
 
-	g_return_val_if_fail ((size > 0 && data_to_copy != NULL) || (size == 0 && data_to_copy == NULL), NULL);
+	g_return_val_if_fail ((size > 0 && data_to_copy != NULL) || size == 0, NULL);
 	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
-	if (data_to_copy) {
+	if (size > 0) {
 		data = g_try_malloc (size);
 		if (!data) {
 			gchar *size_str;

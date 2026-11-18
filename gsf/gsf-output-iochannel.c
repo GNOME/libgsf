@@ -57,12 +57,22 @@ gsf_output_iochannel_new (GIOChannel *channel)
 static gboolean
 gsf_output_iochannel_close (GsfOutput *output)
 {
-	g_io_channel_shutdown (GSF_OUTPUT_IOCHANNEL (output)->channel, TRUE, NULL);
+	GError *gerr = NULL;
+	gboolean ok = TRUE;
+
+	/* Shutting down flushes buffered data, which can fail (ENOSPC, EIO).  */
+	if (g_io_channel_shutdown (GSF_OUTPUT_IOCHANNEL (output)->channel,
+				  TRUE, &gerr) != G_IO_STATUS_NORMAL) {
+		gsf_output_set_error (output, 0, "%s",
+				      gerr ? gerr->message : "Failed to close channel");
+		ok = FALSE;
+	}
+	g_clear_error (&gerr);
 
 	if (parent_class->Close)
 		parent_class->Close (output);
 
-	return TRUE;
+	return ok;
 }
 
 static void
@@ -98,16 +108,25 @@ gsf_output_iochannel_write (GsfOutput *output,
 	GsfOutputIOChannel *io = GSF_OUTPUT_IOCHANNEL (output);
 	GIOStatus status = G_IO_STATUS_NORMAL;
 	size_t bytes_written = 0, total_written = 0;
+	GError *gerr = NULL;
 
 	g_return_val_if_fail (io != NULL, FALSE);
 
 	while ((status == G_IO_STATUS_NORMAL) && (total_written < num_bytes)) {
+		g_clear_error (&gerr);
 		status = g_io_channel_write_chars (io->channel, (const gchar *)(buffer + total_written),
-						   num_bytes - total_written, &bytes_written, NULL);
+						   num_bytes - total_written, &bytes_written, &gerr);
 		total_written += bytes_written;
 	}
 
-	return (status == G_IO_STATUS_NORMAL && total_written == num_bytes);
+	if (status == G_IO_STATUS_NORMAL && total_written == num_bytes)
+		return TRUE;
+
+	/* The base class expects an error to be assigned on failure.  */
+	gsf_output_set_error (output, 0, "%s",
+			      gerr ? gerr->message : "Failed to write to channel");
+	g_clear_error (&gerr);
+	return FALSE;
 }
 
 static void

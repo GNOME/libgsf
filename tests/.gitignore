@@ -59,6 +59,7 @@ test-regress-stdio
 test-regress-stdio-fdopen
 test-regress-structured-blob
 test-regress-tar
+test-regress-tar-badhdr
 test-regress-textline
 test-regress-timestamp
 test-regress-xmlin-unknown

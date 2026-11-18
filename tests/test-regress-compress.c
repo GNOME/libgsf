@@ -9,6 +9,7 @@
 #include <gsf/gsf-output-bzip.h>
 #include <gsf/gsf-input-bzip.h>
 #include <gsf/gsf-output-gzip.h>
+#include <gsf/gsf-output-iochannel.h>
 #include <gsf/gsf-input-gzip.h>
 
 #include "libgsf-regress.h"
@@ -405,6 +406,63 @@ test_gzip_dup (void)
 	g_object_unref (mem);
 }
 
+/*
+ * When the sink of a bzip2 output fails, gsf_output_write returned FALSE
+ * but left gsf_output_error() NULL on the bzip output (every failure
+ * path in gsf-output-bzip.c only logged or returned).  Use /dev/full as
+ * the sink and write incompressible data, so that compressed blocks
+ * really reach the sink.
+ */
+static void
+test_bzip2_sink_failure_sets_error (void)
+{
+	enum { N = 256 * 1024 };
+	GIOChannel *chan;
+	GsfOutput *sink, *bz;
+	guint8 *buf;
+	guint32 x = 2463534242u;
+	int i;
+
+	if (!g_file_test ("/dev/full", G_FILE_TEST_EXISTS)) {
+		g_print ("skipped: /dev/full not available\n");
+		return;
+	}
+	chan = g_io_channel_new_file ("/dev/full", "w", NULL);
+	if (chan == NULL) {
+		g_print ("skipped: cannot open /dev/full\n");
+		return;
+	}
+	g_io_channel_set_encoding (chan, NULL, NULL);
+	sink = gsf_output_iochannel_new (chan);
+
+	bz = gsf_output_bzip_new (sink, NULL);
+	check (bz != NULL, "bzip2 output created");
+	if (bz == NULL) {
+		g_object_unref (sink);
+		return;
+	}
+
+	buf = g_malloc (N);
+	for (i = 0; i < N; i++) {	/* xorshift32: incompressible */
+		x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+		buf[i] = (guint8)x;
+	}
+
+	/* The sink may accept some data in its buffer, so write until
+	 * something fails (bounded by a few rounds).  */
+	for (i = 0; i < 8 && gsf_output_write (bz, N, buf); i++)
+		;
+	check (i < 8, "writing through a failing sink eventually fails");
+	check (gsf_output_error (bz) != NULL,
+	       "the sink failure is recorded as the bzip2 output's error");
+
+	g_free (buf);
+	gsf_output_close (bz);
+	g_object_unref (bz);
+	gsf_output_close (sink);
+	g_object_unref (sink);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -416,6 +474,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 		test_bzip2_roundtrip ();
 		test_bzip2_large_roundtrip ();
 		test_bzip2_empty ();
+		test_bzip2_sink_failure_sets_error ();
 	}
 	test_gzip_roundtrip ();
 	test_gzip_large_roundtrip ();

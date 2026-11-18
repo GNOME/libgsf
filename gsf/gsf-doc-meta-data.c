@@ -439,6 +439,14 @@ gsf_doc_prop_dump (GsfDocProp const *prop)
 {
 	GValue const *val = gsf_doc_prop_get_val (prop);
 	char *tmp;
+
+	g_return_if_fail (prop != NULL);
+
+	if (val == NULL) {
+		g_print ("\t= (no value)\n");
+		return;
+	}
+
 	if (VAL_IS_GSF_DOCPROP_VECTOR ((GValue *)val)) {
 		GArray *va = gsf_value_get_docprop_array (val);
 		unsigned i;

@@ -94,8 +94,14 @@ bzip_output_block (GsfOutputBzip *bzip)
 {
 	size_t num_bytes = bzip->buf_size - bzip->stream.avail_out;
 
-	if (!gsf_output_write (bzip->sink, num_bytes, bzip->buf))
+	if (!gsf_output_write (bzip->sink, num_bytes, bzip->buf)) {
+		GError const *sink_err = gsf_output_error (bzip->sink);
+		gsf_output_set_error (GSF_OUTPUT (bzip), 0, "%s",
+				      sink_err
+				      ? sink_err->message
+				      : _("Failed to write to the underlying output"));
 		return FALSE;
+	}
 
 	bzip->stream.next_out  = U2C (bzip->buf);
 	bzip->stream.avail_out = bzip->buf_size;
@@ -120,6 +126,9 @@ bzip_flush (GsfOutputBzip *bzip)
 	if (zret != BZ_STREAM_END) {
 		g_warning ("Unexpected error code %d from bzlib during compression.",
 			   zret);
+		gsf_output_set_error (GSF_OUTPUT (bzip), 0,
+				      _("Unexpected error code %d from bzlib during compression"),
+				      zret);
 		return FALSE;
 	}
 	if (!bzip_output_block (bzip))
@@ -157,6 +166,9 @@ gsf_output_bzip_write (GsfOutput *output,
 			if (zret != BZ_RUN_OK) {
 				g_warning ("Unexpected error code %d from bzlib during compression.",
 					   zret);
+				gsf_output_set_error (output, 0,
+						      _("Unexpected error code %d from bzlib during compression"),
+						      zret);
 				return FALSE;
 			}
 		}

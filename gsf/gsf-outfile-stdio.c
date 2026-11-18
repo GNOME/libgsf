@@ -117,16 +117,26 @@ gsf_outfile_stdio_new_valist (char const *root, GError **err,
 {
 	GsfOutfileStdio *ofs;
 
-	if (0 != g_mkdir (root, 0777) && errno != EEXIST) {
-		if (err != NULL) {
-			int save_errno = errno;
-			char *utf8name = g_filename_display_name (root);
-			*err = g_error_new (gsf_output_error_id (), 0,
-					    "%s: %s",
-					    utf8name, g_strerror (save_errno));
-			g_free (utf8name);
+	if (0 != g_mkdir (root, 0777)) {
+		int save_errno = errno;
+
+		/* EEXIST is fine only if what exists is a directory.  */
+		if (save_errno == EEXIST &&
+		    g_file_test (root, G_FILE_TEST_IS_DIR))
+			save_errno = 0;
+		else if (save_errno == EEXIST)
+			save_errno = ENOTDIR;
+
+		if (save_errno != 0) {
+			if (err != NULL) {
+				char *utf8name = g_filename_display_name (root);
+				*err = g_error_new (gsf_output_error_id (), 0,
+						    "%s: %s",
+						    utf8name, g_strerror (save_errno));
+				g_free (utf8name);
+			}
+			return NULL;
 		}
-		return NULL;
 	}
 
 	ofs = (GsfOutfileStdio *) g_object_new_valist (GSF_OUTFILE_STDIO_TYPE,

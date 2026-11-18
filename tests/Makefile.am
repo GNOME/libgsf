@@ -44,7 +44,7 @@ TESTS = $(TSCRIPTS) test-xml-fixes			\
 	test-regress-doc-meta-data test-regress-xmlin-unknown	\
 	test-regress-gio test-regress-gzip-setup test-regress-msole-vt-cy	\
 	test-regress-structured-blob test-regress-msole-oom	\
-	test-regress-stdio-fdopen
+	test-regress-stdio-fdopen test-regress-tar-badhdr
 
 SUPPS = common.supp
 
@@ -81,6 +81,6 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-regress-xmlin-unknown test-regress-gio		\
 		 test-regress-gzip-setup test-regress-msole-vt-cy	\
 		 test-regress-structured-blob test-regress-msole-oom	\
-		 test-regress-stdio-fdopen
+		 test-regress-stdio-fdopen test-regress-tar-badhdr
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)

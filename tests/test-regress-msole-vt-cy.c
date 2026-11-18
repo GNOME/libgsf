@@ -151,6 +151,40 @@ test_vt_bool (void)
 	}
 }
 
+/*
+ * A VT_CF property whose clipboard data is empty (size field 4: just the
+ * format word, here GSF_CLIP_FORMAT_NO_DATA) is legal, but the reader
+ * handed gsf_blob_new a zero size with a non-NULL data pointer, which
+ * violates its precondition: a CRITICAL (fatal under
+ * G_DEBUG=fatal-criticals) and the whole property was dropped.
+ */
+static void
+test_vt_cf_empty (void)
+{
+	guint8 buf[8];
+	guint8 const *d = buf;
+	GValue res = G_VALUE_INIT;
+	gboolean ok;
+
+	GSF_LE_SET_GUINT32 (buf, 4);
+	GSF_LE_SET_GINT32 (buf + 4, GSF_CLIP_FORMAT_NO_DATA);
+
+	inhibit_g_log_messages ();
+	ok = msole_prop_parse (NULL, VT_CF, &d, buf + sizeof buf, &res, 0);
+	restore_g_log_messages ();
+
+	check (ok, "VT_CF with empty clipboard data parses");
+	check (inhibited_g_log_messages == 0,
+	       "empty VT_CF logs no warnings or criticals (got %d)",
+	       inhibited_g_log_messages);
+	check (G_VALUE_HOLDS (&res, GSF_TYPE_CLIP_DATA),
+	       "the result is a GsfClipData");
+	check (d == buf + sizeof buf, "all %d bytes consumed (consumed %d)",
+	       (int) sizeof buf, (int) (d - buf));
+	if (G_IS_VALUE (&res))
+		g_value_unset (&res);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -158,6 +192,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_vt_cy_vector ();
 	test_vt_cy_in_variant_vector ();
 	test_vt_bool ();
+	test_vt_cf_empty ();
 	gsf_shutdown ();
 	return regress_exit_status ();
 }

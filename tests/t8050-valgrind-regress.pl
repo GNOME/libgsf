@@ -33,6 +33,8 @@ my @tests = (
     'test-regress-outzip-open',
     # gzip output: failed setup must not re-run deflateInit2 (leak)
     'test-regress-gzip-setup',
+    # tar header with several bad numeric fields: first GError leaked
+    'test-regress-tar-badhdr',
 );
 
 my $nfail = 0;

@@ -287,12 +287,20 @@ gsf_mem_dump (guint8 const *ptr, size_t len)
  * @input: a #GsfInput
  * @dump_as_hex: If %TRUE, dump in hexidecmal format
  *
- * Dumps @input's contents to STDOUT, optionally in hex format.
+ * Dumps @input's entire contents to STDOUT, optionally in hex format.  The
+ * dump always starts at the beginning of @input; the input is left
+ * positioned at its end.
  */
 void
 gsf_input_dump (GsfInput *input, gboolean dump_as_hex)
 {
 	gsf_off_t offset = 0, size;
+
+	g_return_if_fail (GSF_IS_INPUT (input));
+
+	/* Dump the whole input, whatever its current position is.  */
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return;
 
 	/* read in small blocks to excercise things */
 	size = gsf_input_size (GSF_INPUT (input));

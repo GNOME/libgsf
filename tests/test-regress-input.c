@@ -11,8 +11,13 @@
 
 #include <gsf/gsf-input-memory.h>
 
+#include <fcntl.h>
+#include <glib/gstdio.h>
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 /*
  * Reading: a read advances the position; a zero-length read returns NULL;
@@ -276,6 +281,59 @@ test_tar_child_read (void)
 	g_object_unref (input);
 }
 
+/*
+ * gsf_input_dump() iterates over the whole size of the input but read from
+ * the input's current position, so an input that was not at offset 0
+ * dumped the wrong bytes (and ran off the end).  It must dump the entire
+ * contents regardless of where the input currently is.
+ */
+static void
+test_dump_from_nonzero_position (void)
+{
+	GsfInput *in = regress_make_named_memory ("hello world", 11, "in");
+	char *path = g_strdup_printf ("/tmp/gsf-regress-dump-%d", (int)getpid ());
+	char *contents = NULL;
+	gsize len = 0;
+	int saved_stdout, fd;
+
+	check (in != NULL, "memory input created");
+	if (in == NULL) {
+		g_free (path);
+		return;
+	}
+
+	check (!gsf_input_seek (in, 6, G_SEEK_SET), "seek to offset 6");
+
+	fflush (stdout);
+	saved_stdout = dup (1);
+	fd = g_open (path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	g_assert (saved_stdout >= 0 && fd >= 0);
+	g_assert (dup2 (fd, 1) >= 0);
+	close (fd);
+
+	inhibit_g_log_messages ();
+	gsf_input_dump (in, FALSE);
+	restore_g_log_messages ();
+
+	fflush (stdout);
+	g_assert (dup2 (saved_stdout, 1) >= 0);
+	close (saved_stdout);
+
+	check (g_file_get_contents (path, &contents, &len, NULL),
+	       "dump output read back");
+	check (len == 11 && memcmp (contents, "hello world", 11) == 0,
+	       "dump emits the whole input, not just the tail (%lu bytes)",
+	       (unsigned long)len);
+	check (inhibited_g_log_messages == 0,
+	       "dump from a non-zero position logs nothing (got %d)",
+	       inhibited_g_log_messages);
+
+	g_free (contents);
+	g_unlink (path);
+	g_free (path);
+	g_object_unref (in);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -289,6 +347,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_modtime ();
 	test_stub_read ();
 	test_tar_child_read ();
+	test_dump_from_nonzero_position ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

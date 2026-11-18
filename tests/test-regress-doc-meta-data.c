@@ -287,6 +287,40 @@ test_prop_link (void)
 	gsf_doc_prop_free (prop);
 }
 
+/*
+ * gsf_doc_prop_dump() on a property that has no value (as returned by
+ * gsf_doc_prop_new) used to hand a NULL GValue to the type check and to
+ * g_strdup_value_contents, producing CRITICALs (fatal under
+ * G_DEBUG=fatal-criticals) and printing a NULL string.  It must cope
+ * quietly; properties that do have a value must still dump quietly.
+ */
+static void
+test_prop_dump_no_value (void)
+{
+	GsfDocProp *prop = gsf_doc_prop_new (g_strdup ("no-value"));
+	GValue *v;
+
+	inhibit_g_log_messages ();
+	gsf_doc_prop_dump (prop);
+	restore_g_log_messages ();
+	check (inhibited_g_log_messages == 0,
+	       "dumping a property without a value logs nothing (got %d)",
+	       inhibited_g_log_messages);
+
+	v = g_new0 (GValue, 1);
+	g_value_init (v, G_TYPE_STRING);
+	g_value_set_string (v, "hello");
+	gsf_doc_prop_set_val (prop, v);
+	inhibit_g_log_messages ();
+	gsf_doc_prop_dump (prop);
+	restore_g_log_messages ();
+	check (inhibited_g_log_messages == 0,
+	       "dumping a property with a value logs nothing (got %d)",
+	       inhibited_g_log_messages);
+
+	gsf_doc_prop_free (prop);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -298,6 +332,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_steal_and_store ();
 	test_prop_val ();
 	test_prop_link ();
+	test_prop_dump_no_value ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

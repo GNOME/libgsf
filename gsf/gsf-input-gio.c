@@ -106,8 +106,6 @@ make_local_copy (GFile *file, GInputStream *stream)
 	g_input_stream_close (stream, NULL, NULL);
 	g_object_unref (stream);
 
-	set_name_from_file (copy, file);
-
 	return copy;
 }
 

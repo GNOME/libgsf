@@ -394,6 +394,51 @@ test_missing_methods_fail_cleanly (void)
 	g_free (dir);
 }
 
+/*
+ * gsf_outfile_stdio_new() must not "succeed" when the root path already
+ * exists but is not a directory: mkdir reports EEXIST for any existing
+ * path, which used to be taken as success, leaving an outfile on which
+ * every later new_child fails with a confusing ENOTDIR.  An existing
+ * directory remains acceptable.
+ */
+static void
+test_outfile_stdio_existing_nondir (void)
+{
+	char *dir = g_strdup_printf ("/tmp/gsf-regress-outdir-%d", (int)getpid ());
+	char *file = g_strdup_printf ("/tmp/gsf-regress-outfile-%d", (int)getpid ());
+	GError *err = NULL;
+	GsfOutfile *d;
+	FILE *f = g_fopen (file, "w");
+
+	g_assert (f != NULL);
+	fputs ("not a directory", f);
+	fclose (f);
+
+	d = gsf_outfile_stdio_new (file, &err);
+	check (d == NULL, "outfile rooted at a regular file is rejected");
+	check (err != NULL, "rejecting a regular file sets a GError");
+	if (err != NULL)
+		g_clear_error (&err);
+	if (d != NULL)
+		g_object_unref (d);
+
+	g_assert (g_mkdir (dir, 0777) == 0);
+	d = gsf_outfile_stdio_new (dir, &err);
+	check (d != NULL, "outfile rooted at an existing directory is accepted");
+	check (err == NULL, "no error for an existing directory");
+	if (err != NULL)
+		g_clear_error (&err);
+	if (d != NULL) {
+		gsf_output_close (GSF_OUTPUT (d));
+		g_object_unref (d);
+	}
+
+	g_rmdir (dir);
+	g_unlink (file);
+	g_free (dir);
+	g_free (file);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -410,6 +455,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_name_and_modtime ();
 	test_vprintf_byte_count ();
 	test_missing_methods_fail_cleanly ();
+	test_outfile_stdio_existing_nondir ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

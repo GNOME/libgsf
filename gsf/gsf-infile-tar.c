@@ -240,10 +240,22 @@ tar_init_info (GsfInfileTar *tar)
 			pending_longname = NULL;
 		} else
 			name = g_strndup (header->name, sizeof (header->name));
+		/*
+		 * Stop at the first invalid field: a later unpack_octal would
+		 * otherwise overwrite (and leak) the error set by an earlier one.
+		 */
 		length = unpack_octal (tar, header->size, sizeof (header->size));
+		if (tar->err) {
+			g_free (name);
+			break;
+		}
 		offset = gsf_input_tell (tar->source);
 
 		mtime = unpack_octal (tar, header->mtime, sizeof (header->mtime));
+		if (tar->err) {
+			g_free (name);
+			break;
+		}
 
 		switch (header->typeflag) {
 		case '0': case 0: {

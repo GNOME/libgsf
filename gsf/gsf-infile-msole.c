@@ -250,8 +250,12 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 {
 	MSOleBAT meta_sbat;
 
-	if (parent->info->sb_file != NULL)
-		return parent->info->sb_file;
+	if (parent->info->sb_file != NULL) {
+		/* A missing table means an earlier attempt failed.  */
+		return parent->info->sb.bat.block != NULL
+			? parent->info->sb_file
+			: NULL;
+	}
 
 	parent->info->sb_file = gsf_infile_msole_new_child (parent,
 		parent->info->root_dir, NULL);
@@ -278,9 +282,16 @@ ole_info_get_sb_file (GsfInfileMSOle *parent)
 		return NULL;
 	}
 
-	ole_info_read_metabat (parent, parent->info->sb.bat.block,
-		parent->info->sb.bat.num_blocks,
-		meta_sbat.block, meta_sbat.block + meta_sbat.num_blocks);
+	if (ole_info_read_metabat (parent, parent->info->sb.bat.block,
+				   parent->info->sb.bat.num_blocks,
+				   meta_sbat.block,
+				   meta_sbat.block + meta_sbat.num_blocks) == NULL) {
+		/* Do not leave a partly filled table behind: its zero tail
+		 * would be followed as if it were valid chain data.  */
+		ols_bat_release (&meta_sbat);
+		ols_bat_release (&parent->info->sb.bat);
+		return NULL;
+	}
 	ols_bat_release (&meta_sbat);
 
 	return parent->info->sb_file;

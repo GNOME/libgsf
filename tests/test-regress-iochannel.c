@@ -321,6 +321,91 @@ test_pipe_roundtrip (void)
 	}
 }
 
+/*
+ * Closing the output flushes the channel; when that fails (here /dev/full
+ * gives ENOSPC) gsf_output_close used to ignore the result of
+ * g_io_channel_shutdown and report success although buffered data was
+ * lost.  The failure must be reported and recorded as the output's error.
+ */
+static void
+test_close_flush_failure_is_reported (void)
+{
+	GIOChannel *chan;
+	GsfOutput *out;
+	gboolean closed;
+
+	if (!g_file_test ("/dev/full", G_FILE_TEST_EXISTS)) {
+		g_print ("skipped: /dev/full not available\n");
+		return;
+	}
+	chan = g_io_channel_new_file ("/dev/full", "w", NULL);
+	if (chan == NULL) {
+		g_print ("skipped: cannot open /dev/full\n");
+		return;
+	}
+	g_io_channel_set_encoding (chan, NULL, NULL);
+
+	out = gsf_output_iochannel_new (chan);
+	check (out != NULL, "output created");
+	if (out == NULL) {
+		g_io_channel_unref (chan);
+		return;
+	}
+
+	/* Small enough to stay in the channel's buffer.  */
+	check (gsf_output_write (out, 5, (guint8 const *)"hello"),
+	       "buffered write succeeds");
+	closed = gsf_output_close (out);
+	check (!closed, "close reports the failed flush");
+	check (gsf_output_error (out) != NULL,
+	       "close failure is recorded as the output's error");
+	g_object_unref (out);
+}
+
+/*
+ * A failed write must leave an error on the output (the base class
+ * documents that a FALSE return has assigned one), so disk-full
+ * conditions can be diagnosed with gsf_output_error().  A write larger
+ * than the channel buffer reaches /dev/full immediately and fails with
+ * ENOSPC.
+ */
+static void
+test_write_failure_sets_error (void)
+{
+	enum { BIG = 1 << 20 };
+	GIOChannel *chan;
+	GsfOutput *out;
+	guint8 *buf;
+
+	if (!g_file_test ("/dev/full", G_FILE_TEST_EXISTS)) {
+		g_print ("skipped: /dev/full not available\n");
+		return;
+	}
+	chan = g_io_channel_new_file ("/dev/full", "w", NULL);
+	if (chan == NULL) {
+		g_print ("skipped: cannot open /dev/full\n");
+		return;
+	}
+	g_io_channel_set_encoding (chan, NULL, NULL);
+
+	out = gsf_output_iochannel_new (chan);
+	check (out != NULL, "output created");
+	if (out == NULL) {
+		g_io_channel_unref (chan);
+		return;
+	}
+
+	buf = g_malloc0 (BIG);
+	check (!gsf_output_write (out, BIG, buf), "large write to /dev/full fails");
+	check (gsf_output_error (out) != NULL,
+	       "write failure is recorded as the output's error");
+	g_free (buf);
+
+	/* The close will fail too; that is not what is tested here.  */
+	gsf_output_close (out);
+	g_object_unref (out);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -332,6 +417,8 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_input_from_file ();
 	test_input_empty ();
 	test_pipe_roundtrip ();
+	test_close_flush_failure_is_reported ();
+	test_write_failure_sets_error ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();
