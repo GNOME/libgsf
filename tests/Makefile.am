@@ -83,5 +83,3 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-regress-stdio-fdopen
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)
-
-.NOTPARALLEL:

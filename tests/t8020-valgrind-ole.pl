@@ -5,11 +5,9 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use LibGsfTest;
 
-my $archive = "test.ole";
-&LibGsfTest::junkfile ($archive);
+my $archive = &LibGsfTest::invent_junkfile ('test.ole');
 
-my $NEWS = 'NEWS';
-&LibGsfTest::junkfile ($NEWS);
+my $NEWS = &LibGsfTest::invent_junkfile ('NEWS.txt');
 system ("cp", "$topsrc/NEWS", $NEWS);
 
 my @files = ('Makefile', $NEWS);

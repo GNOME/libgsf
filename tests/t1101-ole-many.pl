@@ -5,8 +5,7 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use LibGsfTest;
 
-my $archive = "test-many.ole";
-&LibGsfTest::junkfile ($archive);
+my $archive = &LibGsfTest::invent_junkfile ('test-many.ole');
 
 print STDERR "Testing ole many streams (50000)\n";
 my $test_ole = "$top_builddir/tests/test-ole";

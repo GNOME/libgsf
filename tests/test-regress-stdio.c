@@ -342,11 +342,16 @@ count_save_files (char const *dir)
 static void
 test_failed_rename_cleans_temp (void)
 {
-	char *path = make_temp_path ("rename-fail");
-	char *dir = g_path_get_dirname (path);
+	char *dir = make_temp_path ("rename-fail-dir");
+	char *path = g_build_filename (dir, "target", NULL);
 	char *inner = g_build_filename (path, "x", NULL);
-	int before = count_save_files (dir);
+	int before;
 	GsfOutput *out;
+
+	/* Count only in our own directory: other tests may be writing
+	 * .gsf-save-* files elsewhere in /tmp at the same time. */
+	g_assert (g_mkdir_with_parents (dir, 0755) == 0);
+	before = count_save_files (dir);
 
 	g_unlink (path);
 	out = gsf_output_stdio_new (path, NULL);
@@ -369,9 +374,10 @@ test_failed_rename_cleans_temp (void)
 	}
 	g_unlink (inner);
 	g_rmdir (path);
+	g_rmdir (dir);
 	g_free (inner);
-	g_free (dir);
 	g_free (path);
+	g_free (dir);
 }
 
 int

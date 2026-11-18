@@ -5,8 +5,7 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use LibGsfTest;
 
-my $NEWS = 'NEWS';
-&LibGsfTest::junkfile ($NEWS);
+my $NEWS = &LibGsfTest::invent_junkfile ('NEWS.txt');
 system ("cp", "$topsrc/NEWS", $NEWS);
 
 &test_zip ('files' => ['Makefile', $NEWS],

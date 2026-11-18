@@ -48,6 +48,7 @@ test-regress-input
 test-regress-iochannel
 test-regress-meta
 test-regress-msole
+test-regress-msole-oom
 test-regress-msole-vt-cy
 test-regress-msvba
 test-regress-outmem-printf
@@ -55,6 +56,7 @@ test-regress-output
 test-regress-outzip-open
 test-regress-shared-memory
 test-regress-stdio
+test-regress-stdio-fdopen
 test-regress-structured-blob
 test-regress-tar
 test-regress-textline
