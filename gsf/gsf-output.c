@@ -412,6 +412,11 @@ gsf_output_seek	(GsfOutput *output, gsf_off_t offset, GSeekType whence)
 	if (pos == output->cur_offset)
 		return TRUE;
 
+	/* Subclasses such as directory outfiles have no Seek.  */
+	if (GET_CLASS (output)->Seek == NULL)
+		return gsf_output_set_error (output, 0, "%s",
+					     _("This output does not support seeking"));
+
 	if (GET_CLASS (output)->Seek (output, offset, whence)) {
 		/* NOTE : it is possible for the current pos to be beyond the
 		 * end of the file.  The intervening space is not filled with 0
@@ -462,6 +467,12 @@ gsf_output_write (GsfOutput *output,
 
 	if (num_bytes == 0)
 		return TRUE;
+
+	/* Subclasses such as directory outfiles have no Write.  */
+	if (GET_CLASS (output)->Write == NULL)
+		return gsf_output_set_error (output, 0, "%s",
+					     _("This output does not support writing"));
+
 	if (GET_CLASS (output)->Write (output, num_bytes, data))
 		return gsf_output_inc_cur_offset (output, num_bytes);
 
@@ -736,6 +747,12 @@ gsf_output_vprintf (GsfOutput *output, char const *format, va_list args)
 	g_return_val_if_fail (format != NULL, -1);
 	/* g_return_val_if_fail (strlen (format) > 0, -1); -- Why? */
 
+	if (GET_CLASS (output)->Vprintf == NULL) {
+		gsf_output_set_error (output, 0, "%s",
+				      _("This output does not support writing"));
+		return -1;
+	}
+
 	num_bytes = GET_CLASS (output)->Vprintf (output, format, args);
 
 	if (num_bytes >= 0)
@@ -770,8 +787,16 @@ gsf_output_real_vprintf (GsfOutput *output, char const *fmt, va_list args)
 	}
 	va_end (args2);
 
-	if (reslen == 0 ||
-	    GET_CLASS (output)->Write (output, reslen, CC2U (output->printf_buf)))
+	if (reslen == 0)
+		return reslen;
+
+	if (GET_CLASS (output)->Write == NULL) {
+		gsf_output_set_error (output, 0, "%s",
+				      _("This output does not support writing"));
+		return -1;
+	}
+
+	if (GET_CLASS (output)->Write (output, reslen, CC2U (output->printf_buf)))
 		return reslen;
 
 	return -1;

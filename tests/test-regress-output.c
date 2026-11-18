@@ -12,9 +12,12 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-outfile-stdio.h>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <glib/gstdio.h>
 
 /*
  * Writing must advance the position and grow the size; a zero-length
@@ -353,6 +356,44 @@ test_name_and_modtime (void)
 	g_object_unref (mem);
 }
 
+/*
+ * A directory GsfOutfileStdio has no Write, Seek or Vprintf (its class
+ * assigns NULL to them), and the generic gsf_output_* wrappers called them
+ * unconditionally, jumping through a NULL pointer.  They must fail cleanly
+ * and record an error instead.
+ */
+static void
+test_missing_methods_fail_cleanly (void)
+{
+	char *dir = g_strdup_printf ("/tmp/gsf-regress-output-dir-%d", (int)getpid ());
+	GError *err = NULL;
+	GsfOutfile *d = gsf_outfile_stdio_new (dir, &err);
+
+	check (d != NULL, "directory outfile created");
+	if (d != NULL) {
+		GsfOutput *o = GSF_OUTPUT (d);
+
+		check (!gsf_output_write (o, 3, (guint8 const *)"abc"),
+		       "write on a directory fails");
+		check (gsf_output_error (o) != NULL, "write failure records an error");
+
+		check (gsf_output_write (o, 0, NULL),
+		       "writing zero bytes is still a no-op success");
+		check (gsf_output_seek (o, 0, G_SEEK_SET),
+		       "seeking nowhere still succeeds");
+		check (!gsf_output_seek (o, 5, G_SEEK_SET),
+		       "a real seek on a directory fails");
+		check (!gsf_output_printf (o, "x%d", 1), "printf on a directory fails");
+		check (!gsf_output_puts (o, "line\n"), "puts on a directory fails");
+
+		gsf_output_close (o);
+		g_object_unref (o);
+	}
+	g_clear_error (&err);
+	g_rmdir (dir);
+	g_free (dir);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -368,6 +409,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_wrap_unwrap ();
 	test_name_and_modtime ();
 	test_vprintf_byte_count ();
+	test_missing_methods_fail_cleanly ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

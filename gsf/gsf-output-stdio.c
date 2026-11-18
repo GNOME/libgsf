@@ -524,12 +524,21 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 		st.st_mode &= ~saved_umask;
 
 	if (fd < 0 || NULL == (file = fdopen (fd, "wb"))) {
+		/* Save errno before anything below can clobber it.  */
+		int save_errno = errno;
+
+		/* If mkstemp succeeded but fdopen did not, we still own the
+		 * descriptor and the temp file it created.  */
+		if (fd >= 0) {
+			close (fd);
+			g_unlink (temp_filename);
+		}
+
 		if (err != NULL) {
-			int save_errno = errno;
 			char *dname = g_filename_display_name
 				(temp_filename);
 			*err = g_error_new
-				(gsf_output_error_id (), errno,
+				(gsf_output_error_id (), save_errno,
 				 "%s: %s",
 				 dname, g_strerror (save_errno));
 			g_free (dname);

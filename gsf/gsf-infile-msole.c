@@ -660,7 +660,7 @@ ole_init_info (GsfInfileMSOle *ole, GError **err)
 		metabat = g_try_new (guint32, MAX (info->bb.size, OLE_HEADER_SIZE));
 		if (!metabat) {
 			ole->info = NULL;
-			g_free (info);
+			ole_info_unref (info);
 			if (err != NULL)
 				*err = g_error_new (gsf_input_error_id (), 0,
 						    _("Insufficient memory"));

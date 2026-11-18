@@ -259,6 +259,81 @@ test_msvba_is_a_usable_infile (void)
 	g_object_unref (mem);
 }
 
+static int critical_count;
+
+static void
+count_criticals (G_GNUC_UNUSED char const *d, GLogLevelFlags l,
+		 G_GNUC_UNUSED char const *m, G_GNUC_UNUSED gpointer u)
+{
+	if (l & G_LOG_LEVEL_CRITICAL)
+		critical_count++;
+}
+
+/* Inflate @n bytes of @data; returns the output size and counts criticals. */
+static int
+inflate_bytes (guint8 const *data, size_t n, guint8 **out)
+{
+	GsfInput *in = gsf_input_memory_new (data, n, FALSE);
+	int size = -1;
+
+	*out = gsf_vba_inflate (in, 0, &size, FALSE);
+	g_object_unref (in);
+	return size;
+}
+
+/*
+ * The final chunk's bounds check must agree with the size of the section it
+ * creates: a chunk header's size field N means N+1 data bytes follow.  The
+ * check once required only N, so a last chunk that was exactly one byte
+ * short passed it and then failed gsf_input_proxy_new_section's
+ * precondition (a GLib critical).  Truncated chunks must be dropped
+ * quietly, earlier chunks kept, and an exactly fitting chunk accepted.
+ */
+static void
+test_final_chunk_boundary (void)
+{
+	/* 0x01 signature; chunk header 0xB008 = compressed, size field 8, so
+	 * 9 data bytes: one flag byte (8 literals) and the literals. */
+	static guint8 const one[] = {
+		0x01,
+		0x08, 0xB0, 0x00, 'A','B','C','D','E','F','G','H',
+	};
+	static guint8 const two[] = {
+		0x01,
+		0x08, 0xB0, 0x00, 'A','B','C','D','E','F','G','H',
+		0x08, 0xB0, 0x00, '1','2','3','4','5','6','7','8',
+	};
+	guint8 *out;
+	int size;
+
+	g_log_set_default_handler (count_criticals, NULL);
+
+	critical_count = 0;
+	size = inflate_bytes (one, sizeof one, &out);
+	check (size == 8 && out != NULL && memcmp (out, "ABCDEFGH", 8) == 0,
+	       "a final chunk that fits exactly is decoded (size %d)", size);
+	check (critical_count == 0, "no critical for an exactly fitting chunk");
+	g_free (out);
+
+	critical_count = 0;
+	size = inflate_bytes (one, sizeof one - 1, &out);
+	check (size == 0, "a lone chunk one byte short yields nothing (size %d)", size);
+	check (critical_count == 0,
+	       "no critical for a chunk one byte short (got %d)", critical_count);
+	g_free (out);
+
+	critical_count = 0;
+	size = inflate_bytes (two, sizeof two - 1, &out);
+	check (size == 8 && out != NULL && memcmp (out, "ABCDEFGH", 8) == 0,
+	       "the chunk before a truncated one is kept (size %d)", size);
+	check (critical_count == 0,
+	       "no critical when the second chunk is one byte short (got %d)",
+	       critical_count);
+	g_free (out);
+
+	g_log_set_default_handler (g_log_default_handler, NULL);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -267,6 +342,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_offset_parameter ();
 	test_two_chunk_seek ();
 	test_raw_chunk ();
+	test_final_chunk_boundary ();
 	test_dir_record_bounds ();
 	test_msvba_is_a_usable_infile ();
 
