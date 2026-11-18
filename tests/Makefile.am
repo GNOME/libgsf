@@ -29,6 +29,7 @@ TSCRIPTS = \
 	t2002-compress.pl				\
 	t8000-valgrind-zip.pl				\
 	t8020-valgrind-ole.pl				\
+	t8040-valgrind-tar.pl				\
 	t8050-valgrind-regress.pl			\
 	t1200-cli.pl					\
 	t9999-epilogue.pl
