@@ -174,12 +174,6 @@ vba_parses (guint8 const *records, size_t nrec)
 	return ok;
 }
 
-static void
-quiet (G_GNUC_UNUSED char const *d, G_GNUC_UNUSED GLogLevelFlags l,
-       G_GNUC_UNUSED char const *m, G_GNUC_UNUSED gpointer u)
-{
-}
-
 /*
  * Record lengths come straight from the stream.  The bounds check used
  * "ptr + len > end", which wraps around on 32-bit systems for lengths near
@@ -210,7 +204,7 @@ test_dir_record_bounds (void)
 		0x09,0x00, 0xF9,0x0F,0x00,0x00,
 	};
 
-	g_log_set_default_handler (quiet, NULL);
+	inhibit_g_log_messages ();
 	check (vba_parses (valid, sizeof valid), "valid dir records parse");
 	check (!vba_parses (huge_len, sizeof huge_len),
 	       "length 0xFFFFFFF0 is rejected");
@@ -218,7 +212,7 @@ test_dir_record_bounds (void)
 	       "length 0xFFFFFFFF is rejected");
 	check (!vba_parses (nine_no_room, sizeof nine_no_room),
 	       "tag 9 without room for its extra bytes is rejected");
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 }
 
 /*
@@ -240,9 +234,9 @@ test_msvba_is_a_usable_infile (void)
 	GError *err = NULL;
 
 	g_assert (src != NULL);
-	g_log_set_default_handler (quiet, NULL);
+	inhibit_g_log_messages ();
 	vba = gsf_infile_msvba_new (src, NULL);
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 	check (vba != NULL, "VBA project opens");
 	if (vba != NULL) {
 		check (gsf_infile_num_children (vba) == -1,

@@ -58,12 +58,6 @@ bi_get_type (void)
 	return t;
 }
 
-static void
-quiet (G_GNUC_UNUSED char const *d, G_GNUC_UNUSED GLogLevelFlags l,
-       G_GNUC_UNUSED char const *m, G_GNUC_UNUSED gpointer u)
-{
-}
-
 /*
  * gsf_structured_blob_read() ignored a failing gsf_input_read() and wrapped
  * the still-uninitialised buffer, so the blob's content was whatever the heap
@@ -78,9 +72,9 @@ test_failed_read (void)
 	gsf_input_set_size (in, 4096);
 	gsf_input_set_name (in, "bad");
 
-	g_log_set_default_handler (quiet, NULL);
+	inhibit_g_log_messages ();
 	blob = gsf_structured_blob_read (in);
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 
 	check (blob == NULL, "a failed read does not produce a blob");
 	if (blob)
@@ -198,7 +192,7 @@ test_failed_child_write_releases_output (void)
 	gsf_input_set_size (root, 0);
 	gsf_input_set_name (root, "root");
 
-	g_log_set_default_handler (quiet, NULL);
+	inhibit_g_log_messages ();
 	blob = gsf_structured_blob_read (root);
 	check (blob != NULL, "tree with an unreadable child still reads");
 	if (blob) {
@@ -214,7 +208,7 @@ test_failed_child_write_releases_output (void)
 	} else {
 		g_object_unref (of);
 	}
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 
 	g_object_unref (mem);
 	g_object_unref (root);

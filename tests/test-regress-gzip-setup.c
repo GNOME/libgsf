@@ -66,12 +66,6 @@ fo_get_type (void)
 	return t;
 }
 
-static void
-quiet (G_GNUC_UNUSED char const *d, G_GNUC_UNUSED GLogLevelFlags l,
-       G_GNUC_UNUSED char const *m, G_GNUC_UNUSED gpointer u)
-{
-}
-
 /*
  * gsf_output_gzip_write() called setup but ignored its failure.  A failed
  * header write then left the zlib stream initialised but "not set up", so
@@ -90,11 +84,11 @@ test_failed_header (void)
 	gz = gsf_output_gzip_new ((GsfOutput *)sink, NULL);
 	check (gz != NULL, "gzip output created");
 
-	g_log_set_default_handler (quiet, NULL);
+	inhibit_g_log_messages ();
 	w1 = gsf_output_write (gz, 4, (guint8 const *)"abcd");
 	w2 = gsf_output_write (gz, 4, (guint8 const *)"efgh");
 	closed = gsf_output_close (gz);
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 
 	check (!w1, "first write reports the failed header");
 	check (!w2, "later writes keep failing");

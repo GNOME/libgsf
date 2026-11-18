@@ -296,12 +296,6 @@ test_stdio_file_leak (void)
 		g_object_unref (in);
 }
 
-static void
-swallow_log (G_GNUC_UNUSED char const *domain, G_GNUC_UNUSED GLogLevelFlags level,
-	     G_GNUC_UNUSED char const *msg, G_GNUC_UNUSED gpointer data)
-{
-}
-
 /*
  * gsf_output_printf() on a closed stdio output passed a NULL FILE* to
  * vfprintf and crashed.  It must fail cleanly (Write and Seek already do).
@@ -315,10 +309,10 @@ test_printf_after_close (void)
 	check (out != NULL, "output created");
 	if (out != NULL) {
 		check (gsf_output_close (out), "close succeeds");
-		g_log_set_default_handler (swallow_log, NULL);
+		inhibit_g_log_messages ();
 		check (gsf_output_printf (out, "late %d", 1) == FALSE,
 		       "printf after close fails instead of crashing");
-		g_log_set_default_handler (g_log_default_handler, NULL);
+		restore_g_log_messages ();
 		g_object_unref (out);
 	}
 	g_unlink (path);

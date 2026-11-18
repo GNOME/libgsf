@@ -15,6 +15,9 @@
 
 static int nfail;
 
+/* Number of log messages swallowed since the last inhibit call. */
+int inhibited_g_log_messages;
+
 void
 check (gboolean ok, char const *what, ...)
 {
@@ -45,6 +48,26 @@ regress_exit_status (void)
 	}
 	printf ("all checks passed\n");
 	return 0;
+}
+
+static void
+quiet (G_GNUC_UNUSED char const *domain, G_GNUC_UNUSED GLogLevelFlags level,
+       G_GNUC_UNUSED char const *message, G_GNUC_UNUSED gpointer user_data)
+{
+	inhibited_g_log_messages++;
+}
+
+void
+inhibit_g_log_messages (void)
+{
+	inhibited_g_log_messages = 0;
+	g_log_set_default_handler (quiet, NULL);
+}
+
+void
+restore_g_log_messages (void)
+{
+	g_log_set_default_handler (g_log_default_handler, NULL);
 }
 
 GsfInput *

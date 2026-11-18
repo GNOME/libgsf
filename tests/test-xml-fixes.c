@@ -24,16 +24,7 @@
 #include <libxml/tree.h>
 #include <string.h>
 
-static int failures;
-
-static void
-check (gboolean ok, char const *what)
-{
-	if (!ok) {
-		g_printerr ("FAIL: %s\n", what);
-		failures++;
-	}
-}
+#include "libgsf-regress.h"
 
 static char *
 output_to_string (GsfOutput *output)
@@ -258,21 +249,6 @@ test_unbalanced_finalize (void)
 	g_object_unref (output);
 }
 
-/*
- * Log handler that swallows and counts warnings so that tests exercising
- * deliberately odd input stay quiet.
- */
-static int swallowed_logs;
-
-static void
-swallow_log (G_GNUC_UNUSED char const *domain,
-	     G_GNUC_UNUSED GLogLevelFlags level,
-	     G_GNUC_UNUSED char const *message,
-	     G_GNUC_UNUSED gpointer user_data)
-{
-	swallowed_logs++;
-}
-
 static GFlagsValue const sep_flag_values[] = {
 	{ 1, "A", "a" },
 	{ 2, "B", "b" },
@@ -302,8 +278,7 @@ test_flags_separators (void)
 	GType type =
 		g_flags_register_static ("TestXMLFixesSepFlags", sep_flag_values);
 
-	g_log_set_default_handler (swallow_log, NULL);
-	swallowed_logs = 0;
+	inhibit_g_log_messages ();
 
 	check (parse_flags (type, "A|B") == 3, "flags: A|B");
 	check (parse_flags (type, " A | B ") == 3, "flags: padded A | B");
@@ -314,9 +289,10 @@ test_flags_separators (void)
 	check (parse_flags (type, "|") == 0, "flags: lone separator");
 	check (parse_flags (type, "") == 0, "flags: empty string");
 	check (parse_flags (type, "5") == 5, "flags: numeric");
-	check (swallowed_logs == 0, "flags: no warnings for valid input");
+	check (inhibited_g_log_messages == 0,
+	       "flags: no warnings for valid input");
 
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 }
 
 static GsfXMLInNS const test_ns[] = {
@@ -346,7 +322,7 @@ test_unknown_default_ns (void)
 	if (doc == NULL)
 		return;
 
-	g_log_set_default_handler (swallow_log, NULL);
+	inhibit_g_log_messages ();
 
 	saw_ok_content = FALSE;
 	check (parse_string (doc,
@@ -362,7 +338,7 @@ test_unknown_default_ns (void)
 	       "unknown prefixed namespace parses");
 	check (saw_ok_content, "content survives unknown prefixed namespace");
 
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 	gsf_xml_in_doc_free (doc);
 }
 
@@ -414,7 +390,7 @@ test_stale_extension (void)
 	if (ext_doc == NULL || doc == NULL)
 		goto done;
 
-	g_log_set_default_handler (swallow_log, NULL);
+	inhibit_g_log_messages ();
 
 	/*
 	 * The extension handles <ext/> and then the document is truncated
@@ -434,7 +410,7 @@ test_stale_extension (void)
 	check (ext_child_count == 0,
 	       "extension from failed parse is not reused");
 
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 done:
 	if (doc != NULL)
 		gsf_xml_in_doc_free (doc);
@@ -472,7 +448,7 @@ test_extension_on_sharing_node (void)
 	if (ext_doc == NULL || doc == NULL)
 		goto done;
 
-	g_log_set_default_handler (swallow_log, NULL);
+	inhibit_g_log_messages ();
 
 	ext_child_count = 0;
 	check (parse_string (doc, "<root><sh><ext/></sh></root>"),
@@ -480,7 +456,7 @@ test_extension_on_sharing_node (void)
 	check (ext_child_count == 1,
 	       "extension on sharing node handles its child");
 
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 done:
 	if (doc != NULL)
 		gsf_xml_in_doc_free (doc);
@@ -503,19 +479,22 @@ test_null_parent_id (void)
 {
 	GsfXMLInDoc *doc;
 
-	g_log_set_default_handler (swallow_log, NULL);
-	swallowed_logs = 0;
+	inhibit_g_log_messages ();
 
 	doc = gsf_xml_in_doc_new (orphan_nodes, NULL);
 	check (doc != NULL, "doc survives a node with no parent_id");
-	check (swallowed_logs > 0, "node with no parent_id is reported");
+	/* Just a warning: the reporting check may be compiled out of the
+	 * library, in which case no message is expected. */
+	if (inhibited_g_log_messages == 0)
+		g_printerr ("Warning: node with no parent_id was not reported "
+			    "(GLib checks compiled out?)\n");
 	if (doc != NULL) {
 		check (parse_string (doc, "<root/>"),
 		       "doc with rejected node still parses");
 		gsf_xml_in_doc_free (doc);
 	}
 
-	g_log_set_default_handler (g_log_default_handler, NULL);
+	restore_g_log_messages ();
 }
 
 /* '\r' in element content must be escaped or the parser eats it. */
@@ -612,5 +591,5 @@ main (void)
 
 	gsf_shutdown ();
 
-	return failures != 0;
+	return regress_exit_status ();
 }

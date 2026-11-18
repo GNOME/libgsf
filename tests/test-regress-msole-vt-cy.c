@@ -74,12 +74,6 @@ test_vt_cy_in_variant_vector (void)
 		g_value_unset (&res);
 }
 
-static void
-quiet (G_GNUC_UNUSED char const *d, G_GNUC_UNUSED GLogLevelFlags l,
-       G_GNUC_UNUSED char const *m, G_GNUC_UNUSED gpointer u)
-{
-}
-
 static int
 bool_at (GValue const *res, unsigned i)
 {
@@ -147,11 +141,11 @@ test_vt_bool (void)
 	{
 		guint8 const *p = one_byte;
 		GValue r = G_VALUE_INIT;
-		g_log_set_default_handler (quiet, NULL);
+		inhibit_g_log_messages ();
 		check (!msole_prop_parse (NULL, VT_BOOL, &p,
 					  one_byte + sizeof one_byte, &r, 0),
 		       "a single byte is rejected as truncated");
-		g_log_set_default_handler (g_log_default_handler, NULL);
+		restore_g_log_messages ();
 		if (G_IS_VALUE (&r))
 			g_value_unset (&r);
 	}

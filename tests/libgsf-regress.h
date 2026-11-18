@@ -26,6 +26,14 @@ void check (gboolean ok, char const *what, ...) G_GNUC_PRINTF (2, 3);
  * return the process exit status (0 or 1). */
 int regress_exit_status (void);
 
+/* Silence GLib log messages (e.g. expected warnings from malformed input)
+ * by installing a no-op default log handler; restore_g_log_messages() puts
+ * the normal handler back.  inhibited_g_log_messages counts the messages
+ * swallowed and is reset to zero by inhibit_g_log_messages(). */
+extern int inhibited_g_log_messages;
+void inhibit_g_log_messages (void);
+void restore_g_log_messages (void);
+
 /* Wrap @bytes in a memory input named @name (copied; the caller's buffer
  * is not referenced). */
 GsfInput *regress_make_named_memory (char const *bytes, size_t len,
