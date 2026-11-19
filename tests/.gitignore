@@ -38,6 +38,7 @@ test-out-printf
 test-outmem-printf
 test-regress-blob
 test-regress-compress
+test-regress-csv
 test-regress-doc-meta-data
 test-regress-docprop-vector
 test-regress-gio
