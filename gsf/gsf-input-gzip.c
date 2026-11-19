@@ -50,6 +50,11 @@ struct _GsfInputGZip {
 
 	gsf_off_t header_size, trailer_size;
 	gsf_off_t seek_skipped;
+
+	/* A read failed after inflate had consumed input: the zlib state no
+	 * longer matches input->cur_offset and must be rebuilt before the
+	 * next read.  */
+	gboolean out_of_sync;
 };
 
 typedef struct {
@@ -293,15 +298,10 @@ gsf_input_gzip_dup (GsfInput *src_input, GError **err)
 }
 
 static guint8 const *
-gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
+gzip_read_inner (GsfInputGZip *gzip, size_t num_bytes, guint8 *buffer)
 {
-	GsfInputGZip *gzip;
 	size_t bytes_to_read;
 	guint8 *out_ptr;
-
-	g_return_val_if_fail (GSF_IS_INPUT_GZIP (input), NULL);
-
-	gzip = GSF_INPUT_GZIP (input);
 
 	if (buffer == NULL) {
 		if (gzip->buf_size < num_bytes) {
@@ -370,6 +370,57 @@ gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 	return buffer;
 }
 
+/* Go back to the start of the compressed data and reset the decoder. */
+static gboolean
+gzip_rewind (GsfInputGZip *gzip)
+{
+	if (gsf_input_seek (gzip->source, gzip->header_size, G_SEEK_SET))
+		return FALSE;
+	gzip->crc = crc32 (0L, Z_NULL, 0);
+	gzip->stream.avail_in = 0;
+	gzip->stop_byte_added = FALSE;
+	return inflateReset (&(gzip->stream)) == Z_OK;
+}
+
+/* Rebuild the decoder state for position @target after a failed read.  */
+static gboolean
+gzip_resync (GsfInputGZip *gzip, gsf_off_t target)
+{
+	guint8 scratch[4096];
+
+	if (!gzip_rewind (gzip))
+		return FALSE;
+	while (target > 0) {
+		size_t n = (size_t) MIN (target, (gsf_off_t) sizeof (scratch));
+		if (gzip_read_inner (gzip, n, scratch) == NULL)
+			return FALSE;
+		target -= n;
+	}
+	gzip->out_of_sync = FALSE;
+	return TRUE;
+}
+
+static guint8 const *
+gsf_input_gzip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
+{
+	GsfInputGZip *gzip;
+	guint8 const *res;
+
+	g_return_val_if_fail (GSF_IS_INPUT_GZIP (input), NULL);
+
+	gzip = GSF_INPUT_GZIP (input);
+
+	/* The contract is that the position is unchanged on error, so a
+	 * retry at the same position has to see the same data.  */
+	if (gzip->out_of_sync && !gzip_resync (gzip, input->cur_offset))
+		return NULL;
+
+	res = gzip_read_inner (gzip, num_bytes, buffer);
+	if (res == NULL && num_bytes > 0)
+		gzip->out_of_sync = TRUE;
+	return res;
+}
+
 static gboolean
 gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 {
@@ -391,13 +442,12 @@ gsf_input_gzip_seek (GsfInput *input, gsf_off_t offset, GSeekType whence)
 	}
 
 	if (pos < input->cur_offset) {
-		if (gsf_input_seek (gzip->source, gzip->header_size, G_SEEK_SET))
+		if (!gzip_rewind (gzip)) {
+			gzip->out_of_sync = TRUE;
 			return TRUE;
-		gzip->crc = crc32 (0L, Z_NULL, 0);
-		gzip->stream.avail_in = 0;
-		if (inflateReset (&(gzip->stream)) != Z_OK)
-			return TRUE;
+		}
 		input->cur_offset = 0;
+		gzip->out_of_sync = FALSE;
 	}
 
 	if (gsf_input_seek_emulate (input, pos))

@@ -9,6 +9,7 @@
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-output-memory.h>
 
 #include "libgsf-regress.h"
@@ -334,6 +335,80 @@ test_final_chunk_boundary (void)
 	g_log_set_default_handler (g_log_default_handler, NULL);
 }
 
+/*
+ * gsf_msole_inflate only appended a completed 4096-byte window when more
+ * data followed it, so a stream that decompresses to exactly 4096 bytes
+ * (a full VBA chunk, the normal case for all but the last chunk of a
+ * large module) came back empty.  Check streams that end exactly on the
+ * window boundary, once with literals and once with a final copy token.
+ */
+static void
+test_inflate_exact_window (void)
+{
+	enum { WIN = 4096 };
+	GByteArray *src = g_byte_array_new ();
+	guint8 expected[WIN];
+	GsfInput *in;
+	GByteArray *res;
+	guint8 b;
+	int i, n;
+
+	/* 4096 literals: 512 flag bytes (all literal), 8 literals each. */
+	for (n = 0; n < WIN; ) {
+		b = 0;
+		g_byte_array_append (src, &b, 1);
+		for (i = 0; i < 8; i++, n++) {
+			expected[n] = (guint8)(n % 251);
+			g_byte_array_append (src, &expected[n], 1);
+		}
+	}
+	in = gsf_input_memory_new (src->data, src->len, FALSE);
+	res = gsf_msole_inflate (in, 0);
+	check (res != NULL && res->len == WIN && memcmp (res->data, expected, WIN) == 0,
+	       "4096 literals inflate to the full window (got %u bytes)",
+	       res ? res->len : 0);
+	if (res)
+		g_byte_array_free (res, TRUE);
+	g_object_unref (in);
+	g_byte_array_free (src, TRUE);
+
+	/* 4087 literals, then a copy of 9 bytes at distance 0 (repeat the
+	 * previous byte) as the 8th and last element of its flag byte: the
+	 * copy token completes the window and nothing follows it. */
+	src = g_byte_array_new ();
+	for (n = 0; n < 4080; ) {
+		b = 0;
+		g_byte_array_append (src, &b, 1);
+		for (i = 0; i < 8; i++, n++) {
+			expected[n] = (guint8)(n % 251);
+			g_byte_array_append (src, &expected[n], 1);
+		}
+	}
+	b = 0x80;
+	g_byte_array_append (src, &b, 1);
+	for (i = 0; i < 7; i++, n++) {
+		expected[n] = (guint8)(n % 251);
+		g_byte_array_append (src, &expected[n], 1);
+	}
+	b = 6;					/* token 6: len 9, distance 0 */
+	g_byte_array_append (src, &b, 1);
+	b = 0;
+	g_byte_array_append (src, &b, 1);
+	for (i = 0; i < 9; i++, n++)
+		expected[n] = expected[n - 1];
+	g_assert (n == WIN);
+
+	in = gsf_input_memory_new (src->data, src->len, FALSE);
+	res = gsf_msole_inflate (in, 0);
+	check (res != NULL && res->len == WIN && memcmp (res->data, expected, WIN) == 0,
+	       "window ending in a copy token inflates fully (got %u bytes)",
+	       res ? res->len : 0);
+	if (res)
+		g_byte_array_free (res, TRUE);
+	g_object_unref (in);
+	g_byte_array_free (src, TRUE);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -343,6 +418,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_two_chunk_seek ();
 	test_raw_chunk ();
 	test_final_chunk_boundary ();
+	test_inflate_exact_window ();
 	test_dir_record_bounds ();
 	test_msvba_is_a_usable_infile ();
 

@@ -7,6 +7,7 @@
 #include <gsf/gsf-structured-blob.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-outfile-msole.h>
+#include <gsf/gsf-outfile.h>
 #include <gsf/gsf-output-memory.h>
 
 #include "libgsf-regress.h"
@@ -214,6 +215,131 @@ test_failed_child_write_releases_output (void)
 	g_object_unref (root);
 }
 
+/* An outfile whose children reject every write. */
+typedef struct { GsfOutput base; } FailChild;
+typedef struct { GsfOutputClass base; } FailChildClass;
+typedef struct { GsfOutfile base; } FailOutfile;
+typedef struct { GsfOutfileClass base; } FailOutfileClass;
+
+static gboolean
+fc_write (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED size_t n,
+	  G_GNUC_UNUSED guint8 const *d)
+{
+	return FALSE;
+}
+
+static gboolean
+fc_seek (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED gsf_off_t off,
+	 G_GNUC_UNUSED GSeekType w)
+{
+	return TRUE;
+}
+
+static gboolean
+fc_close (G_GNUC_UNUSED GsfOutput *o)
+{
+	return TRUE;
+}
+
+static void
+fc_class_init (gpointer k, G_GNUC_UNUSED gpointer d)
+{
+	GsfOutputClass *c = k;
+	c->Write = fc_write;
+	c->Seek = fc_seek;
+	c->Close = fc_close;
+}
+
+static GType
+fc_get_type (void)
+{
+	static GType t;
+	if (!t) {
+		GTypeInfo ti = { sizeof (FailChildClass), NULL, NULL, fc_class_init,
+				 NULL, NULL, sizeof (FailChild), 0, NULL, NULL };
+		t = g_type_register_static (GSF_OUTPUT_TYPE, "RegressFailChild", &ti, 0);
+	}
+	return t;
+}
+
+static GsfOutput *
+fof_new_child (G_GNUC_UNUSED GsfOutfile *parent, char const *name,
+	       G_GNUC_UNUSED gboolean is_dir,
+	       G_GNUC_UNUSED char const *first_property_name,
+	       G_GNUC_UNUSED va_list args)
+{
+	GsfOutput *c = g_object_new (fc_get_type (), NULL);
+	gsf_output_set_name (c, name);
+	return c;
+}
+
+static gboolean
+fof_seek (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED gsf_off_t off,
+	  G_GNUC_UNUSED GSeekType w)
+{
+	return TRUE;
+}
+
+static gboolean
+fof_close (G_GNUC_UNUSED GsfOutput *o)
+{
+	return TRUE;
+}
+
+static gboolean
+fof_write (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED size_t n,
+	   G_GNUC_UNUSED guint8 const *d)
+{
+	return TRUE;
+}
+
+static void
+fof_class_init (gpointer k, G_GNUC_UNUSED gpointer d)
+{
+	GsfOutputClass *c = k;
+	GsfOutfileClass *f = k;
+	c->Write = fof_write;
+	c->Seek = fof_seek;
+	c->Close = fof_close;
+	f->new_child = fof_new_child;
+}
+
+static GType
+fof_get_type (void)
+{
+	static GType t;
+	if (!t) {
+		GTypeInfo ti = { sizeof (FailOutfileClass), NULL, NULL, fof_class_init,
+				 NULL, NULL, sizeof (FailOutfile), 0, NULL, NULL };
+		t = g_type_register_static (GSF_OUTFILE_TYPE, "RegressFailOutfile", &ti, 0);
+	}
+	return t;
+}
+
+/*
+ * gsf_structured_blob_write ignored the result of writing the blob's
+ * payload to the new output, so a failed (short, disk-full) write still
+ * reported success.
+ */
+static void
+test_failed_payload_write_is_reported (void)
+{
+	GsfInput *src = gsf_input_memory_new_clone ((guint8 const *)"payload", 7);
+	GsfStructuredBlob *blob;
+	GsfOutfile *of = g_object_new (fof_get_type (), NULL);
+
+	gsf_input_set_name (src, "stream");
+	blob = gsf_structured_blob_read (src);
+	check (blob != NULL, "blob reads");
+	if (blob != NULL) {
+		check (!gsf_structured_blob_write (blob, of),
+		       "write reports a failed payload write");
+		g_object_unref (blob);
+	}
+	g_object_unref (of);
+	g_object_unref (src);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -221,6 +347,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_healthy_read ();
 	test_failed_read ();
 	test_failed_child_write_releases_output ();
+	test_failed_payload_write_is_reported ();
 	gsf_shutdown ();
 	return regress_exit_status ();
 }

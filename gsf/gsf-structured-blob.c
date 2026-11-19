@@ -312,6 +312,7 @@ gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 {
 	GsfOutput *output;
 	gboolean has_kids;
+	gboolean ok = TRUE;
 
 	g_return_val_if_fail (GSF_IS_STRUCTURED_BLOB (blob), FALSE);
 	g_return_val_if_fail (GSF_IS_OUTFILE (container), FALSE);
@@ -340,9 +341,9 @@ gsf_structured_blob_write (GsfStructuredBlob *blob, GsfOutfile *container)
 	}
 
 	if (blob->data != NULL)
-		gsf_output_write (output, blob->data->size, blob->data->buf);
+		ok = gsf_output_write (output, blob->data->size, blob->data->buf);
 	gsf_output_close (output);
 	g_object_unref (output);
 
-	return TRUE;
+	return ok;
 }

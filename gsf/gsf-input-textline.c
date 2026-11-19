@@ -86,12 +86,21 @@ gsf_input_textline_finalize (GObject *obj)
 }
 
 static GsfInput *
-gsf_input_textline_dup (GsfInput *src_input, G_GNUC_UNUSED GError **err)
+gsf_input_textline_dup (GsfInput *src_input, GError **err)
 {
 	GsfInputTextline const *src = (GsfInputTextline *)src_input;
-	GsfInputTextline *dst = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
+	GsfInputTextline *dst;
+	GsfInput *source_copy;
 
-	dst->source = g_object_ref (src->source);
+	/* The duplicate needs its own source: line reading advances the
+	 * source's cursor, so sharing it would make the two interfere.
+	 * gsf_input_dup then positions the copy at our logical offset.  */
+	source_copy = gsf_input_dup (src->source, err);
+	if (source_copy == NULL)
+		return NULL;
+
+	dst = g_object_new (GSF_INPUT_TEXTLINE_TYPE, NULL);
+	dst->source = source_copy;
 	gsf_input_set_size (GSF_INPUT (dst), gsf_input_size (src_input));
 	gsf_input_set_name (GSF_INPUT (dst), gsf_input_name (src_input));
 

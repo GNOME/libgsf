@@ -89,6 +89,27 @@ gsf_output_csv_close (G_GNUC_UNUSED GsfOutput *output)
 	return TRUE;
 }
 
+/*
+ * Decode the character at @p without reading at or beyond @end.  Returns 0
+ * for a byte that is not part of a valid, complete UTF-8 sequence (or for
+ * an actual NUL), and always sets *@n to the number of bytes to step over
+ * (at least 1).
+ */
+static gunichar
+csv_decode (char const *p, char const *end, size_t *n)
+{
+	gunichar c = g_utf8_get_char_validated (p, end - p);
+
+	if (c == (gunichar)-1 || c == (gunichar)-2) {
+		*n = 1;
+		return 0;
+	}
+	*n = g_utf8_next_char (p) - p;
+	if (*n == 0)
+		*n = 1;
+	return c;
+}
+
 gboolean
 gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 {
@@ -119,22 +140,27 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 		break;
 	case GSF_OUTPUT_CSV_QUOTING_MODE_AUTO: {
 		char const *p = field;
+		char const *last = field;
 		quote = FALSE;
 		while (p < end) {
-			gunichar c = g_utf8_get_char (p);
-			if (g_utf8_strchr (csv->quoting_triggers, -1, c)) {
+			size_t n;
+			gunichar c = csv_decode (p, end, &n);
+			last = p;
+			if (c != 0 && g_utf8_strchr (csv->quoting_triggers, -1, c)) {
 				quote = TRUE;
 				break;
 			}
-			p = g_utf8_next_char (p);
+			p += n;
 		}
 
 		if (!quote && len > 0 &&
-		    (g_unichar_isspace (g_utf8_get_char (field)) ||
-		     g_unichar_isspace (g_utf8_get_char (g_utf8_prev_char (p)))) &&
 		    g_object_get_data (G_OBJECT (csv),
-				       HACK_QUOTING_ON_WHITESPACE) != NULL)
-			quote = TRUE;
+				       HACK_QUOTING_ON_WHITESPACE) != NULL) {
+			size_t n;
+			if (g_unichar_isspace (csv_decode (field, end, &n)) ||
+			    g_unichar_isspace (csv_decode (last, end, &n)))
+				quote = TRUE;
+		}
 		break;
 	}
 	}
@@ -145,13 +171,16 @@ gsf_output_csv_write_field (GsfOutputCsv *csv, char const *field, size_t len)
 				     csv->quote_len);
 
 		while (field < end) {
-			gunichar c = g_utf8_get_char (field);
-			if (g_utf8_strchr (csv->quote, -1, c))
+			size_t n;
+			gunichar c = csv_decode (field, end, &n);
+			if (c != 0 && g_utf8_strchr (csv->quote, -1, c))
 				g_string_append_len (csv->buf,
 						     csv->quote,
 						     csv->quote_len);
-			g_string_append_unichar (csv->buf, c);
-			field = g_utf8_next_char (field);
+			/* Copy the original bytes: they are not necessarily
+			 * valid UTF-8 and must not be altered.  */
+			g_string_append_len (csv->buf, field, n);
+			field += n;
 		}
 
 		g_string_append_len (csv->buf,

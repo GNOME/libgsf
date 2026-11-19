@@ -563,6 +563,99 @@ test_corrupt_sbat (void)
 	g_free (bytes);
 }
 
+/* A sink whose writes all fail (seeking and closing succeed). */
+typedef struct { GsfOutput base; } FailSink;
+typedef struct { GsfOutputClass base; } FailSinkClass;
+
+static gboolean
+fs_write (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED size_t n,
+	  G_GNUC_UNUSED guint8 const *d)
+{
+	return FALSE;
+}
+
+static gboolean
+fs_seek (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED gsf_off_t off,
+	 G_GNUC_UNUSED GSeekType w)
+{
+	return TRUE;
+}
+
+static gboolean
+fs_close (G_GNUC_UNUSED GsfOutput *o)
+{
+	return TRUE;
+}
+
+static void
+fs_class_init (gpointer k, G_GNUC_UNUSED gpointer d)
+{
+	GsfOutputClass *c = k;
+	c->Write = fs_write;
+	c->Seek = fs_seek;
+	c->Close = fs_close;
+}
+
+static GType
+fs_get_type (void)
+{
+	static GType t;
+	if (!t) {
+		GTypeInfo i = { sizeof (FailSinkClass), NULL, NULL, fs_class_init,
+				NULL, NULL, sizeof (FailSink), 0, NULL, NULL };
+		t = g_type_register_static (GSF_OUTPUT_TYPE, "RegressMSOleFailSink", &i, 0);
+	}
+	return t;
+}
+
+/*
+ * None of the writes to the sink in gsf-outfile-msole.c were checked, so
+ * a failing sink (disk full, I/O error) still produced "successful"
+ * writes and a "successful" close of a corrupt file.  Check both the data
+ * path (a stream growing past the small-block threshold is flushed to the
+ * sink) and the directory/table path at close.
+ */
+static void
+test_sink_write_failures_are_reported (void)
+{
+	GsfOutput *sink = g_object_new (fs_get_type (), NULL);
+	GsfOutfile *root = gsf_outfile_msole_new (sink);
+	GsfOutput *big = gsf_outfile_new_child (root, "big", FALSE);
+	GsfOutput *small = gsf_outfile_new_child (root, "small", FALSE);
+	guint8 *data = g_malloc0 (8192);
+
+	check (gsf_output_write (small, 5, (guint8 const *)"hello"),
+	       "small stream write is buffered, so it succeeds");
+	check (!gsf_output_write (big, 8192, data),
+	       "write that has to reach a failing sink reports failure");
+	g_free (data);
+
+	gsf_output_close (big);
+	g_object_unref (big);
+	gsf_output_close (small);
+	g_object_unref (small);
+	check (!gsf_output_close (GSF_OUTPUT (root)),
+	       "closing onto a failing sink reports failure");
+	g_object_unref (root);
+	g_object_unref (sink);
+}
+
+static void
+test_directory_write_failure_is_reported (void)
+{
+	GsfOutput *sink = g_object_new (fs_get_type (), NULL);
+	GsfOutfile *root = gsf_outfile_msole_new (sink);
+	GsfOutput *small = gsf_outfile_new_child (root, "small", FALSE);
+
+	gsf_output_write (small, 5, (guint8 const *)"hello");
+	gsf_output_close (small);
+	g_object_unref (small);
+	check (!gsf_output_close (GSF_OUTPUT (root)),
+	       "close reports a failure to write the directory and tables");
+	g_object_unref (root);
+	g_object_unref (sink);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -576,6 +669,8 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_dirent_bitmap_is_bounded ();
 	test_close_root_with_open_streams ();
 	test_corrupt_sbat ();
+	test_sink_write_failures_are_reported ();
+	test_directory_write_failure_is_reported ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

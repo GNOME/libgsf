@@ -684,7 +684,16 @@ zip_init_write (GsfOutput *output)
 		dirent->zip64 = FALSE;
 
 	zip->vdir->dirent = dirent;
-	zip_header_write (zip);
+	if (!zip_header_write (zip)) {
+		/* Without a header the member's data would be garbage and
+		 * the later size patch would overwrite its first bytes.
+		 * Undo everything done above so the member counts as
+		 * unwritten.  */
+		zip->vdir->dirent = NULL;
+		gsf_zip_dirent_free (dirent);
+		gsf_output_unwrap (G_OBJECT (output), zip->sink);
+		return FALSE;
+	}
 	zip->writing = TRUE;
 	zip->root->writing = TRUE;
 	dirent->crc32 = crc32 (0L, Z_NULL, 0);
@@ -1046,10 +1055,10 @@ gsf_outfile_zip_get_property (GObject     *object,
 		g_value_set_string (value, zip->entry_name);
 		break;
 	case PROP_COMPRESSION_METHOD:
-		g_value_set_int (value,
-				 zip->vdir->dirent
-				 ? zip->vdir->dirent->compr_method
-				 : 0);
+		/* Report the configured method (what the setter stored), not
+		 * the dirent's, which only exists once a member is written
+		 * and never for the root.  */
+		g_value_set_int (value, zip->compression_method);
 		break;
 	case PROP_DEFLATE_LEVEL:
                 g_value_set_int (value, zip->deflate_level);

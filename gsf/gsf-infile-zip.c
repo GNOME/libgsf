@@ -587,6 +587,8 @@ gsf_infile_zip_dup (GsfInput *src_input, GError **err)
 	g_return_val_if_fail (GSF_IS_INFILE_ZIP (src_input), NULL);
 
 	src = GSF_INFILE_ZIP (src_input);
+	/* No vdir if construction failed (e.g. no source).  */
+	g_return_val_if_fail (src->vdir != NULL, NULL);
 	dst = zip_dup (src, err);
 
 	if (dst == NULL)
@@ -649,6 +651,10 @@ gsf_infile_zip_read (GsfInput *input, size_t num_bytes, guint8 *buffer)
 
 	zip = GSF_INFILE_ZIP (input);
 	vdir = zip->vdir;
+
+	/* A directory (or an object whose construction failed) has no data.  */
+	if (vdir == NULL || vdir->dirent == NULL)
+		return NULL;
 
 	if (zip->restlen < (gsf_off_t)num_bytes)
 		return NULL;
@@ -818,6 +824,7 @@ gsf_infile_zip_child_by_index (GsfInfile *infile, int target, GError **err)
 	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
 
 	zip = GSF_INFILE_ZIP (infile);
+	g_return_val_if_fail (zip->vdir != NULL, NULL);
 	child_vdir = vdir_child_by_index (zip->vdir, target);
 
 	if (child_vdir)
@@ -835,6 +842,7 @@ gsf_infile_zip_name_by_index (GsfInfile *infile, int target)
 	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
 
 	zip = GSF_INFILE_ZIP (infile);
+	g_return_val_if_fail (zip->vdir != NULL, NULL);
 	child_vdir = vdir_child_by_index (zip->vdir, target);
 
 	if (child_vdir)
@@ -855,6 +863,7 @@ gsf_infile_zip_child_by_name (GsfInfile *infile, char const *name, GError **err)
 	g_return_val_if_fail (GSF_IS_INFILE_ZIP (infile), NULL);
 
 	zip = GSF_INFILE_ZIP (infile);
+	g_return_val_if_fail (zip->vdir != NULL, NULL);
 	child_vdir = vdir_child_by_name (zip->vdir, name);
 
 	if (child_vdir)
@@ -966,7 +975,7 @@ gsf_infile_zip_get_property (GObject     *object,
 		break;
 	case PROP_COMPRESSION_LEVEL:
 		g_value_set_int (value,
-				 zip->vdir->dirent
+				 zip->vdir && zip->vdir->dirent
 				 ? zip->vdir->dirent->compr_method
 				 : 0);
 		break;

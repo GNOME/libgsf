@@ -12,8 +12,10 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-outfile-stdio.h>
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -439,10 +441,59 @@ test_outfile_stdio_existing_nondir (void)
 	g_free (file);
 }
 
+#ifdef G_OS_UNIX
+/*
+ * When the target file exists but is not writable, gsf_output_stdio_new
+ * built its GError with the live errno as the code, after calls that may
+ * have changed it, while the message used the saved value.  The code must
+ * be the errno of the failed access check (EACCES).  Root passes the
+ * check, so this is skipped when run as root.  It must run before any
+ * other test: the clobbering comes from the first g_filename_display_name
+ * call, which initializes glib's charset cache.
+ */
+static void
+test_stdio_unwritable_error_code (void)
+{
+	char *path = g_strdup_printf ("/tmp/gsf-regress-ro-%d", (int)getpid ());
+	GError *err = NULL;
+	GsfOutput *o;
+	FILE *f;
+
+	if (geteuid () == 0) {
+		g_print ("skipped: running as root\n");
+		g_free (path);
+		return;
+	}
+
+	f = g_fopen (path, "w");
+	g_assert (f != NULL);
+	fclose (f);
+	g_assert (g_chmod (path, 0444) == 0);
+
+	o = gsf_output_stdio_new (path, &err);
+	check (o == NULL, "an unwritable file is refused");
+	check (err != NULL && err->code == EACCES,
+	       "error code is EACCES (got %d)", err ? err->code : -1);
+	if (o != NULL)
+		g_object_unref (o);
+	g_clear_error (&err);
+
+	g_unlink (path);
+	g_free (path);
+}
+#endif
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
 	gsf_init ();
+
+	/* Must run first: the errno clobbering comes from the first call to
+	 * g_filename_display_name, which initializes glib's charset cache.  */
+#ifdef G_OS_UNIX
+	test_stdio_unwritable_error_code ();
+#endif
+
 
 	test_write_accounting ();
 	test_seek_semantics ();

@@ -42,17 +42,15 @@ TESTS = $(TSCRIPTS) test-xml-fixes			\
 	test-regress-zip test-regress-stdio test-regress-iochannel \
 	test-regress-shared-memory test-regress-docprop-vector \
 	test-regress-doc-meta-data test-regress-xmlin-unknown	\
-	test-regress-gio test-regress-gzip-setup test-regress-msole-vt-cy	\
+	test-regress-gio test-regress-gzip-setup \
 	test-regress-structured-blob test-regress-msole-oom	\
-	test-regress-stdio-fdopen test-regress-tar-badhdr
+	test-regress-stdio-fdopen test-regress-tar-badhdr		\
+	test-regress-csv
 
 SUPPS = common.supp
 
 # Overrides fdopen() via dlsym (needs -ldl before glibc 2.34).
 test_regress_stdio_fdopen_LDADD = $(LDADD) -ldl
-
-# White-box test: includes gsf-msole-utils.c to reach a static function.
-test_regress_msole_vt_cy_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_builddir) -I$(top_srcdir)/gsf
 
 AM_CPPFLAGS = -I$(top_srcdir) $(LIBGSF_CFLAGS) $(LIBXML_CFLAGS)
 LDADD = libregress.la $(top_builddir)/gsf/libgsf-1.la $(LIBGSF_LIBS)
@@ -79,8 +77,9 @@ check_PROGRAMS = test-msole1 test-msole2 test-cp-msole test-msvba	\
 		 test-regress-iochannel test-regress-shared-memory	\
 		 test-regress-docprop-vector test-regress-doc-meta-data	\
 		 test-regress-xmlin-unknown test-regress-gio		\
-		 test-regress-gzip-setup test-regress-msole-vt-cy	\
+		 test-regress-gzip-setup 				\
 		 test-regress-structured-blob test-regress-msole-oom	\
-		 test-regress-stdio-fdopen test-regress-tar-badhdr
+		 test-regress-stdio-fdopen test-regress-tar-badhdr	\
+		 test-regress-csv
 
 EXTRA_DIST = LibGsfTest.pm $(SUPPS) $(TSCRIPTS)

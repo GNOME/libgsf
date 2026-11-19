@@ -49,7 +49,6 @@ test-regress-iochannel
 test-regress-meta
 test-regress-msole
 test-regress-msole-oom
-test-regress-msole-vt-cy
 test-regress-msvba
 test-regress-outmem-printf
 test-regress-output

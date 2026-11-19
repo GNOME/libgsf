@@ -354,14 +354,12 @@ od_meta_user_defined_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 						GValue const *old = gsf_doc_prop_get_val (prop);
 						if (G_VALUE_HOLDS (old, GSF_DOCPROP_VECTOR_TYPE)) {
 							GValue *new = g_new0 (GValue, 1);
-							GValue r = G_VALUE_INIT;
-							GArray *vector;
 							g_value_init (new, GSF_DOCPROP_VECTOR_TYPE);
 							g_value_copy (old, new);
-							vector = gsf_value_get_docprop_array (new);
-							g_value_init (&r, G_VALUE_TYPE (res));
-							g_value_copy (res, &r);
-							g_array_append_vals (vector, &r, 1);
+							/* Use the sanctioned append: the vector keeps two
+							 * views of its contents and only this updates both.  */
+							gsf_docprop_vector_append
+								(gsf_value_get_docprop_vector (new), res);
 							gsf_doc_prop_set_val (prop, new);
 						} else
 							g_printerr (_("Property \"%s\" used for "
@@ -434,6 +432,9 @@ gsf_opendoc_metadata_subtree_free (G_GNUC_UNUSED GsfXMLIn *xin, gpointer old_sta
 	}
 
 	g_object_unref (state->md);
+
+	/* Still set if parsing stopped inside <meta:user-defined>.  */
+	g_free (state->name);
 
 	if (state->doc)
 		gsf_xml_in_doc_free (state->doc);
@@ -540,6 +541,9 @@ gsf_doc_meta_data_read_from_odf (GsfDocMetaData *md, GsfInput *input)
 
 	if (state.doc)
 		gsf_xml_in_doc_free (state.doc);
+
+	/* Still set if parsing stopped inside <meta:user-defined>.  */
+	g_free (state.name);
 
 	if (state.keywords) {
 		GValue *val = g_new0 (GValue, 1);
@@ -704,6 +708,38 @@ meta_write_props_user_defined (char const *prop_name, GValue const *val, GsfXMLO
 }
 
 
+/* ODF has no multi-valued form for the standard meta elements, so a vector
+ * stored under one is written as a single comma-separated text.  */
+static char *
+od_vector_as_text (GValue const *val)
+{
+	GArray *vector = gsf_value_get_docprop_array (val);
+	GString *res = g_string_new (NULL);
+	guint i;
+
+	for (i = 0; vector != NULL && i < vector->len; i++) {
+		GValue const *v = &g_array_index (vector, GValue, i);
+		char *str = NULL;
+
+		if (G_VALUE_HOLDS_STRING (v))
+			str = g_value_dup_string (v);
+		else {
+			GValue tmp = G_VALUE_INIT;
+			g_value_init (&tmp, G_TYPE_STRING);
+			if (g_value_transform (v, &tmp))
+				str = g_value_dup_string (&tmp);
+			g_value_unset (&tmp);
+		}
+		if (str == NULL)
+			continue;
+		if (res->len > 0)
+			g_string_append (res, ", ");
+		g_string_append (res, str);
+		g_free (str);
+	}
+	return g_string_free (res, FALSE);
+}
+
 static void
 meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 {
@@ -760,8 +796,14 @@ meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 
 	/* Standardized  ODF meta items*/
 	gsf_xml_out_start_element (output, mapped_name);
-	if (NULL != val)
-		gsf_xml_out_add_gvalue_for_odf (output, NULL, val);
+	if (NULL != val) {
+		if (GSF_DOCPROP_VECTOR_TYPE == G_VALUE_TYPE (val)) {
+			char *text = od_vector_as_text (val);
+			gsf_xml_out_add_cstr (output, NULL, text);
+			g_free (text);
+		} else
+			gsf_xml_out_add_gvalue_for_odf (output, NULL, val);
+	}
 	gsf_xml_out_end_element (output);
 }
 

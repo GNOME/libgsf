@@ -183,9 +183,8 @@ test_seek (void)
 }
 
 /*
- * Duplication must produce a same-named, same-sized textline.  (The
- * duplicate currently shares the underlying source cursor, so full
- * independence of the two streams is not asserted here.)
+ * Duplication must produce a same-named, same-sized textline.  Independence
+ * of the two streams is checked by test_dup_independent.
  */
 static void
 test_dup (void)
@@ -202,6 +201,56 @@ test_dup (void)
 
 	if (dup != NULL)
 		g_object_unref (dup);
+	g_object_unref (tl);
+}
+
+/*
+ * The duplicate must be independent of the original: it used to share
+ * the source's cursor, so reading lines alternately from the two (with
+ * lines long enough to need a refill from the source) returned corrupt
+ * or skipped lines.  Both must see the same lines from the dup point on.
+ */
+static void
+test_dup_independent (void)
+{
+	enum { NLINES = 8, LINELEN = 300 };
+	GString *text = g_string_new (NULL);
+	char expected[NLINES][LINELEN + 1];
+	GsfInput *tl, *dup;
+	int i;
+
+	for (i = 0; i < NLINES; i++) {
+		memset (expected[i], 'a' + i, LINELEN);
+		expected[i][LINELEN] = 0;
+		g_string_append (text, expected[i]);
+		g_string_append_c (text, '\n');
+	}
+	tl = make_textline (text->str);
+	g_string_free (text, TRUE);
+
+#define NEXT(who, n, what) do {						\
+	guint8 const *l = gsf_input_textline_utf8_gets			\
+		(GSF_INPUT_TEXTLINE (who));				\
+	check (l != NULL && strcmp ((char const *)l, expected[n]) == 0,	\
+	       what " reads line %d correctly", n);			\
+} while (0)
+
+	NEXT (tl, 0, "original");
+	dup = gsf_input_dup (tl, NULL);
+	check (dup != NULL, "dup works");
+	if (dup == NULL) {
+		g_object_unref (tl);
+		return;
+	}
+	NEXT (dup, 1, "duplicate");
+	NEXT (tl, 1, "original");
+	NEXT (tl, 2, "original");
+	NEXT (dup, 2, "duplicate");
+	NEXT (dup, 3, "duplicate");
+	NEXT (tl, 3, "original");
+#undef NEXT
+
+	g_object_unref (dup);
 	g_object_unref (tl);
 }
 
@@ -266,6 +315,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_long_line ();
 	test_seek ();
 	test_dup ();
+	test_dup_independent ();
 	test_wrapper_metadata ();
 	test_block_read_after_line_read ();
 

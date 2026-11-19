@@ -463,6 +463,116 @@ test_bzip2_sink_failure_sets_error (void)
 	g_object_unref (sink);
 }
 
+/* A simple in-memory input whose next read can be made to fail. */
+typedef struct { GsfInput base; guint8 const *data; } FlakyInput;
+typedef struct { GsfInputClass base; } FlakyInputClass;
+static gboolean flaky_fail_next;
+
+static guint8 const *
+flaky_read (GsfInput *in, size_t n, guint8 *buf)
+{
+	FlakyInput *f = (FlakyInput *)in;
+	guint8 const *p = f->data + in->cur_offset;
+
+	if (flaky_fail_next) {
+		flaky_fail_next = FALSE;
+		return NULL;
+	}
+	if (buf == NULL)
+		return p;
+	memcpy (buf, p, n);
+	return buf;
+}
+
+static gboolean
+flaky_seek (G_GNUC_UNUSED GsfInput *in, G_GNUC_UNUSED gsf_off_t off,
+	    G_GNUC_UNUSED GSeekType whence)
+{
+	return FALSE;
+}
+
+static void
+flaky_class_init (gpointer k, G_GNUC_UNUSED gpointer d)
+{
+	GsfInputClass *c = k;
+	c->Read = flaky_read;
+	c->Seek = flaky_seek;
+}
+
+static GType
+flaky_get_type (void)
+{
+	static GType t;
+	if (!t) {
+		GTypeInfo i = { sizeof (FlakyInputClass), NULL, NULL, flaky_class_init,
+				NULL, NULL, sizeof (FlakyInput), 0, NULL, NULL };
+		t = g_type_register_static (GSF_INPUT_TYPE, "RegressFlakyInput", &i, 0);
+	}
+	return t;
+}
+
+/*
+ * If refilling from the source failed after inflate had already consumed
+ * input, the failed read left the zlib state advanced while the input's
+ * position stayed at the start of the read.  A retry at the same position
+ * then re-fed the stream and delivered shifted data: silently wrong
+ * output.  The failed read must fail, and a retry must deliver the correct
+ * data (the documented contract is that the position is unchanged on
+ * error).
+ */
+static void
+test_gzip_read_after_source_failure (void)
+{
+	enum { N = 400000, FIRST = 1000, SPAN = 120000 };
+	guint8 *data = g_malloc (N);
+	GsfOutput *mem = gsf_output_memory_new ();
+	GsfOutput *gz = gsf_output_gzip_new (mem, NULL);
+	FlakyInput *src;
+	GsfInput *in;
+	guint8 const *r;
+	guint32 x = 2463534242u;
+	int i;
+
+	for (i = 0; i < N; i++) {		/* xorshift32: incompressible */
+		x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+		data[i] = (guint8)x;
+	}
+	check (gsf_output_write (gz, N, data), "gzip data written");
+	check (gsf_output_close (gz), "gzip output closed");
+	g_object_unref (gz);
+
+	src = g_object_new (flaky_get_type (), NULL);
+	src->data = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (mem));
+	gsf_input_set_size (GSF_INPUT (src), gsf_output_size (mem));
+
+	in = gsf_input_gzip_new (GSF_INPUT (src), NULL);
+	check (in != NULL, "gzip input opens");
+	if (in == NULL)
+		goto done;
+
+	r = gsf_input_read (in, FIRST, NULL);
+	check (r != NULL && memcmp (r, data, FIRST) == 0, "first read is correct");
+
+	flaky_fail_next = TRUE;
+	r = gsf_input_read (in, SPAN, NULL);
+	check (r == NULL, "read fails when the source fails");
+	check (gsf_input_tell (in) == FIRST, "position is unchanged after the failure");
+
+	r = gsf_input_read (in, SPAN, NULL);
+	check (r != NULL && memcmp (r, data + FIRST, SPAN) == 0,
+	       "retry at the same position delivers the correct data");
+
+	r = gsf_input_read (in, N - FIRST - SPAN, NULL);
+	check (r != NULL && memcmp (r, data + FIRST + SPAN, N - FIRST - SPAN) == 0,
+	       "the rest of the stream is correct");
+
+	g_object_unref (in);
+done:
+	g_object_unref (src);
+	g_object_unref (mem);
+	g_free (data);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -481,6 +591,7 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_uncompress_gzip ();
 	test_uncompress_passthrough ();
 	test_gzip_dup ();
+	test_gzip_read_after_source_failure ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

@@ -35,6 +35,10 @@ my @tests = (
     'test-regress-gzip-setup',
     # tar header with several bad numeric fields: first GError leaked
     'test-regress-tar-badhdr',
+    # CSV quoting decodes fields past their end / invalid UTF-8
+    'test-regress-csv',
+    # ODF metadata reader: name pending when parsing aborts
+    'test-regress-meta',
 );
 
 my $nfail = 0;

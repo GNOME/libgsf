@@ -349,7 +349,7 @@ test_modtime_roundtrip (void)
 	GsfOutput *child;
 	GDateTime *dt = g_date_time_new_utc (2015, 6, 1, 10, 30, 0);
 	GsfInput *in, *c;
-	GDateTime const *got;
+	GDateTime *got;
 
 	check (zip != NULL, "zip outfile created");
 	if (zip == NULL) {
@@ -503,6 +503,160 @@ test_max_comment (void)
 	}
 }
 
+/*
+ * The "compression-level" getter read the method from the member's zip
+ * directory entry, which does not exist until the member is written (and
+ * never does for the root), so it reported 0 (stored) for an outfile that
+ * was in fact configured for deflate.  It must report the configured
+ * method.
+ */
+static void
+test_compression_method_getter (void)
+{
+	GsfOutput *mem = gsf_output_memory_new ();
+	GsfOutfile *root = gsf_outfile_zip_new (mem, NULL);
+	GsfOutput *stored_mem = gsf_output_memory_new ();
+	GsfOutfile *stored_root = g_object_new (GSF_OUTFILE_ZIP_TYPE,
+						"sink", stored_mem,
+						"compression-level", GSF_ZIP_STORED,
+						NULL);
+	GsfOutput *child;
+	int m = -1;
+
+	g_object_get (root, "compression-level", &m, NULL);
+	check (m == GSF_ZIP_DEFLATED, "default root reports deflate (got %d)", m);
+
+	child = gsf_outfile_new_child (root, "member", FALSE);
+	m = -1;
+	g_object_get (child, "compression-level", &m, NULL);
+	check (m == GSF_ZIP_DEFLATED,
+	       "member that has not been written yet reports deflate (got %d)", m);
+
+	m = -1;
+	g_object_get (stored_root, "compression-level", &m, NULL);
+	check (m == GSF_ZIP_STORED, "stored root reports stored (got %d)", m);
+
+	gsf_output_close (child);
+	g_object_unref (child);
+	gsf_output_close (GSF_OUTPUT (root));
+	g_object_unref (root);
+	gsf_output_close (GSF_OUTPUT (stored_root));
+	g_object_unref (stored_root);
+	g_object_unref (mem);
+	g_object_unref (stored_mem);
+}
+
+/* A sink whose writes all fail (seeking and closing succeed). */
+typedef struct { GsfOutput base; } FailOut;
+typedef struct { GsfOutputClass base; } FailOutClass;
+
+static gboolean
+fo_write (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED size_t n,
+	  G_GNUC_UNUSED guint8 const *d)
+{
+	return FALSE;
+}
+
+static gboolean
+fo_seek (G_GNUC_UNUSED GsfOutput *o, G_GNUC_UNUSED gsf_off_t off,
+	 G_GNUC_UNUSED GSeekType w)
+{
+	return TRUE;
+}
+
+static gboolean
+fo_close (G_GNUC_UNUSED GsfOutput *o)
+{
+	return TRUE;
+}
+
+static void
+fo_class_init (gpointer k, G_GNUC_UNUSED gpointer d)
+{
+	GsfOutputClass *c = k;
+	c->Write = fo_write;
+	c->Seek = fo_seek;
+	c->Close = fo_close;
+}
+
+static GType
+fo_get_type (void)
+{
+	static GType t;
+	if (!t) {
+		GTypeInfo i = { sizeof (FailOutClass), NULL, NULL, fo_class_init,
+				NULL, NULL, sizeof (FailOut), 0, NULL, NULL };
+		t = g_type_register_static (GSF_OUTPUT_TYPE, "RegressZipFailOut", &i, 0);
+	}
+	return t;
+}
+
+/*
+ * zip_init_write ignored the result of writing the local file header.  If
+ * the sink rejected it, the member was nevertheless marked as being
+ * written, and the data that followed went to the sink with no header
+ * (and the later size patch overwrote the start of that data).  The first
+ * write to the member must fail instead.
+ */
+static void
+test_header_write_failure (void)
+{
+	GsfOutput *sink = g_object_new (fo_get_type (), NULL);
+	GsfOutfile *root = gsf_outfile_zip_new (sink, NULL);
+	GsfOutput *child = gsf_outfile_new_child (root, "member", FALSE);
+	gboolean ok;
+
+	inhibit_g_log_messages ();
+	ok = gsf_output_write (child, 5, (guint8 const *)"hello");
+	check (!ok, "first write fails when the local header cannot be written");
+
+	/* Tearing down after the failure must not crash or leak.  */
+	gsf_output_close (child);
+	g_object_unref (child);
+	gsf_output_close (GSF_OUTPUT (root));
+	g_object_unref (root);
+	g_object_unref (sink);
+	restore_g_log_messages ();
+}
+
+/*
+ * A GsfInfileZip created without a source (reachable through g_object_new)
+ * never gets a virtual directory.  Several entry points dereferenced the
+ * missing vdir and crashed; they must refuse politely instead.  Reaching
+ * the end of this function without crashing is the main check.
+ */
+static void
+test_zip_infile_without_source (void)
+{
+	GsfInfile *z;
+	GsfInput *in;
+	int level = -1;
+
+	inhibit_g_log_messages ();
+	z = g_object_new (GSF_INFILE_ZIP_TYPE, NULL);
+	check (z != NULL, "zip infile without source can be created");
+	if (z == NULL) {
+		restore_g_log_messages ();
+		return;
+	}
+
+	check (gsf_infile_child_by_index (z, 0) == NULL, "child_by_index fails cleanly");
+	check (gsf_infile_name_by_index (z, 0) == NULL, "name_by_index fails cleanly");
+	check (gsf_infile_child_by_name (z, "x") == NULL, "child_by_name fails cleanly");
+	check (gsf_infile_num_children (z) < 0, "num_children reports an error");
+	in = gsf_input_dup (GSF_INPUT (z), NULL);
+	check (in == NULL, "dup fails cleanly");
+	if (in != NULL)
+		g_object_unref (in);
+	g_object_get (z, "compression-level", &level, NULL);
+	check (level == 0, "compression-level getter copes (got %d)", level);
+	check (gsf_input_read (GSF_INPUT (z), 1, NULL) == NULL,
+	       "read fails cleanly");
+	restore_g_log_messages ();
+
+	g_object_unref (z);
+}
+
 int
 main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 {
@@ -516,6 +670,9 @@ main (int argc G_GNUC_UNUSED, char **argv G_GNUC_UNUSED)
 	test_modtime_roundtrip ();
 	test_duplicate_names ();
 	test_max_comment ();
+	test_compression_method_getter ();
+	test_header_write_failure ();
+	test_zip_infile_without_source ();
 
 	gsf_shutdown ();
 	return regress_exit_status ();

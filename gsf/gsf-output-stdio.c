@@ -478,7 +478,7 @@ gsf_output_stdio_new_valist (char const *filename, GError **err,
 				char *dname = g_filename_display_name
 					(real_filename);
 				*err = g_error_new
-					(gsf_output_error_id (), errno,
+					(gsf_output_error_id (), save_errno,
 					 "%s: %s",
 					 dname, g_strerror (save_errno));
 				g_free (dname);

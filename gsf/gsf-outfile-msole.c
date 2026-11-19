@@ -253,27 +253,29 @@ ole_bytes_left_in_block (GsfOutfileMSOle *ole)
 	return (r != 0) ? (ole->bb.size - r) : 0;
 }
 
-static void
+static gboolean
 ole_pad_zero (GsfOutfileMSOle *ole)
 {
 	/* no need to bounds check.  len will always be less than bb.size, and
 	 * we already check that zero_buf is big enough at creation */
 	unsigned len = ole_bytes_left_in_block (ole);
 	if (len > 0)
-		gsf_output_write (ole->sink, len, zero_buf);
+		return gsf_output_write (ole->sink, len, zero_buf);
+	return TRUE;
 }
 
 #define CHUNK_SIZE 1024u
-#define FLUSH do { if (bufi) gsf_output_write (sink, bufi * BAT_INDEX_SIZE, buf); bufi = 0; } while (0)
+#define FLUSH do { if (bufi && !gsf_output_write (sink, bufi * BAT_INDEX_SIZE, buf)) ok = FALSE; bufi = 0; } while (0)
 #define ADD_ITEM(i_) do { GSF_LE_SET_GUINT32 (buf + bufi * BAT_INDEX_SIZE, (i_)); bufi++; if (bufi == CHUNK_SIZE) FLUSH; } while (0)
 
 /* Utility routine to generate a BAT for a file known to be sequential and
  * continuous. */
-static void
+static gboolean
 ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 {
 	guint8 buf[BAT_INDEX_SIZE * CHUNK_SIZE];
 	guint bufi = 0;
+	gboolean ok = TRUE;
 
 	while (blocks-- > 1) {
 		block++;
@@ -281,6 +283,7 @@ ole_write_bat (GsfOutput *sink, guint32 block, unsigned blocks)
 	}
 	ADD_ITEM (BAT_MAGIC_END_OF_CHAIN);
 	FLUSH;
+	return ok;
 }
 
 /* Order chains by the first block they describe: ole_write_bat appends
@@ -295,16 +298,18 @@ ole_first_block_cmp (gconstpointer a_, gconstpointer b_)
 	       (a->first_block > b->first_block) ? +1 : 0;
 }
 
-static void
+static gboolean
 ole_write_const (GsfOutput *sink, guint32 value, unsigned n)
 {
 	guint8 buf[BAT_INDEX_SIZE * CHUNK_SIZE];
 	guint bufi = 0;
+	gboolean ok = TRUE;
 
 	while (n-- > 0)
 		ADD_ITEM(value);
 
 	FLUSH;
+	return ok;
 }
 
 #undef CHUNK_SIZE
@@ -326,10 +331,10 @@ datetime_to_filetime (GDateTime *dt)
 		+ (guint64)g_date_time_get_microsecond (dt) * 10u;
 }
 
-static void
+static gboolean
 ole_pad_bat_unused (GsfOutfileMSOle *ole, unsigned residual)
 {
-	ole_write_const (ole->sink, BAT_MAGIC_UNUSED,
+	return ole_write_const (ole->sink, BAT_MAGIC_UNUSED,
 		(ole_bytes_left_in_block (ole) / BAT_INDEX_SIZE) - residual);
 }
 
@@ -345,6 +350,11 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	gsf_off_t data_size;
 	unsigned metabat_size = ole->bb.size / BAT_INDEX_SIZE - 1;
 	GPtrArray *elem = ole->root->content.dir.root_order;
+	gboolean ok = TRUE;
+
+/* Remember that a sink operation failed, but keep going so that the
+ * bookkeeping (and the cleanup below) still runs.  */
+#define CHK(call) do { if (!(call)) ok = FALSE; } while (0)
 
 	/* write small block data */
 	blocks = 0;
@@ -356,9 +366,9 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (child));
 			if (size > 0) {
 				child->blocks = ((size - 1) >> ole->sb.shift) + 1;
-				gsf_output_write (ole->sink,
+				CHK (gsf_output_write (ole->sink,
 						  child->blocks << ole->sb.shift,
-						  child->content.small_block.buf);
+						  child->content.small_block.buf));
 				child->first_block = blocks;
 				blocks += child->blocks;
 			} else {
@@ -374,7 +384,7 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		g_warning ("File too big [1]");
 		return FALSE;
 	}
-	ole_pad_zero (ole);
+	CHK (ole_pad_zero (ole));
 	sb_data_blocks = ole_cur_block (ole) - sb_data_start;
 
 	/* write small block BAT (the meta bat is in a file) */
@@ -382,9 +392,9 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	for (i = 0 ; i < elem->len ; i++) {
 		GsfOutfileMSOle *child = g_ptr_array_index (elem, i);
 		if (child->type == MSOLE_SMALL_BLOCK && child->blocks > 0)
-			ole_write_bat (ole->sink, child->first_block, child->blocks);
+			CHK (ole_write_bat (ole->sink, child->first_block, child->blocks));
 	}
-	ole_pad_bat_unused (ole, 0);
+	CHK (ole_pad_bat_unused (ole, 0));
 	num_sbat = ole_cur_block (ole) - sbat_start;
 
 	/* write dirents */
@@ -474,9 +484,9 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		}
 		GSF_LE_SET_GUINT32 (buf + DIRENT_CHILD, child_index);
 
-		gsf_output_write (ole->sink, DIRENT_SIZE, buf);
+		CHK (gsf_output_write (ole->sink, DIRENT_SIZE, buf));
 	}
-	ole_pad_zero (ole);
+	CHK (ole_pad_zero (ole));
 	num_dirent_blocks = ole_cur_block (ole) - dirent_start;
 
 	/* write BAT.  The chains are appended sequentially, so they must be
@@ -494,15 +504,15 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		g_ptr_array_sort (bat_order, ole_first_block_cmp);
 		for (i = 0 ; i < bat_order->len ; i++) {
 			GsfOutfileMSOle *child = g_ptr_array_index (bat_order, i);
-			ole_write_bat (ole->sink, child->first_block, child->blocks);
+			CHK (ole_write_bat (ole->sink, child->first_block, child->blocks));
 		}
 		g_ptr_array_free (bat_order, TRUE);
 	}
 	if (sb_data_blocks > 0)
-		ole_write_bat (ole->sink, sb_data_start, sb_data_blocks);
+		CHK (ole_write_bat (ole->sink, sb_data_start, sb_data_blocks));
 	if (num_sbat > 0)
-		ole_write_bat (ole->sink, sbat_start, num_sbat);
-	ole_write_bat (ole->sink, dirent_start, num_dirent_blocks);
+		CHK (ole_write_bat (ole->sink, sbat_start, num_sbat));
+	CHK (ole_write_bat (ole->sink, dirent_start, num_dirent_blocks));
 
 	/* List the BAT and meta-BAT blocks in the BAT.  Doing this may
 	 * increase the size of the bat and hence the metabat, so be
@@ -550,9 +560,9 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 		break;
 	}
 
-	ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat);
-	ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat);
-	ole_pad_bat_unused (ole, 0);
+	CHK (ole_write_const (ole->sink, BAT_MAGIC_BAT, num_bat));
+	CHK (ole_write_const (ole->sink, BAT_MAGIC_METABAT, num_xbat));
+	CHK (ole_pad_bat_unused (ole, 0));
 
 	if (num_xbat > 0) {
 		xbat_pos = ole_cur_block (ole);
@@ -566,50 +576,50 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	if (ole->bb.size == 4096) {
 		/* set _cSectDir for 4k sector files */
 		GSF_LE_SET_GUINT32 (buf,   num_dirent_blocks);
-		gsf_output_seek (ole->sink,
-			(gsf_off_t) OLE_HEADER_CSECTDIR, G_SEEK_SET);
-		gsf_output_write (ole->sink, 4, buf);
+		CHK (gsf_output_seek (ole->sink,
+			(gsf_off_t) OLE_HEADER_CSECTDIR, G_SEEK_SET));
+		CHK (gsf_output_write (ole->sink, 4, buf));
 	}
 	GSF_LE_SET_GUINT32 (buf,   num_bat);
 	GSF_LE_SET_GUINT32 (buf+4, dirent_start);
-	gsf_output_seek (ole->sink,
-		(gsf_off_t) OLE_HEADER_NUM_BAT, G_SEEK_SET);
-	gsf_output_write (ole->sink, 8, buf);
+	CHK (gsf_output_seek (ole->sink,
+		(gsf_off_t) OLE_HEADER_NUM_BAT, G_SEEK_SET));
+	CHK (gsf_output_write (ole->sink, 8, buf));
 
 	GSF_LE_SET_GUINT32 (buf+0x0,
 		(num_sbat > 0) ? sbat_start : BAT_MAGIC_END_OF_CHAIN);
 	GSF_LE_SET_GUINT32 (buf+0x4, num_sbat);
 	GSF_LE_SET_GUINT32 (buf+0x8, xbat_pos);
 	GSF_LE_SET_GUINT32 (buf+0xc, num_xbat);
-	gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
-			 G_SEEK_SET);
-	gsf_output_write (ole->sink, 0x10, buf);
+	CHK (gsf_output_seek (ole->sink, (gsf_off_t) OLE_HEADER_SBAT_START,
+			 G_SEEK_SET));
+	CHK (gsf_output_write (ole->sink, 0x10, buf));
 
 	/* write initial Meta-BAT */
 	for (i = 0 ; i < blocks ; i++) {
 		GSF_LE_SET_GUINT32 (buf, bat_start + i);
-		gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+		CHK (gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf));
 	}
 
 	/* write extended Meta-BAT */
 	if (num_xbat > 0) {
-		gsf_output_seek (ole->sink, 0, G_SEEK_END);
+		CHK (gsf_output_seek (ole->sink, 0, G_SEEK_END));
 		for (i = 0 ; i++ < num_xbat ; ) {
 			bat_start += blocks;
 			num_bat   -= blocks;
 			blocks = (num_bat > metabat_size) ? metabat_size : num_bat;
 			for (j = 0 ; j < blocks ; j++) {
 				GSF_LE_SET_GUINT32 (buf, bat_start + j);
-				gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+				CHK (gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf));
 			}
 
 			if (i == num_xbat) {
-				ole_pad_bat_unused (ole, 1);
+				CHK (ole_pad_bat_unused (ole, 1));
 				xbat_pos = BAT_MAGIC_END_OF_CHAIN;
 			} else
 				xbat_pos++;
 			GSF_LE_SET_GUINT32 (buf, xbat_pos);
-			gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf);
+			CHK (gsf_output_write (ole->sink, BAT_INDEX_SIZE, buf));
 		}
 	}
 
@@ -619,7 +629,8 @@ gsf_outfile_msole_write_directory (GsfOutfileMSOle *ole)
 	g_ptr_array_free (elem, TRUE);
 	ole->content.dir.root_order = NULL;
 
-	return TRUE;
+#undef CHK
+	return ok;
 }
 
 static void
@@ -675,10 +686,13 @@ gsf_outfile_msole_close (GsfOutput *output)
 	}
 
 	if (ole->type == MSOLE_BIG_BLOCK) {
-		gsf_outfile_msole_seek (output, 0, G_SEEK_END);
-		ole_pad_zero (ole);
+		gboolean ok = gsf_outfile_msole_seek (output, 0, G_SEEK_END);
+		if (!ole_pad_zero (ole))
+			ok = FALSE;
 		ole->blocks = ole_cur_block (ole) - ole->first_block;
-		return gsf_output_unwrap (G_OBJECT (output), ole->sink);
+		if (!gsf_output_unwrap (G_OBJECT (output), ole->sink))
+			ok = FALSE;
+		return ok;
 	}
 
 	return TRUE;
@@ -725,22 +739,23 @@ gsf_outfile_msole_write (GsfOutput *output,
 			g_warning ("File too big [4]");
 			return FALSE;
 		}
-		gsf_output_write (ole->sink, wsize, buf);
+		ok = gsf_output_write (ole->sink, wsize, buf);
 		g_free (buf);
+		if (!ok)
+			return FALSE;
 
 		// If we had a seek then we might not be at the right location.
 		// This can happen both with a seek beyond the end of file
 		// (see bug #14) and with a backward seek.
-		gsf_output_seek (ole->sink,
-				 ole->content.big_block.start_offset + output->cur_offset,
-				 G_SEEK_SET);
+		if (!gsf_output_seek (ole->sink,
+				      ole->content.big_block.start_offset + output->cur_offset,
+				      G_SEEK_SET))
+			return FALSE;
 	}
 
 	g_return_val_if_fail (ole->type == MSOLE_BIG_BLOCK, FALSE);
 
-	gsf_output_write (ole->sink, num_bytes, data);
-
-	return TRUE;
+	return gsf_output_write (ole->sink, num_bytes, data);
 }
 
 static gsf_off_t gsf_outfile_msole_vprintf (GsfOutput *output,
