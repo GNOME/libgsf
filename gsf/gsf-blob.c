@@ -90,10 +90,6 @@ GSF_CLASS (GsfBlob, gsf_blob,
  * %NULL if the data could not be copied.
  *
  * Error domain: #GSF_ERROR
- *
- * @size: The size in bytes of the data to copy.
- * @data_to_copy: (array length=size): The data to copy.
- * @error: (out) (optional) (nullable): place to store a #GError if anything goes wrong.
  **/
 GsfBlob *
 gsf_blob_new (gsize size, gconstpointer data_to_copy, GError **error)
